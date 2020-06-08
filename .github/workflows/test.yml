@@ -41,10 +41,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Set up Python 2
+      - name: Set up Python 3
         uses: actions/setup-python@v1
         with:
-          python-version: 2.7
+          python-version: 3.6
 
       - name: "Run tests for ${{ matrix.modsec_version }}`"
         env:
@@ -53,8 +53,8 @@ jobs:
           python -V
           mkdir -p logs/"${CONFIG}"
           docker-compose -f ./tests/docker-compose.yml up -d "${CONFIG}"
-          pip install --upgrade setuptools
-          pip install -r tests/regression/requirements.txt
+          pip3 install --upgrade setuptools
+          pip3 install -r tests/regression/requirements.txt
           # Use mounted volume path
           if [[ "${CONFIG}" == *"nginx" ]]; then
             LOGDIR="/var/log/nginx"
