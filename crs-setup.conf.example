@@ -390,7 +390,8 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # Content-Types that a client is allowed to send in a request.
 # Default: |application/x-www-form-urlencoded| |multipart/form-data| |multipart/related|
 # |text/xml| |application/xml| |application/soap+xml| |application/x-amf| |application/json|
-# |application/octet-stream| |application/csp-report| |application/xss-auditor-report| |text/plain|
+# |application/cloudevents+json| |application/cloudevents-batch+json| |application/octet-stream|
+# |application/csp-report| |application/xss-auditor-report| |text/plain|
 # Uncomment this rule to change the default.
 #SecAction \
 # "id:900220,\
@@ -398,7 +399,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  nolog,\
 #  pass,\
 #  t:none,\
-#  setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |multipart/related| |text/xml| |application/xml| |application/soap+xml| |application/x-amf| |application/json| |application/octet-stream| |application/csp-report| |application/xss-auditor-report| |text/plain|'"
+#  setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |multipart/related| |text/xml| |application/xml| |application/soap+xml| |application/x-amf| |application/json| |application/cloudevents+json| |application/cloudevents-batch+json| |application/octet-stream| |application/csp-report| |application/xss-auditor-report| |text/plain|'"
 
 # Allowed HTTP versions.
 # Default: HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0
