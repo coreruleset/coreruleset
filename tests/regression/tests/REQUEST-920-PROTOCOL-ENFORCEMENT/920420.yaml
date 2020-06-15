@@ -250,3 +250,35 @@
               data: "test"
             output:
               log_contains: "id \"920420\""
+    -
+      test_title: 920420-12
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              method: "HEAD"
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+                  Content-Type: "multipart/related"
+              data: "test"
+            output:
+              no_log_contains: "id \"920420\""
+    -
+      test_title: 920420-13
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              method: "HEAD"
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+                  Content-Type: "Multipart/Related"
+              data: "test"
+            output:
+              no_log_contains: "id \"920420\""
