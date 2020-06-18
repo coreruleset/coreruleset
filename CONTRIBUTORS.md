@@ -54,6 +54,7 @@
 - [Jose Nazario](https://github.com/paralax)
 - [Tim Herren](https://github.com/nerrehmit)
 - [Scott O'Neil](https://github.com/cPanelScott)
+- [Fernando Outeda](https://github.com/fog94)
 - [NullIsNot0](https://github.com/NullIsNot0)
 - [Robert Paprocki](https://github.com/p0pr0ck5)
 - [Christian Peron](https://github.com/csjperon)
