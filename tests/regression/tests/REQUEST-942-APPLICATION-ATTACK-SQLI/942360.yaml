@@ -555,3 +555,231 @@
           version: HTTP/1.0
         output:
           log_contains: id "942360"
+  -
+    test_title: 942360-33
+    desc: GH issue 1816
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: POST
+          port: 80
+          uri: /
+          data: " Delete (Trashcan)"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942360"
+  -
+    test_title: 942360-34
+    desc: GH issue 1816
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: POST
+          port: 80
+          uri: /
+          data: "5desc"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942360"
+  -
+    test_title: 942360-35
+    desc: GH issue 1816
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: POST
+          port: 80
+          uri: /
+          data: "34-delete"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942360"
+  -
+    test_title: 942360-36
+    desc: GH issue 1816
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: POST
+          port: 80
+          uri: /
+          data: " update"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942360"
+  -
+    test_title: 942360-37
+    desc: GH issue 1816
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: POST
+          port: 80
+          uri: /
+          data: "/select-quote"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942360"
+  -
+    test_title: 942360-38
+    desc: GH issue 1816
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: POST
+          port: 80
+          uri: /
+          data: " Update: After..."
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942360"
+  -
+    test_title: 942360-39
+    desc: GH issue 1816
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: POST
+          port: 80
+          uri: /
+          data: "\"desc\""
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942360"
+  -
+    test_title: 942360-40
+    desc: GH issue 1816
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: POST
+          port: 80
+          uri: /
+          data: "a=/load.php"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942360"
+  -
+    test_title: 942360-41
+    desc: GH issue 1816
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: POST
+          port: 80
+          uri: /
+          data: "a=/update-assets"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942360"
+  -
+    test_title: 942360-42
+    desc: GH issue 1816
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: POST
+          port: 80
+          uri: /
+          data: "bla blabla live update chart"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942360"
+  -
+    test_title: 942360-43
+    desc: GH issue 1816
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: POST
+          port: 80
+          uri: /
+          data: ".select-gws-banana"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942360"
+  -
+    test_title: 942360-44
+    desc: GH issue 1816
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: POST
+          port: 80
+          uri: /
+          data: "blablabla. As evidence from the following blablabla"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942360"
