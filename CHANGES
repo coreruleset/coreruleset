@@ -5,26 +5,44 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/forum/#!forum/modsecurity-core-rule-set-project
 
-== Version 3.3.0 - 2020-06-16 ==
+== Version 3.3.0 - 2020-06-29 ==
 
 Important changes:
- * The format of crs-setup.conf variable "tx.allowed_request_content_type" has been changed to be more in line with the other variables. If you have overridden this variable, please see the example in crs-setup.conf for the correct separator to use.
+ * The format of crs-setup.conf variable "tx.allowed_request_content_type" has been changed to be more in line with the other variables. If you have overridden this variable, please see the example in crs-setup.conf for the new separator to use.
 
 New functionality:
- * Block backup files ending with ~ in filename (Menin Andrea)
+ * Block backup files ending with ~ in filename (Andrea Menin)
  * Detect ffuf vuln scanner (Will Woodson)
  * Detect SemrushBot crawler (Christian Folini)
- * Detect WFuzz vuln scanner (#1614) (azurit)
- * New ldap injection rule 921200 (Christian Folini)
- * new rule HTTP Splitting (theMiddleBlue)
+ * Detect WFuzz vuln scanner (azurit)
+ * New LDAP injection rule (Christian Folini)
+ * New HTTP Splitting rule (Andrea Menin)
+ * Add .swp to restricted extensions (Andrea Menin)
+ * Allow CloudEvents content types (Bobby Earl)
+ * Add CAPEC tags for attack classification (Fernando Outeda, Christian Folini)
+ * Detect Unix RCE bypass techniques via uninitialized variables, string concatenations and globbing patterns (Andrea Menin)
 
 Removed functionality:
- * None.
+ * Removed outdated rule tags WASCTC, OWASP_TOP_10, OWASP_AppSensor/RE1, and OWASP_CRS/FOO/BAR; note that tags 'OWASP_CRS' and 'attack-type' are kept. (Christian Folini)
 
 Improved compatibility:
  * Changed variable to lowercase (modsec3 behavior fix) (Ervin Hegedus)
 
 Fixes and improvements:
+ * Prevent bypass of rule 921110 (Amit Klein, Franziska Bühler)
+ * fix CVE msg in rules 944120 944240 (Fernando Outeda)
+ * Remove broken or no longer used files (Federico G. Schwindt)
+ * Make content-type case insensitive (franbuehler)
+ * Move /util/docker folder from v3.3/dev branch to dedicated repo (Peter Bittner)
+ * feat(lint): split actions in linting and regression (Felipe Zipitria)
+ * Fix FP in 921120 (Amit Klein, Franziska Bühler)
+ * Add missing OWASP_CRS tags (Christian Folini)
+ * Fix GHA badges (Federico G. Schwindt)
+ * feat(badge): add apache license badge
+ * fix typos found by fossies codespell (Tim Herren)
+ * Decrease processing time of rules (Ervin Hegedüs)
+ * handle multiple directives in 920510 (Andrea Menin)
+ * handle multiple directives in 920510 (Andrea Menin)
  * fix(ci): use log_contains instead (Felipe Zipitria)
  * Move test where it belongs (Federico G. Schwindt)
  * fix(ci): use docker in DetectionOnly (Felipe Zipitria)
@@ -55,7 +73,7 @@ Fixes and improvements:
  * Add Content-Type: multipart/related as allowed default (jeremyjpj0916)
  * Resolve issue 1722 and fix content-type whitelisting (Franziska Bühler)
  * make severities and scores consistent (Walter Hop)
- * add QQGameHall UA (#1731) (theMiddle)
+ * add QQGameHall UA (#1731) (Andrea Menin)
  * another test (Allan Boll)
  * Add word boundaries around values in SQL tautologies (942130) (Allan Boll)
  * Move tests to their own file, while here also correct permissions for 920180. (Federico G. Schwindt)
@@ -70,9 +88,9 @@ Fixes and improvements:
  * Drop escapes (Christian Folini)
  * Fix FP in 941130 and rearrange regex with new regex-assemble file (Christian Folini)
  * Ignore check of CT header in POST request if protocol is HTTP/2 (Ervin Hegedus)
- * Remove trailing dot in several msg actions (#1678) (nerrehmit)
- * Replace REQUEST_BODY with ARGS on 930100 and 930110 (#1659) (theMiddle)
- * Temporary travis workaround to buy time and fix it for good (#1684) (theMiddle)
+ * Remove trailing dot in several msg actions (#1678) (Tim Herren)
+ * Replace REQUEST_BODY with ARGS on 930100 and 930110 (#1659) (Andrea Menin)
+ * Temporary travis workaround to buy time and fix it for good (#1684) (Andrea Menin)
  * Add regression tests (Franziska Bühler)
  * Fix FP with create with 942360 (Franziska Bühler)
  * Avoid embedded anchors in CRS rule 942330 (Allan Boll)
@@ -92,11 +110,11 @@ Fixes and improvements:
  * Spacing (Federico G. Schwindt)
  * Fix emoji (Federico G. Schwindt)
  * Switch to multiple templates for github issues (#1644) (Federico G. Schwindt)
- * Fix paranoia-level log description (theMiddleBlue)
+ * Fix paranoia-level log description (Andrea Menin)
  * change IRC to Slack (Walter Hop)
  * fix spacing (Walter Hop)
- * Moving tests and documentation folders (#1627) (soufianebenali)
- * add triggered rule (#1636) (theMiddle)
+ * Moving tests and documentation folders (#1627) (Soufiane Benali)
+ * add triggered rule (#1636) (Andrea Menin)
  * Drop the translate header from the restricted list Fixes #1410. (Federico G. Schwindt)
  * Mark stale issues (Federico G. Schwindt)
  * Added support for <? in Rule 933100 (meetug)
@@ -109,7 +127,7 @@ Fixes and improvements:
  * Fix typo in config file inclusion (Felipe Zipitria)
  * Correct rule 941310 to use single-byte variants and fix FPs (#1596). Fix test to use the single byte characters Add a test that uses utf-8 as well. Change pattern to use the single-byte variants Patterns in ModSecurity are not treated as UTF strings. Fixes #1595. Add negative tests and update descriptions Improve pattern Change it to avoid FPs for \xbc\xbc and \xbe\xbe (i.e. << and >>). Use negated classes for better performance. (Federico G. Schwindt)
  * Add test for issue #1580 (#1612) (Federico G. Schwindt)
- * removes t:lowercase (theMiddleBlue)
+ * removes t:lowercase (Andrea Menin)
  * Move integration tests to their own job (#1608) Also cleanup branches' list. (Federico G. Schwindt)
  * Add PL1 tag. (Anna Winkler)
  * Change version number for full version name (Felipe Zipitria)
@@ -147,8 +165,7 @@ Fixes and improvements:
  * Rearange characters and add positive and negative test cases. Moved the dash to the end of the character set to avoid escaping it. Added test with all the new characters and a test for multiple whitespaces. Allowed a previously blocked charset. (Tim Herren)
  * 920470: include chars from rfc 2046 RFC 2046 allows additional chars for the boundary. \d removed as it is covered by \w in the regex. Removed unnecessary escapes. (Tim Herren)
  * Fix bypass in 931130 Don't rely on beginsWith as it might allow attackers to create subdomains matching the prefix. Add tests to cover this and other cases. The latter fixes #1404. (Federico G. Schwindt)
- * adds .swp to restricted ext (theMiddleBlue)
- * fix rule regex due to remove t:removeComments (theMiddleBlue)
+ * fix rule regex due to remove t:removeComments (Andrea Menin)
  * 920470: include chars from rfc 2046 RFC 2046 allows additional chars for the boundary. \d removed as it is covered by \w in the regex. Removed unnecessary escapes. (Tim Herren)
  * update Dockerfiles and Travis to use v3.3/dev (Walter Hop)
 
@@ -331,7 +348,7 @@ Documentation:
 
 == Version 3.1.0 - 2018-08-07 ==
 
- * Add Detectify scanner (theMiddle)
+ * Add Detectify scanner (Andrea Menin)
  * Renaming matched_var/s (Victor Hora)
  * Remove lines with bare '#' comment char (Walter Hop)
  * Drop the XML variable from rule 932190 (Federico G. Schwindt)
@@ -340,9 +357,9 @@ Documentation:
  * Drop exit from unix and windows RCE (Federico G. Schwindt)
  * Fix anomaly_score counters (Federico G. Schwindt)
  * Remove mostly redundant 944220 in favor of 944240 (Christian Folini)
- * Add self[ and document[ to rule 941180 (theMiddle)
+ * Add self[ and document[ to rule 941180 (Andrea Menin)
  * Provide proxy support within CRS docker image (Scott O'Neil)
- * Prevent bypass in rule 930120 PL3 (theMiddle)
+ * Prevent bypass in rule 930120 PL3 (Andrea Menin)
  * Fix small typo in variable (Felipe Zipitría)
  * Fix bug #1166 in Docker image (Franziska Bühler)
  * Remove revision status from rules (Federico G. Schwindt)
