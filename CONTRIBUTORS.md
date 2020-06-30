@@ -20,6 +20,7 @@
 
 ## Contributors:
 
+- [agusmu](https://github.com/agusmu)
 - [Zack Allen](https://github.com/zmallen)
 - [azhao155](https://github.com/azhao155)
 - [azurit](https://github.com/azurit)
