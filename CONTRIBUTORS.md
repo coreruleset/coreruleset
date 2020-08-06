@@ -2,7 +2,6 @@
 
 ## Project Co-Leads:
 
-- [Chaim Sanders](https://github.com/csanders-git)
 - [Christian Folini](https://github.com/dune73)
 - [Walter Hop](https://github.com/lifeforms)
 
@@ -11,11 +10,10 @@
 - [Franziska Bühler](https://github.com/franbuehler)
 - [Christoph Hansen](https://github.com/emphazer)
 - [Ervin Hegedus](https://github.com/airween)
-- [Victor Hora](https://github.com/victorhora)
 - [Andrea Menin](https://github.com/theMiddleBlue)
+- [Chaim Sanders](https://github.com/csanders-git)
 - [Federico G. Schwindt](https://github.com/fgsch)
 - [Manuel Spartan](https://github.com/spartantri)
-- [Felipe Zimmerle](https://github.com/zimmerle)
 - [Felipe Zipitría](https://github.com/fzipi)
 
 ## Contributors:
@@ -41,6 +39,7 @@
 - [Pásztor Gábor](https://github.com/gpasztor87)
 - [Aaron Haaf](https://github.com/Everspace)
 - [Michael Haas](https://github.com/MichaelHaas)
+- [Victor Hora](https://github.com/victorhora)
 - [jamuse](https://github.com/jamuse)
 - [jeremyjpj0916](https://github.com/jeremyjpj0916)
 - [jschleus](https://github.com/jschleus)
@@ -79,6 +78,7 @@
 - [XeroChen](https://github.com/XeroChen)
 - [ygrek](https://github.com/ygrek)
 - [Yu Yagihashi](https://github.com/yagihash)
+- [Felipe Zimmerle](https://github.com/zimmerle)
 - [Zino](https://github.com/zinoe)
 - Josh Zlatin
 - [Zou Guangxian](https://github.com/zouguangxian)
