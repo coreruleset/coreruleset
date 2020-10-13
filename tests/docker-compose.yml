@@ -37,5 +37,6 @@ services:
     volumes:
       - ${GITHUB_WORKSPACE}/logs/modsec3-nginx:/var/log/nginx
       - ${GITHUB_WORKSPACE}/rules:/etc/modsecurity.d/owasp-crs/rules
+      - ${GITHUB_WORKSPACE}/tests/nginx-default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"
