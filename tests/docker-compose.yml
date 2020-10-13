@@ -10,6 +10,7 @@ services:
       - SERVERNAME=modsec2-apache
       - MODSEC_RULE_ENGINE=DetectionOnly
       - PARANOIA=5
+      - TZ=${TZ}
     volumes:
       - ${GITHUB_WORKSPACE}/logs/modsec2-apache:/var/log/apache2
       - ${GITHUB_WORKSPACE}/rules:/etc/modsecurity.d/owasp-crs/rules
@@ -22,6 +23,7 @@ services:
       - SERVERNAME=modsec3-apache
       - MODSEC_RULE_ENGINE=DetectionOnly
       - PARANOIA=5
+      - TZ=${TZ}
     volumes:
       - ${GITHUB_WORKSPACE}/logs/modsec3-apache:/var/log/apache2
       - ${GITHUB_WORKSPACE}/rules:/etc/modsecurity.d/owasp-crs/rules
@@ -34,6 +36,7 @@ services:
       - SERVERNAME=modsec3-nginx
       - MODSEC_RULE_ENGINE=DetectionOnly
       - PARANOIA=5
+      - TZ=${TZ}
     volumes:
       - ${GITHUB_WORKSPACE}/logs/modsec3-nginx:/var/log/nginx
       - ${GITHUB_WORKSPACE}/rules:/etc/modsecurity.d/owasp-crs/rules
