@@ -14,6 +14,7 @@
 - [Chaim Sanders](https://github.com/csanders-git)
 - [Federico G. Schwindt](https://github.com/fgsch)
 - [Manuel Spartan](https://github.com/spartantri)
+- [Jozef Sudolský](https://github.com/azurit)
 - [Felipe Zipitría](https://github.com/fzipi)
 
 ## Contributors:
