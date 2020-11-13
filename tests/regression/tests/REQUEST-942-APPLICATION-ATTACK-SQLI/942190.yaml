@@ -156,7 +156,7 @@
           method: POST
           port: 80
           uri: "/"
-          data: "from%2F%2A%2A%2Finformation_schema.%0A"
+          data: "from+information_schema.%0A"
           version: HTTP/1.0
         output:
           log_contains: id "942190"
@@ -326,7 +326,7 @@
           method: POST
           port: 80
           uri: "/"
-          data: "FROM%2F%2A%2A%2FINFORMATION_SCHEMA.%0A"
+          data: "FROM+INFORMATION_SCHEMA.%0A"
           version: HTTP/1.0
         output:
           log_contains: id "942190"
@@ -530,7 +530,7 @@
           method: POST
           port: 80
           uri: "/"
-          data: "EXec%2F%2A%2A%2Fxp_cmdshell%0A"
+          data: "EXec+xp_cmdshell%0A"
           version: HTTP/1.0
         output:
           log_contains: id "942190"
@@ -547,7 +547,7 @@
           method: POST
           port: 80
           uri: "/"
-          data: "FrOM%2F%2A%2A%2Finformation_schema.%0A"
+          data: "FrOM+information_schema.%0A"
           version: HTTP/1.0
         output:
           log_contains: id "942190"
@@ -633,6 +633,23 @@
           port: 80
           uri: "/"
           data: "pay=UnIoN+SeLeCt%0A"
+          version: HTTP/1.0
+        output:
+          log_contains: id "942190"
+  -
+    test_title: 942190-38
+    desc: "MySQL SQLi using set variable"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+          method: GET
+          port: 80
+          uri: "/"
+          data: "id=@.:=right(right((select+user_login+from+wordpress.wp_users+limit+1,1),1111),1111)+union%23%0adistinctrow%0bselect@."
           version: HTTP/1.0
         output:
           log_contains: id "942190"
