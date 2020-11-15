@@ -69,3 +69,19 @@
               uri: "/"
             output:
               log_contains: "id \"920350\""
+    -
+      test_title: 920350-5
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "localhost"
+              method: "GET"
+              port: 80
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "[fe80::f1:01:fe01:1]"
+              protocol: "http"
+              uri: "/"
+            output:
+              log_contains: "id \"920350\""
