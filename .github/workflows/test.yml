@@ -22,19 +22,19 @@ jobs:
       fail-fast: false
       matrix:
         modsec_version: [modsec2-apache]
-        tests: [REQUEST-911-METHOD-ENFORCEMENT,
-                REQUEST-913-SCANNER-DETECTION,
-                REQUEST-920-PROTOCOL-ENFORCEMENT,
-                REQUEST-921-PROTOCOL-ATTACK,
-                REQUEST-930-APPLICATION-ATTACK-LFI,
-                REQUEST-931-APPLICATION-ATTACK-RFI,
-                REQUEST-932-APPLICATION-ATTACK-RCE,
-                REQUEST-933-APPLICATION-ATTACK-PHP,
-                REQUEST-934-APPLICATION-ATTACK-NODEJS,
-                REQUEST-941-APPLICATION-ATTACK-XSS,
-                REQUEST-942-APPLICATION-ATTACK-SQLI,
-                REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION,
-                REQUEST-944-APPLICATION-ATTACK-JAVA]
+          #tests: [REQUEST-911-METHOD-ENFORCEMENT,
+          #      REQUEST-913-SCANNER-DETECTION,
+          #      REQUEST-920-PROTOCOL-ENFORCEMENT,
+          #      REQUEST-921-PROTOCOL-ATTACK,
+          #      REQUEST-930-APPLICATION-ATTACK-LFI,
+          #      REQUEST-931-APPLICATION-ATTACK-RFI,
+          #      REQUEST-932-APPLICATION-ATTACK-RCE,
+          #      REQUEST-933-APPLICATION-ATTACK-PHP,
+          #      REQUEST-934-APPLICATION-ATTACK-NODEJS,
+          #      REQUEST-941-APPLICATION-ATTACK-XSS,
+          #      REQUEST-942-APPLICATION-ATTACK-SQLI,
+          #      REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION,
+          #      REQUEST-944-APPLICATION-ATTACK-JAVA]
         # Will include soon for modsec3-nginx
 
     steps:
@@ -42,29 +42,29 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Python 3
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
-          python-version: 3.6
+          python-version: '3.x'
 
       - name: "Run tests for ${{ matrix.modsec_version }}`"
         env:
           CONFIG: ${{ matrix.modsec_version }}
         run: |
-          python -V
-          mkdir -p logs/"${CONFIG}"
-          docker-compose -f ./tests/docker-compose.yml up -d "${CONFIG}"
-          pip3 install --upgrade setuptools
-          pip3 install -r tests/regression/requirements.txt
+          mkdir -p logs/"${CONFIG}/apache2"
+          docker-compose -f ./tests/docker-compose.yml up -d
+          python -m pip install --upgrade setuptools wheel
+          python -m pip install -r tests/regression/requirements.txt
           # Use mounted volume path
-          if [[ "${CONFIG}" == *"nginx" ]]; then
-            LOGDIR="/var/log/nginx"
-          else
-            LOGDIR="/var/log/apache2"
-          fi
-          sed -ie "s:${LOGDIR}:${GITHUB_WORKSPACE}/logs/${CONFIG}:g" tests/regression/config.ini
           py.test -vs tests/regression/CRS_Tests.py \
             --config="${CONFIG}" \
-            --ruledir=./tests/regression/tests/${{ matrix.tests }}
+            --ruledir=./ftw3.yml || cat ./logs/modsec2-apache/apache2/error.log
+          # Change permissions audit file
+          sudo chmod 644 ./logs/modsec2-apache/modsec_audit.log
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: webserver-logs
+          path: logs/${{ matrix.modsec_version }}/**
 
       - name: Clean docker-compose
         env:

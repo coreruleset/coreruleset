@@ -1,41 +1,36 @@
-version: '3.1'
+version: '3.3'
 
 # Only one of these will be up at a time for now.
 # Concurrency will be on the tests folder we have.
 
 services:
   modsec2-apache:
-    image: owasp/modsecurity-crs:v3.2-modsec2-apache
+    container_name: modsec2-apache
+    image: owasp/modsecurity-crs:3.3-apache
     environment:
-      - SERVERNAME=modsec2-apache
-      - MODSEC_RULE_ENGINE=DetectionOnly
-      - PARANOIA=5
+      SERVERNAME: localhost
+      BACKEND: https://httpbin.org
+      PORT: "80"
+      MODSEC_RULE_ENGINE: DetectionOnly
+      PARANOIA: 5
+      ERRORLOG: "/var/log/apache2/error.log"
+      MODSEC_AUDIT_LOG_FORMAT: Native
+      MODSEC_AUDIT_LOG_TYPE: Serial
+      MODSEC_AUDIT_LOG: "/var/log/apache2/audit.log"
     volumes:
-      - ${GITHUB_WORKSPACE}/logs/modsec2-apache:/var/log/apache2
-      - ${GITHUB_WORKSPACE}/rules:/etc/modsecurity.d/owasp-crs/rules
+      - ../logs/modsec2-apache:/var/log:rw
+      - ../rules:/opt/owasp-crs/rules:ro
     ports:
       - "80:80"
 
-  modsec3-apache:
-    image: owasp/modsecurity-crs:v3.2-modsec3-apache
-    environment:
-      - SERVERNAME=modsec3-apache
-      - MODSEC_RULE_ENGINE=DetectionOnly
-      - PARANOIA=5
-    volumes:
-      - ${GITHUB_WORKSPACE}/logs/modsec3-apache:/var/log/apache2
-      - ${GITHUB_WORKSPACE}/rules:/etc/modsecurity.d/owasp-crs/rules
-    ports:
-      - "80:80"
+  # modsec3-nginx:
+  #   image: owasp/modsecurity-crs:3.3-nginx
+  #   environment:
+  #     - SERVERNAME=localhost
+  #     - MODSEC_RULE_ENGINE=DetectionOnly
+  #     - PARANOIA=5
+  #   volumes:
+  #     - ./rules:/etc/modsecurity.d/owasp-crs/rules
+  #   ports:
+  #     - "80:80"
 
-  modsec3-nginx:
-    image: owasp/modsecurity-crs:v3.2-modsec3-nginx
-    environment:
-      - SERVERNAME=modsec3-nginx
-      - MODSEC_RULE_ENGINE=DetectionOnly
-      - PARANOIA=5
-    volumes:
-      - ${GITHUB_WORKSPACE}/logs/modsec3-nginx:/var/log/nginx
-      - ${GITHUB_WORKSPACE}/rules:/etc/modsecurity.d/owasp-crs/rules
-    ports:
-      - "80:80"
