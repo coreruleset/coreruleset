@@ -22,19 +22,19 @@ jobs:
       fail-fast: false
       matrix:
         modsec_version: [modsec2-apache]
-          #tests: [REQUEST-911-METHOD-ENFORCEMENT,
-          #      REQUEST-913-SCANNER-DETECTION,
-          #      REQUEST-920-PROTOCOL-ENFORCEMENT,
-          #      REQUEST-921-PROTOCOL-ATTACK,
-          #      REQUEST-930-APPLICATION-ATTACK-LFI,
-          #      REQUEST-931-APPLICATION-ATTACK-RFI,
-          #      REQUEST-932-APPLICATION-ATTACK-RCE,
-          #      REQUEST-933-APPLICATION-ATTACK-PHP,
-          #      REQUEST-934-APPLICATION-ATTACK-NODEJS,
-          #      REQUEST-941-APPLICATION-ATTACK-XSS,
-          #      REQUEST-942-APPLICATION-ATTACK-SQLI,
-          #      REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION,
-          #      REQUEST-944-APPLICATION-ATTACK-JAVA]
+          #        tests: [REQUEST-911-METHOD-ENFORCEMENT,
+          #              REQUEST-913-SCANNER-DETECTION,
+          #              REQUEST-920-PROTOCOL-ENFORCEMENT,
+          #              REQUEST-921-PROTOCOL-ATTACK,
+          #              REQUEST-930-APPLICATION-ATTACK-LFI,
+          #              REQUEST-931-APPLICATION-ATTACK-RFI,
+          #              REQUEST-932-APPLICATION-ATTACK-RCE,
+          #              REQUEST-933-APPLICATION-ATTACK-PHP,
+          #              REQUEST-934-APPLICATION-ATTACK-NODEJS,
+          #              REQUEST-941-APPLICATION-ATTACK-XSS,
+          #              REQUEST-942-APPLICATION-ATTACK-SQLI,
+          #              REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION,
+          #              REQUEST-944-APPLICATION-ATTACK-JAVA]
         # Will include soon for modsec3-nginx
 
     steps:
@@ -57,9 +57,10 @@ jobs:
           # Use mounted volume path
           py.test -vs tests/regression/CRS_Tests.py \
             --config="${CONFIG}" \
-            --ruledir=./ftw3.yml || cat ./logs/modsec2-apache/apache2/error.log
+            --ruledir=./py3.yaml || true
+          #  --ruledir=./tests/regression/tests/${{ matrix.tests }} || echo "::warning test ${{ matrix.tests }} failed::Check errors"
           # Change permissions audit file
-          sudo chmod 644 ./logs/modsec2-apache/modsec_audit.log
+          sudo chmod 644 ./logs/${CONFIG}/modsec_audit.log
 
       - uses: actions/upload-artifact@v2
         with:
@@ -70,5 +71,4 @@ jobs:
         env:
           CONFIG: modsec2-apache
         run: |
-          docker-compose -f ./tests/docker-compose.yml stop "${CONFIG}"
           docker-compose -f ./tests/docker-compose.yml down
