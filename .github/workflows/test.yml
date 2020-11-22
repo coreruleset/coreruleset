@@ -38,37 +38,49 @@ jobs:
         # Will include soon for modsec3-nginx
 
     steps:
-      - name: Checkout repo
+      - name: "Checkout repo"
         uses: actions/checkout@v2
 
-      - name: Set up Python 2
-        uses: actions/setup-python@v1
+      - name: "Set up Python"
+        uses: actions/setup-python@v2
         with:
-          python-version: 2.7
+          python-version: '2.x'
 
-      - name: "Run tests for ${{ matrix.modsec_version }}`"
-        env:
-          CONFIG: ${{ matrix.modsec_version }}
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: "Install dependencies"
         run: |
-          python -V
-          mkdir -p logs/"${CONFIG}"
-          docker-compose -f ./tests/docker-compose.yml up -d "${CONFIG}"
-          pip install --upgrade setuptools
+          pip install --upgrade setuptools wheel
           pip install -r tests/regression/requirements.txt
+
+      - name: "Run tests for ${{ matrix.modsec_version }}"
+        run: |
+          mkdir -p tests/logs/${{ matrix.modsec_version }}/{nginx,apache2}
+          docker-compose -f ./tests/docker-compose.yml up -d "${{ matrix.modsec_version }}"
           # Use mounted volume path
-          if [[ "${CONFIG}" == *"nginx" ]]; then
-            LOGDIR="/var/log/nginx"
-          else
-            LOGDIR="/var/log/apache2"
-          fi
-          sed -ie "s:${LOGDIR}:${GITHUB_WORKSPACE}/logs/${CONFIG}:g" tests/regression/config.ini
-          py.test -vs tests/regression/CRS_Tests.py \
-            --config="${CONFIG}" \
+          py.test -vs --tb=short tests/regression/CRS_Tests.py \
+            --config="${{ matrix.modsec_version }}" \
             --ruledir=./tests/regression/tests/${{ matrix.tests }}
 
-      - name: Clean docker-compose
-        env:
-          CONFIG: modsec2-apache
+      - name: "Change permissions if failed"
+        if: failure()
         run: |
-          docker-compose -f ./tests/docker-compose.yml stop "${CONFIG}"
+            # we want to get the audit log, so change permissions (file is only for root on docker)
+            sudo chmod 644 tests/logs/${{ matrix.modsec_version }}/modsec_audit.log
+
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: waf-logs
+          path: tests/logs/${{ matrix.modsec_version }}
+
+      - name: Clean docker-compose
+        run: |
+          docker-compose -f ./tests/docker-compose.yml stop "${{ matrix.modsec_version }}"
           docker-compose -f ./tests/docker-compose.yml down
