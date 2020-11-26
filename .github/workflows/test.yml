@@ -41,10 +41,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Set up Python 2
-        uses: actions/setup-python@v1
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
         with:
-          python-version: 2.7
+          python-version: '3.x'
 
       - name: "Run tests for ${{ matrix.modsec_version }}`"
         env:
