@@ -793,6 +793,36 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 
 #
+# -- [[ Allow trusted IPs and User-Agent ]] ------------------------------------
+#
+# Uncomment this rule to allow all requests from trusted IPs and User-Agent.
+# This can be useful for monitoring tools like Monit, Nagios, or other agents.
+# For example, if you're using AWS Load Balancer, you may need to trust all
+# requests from "10.0.0.0/8" subnet that come with the user-agent
+# "ELB-HealthChecker/2.0". By doing this, all requests that match these
+# conditions will not be matched against the following rules:
+#
+# - id: 911100 (allowed methods)
+# - id: 913100,913110,913120,913101,913102 (scan detection)
+# - id: 920280 (missing/empty host header)
+# - id: 920350 (IP address in host header)
+# - tag: attack-dos (DoS protection)
+# - tag: attack-disclosure (all RESPONSE-*-DATA-LEAKAGES rules)
+#
+# This exclusion works only for methods GET and HEAD.
+# For more information see rule 901480.
+#
+#SecAction \
+# "id:900980,\
+#  phase:1,\
+#  nolog,\
+#  pass,\
+#  t:none,\
+#  setvar:'tx.trusted_ips=127.0.0.1,127.0.0.2',\
+#  setvar:'tx.trusted_ua=Nagios Monit HealthChecker'"
+
+
+#
 # -- [[ Collection timeout ]] --------------------------------------------------
 #
 # Set the SecCollectionTimeout directive from the ModSecurity default (1 hour)
