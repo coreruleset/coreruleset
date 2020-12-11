@@ -233,7 +233,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 
 #
-# -- [[ Anomaly Mode Severity Levels ]] ----------------------------------------
+# -- [[ Anomaly Scoring Mode Severity Levels ]] --------------------------------
 #
 # Each rule in the CRS has an associated severity level.
 # These are the default scoring points for each severity level.
@@ -269,7 +269,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 
 #
-# -- [[ Anomaly Mode Blocking Threshold Levels ]] ------------------------------
+# -- [[ Anomaly Scoring Mode Blocking Threshold Levels ]] ----------------------
 #
 # Here, you can specify at which cumulative anomaly score an inbound request,
 # or outbound response, gets blocked.
@@ -318,6 +318,29 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  setvar:tx.outbound_anomaly_score_threshold=4"
 
 #
+# -- [[ Early Anomaly Scoring Mode Blocking ]] ------------------------------
+#
+# The anomaly scores for the request and the responses are summed up and
+# evaluated at the end of phase:2 and at the end of phase:4 respectively.
+# However, it is possible to enable an early evaluation of these anomaly scores
+# at the end of phase:1 and at the end of phase:3.
+#
+# If a request (or a response) hits the anomaly threshold in this early
+# evaluation, then blocking happens immediately (if blocking is enabled) and
+# the phase 2 (and phase 4 respectively) will no longer be executed.
+#
+# Enable the rule 900120 that sets the variable tx.blocking_early to 1 in order
+# to enable early blocking. The variable tx.blocking_early is set to 0 by
+# default.
+#SecAction \
+#  "id:900120,\
+#  phase:1,\
+#  nolog,\
+#  pass,\
+#  t:none,\
+#  setvar:tx.blocking_early=1"
+
+
 # -- [[ Application Specific Rule Exclusions ]] ----------------------------------------
 #
 # Some well-known applications may undertake actions that appear to be
