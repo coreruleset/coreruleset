@@ -9,7 +9,7 @@ services:
     image: owasp/modsecurity-crs:3.3-apache
     environment:
       SERVERNAME: modsec2-apache
-      BACKEND: https://www.example.com
+      BACKEND: http://backend
       PORT: "80"
       MODSEC_RULE_ENGINE: DetectionOnly
       PARANOIA: 5
@@ -23,6 +23,9 @@ services:
       - ../rules:/opt/owasp-crs/rules:ro
     ports:
       - "80:80"
+    depends_on:
+      - backend
+
 
   modsec3-nginx:
     container_name: modsec3-nginx
@@ -43,3 +46,11 @@ services:
       - ../rules:/opt/owasp-crs/rules:ro
     ports:
       - "80:80"
+    depends_on:
+      - backend
+
+  # our test originally targeted www.example.com as backend
+  # and that would do real traffic, to a real site
+  #
+  backend:
+    image: docker.io/kennethreitz/httpbin
