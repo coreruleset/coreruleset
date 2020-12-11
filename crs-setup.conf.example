@@ -332,6 +332,11 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # Enable the rule 900120 that sets the variable tx.blocking_early to 1 in order
 # to enable early blocking. The variable tx.blocking_early is set to 0 by
 # default.
+#
+# Please note that blocking early will hide potential alerts from you. This means
+# that payload that would appear in an alert in phase 2 (or phase 4) do not get 
+# evaluated if the request is being blocked early. So when you disabled
+# blocking early again, then new alerts from phase 2 might pop up.
 #SecAction \
 #  "id:900120,\
 #  phase:1,\
