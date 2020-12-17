@@ -1,6 +1,6 @@
 ---
   meta:
-    author: "Christian S.J. Peron, Christoph Hansen"
+    author: "Christian S.J. Peron, Christoph Hansen, Franziska Bühler"
     description: None
     enabled: true
     name: 942160.yaml
@@ -154,6 +154,22 @@
           port: 80
           uri: "/"
           data: "pay=BeNChMaRK(1000000, md5 AND 9796=4706('')"
+          version: HTTP/1.0
+        output:
+          log_contains: id "942160"
+  -
+    test_title: 942160-10
+    desc: "Detect blind SQLi attack in REQUEST_BASENAME. Issue #1904"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+          method: GET
+          port: 80
+          uri: "/if(now()=sysdate(),sleep(12),0)"
           version: HTTP/1.0
         output:
           log_contains: id "942160"
