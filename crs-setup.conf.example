@@ -485,17 +485,15 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  setvar:'tx.static_extensions=/.jpg/ /.jpeg/ /.png/ /.gif/ /.js/ /.css/ /.ico/ /.svg/ /.webp/'"
 
 # Content-Types charsets that a client is allowed to send in a request.
-# Default: utf-8|iso-8859-1|iso-8859-15|windows-1252
+# Default: |utf-8| |iso-8859-1| |iso-8859-15| |windows-1252|
 # Uncomment this rule to change the default.
-# Use "|" to separate multiple charsets like in the rule defining
-# tx.allowed_request_content_type.
 #SecAction \
 # "id:900280,\
 #  phase:1,\
 #  nolog,\
 #  pass,\
 #  t:none,\
-#  setvar:'tx.allowed_request_content_type_charset=utf-8|iso-8859-1|iso-8859-15|windows-1252'"
+#  setvar:'tx.allowed_request_content_type_charset=|utf-8| |iso-8859-1| |iso-8859-15| |windows-1252|'"
 
 #
 # -- [[ HTTP Argument/Upload Limits ]] -----------------------------------------
