@@ -111,7 +111,7 @@
          uri: "/?state=test&code=test&scope=email+profile+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email"
        output:
          no_log_contains: id "930120"
--
+  -
    test_title: 930120-6
    desc: "Google OAuth2 callback data injection"
    stages:
@@ -126,4 +126,4 @@
            Host: "localhost"
          uri: "/?state=test&code=test&scope=email+profile+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email&inject=data"
        output:
-         log_contains: id "930120"
+         no_log_contains: id "930120"
