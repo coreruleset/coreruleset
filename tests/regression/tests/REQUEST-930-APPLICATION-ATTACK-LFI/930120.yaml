@@ -111,3 +111,19 @@
          uri: "/?state=test&code=test&scope=email+profile+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email"
        output:
          no_log_contains: id "930120"
+-
+   test_title: 930120-6
+   desc: "Google OAuth2 callback data injection"
+   stages:
+   -
+     stage:
+       input:
+         dest_addr: "127.0.0.1"
+         method: "GET"
+         port: 80
+         headers:
+           User-Agent: "ModSecurity CRS 3 Tests"
+           Host: "localhost"
+         uri: "/?state=test&code=test&scope=email+profile+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email&inject=data"
+       output:
+         log_contains: id "930120"
