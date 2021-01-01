@@ -58,7 +58,7 @@
           log_contains: id "921110"
   -
     test_title: 921110-4
-    desc: "HTTP Response Splitting"
+    desc: "HTTP Response Splitting - pre-HTTP/1.0"
     stages:
     -
       stage:
@@ -72,7 +72,7 @@
           data: "var=aaa%0d%0aGet+/foo%0d"
           version: HTTP/1.0
         output:
-          log_contains: id "921110"
+          no_log_contains: id "921110"
   -
     test_title: 921110-5
     desc: "HTTP Response Splitting"
