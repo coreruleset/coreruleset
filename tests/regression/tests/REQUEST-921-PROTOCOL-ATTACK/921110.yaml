@@ -58,7 +58,7 @@
           log_contains: id "921110"
   -
     test_title: 921110-4
-    desc: "HTTP Response Splitting"
+    desc: "HTTP Response Splitting - pre-HTTP/1.0"
     stages:
     -
       stage:
@@ -72,7 +72,7 @@
           data: "var=aaa%0d%0aGet+/foo%0d"
           version: HTTP/1.0
         output:
-          log_contains: id "921110"
+          no_log_contains: id "921110"
   -
     test_title: 921110-5
     desc: "HTTP Response Splitting"
@@ -144,3 +144,21 @@
           uri: /?arg1=GET%20http%3A%2F%2Fwww.foo.bar%20HTTP%2F3.2
         output:
           log_contains: id "921110"
+  -
+    test_title: 921110-9
+    desc: "HTTP Response Splitting false negative test"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Accept: "*/*"
+            User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)
+          method: POST
+          port: 80
+          uri: /
+          data: "var=soundtrack Gympl\r\nanything"
+        output:
+          no_log_contains: id "921110"
