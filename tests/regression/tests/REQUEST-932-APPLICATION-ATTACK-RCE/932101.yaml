@@ -1,0 +1,30 @@
+---
+  meta:
+    author: Piotr Pazola <piotr@webtrip.pl>
+    description: Tests for fix of 932100 rule triggered with html decimal entities because of using legacy ISO-8859 charsets family - https://github.com/coreruleset/coreruleset/issues/1886
+    enabled: true
+    name: 932101.yaml
+  tests:
+  -
+    test_title: True Negative Rule Integrity 1
+    desc: arg value of "ifconfig;. rm -rf /; Something „The Title”. After space or new line more characters" is blocked
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/"
+          data: "arg=ifconfig;.+rm+-rf+/;+Something+%26%238222%3BThe+Title%26%238221%3B.+After+space+or+new+line+more+characters"
+          version: HTTP/1.0
+        output:
+          #status: 403
+          log_contains: "id \"932101\""

@@ -1,8 +1,7 @@
-# Word list for rule 932106 (RCE Unix command injection part 4/4)
+# Word list for rule 932101 (RCE Unix command injection part 3/4)
 #
 # To convert to a regexp that can be pasted into the rule:
-#   cat regexp-932106.txt | ./regexp-cmdline.py unix | ./regexp-assemble.pl
-#
+#   cat regexp-932101.txt | ./regexp-cmdline.py unix | ./regexp-assemble.pl
 #
 # Entries starting with ' are used verbatim.
 # Everything after # is a comment.
@@ -15,12 +14,5 @@
 #
 #   diff+
 
-vi+
-ps
-pwd
-who
-w+
-aptitude+
-pacman+
-dnf+
-up2date+
+# Special regexp case for the '.' (source) command to prevent FP:
+'\.\s.*
