@@ -497,6 +497,17 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  t:none,\
 #  setvar:'tx.allowed_request_content_type_charset=utf-8|iso-8859-1|iso-8859-15|windows-1252'"
 
+# Decompress response body if it's compressed. Some malicious software is using compression of response to bypass detection.
+# Default: no
+# Uncomment this rule to change the default.
+#SecAction \
+# "id:900290,\
+#  phase:1,\
+#  nolog,\
+#  pass,\
+#  t:none,\
+#  setvar:'tx.decompress_response_body=1'"
+
 #
 # -- [[ HTTP Argument/Upload Limits ]] -----------------------------------------
 #
