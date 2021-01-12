@@ -19,7 +19,7 @@ function main()
 	end
 
 	local patterns = {}
-	for p in matched_patterns:gmatch("(.-)|!#") do
+	for p in matched_patterns:gmatch("(.-)|||") do
 		table.insert(patterns, p)
 	end
 
