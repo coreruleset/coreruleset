@@ -5,7 +5,7 @@ function main()
 	local rule_severity = tonumber(m.getvar("rule.severity", "none"))
 	local rule_severity_name = nil
 	local rule_id = m.getvar("rule.id", "none")
-	local paranoia_level = tonumber(m.getvar("tx.paranoia_level", "none"))
+	local rule_paranoia_level = tonumber(m.getvar("rule_paranoia_level", "none"))
 	local matched_patterns = m.getvar("tx.matched_patterns", "none")
 	local score = 0
 
@@ -47,7 +47,7 @@ function main()
 	end
 	if score > 0 then
 		m.setvar("tx.lfi_score", tonumber(m.getvar("tx.lfi_score", "none")) + score)
-		m.setvar(string.format("tx.anomaly_score_pl%d", paranoia_level), tonumber(m.getvar(string.format("tx.anomaly_score_pl%d", paranoia_level), "none")) + score)
+		m.setvar(string.format("tx.anomaly_score_pl%d", rule_paranoia_level), tonumber(m.getvar(string.format("tx.anomaly_score_pl%d", rule_paranoia_level), "none")) + score)
 		return "Matched at least one phrase, see previous messages."
 	end
 	return nil
