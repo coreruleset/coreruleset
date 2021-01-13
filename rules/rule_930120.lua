@@ -4,6 +4,7 @@ function main()
 	local matched_vars = m.getvars("MATCHED_VARS", "none")
 	local rule_severity = tonumber(m.getvar("rule.severity", "none"))
 	local rule_severity_name = nil
+	local rule_id = m.getvar("rule.id", "none")
 	local paranoia_level = tonumber(m.getvar("tx.paranoia_level", "none"))
 	local matched_patterns = m.getvar("tx.matched_patterns", "none")
 	local score = 0
@@ -38,7 +39,7 @@ function main()
 				add_score = true
 			end
 			if add_score then
-				m.log(2, string.format("Warning. Matched Data: %s found within %s: %s", pattern, variable["name"], variable["value"]))
+				m.log(2, string.format("Warning. Matched Data: %s found within %s: %s [id \"%s\"]", pattern, variable["name"], variable["value"], rule_id))
 				score = score + tonumber(m.getvar(string.format("tx.%s_anomaly_score", rule_severity_name), "none"))
 				break
 			end
