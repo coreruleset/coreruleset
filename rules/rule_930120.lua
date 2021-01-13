@@ -34,6 +34,8 @@ function main()
 				add_score = true
 			elseif string.find(variable["value"], string.format("/%s$", pattern)) then
 				add_score = true
+			elseif string.find(variable["value"], string.format("%s\0", pattern)) then
+				add_score = true
 			end
 			if add_score then
 				m.log(2, string.format("Warning. Matched Data: %s found within %s: %s", pattern, variable["name"], variable["value"]))
