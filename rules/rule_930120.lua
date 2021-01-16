@@ -1,11 +1,10 @@
 require("m")
-
 function main()
 	local matched_vars = m.getvars("MATCHED_VARS", "none")
 	local rule_severity = tonumber(m.getvar("rule.severity", "none"))
 	local rule_severity_name = nil
 	local rule_id = m.getvar("rule.id", "none")
-	local rule_paranoia_level = tonumber(m.getvar("rule_paranoia_level", "none"))
+	local rule_paranoia_level = tonumber(m.getvar("tx.rule_paranoia_level", "none"))
 	local matched_patterns = m.getvar("tx.matched_patterns", "none")
 	local score = 0
 
