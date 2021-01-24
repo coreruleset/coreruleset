@@ -753,6 +753,46 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 
 #
+# -- [[ Anti-virus Protection ]] ------------------------------------
+#
+# Optional anti-virus protection for uploaded files.
+#
+# Currently, only ClamAV anti-virus is supported.
+#
+# Prerequisities for this feature:
+# - Lua support must be enabled
+# - Library lua-socket must be installed in the system
+# - modsecurity SecTmpSaveUploadedFiles directive is On or
+#   the SecUploadKeepFiles directive is set to RelevantOnly
+#
+# With setting 'tx.crs_anti-virus_clamav_connect_type' you can choose
+# between two connection types:
+# - tcp: connect using TCP/IP protocol
+# - socket: connect using unix socket file
+#
+# Make sure that setting 'tx.crs_anti-virus_clamav_chunk_size' below
+# does not exceed 'StreamMaxLength' as defined in ClamAV
+# configuration file clamd.conf.
+#
+# Default: no
+# Uncomment this rule to change the default.
+#
+#SecAction \
+# "id:900800,\
+#  phase:1,\
+#  nolog,\
+#  pass,\
+#  t:none,\
+#  setvar:'tx.crs_anti-virus_protection_enable=1',\
+#  setvar:'tx.crs_anti-virus_clamav_connect_type=socket',\
+#  setvar:'tx.crs_anti-virus_clamav_socket_file=/var/run/clamav/clamd.ctl',\
+#  setvar:'tx.crs_anti-virus_clamav_address=127.0.0.1',\
+#  setvar:'tx.crs_anti-virus_clamav_port=3310',\
+#  setvar:'tx.crs_anti-virus_clamav_chunk_size=4096',\
+#  setvar:'tx.crs_anti-virus_clamav_connect_timeout=2'"
+
+
+#
 # -- [[ Check UTF-8 encoding ]] ------------------------------------------------
 #
 # The CRS can optionally check request contents for invalid UTF-8 encoding.
