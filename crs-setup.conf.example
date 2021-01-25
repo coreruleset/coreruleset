@@ -762,8 +762,8 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # Prerequisities for this feature:
 # - Lua support must be enabled
 # - Library lua-socket must be installed in the system
-# - modsecurity SecTmpSaveUploadedFiles directive is On or
-#   the SecUploadKeepFiles directive is set to RelevantOnly
+# - modsecurity 'SecTmpSaveUploadedFiles' directive is 'On' or
+#   the 'SecUploadKeepFiles' directive is set to 'RelevantOnly'
 #
 # With setting 'tx.crs_anti-virus_clamav_connect_type' you can choose
 # between two connection types:
@@ -773,6 +773,11 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # Make sure that setting 'tx.crs_anti-virus_clamav_chunk_size' below
 # does not exceed 'StreamMaxLength' as defined in ClamAV
 # configuration file clamd.conf.
+#
+# After enabling, anti-virus scanning should be tested, for example,
+# using:
+# curl http://localhost --form "data=@eicar.com"
+# Get eicar test file from https://www.eicar.org.
 #
 # Default: no
 # Uncomment this rule to change the default.
