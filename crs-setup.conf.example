@@ -333,10 +333,10 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # to enable early blocking. The variable tx.blocking_early is set to 0 by
 # default. Early blocking is thus disabled by default.
 #
-# Please note that blocking early will hide potential alerts from you. This 
+# Please note that blocking early will hide potential alerts from you. This
 # means that a payload that would appear in an alert in phase 2 (or phase 4)
-# does not get evaluated if the request is being blocked early. So when you 
-# disabled blocking early again at some point in the future, then new alerts 
+# does not get evaluated if the request is being blocked early. So when you
+# disabled blocking early again at some point in the future, then new alerts
 # from phase 2 might pop up.
 #SecAction \
 #  "id:900120,\
@@ -577,6 +577,69 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  pass,\
 #  t:none,\
 #  setvar:tx.combined_file_sizes=1048576"
+
+
+#
+# -- [[ Generic Transformations of ARGS ]] ------------------------------------------------
+#
+# Generic transformations are a way to catch malicious payloads that have
+# been encoded to bypass the WAF or simply because the backend is known to
+# decode them before handling. This works by decoding the individual payloads
+# of a request with built-in transformation functions in the WAF engine.
+#
+# ModSecurity knows several transformations and the CRS generic transformations
+# feature makes use of these by transforming / decoding every ARGS with
+# the full series of transformations. If the transforming / decoding changed
+# the payload (a hint that it was actually encoded), then (and only then),
+# the transformed / decoded parameter is examined by CRS.
+#
+# E.g.: A transformation is the base64 decoding of a parameter:
+#
+# The base64 string "c3lzdGVtKCdiYXNoJyk=" decodes to "system('bash')".
+#
+# "63336c7a644756744b43646959584e6f4a796b3d" is a double encoded string.
+# It is a hex-encoded version of the aforementioned "c3lzdGVtKCdiYXNoJyk=".
+#
+# So a double decoding (hexDecode + base64Decode) will result in
+# "system('bash')" again.
+#
+# Simple generic transformations happen at paranoia level 3.
+# Double generic transformations happen at paranoia level 4.
+#
+# Generic transformations mean a severe performance impact and should be
+# enabled with caution. The aforementioned base64 encoded parameter will
+# will expand to 1 + 3 parameters (original parameter plus three decoded
+# parameters). The same parameter at PL4 will bring a whopping
+# 1 + 66 parameters. The double encoded parameter will bring 1 + 2
+# parameters at PL3 (but no alert since it's still encoded) and 1 + 44
+# parameters at PL4.
+#
+# Generic transformations are off by default. They were introduced as a
+# new and somewhat experimental feature in CRS 3.4.
+#
+# There are 3 configuration items that need to be set / assured before
+# generic transformations will start the detection.
+#
+# - Enable tx.generic_transformations by enabling rule 900360 in
+#   crs-setup.conf. This will enable the creation of the transformed
+#   parameters in the rules in REQUEST-904-GENERIC-TRANSFORMATIONS.conf.
+# - Add the generic transformations to the target list of those rules that
+#   inspect ARGS by copying / renaming the file
+#   RESPONSE-998-ENABLE-GENERIC-TRANSFORMATIONS.conf.example
+#   to
+#   RESPONSE-998-ENABLE-GENERIC-TRANSFORMATIONS.conf.
+# - Set paranoia level to 3 (or 4).
+#
+# See the file REQUEST-904-GENERIC-TRANSFORMATIONS.conf for a detailed
+# explanation of the mechanics of the decoding process.
+#
+#SecAction \
+# "id:900360,\
+#  phase:1,\
+#  nolog,\
+#  pass,\
+#  t:none,\
+#  setvar:tx.generic_transformations=1"
 
 
 #
