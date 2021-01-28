@@ -1,0 +1,17 @@
+# Rules 949800 and 949810 checks if RESPONSE_BODY is compressed using gzip:
+# - Content-Encoding header must contain any of gzip, compress, deflate
+# - RESPONSE_BODY must begin with gzip magic number
+SecRule TX:DECOMPRESS_RESPONSE_BODY "@eq 1" \
+    "id:990001,\
+    phase:4,\
+    pass,\
+    nolog,\
+    ver:'OWASP_CRS/3.3.0',\
+    chain"
+    SecRule RESPONSE_HEADERS:Content-Encoding "@pm gzip compress deflate" \
+        "chain"
+        SecRule RESPONSE_BODY "@rx ^\x1f\x8b" \
+            "t:none,\
+            chain"
+            SecRuleScript response_body_decompress.lua "chain"
+                SecRule MATCHED_VAR "@unconditionalMatch"

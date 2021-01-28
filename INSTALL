@@ -98,9 +98,10 @@ Installing on Apache
     ```
     <IfModule security2_module>
                 Include modsecurity.d/owasp-modsecurity-crs/crs-setup.conf
-                Include modsecurity.d/owasp-modsecurity-crs/plugins-before-crs/*.conf
+                IncludeOptional modsecurity.d/owasp-modsecurity-crs/plugins-configuration/*.conf
+                IncludeOptional modsecurity.d/owasp-modsecurity-crs/plugins-before-crs/*.conf
                 Include modsecurity.d/owasp-modsecurity-crs/rules/*.conf
-                Include modsecurity.d/owasp-modsecurity-crs/plugins-after-crs/*.conf
+                IncludeOptional modsecurity.d/owasp-modsecurity-crs/plugins-after-crs/*.conf
     </IfModule>
     ```
     8. Restart web server and ensure it starts without errors
@@ -142,9 +143,10 @@ Installing on Nginx
     ```
     Include modsecurity.conf
     Include owasp-modsecurity-crs/crs-setup.conf
-    Include owasp-modsecurity-crs/plugins-before-crs/*.conf
+    IncludeOptional owasp-modsecurity-crs/plugins-configuration/*.conf
+    IncludeOptional owasp-modsecurity-crs/plugins-before-crs/*.conf
     Include owasp-modsecurity-crs/rules/*.conf
-    Include owasp-modsecurity-crs/plugins-after-crs/*.conf
+    IncludeOptional owasp-modsecurity-crs/plugins-after-crs/*.conf
     ```
     8. Restart web server and ensure it starts without errors
     9. Make sure your web sites are still running fine.
@@ -171,9 +173,10 @@ Installing on IIS
     'modsecurity_iis' to include the following:
     ```
     Include owasp-modsecurity-crs/crs-setup.conf
-    Include owasp-modsecurity-crs/plugins-before-crs/*.conf
+    IncludeOptional owasp-modsecurity-crs/plugins-configuration/*.conf
+    IncludeOptional owasp-modsecurity-crs/plugins-before-crs/*.conf
     Include owasp-modsecurity-crs/rules/*.conf
-    Include owasp-modsecurity-crs/plugins-after-crs/*.conf
+    IncludeOptional owasp-modsecurity-crs/plugins-after-crs/*.conf
     ```
     6. Restart web server and ensure it starts without errors
     7. Make sure your web sites are still running fine.
@@ -253,3 +256,30 @@ OWASP CRS Configuration
     crs-setup.conf file. There are many other options that have to
     do with aspects of web application security that are beyond
     this document but are well explained in crs-setup.conf.
+
+Plugins
+=======
+    Plugins can be used to extend or change almost any part of OWASP CRS.
+    You can use official plugins shipped with OWASP CRS (see below) or
+    install third-party plugins.
+
+Response body decompress plugin
+-------------------------------
+    Some malicious software is trying to hide itself by compressing
+    the reponse before sending it to the client - in such case, ModSecurity,
+    usually, has no access to uncompressed data, so it cannot search it for
+    patterns. This can lead to data leakage, running malicious software by
+    attackers (for example web shells) or attacking the clients.
+    This plugin can be used to automatically decompress RESPONSE_BODY
+    if it's compressed to prevent such situations.
+    
+    Prerequisites:
+     - ModSecurity must be compiled with Lua support
+     - Library lua-zlib must be installed in the system
+
+    Activation:
+    1. Rename plugins-configuration/response_body_decompress.conf.disabled,
+    plugins-before-crs/response_body_decompress.conf.disabled and
+    plugins-after-crs/response_body_decompress.conf.disabled to remove the
+    '.disabled' extension.
+    2. Uncomment rule ID 900980 in plugins-configuration/response_body_decompress.conf.

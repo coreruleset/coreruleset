@@ -1,0 +1,6 @@
+# Decompress response body if it's compressed. Some malicious software is using compression of response body to bypass detection.
+# For this feature to work, you need to install lua-zlib library.
+# Default: no
+# Uncomment this rule to change the default.
+#SecRuleUpdateActionById 900980 \
+#   "setvar:'tx.decompress_response_body=1'"
