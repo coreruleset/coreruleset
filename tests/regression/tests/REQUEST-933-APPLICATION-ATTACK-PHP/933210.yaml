@@ -243,3 +243,35 @@
           uri: /?x=%28++%5b++system++%5d%5b++0++%5d%29++%7b%2f*+comment+*%2f0%7d++%28++ls++%29
         output:
           log_contains: id "933210"
+
+  -
+    test_title: 933210-17
+    desc: Check FP if Cookie contains '/' (slash)
+    stages:
+    - stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Cookie: "x=(foo)/(bar)"
+          port: 80
+          uri: /
+        output:
+          no_log_contains: id "933210"
+
+  -
+    test_title: 933210-18
+    desc: Check FP if Cookie contains '/' (slash)
+    stages:
+    - stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Cookie: "x=(/foo)/(/bar)"
+          port: 80
+          uri: /
+        output:
+          no_log_contains: id "933210"
