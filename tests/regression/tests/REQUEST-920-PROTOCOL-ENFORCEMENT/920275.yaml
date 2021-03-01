@@ -1,0 +1,52 @@
+---
+  meta:
+    author: "airween"
+    enabled: true
+    name: "920275.yaml"
+    description: "Test cases for CRS rule 920275"
+  tests:
+    -
+      test_title: 920275-1
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              uri: "/"
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+                  Sec-Fetch-User: "foo"
+            output:
+                  log_contains: "id \"920275\""
+    -
+      test_title: 920275-2
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              uri: "/"
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+                  Sec-Fetch-User: "?0"
+            output:
+              no_log_contains: "id \"920275\""
+    -
+      test_title: 920275-3
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              uri: "/"
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+                  Sec-Fetch-User: "?1"
+            output:
+              no_log_contains: "id \"920275\""
