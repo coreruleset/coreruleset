@@ -96,11 +96,11 @@ Installing on Apache
     assumes you've put CRS into modsecurity.d/owasp-modsecurity-crs). You
     can alternatively place these in any config file included by Apache:
     ```
-	<IfModule security2_module>
-                Include modsecurity.d/owasp-modsecurity-crs/crs-setup.conf
-                Include modsecurity.d/owasp-modsecurity-crs/rules/*.conf
+    <IfModule security2_module>
+          Include modsecurity.d/owasp-modsecurity-crs/crs-setup.conf
+          Include modsecurity.d/owasp-modsecurity-crs/rules/*.conf
     </IfModule>
-	```
+    ```
     8. Restart web server and ensure it starts without errors
     9. Make sure your web sites are still running fine.
     10. Proceed to the section "Testing the Installation" below.
@@ -138,41 +138,9 @@ Installing on Nginx
     CRS folder similar to as follows (The modsecurity.conf file from the
     ModSecurity installation is included in this example):
     ```
-    include modsecurity.conf
-    include owasp-modsecurity-crs/crs-setup.conf
-    include owasp-modsecurity-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
-    include owasp-modsecurity-crs/rules/REQUEST-901-INITIALIZATION.conf
-    include owasp-modsecurity-crs/rules/REQUEST-903.9001-DRUPAL-EXCLUSION-RULES.conf
-    include owasp-modsecurity-crs/rules/REQUEST-903.9002-WORDPRESS-EXCLUSION-RULES.conf
-    include owasp-modsecurity-crs/rules/REQUEST-903.9003-NEXTCLOUD-EXCLUSION-RULES.conf
-    include owasp-modsecurity-crs/rules/REQUEST-903.9004-DOKUWIKI-EXCLUSION-RULES.conf
-    include owasp-modsecurity-crs/rules/REQUEST-903.9005-CPANEL-EXCLUSION-RULES.conf
-    include owasp-modsecurity-crs/rules/REQUEST-903.9006-XENFORO-EXCLUSION-RULES.conf
-    include owasp-modsecurity-crs/rules/REQUEST-905-COMMON-EXCEPTIONS.conf
-    include owasp-modsecurity-crs/rules/REQUEST-910-IP-REPUTATION.conf
-    include owasp-modsecurity-crs/rules/REQUEST-911-METHOD-ENFORCEMENT.conf
-    include owasp-modsecurity-crs/rules/REQUEST-912-DOS-PROTECTION.conf
-    include owasp-modsecurity-crs/rules/REQUEST-913-SCANNER-DETECTION.conf
-    include owasp-modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf
-    include owasp-modsecurity-crs/rules/REQUEST-921-PROTOCOL-ATTACK.conf
-    include owasp-modsecurity-crs/rules/REQUEST-930-APPLICATION-ATTACK-LFI.conf
-    include owasp-modsecurity-crs/rules/REQUEST-931-APPLICATION-ATTACK-RFI.conf
-    include owasp-modsecurity-crs/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf
-    include owasp-modsecurity-crs/rules/REQUEST-933-APPLICATION-ATTACK-PHP.conf
-    include owasp-modsecurity-crs/rules/REQUEST-934-APPLICATION-ATTACK-NODEJS.conf
-    include owasp-modsecurity-crs/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf
-    include owasp-modsecurity-crs/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf
-    include owasp-modsecurity-crs/rules/REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION.conf
-    include owasp-modsecurity-crs/rules/REQUEST-944-APPLICATION-ATTACK-JAVA.conf
-    include owasp-modsecurity-crs/rules/REQUEST-949-BLOCKING-EVALUATION.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-950-DATA-LEAKAGES.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-951-DATA-LEAKAGES-SQL.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-952-DATA-LEAKAGES-JAVA.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-953-DATA-LEAKAGES-PHP.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-954-DATA-LEAKAGES-IIS.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-959-BLOCKING-EVALUATION.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-980-CORRELATION.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
+    Include modsecurity.conf
+    Include owasp-modsecurity-crs/crs-setup.conf
+    Include owasp-modsecurity-crs/rules/*.conf
     ```
     8. Restart web server and ensure it starts without errors
     9. Make sure your web sites are still running fine.
@@ -198,32 +166,8 @@ Installing on IIS
     5. Navigate back to the 'ModSecurity IIS' folder and modify the
     'modsecurity_iis' to include the following:
     ```
-    include owasp-modsecurity-crs/crs-setup.conf
-    include owasp-modsecurity-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
-    include owasp-modsecurity-crs/rules/REQUEST-901-INITIALIZATION.conf
-    include owasp-modsecurity-crs/rules/REQUEST-905-COMMON-EXCEPTIONS.conf
-    include owasp-modsecurity-crs/rules/REQUEST-910-IP-REPUTATION.conf
-    include owasp-modsecurity-crs/rules/REQUEST-911-METHOD-ENFORCEMENT.conf
-    include owasp-modsecurity-crs/rules/REQUEST-912-DOS-PROTECTION.conf
-    include owasp-modsecurity-crs/rules/REQUEST-913-SCANNER-DETECTION.conf
-    include owasp-modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf
-    include owasp-modsecurity-crs/rules/REQUEST-921-PROTOCOL-ATTACK.conf
-    include owasp-modsecurity-crs/rules/REQUEST-930-APPLICATION-ATTACK-LFI.conf
-    include owasp-modsecurity-crs/rules/REQUEST-931-APPLICATION-ATTACK-RFI.conf
-    include owasp-modsecurity-crs/rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf
-    include owasp-modsecurity-crs/rules/REQUEST-933-APPLICATION-ATTACK-PHP.conf
-    include owasp-modsecurity-crs/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf
-    include owasp-modsecurity-crs/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf
-    include owasp-modsecurity-crs/rules/REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION.conf
-    include owasp-modsecurity-crs/rules/REQUEST-949-BLOCKING-EVALUATION.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-950-DATA-LEAKAGES.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-951-DATA-LEAKAGES-SQL.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-952-DATA-LEAKAGES-JAVA.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-953-DATA-LEAKAGES-PHP.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-954-DATA-LEAKAGES-IIS.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-959-BLOCKING-EVALUATION.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-980-CORRELATION.conf
-    include owasp-modsecurity-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
+    Include owasp-modsecurity-crs/crs-setup.conf
+    Include owasp-modsecurity-crs/rules/*.conf
     ```
     6. Restart web server and ensure it starts without errors
     7. Make sure your web sites are still running fine.
