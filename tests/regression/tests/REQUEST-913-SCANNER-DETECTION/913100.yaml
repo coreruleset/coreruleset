@@ -92,3 +92,51 @@
           uri: "/"
         output:
           log_contains: id "913100"
+  -
+   test_title: 913100-5
+   desc: "YUM package manager whitelist"
+   stages:
+   -
+     stage:
+       input:
+         dest_addr: "127.0.0.1"
+         method: "GET"
+         port: 80
+         headers:
+           User-Agent: "urlgrabber/3.10 yum/3.4.3"
+           Host: "localhost"
+         uri: "/"
+       output:
+         no_log_contains: id "913100"
+  -
+   test_title: 913100-6
+   desc: "Evil grabber"
+   stages:
+   -
+     stage:
+       input:
+         dest_addr: "127.0.0.1"
+         method: "GET"
+         port: 80
+         headers:
+           User-Agent: "Grabber/0.1 (X11; U; Linux i686; en-US; rv:1.7)"
+           Host: "localhost"
+         uri: "/"
+       output:
+         log_contains: id "913100"
+  -
+   test_title: 913100-7
+   desc: "eCairn whitelist"
+   stages:
+   -
+     stage:
+       input:
+         dest_addr: "127.0.0.1"
+         method: "GET"
+         port: 80
+         headers:
+           User-Agent: "mozilla/5.0 ecairn-grabber/1.0 (+http://ecairn.com/grabber)"
+           Host: "localhost"
+         uri: "/"
+       output:
+         no_log_contains: id "913100"
