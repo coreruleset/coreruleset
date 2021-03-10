@@ -14,7 +14,7 @@ please adhere to the following contributing guidelines.
 
 ## Making Changes
 
-* Please base your changes on branch ```v3.3/dev```
+* Please base your changes on branch ```v3.4/dev```
 * Create a topic branch for your feature or bug fix.
 * Please fix only one problem at a time; this will help to quickly test and merge your change. If you intend to fix multiple unrelated problems, please use a separate branch for each problem.
 * Make commits of logical units.
