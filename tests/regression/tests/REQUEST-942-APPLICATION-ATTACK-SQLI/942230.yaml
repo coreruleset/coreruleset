@@ -65,7 +65,7 @@
             Host: localhost
           method: GET
           port: 80
-          uri: "/?var=%20case%20%28"
+          uri: "/?var=%20case%20when%20condition1%20then%20result1"
           version: HTTP/1.0
         output:
           log_contains: id "942230"
@@ -165,3 +165,19 @@
           version: HTTP/1.0
         output:
           log_contains: id "942230"
+  -
+    test_title: 942230-11
+    desc: "Issue #1914: FP for case"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+          method: GET
+          port: 80
+          uri: "/?var=Just%20in%20case%20%28abc%29"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942230"
