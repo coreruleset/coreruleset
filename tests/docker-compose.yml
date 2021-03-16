@@ -33,12 +33,13 @@ services:
     image: owasp/modsecurity-crs:3.3-nginx
     environment:
       SERVERNAME: modsec3-nginx
-      BACKEND: https://www.example.com
+      BACKEND: http://backend
       PORT: "80"
       MODSEC_RULE_ENGINE: DetectionOnly
       PARANOIA: 4
       TZ: "${TZ}"
       ERRORLOG: "/var/log/nginx/error.log"
+      LOGLEVEL: "info"
       ACCESSLOG: "/var/log/nginx/access.log"
       MODSEC_AUDIT_LOG_FORMAT: Native
       MODSEC_AUDIT_LOG_TYPE: Serial
