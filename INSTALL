@@ -92,13 +92,15 @@ Installing on Apache
     rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf.example to remove the
     '.example' extension. This will allow you to add exclusions without updates
     overwriting them in the future.
-    7. Add the following line to your httpd.conf/apache2.conf (the following
+    7. Add the following lines to your httpd.conf/apache2.conf (the following
     assumes you've put CRS into modsecurity.d/owasp-modsecurity-crs). You
     can alternatively place these in any config file included by Apache:
     ```
     <IfModule security2_module>
           Include modsecurity.d/owasp-modsecurity-crs/crs-setup.conf
+	  Include modsecurity.d/owasp-modsecurity-crs/plugins/*-before.conf
           Include modsecurity.d/owasp-modsecurity-crs/rules/*.conf
+          Include modsecurity.d/owasp-modsecurity-crs/plugins/*-after.conf
     </IfModule>
     ```
     8. Restart web server and ensure it starts without errors
@@ -140,7 +142,9 @@ Installing on Nginx
     ```
     Include modsecurity.conf
     Include owasp-modsecurity-crs/crs-setup.conf
+    Include owasp-modsecurity-crs/plugins/*-before.conf
     Include owasp-modsecurity-crs/rules/*.conf
+    Include owasp-modsecurity-crs/plugins/*-after.conf
     ```
     8. Restart web server and ensure it starts without errors
     9. Make sure your web sites are still running fine.
@@ -167,7 +171,9 @@ Installing on IIS
     'modsecurity_iis' to include the following:
     ```
     Include owasp-modsecurity-crs/crs-setup.conf
+    Include owasp-modsecurity-crs/plugins/*-before.conf
     Include owasp-modsecurity-crs/rules/*.conf
+    Include owasp-modsecurity-crs/plugins/*-after.conf
     ```
     6. Restart web server and ensure it starts without errors
     7. Make sure your web sites are still running fine.
@@ -247,3 +253,18 @@ OWASP CRS Configuration
     crs-setup.conf file. There are many other options that have to
     do with aspects of web application security that are beyond
     this document but are well explained in crs-setup.conf.
+
+OWASP CRS Plugins
+=================
+    Plugins are a way to enhance the CRS rule set with additional
+    official and also 3rd party rules that integrate with the standard
+    CRS.
+
+    Plugins are more free in what they do and in the dependencies that
+    they bring. So we allow plugins to do things that standard CRS
+    rules are not allowed to do etc.
+
+    Plugins are installed by copying them into the CRS plugins folder.
+
+    A repository with a list of official and 3rd party plugins can be
+    found at https://github.com/coreruleset/plugin-registry.
