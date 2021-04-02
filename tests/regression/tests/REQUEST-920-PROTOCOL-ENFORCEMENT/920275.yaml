@@ -50,3 +50,48 @@
                   Sec-Fetch-User: "?1"
             output:
               no_log_contains: "id \"920275\""
+    -
+      test_title: 920275-4
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              uri: "/"
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+                  Sec-CH-UA-Mobile: "foo"
+            output:
+                  log_contains: "id \"920275\""
+    -
+      test_title: 920275-5
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              uri: "/"
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+                  Sec-CH-UA-Mobile: "?0"
+            output:
+              no_log_contains: "id \"920275\""
+    -
+      test_title: 920275-6
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              uri: "/"
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+                  Sec-CH-UA-Mobile: "?1"
+            output:
+              no_log_contains: "id \"920275\""

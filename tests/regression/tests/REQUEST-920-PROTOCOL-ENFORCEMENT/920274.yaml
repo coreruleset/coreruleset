@@ -83,3 +83,18 @@
                   Cookie: "ThisIsATest%60"
             output:
               no_log_contains: "id \"920274\""
+    -
+      test_title: 920274-6
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              uri: "/"
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+                  Sec-CH-UA: "Test?"
+            output:
+              log_contains: "id \"920274\""
