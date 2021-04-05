@@ -1,5 +1,3 @@
-require("m")
-
 -- Binary packing of numbers into big-endian 4 byte integer (>I4),
 -- added for compatibility with Lua version < 5.3.
 function clamav_pack_chunk_length(x)
@@ -12,6 +10,7 @@ function clamav_pack_chunk_length(x)
 end
 
 function main(filename)
+	pcall(require, "m")
 	local chunk_size = tonumber(m.getvar("tx.crs_anti-virus_clamav_chunk_size", "none"))
 	local connect_type = m.getvar("tx.crs_anti-virus_clamav_connect_type")
 	if connect_type == "socket" then
