@@ -163,3 +163,40 @@
 # REQUEST-903.9001-DRUPAL-EXCLUSION-RULES.conf
 # REQUEST-903.9002-WORDPRESS-EXCLUSION-RULES.conf
 # bring additional examples which can be useful then tuning a service.
+
+
+#
+# Example Rule: Allow monitoring tools and scripts
+#
+# Uncomment this rule to allow all requests from trusted IPs and User-Agent.
+# This can be useful for monitoring tools like Monit, Nagios, or other agents.
+# For example, if you're using AWS Load Balancer, you may need to trust all
+# requests from "10.0.0.0/8" subnet that come with the user-agent
+# "ELB-HealthChecker/2.0". By doing this, all requests that match these
+# conditions will not be matched against the following rules:
+#
+# - id: 911100 (allowed methods)
+# - tag: attack-dos (DoS protection)
+# - id: 913100,913110,913120,913101,913102 (scan detection)
+# - id: 920280 (missing/empty host header)
+# - id: 920350 (IP address in host header)
+# - tag: attack-disclosure (all RESPONSE-*-DATA-LEAKAGES rules)
+#
+#SecRule REMOTE_ADDR "@ipMatch 10.0.0.0/8" \
+#    "id:1005,\
+#    phase:1,\
+#    pass,\
+#    nolog,\
+#    chain"
+#    SecRule REQUEST_METHOD "@pm GET HEAD" "chain"
+#       SecRule REQUEST_HEADERS:User-Agent "@pm ELB-HealthChecker" \
+#           "ctl:ruleRemoveById=911100,\
+#           ctl:ruleRemoveById=913100,\
+#           ctl:ruleRemoveById=913110,\
+#           ctl:ruleRemoveById=913120,\
+#           ctl:ruleRemoveById=913101,\
+#           ctl:ruleRemoveById=913102,\
+#           ctl:ruleRemoveById=920280,\
+#           ctl:ruleRemoveById=920350,\
+#           ctl:ruleRemoveByTag=attack-disclosure,\
+#           ctl:ruleRemoveByTag=attack-dos"
