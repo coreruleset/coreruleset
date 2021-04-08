@@ -768,6 +768,10 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # - ngx_http_lua_module web server module (Nginx only, see
 #   https://github.com/openresty/lua-nginx-module )
 #
+# By default, only uploaded files are scanned for viruses. If you
+# want to scan also data send by POST/PUT requests (REQUEST_BODY),
+# set 'tx.crs_anti-virus_protection_scan_request_body' to 1.
+#
 # With setting 'tx.crs_anti-virus_clamav_connect_type' you can choose
 # between two connection types:
 # - tcp: connect using TCP/IP protocol
@@ -792,6 +796,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  pass,\
 #  t:none,\
 #  setvar:'tx.crs_anti-virus_protection_enable=1',\
+#  setvar:'tx.crs_anti-virus_protection_scan_request_body=0',\
 #  setvar:'tx.crs_anti-virus_clamav_connect_type=socket',\
 #  setvar:'tx.crs_anti-virus_clamav_socket_file=/var/run/clamav/clamd.ctl',\
 #  setvar:'tx.crs_anti-virus_clamav_address=127.0.0.1',\

@@ -9,7 +9,7 @@ function clamav_pack_chunk_length(x)
 	return string.reverse(table.concat(bytes))
 end
 
-function main(filename)
+function main(filename_or_data)
 	pcall(require, "m")
 	local chunk_size = tonumber(m.getvar("tx.crs_anti-virus_clamav_chunk_size", "none"))
 	local connect_type = m.getvar("tx.crs_anti-virus_clamav_connect_type")
@@ -27,16 +27,20 @@ function main(filename)
 		return nil
 	end
 
-	local file_handle = io.open(filename, "r")
-	local file_size = file_handle:seek("end")
-	-- Empty file, nothing to scan.
-	if file_size == 0 then
+	local file_handle = io.open(filename_or_data, "r")
+	if file_handle ~= nil then
+		data_size = file_handle:seek("end")
+		file_handle:seek("set", 0)
+	else
+		data_size = string.len(filename_or_data)
+	end
+	-- Empty data, nothing to scan.
+	if data_size == 0 then
 		return nil
-	elseif file_size > tonumber(m.getvar("tx.crs_anti-virus_clamav_max_file_size_bytes")) then
-		m.log(2, string.format("ClamAV: Scan aborted, file is too big (see 'tx.crs_anti-virus_clamav_max_file_size_bytes' in crs-setup.conf), file size: %s bytes", file_size))
+	elseif data_size > tonumber(m.getvar("tx.crs_anti-virus_clamav_max_file_size_bytes")) then
+		m.log(2, string.format("ClamAV: Scan aborted, data are too big (see 'tx.crs_anti-virus_clamav_max_file_size_bytes' in crs-setup.conf), data size: %s bytes", data_size))
 		return nil
 	end
-	file_handle:seek("set", 0)
 
 	sck = socket.tcp()
 	sck:settimeout(tonumber(m.getvar("tx.crs_anti-virus_clamav_network_timeout_seconds", "none")))
@@ -54,11 +58,27 @@ function main(filename)
 
 	sck:send("nINSTREAM\n")
 
+	local position_from = 1
 	-- Data needs to be streamed in chunks prefixed by binary packed chunk size.
 	-- Streaming is terminated by sending a zero-length chunk.
 	-- Chunk size is configurable but must NOT exceed StreamMaxLength defined in ClamAV configuration file.
 	while true do
-		local chunk = file_handle:read(chunk_size)
+		-- Scanning of uploaded file.
+		if file_handle ~= nil then
+			chunk = file_handle:read(chunk_size)
+		-- Scanning of REQUEST_BODY.
+		else
+			if position_from > data_size then
+				chunk = nil
+			else
+				local position_to = position_from + chunk_size
+				if position_to >= data_size then
+					position_to = data_size
+				end
+				chunk = string.sub(filename_or_data, position_from, position_to)
+				position_from = position_to + 1
+			end
+		end
 		if chunk then
 			-- string.pack was introduced in Lua 5.3 but we need to support older versions.
 			--sck:send(string.pack(">I4", string.len(chunk)) .. chunk)
@@ -70,7 +90,9 @@ function main(filename)
 		end
 	end
 
-	io.close(file_handle)
+	if file_handle ~= nil then
+		io.close(file_handle)
+	end
 
 	local output = ""
 	while true do
