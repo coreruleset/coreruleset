@@ -33,6 +33,7 @@ function main(filename_or_data)
 		file_handle:seek("set", 0)
 	else
 		data_size = string.len(filename_or_data)
+		position_from = 1
 	end
 	-- Empty data, nothing to scan.
 	if data_size == 0 then
@@ -42,7 +43,11 @@ function main(filename_or_data)
 		return nil
 	end
 
-	sck = socket.tcp()
+	if connect_type == "socket" then
+		sck = socket()
+	elseif connect_type == "tcp" then
+		sck = socket.tcp()
+	end
 	sck:settimeout(tonumber(m.getvar("tx.crs_anti-virus_clamav_network_timeout_seconds", "none")))
 	-- Connecting using unix socket file.
 	if connect_type == "socket" then
@@ -58,7 +63,6 @@ function main(filename_or_data)
 
 	sck:send("nINSTREAM\n")
 
-	local position_from = 1
 	-- Data needs to be streamed in chunks prefixed by binary packed chunk size.
 	-- Streaming is terminated by sending a zero-length chunk.
 	-- Chunk size is configurable but must NOT exceed StreamMaxLength defined in ClamAV configuration file.
@@ -72,7 +76,7 @@ function main(filename_or_data)
 				chunk = nil
 			else
 				local position_to = position_from + chunk_size
-				if position_to >= data_size then
+				if position_to > data_size then
 					position_to = data_size
 				end
 				chunk = string.sub(filename_or_data, position_from, position_to)
