@@ -23,7 +23,7 @@ We strive to make the OWASP ModSecurity CRS accessible to a wide audience of beg
 
 [Sign up for our Google Group](https://groups.google.com/a/owasp.org/forum/#!forum/modsecurity-core-rule-set-project) to ask general usage questions and participate in discussions on the CRS. Also [here](https://lists.owasp.org/pipermail/owasp-modsecurity-core-rule-set/index) you can find the archives for the previous mailing list.
 
-[Join the #coreruleset channel on OWASP Slack](http://owaspslack.com) to chat about the CRS.
+[Join the #coreruleset channel on OWASP Slack](https://owasp.slack.com/) to chat about the CRS.
 
 ## License
 
