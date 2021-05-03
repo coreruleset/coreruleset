@@ -1,6 +1,6 @@
 ---
   meta:
-    author: "Christian S.J. Peron, Christoph Hansen"
+    author: "Christian S.J. Peron, Christoph Hansen, Franziska Bühler"
     description: None
     enabled: true
     name: 942190.yaml
@@ -54,7 +54,7 @@
           method: POST
           port: 80
           uri: "/"
-          data: "%22+union+s%0A"
+          data: "%22+union+select%0A"
           version: HTTP/1.0
         output:
           log_contains: id "942190"
@@ -139,7 +139,7 @@
           method: POST
           port: 80
           uri: "/"
-          data: "%27union%2F%0A"
+          data: "%27union%20select%2F%0A"
           version: HTTP/1.0
         output:
           log_contains: id "942190"
@@ -513,7 +513,7 @@
           method: POST
           port: 80
           uri: "/"
-          data: "%22+UNION+A%0A"
+          data: "%22%20UNION%20ALL%20SELECT%0A"
           version: HTTP/1.0
         output:
           log_contains: id "942190"
@@ -653,3 +653,20 @@
           version: HTTP/1.0
         output:
           log_contains: id "942190"
+  -
+    test_title: 942190-39
+    desc: "False positive UNION #2047"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+          method: GET
+          port: 80
+          uri: "/"
+          data: "arg=Die%20%22Union%20von%20Europa%22"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942190"
