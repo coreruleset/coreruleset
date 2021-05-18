@@ -22,7 +22,7 @@
               protocol: "http"
               uri: "/"
             output:
-              status: 400
+              status: [400]
     -
       # Non digit content-length with content-type
       test_title: 920160-2
@@ -41,7 +41,7 @@
               protocol: "http"
               uri: "/"
             output:
-              status: 400
+              status: [400]
     -
       # Mixed digit and non digit content length
       test_title: 920160-3
@@ -60,7 +60,7 @@
               protocol: "http"
               uri: "/"
             output:
-              status: 400
+              status: [400]
     -
       # Test is based in httpbin.org, so backend returns 405 if you are not posting to /post
       # Apache auto corrects for this error now so the log should not contain anything
@@ -87,7 +87,7 @@
             version: HTTP/1.0
             data: abc
           output:
-            status: 200
+            status: [200]
             no_log_contains: id "920160"
     -
       test_title: 920160-5
