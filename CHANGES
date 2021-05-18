@@ -74,7 +74,7 @@ Fixes and improvements:
  * add www to link (NullIsNot0)
  * Fix link for 941310 Old link does not work anymore. Change it to new one. (NullIsNot0)
  * Add Content-Type: multipart/related as allowed default (jeremyjpj0916)
- * Resolve issue 1722 and fix content-type whitelisting (Franziska Bühler)
+ * Resolve issue 1722 and fix content-type allow listing (Franziska Bühler)
  * make severities and scores consistent (Walter Hop)
  * add QQGameHall UA (#1731) (Andrea Menin)
  * another test (Allan Boll)
@@ -537,7 +537,7 @@ This is a cursory summary of the most important changes:
  * Introduction of Initialization rules with
    default values (Walter Hop, Christian Folini)
  * Sorting out terminology with
-   whitelisting and rule exclusions (Christian Folini)
+   allow listing and rule exclusions (Christian Folini)
  * Overhaul of testing (Chaim Sanders)
  * Protection from HTTP Parameter Pollution (Franziska Bühler)
  * Simplification of setup config file, renamed file to crs-setup.conf.example
@@ -549,7 +549,7 @@ This is a cursory summary of the most important changes:
    across the board
  * Cleanup of formerly experimental DDoS rules,
    fix documentation (Ryan Barnett, Christian Folini)
- * Improves http blacklist checks (Walter Hop)
+ * Improves http deny list checks (Walter Hop)
  * Extended XSS detection (as suggested by Mazin Ahmed)
  * Added support for Travis CI
  * Added support for HTTP/2 in recent Apache 2.4 (Walter Hop)
@@ -826,7 +826,7 @@ Improvements:
 * Changed the name of PHPIDS converted rules to Advanced Filters
 * Added Ignore Static Content (Performance enhancement) rule set
 * Added XML Enabler (Web Services) rule set which will parse XML data
-* Added Authorized Vulnerability Scanning (AVS) Whitelist rule set
+* Added Authorized Vulnerability Scanning (AVS) Allow list rule set
 * Added Denial of Service (DoS) Protection rule set
 * Added Slow HTTP DoS (Connection Consumption) Protection rule set
 * Added Brute Force Attack Protection rule set
@@ -995,7 +995,7 @@ Improvements:
 * Updated the regex logic in the (1=1) rule to factor in quotes and other logical operators.
 * Updated the SPAMMER RBL check rules logic to only check once per IP/Day.
 * Added new outbound malware link detection rules.
-* Added PHP "call_user_func" to blacklist
+* Added PHP "call_user_func" to deny list
   Identified by SOGETI ESEC R&D
 
 Bug Fixes:

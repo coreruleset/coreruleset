@@ -527,11 +527,11 @@ int read_conf_file (char *filename)
 	if ((idx = find_param_idx("MODSEC_PROXY_PID",parameters,num_of_params)) >= 0)
 		strcpy(modsec_proxy_pid,parameters[idx].value);
 
-	if ((idx = find_param_idx("MODSEC_PROXY_WHITELIST",parameters,num_of_params)) >= 0)
-		strcpy(modsec_proxy_whitelist,parameters[idx].value);
+	if ((idx = find_param_idx("MODSEC_PROXY_ALLOWLIST",parameters,num_of_params)) >= 0)
+		strcpy(modsec_proxy_allowlist,parameters[idx].value);
 
-	if ((idx = find_param_idx("MODSEC_PROXY_BLACKLIST",parameters,num_of_params)) >= 0)
-		strcpy(modsec_proxy_blacklist,parameters[idx].value);
+	if ((idx = find_param_idx("MODSEC_PROXY_DENYLIST",parameters,num_of_params)) >= 0)
+		strcpy(modsec_proxy_denylist,parameters[idx].value);
 
 	if ((idx = find_param_idx("MODSEC_PROXY_TIMEOUT",parameters,num_of_params)) >= 0)
 		strcpy(modsec_proxy_timeout,parameters[idx].value);
@@ -621,8 +621,8 @@ int init_cgi()
 	strcpy(modsec_proxy_ext_nic,"eth0");
 	strcpy(modsec_proxy_network_prefix,"172.16.0.0/12");
 	strcpy(modsec_proxy_pid,"/opt/modsecurity-proxy/var/run/httpd.pid");
-	strcpy(modsec_proxy_whitelist,"/opt/breach/etc/modsec_whitelist.conf");
-	strcpy(modsec_proxy_blacklist,"/opt/breach/etc/modsec_blacklist.conf");
+	strcpy(modsec_proxy_allowlist,"/opt/breach/etc/modsec_allowlist.conf");
+	strcpy(modsec_proxy_denylist,"/opt/breach/etc/modsec_denylist.conf");
 	strcpy(modsec_proxy_timeout,"120");
 	strcpy(modsec_proxy_exchange,"/opt/modsecurity-proxy/var/exchange");
 	strcpy(modsec_proxy_ext_ips,"/opt/breach/etc/modsec_ips.conf");
