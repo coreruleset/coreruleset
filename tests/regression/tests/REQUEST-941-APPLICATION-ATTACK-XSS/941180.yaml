@@ -56,3 +56,20 @@
               Cookie: 'window.location=941180-3'
           output:
             log_contains: id "941180"
+    -
+      test_title: 941180-4
+      desc: Negative test for Node-validator blacklist keyword -->, present in stricter sibling 941181, ARGS
+      stages:
+      -
+        stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: GET
+            port: 80
+            uri: '/foo'
+            headers:
+              User-Agent: ModSecurity CRS 3 Tests
+              Host: localhost
+            data: '941180-4=-->'
+          output:
+            no_log_contains: id "941180"
