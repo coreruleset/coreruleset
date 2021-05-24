@@ -162,3 +162,39 @@
           data: "var=soundtrack Gympl\r\nanything"
         output:
           no_log_contains: id "921110"
+  -
+    test_title: 921110-10
+    desc: "HTTP Response Splitting false positive test issue 2054"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Accept: "*/*"
+            User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)
+          method: POST
+          port: 80
+          uri: /
+          data: "var=budget foo)</bar>\n"
+        output:
+          no_log_contains: id "921110"
+  -
+    test_title: 921110-11
+    desc: "HTTP Response Splitting false positive test issue 2054"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Accept: "*/*"
+            User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)
+          method: POST
+          port: 80
+          uri: /
+          data: "var=get it\n"
+        output:
+          no_log_contains: id "921110"
