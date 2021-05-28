@@ -41,6 +41,23 @@
           log_contains: id "941310"
   -
     test_title: 941310-3
+    desc: Positive test using alternate utf-8
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Content-Type: "application/x-www-form-urlencoded; charset=us-ascii"
+          method: POST
+          port: 80
+          uri: /
+          data: var=\xd0\xbcscript\xd0\xbealert(\xc2\xa2XSS\xc2\xa2)\xd0\xbc/script\xd0\xbe
+        output:
+          log_contains: id "941310"
+  -
+    test_title: 941310-4
     desc: Negative test for opening tag
     stages:
     -
@@ -57,7 +74,7 @@
         output:
           no_log_contains: id "941310"
   -
-    test_title: 941310-4
+    test_title: 941310-5
     desc: Negative test for closing tag
     stages:
     -
@@ -71,5 +88,39 @@
           port: 80
           uri: /
           data: var=\xbe\xbe
+        output:
+          no_log_contains: id "941310"
+  -
+    test_title: 941310-6
+    desc: Negative for missing end tag, opening tag
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Content-Type: "application/x-www-form-urlencoded; charset=us-ascii"
+          method: POST
+          port: 80
+          uri: /
+          data: var=\xd0\xbcscript\xd0\xbealert(\xc2\xa2XSS\xc2\xa2)\xd0\xbc/script\xd0
+        output:
+          no_log_contains: id "941310"
+  -
+    test_title: 941310-7
+    desc: Negative for missing end tag, closing tag
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Content-Type: "application/x-www-form-urlencoded; charset=us-ascii"
+          method: POST
+          port: 80
+          uri: /
+          data: var=\xd0\xbcscript\xd0\xbealert(\xc2\xa2XSS\xc2\xa2)\xd0/script\xd0\xbe
         output:
           no_log_contains: id "941310"
