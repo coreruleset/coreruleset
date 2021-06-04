@@ -670,3 +670,20 @@
           version: HTTP/1.0
         output:
           no_log_contains: id "942190"
+  -
+    test_title: 942190-40
+    desc: "MSSQL Logical Functions - IIF (Transact-SQL)"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+          method: GET
+          port: 80
+          uri: "/"
+          data: "arg=SELECT%20IIF(1%20%3E%201%2C%20'TRUE'%2C%20'FALSE'%20)"
+          version: HTTP/1.0
+        output:
+          log_contains: id "942190"
