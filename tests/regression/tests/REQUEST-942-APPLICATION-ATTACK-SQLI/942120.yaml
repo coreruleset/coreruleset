@@ -361,3 +361,20 @@
           version: HTTP/1.0
         output:
           log_contains: id "942120"
+  -
+    test_title: 942120-22
+    desc: "SQL Injection Attack: not between * and "
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+          method: POST
+          port: 80
+          uri: "/"
+          data: "select%20*%20from%20user%20where%20password_last_changed%20not%20between%20'2021-04-11'%20and%20'2021-04-11'"
+          version: HTTP/1.0
+        output:
+          log_contains: id "942120"
