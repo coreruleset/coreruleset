@@ -125,7 +125,7 @@ Please read file ```crs-setup.conf.example``` for an introduction and a more det
 * Matches that cause false positives are limited to use score notice and warning
 * False positive rates increased (even on single string)
 * False negatives should not happen here
-* Check everything against RFC and white listed values for most popular elements
+* Check everything against RFC and allow listed values for most popular elements
 
 
 ## ID Numbering Scheme
