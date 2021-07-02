@@ -1,0 +1,39 @@
+---
+meta:
+  author: "lifeforms"
+  enabled: true
+  name: "934110.yaml"
+  description: "Tests for rule 934110"
+tests:
+  - test_title: 934110-0
+    desc: positive test case
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "*/*"
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+            method: GET
+            port: 80
+            uri: /?foo=__proto__
+            version: HTTP/1.0
+          output:
+            log_contains: id "934110"
+  - test_title: 934110-1
+    desc: negative test case
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "*/*"
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+            method: GET
+            port: 80
+            uri: /?foo=proto
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "934110"
