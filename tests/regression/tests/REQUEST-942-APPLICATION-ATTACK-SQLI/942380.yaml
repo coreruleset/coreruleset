@@ -753,3 +753,20 @@
           version: HTTP/1.0
         output:
           log_contains: id "942380"
+  -
+    test_title: 942380-45
+    desc: "SQL Injection Attack: EXISTS"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+          method: POST
+          port: 80
+          uri: "/"
+          data: "pay=IF%20EXISTS%20(SELECT%20*%20FROM%20users%20WHERE%20username%20%3D%20'root')%20BENCHMARK(1000000000%2CMD5(1))"
+          version: HTTP/1.0
+        output:
+          log_contains: id "942380"
