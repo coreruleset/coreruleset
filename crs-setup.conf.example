@@ -1,6 +1,7 @@
 # ------------------------------------------------------------------------
-# OWASP ModSecurity Core Rule Set ver.3.3.0
+# OWASP ModSecurity Core Rule Set ver.3.4.0-dev
 # Copyright (c) 2006-2020 Trustwave and contributors. All rights reserved.
+# Copyright (c) 2021 Core Rule Set project. All rights reserved.
 #
 # The OWASP ModSecurity Core Rule Set is distributed under
 # Apache Software License (ASL) version 2
@@ -618,7 +619,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 
 #
-# -- [[ Project Honey Pot HTTP Blacklist ]] ------------------------------------
+# -- [[ Project Honey Pot HTTP:BL ]] -------------------------------------------
 #
 # Optionally, you can check the client IP address against the Project Honey Pot
 # HTTPBL (dnsbl.httpbl.org). In order to use this, you need to register to get a
@@ -851,9 +852,9 @@ SecCollectionTimeout 600
 # E.g., v3.0.0 is represented as 300.
 #
 SecAction \
- "id:900990,\
-  phase:1,\
-  nolog,\
-  pass,\
-  t:none,\
-  setvar:tx.crs_setup_version=330"
+    "id:900990,\
+    phase:1,\
+    nolog,\
+    pass,\
+    t:none,\
+    setvar:tx.crs_setup_version=340"

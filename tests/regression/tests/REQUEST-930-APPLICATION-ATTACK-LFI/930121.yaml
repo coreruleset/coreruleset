@@ -1,0 +1,61 @@
+---
+  meta:
+    author: azurit
+    description: None
+    enabled: true
+    name: 930121.yaml
+  tests:
+  -
+    test_title: 930121-1
+    desc: LFI via cookies
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          headers:
+            User-Agent: "ModSecurity CRS 3 Tests"
+            Host: "localhost"
+            Cookie: file=/etc/passwd;
+          uri: /
+          version: HTTP/1.1
+        output:
+          log_contains: id "930121"
+  -
+    test_title: 930121-2
+    desc: LFI via cookies 2
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          headers:
+            User-Agent: "ModSecurity CRS 3 Tests"
+            Host: "localhost"
+            Cookie: /etc/passwd=lfi
+          uri: /
+          version: HTTP/1.1
+        output:
+          log_contains: id "930121"
+  -
+    test_title: 930121-3
+    desc: LFI via cookies 3
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          headers:
+            User-Agent: "ModSecurity CRS 3 Tests"
+            Host: "localhost"
+            Cookie: __utm=/etc/passwd;
+          uri: /
+          version: HTTP/1.1
+        output:
+          no_log_contains: id "930121"

@@ -41,7 +41,7 @@
               uri: "/"
               version: "HTTP/1.1"
             output:
-              status: 400
+              status: [400]
     -
       # Perfectly valid OPTIONS request
       test_title: 920100-3
@@ -95,7 +95,7 @@
               uri: "www.cnn.com"
               version: "HTTP/1.1"
             output:
-              status: 400
+              status: [400]
     -
       # This is an acceptable CONNECT request for SSL tunneling
       test_title: 920100-6
@@ -226,7 +226,7 @@
             uri: /
             version: HTTP/1.1
           output:
-            status: 400
+            status: [400]
     -
       test_title: 920100-13
       desc: Invalid HTTP Request Line (920100) - Test 2 from old modsec regressions

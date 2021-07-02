@@ -23,10 +23,11 @@ We strive to make the OWASP ModSecurity CRS accessible to a wide audience of beg
 
 [Sign up for our Google Group](https://groups.google.com/a/owasp.org/forum/#!forum/modsecurity-core-rule-set-project) to ask general usage questions and participate in discussions on the CRS. Also [here](https://lists.owasp.org/pipermail/owasp-modsecurity-core-rule-set/index) you can find the archives for the previous mailing list.
 
-[Join the #coreruleset channel on OWASP Slack](https://owasp.slack.com/) to chat about the CRS.
+[Join the #coreruleset channel on OWASP Slack](https://owasp.slack.com/) to chat about the CRS. ([Click here](https://owasp-slack.herokuapp.com/) to get an invitation if you are not yet registered on the OWASP slack. It's open to non-members too.)
 
 ## License
 
 Copyright (c) 2006-2020 Trustwave and contributors. All rights reserved.
+Copyright (c) 2021 Core Rule Set project. All rights reserved.
 
 The OWASP ModSecurity Core Rule Set is distributed under Apache Software License (ASL) version 2. Please see the enclosed LICENSE file for full details.
