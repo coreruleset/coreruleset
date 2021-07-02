@@ -1,0 +1,56 @@
+---
+name: Regression Tests (Go-ftw)
+
+on:
+  push:
+    paths:
+      - 'rules/**'
+      - 'tests/**'
+      - '.github/**'
+  pull_request:
+    paths:
+      - 'rules/**'
+      - 'tests/**'
+      - '.github/**'
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        modsec_version: [modsec2-apache]
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@v2
+
+      - name: "Install dependencies"
+        run: |
+          curl https://api.github.com/repos/fzipi/go-ftw/releases/latest | grep "browser_download_url" | grep -Eo 'https://[^\"]*Linux_x86_64.tar.gz' | xargs curl -L -o - | tar -xzf - ftw
+
+      - name: "Run tests for ${{ matrix.modsec_version }}"
+        run: |
+          mkdir -p tests/logs/${{ matrix.modsec_version }}/{nginx,apache2}
+          docker-compose -f ./tests/docker-compose.yml up -d "${{ matrix.modsec_version }}"
+          ./ftw run
+        env:
+          FTW_LOGFILE: './tests/logs/modsec2-apache/error.log'
+          FTW_LOGTYPE_NAME: 'apache'
+          FTW_LOGTYPE_TIMEREGEX: '\[([A-Z][a-z]{2} [A-z][a-z]{2} \d{1,2} \d{1,2}\:\d{1,2}\:\d{1,2}\.\d+? \d{4})\]'
+          FTW_LOGTYPE_TIMEFORMAT: 'ddd MMM DD HH:mm:ss.S YYYY'
+
+      - name: "Change permissions if failed"
+        if: failure()
+        run: |
+            # we want to get the audit log, so change permissions (file is only for root on docker)
+            sudo chmod 644 tests/logs/${{ matrix.modsec_version }}/modsec_audit.log
+
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: waf-logs
+          path: tests/logs/${{ matrix.modsec_version }}
+
+      - name: Clean docker-compose
+        run: |
+          docker-compose -f ./tests/docker-compose.yml stop "${{ matrix.modsec_version }}"
+          docker-compose -f ./tests/docker-compose.yml down
