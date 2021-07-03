@@ -13,13 +13,30 @@ use strict;
 use Regexp::Assemble;
 
 my $ra = Regexp::Assemble->new;
+my $flags = '';
+my $prefix = '';
+my $suffix = '';
+
 while (<>)
 {
+  # this is a flag comment (#!), save it for later
+  # we currently only support the `i` flag
+  $flags = $1 if $_ =~ /^\s*#!\s*([i]+)/;
+  # this is a prefix comment (#^), save it for later
+  $prefix = $1 if $_ =~ /^\s*#\^\s*(.*)/;
+  # this is a prefix comment (#$), save it for later
+  $suffix = $1 if $_ =~ /^\s*#\$\s*(.*)/;
+  # skip comments
+  next if $_ =~ /^\s*#/;
+  # skip empty lines
+  next if $_ =~ /^\s*$/;
+
   # Handle possessive qualifiers
   # https://rt.cpan.org/Public/Bug/Display.html?id=50228#txn-672717
   # the code below does nearly the same thing as add(), which is enough for our pruposes
 
   # parse an expression like `(a++|b)++|b` into an array of `["(a++|b)+", "+", "|", "b"]`
+  CORE::chomp($_);
   my $arr = $ra->lexstr($_);
   for (my $n = 0; $n < $#$arr - 1; ++$n)
   {
@@ -33,4 +50,8 @@ while (<>)
   # we now have what we would want to pass to add(), so add it
   $ra->insert(@$arr);
 }
-print $ra->as_string() . "\n";
+# sourround the resulting expression with all the flags
+if ($flags ne '') {
+  print '(?' . $flags . ')';
+}
+print $prefix . $ra->as_string() . $suffix . "\n";
