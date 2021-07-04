@@ -19,6 +19,9 @@ my $suffix = '';
 
 while (<>)
 {
+  # strip new lines
+  CORE::chomp($_);
+
   # this is a flag comment (#!), save it for later
   # we currently only support the `i` flag
   $flags = $1 if $_ =~ /^\s*#!\s*([i]+)/;
@@ -36,7 +39,6 @@ while (<>)
   # the code below does nearly the same thing as add(), which is enough for our pruposes
 
   # parse an expression like `(a++|b)++|b` into an array of `["(a++|b)+", "+", "|", "b"]`
-  CORE::chomp($_);
   my $arr = $ra->lexstr($_);
   for (my $n = 0; $n < $#$arr - 1; ++$n)
   {
@@ -50,8 +52,9 @@ while (<>)
   # we now have what we would want to pass to add(), so add it
   $ra->insert(@$arr);
 }
-# sourround the resulting expression with all the flags
+# print flags
 if ($flags ne '') {
   print '(?' . $flags . ')';
 }
+# print the assembly, surrounded by prefix and suffix
 print $prefix . $ra->as_string() . $suffix . "\n";
