@@ -20,6 +20,7 @@ while (<>)
   # the code below does nearly the same thing as add(), which is enough for our pruposes
 
   # parse an expression like `(a++|b)++|b` into an array of `["(a++|b)+", "+", "|", "b"]`
+  CORE::chomp($_);
   my $arr = $ra->lexstr($_);
   for (my $n = 0; $n < $#$arr - 1; ++$n)
   {
