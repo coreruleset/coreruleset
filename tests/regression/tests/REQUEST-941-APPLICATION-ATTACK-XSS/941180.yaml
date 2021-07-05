@@ -7,13 +7,13 @@
   tests:
     -
       test_title: 941180-1
-      desc: Node-validator blacklist keywords, ARGS
+      desc: Node-validator deny list keywords, ARGS
       stages:
       -
         stage:
           input:
             dest_addr: 127.0.0.1
-            method: GET
+            method: POST
             port: 80
             uri: '/foo'
             headers:
@@ -24,13 +24,13 @@
             log_contains: id "941180"
     -
       test_title: 941180-2
-      desc: Node-validator blacklist keywords, ARGS_NAMES
+      desc: Node-validator deny list keywords, ARGS_NAMES
       stages:
       -
         stage:
           input:
             dest_addr: 127.0.0.1
-            method: GET
+            method: POST
             port: 80
             uri: '/bar'
             headers:
@@ -41,7 +41,7 @@
             log_contains: id "941180"
     -
       test_title: 941180-3
-      desc: Node-validator blacklist keywords, ARGS_NAMES
+      desc: Node-validator deny list keywords, ARGS_NAMES
       stages:
       -
         stage:
@@ -56,3 +56,20 @@
               Cookie: 'window.location=941180-3'
           output:
             log_contains: id "941180"
+    -
+      test_title: 941180-4
+      desc: Negative test for Node-validator deny list keyword -->, present in stricter sibling 941181, ARGS
+      stages:
+      -
+        stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            uri: '/foo'
+            headers:
+              User-Agent: ModSecurity CRS 3 Tests
+              Host: localhost
+            data: '941180-4=-->'
+          output:
+            no_log_contains: id "941180"

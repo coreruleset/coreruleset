@@ -77,15 +77,15 @@
                   Keep-Alive: "300"
                   Proxy-Connection: "keep-alive"
                   Content-Type: "text/xml"
-              data:
-                - "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">"
-                - " <SOAP-ENV:Body>"
-                - "      <xkms:StatusRequest xmlns:xkms=\"http://www.w3.org/2002/03/xkms#\" Id=\"_6ee48478-fdd6-4d7d-b1bf-e7b4c3254659\" ResponseId=\"_c1c36b3f-f962-4aea-bfbd-07ed58468c9b\" Service=\"http://www.soapclient.com/xml/xkms2\">"
-                - "      <xkms:ResponseMechanism>http://www.w3.org/2002/03/xkms#Pending</xkms:ResponseMechanism>"
-                - "      <xkms:RespondWith>%1Gwww.attack.org</xkms:RespondWith>"
-                - "      </xkms:StatusRequest>"
-                - "  </SOAP-ENV:Body>"
-                - "</SOAP-ENV:Envelope>"
+              data: |
+                <SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">
+                 <SOAP-ENV:Body>
+                      <xkms:StatusRequest xmlns:xkms=\"http://www.w3.org/2002/03/xkms#\" Id=\"_6ee48478-fdd6-4d7d-b1bf-e7b4c3254659\" ResponseId=\"_c1c36b3f-f962-4aea-bfbd-07ed58468c9b\" Service=\"http://www.soapclient.com/xml/xkms2\">
+                      <xkms:ResponseMechanism>http://www.w3.org/2002/03/xkms#Pending</xkms:ResponseMechanism>
+                      <xkms:RespondWith>%1Gwww.attack.org</xkms:RespondWith>
+                      </xkms:StatusRequest>
+                  </SOAP-ENV:Body>
+                </SOAP-ENV:Envelope>
             output:
               no_log_contains: "id \"920240\""
     -

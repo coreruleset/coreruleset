@@ -1,0 +1,1 @@
+This directory exists for compatibility with `docker compose` which currently (2021-05-24) has a bug where directories listed with the short hand syntax volumes in docker-compose.yaml will not be created on the host if they are missing. `docker-compose` does create the directories.
