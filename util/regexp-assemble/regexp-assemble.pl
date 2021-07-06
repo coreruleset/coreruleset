@@ -22,15 +22,15 @@ while (<>)
   # strip new lines
   CORE::chomp($_);
 
-  # this is a flag comment (#!), save it for later
+  # this is a flag comment (##!+), save it for later
   # we currently only support the `i` flag
-  $flags = $1 if $_ =~ /^\s*#!\s*([i]+)/;
-  # this is a prefix comment (#^), save it for later
-  $prefix = $1 if $_ =~ /^\s*#\^\s*(.*)/;
-  # this is a prefix comment (#$), save it for later
-  $suffix = $1 if $_ =~ /^\s*#\$\s*(.*)/;
+  $flags = $1 if $_ =~ /^##!\+\s*([i]+)/;
+  # this is a prefix comment (##!^), save it for later
+  $prefix = $1 if $_ =~ /^##!\^\s*(.*)/;
+  # this is a prefix comment (##!$), save it for later
+  $suffix = $1 if $_ =~ /^##!\$\s*(.*)/;
   # skip comments
-  next if $_ =~ /^\s*#/;
+  next if $_ =~ /^##!/;
   # skip empty lines
   next if $_ =~ /^\s*$/;
 
