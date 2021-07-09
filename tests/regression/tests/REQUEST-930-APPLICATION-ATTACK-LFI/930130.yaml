@@ -1,0 +1,39 @@
+---
+  meta:
+    author: "Andrew Howe"
+    description: "None"
+    enabled: true
+    name: "930130.yaml"
+  tests:
+  -
+   test_title: 930130-1
+   desc: "LFI via URI: /sys"
+   stages:
+   -
+     stage:
+       input:
+         dest_addr: "127.0.0.1"
+         method: "GET"
+         port: 80
+         headers:
+           User-Agent: "ModSecurity CRS 3 Tests"
+           Host: "localhost"
+         uri: "/sys/class"
+       output:
+         log_contains: id "930130"
+  -
+   test_title: 930130-2
+   desc: "LFI via URI: /proc"
+   stages:
+   -
+     stage:
+       input:
+         dest_addr: "127.0.0.1"
+         method: "GET"
+         port: 80
+         headers:
+           User-Agent: "ModSecurity CRS 3 Tests"
+           Host: "localhost"
+         uri: "/proc/interrupts"
+       output:
+         log_contains: id "930130"

@@ -127,3 +127,35 @@
          uri: "/?state=test&code=test&scope=email+profile+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email&inject=data"
        output:
          log_contains: id "930120"
+  -
+   test_title: 930120-7
+   desc: "LFI via parameter name: /sys"
+   stages:
+   -
+     stage:
+       input:
+         dest_addr: "127.0.0.1"
+         method: "GET"
+         port: 80
+         headers:
+           User-Agent: "ModSecurity CRS 3 Tests"
+           Host: "localhost"
+         uri: "/?/sys/class=test"
+       output:
+         log_contains: id "930120"
+  -
+   test_title: 930120-8
+   desc: "LFI via parameter value: /sys"
+   stages:
+   -
+     stage:
+       input:
+         dest_addr: "127.0.0.1"
+         method: "GET"
+         port: 80
+         headers:
+           User-Agent: "ModSecurity CRS 3 Tests"
+           Host: "localhost"
+         uri: "/?test=/sys/class"
+       output:
+         log_contains: id "930120"
