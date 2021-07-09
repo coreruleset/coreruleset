@@ -48,9 +48,10 @@ class FooLogChecker(logchecker.LogChecker):
                 # NGINX doesn't give us microsecond level by detail, round down.
                 if "%f" not in self.log_date_format:
                     ftw_start = self.start.replace(microsecond=0)
+                    ftw_end = self.end.replace(microsecond=0)
                 else:
                     ftw_start = self.start
-                ftw_end = self.end
+                    ftw_end = self.end
                 if log_date <= ftw_end and log_date >= ftw_start:
                     our_logs.append(lline)
                 # If our log is from before FTW started stop
