@@ -17,7 +17,7 @@ Requirements
 ============
 There are Three requirements for running the OWASP CRS regressions.
 
-1. You must have ModSecurity specify the location of your error.log, this is done in the config.ini file
+1. You must have ModSecurity specify the location of your error.log, this is done in the config.ini file. If you are using nginx you can use the parameter --config=modsec3-nginx (as specified in config.ini)
 2. ModSecurity must be in DetectionOnly (or anomaly scoring) mode
 3. You must disable IP blocking based on previous events
 
