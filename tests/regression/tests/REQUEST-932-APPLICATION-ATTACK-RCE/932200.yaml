@@ -59,3 +59,129 @@
           version: HTTP/1.0
         output:
           log_contains: id "932200"
+  -
+    test_title: 932200-4
+    desc: uninitialized vars
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: GET
+          port: 80
+          uri: /?host=www.google.com;c%24%40at%2B%2Fet%24%40c%2Fpas%24%40swd
+          version: HTTP/1.0
+        output:
+          log_contains: id "932200"
+  -
+    test_title: 932200-5
+    desc: uninitialized vars
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: GET
+          port: 80
+          uri: /?host=www.google.com;c%24%21at%2B%2Fet%24%21c%2Fpas%24%21swd
+          version: HTTP/1.0
+        output:
+          log_contains: id "932200"
+  -
+    test_title: 932200-6
+    desc: uninitialized vars
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: GET
+          port: 80
+          uri: /?host=www.google.com;c%24%2Aat%2B%2Fet%24%2Ac%2Fpas%24%2Aswd
+          version: HTTP/1.0
+        output:
+          log_contains: id "932200"
+  -
+    test_title: 932200-7
+    desc: uninitialized vars
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: GET
+          port: 80
+          uri: /?host=www.google.com;c%24%3Fat%2B%2Fet%24%3Fc%2Fpas%24%3Fswd
+          version: HTTP/1.0
+        output:
+          log_contains: id "932200"
+  -
+    test_title: 932200-8
+    desc: uninitialized vars
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: GET
+          port: 80
+          uri: /?host=www.google.com;c%24-at%2B%2Fet%24-c%2Fpas%24-swd
+          version: HTTP/1.0
+        output:
+          log_contains: id "932200"
+  -
+    test_title: 932200-9
+    desc: uninitialized vars
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: GET
+          port: 80
+          uri: /?host=www.google.com;c%24_at%2B%2Fet%24_c%2Fpas%24_swd
+          version: HTTP/1.0
+        output:
+          log_contains: id "932200"
+  -
+    test_title: 932200-10
+    desc: uninitialized vars
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: GET
+          port: 80
+          uri: /?host=www.google.com;c%24%24at%2B%2Fet%24%24c%2Fpas%24%24swd
+          version: HTTP/1.0
+        output:
+          log_contains: id "932200"
