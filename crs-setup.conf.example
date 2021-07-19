@@ -425,6 +425,11 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # |application/cloudevents+json| |application/cloudevents-batch+json| |application/octet-stream|
 # |application/csp-report| |application/xss-auditor-report| |text/plain|
 # Uncomment this rule to change the default.
+#
+# Please note, that the rule where CRS uses this variable (920420) evaluates it with operator
+# `@within`, which is case sensitive, but uses t:lowercase. You must add your whole custom
+# Content-Type with lowercase.
+#
 #SecAction \
 # "id:900220,\
 #  phase:1,\
