@@ -1,0 +1,75 @@
+
+name: Nightly Release
+on: [push]
+#  schedule:
+#    - cron: '0 2 * * *' # run at 2 AM UTC
+
+jobs:
+  nightly:
+    name: Deploy nightly
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        ver: ["3.4.0-dev"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Change Version
+        run: |
+          pip install --upgrade setuptools wheel msc_pyparser
+          cd util/change-version
+          ./change-version.py "../../rules/*.conf" ../../rules/ "OWASP_CRS/${{ matrix.ver }}" "${{ matrix.ver }}$(date +%Y%m%d)"
+          ./change-version.py "../../rules/*.conf.example" ../../rules/ "OWASP_CRS/${{ matrix.ver }}" "${{ matrix.ver }}$(date +%Y%m%d)"
+          ./change-version.py "../../crs-setup.conf.example" ../../ "OWASP_CRS/${{ matrix.ver }}" "${{ matrix.ver }}$(date +%Y%m%d)"
+
+      - name: Generate Zip
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          filename: 'nightly.zip'
+          exclusions: '*.git*'
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Nightly Build 2"
+          files: |
+            nightly.zip
+
+       #     Nightly releases are snapshots of the development activity on the Core Rule Set project that may include new features and bug fixes scheduled for upcoming releases. These releases are made available to make it easier for users to test their existing configurations against the Core Rule Set code base for potential issues or to experiment with new features, with a chance to provide feedback on ways to improve the changes before being released.
+#
+       #     As these releases are snapshots of the latest code, you may encounter an issue compared to the latest stable release so users are encouraged to run nightly releases in a non production environment. If you encounter an issue, please check our issue tracker to see if the issue has already been reported; if a report hasn't been made, please report it so we can review the issue and make any needed fixes.
+#
+#            **Note:** Nightly releases are only available via GitHub.
+
+      - name: Deploy Nightly release
+        uses: WebFreak001/deploy-nightly@v1.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
+        with:
+          #upload_url: https://uploads.github.com/repos/coreruleset/coreruleset/releases/45489126/assets{?name,label}
+          #release_id: 45489126 # same as above (id can just be taken out the upload_url, it's used to find old releases)
+          upload_url: "https://uploads.github.com/repos/fzipi/coreruleset/releases/48631387/assets{?name,label}"
+          release_id: 48631387 # same as above (id can just be taken out the upload_url, it's used to find old releases)
+          asset_path: ./nightly.zip # path to archive to upload
+          asset_name: coreruleset-nightly-$$.zip # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
+          asset_content_type: application/zip # required by GitHub API
+          max_releases: 1 # optional, if there are more releases than this matching the asset_name, the oldest ones are going to be deleted
