@@ -1,0 +1,134 @@
+from .helpers import *
+
+class TestAppendTfunc:
+    def test_append_tfunc_with_no_transformations(self):
+        arguments = [
+            "--append-tfunc", "lower",
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12,t:lower"
+"""
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+
+    def test_append_tfunc_with_existing_transformations(self):
+        arguments = [
+            "--append-tfunc", "lower",
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:decodeUrl"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:decodeUrl,\\
+    t:lower"
+"""
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+
+    def test_append_tfunc_with_duplicate_transformation(self):
+        arguments = [
+            "--append-tfunc", "lower",
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:lower,\\
+    t:urlDecode"
+"""
+        expected = rule_string
+
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_append_tfunc_in_correct_order(self):
+        arguments = [
+            "--append-tfunc", "lower",
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    deny,\\
+    capture,\\
+    log:'log',\\
+    logdata:'data'"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    deny,\\
+    capture,\\
+    t:lower,\\
+    log:'log',\\
+    logdata:'data'"
+"""
+
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+class TestRemoveTfunc:
+    def test_remove_tfunc_with_no_transformations(self):
+        arguments = [
+            "--remove-tfunc", "lower",
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12"
+"""
+        expected = rule_string
+
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+
+    def test_remove_tfunc_with_existing_transformations(self):
+        arguments = [
+            "--remove-tfunc", "lower",
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:decodeUrl,\\
+    t:lower"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:decodeUrl"
+"""
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_remove_tfunc_with_multiple_args(self):
+        arguments = [
+            "--remove-tfunc", "lower",
+            "--remove-tfunc", "decodeUrl"
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:decodeUrl,\\
+    t:lower"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12"
+"""
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
