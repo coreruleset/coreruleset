@@ -39,7 +39,13 @@ while (<>)
   # the code below does nearly the same thing as add(), which is enough for our pruposes
 
   # parse an expression like `(a++|b)++|b` into an array of `["(a++|b)+", "+", "|", "b"]`
-  my $arr = $ra->lexstr($_);
+  # NOTE: the next 4 lines are copied from the add() subroutine to ensure that the output
+  #       of the new script matches the output of the old version w.r.t. unnecessary
+  #       escapes (_fastlex() doesn't remove all unnecessary escapes)
+  my $arr = $_ =~ /[+*?(\\\[{]/ # }]) restore equilibrium
+    ? $ra->{lex} ? $ra->_lex($_) : $ra->_fastlex($_)
+    : [split //, $_]
+  ;
   for (my $n = 0; $n < $#$arr - 1; ++$n)
   {
     # find consecutive pairs where the first element ends with `+` and the last element is only `+`
