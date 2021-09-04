@@ -61,4 +61,4 @@ __b__
 ^#!/bin/bash
 ```
 
-This data file would produce the following assebled expression: `(?i)\b(?:^#!\/bin\/bash|--a--|__b__)\W*(`
+This data file would produce the following assembled expression: `(?i)\b(?:^#!\/bin\/bash|--a--|__b__)\W*(`
