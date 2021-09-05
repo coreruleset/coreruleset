@@ -6,7 +6,7 @@ version: '3.2'
 services:
   modsec2-apache:
     container_name: modsec2-apache
-    image: owasp/modsecurity-crs:3.3-apache
+    image: owasp/modsecurity-crs:apache
     environment:
       SERVERNAME: modsec2-apache
       BACKEND: http://backend
@@ -30,7 +30,7 @@ services:
 
   modsec3-nginx:
     container_name: modsec3-nginx
-    image: owasp/modsecurity-crs:3.3-nginx
+    image: owasp/modsecurity-crs:nginx
     environment:
       SERVERNAME: modsec3-nginx
       BACKEND: http://backend
