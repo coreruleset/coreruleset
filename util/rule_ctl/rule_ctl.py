@@ -122,10 +122,10 @@ class Context(object):
         parser.add_argument("--sort-tags", dest="sort_tags", help="Sort tag list in SecRule", action="store_true", required=False)
         parser.add_argument("--append-tfunc", dest="append_tfunc", help="Append transformation func on SecRule (example: urlDecodeUni) (string)", action='append', required=False)
         parser.add_argument("--remove-tfunc", dest="remove_tfunc", help="Remove transformation func from SecRule (example: urlDecodeUni) (string)", action='append', required=False)
+        parser.add_argument("--append-action", dest="append_action", help="Append action on Secrule (example: 'severity:CRITICAL) (string)", required=False)
         parser.add_argument("--replace-action", dest="replace_action", help="Replace action (example: 'severity:CRITICAL,severity:INFO') (string)", required=False)
-        parser.add_argument("--uncond-replace-action", dest="uncond_replace_action", help="Unconditional replace action (example: 'msg:foo bar') (string)", required=False)
         parser.add_argument("--remove-action", dest="remove_action", help="Remove action from SecRule (string)", required=False)
-        parser.add_argument("--append-ctl", dest="append_ctl", help="Append ctl action on SecRule (string)", required=False)
+        parser.add_argument("--append-ctl", dest="append_ctl", help="Append ctl action on SecRule (example: 'ruleRemoveTargetById=1234;ARGS:passwd') (string)", required=False)
         parser.add_argument("--target-file", dest="target_file", help="Save changes in another file (string)", required=False)
         parser.add_argument("--skip-chain", dest="skip_chain", help="Skip chained rules", action="store_true", required=False)
         parser.add_argument("--dryrun", dest="dryrun", help="Show changes without write", action="store_true", required=False)
@@ -155,9 +155,8 @@ class SecAction(RuleFileItem):
     TAG_RENAME_REGEX = re.compile('^([^,]+),(.+)$')
     ACTION_REPLACE_REGEX = re.compile('^([^,]+),(.+)$')
     ACTION_REPLACE_VALUES_REGEX = re.compile('^([^:]+)(?::(.+))?$')
-    ACTION_REPLACE_UNCONDITIONALLY_REGEX = re.compile('^([^:]+):(.+)$')
     CTL_APPEND_REGEX = re.compile('^([^=]+)=([^;]+)(;[^:]+:.+|)$')
-    CTL_APPEND_PARAMS_REGEX = re.compile('^;([^:]+):(.+) = $')
+    CTL_APPEND_PARAMS_REGEX = re.compile('^;([^:]+):(.+)$')
 
     def __init__(self, data, context):
         super().__init__(data, context)
@@ -225,7 +224,7 @@ class SecAction(RuleFileItem):
                 action["lineno"] = last_line_number
             except KeyError:
                 # keep everything on one line if it already was
-                if any(lineno > first_line_number for lineno in self._line_numbers.values()):
+                if any(lineno > self._line_numbers['rule_line'] for lineno in self._line_numbers.values()):
                     last_line_number += 1
                 action["lineno"] = last_line_number
         
@@ -247,8 +246,8 @@ class SecAction(RuleFileItem):
         self.rename_tag(context)
         self.append_tfunc(context)
         self.remove_tfunc(context)
+        self.append_action(context)
         self.replace_action(context)
-        self.uncond_replace_action(context)
         self.remove_action(context)
         self.append_variables(context)
         self.remove_variables(context)
@@ -277,6 +276,9 @@ class SecAction(RuleFileItem):
 
     def get_tags(self):
         return [action for action in self.get_actions() if action["act_name"] == "tag"]
+
+    def get_ctls(self):
+        return [action for action in self.get_actions() if action["act_name"] == "ctl"]
     
     def matches_id(self, id_pattern):
         if self._id_matcher is None:
@@ -316,10 +318,6 @@ class SecAction(RuleFileItem):
                 new_act_list.append(action)
             if not done and (action_order > tag_order or index == last_action_index):
                 done = True
-                # keep everything on one line if it already was
-                lineno = last_tag_line
-                if last_tag_line > self._data["lineno"]:
-                    lineno += 1
                 new_act_list.append(new_tag)
                 if context.args.debug:
                     context.dprint(self.id, "append-tag", f"append tag {context.args.append_tag} on line {last_tag_line}", 0)
@@ -370,6 +368,59 @@ class SecAction(RuleFileItem):
                 new_act_list.append(act)
         self.set_actions(new_act_list)
 
+    def append_action(self, context):
+        if context.args.append_action is None:
+            return
+        
+        match = self.ACTION_REPLACE_VALUES_REGEX.match(context.args.append_action)
+        if match is None:
+            return
+        
+        new_action_name = match.group(1)
+        new_action_value = match.group(2) or ""
+
+        #TODO: support appending multiple actions
+        actions = self.get_actions()
+        if (
+            new_action_name in [action["act_name"] for action in actions] and
+            new_action_value in [action["act_arg"] for action in actions]
+        ):
+            return
+        
+        new_act_list = []
+        last_action_line = 0
+        new_action_order = ACTION_ORDER[new_action_name]
+        has_quotes = len(new_action_value) > 0 and new_action_value[0] in '"\'' and new_action_value[-1] in '"\''
+        if has_quotes:
+            new_action_value = new_action_value[1:-1]
+        new_action = {
+            'act_name': new_action_name,
+            'lineno': 0,
+            'act_quote': 'quotes' if has_quotes else 'no_quote',
+            'act_arg': new_action_value,
+            'act_arg_val': '',
+            'act_arg_val_param': '',
+            'act_arg_val_param_val': ''
+        }
+
+        done = False
+        last_action_index = len(actions) - 1
+        for index, action in enumerate(actions):
+            action_name = action["act_name"]
+            action_order = ACTION_ORDER[action_name]
+            if action_order <= new_action_order:
+                last_action_line = action["lineno"]
+                new_act_list.append(action)
+            if not done and (action_order > new_action_order or index == last_action_index):
+                done = True
+                new_act_list.append(new_action)
+                if context.args.debug:
+                    context.dprint(self.id, "append-action", f"append action {context.args.append_action} on line {last_action_line}", 0)
+            if action_order > new_action_order:
+                new_act_list.append(action)
+        self.set_actions(new_act_list)
+
+
 
     def replace_action(self, context):
         if context.args.replace_action is None:
@@ -390,26 +441,18 @@ class SecAction(RuleFileItem):
         from_actvalue = from_match.group(2) or ""
         to_actname = to_match.group(1)
         to_actvalue = to_match.group(2) or ""
+        has_quotes = len(to_actvalue) > 0 and to_actvalue[0] in '"\'' and to_actvalue[-1] in '"\''
+        if has_quotes:
+            to_actvalue = to_actvalue[1:-1]
+
         for act in self.get_actions():
-            if act["act_name"] == from_actname and act["act_arg"] == from_actvalue:
-                act["act_name"] = to_actname
-                act["act_arg"] = to_actvalue
+            if act["act_name"] == from_actname:
+                # match all actions of the specified name if `from_actvalue` is empty
+                if len(from_actvalue) == 0 or act["act_arg"] == from_actvalue:
+                    act["act_name"] = to_actname
+                    act["act_arg"] = to_actvalue
+                    act["act_quote"] = "quotes" if has_quotes else "no_quote"
 
-
-    def uncond_replace_action(self, context):
-        if context.args.uncond_replace_action is None:
-            return
-        
-        match = self.ACTION_REPLACE_UNCONDITIONALLY_REGEX.match(context.args.uncond_replace_action)
-        if match is None:
-            return
-        
-        action_name = match.group(1)
-        action_value = match.group(2)
-        for action in self.get_actions():
-            if action["act_name"] == action_name:
-                action["act_arg"] = action_value
-            
     def remove_action(self, context):
         if context.args.remove_action is None:
             return
@@ -446,10 +489,6 @@ class SecAction(RuleFileItem):
                     new_act_list.append(act)
                 if not done and (action_order > transform_order or index == last_action_index):
                     done = True
-                    # keep everything on one line if it already was
-                    lineno = last_lineno
-                    if last_lineno > self._data["lineno"]:
-                        lineno += 1
                     new_act_list.append({
                         'act_name': 't', 
                         'lineno': last_lineno, 
@@ -600,6 +639,7 @@ class SecAction(RuleFileItem):
 
 
     def append_ctl(self, context):
+        # TODO: support appending multiple ctl
         if context.args.append_ctl is None:
             return
         
@@ -608,52 +648,56 @@ class SecAction(RuleFileItem):
             return
 
         arg = match.group(1)
+        if arg.startswith('ctl:'):
+            arg = arg[4:]
         val = match.group(2)
-        param = ""
-        paramval = ""
     
         params = self.CTL_APPEND_PARAMS_REGEX.match(match.group(3))
-        if params is not None:
-            param = params.group(1)
-            paramval = params.group(2)
+        param = params.group(1) if params is not None else ""
+        paramval = params.group(2) if params is not None else ""
 
+        ctls = self.get_ctls()
+        if (
+            arg in [ctl["act_arg"] for ctl in ctls] and
+            val in [ctl["act_arg_val"] for ctl in ctls] and
+            param in [ctl["act_arg_val_param"] for ctl in ctls] and
+            paramval in [ctl["act_arg_val_param_val"] for ctl in ctls]
+        ):
+            return
+
+        actions = self.get_actions()
         new_act_list = []
-        increment_lineno = False
-        ver_found = False
-        for act in self.get_actions():
-            last_line = act["lineno"]
-            if act["act_name"] == "ver":
-                ver_found = True
-                new_act_list.append({
-                    "act_name": "ctl",
-                    "lineno": last_line,
-                    "act_quote": "no_quote",
-                    "act_arg": arg,
-                    "act_arg_val": val,
-                    "act_arg_val_param": param,
-                    "act_arg_val_param_val": paramval
-                })
-                increment_lineno = True
+        last_ctl_line = 0
+        ctl_order = ACTION_ORDER["ctl"]
+        new_ctl = {
+            "act_name": "ctl",
+            "lineno": last_ctl_line,
+            "act_quote": "no_quote",
+            "act_arg": arg,
+            "act_arg_val": val,
+            "act_arg_val_param": param,
+            "act_arg_val_param_val": paramval
+        }
 
-            if increment_lineno:
-                act["lineno"] += 1
+        done = False
+        last_action_index = len(actions) - 1
+        for index, action in enumerate(actions):
+            action_name = action["act_name"]
+            action_order = ACTION_ORDER[action_name]
+            if action_order <= ctl_order:
+                last_ctl_line = action["lineno"]
+                new_act_list.append(action)
+            if not done and (action_order > ctl_order or index == last_action_index):
+                done = True
+                new_act_list.append(new_ctl)
+                if context.args.debug:
+                    context.dprint(self.id, "append-ctl", f"append ctl {context.args.append_ctl} on line {last_ctl_line}", 0)
+            if action_order > ctl_order:
+                new_act_list.append(action)
+        self.set_actions(new_act_list)
+        if context.args.append_ctl is None:
+            return
 
-            new_act_list.append(act)
-
-        if not ver_found:
-            last_line += 1
-            new_act_list.append({
-                "act_name": "ctl",
-                "lineno": last_line,
-                "act_quote": "no_quote",
-                "act_arg": arg,
-                "act_arg_val": val,
-                "act_arg_val_param": param,
-                "act_arg_val_param_val": paramval
-            })
-
-        if len(new_act_list) > 0:
-            self.set_actions(new_act_list)
 
     def sort_tags(self, context):
         #TODO: tags don't need to be grouped together; need to look through all actions

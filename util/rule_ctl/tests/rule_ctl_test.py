@@ -61,3 +61,76 @@ SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12"
 
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
+
+class TestLineNumbers:
+    def test_line_numbers_identical(self):
+        arguments = [
+            "--append-tag", "foo"
+        ]
+        rule_string = """
+
+SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12"
+
+SecRule ARGS "@rx bar" "id:13"
+"""
+        expected = """
+
+SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12,tag:'foo'"
+
+SecRule ARGS "@rx bar" "id:13,tag:'foo'"
+"""
+
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_line_numbers_shifted_down(self):
+        arguments = [
+            "--append-tag", "foo"
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12"
+
+SecRule ARGS "@rx bar" \\
+    "id:13"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    tag:'foo'"
+
+SecRule ARGS "@rx bar" \\
+    "id:13,\\
+    tag:'foo'"
+"""
+
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_line_numbers_shifted_up(self):
+        arguments = [
+            "--remove-tag", "foo"
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    tag:foo"
+
+SecRule ARGS "@rx bar" \\
+    "id:13,\\
+    tag:foo"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12"
+
+SecRule ARGS "@rx bar" \\
+    "id:13"
+"""
+
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
