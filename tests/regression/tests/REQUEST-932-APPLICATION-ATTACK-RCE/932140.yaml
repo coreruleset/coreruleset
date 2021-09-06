@@ -2831,3 +2831,26 @@
           version: HTTP/1.0
         output:
           no_log_contains: id "932140"
+  -
+    test_title: FP when using `t:urlDecodeUni`
+    desc: |
+      Using `t:urlDecodeUni` removes the `+` from the encoded value in the XML document,
+      which produced a false positive match.
+      See https://github.com/coreruleset/coreruleset/issues/1785
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Content-Type: application/xml
+          method: POST
+          port: 80
+          uri: /
+          version: HTTP/1.0
+          data: <?xml version="1.0" encoding="UTF-8"?><note><pdf>if+foo==</pdf></note>
+        output:
+          no_log_contains: id "932140"
