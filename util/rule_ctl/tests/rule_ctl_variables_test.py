@@ -141,4 +141,3 @@ SecRule ARGS|ARGS:xml|ARGS:foo|ARGS:duration|!ARGS:bar "@rx foo" "id:12"
 
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
-
