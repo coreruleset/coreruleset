@@ -17,7 +17,40 @@
             Host: localhost
           method: GET
           port: 80
+          #This is a payload with the fuzzy regularity removed. Now, it is a white sample
           uri: "/?var=%22%27%20and%20%3d%20bar"
           version: HTTP/1.0
         output:
-          log_contains: id "942310"
+          no_log_contains: id "942310"
+  -
+    test_title: 942310-2
+    desc: "chained SQL injection attempts 2/2"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+          method: GET
+          port: 80
+          uri: "/?var='%20and%201%20in%20(select%20min(name)%20from%20sysobjects%20where%20xtype%20%3D%20'U'%20and%20name%20%3E%20'.')%20--"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942310"
+  -
+    test_title: 942310-3
+    desc: "chained SQL injection attempts 2/2"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+          method: GET
+          port: 80
+          uri: "/?var=order%20by%20if(1%3D1%2C1%2Csleep(1))"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "942310"
