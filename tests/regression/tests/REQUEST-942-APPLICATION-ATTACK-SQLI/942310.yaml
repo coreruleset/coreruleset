@@ -37,7 +37,7 @@
           uri: "/?var='%20and%201%20in%20(select%20min(name)%20from%20sysobjects%20where%20xtype%20%3D%20'U'%20and%20name%20%3E%20'.')%20--"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942310"
+          log_contains: id "942310"
   -
     test_title: 942310-3
     desc: "chained SQL injection attempts 2/2"
@@ -53,4 +53,4 @@
           uri: "/?var=order%20by%20if(1%3D1%2C1%2Csleep(1))"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942310"
+          log_contains: id "942310"
