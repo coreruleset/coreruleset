@@ -7,6 +7,7 @@
 
 ## Developers:
 
+- [Paul Beckett](https://github.com/53cur3M3)
 - [Franziska Bühler](https://github.com/franbuehler)
 - [Christoph Hansen](https://github.com/emphazer)
 - [Ervin Hegedus](https://github.com/airween)
