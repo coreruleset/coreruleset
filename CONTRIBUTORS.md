@@ -12,6 +12,7 @@
 - [Christoph Hansen](https://github.com/emphazer)
 - [Ervin Hegedus](https://github.com/airween)
 - [Andrew Howe](https://github.com/RedXanadu)
+- [Max Leske](https://github.com/theseion)
 - [Andrea Menin](https://github.com/theMiddleBlue)
 - [Chaim Sanders](https://github.com/csanders-git)
 - [Federico G. Schwindt](https://github.com/fgsch)
@@ -47,7 +48,6 @@
 - [jeremyjpj0916](https://github.com/jeremyjpj0916)
 - [jschleus](https://github.com/jschleus)
 - [Krzysztof Kotowicz](https://github.com/koto)
-- [Max Leske](https://github.com/theseion)
 - Manuel Leos
 - [Evgeny Marmalstein](https://github.com/shimshon70)
 - [meetug](https://github.com/meetug)
