@@ -8,6 +8,9 @@
   -
     test_title: 942310-1
     desc: "chained SQL injection attempts 2/2"
+    #This test originally checked the expression `[\"'`]\s+and\s*?=\W`. We opted to remove that expression as it 
+    #does not appear to match anything useful (https://github.com/coreruleset/coreruleset/issues/2118).
+    #This test now checks that no match occurs for something that would have matched the original expression.
     stages:
     -
       stage:
@@ -25,6 +28,7 @@
   -
     test_title: 942310-2
     desc: "chained SQL injection attempts 2/2"
+    #This is a regular test, this is a valid payload: \(\s*?select\s*?\w+\s*?\(
     stages:
     -
       stage:
@@ -41,6 +45,7 @@
   -
     test_title: 942310-3
     desc: "chained SQL injection attempts 2/2"
+    #This is a regular test, this is a valid payload: order\s+by\s+if\w*?\s*?\(
     stages:
     -
       stage:
