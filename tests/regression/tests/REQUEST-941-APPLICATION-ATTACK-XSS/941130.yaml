@@ -307,3 +307,21 @@
           version: HTTP/1.0
         output:
           log_contains: id "941130"
+  -
+    test_title: 941130-17
+    desc: "FP test for 941130"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/api/v1/query?q=7XMLNS"
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "941130"
