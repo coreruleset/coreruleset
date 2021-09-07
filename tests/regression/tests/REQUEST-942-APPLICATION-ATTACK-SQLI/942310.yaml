@@ -8,9 +8,6 @@
   -
     test_title: 942310-1
     desc: "chained SQL injection attempts 2/2"
-    #This test originally checked the expression `[\"'`]\s+and\s*?=\W`. We opted to remove that expression as it 
-    #does not appear to match anything useful (https://github.com/coreruleset/coreruleset/issues/2118).
-    #This test now checks that no match occurs for something that would have matched the original expression.
     stages:
     -
       stage:
@@ -20,7 +17,7 @@
             Host: localhost
           method: GET
           port: 80
-          #This is a payload with the fuzzy regularity removed. Now, it is a white sample. regex: [\"'`]\s+and\s*?=\W
+          #This test originally checked the expression `[\"'`]\s+and\s*?=\W`. We opted to remove that expression as it does not appear to match anything useful (https://github.com/coreruleset/coreruleset/issues/2118). This test now checks that no match occurs for something that would have matched the original expression.
           uri: "/?var=%22%27%20and%20%3d%20bar"
           version: HTTP/1.0
         output:
@@ -28,7 +25,6 @@
   -
     test_title: 942310-2
     desc: "chained SQL injection attempts 2/2"
-    #This is a regular test, this is a valid payload: \(\s*?select\s*?\w+\s*?\(
     stages:
     -
       stage:
@@ -38,6 +34,7 @@
             Host: localhost
           method: GET
           port: 80
+          #This is a regular test, this is a valid payload: \(\s*?select\s*?\w+\s*?\(
           uri: "/?var='%20and%201%20in%20(select%20min(name)%20from%20sysobjects%20where%20xtype%20%3D%20'U'%20and%20name%20%3E%20'.')%20--"
           version: HTTP/1.0
         output:
@@ -45,7 +42,6 @@
   -
     test_title: 942310-3
     desc: "chained SQL injection attempts 2/2"
-    #This is a regular test, this is a valid payload: order\s+by\s+if\w*?\s*?\(
     stages:
     -
       stage:
@@ -55,6 +51,7 @@
             Host: localhost
           method: GET
           port: 80
+          #This is a regular test, this is a valid payload: order\s+by\s+if\w*?\s*?\(
           uri: "/?var=order%20by%20if(1%3D1%2C1%2Csleep(1))"
           version: HTTP/1.0
         output:
