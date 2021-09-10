@@ -26,7 +26,7 @@ tests:
   - test_title: 942310-2
     desc: |
       Chained SQL injection attempts 2/2.
-      This is a regular test, this is a valid payload: \(\s*?select\s*?\w+\s*?\(
+      This test checks for a positive match of `\(\s*?select\s*?\w+\s*?\(`.
     stages:
       - stage:
           input:
@@ -42,7 +42,7 @@ tests:
   - test_title: 942310-3
     desc: |
       Chained SQL injection attempts 2/2.
-      This is a regular test, this is a valid payload: order\s+by\s+if\w*?\s*?\(
+      This test checks for a positive match of `order\s+by\s+if\w*?\s*?\(`.
     stages:
       - stage:
           input:
