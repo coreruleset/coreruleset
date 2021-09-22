@@ -12,7 +12,7 @@
 use strict;
 use Regexp::Assemble;
 
-my $ra = Regexp::Assemble->new;
+my $ra = Regexp::Assemble->new(debug => 4);
 my $flags = '';
 my $prefix = '';
 my $suffix = '';
@@ -38,14 +38,15 @@ while (<>)
   # https://rt.cpan.org/Public/Bug/Display.html?id=50228#txn-672717
   # the code below does nearly the same thing as add(), which is enough for our pruposes
 
-  # parse an expression like `(a++|b)++|b` into an array of `["(a++|b)+", "+", "|", "b"]`
-  # NOTE: the next 4 lines are copied from the add() subroutine to ensure that the output
-  #       of the new script matches the output of the old version w.r.t. unnecessary
-  #       escapes (_fastlex() doesn't remove all unnecessary escapes)
-  my $arr = $_ =~ /[+*?(\\\[{]/ # }]) restore equilibrium
-    ? $ra->{lex} ? $ra->_lex($_) : $ra->_fastlex($_)
-    : [split //, $_]
-  ;
+  # The following lines parse an expression like `(a++|b)++|b` into an array of `["(a++|b)+", "+", "|", "b"]`
+
+  # We explicitly don't use `_fastlex` or `split` here (as is done in `_add`). `lexstr` uses `_lex`, which is
+  # more expensive but produces more reliable output. On the downside, some characters will be escaped (or
+  # will retain their escape) even though they don't need to be.
+  #
+  # Example issue solved by `_lex`: `\(?` produces `\(\?` with `_fastlex`
+  # Example escape introduced by `_lex`: `/` produces `\/`
+  my $arr = $ra->lexstr($_);
   for (my $n = 0; $n < $#$arr - 1; ++$n)
   {
     # find consecutive pairs where the first element ends with `+` and the last element is only `+`
