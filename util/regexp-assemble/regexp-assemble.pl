@@ -12,7 +12,7 @@
 use strict;
 use Regexp::Assemble;
 
-my $ra = Regexp::Assemble->new(debug => 4);
+my $ra = Regexp::Assemble->new;
 my $flags = '';
 my $prefix = '';
 my $suffix = '';
