@@ -374,6 +374,11 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # the effects of the exclusion to only the path where the excluded webapp
 # resides using a rule similar to the following example:
 # SecRule REQUEST_URI "@beginsWith /wordpress/" setvar:tx.crs_exclusions_wordpress=1
+#
+# If you want to activate RoundCube exclusion set, you can set the
+# 'crs_exclusions_roundcube_hosts', and list the hostnames between pipes where
+# your RoundCube instances run, eg:
+#   setvar:'tx.crs_exclusions_roundcube_hosts=|webmail1.hostname.com| |webmail2.otherhostname.com|'"
 
 #
 # Modify and uncomment this rule to select which application:
@@ -392,7 +397,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  setvar:tx.crs_exclusions_phpmyadmin=1,\
 #  setvar:tx.crs_exclusions_wordpress=1,\
 #  setvar:tx.crs_exclusions_xenforo=1,\
-#  setvar:tx.crs_exclusions_roundcube=1"
+#  setvar:'tx.crs_exclusions_roundcube=||'"
 
 #
 # -- [[ HTTP Policy Settings ]] ------------------------------------------------
