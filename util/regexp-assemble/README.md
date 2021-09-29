@@ -1,3 +1,28 @@
+# How to use regexp-assemble.pl
+
+## Set up
+1. You will need a Perl environment and Perl version >= 5.10
+2. Initialize the Git submodule with the Regexp::Assemble Perl module by running:
+    ```bash
+    git submodule update --init util/regexp-assemble/lib
+    ```
+3. You should now be able to use the script. Try running something like the following:
+    ```bash
+    printf "(?:homer)? simpson\n(?:lisa)? simpson" | util/regexp-assemble/regexp-assemble.pl
+    ```
+    You should see:
+    ```bash
+    (?:(?:homer)?|(?:lisa)?) simpson
+    ```
+
+## Example use
+To generate a reduced expression from a list of expressions, simply pass the name of a data file to the script of pipe the contents to it:
+```bash
+util/regexp-assemble/regexp-assemble.pl util/regexp-assemble/regexp-942170.data
+# or
+cat util/regexp-assemble/regexp-942170.data util/ | regexp-assemble/regexp-assemble.pl
+```
+
 # Data file format
 The data files (`.data` suffix) contain one regular expression per line. The contents of these files can be piped to [regexp-assemble.py](regexp-assemble.py) directly.
 
