@@ -78,7 +78,11 @@ def run():
 
 if __name__ == '__main__':
 	if len(sys.argv) > 1:
+		rule_id_regex = re.compile(r'\d{6}')
 		for file_name in sys.argv[1:]:
-			check_file(file_name)
+			if rule_id_regex.fullmatch(file_name) is not None:
+				check_file(f'regexp-{file_name}.data')
+			else:
+				check_file(file_name)
 	else:
 		run()
