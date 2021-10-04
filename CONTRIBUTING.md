@@ -6,7 +6,7 @@ please adhere to the following contributing guidelines.
 ## Getting Started
 
 * You will need a [GitHub account](https://github.com/signup/free).
-* Submit a [ticket for your issue](https://github.com/SpiderLabs/owasp-modsecurity-crs/issues), assuming one does not already exist.
+* Submit a [ticket for your issue](https://github.com/coreruleset/coreruleset/issues), assuming one does not already exist.
   * Clearly describe the issue including steps to reproduce when it is a bug.
   * Make sure you specify the version that you know has the issue.
   * Bonus points for submitting a failing test along with the ticket.
@@ -27,7 +27,7 @@ please adhere to the following contributing guidelines.
  - no trailing whitespace at EOL or trailing blank lines at EOF
  - comments are good, especially when they clearly explain the rule
  - try to adhere to a 80 character line length limit
- - if it is a [chained rule](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual#chain), alignment should be like
+ - if it is a [chained rule](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual(v2.x)#chain), alignment should be like
 ```
     SecRule .. ..\
         "...."
