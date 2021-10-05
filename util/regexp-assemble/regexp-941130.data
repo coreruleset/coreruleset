@@ -14,13 +14,16 @@
 ##! - `##!$`: the suffix comment
 ##! Please refer to util/regexp-assemble/README.md for a full explanation.
 
-(?i)[\s\S]\bxlink:href\b
-(?i)[\s\S]\bxhtml\b
-(?i)[\s\S]\bxmlns\b
-(?i)[\s\S]!ENTITY\s+(?:\S+|%\s+\S+)\s+SYSTEM\b
-(?i)[\s\S]!ENTITY\s+(?:\S+|%\s+\S+)\s+PUBLIC\b
-(?i)[\s\S]\bdata:text/html\b
-(?i)[\s\S]\bformaction\b
-(?i)[\s\S]@import\b
-(?i)[\s\S];base64\b
-(?i)[\s\S]\bpattern\b.*?=\b
+##!+ i
+##!$ \b
+
+[\s\S]\bxlink:href
+[\s\S]\bxhtml
+[\s\S]\bxmlns
+[\s\S]!ENTITY\s+(?:\S+|%\s+\S+)\s+SYSTEM
+[\s\S]!ENTITY\s+(?:\S+|%\s+\S+)\s+PUBLIC
+[\s\S]\bdata:text/html
+[\s\S]\bformaction
+[\s\S]@import
+[\s\S];base64
+[\s\S]\bpattern\b.*?=
