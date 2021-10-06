@@ -2,6 +2,15 @@
 #
 # Convert a word list to a list of regexps usable by Regexp::Assemble.
 #
+# This script is used to create regular expressions against attacks that use command line
+# evasion. It emulates ModSecurity's `t:cmdLine` but enables us to match starts of commands
+# (;) and paths (\).
+# Use this script to enhance the expressions from a data file before handing them to
+# regexp-assemble.pl.
+#
+# Note: if your regular expression is not related to shell commands you can run the data file
+# through regexp-assemble.pl directly.
+#
 # Examples:
 # cat regexp-932100.txt | ./regexp-cmdline.py unix | ./regexp-assemble.pl
 # cat regexp-932110.txt | ./regexp-cmdline.py windows | ./regexp-assemble.pl
@@ -10,7 +19,7 @@
 # Refer to rule 932100, 932110, 932150 for documentation.
 #
 
-import fileinput, string, sys
+import fileinput, sys
 
 # Convert a single line to regexp format, and insert anti-cmdline
 # evasions between characters.

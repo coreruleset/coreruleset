@@ -1,33 +1,51 @@
-alter\s+char\s?[(]?
-alter\s+group_concat\s?[(]?
-alter\s+load_file\s?[(]?
-create\s+char\s?[(]?
-create\s+group_concat\s?[(]?
-create\s+load_file\s?[(]?
-delete\s+char\s?[(]?
-delete\s+group_concat\s?[(]?
-delete\s+load_file\s?[(]?
-desc\s+char\s?[(]?
-desc\s+group_concat\s?[(]?
-desc\s+load_file\s?[(]?
-insert\s+char\s?[(]?
-insert\s+group_concat\s?[(]?
-insert\s+load_file\s?[(]?
-load\s+char\s?[(]?
-load\s+group_concat\s?[(]?
-load\s+load_file\s?[(]?
-rename\s+char\s?[(]?
-rename\s+group_concat\s?[(]?
-rename\s+load_file\s?[(]?
-select\s+char\s?[(]?
-select\s+group_concat\s?[(]?
-select\s+load_file\s?[(]?
-truncate\s+char\s?[(]?
-truncate\s+group_concat\s?[(]?
-truncate\s+load_file\s?[(]?
-update\s+char\s?[(]?
-update\s+group_concat\s?[(]?
-update\s+load_file\s?[(]?
+##! This is a data file used to generate a regular expression for a CRS rule. 
+##! The generation of the regular expression happens with the help of 
+##! util/regexp-assemble/regexp-assemble.pl.
+##! The ID of the rule in question is part of the file name of this data file. 
+##! Read more about the format of this data file and the use of the assembly 
+##! script in util/regexp-assemble/README.md.
+##!
+##! Lines starting with `##!` are comments and will be skipped,
+##! empty lines will be ignored completely.
+##! 
+##! Three special comments are at your disposal to influence the assembled expression:
+##! - `##!+`: the flag comment
+##! - `##!^`: the prefix comment
+##! - `##!$`: the suffix comment
+##! Please refer to util/regexp-assemble/README.md for a full explanation.
+
+##!+ i
+
+alter\s+char\s?\(?
+alter\s+group_concat\s?\(?
+alter\s+load_file\s?\(?
+create\s+char\s?\(?
+create\s+group_concat\s?\(?
+create\s+load_file\s?\(?
+delete\s+char\s?\(?
+delete\s+group_concat\s?\(?
+delete\s+load_file\s?\(?
+desc\s+char\s?\(?
+desc\s+group_concat\s?\(?
+desc\s+load_file\s?\(?
+insert\s+char\s?\(?
+insert\s+group_concat\s?\(?
+insert\s+load_file\s?\(?
+load\s+char\s?\(?
+load\s+group_concat\s?\(?
+load\s+load_file\s?\(?
+rename\s+char\s?\(?
+rename\s+group_concat\s?\(?
+rename\s+load_file\s?\(?
+select\s+char\s?\(?
+select\s+group_concat\s?\(?
+select\s+load_file\s?\(?
+truncate\s+char\s?\(?
+truncate\s+group_concat\s?\(?
+truncate\s+load_file\s?\(?
+update\s+char\s?\(?
+update\s+group_concat\s?\(?
+update\s+load_file\s?\(?
 end\s*?\);
 [\s(]load_file\s*?\(
 [\"'`]\s+regexp\W
