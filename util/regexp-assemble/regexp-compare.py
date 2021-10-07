@@ -63,7 +63,7 @@ def check_file(file_name):
 		file_path = os.path.join(script_directory_path, file_name)
 		proc = Popen([script_path, file_path], stdout=PIPE, stderr=PIPE)
 		try:
-			computed_regex, errs = proc.communicate(timeout=2)
+			computed_regex, _ = proc.communicate(timeout=2)
 			computed_regex = computed_regex.decode('utf-8').strip('\n').strip()
 		except TimeoutExpired:
 			proc.kill()

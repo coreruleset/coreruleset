@@ -1,18 +1,18 @@
-# Word list for rule 932105 (RCE Unix command injection part 2/4)
-#
-# To convert to a regexp that can be pasted into the rule:
-#   cat regexp-932105.txt | ./regexp-cmdline.py unix | ./regexp-assemble.pl
-#
-# Entries starting with ' are used verbatim.
-# Everything after # is a comment.
-#
-# To prevent some FP for a command, you can require command parameters
-# after a command. Only do this if the command regularly causes FP and if
-# allowing the bare command (without parameters) is not too dangerous.
-# (Note: due to \b following the regexp, a word boundary is also required
-# further on, so some letter/number is needed for a match). Example:
-#
-#   diff+
+##! Word list for rule 932105 (RCE Unix command injection part 2/4)
+##!
+##! To convert to a regexp that can be pasted into the rule:
+##!   cat regexp-932105.txt | ./regexp-cmdline.py unix | ./regexp-assemble.pl
+##!
+##! Entries starting with ' are used verbatim.
+##! Everything after ##! is a comment.
+##!
+##! To prevent some FP for a command, you can require command parameters
+##! after a command. Only do this if the command regularly causes FP and if
+##! allowing the bare command (without parameters) is not too dangerous.
+##! (Note: due to \b following the regexp, a word boundary is also required
+##! further on, so some letter/number is needed for a match). Example:
+##!
+##!   diff+
 
 mount+
 mutt+
@@ -145,8 +145,8 @@ vim+
 vipw
 w3m
 wget
-# 'who' causes many FP, so require whitespace.
-# Unfortunately, without whitespace it may still leak some info.
+##! 'who' causes many FP, so require whitespace.
+##! Unfortunately, without whitespace it may still leak some info.
 who+
 whoami
 xargs
