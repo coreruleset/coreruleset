@@ -1,13 +1,10 @@
 #! /usr/bin/env python
 
-import enum
 import sys;
 import os;
 import fileinput;
 import re;
-from enum import Enum
 from subprocess import Popen, PIPE, TimeoutExpired
-from types import SimpleNamespace
 
 class Preprocessor(object):
 	def __init__(self, script_path, args):
@@ -42,7 +39,7 @@ class LinePreprocessor(Preprocessor):
 		return lines[0]
 
 class BlockPreprocessor(Preprocessor):
-	block_preprocessor_end_regex = re.compile(r'^##!>\$.*')
+	block_preprocessor_end_regex = re.compile(r'^##!<.*')
 
 	def _filter(self, lines): 
 		filtered = []
@@ -59,7 +56,9 @@ preprocessor_map = {
 	'neglook': (BlockPreprocessor, os.path.join(script_directory, 'negativelookbehind.py'))
 }
 preprocessor_regex = re.compile(r'^##!>\s*(.*)')
-simple_comment_regex = re.compile(r'^##![^^$>+].*')
+# prefix, suffix, flags, block start block end
+special_comment_markers = '^$+><'
+simple_comment_regex = re.compile(r'^##![^' + special_comment_markers + r'].*')
 
 def detect_preprocessor(line):
 	match = preprocessor_regex.match(line)
