@@ -15,7 +15,7 @@ class Preprocessor(object):
 
 	def _preprocess(self, iterator, filter):
 		proc = Popen(self.callout, stdin=PIPE, stdout=PIPE, stderr=PIPE)
-		for line in filter([line for line in iterator]):
+		for line in filter(iterator):
 			proc.stdin.write(line.encode('utf-8'))
 		
 		errs = None
@@ -31,29 +31,30 @@ class Preprocessor(object):
 
 
 class FilePreprocessor(Preprocessor):
-	def _filter(self, lines):
-		return lines
+	def _filter(self, iterator):
+		for line in iterator:
+			yield line
 
 class LinePreprocessor(Preprocessor):
-	def _filter(self, lines):
-		return lines[0]
+	def _filter(self, iterator):
+		yield next(iterator)
 
 class BlockPreprocessor(Preprocessor):
 	block_preprocessor_end_regex = re.compile(r'^##!<.*')
 
-	def _filter(self, lines): 
-		filtered = []
-		for line in lines:
-			if self.block_preprocessor_end_regex.match(line):
-				break
-			filtered.append(line)
-		return filtered
+	def _filter(self, iterator): 
+		line = next(iterator, None)
+		while line is not None and not self.block_preprocessor_end_regex.match(line):
+			yield line
+			line = next(iterator, None)
+
 
 
 script_directory = os.path.dirname(__file__)
+lib_directory = os.path.join(script_directory, 'lib')
 preprocessor_map = {
-	'cmdline': (FilePreprocessor, os.path.join(script_directory, 'regexp-cmdline.py')),
-	'neglook': (BlockPreprocessor, os.path.join(script_directory, 'negativelookbehind.py'))
+	'cmdline': (FilePreprocessor, os.path.join(lib_directory, 'regexp-cmdline.py')),
+	'neglook': (BlockPreprocessor, os.path.join(lib_directory, 'negativelookbehind.py'))
 }
 preprocessor_regex = re.compile(r'^##!>\s*(.*)')
 # prefix, suffix, flags, block start block end
@@ -91,8 +92,6 @@ def preprocess(lines):
 				transformed_lines.append(line)
 				line = next(iterator, None)
 				continue
-			# skip the comment line
-			next(iterator, None)
 			transformed_lines += processor.run(iterator)
 			line = next(iterator, None)
 
@@ -102,12 +101,13 @@ def preprocess(lines):
 
 
 def assemble(lines):
-	args = [os.path.join(script_directory, 'regexp-assemble.pl')]
+	args = [os.path.join(lib_directory, 'regexp-assemble.pl')]
 	outs = None
 	errs = None
 	proc = Popen(args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
 	for line in lines:
 		proc.stdin.write(line.encode('utf-8'))
+		proc.stdin.write(b'\n')
 	try:
 		outs, errs = proc.communicate(timeout=30)
 	except TimeoutExpired:
@@ -127,8 +127,13 @@ def run():
 	if len(sys.argv) < 2:
 		print('no arguments provided. either pipe lines to this script or a list for file names')
 		sys.exit(1)
-	
-	lines = preprocess(fileinput.input())
+	if re.fullmatch(r'\d{6}(?:[^.]+)?', sys.argv[1]):
+		with open(os.path.join(script_directory, 'data', sys.argv[1] + '.data')) as handle:
+			iterator = handle.readlines().__iter__()
+	else:
+		iterator = fileinput.input()
+
+	lines = preprocess(iterator)
 	assemble(lines)
 
 if __name__ == '__main__':

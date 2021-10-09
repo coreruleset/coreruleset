@@ -20,7 +20,13 @@
 ##! Currently supported preoprocessors:
 ##! - cmdline [windows|unix] (file scope)
 ##! - neglook (block scope)
-##! Please refer to util/regexp-assemble/README.md for a full explanation.
+##! Please refer to util/regexp-assemble/README.md for a full explanation
 
-(?<!&[aAoOuUyY]uml|&[aAeEiIoOuU]circ|&[eEiIoOuUyY]acute|&[aAeEiIoOuU]grave|&[cC]cedil|&[aAnNoO]tilde|&amp|&apos);
-['\"=]
+##!+ i
+
+select\s+benchmark\s*?\(\s*?\(?\s*?\w+
+;\s+benchmark\s*?\(\s*?\(?\s*?\w+
+select\s+if\s*?\(\s*?\(?\s*?\w+
+;\s+if\s*?\(\s*?\(?\s*?\w+
+select\s+sleep\s*?\(\s*?\(?\s*?\w+
+;\s+sleep\s*?\(\s*?\(?\s*?\w+

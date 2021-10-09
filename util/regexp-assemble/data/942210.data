@@ -1,0 +1,66 @@
+##! This is a data file used to generate a regular expression for a CRS rule. 
+##! The generation of the regular expression happens with the help of 
+##! util/regexp-assemble/regexp-assemble.py.
+##! The ID of the rule in question is part of the file name of this data file. 
+##! Read more about the format of this data file and the use of the assembly 
+##! script in util/regexp-assemble/README.md.
+##!
+##! Lines starting with `##!` are comments and will be skipped,
+##! empty lines will be ignored completely.
+##! In addition, the quote character `'` at the beginning of a line will
+##! cause the line to be interpreted as literal by the cmdline preprocessor only.
+##! 
+##! Five special comments are at your disposal to influence the assembled expression:
+##! - `##!+`: the flag comment
+##! - `##!^`: the prefix comment
+##! - `##!$`: the suffix comment
+##! - `##!>`: the preprocessor comment
+##! - `##!<`: the block preprocessor end comment
+##!
+##! Currently supported preoprocessors:
+##! - cmdline [windows|unix] (file scope)
+##! - neglook (block scope)
+##! Please refer to util/regexp-assemble/README.md for a full explanation
+
+##!+ i
+
+@.+=\s*?\(\s*?select
+\d\s*?or\s*?\d+\s*?[\-+]
+\d\s*?xor\s*?\d+\s*?[\-+]
+\d\s*?div\s*?\d+\s*?[\-+]
+\d\s*?like\s*?\d+\s*?[\-+]
+\d\s*?between\s*?\d+\s*?[\-+]
+\d\s*?and\s*?\d+\s*?[\-+]
+\/\w+;?\s+having\W
+\/\w+;?\s+and\W
+\/\w+;?\s+or\W
+\/\w+;?\s+xor\W
+\/\w+;?\s+div\W
+\/\w+;?\s+like\W
+\/\w+;?\s+between\W
+\/\w+;?\s+select\W
+\d\s+group\s+by.+\(
+;\s*?drop
+#\s*?drop
+--\s*?drop
+;\s*?alter
+#\s*?alter
+--\s*?alter
+;\s*?update\s*?\w{2,}
+#\s*?update\s*?\w{2,}
+--\s*?update\s*?\w{2,}
+;\s*?insert\s*?\w{2,}
+#\s*?insert\s*?\w{2,}
+--\s*?insert\s*?\w{2,}
+[^\w]SET\s*?@\w+
+and[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
+nand[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
+or[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
+xor[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
+xxor[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
+div[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
+like[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
+between[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
+not[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
+\|\|[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
+\&\&[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]

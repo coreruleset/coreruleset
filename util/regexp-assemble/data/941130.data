@@ -20,7 +20,18 @@
 ##! Currently supported preoprocessors:
 ##! - cmdline [windows|unix] (file scope)
 ##! - neglook (block scope)
-##! Please refer to util/regexp-assemble/README.md for a full explanation.
+##! Please refer to util/regexp-assemble/README.md for a full explanation
 
-(?<!&[aAoOuUyY]uml|&[aAeEiIoOuU]circ|&[eEiIoOuUyY]acute|&[aAeEiIoOuU]grave|&[cC]cedil|&[aAnNoO]tilde|&amp|&apos);
-['\"=]
+##!+ i
+##!$ \b
+
+[\s\S]\bxlink:href
+[\s\S]\bxhtml
+[\s\S]\bxmlns
+[\s\S]!ENTITY\s+(?:\S+|%\s+\S+)\s+SYSTEM
+[\s\S]!ENTITY\s+(?:\S+|%\s+\S+)\s+PUBLIC
+[\s\S]\bdata:text/html
+[\s\S]\bformaction
+[\s\S]@import
+[\s\S];base64
+[\s\S]\bpattern\b.*?=

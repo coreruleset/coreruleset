@@ -20,7 +20,31 @@
 ##! Currently supported preoprocessors:
 ##! - cmdline [windows|unix] (file scope)
 ##! - neglook (block scope)
-##! Please refer to util/regexp-assemble/README.md for a full explanation.
+##! Please refer to util/regexp-assemble/README.md for a full explanation
 
-(?<!&[aAoOuUyY]uml|&[aAeEiIoOuU]circ|&[eEiIoOuUyY]acute|&[aAeEiIoOuU]grave|&[cC]cedil|&[aAnNoO]tilde|&amp|&apos);
-['\"=]
+##! Word list for rule 932106 (RCE Unix command injection part 4/4)
+##!
+##! To prevent some FP for a command, you can require command parameters
+##! after a command. Only do this if the command regularly causes FP and if
+##! allowing the bare command (without parameters) is not too dangerous.
+##! (Note: due to \b following the regexp, a word boundary is also required
+##! further on, so some letter/number is needed for a match). Example:
+##!
+##!   diff+
+
+##!> cmdline unix
+
+##! Magic prefix (origin unknown)
+##!^ (?:;|\{|\||\|\||&|&&|\n|\r|\$\(|\$\(\(|`|\${|<\(|>\(|\(\s*\))\s*(?:{|\s*\(\s*|\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+|!\s*|\$)*\s*(?:'|\")*(?:[\?\*\[\]\(\)\-\|+\w'\"\./\\\\]+/)?[\\\\'\"]*
+
+##!$ \b
+
+vi+
+ps
+pwd
+who
+w+
+aptitude+
+pacman+
+dnf+
+up2date+
