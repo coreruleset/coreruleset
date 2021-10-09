@@ -124,16 +124,16 @@ def assemble(lines):
 	sys.stdout.write(outs.decode('utf-8'))
 
 def run():
-	if len(sys.argv) < 2:
-		print('no arguments provided. either pipe lines to this script or a list for file names')
-		sys.exit(1)
-	if re.fullmatch(r'\d{6}(?:[^.]+)?', sys.argv[1]):
+	if len(sys.argv) > 1 and re.fullmatch(r'\d{6}(?:[^.]+)?', sys.argv[1]):
 		with open(os.path.join(script_directory, 'data', sys.argv[1] + '.data')) as handle:
 			iterator = handle.readlines().__iter__()
 	else:
 		iterator = fileinput.input()
 
 	lines = preprocess(iterator)
+	if len(lines) == 0:
+		print('No input. Either pass a filename, a rule id or pipe data to the script')
+		sys.exit(1)
 	assemble(lines)
 
 if __name__ == '__main__':

@@ -23,7 +23,7 @@ import fileinput, sys
 
 # Convert a single line to regexp format, and insert anti-cmdline
 # evasions between characters.
-def regexp_str(str, evasion):
+def regexp_str(str, evasion, mode):
     # By convention, if the line starts with ' char, copy the rest
     # verbatim.
     if str[0] == "'":
@@ -38,17 +38,21 @@ def regexp_str(str, evasion):
     return result
 
 # Ensure that some special characters are escaped
-def regexp_char(char, evasion):
+def regexp_char(char, evasion, mode):
     char = str.replace(char, '.', '\.')
     char = str.replace(char, '-', '\-')
-    char = str.replace(char, '+', r'''(?:\s|<|>).*''')
-        # Unix: "cat foo", "cat<foo", "cat>foo"
-    char = str.replace(char, '@', r'''(?:[\s,;]|\.|/|<|>).*''')
-        # Windows: "more foo", "more,foo", "more;foo", "more.com", "more/e",
-        # "more<foo", "more>foo"
-    char = str.replace(char, ' ', '\s+')
-        # Ensure multiple spaces are matched
-    return char
+    if char == '@':
+        if mode == 'unix':
+            # Unix: "cat foo", "cat<foo", "cat>foo"
+            pattern = r'''(?:\s|<|>).*'''
+        elif mode == 'windows':
+            # Windows: "more foo", "more,foo", "more;foo", "more.com", "more/e",
+            # "more<foo", "more>foo"
+            pattern = r'''(?:[\s,;]|\.|/|<|>).*'''
+        char = str.replace(char, '@', pattern)
+
+    # Ensure multiple spaces are matched
+    return str.replace(char, ' ', '\s+')
 
 # Insert these sequences between characters to prevent evasion.
 # This emulates the relevant parts of t:cmdLine.
@@ -62,7 +66,8 @@ if len(sys.argv) <= 1 or not sys.argv[1] in evasions:
     print(sys.argv[0] + ' unix|windows [infile]')
     sys.exit(1)
 
-evasion = evasions[sys.argv[1]]
+mode = sys.argv[1]
+evasion = evasions[mode]
 del sys.argv[1]
 
 # Process lines from input file, or if not specified, standard input
@@ -70,4 +75,4 @@ for line in fileinput.input():
     line = line.rstrip('\n ')
     line = line.split('#')[0]
     if line != '':
-        print(regexp_str(line, evasion))
+        print(regexp_str(line, evasion, mode))

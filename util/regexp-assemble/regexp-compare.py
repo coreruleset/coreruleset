@@ -90,8 +90,8 @@ def check_data_file(file_or_rule_name):
 def run():
 	for file_name in os.listdir(data_directory_path):
 		exit_code = check_data_file(file_name)
-		# if exit_code > 0:
-		# 	sys.exit(exit_code)
+		if exit_code > 0:
+			sys.exit(exit_code)
 
 if __name__ == '__main__':
 	if len(sys.argv) > 1:
