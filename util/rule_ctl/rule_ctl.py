@@ -74,13 +74,14 @@ class Context(object):
                 rule = Directive(line, self)
 
             self._rules.append(rule)
-            if rule.is_chained():
-                self._rules_map[rule.id]['chained'].append(rule)
-            else:
-                self._rules_map[rule.id] = {
-                    'rule': rule,
-                    'chained': []
-                }
+            if isinstance(rule, SecAction):
+                if rule.is_chained():
+                    self._rules_map[rule.id]['chained'].append(rule)
+                else:
+                    self._rules_map[rule.id] = {
+                        'rule': rule,
+                        'chained': []
+                    }
             yield rule
 
     def get_chain_starter_rule(self, rule):
@@ -126,7 +127,7 @@ class Context(object):
     
     def _create_args_parser(self):
         parser = argparse.ArgumentParser(description="OWASP CRS Configuration Control")
-        parser.add_argument("--config", dest="config", help="OWASP ModSecurity CRS config files path", required=True)
+        parser.add_argument("--config", dest="config", help="OWASP ModSecurity CRS config file path", required=True)
         parser.add_argument("--filter-rule-id", dest="filter_rule_id", help="Filter on ruleid (regex)", required=False)
         parser.add_argument("--append-variable", dest="append_variable", help="Append var on SecRule (string)", action='append', required=False)
         parser.add_argument("--remove-variable", dest="remove_variable", help="Remove var from SecRule (string)", action='append', required=False)
