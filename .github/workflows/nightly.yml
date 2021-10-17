@@ -14,6 +14,14 @@ jobs:
       - name: "Checkout repo"
         uses: actions/checkout@v2
 
+      - name: "Remove nightly tag before creating new release (ensures that tag is updated)"
+        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        with:
+          delete_release: false
+          tag_name: nightly
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Deploy using Release Action
         uses: ncipollo/release-action@v1
         with:
