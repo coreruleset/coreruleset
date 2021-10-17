@@ -14,7 +14,7 @@ jobs:
       - name: "Checkout repo"
         uses: actions/checkout@v2
 
-      - name: "Remove release before creating new one"
+      - name: "Remove nightly tag before creating new release (ensures that tag is updated)"
         uses: dev-drprasad/delete-tag-and-release@v0.2.0
         with:
           delete_release: false
