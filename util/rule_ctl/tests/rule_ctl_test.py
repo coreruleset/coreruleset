@@ -134,3 +134,62 @@ SecRule ARGS "@rx bar" \\
 
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
+
+class TestTargetFile:
+    def test_target_file(self, tmp_path):
+        import os
+        from rule_ctl import write_output
+
+        file_path = str(tmp_path / 'foo.conf')
+        arguments = [
+            "--append-tag", "foo",
+            "--target-file", file_path
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12"
+"""
+
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    tag:'foo'"
+"""
+
+        context = create_context(arguments, rule_string)
+        write_output(context)
+
+        assert os.path.exists(file_path)
+        with open(file_path, 'r') as h:
+            assert expected.rstrip() == h.read()
+
+    def test_target_file_uses_config_as_default(self, tmp_path):
+        import os
+        from rule_ctl import write_output
+
+        file_path = str(tmp_path / 'foo.conf')
+        arguments = [
+            "--append-tag", "foo",
+            "--config", file_path
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12"
+"""
+
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    tag:'foo'"
+"""
+
+        context = create_context(arguments, rule_string)
+        write_output(context)
+
+        assert os.path.exists(file_path)
+        with open(file_path, 'r') as h:
+            assert expected.rstrip() == h.read()

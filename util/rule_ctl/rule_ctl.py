@@ -120,10 +120,7 @@ class Context(object):
 
     def parse_arguments(self, args=None):
         args_parser = self._create_args_parser()
-        if args is None:
-            self.args = args_parser.parse_args()
-        else:
-            self.args = args_parser.parse_args(args)
+        self.args = args_parser.parse_args(args)
     
     def _create_args_parser(self):
         parser = argparse.ArgumentParser(description="OWASP CRS Configuration Control")
@@ -796,7 +793,7 @@ def write_output(context):
             print("\n".join(context.generate_output()))
         return
     
-    path = context.args.target_file if context.args.target_file else context.args.target_file
+    path = context.args.target_file if context.args.target_file else context.args.config
     with open(path, 'w') as handle:
         handle.write("\n".join(context.generate_output()))
     
