@@ -54,10 +54,10 @@ class Context(object):
     def __init__(self):
         self.args = ()
         self.line_number_change = 0
-        self.current_rule_id = None
         self.next_index_to_parse = 0
         self.parser = None
         self._rules = []
+        self._rules_map = {}
     
     def parse_rules(self, data):
         mparser = msc_pyparser.MSCParser()
@@ -75,7 +75,22 @@ class Context(object):
                 rule = Directive(line, self)
 
             self._rules.append(rule)
+            if rule.is_chained():
+                self._rules_map[rule.id]['chained'].append(rule)
+            else:
+                self._rules_map[rule.id] = {
+                    'rule': rule,
+                    'chained': []
+                }
             yield rule
+
+    def get_chain_starter_rule(self, rule):
+        try:
+            self._rules_map[rule.id]['rule']
+        except KeyError:
+            # Chained rules don't have ID during initialization.
+            # In this case, however, the last parsed rule now has one
+            return self._rules_map[self._rules[-1].id]['rule']
 
     def dprint(self, rule_id, action, message, indent):
         if not indent:
@@ -159,16 +174,15 @@ class SecAction(RuleFileItem):
     ACTION_REPLACE_VALUES_REGEX = re.compile('^([^:]+)(?::(.+))?$')
     CTL_APPEND_REGEX = re.compile('^([^=]+)=([^;]+)(;[^:]+:.+|)$')
     CTL_APPEND_PARAMS_REGEX = re.compile('^;([^:]+):(.+)$')
+    id = None
+    _id_matcher = None
 
     def __init__(self, data, context):
         super().__init__(data, context)
 
-        self._id_matcher = None
-
         for action in self.get_actions():
             if action["act_name"] == "id":
                 self.id = int(action["act_arg"])
-                context.current_rule_id
                 break
 
         if "oplineno" in self._data:
@@ -743,19 +757,21 @@ class Directive(RuleFileItem):
     pass
 
 class SecRule(SecAction):
+    _is_chained = False
+
     def __init__(self, data, context):
         super().__init__(data, context)
 
         # for chained rules (they have no ID)
-        self.id = context.current_rule_id
-        # for unchained rules
-        for action in self.get_actions():
-            if action["act_name"] == "id":
-                self.id = int(action["act_arg"])
-        context.current_rule_id = self.id
+        if self.id is None:
+            self.id = context.get_chain_starter_rule(self).id
+            self._is_chained = True
+
+    def has_chained_rules(self):
+        return self._data["chained"]
 
     def is_chained(self):
-        return self._data["chained"]
+        return self._is_chained
 
     def modify(self, context):
         if context.args.skip_chain and self.is_chained():
