@@ -90,3 +90,36 @@ SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12,ctl:ruleRemoveTargetById=1234;A
 
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
+
+    def test_append_ctl_with_chain(self):
+        arguments = [
+            "--append-ctl", "ctl:ruleRemoveTargetById=1234;ARGS:passwd",
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
+    SecRule ARGS|ARGS:foo|!ARGS:bar "@rx bar"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12,ctl:ruleRemoveTargetById=1234;ARGS:passwd,chain"
+    SecRule ARGS|ARGS:foo|!ARGS:bar "@rx bar" "ctl:ruleRemoveTargetById=1234;ARGS:passwd"
+"""
+
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_append_ctl_skip_chain(self):
+        arguments = [
+            "--append-ctl", "ctl:ruleRemoveTargetById=1234;ARGS:passwd",
+            "--skip-chain"
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
+    SecRule ARGS|ARGS:foo|!ARGS:bar "@rx bar"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12,ctl:ruleRemoveTargetById=1234;ARGS:passwd,chain"
+    SecRule ARGS|ARGS:foo|!ARGS:bar "@rx bar"
+"""
+
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)

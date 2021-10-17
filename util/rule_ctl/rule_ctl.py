@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 
-from functools import total_ordering
 import sys, re, json
 
 try:
@@ -434,6 +433,10 @@ class SecAction(RuleFileItem):
                     context.dprint(self.id, "append-action", f"append action {context.args.append_action} on line {last_action_line}", 0)
             if action_order > new_action_order:
                 new_act_list.append(action)
+
+        if len(new_act_list) == 0:
+            new_act_list.append(new_action)
+        
         self.set_actions(new_act_list)
 
 
@@ -710,9 +713,11 @@ class SecAction(RuleFileItem):
                     context.dprint(self.id, "append-ctl", f"append ctl {context.args.append_ctl} on line {last_ctl_line}", 0)
             if action_order > ctl_order:
                 new_act_list.append(action)
+
+        if len(new_act_list) == 0:
+            new_act_list.append(new_ctl)
+
         self.set_actions(new_act_list)
-        if context.args.append_ctl is None:
-            return
 
 
     def sort_tags(self, context):

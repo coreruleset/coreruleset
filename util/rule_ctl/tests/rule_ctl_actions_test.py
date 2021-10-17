@@ -77,6 +77,76 @@ SecRule ARGS|ARGS:foo|!ARGS:bar \\
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
 
+        
+    def test_append_action_with_chain(self):
+        arguments = [
+            "--append-action", "msg:foo",
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    deny,\\
+    noauditlog,\\
+    logdata:'data',\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx bar"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    deny,\\
+    noauditlog,\\
+    msg:foo,\\
+    logdata:'data',\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx bar" \\
+        "msg:foo"
+"""
+
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+
+    def test_append_action_skip_chain(self):
+        arguments = [
+            "--append-action", "msg:foo",
+            "--skip-chain"
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    deny,\\
+    noauditlog,\\
+    logdata:'data',\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx bar"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    deny,\\
+    noauditlog,\\
+    msg:foo,\\
+    logdata:'data',\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx bar"
+"""
+
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
 class TestReplaceAction:
     def test_replace_action_with_no_actions(self):
         arguments = [
@@ -236,6 +306,71 @@ SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" \\
     msg:'bar',\\
     msg:'bar',\\
     msg:'bar'"
+"""
+
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_replace_action_with_chain(self):
+        arguments = [
+            "--replace-action", "msg:foo,msg:bar",
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    msg:'foo',\\
+    msg:'abc',\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx bar" \\
+        "msg:'foo'"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    msg:bar,\\
+    msg:'abc',\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx bar" \\
+        "msg:bar"
+"""
+
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_replace_action_skip_chain(self):
+        arguments = [
+            "--replace-action", "msg:foo,msg:bar",
+            "--skip-chain"
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    msg:'foo',\\
+    msg:'abc',\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx bar" \\
+        "msg:'foo'"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    msg:bar,\\
+    msg:'abc',\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx bar" \\
+        "msg:'foo'"
 """
 
         context = create_context(arguments, rule_string)

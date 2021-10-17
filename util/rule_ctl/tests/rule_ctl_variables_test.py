@@ -57,6 +57,41 @@ SecRule ARGS|ARGS:foo|!ARGS:bar|XML|DURATION "@rx foo" "id:12"
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
 
+    def test_append_variable_with_chain(self):
+        arguments = [
+            "--append-variable", "XML",
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar|XML "@rx foo" "id:12,chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar|XML "@rx foo"
+"""
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_append_variable_skip_chain(self):
+        arguments = [
+            "--append-variable", "XML",
+            "--skip-chain"
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar|XML "@rx foo" "id:12,chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo"
+"""
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
 class TestRemoveVariable:
     def test_remove_variable_with_no_variable(self):
         arguments = [
@@ -96,6 +131,41 @@ SecRule ARGS|XML|ARGS:foo|DURATION|!ARGS:bar "@rx foo" "id:12"
 SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12"
 """
 
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_remove_variable_with_chain(self):
+        arguments = [
+            "--remove-variable", "XML",
+        ]
+        rule_string = """
+SecRule ARGS|XML|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
+
+    SecRule ARGS|XML|ARGS:foo|!ARGS:bar "@rx foo"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo"
+"""
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_remove_variable_skip_chain(self):
+        arguments = [
+            "--remove-variable", "XML",
+            "--skip-chain"
+        ]
+        rule_string = """
+SecRule ARGS|XML|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
+
+    SecRule ARGS|XML|ARGS:foo|!ARGS:bar "@rx foo"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
+
+    SecRule ARGS|XML|ARGS:foo|!ARGS:bar "@rx foo"
+"""
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
 
@@ -139,5 +209,40 @@ SecRule ARGS|XML|ARGS:foo|DURATION|!ARGS:bar "@rx foo" "id:12"
 SecRule ARGS|ARGS:xml|ARGS:foo|ARGS:duration|!ARGS:bar "@rx foo" "id:12"
 """
 
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_replace_variable_name_with_chain(self):
+        arguments = [
+            "--replace-variable-name", "XML,DURATION",
+        ]
+        rule_string = """
+SecRule ARGS|XML|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
+
+    SecRule ARGS|XML|ARGS:foo|!ARGS:bar "@rx foo"
+"""
+        expected = """
+SecRule ARGS|DURATION|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
+
+    SecRule ARGS|DURATION|ARGS:foo|!ARGS:bar "@rx foo"
+"""
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_replace_variable_name_skip_chain(self):
+        arguments = [
+            "--replace-variable-name", "XML,DURATION",
+            "--skip-chain"
+        ]
+        rule_string = """
+SecRule ARGS|XML|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
+
+    SecRule ARGS|XML|ARGS:foo|!ARGS:bar "@rx foo"
+"""
+        expected = """
+SecRule ARGS|DURATION|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
+
+    SecRule ARGS|XML|ARGS:foo|!ARGS:bar "@rx foo"
+"""
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)

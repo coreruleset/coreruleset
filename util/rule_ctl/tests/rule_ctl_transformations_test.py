@@ -79,6 +79,68 @@ SecRule ARGS|ARGS:foo|!ARGS:bar \\
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
 
+    def test_append_tfunc_with_chain(self):
+        arguments = [
+            "--append-tfunc", "lower",
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:decodeUrl,\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx foo" \\
+        "t:decodeUrl"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:decodeUrl,\\
+    t:lower,\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx foo" \\
+        "t:decodeUrl,\\
+        t:lower"
+"""
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_append_tfunc_skip_chain(self):
+        arguments = [
+            "--append-tfunc", "lower",
+            "--skip-chain"
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:decodeUrl,\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx foo" \\
+        "t:decodeUrl"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:decodeUrl,\\
+    t:lower,\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx foo" \\
+        "t:decodeUrl"
+"""
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
 class TestRemoveTfunc:
     def test_remove_tfunc_with_no_transformations(self):
         arguments = [
@@ -129,6 +191,70 @@ SecRule ARGS|ARGS:foo|!ARGS:bar \\
 SecRule ARGS|ARGS:foo|!ARGS:bar \\
     "@rx foo" \\
     "id:12"
+"""
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_remove_tfunc_with_chain(self):
+        arguments = [
+            "--remove-tfunc", "lower",
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:decodeUrl,\\
+    t:lower,\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx foo" \\
+        "t:decodeUrl,\\
+        t:lower"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:decodeUrl,\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx foo" \\
+        "t:decodeUrl"
+"""
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)
+
+    def test_remove_tfunc_skip_chain(self):
+        arguments = [
+            "--remove-tfunc", "lower",
+            "--skip-chain"
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:decodeUrl,\\
+    t:lower,\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx foo" \\
+        "t:decodeUrl,\\
+        t:lower"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:decodeUrl,\\
+    chain"
+
+    SecRule ARGS|ARGS:foo|!ARGS:bar \\
+        "@rx foo" \\
+        "t:decodeUrl,\\
+        t:lower"
 """
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
