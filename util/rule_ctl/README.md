@@ -41,7 +41,7 @@ python3 util/rule-ctl/rule_ctl.py \
 ### Examples
 Replace all `ARGS` variable with `ARGS_GET` even if `ARGS:foo`
 ```sh
-python3 rule_ctl.py --config tests/rules.conf \
+python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
     --filter-rule-id ^.* \
     --replace-variable-name ARGS,ARGS_GET \
     --dryrun
@@ -56,10 +56,26 @@ python3 rule_ctl.py --config tests/rules.conf \
 ### Examples
 Append a new tag `foo` and sort tag list
 ```sh
-python3 rule_ctl.py --config tests/rules.conf \
+python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
     --filter-rule-id ^.* \
     --append-tag foo \
     --sort-tags \
+    --dryrun
+```
+
+Remove a tag `foo`
+```sh
+python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
+    --filter-rule-id ^.* \
+    --remove-tag foo \
+    --dryrun
+```
+
+Rename a tag `foo`
+```sh
+python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
+    --filter-rule-id ^.* \
+    --rename-tag foo,bar \
     --dryrun
 ```
 
@@ -70,7 +86,7 @@ python3 rule_ctl.py --config tests/rules.conf \
 ### Examples
 Append `t:lowercase` to all selected rules (you don't need the `t:` prefix)
 ```sh
-python3 rule_ctl.py --config tests/rules.conf \
+python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
     --filter-rule-id ^.* \
     --append-tfunc lowercase \
     --dryrun
@@ -84,7 +100,7 @@ python3 rule_ctl.py --config tests/rules.conf \
 ### Examples
 Replace action `severity:CRITICAL` with `severity:INFO` and set a new message on rule id 125
 ```sh
-python3 rule_ctl.py --config tests/rules.conf \
+python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
     --filter-rule-id ^125 \
     --replace-action severity:CRITICAL,severity:INFO \
     --uncond-replace-action 'msg:this is a new message for rule 125' \
@@ -97,7 +113,7 @@ python3 rule_ctl.py --config tests/rules.conf \
 ### Examples
 Remove rule id 1337 on rule 125 by adding ctl:ruleRemoveById=1337. Do it on main rule (skipping chained rules if present)
 ```sh
-python3 rule_ctl.py --config tests/rules.conf \
+python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
     --filter-rule-id ^125 \
     --append-ctl ruleRemoveById=1337 \
     --skip-chain \
