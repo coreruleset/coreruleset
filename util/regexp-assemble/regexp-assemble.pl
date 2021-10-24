@@ -10,9 +10,14 @@
 #
 
 use strict;
+use FindBin qw( $RealBin );
+
+# load Regexp::Assemble from the submodule, not from any other location
+use lib "$RealBin/lib/lib";
 use Regexp::Assemble;
 
-my $ra = Regexp::Assemble->new;
+# cook_hex: disable replacing hex escapes with decodec bytes
+my $ra = Regexp::Assemble->new(cook_hex => 0);
 my $flags = '';
 my $prefix = '';
 my $suffix = '';
