@@ -1,0 +1,43 @@
+---
+  meta:
+    author: airween
+    description: None
+    enabled: true
+    name: 913101.yaml
+  tests:
+  -
+    test_title: 913101-1
+    desc: "Scripting/generic user agents test"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "libwww-perl"
+            Accept: "*/*"
+          method: GET
+          uri: /
+          version: HTTP/1.0
+        output:
+          log_contains: id "913101"
+  -
+    test_title: 913101-2
+    desc: "Scripting/generic user agents negative test"
+    stages:
+     -
+      stage:
+        input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0"
+            Accept: "*/*"
+          method: GET
+          uri: /
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "913101"
