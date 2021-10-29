@@ -20,7 +20,7 @@
                   Content-Type: "multipart/form-data; boundary=--------397236876"
               data: |
                 ----------397236876
-                Content-Disposition: form-data; name="fileRap"; filename="file=te;st.txt"
+                Content-Disposition: form-data; name="fileRap"; filename="te;st.txt"
                 Content-Type: text/plain
 
                 Some-file-test-here
@@ -43,10 +43,10 @@
                   Content-Type: "multipart/form-data; boundary=--------397236876"
               data: |
                 ----------397236876
-                Content-Disposition: form-data; name="fileRap"; filename="file=te'st.txt"
+                Content-Disposition: form-data; name="fileRap"; filename="te'st.txt"
                 Content-Type: text/plain
 
-                Some-file-test-here
+                Some-file-text-here
                 ----------397236876--
               protocol: "http"
             output:
@@ -66,10 +66,10 @@
                   Content-Type: "multipart/form-data; boundary=--------397236876"
               data: |
                 ----------397236876
-                Content-Disposition: form-data; name="fileRap"; filename="file=te\"st.txt"
+                Content-Disposition: form-data; name="fileRap"; filename="te\"st.txt"
                 Content-Type: text/plain
 
-                Some-file-test-here
+                Some-file-text-here
                 ----------397236876--
               protocol: "http"
             output:
@@ -89,11 +89,34 @@
                   Content-Type: "multipart/form-data; boundary=--------397236876"
               data: |
                 ----------397236876
-                Content-Disposition: form-data; name="fileRap"; filename="file=te=st.txt"
+                Content-Disposition: form-data; name="fileRap"; filename="te=st.txt"
                 Content-Type: text/plain
 
-                Some-file-test-here
+                Some-file-text-here
                 ----------397236876--
               protocol: "http"
             output:
               log_contains: "id \"920121\""
+    -
+      test_title: 920121-5
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "POST"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+                  Content-Type: "multipart/form-data; boundary=--------397236876"
+              data: |
+                ----------397236876
+                Content-Disposition: form-data; name="fileRap"; filename="test.txt"
+                Content-Type: text/plain
+
+                Characters-shouldn't-trigger-rule-"-match-in-;-file
+                ----------397236876--
+              protocol: "http"
+            output:
+              no_log_contains: "id \"920121\""
