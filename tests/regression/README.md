@@ -35,7 +35,8 @@ SecAction "id:900005,\
   setvar:tx.paranoia_level=4,\
   setvar:tx.crs_validate_utf8_encoding=1,\
   setvar:tx.arg_name_length=100,\
-  setvar:tx.arg_length=400"
+  setvar:tx.arg_length=400,\
+  setvar:tx.combined_file_sizes=65535"
 ```
 
 Once these requirements have been met the tests can be run by using pytest.
