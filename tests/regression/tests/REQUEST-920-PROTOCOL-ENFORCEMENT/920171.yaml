@@ -1,0 +1,82 @@
+---
+  meta:
+    author: "jptosso"
+    enabled: true
+    name: "920171.yaml"
+    description: "Tests to trigger, or not trigger 920171"
+  tests:
+    -
+      # Standard GET request with transfer-encoding
+      test_title: 920171-1
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "GET"
+              port: 80
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+                  Transfer-Encoding: chunked
+              protocol: "http"
+              uri: "/"
+              version: "HTTP/1.1"
+            output:
+              expect_error: true
+    -
+      # Standard HEAD request without transfer-encoding
+      test_title: 920171-2
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "HEAD"
+              port: 80
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+              protocol: "http"
+              uri: "/"
+              version: "HTTP/1.1"
+            output:
+              no_log_contains: "id \"920171\""
+    -
+      # Standard GET request with empty transfer-encoding
+      test_title: 920171-3
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "GET"
+              port: 80
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+                  Transfer-Encoding:
+              protocol: "http"
+              uri: "/"
+              version: "HTTP/1.1"
+            output:
+              no_log_contains: "id \"920171\""
+    -
+      # Standard POST request (negative test)
+      test_title: 920171-3
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "POST"
+              port: 80
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+              protocol: "http"
+              uri: "/"
+              version: "HTTP/1.1"
+              data: "test data"
+            output:
+              no_log_contains: "id \"920171\""
