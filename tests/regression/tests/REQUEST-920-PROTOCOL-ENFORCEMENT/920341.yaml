@@ -48,3 +48,21 @@
               data: "{}"
             output:
               no_log_contains: id "920341"
+    -
+      # Standard GET request (negative test)
+      test_title: 920341-3
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "GET"
+              port: 80
+              headers:
+                  User-Agent: "ModSecurity CRS 3 Tests"
+                  Host: "localhost"
+              protocol: "http"
+              uri: "/"
+              version: "HTTP/1.1"
+            output:
+              no_log_contains: id "920341"
