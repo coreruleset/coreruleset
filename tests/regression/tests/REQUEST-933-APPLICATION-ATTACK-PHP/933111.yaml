@@ -20,14 +20,14 @@
           method: POST
           uri: /
           port: 80
-          data:
-          - '------WebKitFormBoundaryoRWIb3busvBrbttO'
-          - 'Content-Disposition: form-data; name="file"; filename="test.php.jpg"'
-          - 'Content-Type: image/jpeg'
-          - ''
-          - '<?php @eval($_POST["hacker"]); ?>'
-          - ''
-          - '------WebKitFormBoundaryoRWIb3busvBrbttO--'
+          data: |
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="file"; filename="test.php.jpg"
+            Content-Type: image/jpeg
+
+            <?php @eval($_POST["hacker"]); ?>
+
+            ------WebKitFormBoundaryoRWIb3busvBrbttO--
           version: HTTP/1.1
         output:
           log_contains: id "933111"
