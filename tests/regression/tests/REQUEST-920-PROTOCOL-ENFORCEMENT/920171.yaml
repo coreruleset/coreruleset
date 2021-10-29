@@ -18,12 +18,13 @@
               headers:
                   User-Agent: "ModSecurity CRS 3 Tests"
                   Host: "localhost"
-                  Transfer-Encoding: pineapple
+                  Transfer-Encoding: chunked
               protocol: "http"
               uri: "/"
               version: "HTTP/1.1"
             output:
-              log_contains: "id \"920171\""
+              status: 
+                - 400
     -
       # Standard HEAD request without transfer-encoding
       test_title: 920171-2
@@ -60,4 +61,4 @@
               uri: "/"
               version: "HTTP/1.1"
             output:
-              no_log_contains: "id \"920171\""              
+              no_log_contains: "id \"920171\""
