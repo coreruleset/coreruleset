@@ -1,0 +1,23 @@
+---
+  meta:
+    author: "NiceYouKnow"
+    description: None
+    enabled: true
+    name: 933200.yaml
+  tests:
+  -
+    test_title: 933200-1
+    desc: "PHP Injection Attack: Wrapper scheme detected"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+          method: GET
+          port: 80
+          uri: /test.php?file=phar://phpinfo.zip/phpinfo.txt
+          version: HTTP/1.1
+        output:
+          log_contains: id "933200"
