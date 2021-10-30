@@ -1,0 +1,89 @@
+---
+  meta:
+    author: "Paul Beckett"
+    enabled: true
+    name: "932130.yaml"
+    description: "Tests to trigger or not trigger rule 932130"
+  tests:
+    -
+      test_title: 932130-1
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "GET"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+              uri: "/?932130-1=$(cmd)"
+              protocol: "http"
+            output:
+              log_contains: "id \"932130\""
+    -
+      test_title: 932130-2
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "POST"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+              data: '932130-2=${cmd}'
+              protocol: "http"
+            output:
+              log_contains: "id \"932130\""
+    -
+      test_title: 932130-3
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "GET"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+                  Cookie: "931120-3=<(cmd)"
+              uri: '/'
+              protocol: "http"
+            output:
+              log_contains: "id \"932130\""
+    -
+      test_title: 932130-4
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "GET"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+                  Cookie: ">(cmd)=931120-4"
+              uri: '/'
+              protocol: "http"
+            output:
+              log_contains: "id \"932130\""
+    -
+      test_title: 932130-5
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "POST"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+              data: '932130-5=Some text (in brackets).'
+              protocol: "http"
+            output:
+              no_log_contains: "id \"932130\""
