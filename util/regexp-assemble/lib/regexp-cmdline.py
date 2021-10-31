@@ -19,26 +19,30 @@
 # Refer to rule 932100, 932110, 932150 for documentation.
 #
 
-import fileinput, sys
+import fileinput, sys, re
+
+COMMENT_REGEX = re.compile(r'^##!')
 
 # Convert a single line to regexp format, and insert anti-cmdline
 # evasions between characters.
-def regexp_str(str, evasion, mode):
+def regexp_str(input, evasion, mode):
     # By convention, if the line starts with ' char, copy the rest
     # verbatim.
-    if str[0] == "'":
-        return str[1:]
+    if input[0] == "'":
+        return input[1:]
+    elif COMMENT_REGEX.match(input) is not None:
+        return input
 
     result = ''
-    for i, char in enumerate(str):
+    for i, char in enumerate(input):
         if i > 0:
             result += evasion
-        result += regexp_char(char, evasion)
+        result += regexp_char(char, mode)
 
     return result
 
 # Ensure that some special characters are escaped
-def regexp_char(char, evasion, mode):
+def regexp_char(char, mode):
     char = str.replace(char, '.', '\.')
     char = str.replace(char, '-', '\-')
     if char == '@':
@@ -73,6 +77,5 @@ del sys.argv[1]
 # Process lines from input file, or if not specified, standard input
 for line in fileinput.input():
     line = line.rstrip('\n ')
-    line = line.split('#')[0]
     if line != '':
         print(regexp_str(line, evasion, mode))

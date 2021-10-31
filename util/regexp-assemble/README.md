@@ -4,11 +4,11 @@
 1. You will need a Perl environment and Perl version >= 5.10
 2. Initialize the Git submodule with the Regexp::Assemble Perl module by running:
     ```bash
-    git submodule update --init util/regexp-assemble/lib
+    git submodule update --init util/regexp-assemble/lib/lib
     ```
 3. You should now be able to use the script. Try running something like the following:
     ```bash
-    printf "(?:homer)? simpson\n(?:lisa)? simpson" | util/regexp-assemble/regexp-assemble.pl
+    printf "(?:homer)? simpson\n(?:lisa)? simpson" | util/regexp-assemble/regexp-assemble.py
     ```
     You should see:
     ```bash
@@ -16,15 +16,15 @@
     ```
 
 ## Example use
-To generate a reduced expression from a list of expressions, simply pass the name of a data file to the script of pipe the contents to it:
+To generate a reduced expression from a list of expressions, simply pass the rule id to the script of pipe the contents to it:
 ```bash
-util/regexp-assemble/regexp-assemble.pl util/regexp-assemble/regexp-942170.data
+util/regexp-assemble/regexp-assemble.py 942170
 # or
-cat util/regexp-assemble/regexp-942170.data util/ | regexp-assemble/regexp-assemble.pl
+cat util/regexp-assemble/data/942170.data | util/regexp-assemble/regexp-assemble.py
 ```
 
 # Data file format
-The data files (`.data` suffix) contain one regular expression per line. These files are meant to be processed by [regexp-assemble.py](regexp-assemble.py).
+The data files (`.data` suffix, under `util/regexp-assemble/data`) contain one regular expression per line. These files are meant to be processed by [regexp-assemble.py](regexp-assemble.py).
 
 ## Comments
 Lines starting with `##!` are considered comments and will be skipped. Use comments to explain the purpose of a particular
@@ -122,7 +122,7 @@ The command line evasion preprocessor processes the entire file. Each line is tr
 
 Lines starting with a single quote `'` are treated as literals and will not be escaped.
 
-The special token `@` will be replaced with the expression `(?:\s|<|>).*` in `unix` mode and `(?:[\s,;]|\.|/|<|>).*` in `windows` mode. This can be used in the context of a Windows cmd shell to reduce the number of of false positives for a word by requiring a subsequent token to be present. Example: `diff@`.
+The special token `@` will be replaced with the expression `(?:\s|<|>).*` in `unix` mode and `(?:[\s,;]|\.|/|<|>).*` in `windows` mode. This can be used in the context of shell to reduce the number of of false positives for a word by requiring a subsequent token to be present. Example: `diff@`.
 
 ## Example
 The following is an example of what a data file might contain:

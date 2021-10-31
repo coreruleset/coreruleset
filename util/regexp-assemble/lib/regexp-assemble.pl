@@ -29,11 +29,11 @@ while (<>)
 
   # this is a flag comment (##!+), save it for later
   # we currently only support the `i` flag
-  my $flags = $1 and next if $_ =~ /^##!\+\s*([i]+)/;
+  $flags = $1 if $_ =~ /^##!\+\s*([i]+)/;
   # this is a prefix comment (##!^), save it for later
-  my $prefix = $1 and next if $_ =~ /^##!\^\s*(.*)/;
+  $prefix = $1 if $_ =~ /^##!\^\s*(.*)/;
   # this is a suffix comment (##!$), save it for later
-  my $suffix = $1 and next if $_ =~ /^##!\$\s*(.*)/;
+  $suffix = $1 if $_ =~ /^##!\$\s*(.*)/;
   # skip comments
   next if $_ =~ /^##!/;
   # skip empty lines
