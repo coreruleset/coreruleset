@@ -1,5 +1,14 @@
 #! /usr/bin/env python
 
+# This script is a simple wrapper around regexp-assemble.pl, regexp-cmdline.py, and
+# regexp-negativelookbehind.py. It takes a rule id, data file name or data file path
+# as input and runs it through the scripts, depending on the marker flags present in
+# the data file. The last step is to always run the output through regexp-assemble.pl.
+#
+# Preprocessors are defined in this file. To add a new preprocessor, add an entry to
+# the preprocessor_map. The key of the entry is the keyword used in the data file
+# and the value is the script you want to execute (expected to be in the lib directory).
+
 import sys;
 import os;
 import fileinput;
