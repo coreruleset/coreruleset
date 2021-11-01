@@ -30,7 +30,15 @@ To configure the Github action, you need to set up this in CORERULESET/test/dock
    ...
 ```
 
-To find the possible value of MAX_LEN, run this script.
+## Usage
+
+To find the possible value of MAX_LEN, run this script with one mandatory, and one optional argument. The mandatory argument is the path of the CRS directory (the root). The optional argument is the `-i` or `--ignoretests`, where you can pass the test id what you want to skip - eg. you want to use the test to exceed the maximum length.
+
+```
+./find_max_datalen.py ../.. -i 920410-1
+```
+
+In this case, you pass the CRS root as parent dir, and skip the test id 920410-1, which wants to exceed the maximum length.
 
 ## Prerequisites
 
