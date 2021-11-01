@@ -1,0 +1,45 @@
+---
+  meta:
+    author: airween
+    description: "Remote Command Execution: Windows Command Injection test cases"
+    enabled: true
+    name: 932110.yaml
+  tests:
+  -
+    test_title: 932110-1
+    desc: "Windows Command Injection true positive test"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "Coreruleset"
+          method: GET
+          port: 80
+          # "cmd=; format C:"
+          uri: /?cmd=%3B%20format%20C%3A
+          version: HTTP/1.0
+        output:
+          log_contains: id "932110"
+  -
+    test_title: 932110-2
+    desc: "Windows Command Injection true negative test"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "Coreruleset"
+          method: GET
+          port: 80
+          # "cmd=format "
+          uri: /?cmd=format%20
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "932110"
