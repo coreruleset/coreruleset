@@ -20,6 +20,7 @@
 import sys
 import glob
 import msc_pyparser
+import argparse
 
 def find_ids(s, test_cases):
     """
@@ -43,31 +44,36 @@ def find_ids(s, test_cases):
                                 print(rid)
 
 if __name__ == "__main__":
+
+    desc = """This script helps to find the rules without test cases. It needs a mandatory
+argument where you pass the path to your coreruleset. The tool collects the
+tests with name REQUEST-*, but not with RESPONSE-*. Then reads the rule id's,
+and check which rule does not have any test. Some rules does not need test
+case, these are hardcoded as exclusions: 900NNN, 901NNN, 905NNN, 910NNN,
+912NNN, 949NNN."""
+
+    parser = argparse.ArgumentParser(description=desc, formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument('crspath', metavar='/path/to/coreruleset', type=str,
+                        help='Directory path to CRS')
+    args = parser.parse_args()
+
     test_cases = {}
-    if len(sys.argv) < 2:
-        print("Argument missing!")
-        print("Use: %s /path/to/coreruleset/" % (sys.argv[0]))
-        sys.exit(1)
     # from argument, build the rules path and regression test paths
-    crspath = sys.argv[1].rstrip("/") + "/rules/*.conf"
-    testpath = sys.argv[1].rstrip("/") + "/tests/regression/tests/*"
+    crspath = args.crspath.rstrip("/") + "/rules/*.conf"
+    testpath = args.crspath.rstrip("/") + "/tests/regression/tests/*"
     retval = 0
     # collect rules
-    try:
-        flist = glob.glob(crspath)
-        flist.sort()
-    except:
+    flist = glob.glob(crspath)
+    flist.sort()
+    if len(flist) == 0:
         print("Can't open files in given path!")
-        print(sys.exc_info())
         sys.exit(1)
 
     # collect test cases
-    try:
-        tlist = glob.glob(testpath)
-        tlist.sort()
-    except:
+    tlist = glob.glob(testpath)
+    tlist.sort()
+    if len(tlist) == 0:
         print("Can't open files in given path (%s)!" % (testpath))
-        print(sys.exc_info())
         sys.exit(1)
     # find the yaml files with name REQUEST at the begin
     # collect them in a dictionary
