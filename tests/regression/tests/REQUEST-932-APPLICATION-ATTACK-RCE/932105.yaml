@@ -1,0 +1,45 @@
+---
+  meta:
+    author: airween
+    description: "Remote Command Execution: Unix Command Injection test cases"
+    enabled: true
+    name: 932105.yaml
+  tests:
+  -
+    test_title: 932105-1
+    desc: "Unix Command Injection true positive test"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "Coreruleset"
+          method: GET
+          port: 80
+          # "cmd=; rm -rf /"
+          uri: /?cmd=%3B%20rm%20%2Drf%20%2F
+          version: HTTP/1.0
+        output:
+          log_contains: id "932105"
+  -
+    test_title: 932105-2
+    desc: "Unix Command Injection true negative test"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "Coreruleset"
+          method: GET
+          port: 80
+          # "cmd=rm "
+          uri: /?cmd=rm%20
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "932105"
