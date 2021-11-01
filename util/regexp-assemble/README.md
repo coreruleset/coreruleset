@@ -1,4 +1,4 @@
-# How to use regexp-assemble.pl
+# How to use regexp-assemble.py
 
 ## Set up
 1. You will need a Perl environment and Perl version >= 5.10
