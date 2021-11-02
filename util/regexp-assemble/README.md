@@ -108,7 +108,7 @@ The following is an example of what a data file might contain:
 
 ```
 ##! This line is a comment and will be ignored. The next line is empty and will also be ignored.
-    
+
 ##! The next line sets the *ignore case* flag on the resulting expression:
 ##!+ i
 
