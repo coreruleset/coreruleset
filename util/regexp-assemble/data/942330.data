@@ -1,0 +1,72 @@
+##! This is a data file used to generate a regular expression for a CRS rule. 
+##! The generation of the regular expression happens with the help of 
+##! util/regexp-assemble/regexp-assemble.py.
+##! The ID of the rule in question is part of the file name of this data file. 
+##! Read more about the format of this data file and the use of the assembly 
+##! script in util/regexp-assemble/README.md.
+##!
+##! Lines starting with `##!` are comments and will be skipped,
+##! empty lines will be ignored completely.
+##! In addition, the quote character `'` at the beginning of a line will
+##! cause the line to be interpreted as literal by the cmdline preprocessor only.
+##! 
+##! Five special comments are at your disposal to influence the assembled expression:
+##! - `##!+`: the flag comment
+##! - `##!^`: the prefix comment
+##! - `##!$`: the suffix comment
+##! - `##!>`: the preprocessor comment
+##! - `##!<`: the block preprocessor end comment
+##!
+##! Currently supported preoprocessors:
+##! - cmdline [windows|unix] (file scope)
+##! - neglook (block scope)
+##! Please refer to util/regexp-assemble/README.md for a full explanation
+
+##!+ i
+
+[\"'`]\s*?or\s*?[\"'`]?\d
+[\"'`]\s*?xor\s*?[\"'`]?\d
+[\"'`]\s*?div\s*?[\"'`]?\d
+[\"'`]\s*?like\s*?[\"'`]?\d
+[\"'`]\s*?between\s*?[\"'`]?\d
+[\"'`]\s*?and\s*?[\"'`]?\d
+\\\\x(?:23|27|3d)
+^.?[\"'`]$
+^[\"'`\\\\]*?[\d\"'`]+\s*?and\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[\d\"'`]+\s*?nand\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[\d\"'`]+\s*?or\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[\d\"'`]+\s*?xor\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[\d\"'`]+\s*?xxor\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[\d\"'`]+\s*?div\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[\d\"'`]+\s*?like\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[\d\"'`]+\s*?between\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[\d\"'`]+\s*?not\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[\d\"'`]+\s*?\|\|\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[\d\"'`]+\s*?\&\&\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[^\"'`]+[\"'`]\s*?and\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[^\"'`]+[\"'`]\s*?nand\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[^\"'`]+[\"'`]\s*?or\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[^\"'`]+[\"'`]\s*?xor\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[^\"'`]+[\"'`]\s*?xxor\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[^\"'`]+[\"'`]\s*?div\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[^\"'`]+[\"'`]\s*?like\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[^\"'`]+[\"'`]\s*?between\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[^\"'`]+[\"'`]\s*?not\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[^\"'`]+[\"'`]\s*?\|\|\s*?[\w\"'`][+&!@(),.-]
+^[\"'`\\\\]*?[^\"'`]+[\"'`]\s*?\&\&\s*?[\w\"'`][+&!@(),.-]
+[^\w\s]\w+\s*?[|-]\s*?[\"'`]\s*?\w
+@\w+\s+and\s*?[\"'`\d]+
+@\w+\s+or\s*?[\"'`\d]+
+@\w+\s+xor\s*?[\"'`\d]+
+@\w+\s+div\s*?[\"'`\d]+
+@\w+\s+like\s*?[\"'`\d]+
+@\w+\s+between\s*?[\"'`\d]+
+@[\w-]+\sand\s*?[^\w\s]
+@[\w-]+\sor\s*?[^\w\s]
+@[\w-]+\sxor\s*?[^\w\s]
+@[\w-]+\sdiv\s*?[^\w\s]
+@[\w-]+\slike\s*?[^\w\s]
+@[\w-]+\sbetween\s*?[^\w\s]
+[^\w\s:]\s*?\d\W+[^\w\s]\s*?[\"'`].
+\Winformation_schema
+table_name\W
