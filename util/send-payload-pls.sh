@@ -75,6 +75,7 @@ do
             echo "Usage:"
             echo " --access \"/apache/logs/access.log\""
             echo " --error \"/apache/logs/error.log\""
+            echo " --crs \"/usr/share/modsecurity-crs/rules\""
             echo " --url \"localhost:40080\""
             echo " --resolve \"someservername:40080:localhost\""
             echo " --protocol \"https\""
@@ -143,13 +144,13 @@ for PL in 1 2 3 4; do
     # The automatic format detection may cause the script to malfunction.
     # Uncomment only the required format.
     # To use Christian's accesslog format uncomment the following line
-    uniq_id=$(tail -1 $accesslog | cut -d\" -f11 | cut -b2-26)
+    #uniq_id=$(tail -1 $accesslog | cut -d\" -f11 | cut -b2-26)
 
     # To use Spartan's accesslog format (21 col) uncomment the following line
     #uniq_id=$(tail -1 $accesslog | awk '{print $21}')
 
     # To use the automatic unique_id detection uncomment the following line
-    #uniq_id=$(tail -1 $accesslog | egrep -o '[a-zA-Z0-9]{26,28}')
+    uniq_id=$(tail -1 $accesslog | egrep -o '\b[-_a-zA-Z0-9]{26,28}\b')
 
     echo "Tracking unique id: $uniq_id"
 
