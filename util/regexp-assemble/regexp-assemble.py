@@ -11,16 +11,24 @@
 
 import sys;
 import os;
-import fileinput;
+import fileinput
 import re;
 from subprocess import Popen, PIPE, TimeoutExpired
 
 class Preprocessor(object):
-	def __init__(self, script_path, args):
-		self.callout = [script_path] + args
+	def __init__(self, script_path, allowed_keywords, args):
+		for arg in args:
+			if arg not in allowed_keywords:
+				print(f'Keywoard "{arg}" not allowed in this context')
+				sys.exit(1)
+		effective_args = [arg for arg in args if allowed_keywords[arg]]
+		self.callout = [script_path] + effective_args
+		self._args = args
+		self._allowed_keywords = allowed_keywords
 
 	def run(self, iterator):
-		return self._preprocess(iterator, self._filter)
+		preprocessed = self._preprocess(iterator, self._filter)
+		return self._postprocess(preprocessed)
 
 	def _preprocess(self, iterator, filter):
 		proc = Popen(self.callout, stdin=PIPE, stdout=PIPE, stderr=PIPE)
@@ -30,12 +38,19 @@ class Preprocessor(object):
 		errs = None
 		try:
 			outs, errs = proc.communicate(timeout=30)
+			if len(errs) > 0:
+				sys.stderr.write(f'Callout failed: {self.callout}')
+				sys.stderr.writelines(errs.decode('utf-8'))
+				sys.exit(1)
 		except TimeoutExpired:
 			proc.kill()
 			print(f'Callout timed out: {self.callout}')
 			print('Stderr: ' + errs.decode('utf-8'))
 			sys.exit(1)
 		return outs.decode('utf-8').splitlines()
+	
+	def _postprocess(self, output):
+		return output
 	
 
 
@@ -57,12 +72,24 @@ class BlockPreprocessor(Preprocessor):
 			yield line
 			line = next(iterator, None)
 
+	def _postprocess(self, output):
+		if 'prefix' in self._args:
+			assert len(output) <= 1
+			return ['##!^ ' + line for line in output]
+		elif 'suffix' in self._args:
+			assert len(output) <= 1
+			return ['##!$ ' + line for line in output]
+		else:
+			return output
+
 
 
 script_directory = os.path.dirname(__file__)
 lib_directory = os.path.join(script_directory, 'lib')
 preprocessor_map = {
-	'cmdline': (FilePreprocessor, os.path.join(lib_directory, 'regexp-cmdline.py')),
+	# directive name : (processor type, path to script, allowed keywords (True: pass to script))
+	'cmdline': (BlockPreprocessor, os.path.join(lib_directory, 'regexp-cmdline.py'), {'windows': True, 'unix': True}),
+	'assemble': (BlockPreprocessor, os.path.join(script_directory, 'regexp-assemble.py'), {'prefix': False, 'suffix': False})
 }
 preprocessor_regex = re.compile(r'^##!>\s*(.*)')
 # prefix, suffix, flags, block start block end
@@ -76,8 +103,8 @@ def detect_preprocessor(line):
 		
 	definition = match.group(1).split()
 	try:
-		processor_type, script_path = preprocessor_map[definition[0]]
-		return processor_type(script_path, definition[1:])
+		processor_type, script_path, allowed_keywords = preprocessor_map[definition[0]]
+		return processor_type(script_path, allowed_keywords, definition[1:])
 	except KeyError:
 		print(f'No processor found for {definition}')
 		sys.exit(1)
@@ -92,7 +119,7 @@ def preprocess(lines):
 		transformed_lines = []
 		line = next(iterator, None)
 		while line is not None:
-			if (_is_simple_comment(line)):
+			if (len(line.strip()) == 0 or _is_simple_comment(line)):
 				line = next(iterator, None)
 				continue
 			processor = detect_preprocessor(line)
@@ -125,10 +152,10 @@ def assemble(lines):
 		sys.exit(1)
 
 	if errs:
-		print('Failed to assemble regex')
-		print('Stderr: ' + errs.decode('utf-8'))
+		sys.stderr.write('Failed to assemble regex\n')
+		sys.stderr.write('Stderr: ' + errs.decode('utf-8') + '\n')
 		sys.exit(1)
-	
+
 	sys.stdout.write(outs.decode('utf-8'))
 
 def run():
@@ -140,7 +167,7 @@ def run():
 
 	lines = preprocess(iterator)
 	if len(lines) == 0:
-		print('No input. Either pass a filename, a rule id or pipe data to the script')
+		sys.stderr.write('No input. Either pass a filename, a rule id or pipe data to the script\n')
 		sys.exit(1)
 	assemble(lines)
 
