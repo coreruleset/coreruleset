@@ -23,13 +23,13 @@
 
 ##!+i
 
-\bhaving\b\s+\d{1,10}\s*?[=<>]
-\bhaving\b\s+'[^=]{1,10}'\s*?[=<>]
+\bhaving\b\s+(?:\/\*.*?\*\/\s*)?\d{1,10}\s*(?:\/\*.*?\*\/\s*)?[=<>]
+\bhaving\b\s+(?:\/\*.*?\*\/\s*)?'[^=]{1,10}'\s*(?:\/\*.*?\*\/\s*)?[=<>]
 \bexecute\(
 \bexecute\s{1,5}[\w\.$]{1,5}\s{0,3}
-\bhaving\b ?\d{1,10} ?[=<>]+
-\bhaving\b ?[\'\"][^=]{1,10}[\'\" ?[=<>]+
-\bcreate\s+?table.{0,20}?\(
+\bhaving\b\s?(?:\/\*.*?\*\/\s*)?\d{1,10}\s?(?:\/\*.*?\*\/\s*)?[=<>]+
+\bhaving\b\s?(?:\/\*.*?\*\/\s*)?[\'\"][^=]{1,10}[\'\"\s?(?:\/\*.*?\*\/\s*)?[=<>]+
+\bcreate\s+(?:\/\*.*?\*\/\s*)?table.{0,20}?\(
 \blike\W*?char\W*?\(
 select.*?case
 from.*?limit
@@ -40,6 +40,6 @@ exists\sselect\Sifnull\s\(
 exists\sselect\Stop
 exists\sselect\Sconcat
 exists\ssystem\s\(
-exists\s\bhaving\b\s+\d{1,10}
+exists\s\bhaving\b\s+(?:\/\*.*?\*\/\s*)?\d{1,10}
 exists\s'[^=]{1,10}'
-\bexists\s*?\(\s*?select\b
+\bexists\s*(?:\/\*.*?\*\/\s*)?\(\s*(?:\/\*.*?\*\/\s*)?select\b
