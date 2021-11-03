@@ -27,12 +27,11 @@ def check_against_rule_file(rule_file_path, id_regex, rule_id, computed_regex):
 				other, current_regex = rx_line.split('@rx')
 				delimiter = other.strip()[-1]
 				current_regex = current_regex.strip()
-				last = None
-				for index, character in enumerate(current_regex):
-					if character == delimiter and last != '\\':
-						current_regex = current_regex[:index]
+				# read the last ten characters of the line backwards
+				for index, character in enumerate(current_regex[:-10:-1]):
+					if character == delimiter:
+						current_regex = current_regex[:len(current_regex) - index - 1]
 						break
-					last = character
 				
 				if current_regex == computed_regex:
 					print(f'Regex of {rule_id} has not changed')
