@@ -23,25 +23,25 @@
 
 ##!+ i
 
-[\"'`]\s*!\s*[\"'`\w]
-[\"'`];?\s*having\b\s*[^\s]
-[\"'`];?\s*select\b\s*[^\s]
-[\"'`];?\s*union\b\s*all\b\s*[^\s]
-[\"'`];?\s*union\b\s*distinct\b\s*[^\s]
-[\"'`];?\s*union\b\s*select\b\s*[^\s]
-\s*exec.*?\Wxp_cmdshell
-\s*execute.*?\Wxp_cmdshell
-\Wiif\s*\(
-\bconnection_id\s*\([^\)]*?
-\bcurrent_user\s*\([^\)]*?
-\bdatabase\s*\([^\)]*?
+[\"'`]\s*(?:\/\*.*?\*\/)?\s*!\s*(?:\/\*.*?\*\/)?\s*[\"'`\w]
+[\"'`];?\s*(?:\/\*.*?\*\/)?\s*having\b\s*(?:\/\*.*?\*\/)?\s*[^\s]
+[\"'`];?\s*(?:\/\*.*?\*\/)?\s*select\b\s*(?:\/\*.*?\*\/)?\s*[^\s]
+[\"'`];?\s*(?:\/\*.*?\*\/)?\s*union\b\s*(?:\/\*.*?\*\/)?\s*all\b\s*(?:\/\*.*?\*\/)?\s*[^\s]
+[\"'`];?\s*(?:\/\*.*?\*\/)?\s*union\b\s*(?:\/\*.*?\*\/)?\s*distinct\b\s*(?:\/\*.*?\*\/)?\s*[^\s]
+[\"'`];?\s*(?:\/\*.*?\*\/)?\s*union\b\s*(?:\/\*.*?\*\/)?\s*select\b\s*(?:\/\*.*?\*\/)?\s*[^\s]
+\s*(?:\/\*.*?\*\/)?\s*exec.*?\Wxp_cmdshell
+\s*(?:\/\*.*?\*\/)?\s*execute.*?\Wxp_cmdshell
+\Wiif\s*(?:\/\*.*?\*\/)?\s*\(
+\bconnection_id\s*(?:\/\*.*?\*\/)?\s*\([^\)]*?
+\bcurrent_user\s*(?:\/\*.*?\*\/)?\s*\([^\)]*?
+\bdatabase\s*(?:\/\*.*?\*\/)?\s*\([^\)]*?
 \bexec\s+master\.
 \bexecute\s+master\.
 \bfrom\W+information_schema\W
-\binto[\s+]+dumpfile\s*[\"'`]
-\binto[\s+]+outfile\s*[\"'`]
-\bschema\s*\([^\)]*?
+\binto[\s+]+dumpfile\s*(?:\/\*.*?\*\/)?\s*[\"'`]
+\binto[\s+]+outfile\s*(?:\/\*.*?\*\/)?\s*[\"'`]
+\bschema\s*(?:\/\*.*?\*\/)?\s*\([^\)]*?
 \bselect.*?\w?user\(
 \bunion select @
 \bunion[\w(\s]*?select
-\buser\s*\([^\)]*?
+\buser\s*(?:\/\*.*?\*\/)?\s*\([^\)]*?
