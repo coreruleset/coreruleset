@@ -23,6 +23,15 @@
 
 ##!+ i
 
+alter\s*?\w+.*?character\s+set\s+\w+
+alter\s*?\w+.*?char\s+set\s+\w+
+[\"'`];*?\s*?waitfor\s+time\s+[\"'`]
+[\"'`];*?\s*?waitfor\s+delay\s+[\"'`]
+[\"'`];.*?:\s*?goto
+
+##! Added (?:\/\*.*?\*\/)?\s* to support comment block that can be used to bypass the filter
+##! Replaced lazy \s? to greedy \s*
+
 alter\s*(?:\/\*.*?\*\/)?\s*\w+.*?character\s+(?:\/\*.*?\*\/)?\s*set\s+(?:\/\*.*?\*\/)?\s*\w+
 alter\s*(?:\/\*.*?\*\/)?\s*\w+.*?char\s+(?:\/\*.*?\*\/)?\s*set\s+(?:\/\*.*?\*\/)?\s*\w+
 [\"'`];*?\s*(?:\/\*.*?\*\/)?\s*waitfor\s+(?:\/\*.*?\*\/)?\s*time\s+(?:\/\*.*?\*\/)?\s*[\"'`]
