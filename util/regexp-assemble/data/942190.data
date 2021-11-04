@@ -35,9 +35,15 @@
 \bconnection_id\s*?\([^\)]*?
 \bcurrent_user\s*?\([^\)]*?
 \bdatabase\s*?\([^\)]*?
+\bexec\s+master\.
+\bexecute\s+master\.
+\bfrom\W+information_schema\W
 \binto[\s+]+dumpfile\s*?[\"'`]
 \binto[\s+]+outfile\s*?[\"'`]
 \bschema\s*?\([^\)]*?
+\bselect.*?\w?user\(
+\bunion select @
+\bunion[\w(\s]*?select
 \buser\s*?\([^\)]*?
 
 ##! Added (?:\/\*.*?\*\/)?\s* to support comment block that can be used to bypass the filter
