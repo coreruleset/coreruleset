@@ -23,6 +23,15 @@
 
 ##!+ i
 
+select\s+benchmark\s*?\(\s*?\(?\s*?\w+
+;\s+benchmark\s*?\(\s*?\(?\s*?\w+
+select\s+if\s*?\(\s*?\(?\s*?\w+
+;\s+if\s*?\(\s*?\(?\s*?\w+
+select\s+sleep\s*?\(\s*?\(?\s*?\w+
+;\s+sleep\s*?\(\s*?\(?\s*?\w+
+
+##! Added (?:\/\*.*?\*\/)?\s* to support comment block that can be used to bypass the filter
+##! Replaced lazy \s? to greedy \s*
 select\s+(?:\/\*.*?\*\/)?\s*benchmark\s*(?:\/\*.*?\*\/)?\s*\(\s*(?:\/\*.*?\*\/)?\s*\(?\s*(?:\/\*.*?\*\/)?\s*\w+
 ;\s+(?:\/\*.*?\*\/)?\s*benchmark\s*(?:\/\*.*?\*\/)?\s*\(\s*(?:\/\*.*?\*\/)?\s*\(?\s*(?:\/\*.*?\*\/)?\s*\w+
 select\s+(?:\/\*.*?\*\/)?\s*if\s*(?:\/\*.*?\*\/)?\s*\(\s*(?:\/\*.*?\*\/)?\s*\(?\s*(?:\/\*.*?\*\/)?\s*\w+
