@@ -1,0 +1,64 @@
+---
+  meta:
+    author: "Franziska Bühler"
+    description: "Remote Command Execution: Wildcard bypass technique attempt"
+    enabled: true
+    name: 932190.yaml
+  tests:
+  -
+    test_title: 932190-1
+    desc: "/?id=1+un/**/ion (https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv
+          method: GET
+          port: 80
+          uri: /?id=1%2Bun%2F%2A%2A%2Fion
+          version: HTTP/1.0
+        output:
+          log_contains: id "932190"
+  -
+    test_title: 932190-2
+    desc: "/?id=/???/?s (https://medium.com/secjuice/waf-evasion-techniques-718026d693d8)"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv
+          method: GET
+          port: 80
+          uri: /?id=%2F%3F%3F%3F%2F%3Fs
+          version: HTTP/1.0
+        output:
+          log_contains: id "932190"
+  -
+    test_title: 932190-3
+    desc: "/?id=Does the * shine bright?"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv
+          method: GET
+          port: 80
+          uri: /?id=Does%20the%20%2A%20shine%20bright%3F
+          version: HTTP/1.0
+        output:
+          no_log_contains: id "932190"
