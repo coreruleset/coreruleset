@@ -70,21 +70,23 @@
 ##! 'cmd'
 '
 ##! "cmd"
-\"
+"
 ##! spacing+cmd
 \s
 ##!<
 ##!^ )*
 
 ##! paths prefix
+##!^ (?:
 ##!> assemble prefix
 ##! /path/cmd
-[\w'\"\./]+/
+[\w'"\./]+/
 ##! C:\Program Files\cmd
 [\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c
 ##! \\net\share\dir\cmd
 [\^\.\w '\"/\x5c]*\x5c)?[\"\^]*
 ##!<
+##!^ )?[\"\^]*
 
 ##! Note: the quoting prefixes are part of the command prefixes, except for ^
 ##!       which, for unknown reasons, is not part of the expression
