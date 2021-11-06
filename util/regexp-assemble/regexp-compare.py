@@ -40,18 +40,28 @@ def check_against_rule_file(rule_file_path, id_regex, rule_id, computed_regex):
 					print(f'Regex of {rule_id} has changed!')
 					max_chunks = ceil(max(len(current_regex), len(computed_regex)) / 50)
 					for index in range(0, max_chunks * 50, 50):
-						end_index = min(len(current_regex), index + 50)
-						if end_index > index:
+						current_chunk = computed_chunk = None
+						current_end_index = min(len(current_regex), index + 50)
+						computed_end_index = min(len(computed_regex), index + 50)
+						if current_end_index > index:
+							current_chunk = current_regex[index:current_end_index]
+						if computed_end_index > index:
+							computed_chunk = computed_regex[index:computed_end_index]
+
+						if current_end_index > index:
 							sys.stdout.write('\ncurrent:  ')
-							chunk = current_regex[index:end_index]
-							sys.stdout.write(chunk)
-							sys.stdout.write(f'({int(index / 50) + 1} / {ceil(len(current_regex) / 50)})'.rjust(65 - len(chunk)))
-						end_index = min(len(computed_regex), index + 50)
-						if end_index > index:
+							sys.stdout.write(current_chunk)
+							counter = f'({int(index / 50) + 1} / {ceil(len(current_regex) / 50)})'
+							if computed_chunk is None or current_chunk != computed_chunk:
+								counter = '~ ' + counter
+							sys.stdout.write(counter.rjust(65 - len(current_chunk)))
+						if computed_end_index > index:
 							sys.stdout.write('\ncomputed: ')
-							chunk = computed_regex[index:end_index]
-							sys.stdout.write(chunk)
-							sys.stdout.write(f'({int(index / 50) + 1} / {ceil(len(current_regex) / 50)})'.rjust(65 - len(chunk)))
+							sys.stdout.write(computed_chunk)
+							counter = f'({int(index / 50) + 1} / {ceil(len(computed_regex) / 50)})'
+							if current_chunk is None or current_chunk != computed_chunk:
+								counter = '~ ' + counter
+							sys.stdout.write(counter.rjust(65 - len(computed_chunk)))
 						sys.stdout.write('\n')
 					sys.stdout.write('\n')
 				return exit_code
