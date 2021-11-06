@@ -17,7 +17,9 @@ use lib "$RealBin/lib/lib";
 use Regexp::Assemble;
 
 # cook_hex: disable replacing hex escapes with decodec bytes
-my $ra = Regexp::Assemble->new(cook_hex => 0);
+# force_escape_tokens: we embed the resulting regex within double quotes,
+#                      so they all need to be escaped
+my $ra = Regexp::Assemble->new(cook_hex => 0, force_escape_tokens => q("));
 my @flags = ();
 my @prefixes = ();
 my @suffixes = ();
