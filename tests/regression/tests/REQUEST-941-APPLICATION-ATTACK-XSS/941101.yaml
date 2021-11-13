@@ -21,3 +21,18 @@
               Referer: www.github.com<script><img><iframe>
           output:
             log_contains: id "941101"
+    -
+      test_title: 941101-2
+      stages:
+      -
+        stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: GET
+            port: 80
+            uri: "/\"onmouseover='prompt(document.cookie)'\""
+            headers:
+              User-Agent: ModSecurity CRS 3 Tests
+              Host: localhost
+          output:
+            log_contains: id "941101"

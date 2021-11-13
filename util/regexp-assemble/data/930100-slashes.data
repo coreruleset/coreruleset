@@ -1,0 +1,99 @@
+##! This is a data file used to generate a regular expression for a CRS rule. 
+##! The generation of the regular expression happens with the help of 
+##! util/regexp-assemble/regexp-assemble.py.
+##! The ID of the rule in question is part of the file name of this data file. 
+##! Read more about the format of this data file and the use of the assembly 
+##! script in util/regexp-assemble/README.md.
+##!
+##! Lines starting with `##!` are comments and will be skipped,
+##! empty lines will be ignored completely.
+##! In addition, the quote character `'` at the beginning of a line will
+##! cause the line to be interpreted as literal by the cmdline preprocessor only.
+##! 
+##! Five special comments are at your disposal to influence the assembled expression:
+##! - `##!+`: the flag comment
+##! - `##!^`: the prefix comment
+##! - `##!$`: the suffix comment
+##! - `##!>`: the preprocessor comment
+##! - `##!<`: the block preprocessor end comment
+##!
+##! Currently supported preoprocessors:
+##! - cmdline [windows|unix] (file scope)
+##! - neglook (block scope)
+##! Please refer to util/regexp-assemble/README.md for a full explanation.
+
+##! Source: https://github.com/wireghoul/dotdotpwn/blob/master/DotDotPwn/TraversalEngine.pm
+##! Attack description: https://doc.lagout.org/security/McGraw.Hill.HackNotes.Web.Security.Portable.Reference.eBook-DDU.pdf
+##! Excerpt:
+##! In short, IIS turns %c0%af into
+##! the ASCII / character, but parses it at a point where security checks for
+##! ‘../’ traversals have already occurred!
+##! What has really happened? The attack uses an overlong Unicode
+##! representation for a forward or backward slash (/ or \).
+##! Unicode permits multibyte encoding of the same character.
+##! The fundamental representation can be referred to as a one (character) to one (byte field)
+##! representation. The overlong representation is a one (character) to many
+##! (bytes) version.
+##! Two more valid strings that represent the backward slash are %c1%1c
+##! and %c1%9c. The difference between these two hex values is 128. More
+##! valid slash representations boil down to a matter of math. For example,
+##! %c0%9v works even though %9v isn’t a hexadecimal value. Try adding
+##! the value for “9” (57) to “v” (118); if the result is greater than 127, then
+##! subtract 128—hint, the final result should be 47.
+
+##! Prepend the "\x5c" pattern manually because Regexp::Assemble will
+##! automatically convert it into a "\" character if it's fed in with the other
+##! pattern lines below. We want to maintain the original form of "\x5c" because
+##! a.) that maintains the original regular expression, and b.) using "\x5c"
+##! works as intended with both ModSecurity 2 and libmodsecurity (i.e. it works
+##! around the issue of representing a literal backslash character, using tricks
+##! like [\\\\], etc.).
+
+##!^ (?:\x5c|
+
+##! Manually append the closing bracket to match the manually prepended opening
+##! one.
+
+##!$ )
+
+##! URI encoded
+%2f
+%5c
+##! Hex encoded
+0x2f
+0x5c
+##! Double URI encoded
+%252f
+%255c
+##! Overlong Unicode sequences (target IIS)
+%c0%2f
+%c0%af
+%c0%5c
+%c1%9c
+%c1%pc
+%c0%9v
+%c0%qf
+%c1%8s
+%c1%1c
+%c1%af
+%bg%qf
+##! Unicode 16 "alternative" glyphs
+%u2215
+%u2216
+##! Unknown
+%uEFC8
+%uF025
+##! More double encoding and variations on the above
+%%32%%66
+%%35%%63
+%e0%80%af
+%25c1%259c
+%25c0%25af
+%f0%80%80%af
+%f8%80%80%80%af
+%2%46
+%%32%46
+%%32F
+%u002f
+%1u
+/

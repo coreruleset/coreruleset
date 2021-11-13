@@ -1,0 +1,72 @@
+---
+  meta:
+    author: "Paul Beckett"
+    enabled: true
+    name: "932150.yaml"
+    description: "Tests to trigger or not trigger rule 932150"
+  tests:
+    -
+      test_title: 932150-1
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "GET"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+              uri: "/?932150-1=bash%20-c%20%22echo%20test%22"
+              protocol: "http"
+            output:
+              log_contains: "id \"932150\""
+    -
+      test_title: 932150-2
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "POST"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+              data: '932150-2=tar -xzf /var/www/exfiltrate.tar.gz /etc'
+              protocol: "http"
+            output:
+              log_contains: "id \"932150\""
+    -
+      test_title: 932150-3
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "GET"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+                  Cookie: "931120-3=exec 5<>/dev/tcp/8.8.8.8/80"
+              uri: '/'
+              protocol: "http"
+            output:
+              log_contains: "id \"932150\""
+    -
+      test_title: 932150-4
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "POST"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+              data: '932150-2=dont match commands that are not at start;tar -xzf /var/www/exfiltrate.tar.gz /etc'
+              protocol: "http"
+            output:
+              no_log_contains: "id \"932150\""

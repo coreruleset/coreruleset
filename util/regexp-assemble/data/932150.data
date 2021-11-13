@@ -1,0 +1,226 @@
+##! This is a data file used to generate a regular expression for a CRS rule. 
+##! The generation of the regular expression happens with the help of 
+##! util/regexp-assemble/regexp-assemble.py.
+##! The ID of the rule in question is part of the file name of this data file. 
+##! Read more about the format of this data file and the use of the assembly 
+##! script in util/regexp-assemble/README.md.
+##!
+##! Lines starting with `##!` are comments and will be skipped,
+##! empty lines will be ignored completely.
+##! In addition, the quote character `'` at the beginning of a line will
+##! cause the line to be interpreted as literal by the cmdline preprocessor only.
+##! 
+##! Five special comments are at your disposal to influence the assembled expression:
+##! - `##!+`: the flag comment
+##! - `##!^`: the prefix comment
+##! - `##!$`: the suffix comment
+##! - `##!>`: the preprocessor comment
+##! - `##!<`: the block preprocessor end comment
+##!
+##! Currently supported preoprocessors:
+##! - cmdline [windows|unix] (file scope)
+##! - neglook (block scope)
+##! Please refer to util/regexp-assemble/README.md for a full explanation.
+
+##! Word list for rule 932150 (RCE Unix command injection)
+
+##!> cmdline unix
+
+##! Magic prefix (origin unknown)
+##!^ (?:^|=)\s*(?:{|\s*\(\s*|\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+|!\s*|\$)*\s*(?:'|\")*(?:[\?\*\[\]\(\)\-\|+\w'\"\./\\\\]+/)?[\\\\'\"]*
+
+##!$ [\\\\'\"]*(?:\s|;|\||&|<|>)
+
+bash
+bsdcat
+bsdiff
+bsdtar
+builtin
+bzcat
+bzdiff
+bzegrep
+bzfgrep
+bzgrep
+bzless
+bzmore
+cc
+command
+coproc
+csh
+curl
+dash
+diff
+dmesg
+doas
+echo
+egrep
+env
+eval
+exec
+fetch
+fgrep
+filetest
+ftpstats
+ftpwho
+gcc
+GET
+grep
+gzcat
+gzip
+head
+hup
+irb
+irb1
+irb18
+irb19
+irb20
+irb21
+irb22
+java
+jobs -x
+lastcomm
+lastlog
+lastlogin
+lessecho
+lessfile
+lesspipe
+lftp
+lftpget
+ls
+ls-F
+lsb_release
+lscpu
+lsmod
+lsof
+lspci
+lsusb
+lwp
+lwp-download
+lynx
+lzcat
+lzcmp
+lzdiff
+lzegrep
+lzfgrep
+lzgrep
+lzless
+lzma
+lzmore
+mailq
+mlocate
+mysqladmin
+mysqldump
+mysqldumpslow
+mysqlhotcopy
+mysqlshow
+nc
+nc.openbsd
+nc.traditional
+ncat
+netcat
+netkit-ftp
+netstat
+nohup
+nping
+nstat
+onintr
+perl
+perl5
+pftp
+pgrep
+php
+php5
+php7
+ping
+pkexec
+pkill
+popd
+printenv
+ptar
+ptardiff
+ptargrep
+python
+python2
+python3
+python3m
+rcp
+realpath
+rename
+repeat
+replace
+rmdir
+rmuser
+rnano
+rsync
+ruby
+ruby1
+ruby18
+ruby19
+ruby20
+ruby21
+ruby22
+sched
+scp
+sdiff
+sed
+sendmail
+setenv
+setsid
+sftp
+sh
+sh.distrib
+socat
+source
+ssh
+strings
+sudo
+svn
+sysctl
+tail
+tailf
+tar
+tcping
+tcptraceroute
+tcsh
+telnet
+time
+timeout
+traceroute
+traceroute6
+uname
+uncompress
+unlzma
+unrar
+unset
+unxz
+unzip
+useradd
+userdel
+usermod
+vigr
+vipw
+w3m
+wget
+whoami
+xargs
+xz
+xzcat
+xzcmp
+xzdec
+xzdiff
+xzegrep
+xzfgrep
+xzgrep
+xzless
+xzmore
+zcat
+zcmp
+zdiff
+zegrep
+zfgrep
+zgrep
+zip
+zless
+zmore
+zrun
+zsh
