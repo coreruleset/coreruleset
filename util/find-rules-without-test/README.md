@@ -4,15 +4,18 @@ This page describes how can you find the rules without any test cases
 
 ## Goal
 
-The main goal that we must to have at least regression test for all relevant REQUEST-* rules. (In this context, the PL controll rules are not relevant, because they do not need to have tests.)
+The main goal is that we must have at least one regression test for all relevant REQUEST- * rules. (In this context, the PL control rules are not relevant, because they do not need to have tests.)
 
-You need to pass the CORERULESET root as argument.
+You need to pass the CORERULESET_ROOT as argument, eg:
+```
+util/find-rules-without-test/find_rules_without_test.py /path/to/coreruleset
+```
 
-The script collects all avaliable test files, based on the name of the test files. It will look up under CORERULESET_ROOT/tests/regression/tests/*.
+The script collects all available test files, based on the name of the test files. It will look up under CORERULESET_ROOT/tests/regression/tests/*.
 
-Then it starts to read all rule files with name "REQUEST-\*", which means this won't handles the RESPONSE-* rules.
+Then it starts to read all rule files with name "REQUEST-\*", which means this won't handle the RESPONSE-* rules.
 
-The script parses the rules, uses `msc_pyparser`, reads the rule's id, and try to find the test case.
+The script parses the rules, uses `msc_pyparser`, reads the rule's id, and tries to find the test case.
 
 The sctipt ignores the check in case of PL control rules (rules with id under 9XX100), and some hardcoded rules:
  * REQUEST-900-
