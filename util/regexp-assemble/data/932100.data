@@ -1,0 +1,206 @@
+##! This is a data file used to generate a regular expression for a CRS rule. 
+##! The generation of the regular expression happens with the help of 
+##! util/regexp-assemble/regexp-assemble.py.
+##! The ID of the rule in question is part of the file name of this data file. 
+##! Read more about the format of this data file and the use of the assembly 
+##! script in util/regexp-assemble/README.md.
+##!
+##! Lines starting with `##!` are comments and will be skipped,
+##! empty lines will be ignored completely.
+##! In addition, the quote character `'` at the beginning of a line will
+##! cause the line to be interpreted as literal by the cmdline preprocessor only.
+##! 
+##! Five special comments are at your disposal to influence the assembled expression:
+##! - `##!+`: the flag comment
+##! - `##!^`: the prefix comment
+##! - `##!$`: the suffix comment
+##! - `##!>`: the preprocessor comment
+##! - `##!<`: the block preprocessor end comment
+##!
+##! Currently supported preoprocessors:
+##! - cmdline [windows|unix] (file scope)
+##! - neglook (block scope)
+##! Please refer to util/regexp-assemble/README.md for a full explanation.
+
+##! Word list for rule 932100 (RCE Unix command injection part 1/4)
+##!
+##! To prevent some FP for a command, you can require command parameters
+##! after a command. Only do this if the command regularly causes FP and if
+##! allowing the bare command (without parameters) is not too dangerous.
+##! (Note: due to \b following the regexp, a word boundary is also required
+##! further on, so some letter/number is needed for a match). Example:
+##!
+##!   diff@
+
+##!> cmdline unix
+##!^ (?:;|\{|\||\|\||&|&&|\n|\r|\$\(|\$\(\(|`|\${|<\(|>\(|\(\s*\))\s*(?:{|\s*\(\s*|\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+|!\s*|\$)*\s*(?:'|\")*(?:[\?\*\[\]\(\)\-\|+\w'\"\./\\\\]+/)?[\\\\'\"]*
+
+##!$ \b
+
+7z
+7za
+7zr
+adduser
+alias@
+alpine
+apt-get
+arch@
+arp
+awk@
+aws@
+bash
+batch@
+breaksw
+bsdcat
+bsdiff
+bsdtar
+builtin
+bzcat
+bzdiff
+bzegrep
+bzfgrep
+bzgrep
+bzip2
+bzless
+bzmore
+cat@
+cc@
+chattr
+chdir@
+chflags
+chmod
+command@
+compress@
+coproc
+cp@
+crontab
+csh
+curl
+dash
+dhclient
+diff@
+dmesg
+doas
+done
+dpkg
+du@
+echo@
+egrep
+endif
+endsw
+env
+env-update
+esac
+eval
+exec@
+expand
+export
+expr
+fc@
+fetch@
+fgrep
+fi
+file@
+filetest
+find@
+fish
+foreach
+ftp@
+ftpstats
+ftpwho
+function
+gcc@
+gdb
+GET@
+getfacl@
+git@
+##! golang compiler/command
+go@
+grep@
+gunzip
+gzcat
+gzip
+head@
+history
+hostid
+hostname
+htdigest
+htpasswd
+hup@
+##! 'id' causes way too much FP, so we require whitespace; this will allow
+##! injecting ';id' unfortunately.
+id@
+ifconfig
+ip6tables
+ipconfig
+iptables
+irb
+irb1
+irb18
+irb19
+irb20
+irb21
+irb22
+irb23
+irb24
+irb25
+irb26
+irb27
+irb30
+java@
+jexec
+jobs@
+kill@
+killall
+ksh
+last@
+lastcomm
+lastlog
+lastlogin
+ldconfig
+ldd@
+less@
+lessecho
+lessfile
+lesspipe
+links@
+lftp
+lftpget
+ln@
+local@
+locate@
+logname
+lp@
+ls
+ls-F
+lsb_release
+lscpu
+lshw
+lsmod
+lsof
+lspci
+lsusb
+lua@
+lua5.1
+lua5.2
+lua5.3
+lua5.4
+lwp-download
+lwp-dump
+lwp-mirror
+lwp-request
+lynx@
+lzcat
+lzcmp
+lzdiff
+lzegrep
+lzfgrep
+lzgrep
+lzless
+lzma
+lzmore
+mailq
+mailx@
+mkdir@
+mlocate
+more@

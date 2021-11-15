@@ -1,0 +1,190 @@
+##! This is a data file used to generate a regular expression for a CRS rule. 
+##! The generation of the regular expression happens with the help of 
+##! util/regexp-assemble/regexp-assemble.py.
+##! The ID of the rule in question is part of the file name of this data file. 
+##! Read more about the format of this data file and the use of the assembly 
+##! script in util/regexp-assemble/README.md.
+##!
+##! Lines starting with `##!` are comments and will be skipped,
+##! empty lines will be ignored completely.
+##! In addition, the quote character `'` at the beginning of a line will
+##! cause the line to be interpreted as literal by the cmdline preprocessor only.
+##! 
+##! Five special comments are at your disposal to influence the assembled expression:
+##! - `##!+`: the flag comment
+##! - `##!^`: the prefix comment
+##! - `##!$`: the suffix comment
+##! - `##!>`: the preprocessor comment
+##! - `##!<`: the block preprocessor end comment
+##!
+##! Currently supported preoprocessors:
+##! - cmdline [windows|unix] (file scope)
+##! - neglook (block scope)
+##! Please refer to util/regexp-assemble/README.md for a full explanation
+
+##! Word list for rule 932115 (RCE Windows command injection part 2/2)
+##!
+##! To prevent some FP for a command, you can require command parameters
+##! after a command. Only do this if the command regularly causes FP and if
+##! allowing the bare command (without parameters) is not too dangerous.
+##! (Note: due to \b following the regexp, a word boundary is also required
+##! further on, so some letter/number is needed for a match). Example:
+##!
+##!   diff@
+
+##!+ i
+##!> cmdline windows
+
+##! Magic prefix (origin unkown)
+##!^ (?:;|\{|\||\|\||&|&&|\n|\r|`)\s*[\(,@\'\"\s]*(?:[\w'\"\./]+/|[\\\\'\"\^]*\w[\\\\'\"\^]*:.*\\\\|[\^\.\w '\"/\\\\]*\\\\)?[\"\^]*
+
+##!$ (?:\.[\"\^]*\w+)?\b
+
+odbcad32
+odbcconf
+openfiles
+path@
+pathping
+perfmon
+perl
+perl5
+perlsh
+php
+php5
+php7
+ping
+pkgmgr
+popd
+portqry
+powercfg
+powershell
+powershell_ise
+print@
+printbrm
+prncnfg
+prnmngr
+prompt
+psexec
+psfile
+psgetsid
+psinfo
+pskill
+pslist
+psloggedon
+psloglist
+pspasswd
+psping
+psservice
+psshutdown
+pssuspend
+pushd
+python
+python2
+python3
+python3m
+qgrep
+qprocess
+query@
+qwinsta
+rar@
+rasdial
+rasphone
+rd@
+recdisc
+recover
+reg@
+regedit
+regini
+regsvr32
+rekeywiz
+ren@
+rename@
+replace@
+reset@
+rm@
+rmdir@
+rmtshare
+robocopy
+route@
+rstrui
+rsync
+ruby1
+ruby18
+ruby19
+ruby20
+ruby21
+ruby22
+runas
+rundll32
+schtasks
+sclist
+secpol
+select
+set@
+setlocal
+setx@
+sfc
+share
+shellrunas
+shift
+shortcut
+showgrps
+showmbrs
+shrpubw
+shutdown
+sigverif
+sleep
+slmgr
+sort@
+start@
+subinacl
+subst
+svn
+sysdm
+syskey
+systeminfo
+systempropertiesadvanced
+systempropertiesdataexecutionprevention
+systempropertieshardware
+systempropertiesperformance
+takeown
+taskkill
+tasklist
+taskmgr
+taskschd
+telnet
+timeout
+tlist
+tpminit
+tracert
+tree
+tsdiscon
+tsshutdn
+type@
+typeperf
+unrar
+unzip
+useraccountcontrolsettings
+usrstat
+verify
+vol@
+waitfor
+wevtutil
+wget
+##! disabled for FP: where@
+whoami
+windiff
+winmsdp
+winrm
+winrs
+winvar
+wmic
+wmimgmt
+wscript
+wscui
+wuapp
+wuauclt
+wusa
+xcacls
+xcopy
+zip@

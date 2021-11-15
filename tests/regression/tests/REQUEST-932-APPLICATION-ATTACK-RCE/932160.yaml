@@ -1,0 +1,72 @@
+---
+  meta:
+    author: "Paul Beckett"
+    enabled: true
+    name: "932160.yaml"
+    description: "Tests to trigger or not trigger rule 932160"
+  tests:
+    -
+      test_title: 932160-1
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "GET"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+              uri: "/?932160-1=cat%20/etc/passwd"
+              protocol: "http"
+            output:
+              log_contains: "id \"932160\""
+    -
+      test_title: 932160-2
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "POST"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+              data: "932160-2=/usr/bin/perl -e 'print readline' some-file.txt"
+              protocol: "http"
+            output:
+              log_contains: "id \"932160\""
+    -
+      test_title: 932160-3
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "GET"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+                  Cookie: "931120-3=/usr/bin/python3 -m http.server"
+              uri: '/'
+              protocol: "http"
+            output:
+              log_contains: "id \"932160\""
+    -
+      test_title: 932160-4
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "POST"
+              port: 80
+              headers:
+                  User-Agent: ModSecurity CRS 3 Tests
+                  Host: "localhost"
+              data: '932160-2=dont match commands that are not fully qualified like bash python and perl.'
+              protocol: "http"
+            output:
+              no_log_contains: "id \"932160\""

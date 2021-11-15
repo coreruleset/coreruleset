@@ -28,3 +28,53 @@
           data: ''
         output:
           log_contains: id "920300"
+  -
+    test_title: 920300-2
+    desc: "OPTIONS request: exempt from requiring an Accept request header"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0"
+          method: "OPTIONS"
+          uri: "*"
+          version: "HTTP/1.1"
+        output:
+          no_log_contains: "id \"920300\""
+  -
+    test_title: 920300-3
+    desc: "CONNECT request: exempt from requiring an Accept request header"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "www.cnn.com:80"
+            User-Agent: "Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0"
+            Proxy-Connection: "Keep-Alive"
+          method: "CONNECT"
+          uri: "www.cnn.com:80"
+          version: "HTTP/1.1"
+        output:
+          no_log_contains: "id \"920300\""
+  -
+    test_title: 920300-4
+    desc: "User-Agent containing AppleWebKit: exempt from requiring an Accept request header"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
+          method: "GET"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          no_log_contains: "id \"920300\""

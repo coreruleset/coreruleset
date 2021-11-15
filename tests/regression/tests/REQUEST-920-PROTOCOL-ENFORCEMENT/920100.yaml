@@ -107,13 +107,13 @@
               method: "CONNECT"
               port: 80
               headers:
-                  User-Agent: "ModSecurity CRS 3 Tests #FP"
+                  User-Agent: "ModSecurity CRS 3 Tests"
                   Host: "localhost"
               protocol: "http"
               uri: "www.cnn.com:80"
               version: "HTTP/1.1"
             output:
-              log_contains: "id \"920100\""
+              no_log_contains: "id \"920100\""
     -
       # Valid request with query and anchor components
       test_title: 920100-7
