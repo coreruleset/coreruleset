@@ -21,3 +21,18 @@
               uri: "/"
             output:
               log_contains: id "930100"
+    -
+      test_title: 930100-2
+      desc: "Path Traversal Attack Triple Dot (/.../)"
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              method: "GET"
+              port: 80
+              headers:
+                  Host: "localhost"
+              uri: "/?foo=.../.../WINDOWS/win.ini"
+            output:
+              log_contains: id "930100"
