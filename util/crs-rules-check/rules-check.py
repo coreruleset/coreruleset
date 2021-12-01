@@ -5,6 +5,7 @@ import os
 import glob
 import msc_pyparser
 import difflib
+import argparse
 
 class bcolors(object):
     BLUE      = '\033[94m'
@@ -16,6 +17,9 @@ class bcolors(object):
     BOLD      = '\033[1m'
     UNDERLINE = '\033[4m'
     ENDC      = '\033[0m'
+
+    output_ok  = '::debug::'
+    output_err = '::error::'
 
     @staticmethod
     def print_colors():
@@ -30,10 +34,13 @@ class bcolors(object):
         print(bcolors.UNDERLINE, "UNDERLINE", bcolors.ENDC)
 
 def print_ok(s = None):
-    if s is None:
-        print(bcolors.GREEN, "[OK]", bcolors.ENDC)
+    if bcolors.output_format == 'native':
+        if s is None:
+            print(bcolors.GREEN, "[OK]", bcolors.ENDC)
+        else:
+            print(bcolors.GREEN, "%s" % (s), bcolors.ENDC)
     else:
-        print(bcolors.GREEN, "%s" % (s), bcolors.ENDC)
+        print("::debug::")
 
 def print_err(s = None):
     if s is None:
@@ -217,11 +224,20 @@ class Check(object):
                         a[0] = self.current_ruleid
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Argument missing!")
-        print("Use: %s /path/to/coreruleset/*.conf" % (sys.argv[0]))
-        sys.exit(1)
-    crspath = sys.argv[1]
+    parser = argparse.ArgumentParser(description="CRS Rules Check tool")
+    parser.add_argument("--output", dest="output", help="Output format native[default]|github", required=False)
+    parser.add_argument('crspath', metavar='/path/to/coreruleset/*.conf', type=str,
+                        help='Directory path to CRS')
+    args = parser.parse_args()
+
+    crspath = args.crspath
+
+    if args.output is not None:
+        if args.output not in ["native", "github"]:
+            print("--output can be one of the 'native' or 'github'. Default value is 'native'")
+            sys.exit(1)
+    bcolors.output_format = args.output
+
     retval = 0
     try:
         flist = glob.glob(crspath)
