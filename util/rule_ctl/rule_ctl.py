@@ -188,22 +188,29 @@ class SecAction(RuleFileItem):
             self._line_numbers[("action", index)] = action["lineno"]
 
     def _parse_var(self, variable):
-        negated,counter = False,False
-        if variable[0:1] == "!":
-            negated = True
-        if variable[0:1] == "&":
-            counter = True
-        m = re.match('^([!&]*)([^:]+):(.+)$', variable)
+        negated = False
+        counter = False
+        newvar = variable
+        newvarpart = ""
+        quote_type = "no_quote"
+        m = re.match('^([!&]?)([^:]+)(?::(.+))?$', variable)
         if m:
+            counter = m.group(1) == '&'
+            negated = m.group(1) == '!'
             newvar = m.group(2)
-            newvarpart = m.group(3)
-        else:
-            newvar = variable
-            newvarpart = ""
+            varpart = m.group(3)
+            if varpart is not None:
+                if varpart[0] == '"' and varpart[-1] == '"':
+                    quote_type = 'quoted'
+                    varpart = varpart[1:-1]
+                elif varpart[0] == "'" and varpart[-1] == "'":
+                    quote_type = 'quotes'
+                    varpart = varpart[1:-1]
+                newvarpart = varpart
         return {
             "variable": newvar,
             "variable_part": newvarpart,
-            "quote_type": "no_quote",
+            "quote_type": quote_type,
             "negated": negated,
             "counter": counter
         }
@@ -599,30 +606,33 @@ class SecAction(RuleFileItem):
         
         variables = self.get_variables()
         for nv_tosplit in context.args.replace_variable:
-            newvar, oldvar = nv_tosplit.split(",")
-            ov = self._parse_var(newvar)
-            nv = self._parse_var(oldvar)
+            oldvar, newvar = nv_tosplit.split(",")
+            ov = self._parse_var(oldvar)
+            nv = self._parse_var(newvar)
 
-            new_variable = nv["variable"],
-            newvarpart = nv["variable_part"],
-            newnegated = nv["negated"],
-            newcounter = nv["counter"],
-            old_variable = ov["variable"],
-            oldvarpart = ov["variable_part"],
-            oldnegated = ov["negated"],
+            new_variable = nv["variable"]
+            newvarpart = nv["variable_part"]
+            newnegated = nv["negated"]
+            newcounter = nv["counter"]
+            newquotetype = nv["quote_type"]
+            old_variable = ov["variable"]
+            oldvarpart = ov["variable_part"]
+            oldnegated = ov["negated"]
             oldcounter = ov["counter"]
+            oldquotetype = ov["quote_type"]
             new_var_list = []
             for v in variables:
-                if v["variable"] == old_variable and v["variable_part"] == oldvarpart and v["negated"] == oldnegated and v["counter"] == oldcounter:
+                if (v["variable"] == old_variable and v["variable_part"] == oldvarpart
+                        and v["negated"] == oldnegated and v["counter"] == oldcounter and v["quote_type"] == oldquotetype):
                     new_var_list.append({
                         "variable": new_variable,
                         "variable_part": newvarpart,
-                        "quote_type": "no_quote",
+                        "quote_type": newquotetype,
                         "negated": newnegated,
                         "counter": newcounter
                     })
                     if context.args.debug:
-                        context.dprint(self.id, "replace-variable", f"Replaced variable {oldvar}:{oldvarpart} negated:{oldnegated} counter:{oldcounter} with {newvar}:{newvarpart} negated:{newnegated} counter:{newcounter}", 0)
+                        context.dprint(self.id, "replace-variable", f"Replaced variable {oldvar}:{oldvarpart} negated:{oldnegated} counter:{oldcounter} quote_type:{oldquotetype} with {newvar}:{newvarpart} negated:{newnegated} counter:{newcounter} quote_type:{newquotetype}", 0)
                 else:
                     new_var_list.append(v)
             variables = new_var_list
