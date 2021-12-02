@@ -37,3 +37,9 @@ jobs:
           git clone https://github.com/CRS-support/secrules_parsing
           pip install -r secrules_parsing/requirements.txt
           python secrules_parsing/secrules_parser.py -c -f rules/*.conf
+
+      - name: "Rules Check CRS syntax"
+        run: |
+          pip install --upgrade setuptools
+          pip install -r ./util/crs-rules-check/requirements.txt
+          ./util/crs-rules-check/rules-check.py --output=github "rules/*.conf"
