@@ -40,8 +40,16 @@ If everything is fine, rule returns with 0.
 Normally, you should run the script:
 
 ```
-./rules-check.py /path/to/coreruleset/*.conf
+./rules-check.py "/path/to/coreruleset/*.conf"
 ```
+
+Optionally, you can add the option `--output=github` (default value is `native`):
+
+```
+./rules-check.py --output=github "/path/to/coreruleset/*.conf"
+```
+
+In this case, each line will have a prefix, which could be `::debug` or `::error`. See [this](https://docs.github.com/en/actions/learn-github-actions/workflow-commands-for-github-actions#setting-an-error-message).
 
 Examples
 ========

@@ -7,49 +7,7 @@ import msc_pyparser
 import difflib
 import argparse
 
-class bcolors(object):
-    BLUE      = '\033[94m'
-    CYAN      = '\033[96m'
-    GREEN     = '\033[92m'
-    MAGENTA   = '\033[95m'
-    YELLOW    = '\033[93m'
-    RED       = '\033[91m'
-    BOLD      = '\033[1m'
-    UNDERLINE = '\033[4m'
-    ENDC      = '\033[0m'
-
-    output_ok  = '::debug::'
-    output_err = '::error::'
-
-    @staticmethod
-    def print_colors():
-        """a helper function to see the colors"""
-        print(bcolors.MAGENTA,   "MAGENTA",   bcolors.ENDC)
-        print(bcolors.BLUE,      "BLUE",      bcolors.ENDC)
-        print(bcolors.CYAN,      "CYAN",      bcolors.ENDC)
-        print(bcolors.GREEN,     "GREEN",     bcolors.ENDC)
-        print(bcolors.YELLOW,    "YELLOW",    bcolors.ENDC)
-        print(bcolors.RED,       "RED",       bcolors.ENDC)
-        print(bcolors.BOLD,      "BOLD",      bcolors.ENDC)
-        print(bcolors.UNDERLINE, "UNDERLINE", bcolors.ENDC)
-
-def print_ok(s = None):
-    if bcolors.output_format == 'native':
-        if s is None:
-            print(bcolors.GREEN, "[OK]", bcolors.ENDC)
-        else:
-            print(bcolors.GREEN, "%s" % (s), bcolors.ENDC)
-    else:
-        print("::debug::")
-
-def print_err(s = None):
-    if s is None:
-        print(bcolors.RED, "[ERR]", bcolors.ENDC)
-    else:
-        print(bcolors.RED, "%s" % (s), bcolors.ENDC)
-
-def print_bold(s, end = ''):
-    print(bcolors.BOLD, s, bcolors.ENDC, end = end)
+oformat = "native"
 
 class Check(object):
     def __init__(self, data):
@@ -66,6 +24,7 @@ class Check(object):
 
         # list the actions in expected order
         # see wiki: https://github.com/SpiderLabs/owasp-modsecurity-crs/wiki/Order-of-ModSecurity-Actions-in-CRS-rules
+        # note, that these tokens are with lovercase here, but used only for to check the order
         self.ordered_actions = [
             "id",                   # 0
             "phase",                # 1
@@ -86,21 +45,21 @@ class Check(object):
             "msg",
             "logdata",
             "tag",
-            "sanitiseArg",
-            "sanitiseRequestHeader",    # 20
-            "sanitiseMatched",
-            "sanitiseMatchedBytes",
+            "sanitisearg",
+            "sanitiserequestheader",    # 20
+            "sanitisematched",
+            "sanitisematchedbytes",
             "ctl",
             "ver",
             "severity",
-            "multiMatch",
+            "multimatch",
             "initcol",
             "setenv",
             "setvar",
             "expirevar",            # 30
             "chain",
             "skip",
-            "skipAfter",
+            "skipafter",
         ]
 
         self.data           = data  # holds the parsed data
@@ -201,9 +160,9 @@ class Check(object):
                     # get the index of action from the ordered list
                     # above from constructor
                     try:
-                        act_idx = self.ordered_actions.index(a['act_name'])
+                        act_idx = self.ordered_actions.index(a['act_name'].lower())
                     except ValueError:
-                        print_err("ERROR: '%s' not in actions list!" % (a['act_name']))
+                        errmsg("ERROR: '%s' not in actions list!" % (a['act_name']))
                         sys.exit(-1)
 
                     # if the index of current action is @ge than the previous
@@ -216,12 +175,24 @@ class Check(object):
                         # if the prev is @gt actually, means it's at wrong position
                         if self.ordered_actions.index(prevact) > act_idx:
                             self.orderacts.append([0, prevact, pidx, a['act_name'], aidx, self.ordered_actions.index(prevact), act_idx])
-                    prevact = a['act_name']
+                    prevact = a['act_name'].lower()
                     pidx = aidx
                     aidx += 1
                 for a in self.orderacts:
                     if a[0] == 0:
                         a[0] = self.current_ruleid
+
+def errmsg(msg):
+    if oformat == "github":
+        print("::error %s" % (msg))
+    else:
+        print(msg)
+
+def msg(msg):
+    if oformat == "github":
+        print("::debug %s" % (msg))
+    else:
+        print(msg)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="CRS Rules Check tool")
@@ -236,14 +207,18 @@ if __name__ == "__main__":
         if args.output not in ["native", "github"]:
             print("--output can be one of the 'native' or 'github'. Default value is 'native'")
             sys.exit(1)
-    bcolors.output_format = args.output
+    oformat = args.output
 
     retval = 0
     try:
         flist = glob.glob(crspath)
         flist.sort()
     except:
-        print("Can't open files in given path!")
+        errmsg("Can't open files in given path!")
+        sys.exit(1)
+
+    if len(flist) == 0:
+        errmsg("List of files is empty!")
         sys.exit(1)
 
     for f in flist:
@@ -251,54 +226,47 @@ if __name__ == "__main__":
             with open(f, 'r') as inputfile:
                 data = inputfile.read()
         except:
-            print("Can't open file: %s" % f)
-            print(sys.exc_info())
+            errmsg("Can't open file: %s" % f)
             sys.exit(1)
 
         ### check file syntax
+        msg("Config file: %s" % (f))
         try:
-            print("Config file: %s" % (f))
-            print_bold("  Parsing...            ", end='')
             mparser = msc_pyparser.MSCParser()
             mparser.parser.parse(data)
-            print_ok()
+            msg(" Parsing ok.")
         except:
-            print("Can't parse config file: %s" % (f))
-            print(sys.exc_info()[1])
+            errmsg("Can't parse config file: %s" % (f))
             sys.exit(1)
 
         c = Check(mparser.configlines)
 
         ### check case usings
-        print_bold("  Check ignore case...  ", end='')
         c.check_ignore_case()
         if len(c.caseerror) == 0:
-            print_ok()
+            msg(" Ignore case check ok.")
         else:
-            print_err()
+            errmsg(" Ignore case check found error(s)")
             for a in c.caseerror:
-                print("    In file: %s - %s" % (f, a))
+                errmsg("    In file: %s - %s" % (f, a))
                 retval = 1
 
         ### check action's order
-        print_bold("  Check action order... ", end='')
         c.check_action_order()
         if len(c.orderacts) == 0:
-            print_ok()
+            msg(" Action order check ok.")
         else:
-            print_err()
+            errmsg(" Action order check found error(s)")
             for a in c.orderacts:
-                print("    In file: %s - rule ID: {}, action '{}' at pos {} is wrong place against '{}' at pos {}".format(*a) % (f))
+                errmsg("    In file: %s - rule ID: {}, action '{}' at pos {} is wrong place against '{}' at pos {}".format(*a) % (f))
                 retval = 1
 
         ### make a diff to check the indentations
-        print_bold("  Check indentations... ", end='')
         try:
             with open(f, 'r') as fp:
                 fromlines = fp.readlines()
         except:
-            print_err()
-            print_err("    Can't open file: %s" % (f))
+            errmsg("  Can't open file for indent check: %s" % (f))
             retval = 1
         # virtual output
         mwriter = msc_pyparser.MSCWriter(mparser.configlines)
@@ -313,11 +281,11 @@ if __name__ == "__main__":
         
         diff = difflib.unified_diff(fromlines, output)
         if fromlines == output:
-            print_ok()
+            msg(" Indentation check ok.")
         else:
-            print_err()
+            errmsg(" Indentation check found error(s)")
             retval = 1
         for d in diff:
-            print(d.strip("\n"))
+            errmsg(d.strip("\n"))
 
     sys.exit(retval)
