@@ -13,7 +13,7 @@ There're only two mandatory parameters: `--config` and `--filter-rule-id`.
 For example, if you want to add a new tag on each rule in file `REQUEST-933-APPLICATION-ATTACK-PHP.conf` you can do:
 
 ```sh
-python3 util/rule-ctl/rule_ctl.py \
+python3 util/rule_ctl/rule_ctl.py \
     --config rules/REQUEST-933-APPLICATION-ATTACK-PHP.conf \
     --filter-rule-id ^933.+ \
     --append-tag foo
@@ -24,7 +24,7 @@ python3 util/rule-ctl/rule_ctl.py \
 
 You can even alphabetically sort tag list while adding new tags:
 ```sh
-python3 util/rule-ctl/rule_ctl.py \
+python3 util/rule_ctl/rule_ctl.py \
     --config rules/REQUEST-933-APPLICATION-ATTACK-PHP.conf \
     --filter-rule-id ^933.+ \
     --append-tag foo
@@ -39,11 +39,19 @@ python3 util/rule-ctl/rule_ctl.py \
 - `--replace-variable-name`: Replace just variable name part on selected rules
 
 ### Examples
-Replace all `ARGS` variable with `ARGS_GET` even if `ARGS:foo`
+Replace the variable name `ARGS` with `ARGS_GET`
 ```sh
 python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
-    --filter-rule-id ^.* \
+    --filter-rule-id ^.\* \
     --replace-variable-name ARGS,ARGS_GET \
+    --dryrun
+```
+
+Replace the variable `ARGS` with `!ARGS_GET:'lisa'`
+```sh
+python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
+    --filter-rule-id ^.\* \
+    --replace-variable ARGS,\!ARGS_GET:\'lisa\' \
     --dryrun
 ```
 
@@ -57,7 +65,7 @@ python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf
 Append a new tag `foo` and sort tag list
 ```sh
 python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
-    --filter-rule-id ^.* \
+    --filter-rule-id ^.\* \
     --append-tag foo \
     --sort-tags \
     --dryrun
@@ -66,7 +74,7 @@ python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf
 Remove a tag `foo`
 ```sh
 python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
-    --filter-rule-id ^.* \
+    --filter-rule-id ^.\* \
     --remove-tag foo \
     --dryrun
 ```
@@ -74,7 +82,7 @@ python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf
 Rename a tag `foo`
 ```sh
 python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
-    --filter-rule-id ^.* \
+    --filter-rule-id ^.\* \
     --rename-tag foo,bar \
     --dryrun
 ```
@@ -87,7 +95,7 @@ python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf
 Append `t:lowercase` to all selected rules (you don't need the `t:` prefix)
 ```sh
 python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
-    --filter-rule-id ^.* \
+    --filter-rule-id ^.\* \
     --append-tfunc lowercase \
     --dryrun
 ```
