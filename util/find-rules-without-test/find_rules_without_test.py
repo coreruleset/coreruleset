@@ -15,12 +15,15 @@
 #   * REQUEST-910-
 #   * REQUEST-912.
 #   * REQUEST-949-
-
+#
+#   and the rule 921170
 
 import sys
 import glob
 import msc_pyparser
 import argparse
+
+EXCLUSION_LIST = ["900", "901", "905", "910", "912", "949", "921170"]
 
 def find_ids(s, test_cases):
     """
@@ -38,7 +41,11 @@ def find_ids(s, test_cases):
                     srid = a['act_arg']     # string
                     if (rid%1000) >= 100:   # skip the PL controll rules
                         # also skip these hardcoded rules
-                        if srid[:3] not in ["900", "901", "905", "910", "912", "949"]:
+                        need_check = True
+                        for excl in EXCLUSION_LIST:
+                            if srid[:len(excl)] == excl:
+                                need_check = False
+                        if need_check:
                             # if there is no test cases, just print it
                             if rid not in test_cases:
                                 print(rid)
