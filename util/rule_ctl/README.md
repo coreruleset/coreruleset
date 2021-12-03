@@ -101,7 +101,6 @@ python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf
 
 ## Actions
 - `--replace-action`: Replace action on selected rules
-- `--uncond-replace-action`: Unconditional replace action on selected rules
 - `--remove-action`: remove action from selected rules
 
 ### Examples
