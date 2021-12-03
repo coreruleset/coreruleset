@@ -129,7 +129,6 @@ class Context(object):
         parser.add_argument("--append-variable", dest="append_variable", help="Append var on SecRule (string)", action='append', required=False)
         parser.add_argument("--remove-variable", dest="remove_variable", help="Remove var from SecRule (string)", action='append', required=False)
         parser.add_argument("--replace-variable", dest="replace_variable", help="Replace var in SecRule (old,new) (string)", action='append', required=False)
-        parser.add_argument("--replace-variable-name", dest="replace_variable_name", help="Replace var name in SecRule (old,new) (string)", action='append', required=False)
         parser.add_argument("--append-tag", dest="append_tag", help="Append tag on SecRule (string)", required=False)
         parser.add_argument("--remove-tag", dest="remove_tag", help="Remove tag from SecRule (string)", required=False)
         parser.add_argument("--rename-tag", dest="rename_tag", help="Rename tag on SecRule (old,new) (string)", required=False)
@@ -272,7 +271,6 @@ class SecAction(RuleFileItem):
         self.append_variables(context)
         self.remove_variables(context)
         self.replace_variables(context)
-        self.replace_variable_names(context)
         self.append_ctl(context)
         self.sort_tags(context)
 
@@ -638,32 +636,6 @@ class SecAction(RuleFileItem):
             variables = new_var_list
 
         self.set_variables(variables)
-
-    def replace_variable_names(self, context):
-        if context.args.replace_variable_name is None:
-            return
-        
-        variables = self.get_variables()
-        for nv_tosplit in context.args.replace_variable_name:
-            oldvar, newvar = nv_tosplit.split(",")
-            new_var_list = []
-            for v in variables:
-                if v["variable"] == oldvar:
-                    new_var_list.append({
-                        "variable": newvar,
-                        "variable_part": v["variable_part"],
-                        "quote_type": "no_quote",
-                        "negated": v["negated"],
-                        "counter": v["counter"]
-                    })
-                    if context.args.debug:
-                        context.dprint(self.id, "replace-variable-name", f"Replaced variable name for {oldvar}:{v['variable_part']} with {newvar}", 0)
-                else:
-                    new_var_list.append(v)
-            variables = new_var_list
-        
-        self.set_variables(variables)
-
 
     def append_ctl(self, context):
         # TODO: support appending multiple ctl

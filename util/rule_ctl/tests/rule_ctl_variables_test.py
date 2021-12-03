@@ -169,11 +169,10 @@ SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
 
-
-class TestReplaceVariableName:
+class TestReplaceVariable:
     def test_replace_variable_name_with_no_variable(self):
         arguments = [
-            "--replace-variable-name", "XML,DURATION",
+            "--replace-variable", "XML,DURATION",
         ]
         rule_string = """
 SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12"
@@ -185,7 +184,7 @@ SecRule ARGS|ARGS:foo|!ARGS:bar "@rx foo" "id:12"
 
     def test_replace_variable_name_with_existing_variable(self):
         arguments = [
-            "--replace-variable-name", "XML,DURATION",
+            "--replace-variable", "XML,DURATION",
         ]
         rule_string = """
 SecRule ARGS|XML|ARGS:foo|!ARGS:bar "@rx foo" "id:12"
@@ -195,12 +194,12 @@ SecRule ARGS|DURATION|ARGS:foo|!ARGS:bar "@rx foo" "id:12"
 """
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
-        
+
 
     def test_replace_variable_name_with_multiple_args(self):
         arguments = [
-            "--replace-variable-name", "XML,ARGS:xml",
-            "--replace-variable-name", "DURATION,ARGS:duration",
+            "--replace-variable", "XML,ARGS:xml",
+            "--replace-variable", "DURATION,ARGS:duration",
         ]
         rule_string = """
 SecRule ARGS|XML|ARGS:foo|DURATION|!ARGS:bar "@rx foo" "id:12"
@@ -208,13 +207,13 @@ SecRule ARGS|XML|ARGS:foo|DURATION|!ARGS:bar "@rx foo" "id:12"
         expected = """
 SecRule ARGS|ARGS:xml|ARGS:foo|ARGS:duration|!ARGS:bar "@rx foo" "id:12"
 """
-
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
 
+
     def test_replace_variable_name_with_chain(self):
         arguments = [
-            "--replace-variable-name", "XML,DURATION",
+            "--replace-variable", "XML,DURATION",
         ]
         rule_string = """
 SecRule ARGS|XML|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
@@ -229,9 +228,10 @@ SecRule ARGS|DURATION|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
 
+
     def test_replace_variable_name_skip_chain(self):
         arguments = [
-            "--replace-variable-name", "XML,DURATION",
+            "--replace-variable", "XML,DURATION",
             "--skip-chain"
         ]
         rule_string = """
@@ -248,7 +248,6 @@ SecRule ARGS|DURATION|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
         assert expected == get_output(context)
 
 
-class TestReplaceVariable:
     def test_replace_variable_with_no_variable(self):
         arguments = [
             "--replace-variable", "XML,DURATION",
@@ -290,6 +289,7 @@ SecRule ARGS|ARGS:xml|ARGS:foo|ARGS:duration|!ARGS:bar "@rx foo" "id:12"
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
 
+
     def test_replace_variable_with_chain(self):
         arguments = [
             "--replace-variable", "!XML:'lisa',&DURATION:\"bart\"",
@@ -306,6 +306,7 @@ SecRule ARGS|&DURATION:\"bart\"|ARGS:foo|!ARGS:bar "@rx foo" "id:12,chain"
 """
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
+
 
     def test_replace_variable_skip_chain(self):
         arguments = [

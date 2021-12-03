@@ -36,14 +36,13 @@ python3 util/rule_ctl/rule_ctl.py \
 - `--append-variable`: Append a variable on the variable list of selected rules
 - `--remove-variable`: Remove exact matching variable from selected rules
 - `--replace-variable`: Replace variable on selected rules
-- `--replace-variable-name`: Replace just variable name part on selected rules
 
 ### Examples
 Replace the variable name `ARGS` with `ARGS_GET`
 ```sh
 python3 rule_ctl.py --config ../../rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf \
     --filter-rule-id ^.\* \
-    --replace-variable-name ARGS,ARGS_GET \
+    --replace-variable ARGS,ARGS_GET \
     --dryrun
 ```
 
