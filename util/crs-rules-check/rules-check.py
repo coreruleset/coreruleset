@@ -6,6 +6,7 @@ import glob
 import msc_pyparser
 import difflib
 import argparse
+import re
 
 oformat = "native"
 
@@ -69,16 +70,14 @@ class Check(object):
         self.caseerror      = []    # list of case mismatch errors
         self.orderacts      = []    # list of ordered action errors
 
-    def store_error(self, prefix, actstr):
+    def store_error(self, msg):
         # store the error msg in the list
-        # if no rule id (wrong rule), then stores the line number
-        if self.current_ruleid > 0:
-            pval = self.current_ruleid
-            ptype = "rule ID"
-        else:
-            pval = self.curr_lineno
-            ptype = "line"
-        self.caseerror.append("%s: %d, %s in %s" % (ptype, pval, prefix, actstr))
+        self.caseerror.append({
+                                'ruleid' : 0,
+                                'line'   : self.curr_lineno,
+                                'endLine': self.curr_lineno,
+                                'message': msg
+                            })
 
     def check_ignore_case(self):
         # check the ignore cases at operators, actions,
@@ -106,7 +105,7 @@ class Check(object):
                         self.store_error("Invalid action", a['act_name'])
                     # check the action case sensitive format
                     if self.actions[self.actionsl.index(a['act_name'].lower())] != a['act_name']:
-                        self.store_error("Action case mismatch", a['act_name'])
+                        self.store_error("Action case mismatch: %s" % a['act_name'])
 
                     if a['act_name'] == 'ctl':
                         # check the ctl argument is valid
@@ -114,14 +113,14 @@ class Check(object):
                             self.store_error("Invalid ctl", a['act_arg'])
                         # check the ctl argument case sensitive format
                         if self.ctls[self.ctlsl.index(a['act_arg'].lower())] != a['act_arg']:
-                            self.store_error("Ctl case mismatch", a['act_arg'])
+                            self.store_error("Ctl case mismatch: %s" % a['act_arg'])
                     if a['act_name'] == 't':
                         # check the transform is valid
                         if a['act_arg'].lower() not in self.transformsl:
-                            self.store_error("Invalid transform", a['act_arg'])
+                            self.store_error("Invalid transform: %s" % a['act_arg'])
                         # check the transform case sensitive format
                         if self.transforms[self.transformsl.index(a['act_arg'].lower())] != a['act_arg']:
-                            self.store_error("Transform case mismatch", a['act_arg'])
+                            self.store_error("Transform case mismatch : %s" % a['act_arg'])
                     aidx += 1
             if "operator" in d and d["operator"] != "":
                 self.curr_lineno = d['oplineno']
@@ -129,10 +128,14 @@ class Check(object):
                 op = d['operator'].replace("!", "").replace("@", "")
                 # check the operator is valid
                 if op.lower() not in self.operatorsl:
-                    self.store_error("Invalid operator", d['operator'])
+                    self.store_error("Invalid operator: %s" % d['operator'])
                 # check the operator case sensitive format
                 if self.operators[self.operatorsl.index(op.lower())] != op:
-                    self.store_error("Operator case mismatch", d['operator'])
+                    self.store_error("Operator case mismatch: %s" % d['operator'])
+            if self.current_ruleid > 0:
+                for e in self.caseerror:
+                    e['ruleid'] = self.current_ruleid
+                    e['message'] += " (rule: %d)" % (self.current_ruleid)
 
     def check_action_order(self):
         for d in self.data:
@@ -162,7 +165,7 @@ class Check(object):
                     try:
                         act_idx = self.ordered_actions.index(a['act_name'].lower())
                     except ValueError:
-                        errmsg("ERROR: '%s' not in actions list!" % (a['act_name']))
+                        print("ERROR: '%s' not in actions list!" % (a['act_name']))
                         sys.exit(-1)
 
                     # if the index of current action is @ge than the previous
@@ -174,19 +177,31 @@ class Check(object):
                         # act_idx is the current action's position in list
                         # if the prev is @gt actually, means it's at wrong position
                         if self.ordered_actions.index(prevact) > act_idx:
-                            self.orderacts.append([0, prevact, pidx, a['act_name'], aidx, self.ordered_actions.index(prevact), act_idx])
+                            self.orderacts.append({
+                                'ruleid' : 0,
+                                'line'   : a['lineno'],
+                                'endLine': a['lineno'],
+                                'message': "action '%s' at pos %d is wrong place against '%s' at pos %d" % (prevact, pidx, a['act_name'], aidx,)
+                            })
                     prevact = a['act_name'].lower()
                     pidx = aidx
                     aidx += 1
                 for a in self.orderacts:
-                    if a[0] == 0:
-                        a[0] = self.current_ruleid
+                    if a['ruleid'] == 0:
+                        a['ruleid'] = self.current_ruleid
+                        a['message'] += " (rule: %d)" % (self.current_ruleid)
 
 def errmsg(msg):
     if oformat == "github":
         print("::error %s" % (msg))
     else:
         print(msg)
+
+def errmsgf(msg):
+    if oformat == "github":
+        print("::error%sfile={file},line={line},endLine={endLine},title={title}::{message}".format(**msg) % (msg['indent']*" "))
+    else:
+        print("%sfile={file}, line={line}, endLine={endLine}, title={title}: {message}".format(**msg) % (msg['indent']*" "))
 
 def msg(msg):
     if oformat == "github":
@@ -237,7 +252,14 @@ if __name__ == "__main__":
             msg(" Parsing ok.")
         except:
             errmsg("Can't parse config file: %s" % (f))
-            sys.exit(1)
+            errmsgf({
+                'indent' : 2,
+                'file'   : f,
+                'title'  : "Parsing error",
+                'line'   : 0,
+                'endLine': 0,
+                'message': "can't parse file"})
+            continue
 
         c = Check(mparser.configlines)
 
@@ -248,7 +270,10 @@ if __name__ == "__main__":
         else:
             errmsg(" Ignore case check found error(s)")
             for a in c.caseerror:
-                errmsg("    In file: %s - %s" % (f, a))
+                a['indent'] = 2
+                a['file']   = f
+                a['title']  = "Case check"
+                errmsgf(a)
                 retval = 1
 
         ### check action's order
@@ -258,7 +283,10 @@ if __name__ == "__main__":
         else:
             errmsg(" Action order check found error(s)")
             for a in c.orderacts:
-                errmsg("    In file: %s - rule ID: {}, action '{}' at pos {} is wrong place against '{}' at pos {}".format(*a) % (f))
+                a['indent'] = 2
+                a['file']   = f
+                a['title']  = 'Action order check'
+                errmsgf(a)
                 retval = 1
 
         ### make a diff to check the indentations
@@ -286,6 +314,19 @@ if __name__ == "__main__":
             errmsg(" Indentation check found error(s)")
             retval = 1
         for d in diff:
+            d = d.strip("\n")
+            r = re.match("^@@ -(\d+),(\d+) \+\d+,\d+ @@$", d)
+            if r:
+                line1, line2 = [int(i) for i in r.groups()]
+                e = {
+                    'indent' : 2,
+                    'file'   : f,
+                    'title'  : "Indentation error",
+                    'line'   : line1,
+                    'endLine': line1+line2,
+                    'message': "an indetation error has found"
+                }
+                errmsgf(e)
             errmsg(d.strip("\n"))
 
     sys.exit(retval)
