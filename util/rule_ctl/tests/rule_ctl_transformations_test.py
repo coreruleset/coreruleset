@@ -258,3 +258,24 @@ SecRule ARGS|ARGS:foo|!ARGS:bar \\
 """
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
+
+    def test_remove_tfunc_retains_correct_line_numbers(self):
+        arguments = [
+            "--remove-tfunc", "lowercase"
+        ]
+        rule_string = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:none,t:lowercase,\\
+    msg:'PHP Injection Attack: PHP Script File Upload Found'"
+"""
+        expected = """
+SecRule ARGS|ARGS:foo|!ARGS:bar \\
+    "@rx foo" \\
+    "id:12,\\
+    t:none,\\
+    msg:'PHP Injection Attack: PHP Script File Upload Found'"
+"""
+        context = create_context(arguments, rule_string)
+        assert expected == get_output(context)

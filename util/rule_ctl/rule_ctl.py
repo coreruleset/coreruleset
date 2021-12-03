@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import sys, re, json
+import sys, re, json, uuid
 
 try:
     import argparse, msc_pyparser
@@ -177,14 +177,15 @@ class SecAction(RuleFileItem):
         super().__init__(data, context)
 
         for action in self.get_actions():
+            action["id"] = uuid.uuid4()
             if action["act_name"] == "id":
                 self.id = int(action["act_arg"])
                 break
 
         if "oplineno" in self._data:
             self._line_numbers["opline"] = self._data["oplineno"]
-        for index, action in enumerate(self.get_actions()):
-            self._line_numbers[("action", index)] = action["lineno"]
+        for action in self.get_actions():
+            self._line_numbers[("action", uuid)] = action["lineno"]
 
     def _parse_var(self, variable):
         negated = False
@@ -237,9 +238,9 @@ class SecAction(RuleFileItem):
             self._data["oplineno"] = last_line_number
 
 
-        for index, action in enumerate(self.get_actions()):
+        for action in self.get_actions():
             try:
-                last_line_number = self._line_numbers[("action", index)] + line_number_change
+                last_line_number = self._line_numbers[("action", action["id"])] + line_number_change
                 action["lineno"] = last_line_number
             except KeyError:
                 # keep everything on one line if it already was
@@ -317,6 +318,7 @@ class SecAction(RuleFileItem):
         last_tag_line = 0
         tag_order = ACTION_ORDER["tag"]
         new_tag = {
+            'id': uuid.uuid4(),
             'act_name': 'tag',
             'lineno': 0,
             'act_quote': 'quotes',
@@ -412,6 +414,7 @@ class SecAction(RuleFileItem):
         if has_quotes:
             new_action_value = new_action_value[1:-1]
         new_action = {
+            'id': uuid.uuid4(),
             'act_name': new_action_name,
             'lineno': 0,
             'act_quote': 'quotes' if has_quotes else 'no_quote',
@@ -512,6 +515,7 @@ class SecAction(RuleFileItem):
                 if not done and (action_order > transform_order or index == last_action_index):
                     done = True
                     new_act_list.append({
+                        'id': uuid.uuid4(),
                         'act_name': 't', 
                         'lineno': last_lineno, 
                         'act_quote': 'no_quote', 
@@ -669,6 +673,7 @@ class SecAction(RuleFileItem):
         last_ctl_line = 0
         ctl_order = ACTION_ORDER["ctl"]
         new_ctl = {
+            "id": uuid.uuid4(),
             "act_name": "ctl",
             "lineno": last_ctl_line,
             "act_quote": "no_quote",
