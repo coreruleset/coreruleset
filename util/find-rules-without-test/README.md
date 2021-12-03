@@ -11,6 +11,8 @@ You need to pass the CORERULESET_ROOT as argument, eg:
 util/find-rules-without-test/find_rules_without_test.py /path/to/coreruleset
 ```
 
+Optionally you can pass the argument `--output=github` or `--output=native`. The last one is the default.
+
 The script collects all available test files, based on the name of the test files. It will look up under CORERULESET_ROOT/tests/regression/tests/*.
 
 Then it starts to read all rule files with name "REQUEST-\*", which means this won't handle the RESPONSE-* rules.
