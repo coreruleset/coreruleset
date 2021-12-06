@@ -8,7 +8,7 @@ The main goal is that we must have at least one regression test for all relevant
 
 You need to pass the CORERULESET_ROOT as argument, eg:
 ```
-util/find-rules-without-test/find_rules_without_test.py /path/to/coreruleset
+util/find-rules-without-test/find-rules-without-test.py /path/to/coreruleset
 ```
 
 Optionally you can pass the argument `--output=github` or `--output=native`. The last one is the default.
