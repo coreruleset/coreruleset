@@ -150,7 +150,7 @@ for PL in 1 2 3 4; do
     #uniq_id=$(tail -1 $accesslog | awk '{print $21}')
 
     # To use the automatic unique_id detection uncomment the following line
-    uniq_id=$(tail -1 $accesslog | egrep -o '\b[-_a-zA-Z0-9]{26,28}\b')
+    uniq_id=$(tail -1 $accesslog | egrep -o '\b[a-zA-Z0-9_-]{26,28}\b')
 
     echo "Tracking unique id: $uniq_id"
 
