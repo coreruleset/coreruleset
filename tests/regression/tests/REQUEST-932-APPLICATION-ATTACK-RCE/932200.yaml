@@ -185,3 +185,39 @@
           version: HTTP/1.0
         output:
           log_contains: id "932200"
+  -
+    test_title: 932200-11
+    desc: "Test first backslash match ([*?`\x5c'][^/\n]+/) with: cat /e\tc/passwd"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: GET
+          port: 80
+          uri: /?host=www.google.com;cat%20%2Fe%5Ctc%2Fpasswd
+          version: HTTP/1.0
+        output:
+          log_contains: id "932200"
+  -
+    test_title: 932200-12
+    desc: "Test second backslash match (/[^/]+?[*?`\x5c']) with: cat /etc/p\asswd"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: GET
+          port: 80
+          uri: /?host=www.google.com;cat%20%2Fetc%2Fp%5Casswd
+          version: HTTP/1.0
+        output:
+          log_contains: id "932200"
