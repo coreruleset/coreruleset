@@ -187,7 +187,7 @@
           log_contains: id "932200"
   -
     test_title: 932200-11
-    desc: "Test first backslash match ([*?`\x5c'][^/\n]+/) with: cat /e\tc/passwd"
+    desc: "Test first backslash match ([*?`\x5c'][^/\n]+/) with: c\at /ec/passwd"
     stages:
     -
       stage:
@@ -199,7 +199,7 @@
             User-Agent: ModSecurity CRS 3 Tests
           method: GET
           port: 80
-          uri: /?host=www.google.com;cat%20%2Fe%5Ctc%2Fpasswd
+          uri: /?host=www.google.com;c%5Cat%20%2Fetc%2Fpasswd
           version: HTTP/1.0
         output:
           log_contains: id "932200"
