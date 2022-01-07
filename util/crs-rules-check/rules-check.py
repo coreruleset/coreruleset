@@ -211,12 +211,12 @@ def msg(msg):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="CRS Rules Check tool")
-    parser.add_argument("--output", dest="output", help="Output format native[default]|github", required=False)
-    parser.add_argument('crspath', metavar='/path/to/coreruleset/*.conf', type=str,
-                        help='Directory path to CRS')
+    parser.add_argument("-o", "--output", dest="output", help="Output format native[default]|github", required=False)
+    parser.add_argument("-r", "--rules", metavar='/path/to/coreruleset/*.conf', type=str,
+                            nargs='*', help='Directory path to CRS rules', required=True)
     args = parser.parse_args()
 
-    crspath = args.crspath
+    crspath = args.rules
 
     if args.output is not None:
         if args.output not in ["native", "github"]:
@@ -226,7 +226,7 @@ if __name__ == "__main__":
 
     retval = 0
     try:
-        flist = glob.glob(crspath)
+        flist = crspath
         flist.sort()
     except:
         errmsg("Can't open files in given path!")
@@ -250,15 +250,21 @@ if __name__ == "__main__":
             mparser = msc_pyparser.MSCParser()
             mparser.parser.parse(data)
             msg(" Parsing ok.")
-        except:
+        except Exception as e:
+            err = e.args[1]
+            if err['cause'] == "lexer":
+                cause = "Lexer"
+            else:
+                cause = "Parser"
             errmsg("Can't parse config file: %s" % (f))
             errmsgf({
                 'indent' : 2,
                 'file'   : f,
-                'title'  : "Parsing error",
-                'line'   : 0,
-                'endLine': 0,
+                'title'  : "%s error" % (cause),
+                'line'   : err['line'],
+                'endLine': err['line'],
                 'message': "can't parse file"})
+            retval = 1
             continue
 
         c = Check(mparser.configlines)

@@ -9,7 +9,7 @@ Prerequisites
 To run the tool, you need:
 
 + a **Python 3** interpreter
-+ **msc_pyparser** - a SecRule parser
++ **msc_pyparser** - a SecRule parser (>=1.2.0)
 
 `msc_pyparser` was written in Python 3 and has not been tested with Python 2, therefore you have to use Python 3.
 
@@ -40,13 +40,13 @@ If everything is fine, rule returns with 0.
 Normally, you should run the script:
 
 ```
-./rules-check.py "/path/to/coreruleset/*.conf"
+./rules-check.py -r /path/to/coreruleset/*.conf
 ```
 
 Optionally, you can add the option `--output=github` (default value is `native`):
 
 ```
-./rules-check.py --output=github "/path/to/coreruleset/*.conf"
+./rules-check.py --output=github -r /path/to/coreruleset/*.conf
 ```
 
 In this case, each line will have a prefix, which could be `::debug` or `::error`. See [this](https://docs.github.com/en/actions/learn-github-actions/workflow-commands-for-github-actions#setting-an-error-message).
@@ -76,15 +76,12 @@ As you can see, there are two `"` missing above: the first one after the `chain`
 Check it:
 
 ```
-$ ./rules-check.py examples/test1.conf 
+$ ./rules-check.py -r examples/test1.conf 
 Config file: examples/test1.conf
-   Parsing...             Can't parse config file: examples/test1.conf
-Parser error: syntax error in line 8 at pos 111, column 11
-    SecRule ARGS_GET:foo "@rx bar" \
-~~~~~~~~~~~^
+Can't parse config file: examples/test1.conf
+  file=examples/test1.conf, line=8, endLine=8, title=Parser error: can't parse file
 $ echo $?
 1
-
 ```
 
 ### Test 2 - case sensitive test
@@ -101,13 +98,13 @@ SecRule REQUEST_URI "@beginswith /index.php" \
 In this rule the operator is lowercase. Mod_security allows both form.
 
 ```
-$ ./rules-check.py examples/test2.conf 
+$ ./rules-check.py -r examples/test2.conf 
 Config file: examples/test2.conf
-   Parsing...              [OK] 
-   Check ignore case...    [ERR] 
-    In file: examples/test2.conf - rule ID: 1, Operator case mismatch in @beginswith
-   Check action order...   [OK] 
-   Check indentations...   [OK] 
+ Parsing ok.
+ Ignore case check found error(s)
+  file=examples/test2.conf, line=1, endLine=1, title=Case check: Operator case mismatch: @beginswith (rule: 1)
+ Action order check ok.
+ Indentation check ok.
 $ echo $?
 1
 ```
@@ -126,13 +123,67 @@ SecRule REQUEST_URI "@beginsWith /index.php" \
 In this rule, the `phase` and `id` are interchanged. As [documentation](https://github.com/coreruleset/coreruleset/wiki/Order-of-ModSecurity-Actions-in-CRS-rules) says, the first action **must** be the `id`, the second one is the `phase`.
 
 ```
-$ ./rules-check.py examples/test3.conf 
+$ ./rules-check.py -r examples/test3.conf 
 Config file: examples/test3.conf
-   Parsing...              [OK] 
-   Check ignore case...    [OK] 
-   Check action order...   [ERR] 
-    In file: examples/test3.conf - rule ID: 1, action 'phase' at pos 0 is wrong place against 'id' at pos 1
-   Check indentations...   [OK] 
+ Parsing ok.
+ Ignore case check ok.
+ Action order check found error(s)
+  file=examples/test3.conf, line=3, endLine=3, title=Action order check: action 'phase' at pos 0 is wrong place against 'id' at pos 1 (rule: 1)
+ Indentation check ok.
 $ echo $?
 1
+```
+
+### Test 4 - wrong indentation
+
+```
+ SecRule ARGS "@rx foo" \
+   "id:1,\
+    phase:1,\
+    pass,\
+    nolog"
+
+SecRule ARGS "@rx foo" \
+    "id:2,\
+    phase:1,\
+    pass,\
+    nolog"
+
+SecRule ARGS "@rx foo" \
+     "id:3,\
+    phase:1,\
+    pass,\
+    nolog"
+```
+
+In this rule set, the first line and the rule with `id:3` first action have an extra leading space. As [documentation](https://github.com/coreruleset/coreruleset/blob/v3.4/dev/CONTRIBUTING.md#general-formatting-guidelines-for-rules-contributions) describes, CRS has a strict indentation rules. The script checks the indentation with help of Python's [difflib](https://docs.python.org/3.9/library/difflib.html).
+
+```
+$ ./rules-check.py -r examples/test4.conf 
+Config file: examples/test4.conf
+ Parsing ok.
+ Ignore case check ok.
+ Action order check ok.
+ Indentation check found error(s)
+--- 
++++ 
+  file=examples/test4.conf, line=1, endLine=6, title=Indentation error: an indetation error has found
+@@ -1,5 +1,5 @@
+- SecRule ARGS "@rx foo" \
+-   "id:1,\
++SecRule ARGS "@rx foo" \
++    "id:1,\
+     phase:1,\
+     pass,\
+     nolog"
+  file=examples/test4.conf, line=11, endLine=18, title=Indentation error: an indetation error has found
+@@ -11,7 +11,7 @@
+     nolog"
+ 
+ SecRule ARGS "@rx foo" \
+-     "id:3,\
++    "id:3,\
+     phase:1,\
+     pass,\
+     nolog"
 ```
