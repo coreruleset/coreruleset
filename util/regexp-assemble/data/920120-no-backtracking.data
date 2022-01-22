@@ -31,20 +31,31 @@
 ##!	a[bB]c
 ##!	1234
 
+##! The HTML entities included in the expression are a best guess selection of frequently
+##! used entities. Including too many would further reduce the performance of the expression
+##! but there may well be additional entities that would make sense to add to the list.
+##! The official list of entities is hosted by the WHATWG:
+##! https://html.spec.whatwg.org/multipage/named-characters.html#named-character-references
+
+##! Do not make the ampersand a prefix, as that would move it outside of the negative
+##! lookbehind expression. The semi-colon on the other hand must be outside of the
+##! negative lookbehind expression because that is the character we are looking for.
+
 ##!+ i
 
 ##!> neglook
-&[aeiouy]uml
-&[aeioucghjswy]circ
 &[aeiouclnrszg]acute
-&[aeiou]grave
-&[cgklnrst]cedil
-&[anoi]tilde
 &[cdelnrstz]caron
-&oslash
+&[cgklnrst]cedil
+&[aeioucghjswy]circ
+&[aeiou]grave
+&[au]ring
+&[anoi]tilde
+&[aeiouy]uml
 &amp
 &apos
-&[au]ring
+&nbsp
+&oslash
 ##!<
 
 ##!$ ;|['\"=]
