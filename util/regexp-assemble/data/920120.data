@@ -19,23 +19,8 @@
 ##!
 ##! Currently supported preoprocessors:
 ##! - cmdline [windows|unix] (file scope)
-##! - neglook (block scope)
 ##! Please refer to util/regexp-assemble/README.md for a full explanation.
 
-##! We are looking for the following entity expressions:
-##! &[aeiouclnrszg]acute;
-##! &[cdelnrstz]caron;
-##! &[cgklnrst]cedil;
-##! &[aeioucghjswy]circ;
-##! &[aeiou]grave;
-##! &[au]ring;
-##! &[anoi]tilde;
-##! &[aeiouy]uml;
-##! &amp;
-##! &apos;
-##! &nbsp;
-##! &oslash;
-##!
 ##! The HTML entities included in the expression are a best guess selection of frequently
 ##! used entities. Including too many would further reduce the performance of the expression
 ##! but there may well be additional entities that would make sense to add to the list.
@@ -44,5 +29,19 @@
 
 ##!+ i
 
-(?<!&[aeiouy]uml|&[aeioucghjswy]circ|&[aeiouclnrszg]acute|&[aeiou]grave|&[cgklnrst]cedil|&[anoi]tilde|&[cdelnrstz]caron|&oslash|&amp|&nbsp|&apos|&[au]ring);
-['\"=]
+##!^ &
+
+[aeiouclnrszg]acute
+[cdelnrstz]caron
+[cgklnrst]cedil
+[aeioucghjswy]circ
+[aeiou]grave
+[au]ring
+[anoi]tilde
+[aeiouy]uml
+amp
+apos
+nbsp
+oslash
+
+##!$ ;

@@ -83,28 +83,6 @@ Currently, no line preprocessors are defined.
 #### Block preprocessors
 A block preprocessor transforms all the lines up to the next block end marker `##!<`. In absence of an end marker, lines will be consumed to the end of file.
 
-##### Negative lookbehind block processor
-Processor name: `neglook`
-
-###### Arguments
-- `-h` (optional): The optional argument `-h` prints the output of the negative lookbehind preprocessor in human readable form (i.e., with line breaks). Use this option only for debugging.
-
-###### Output
-Single negative lookbehind expression (single line).
-
-###### Description
-The negative lookbehind block processor processes a block of lines as alternatives of a negative lookbehind expression. For example, to generate a regex equivalent to `(?<!a[bB]c|1234)` you would write the following:
-```
-...
-##!> neglook
-a[bB]c
-1234
-##!<
-```
-
-The purpose of this processor is to provide an alternative for regular expressions that require negative lookbehind for non-backtracking regular expression engines (e.g. re2).
-
-Note that this processor is limited in it's ability to process arbitrary expressions, specifically, it can't deal with escape `\` and range `-` operators.
 #### File preprocessors
 A file preprocessor transforms all the lines of the file (except for comments).
 

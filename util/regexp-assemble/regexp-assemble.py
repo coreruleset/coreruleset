@@ -63,7 +63,6 @@ script_directory = os.path.dirname(__file__)
 lib_directory = os.path.join(script_directory, 'lib')
 preprocessor_map = {
 	'cmdline': (FilePreprocessor, os.path.join(lib_directory, 'regexp-cmdline.py')),
-	'neglook': (BlockPreprocessor, os.path.join(lib_directory, 'negativelookbehind.py'))
 }
 preprocessor_regex = re.compile(r'^##!>\s*(.*)')
 # prefix, suffix, flags, block start block end
