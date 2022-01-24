@@ -1,80 +1,76 @@
 ---
-  meta:
-    author: csanders-git
-    description: None
-    enabled: true
-    name: 920300.yaml
-  tests:
-  -
-    test_title: 920300-1
+meta:
+  author: csanders-git
+  description: None
+  enabled: true
+  name: 920300.yaml
+tests:
+  - test_title: 920300-1
     desc: Request Missing an Accept Header (920300) from old modsec regressions
     stages:
-    -
-      stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
-            Accept-Encoding: gzip,deflate
-            Accept-Language: en-us,en;q=0.5
-            Host: localhost
-            Keep-Alive: '300'
-            Proxy-Connection: keep-alive
-            User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv
-          method: GET
-          port: 80
-          uri: /
-          version: HTTP/1.0
-          data: ''
-        output:
-          log_contains: id "920300"
-  -
-    test_title: 920300-2
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+              Accept-Encoding: gzip,deflate
+              Accept-Language: en-us,en;q=0.5
+              Host: localhost
+              Keep-Alive: '300'
+              Proxy-Connection: keep-alive
+              User-Agent: ModSecurity CRS 3 Tests
+              # Test needs a missing 'Accept' header
+            method: GET
+            port: 80
+            uri: /
+            version: HTTP/1.0
+            data: ''
+          output:
+            log_contains: id "920300"
+  - test_title: 920300-2
     desc: "OPTIONS request: exempt from requiring an Accept request header"
     stages:
-    -
-      stage:
-        input:
-          dest_addr: "127.0.0.1"
-          headers:
-            Host: "localhost"
-            User-Agent: "Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0"
-          method: "OPTIONS"
-          uri: "*"
-          version: "HTTP/1.1"
-        output:
-          no_log_contains: "id \"920300\""
-  -
-    test_title: 920300-3
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            headers:
+              Host: "localhost"
+              User-Agent: "ModSecurity CRS 3 Tests"
+              # Test needs a missing 'Accept' header
+            method: "OPTIONS"
+            uri: "*"
+            version: "HTTP/1.1"
+          output:
+            no_log_contains: "id \"920300\""
+  - test_title: 920300-3
     desc: "CONNECT request: exempt from requiring an Accept request header"
     stages:
-    -
-      stage:
-        input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          headers:
-            Host: "www.cnn.com:80"
-            User-Agent: "Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0"
-            Proxy-Connection: "Keep-Alive"
-          method: "CONNECT"
-          uri: "www.cnn.com:80"
-          version: "HTTP/1.1"
-        output:
-          no_log_contains: "id \"920300\""
-  -
-    test_title: 920300-4
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            headers:
+              Host: "localhost"
+              User-Agent: "ModSecurity CRS 3 Tests"
+              Proxy-Connection: "Keep-Alive"
+              # Test needs a missing 'Accept' header
+            method: "CONNECT"
+            uri: "www.cnn.com:80"
+            version: "HTTP/1.1"
+          output:
+            no_log_contains: "id \"920300\""
+  - test_title: 920300-4
     desc: "User-Agent containing AppleWebKit: exempt from requiring an Accept request header"
     stages:
-    -
-      stage:
-        input:
-          dest_addr: "127.0.0.1"
-          headers:
-            Host: "localhost"
-            User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
-          method: "GET"
-          uri: "/"
-          version: "HTTP/1.1"
-        output:
-          no_log_contains: "id \"920300\""
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            headers:
+              Host: "localhost"
+              User-Agent: "ModSecurity CRS 3 Tests; AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
+              # Test needs a missing 'Accept' header
+            method: "GET"
+            uri: "/"
+            version: "HTTP/1.1"
+          output:
+            no_log_contains: "id \"920300\""
