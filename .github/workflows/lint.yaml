@@ -37,6 +37,11 @@ jobs:
           git clone https://github.com/CRS-support/secrules_parsing
           pip install -r secrules_parsing/requirements.txt
           python secrules_parsing/secrules_parser.py -c -f rules/*.conf
+      - name: "Check CRS formatting"
+        run: |
+          pip install --upgrade setuptools
+          pip install -r ./util/crs-rules-check/requirements.txt
+          ./util/crs-rules-check/rules-check.py --output=github -r rules/*.conf
       - name: "Find rules without test"
         run: |
           pip install --upgrade setuptools
