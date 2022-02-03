@@ -181,3 +181,19 @@
           version: HTTP/1.0
         output:
           no_log_contains: id "942230"
+  -
+    test_title: 942230-12
+    desc: "Issue #2230: FN for case"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+          method: GET
+          port: 80
+          uri: "/?var=if%281234%3D"
+          version: HTTP/1.0
+        output:
+          log_contains: id "942230"
