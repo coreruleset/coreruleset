@@ -1,16 +1,14 @@
 ---
-  meta:
-    author: "zmallen"
-    enabled: true
-    name: "941180.yaml"
-    description: "Tests to trigger, or not trigger 941180"
-  tests:
-    -
-      test_title: 941180-1
-      desc: Node-validator deny list keywords, ARGS
-      stages:
-      -
-        stage:
+meta:
+  author: "zmallen"
+  enabled: true
+  name: "941180.yaml"
+  description: "Tests to trigger, or not trigger 941180"
+tests:
+  - test_title: 941180-1
+    desc: Node-validator deny list keywords, ARGS
+    stages:
+      - stage:
           input:
             dest_addr: 127.0.0.1
             method: POST
@@ -19,15 +17,14 @@
             headers:
               User-Agent: ModSecurity CRS 3 Tests
               Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '941180-1=window.location'
           output:
             log_contains: id "941180"
-    -
-      test_title: 941180-2
-      desc: Node-validator deny list keywords, ARGS_NAMES
-      stages:
-      -
-        stage:
+  - test_title: 941180-2
+    desc: Node-validator deny list keywords, ARGS_NAMES
+    stages:
+      - stage:
           input:
             dest_addr: 127.0.0.1
             method: POST
@@ -36,15 +33,14 @@
             headers:
               User-Agent: ModSecurity CRS 3 Tests
               Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'document.cookie=941180-2'
           output:
             log_contains: id "941180"
-    -
-      test_title: 941180-3
-      desc: Node-validator deny list keywords, ARGS_NAMES
-      stages:
-      -
-        stage:
+  - test_title: 941180-3
+    desc: Node-validator deny list keywords, ARGS_NAMES
+    stages:
+      - stage:
           input:
             dest_addr: 127.0.0.1
             method: GET
@@ -54,14 +50,13 @@
               User-Agent: ModSecurity CRS 3 Tests
               Host: localhost
               Cookie: 'window.location=941180-3'
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
             log_contains: id "941180"
-    -
-      test_title: 941180-4
-      desc: Negative test for Node-validator deny list keyword -->, present in stricter sibling 941181, ARGS
-      stages:
-      -
-        stage:
+  - test_title: 941180-4
+    desc: Negative test for Node-validator deny list keyword -->, present in stricter sibling 941181, ARGS
+    stages:
+      - stage:
           input:
             dest_addr: 127.0.0.1
             method: POST
@@ -70,6 +65,7 @@
             headers:
               User-Agent: ModSecurity CRS 3 Tests
               Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '941180-4=-->'
           output:
             no_log_contains: id "941180"

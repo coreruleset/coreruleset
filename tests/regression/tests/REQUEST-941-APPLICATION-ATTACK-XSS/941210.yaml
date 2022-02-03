@@ -1,16 +1,14 @@
 ---
-  meta:
-    author: "zmallen"
-    enabled: true
-    name: "941210.yaml"
-    description: "Tests to trigger, or not trigger 941210. This checks for abuses of javascript: with different encodings/html etc"
-  tests:
-    -
-      test_title: 941210-1
-      desc: Obsfucated javascript tag in GET data, ARGS
-      stages:
-      -
-        stage:
+meta:
+  author: "zmallen"
+  enabled: true
+  name: "941210.yaml"
+  description: "Tests to trigger, or not trigger 941210. This checks for abuses of javascript: with different encodings/html etc"
+tests:
+  - test_title: 941210-1
+    desc: Obsfucated javascript tag in GET data, ARGS
+    stages:
+      - stage:
           input:
             dest_addr: 127.0.0.1
             method: GET
@@ -19,15 +17,14 @@
             headers:
               User-Agent: ModSecurity CRS 3 Tests
               Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '941210-1=ja%26tab%3Bvascript%3A%20'
           output:
             log_contains: id "941210"
-    -
-      test_title: 941210-2
-      desc: Obfuscated javascript tag in ARGS_NAMES, with tab
-      stages:
-      -
-        stage:
+  - test_title: 941210-2
+    desc: Obfuscated javascript tag in ARGS_NAMES, with tab
+    stages:
+      - stage:
           input:
             dest_addr: 127.0.0.1
             method: GET
@@ -36,15 +33,14 @@
             headers:
               User-Agent: ModSecurity CRS 3 Tests
               Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'ja%26tab%3Bvascript%3A%09=941210-2'
           output:
             log_contains: id "941210"
-    -
-      test_title: 941210-3
-      desc: Microsoft vmlframe xss, REQUEST_COOKIE_NAMES
-      stages:
-      -
-        stage:
+  - test_title: 941210-3
+    desc: Microsoft vmlframe xss, REQUEST_COOKIE_NAMES
+    stages:
+      - stage:
           input:
             dest_addr: 127.0.0.1
             method: GET
@@ -54,5 +50,6 @@
               User-Agent: ModSecurity CRS 3 Tests
               Host: localhost
               Cookie: 'ja%26newline%3Bvascript%3A%20=941210-3'
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
             log_contains: id "941210"
