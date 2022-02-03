@@ -20,6 +20,8 @@ services:
       MODSEC_AUDIT_LOG_TYPE: Serial
       MODSEC_AUDIT_LOG: "/var/log/modsec_audit.log"
       MODSEC_TMP_DIR: "/tmp"
+      MODSEC_RESP_BODY_ACCESS: "On"
+      MODSEC_RESP_BODY_MIMETYPE: "text/plain text/html text/xml application/json"
       COMBINED_FILE_SIZES: "65535"
     volumes:
       - ./logs/modsec2-apache:/var/log:rw
@@ -46,6 +48,8 @@ services:
       MODSEC_AUDIT_LOG_FORMAT: Native
       MODSEC_AUDIT_LOG_TYPE: Serial
       MODSEC_AUDIT_LOG: "/var/log/modsec_audit.log"
+      MODSEC_RESP_BODY_ACCESS: "On"
+      MODSEC_RESP_BODY_MIMETYPE: "text/plain text/html text/xml application/json"
       COMBINED_FILE_SIZES: "65535"
     volumes:
       - ./logs/modsec3-nginx:/var/log:rw
