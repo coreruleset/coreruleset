@@ -843,91 +843,91 @@ tests:
     desc: "Attempted multipart/form-data bypass (920120). Still match ; that aren't part of an HTML entity"
     stages:
       - stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            User-Agent: "ModSecurity CRS 3 Tests"
-            Host: "localhost"
-            Content-Type: multipart/form-data; boundary=---------------------------265001916915724
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-          method: POST
-          port: 80
-          uri: /
-          data: |
-            -----------------------------265001916915724
-            Content-Disposition: form-data; name="&amp;fi;zzz"; filename="test"
-            Content-Type: application/octet-stream
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "ModSecurity CRS 3 Tests"
+              Host: "localhost"
+              Content-Type: multipart/form-data; boundary=---------------------------265001916915724
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: POST
+            port: 80
+            uri: /
+            data: |
+              -----------------------------265001916915724
+              Content-Disposition: form-data; name="&amp;fi;zzz"; filename="test"
+              Content-Type: application/octet-stream
 
-            helloworld
-            -----------------------------265001916915724--
-        output:
-          log_contains: id "920120"
+              helloworld
+              -----------------------------265001916915724--
+          output:
+            log_contains: id "920120"
   - test_title: 920120-37
     desc: "Attempted multipart/form-data bypass (920120). Still match ; that aren't part of an HTML entity."
     stages:
       - stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            User-Agent: "ModSecurity CRS 3 Tests"
-            Host: "localhost"
-            Content-Type: multipart/form-data; boundary=---------------------------265001916915724
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-          method: POST
-          port: 80
-          uri: /
-          data: |
-            -----------------------------265001916915724
-            Content-Disposition: form-data; name="test"; filename="&amp;fi;zzz"
-            Content-Type: application/octet-stream
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "ModSecurity CRS 3 Tests"
+              Host: "localhost"
+              Content-Type: multipart/form-data; boundary=---------------------------265001916915724
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: POST
+            port: 80
+            uri: /
+            data: |
+              -----------------------------265001916915724
+              Content-Disposition: form-data; name="test"; filename="&amp;fi;zzz"
+              Content-Type: application/octet-stream
 
-            helloworld
-            -----------------------------265001916915724--
-        output:
-          log_contains: id "920120"
+              helloworld
+              -----------------------------265001916915724--
+          output:
+            log_contains: id "920120"
   - test_title: 920120-38
     desc: "Attempted multipart/form-data bypass (920120). Still match ; that aren't part of an HTML entity."
     stages:
       - stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            User-Agent: "ModSecurity CRS 3 Tests"
-            Host: "localhost"
-            Content-Type: multipart/form-data; boundary=---------------------------265001916915724
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-          method: POST
-          port: 80
-          uri: /
-          data: |
-            -----------------------------265001916915724
-            Content-Disposition: form-data; name="zzz&amp;zzz"; filename="zzz&amp;zzz"
-            Content-Type: application/octet-stream
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "ModSecurity CRS 3 Tests"
+              Host: "localhost"
+              Content-Type: multipart/form-data; boundary=---------------------------265001916915724
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: POST
+            port: 80
+            uri: /
+            data: |
+              -----------------------------265001916915724
+              Content-Disposition: form-data; name="zzz&amp;zzz"; filename="zzz&amp;zzz"
+              Content-Type: application/octet-stream
 
-            helloworld
-            -----------------------------265001916915724--
-        output:
-          no_log_contains: id "920120"
+              helloworld
+              -----------------------------265001916915724--
+          output:
+            no_log_contains: id "920120"
   - test_title: 920120-39
     desc: "Attempted multipart/form-data bypass (920120). Allow empty fields."
     stages:
       - stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            User-Agent: "ModSecurity CRS 3 Tests"
-            Host: "localhost"
-            Content-Type: multipart/form-data; boundary=---------------------------265001916915724
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-          method: POST
-          port: 80
-          uri: /
-          data: |
-            -----------------------------265001916915724
-            Content-Disposition: form-data; name=""; filename=""
-            Content-Type: application/octet-stream
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "ModSecurity CRS 3 Tests"
+              Host: "localhost"
+              Content-Type: multipart/form-data; boundary=---------------------------265001916915724
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: POST
+            port: 80
+            uri: /
+            data: |
+              -----------------------------265001916915724
+              Content-Disposition: form-data; name=""; filename=""
+              Content-Type: application/octet-stream
 
-            helloworld
-            -----------------------------265001916915724--
-        output:
-          no_log_contains: id "920120"
+              helloworld
+              -----------------------------265001916915724--
+          output:
+            no_log_contains: id "920120"
