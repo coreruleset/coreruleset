@@ -840,7 +840,7 @@ tests:
           output:
             no_log_contains: id "920120"
   - test_title: 920120-36
-    desc: "Attempted multipart/form-data bypass (920120). Still match ; that aren't part of an HTML entity"
+    desc: "Attempted multipart/form-data bypass (920120). Still match ; that aren't part of an HTML entity in FILES."
     stages:
       - stage:
           input:
@@ -863,7 +863,7 @@ tests:
           output:
             log_contains: id "920120"
   - test_title: 920120-37
-    desc: "Attempted multipart/form-data bypass (920120). Still match ; that aren't part of an HTML entity."
+    desc: "Attempted multipart/form-data bypass (920120). Still match ; that aren't part of an HTML entity in FILES_NAMES."
     stages:
       - stage:
           input:
@@ -886,7 +886,7 @@ tests:
           output:
             log_contains: id "920120"
   - test_title: 920120-38
-    desc: "Attempted multipart/form-data bypass (920120). Still match ; that aren't part of an HTML entity."
+    desc: "Attempted multipart/form-data bypass (920120). Don't match ; that are part of HTML entities in both FILES and FILES_NAMES."
     stages:
       - stage:
           input:
