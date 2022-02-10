@@ -17,10 +17,31 @@
 ##! - `##!>`: the preprocessor comment
 ##! - `##!<`: the block preprocessor end comment
 ##!
-##! Currently supported preoprocessors:
+##! Currently supported preprocessors:
 ##! - cmdline [windows|unix] (file scope)
-##! - neglook (block scope)
 ##! Please refer to util/regexp-assemble/README.md for a full explanation.
 
-(?<!&[aAoOuUyY]uml|&[aAeEiIoOuU]circ|&[eEiIoOuUyY]acute|&[aAeEiIoOuU]grave|&[cC]cedil|&[aAnNoO]tilde|&amp|&apos);
-['\"=]
+##! The HTML entities included in the expression are a best guess selection of frequently
+##! used entities. Including too many would further reduce the performance of the expression
+##! but there may well be additional entities that would make sense to add to the list.
+##! The official list of entities is hosted by the WHATWG:
+##! https://html.spec.whatwg.org/multipage/named-characters.html#named-character-references
+
+##!+ i
+
+##!^ ^
+##!$ *$
+
+&[aeiouclnrszg]acute;
+&[cdelnrstz]caron;
+&[cgklnrst]cedil;
+&[aeioucghjswy]circ;
+&[aeiou]grave;
+&[au]ring;
+&[anoi]tilde;
+&[aeiouy]uml;
+&amp;
+&apos;
+&nbsp;
+&oslash;
+[^'\";=]

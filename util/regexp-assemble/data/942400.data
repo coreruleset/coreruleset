@@ -17,16 +17,13 @@
 ##! - `##!>`: the preprocessor comment
 ##! - `##!<`: the block preprocessor end comment
 ##!
-##! Currently supported preoprocessors:
+##! Currently supported preprocessors:
 ##! - cmdline [windows|unix] (file scope)
-##! - neglook (block scope)
 ##! Please refer to util/regexp-assemble/README.md for a full explanation
 
 ##!+ i
 
 \band\b\s+\d{1,10}\s*?[=<>]
-\band\b\s+'[^=]{1,10}'\s*?[=<>]
-\band\b\s+\d{1,10}
 \band\b\s+'[^=]{1,10}'
 \band\b ?\d{1,10} ?[=<>]+
 \band\b ?[\'\"][^=]{1,10}[\'\"] ?[=<>]+

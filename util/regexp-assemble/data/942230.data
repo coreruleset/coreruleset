@@ -17,29 +17,13 @@
 ##! - `##!>`: the preprocessor comment
 ##! - `##!<`: the block preprocessor end comment
 ##!
-##! Currently supported preoprocessors:
+##! Currently supported preprocessors:
 ##! - cmdline [windows|unix] (file scope)
-##! - neglook (block scope)
 ##! Please refer to util/regexp-assemble/README.md for a full explanation.
 
-##! Note: The regular expression generated from this file will be compatible with
-##!	with non-backtracking engines (e.g. re2) at the cost of performance.
-##!
-##! Each line withing the preprocessor block corresponds to an alternative-group in
-##! a negative lookbehind.
-##! For example, to generate a regex equivalent to "(?<!a[bB]c|1234)":
-##!	a[bB]c
-##!	1234
+##!+ i
 
-##!> neglook
-&[aAoOuUyY]uml;
-&[aAeEiIoOuU]circ;
-&[eEiIoOuUyY]acute;
-&[aAeEiIoOuU]grave;
-&[cC]cedil;
-&[aAnNoO]tilde;
-&amp;
-&apos;
-##!<
-
-['\"=]
+[\s()]case\s+when.*?then
+\)\s*?like\s*?\(
+select.*?having\s*?[^\s]+\s*?[^\w\s]
+if\s?\(\w+\s*?[=<>~]
