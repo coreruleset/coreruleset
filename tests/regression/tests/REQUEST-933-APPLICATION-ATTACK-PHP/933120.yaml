@@ -22,3 +22,20 @@
           version: HTTP/1.0
         output:
           log_contains: id "933120"
+  -
+    test_title: 933120-2
+    desc: "Test correct logging"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            Cache-Control: "no-cache, no-store, must-revalidate"
+          method: POST
+          port: 80
+          data: "var=session.bug_compat_42%3dtrue"
+          version: HTTP/1.0
+        output:
+          no_log_contains: = found within

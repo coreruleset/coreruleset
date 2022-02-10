@@ -221,3 +221,21 @@
           version: HTTP/1.0
         output:
           log_contains: id "932200"
+  -
+    test_title: 932200-13
+    desc: "Test correct logging"
+    stages:
+    -
+      stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: ModSecurity CRS 3 Tests
+          method: GET
+          port: 80
+          uri: /?host=www.google.com;/bin/ca?+/et*/passwd
+          version: HTTP/1.0
+        output:
+          no_log_contains: found within MATCHED_VAR
