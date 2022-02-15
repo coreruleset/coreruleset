@@ -19,7 +19,7 @@ tests:
               Host: localhost
               Keep-Alive: '300'
               Proxy-Connection: keep-alive
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
             uri: /index.php?file=News&op=../../../../../boot.ini%00
@@ -40,7 +40,7 @@ tests:
               Host: localhost
               Keep-Alive: '300'
               Proxy-Connection: keep-alive
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
             uri: /index.php?file=News&op=/etc/passwd%00
@@ -61,7 +61,7 @@ tests:
               Host: localhost
               Keep-Alive: '300'
               Proxy-Connection: keep-alive
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
             uri: /index.php?file=News&op=../../../../../../../../../../usr/local/apps/apache2/conf/httpd.conf%00
@@ -78,7 +78,7 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: OWASP ModSecurity Core Rule Set
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/?foo=arg&path_comp=.ssh/id_rsa"
           output:
@@ -92,7 +92,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: "ModSecurity CRS 3 Tests"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/?/sys/class=test"
@@ -107,7 +107,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: "ModSecurity CRS 3 Tests"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/?test=/sys/class"

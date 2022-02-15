@@ -29,7 +29,7 @@ tests:
               Host: "localhost"
               # Test needs an empty Accept: header
               Accept: ""
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: OWASP ModSecurity Core Rule Set
           output:
             no_log_contains: "id \"920311\""
   - test_title: 920311-3
@@ -39,7 +39,7 @@ tests:
             dest_addr: "127.0.0.1"
             port: 80
             headers:
-              User-Agent: "ModSecurity CRS 3 Tests"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
               Host: "localhost"
               Accept: "text/plain, text/html"
           output:
