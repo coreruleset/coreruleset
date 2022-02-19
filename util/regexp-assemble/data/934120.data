@@ -1,0 +1,67 @@
+##! This is a data file used to generate a regular expression for a CRS rule.
+##! The generation of the regular expression happens with the help of
+##! util/regexp-assemble/regexp-assemble.pl.
+##! The ID of the rule in question is part of the file name of this data file.
+##! Read more about the format of this data file and the use of the assembly
+##! script in util/regexp-assemble/README.md.
+##!
+##! Lines starting with `##!` are comments and will be skipped,
+##! empty lines will be ignored completely.
+##!
+##! Three special comments are at your disposal to influence the assembled expression:
+##! - `##!+`: the flag comment
+##! - `##!^`: the prefix comment
+##! - `##!$`: the suffix comment
+##! Please refer to util/regexp-assemble/README.md for a full explanation.
+
+##! Plenty of schemes/protocols to catch here (from https://en.wikipedia.org/wiki/List_of_URI_schemes):
+##!^(?i)(?:acap|bitcoin|blob|cap|cvs|svn|svn\+ssh|turn|udp|vnc|xmpp|webcal|xri|dav|dns|feed|finger|h323|icap|ipp|ipps|jabber|mms|mumble|maven|nfs|rmi|rsync|rtmp|rtm|rtmfp|http|https|ftp|ftps|git|gopher|irc|fd|ldap|ldapi|ldaps|expect|netdoc|jar|ogg|tftp|dict|ssh2|ssh|imap|pop2|pop3|mailto|nntp|news|snews|snmp|smtp|sftp|telnet|s3|phar|sip|sips|smb)://
+
+##! http://425.510.425.510/ Dotted decimal with overflow (already covered by RFI rule 931100)
+##! http://2852039166/ Dotless decimal
+##! http://7147006462/ Dotless decimal with overflow
+\d{10}
+##! http://0xA9.0xFE.0xA9.0xFE/ Dotted hexadecimal
+(?:0x[a-f0-9]{2}\.){3}0x[a-f0-9]{2}
+##! http://0xA9FEA9FE/ Dotless hexadecimal
+0x[a-f0-9]{8}
+##! http://0x41414141A9FEA9FE/ Dotless hexadecimal with overflow
+0x[a-f0-9]{16}
+##! http://0251.0376.0251.0376/ Dotted octal
+##! http://0251.00376.000251.0000376/ Dotted octal with padding
+(?:0{1,4}\d{1,3}\.){3}0{1,4}\d{1,3}
+##! http://169.254.43518/
+\d{1,3}\.\d{1,3}\.\d{5}
+##! http://169.16689662/
+\d{1,3}\.\d{8}
+##! http://[::ffff:a9fe:a9fe] IPV6 Compressed - IPv6 (base regex from https://ihateregex.io/expr/ipv6/, with [0-9] converted to \d and with non-capturing groups (below))
+##! http://[0:0:0:0:0:ffff:a9fe:a9fe] IPV6 Expanded
+\[((?:[0-9a-f]{1,4}:){7,7}[a-f0-9]{1,4}|(?:[a-f0-9]{1,4}:){1,7}:|(?:[a-f0-9]{1,4}:){1,6}:[a-f0-9]{1,4}|(?:[a-f0-9]{1,4}:){1,5}(?::[a-f0-9]{1,4}){1,2}|(?:[a-f0-9]{1,4}:){1,4}(?::[a-f0-9]{1,4}){1,3}|(?:[a-f0-9]{1,4}:){1,3}(?::[a-f0-9]{1,4}){1,4}|(?:[a-f0-9]{1,4}:){1,2}(?::[a-f0-9]{1,4}){1,5}|[a-f0-9]{1,4}:(?:(?::[a-f0-9]{1,4}){1,6})|:(?:(?::[a-f0-9]{1,4}){1,7}|:)|fe80:(?::[a-f0-9]{0,4}){0,4}%[a-f0-9]{1,}|::(?:ffff(:0{1,4}){0,1}:){0,1}(?:(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])|(?:[a-f0-9]{1,4}:){1,4}:(?:(25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9]))
+##! http://[0:0:0:0:0:ffff:169.254.169.254] IPV6/IPV4
+\[(?:(?:[0-9a-f]{1,4}:){6}(?:(25[0-5]|(?:2[0-4]|1{0,1}\d){0,1}\d)\.){3,3}(?:25[0-5]|(?:2[0-4]|1{0,1}\d){0,1}\d))\]
+##! http://[::]
+
+##! These come from https://github.com/cujanovic/SSRF-Testing
+
+##! http://127.88.23.245:22/+&@google.com:80#+@google.com:80/ (already covered by RFI rule 931100)
+
+##! http://127.88.23.245:22/?@google.com:80/ (already covered by RFI rule 931100)
+
+##! http://127.88.23.245:22/#@www.google.com:80/ (already covered by RFI rule 931100)
+
+##! http://google.com:80\\@127.88.23.245:22/ (already covered by RFI rule 931100)
+
+##! http://google.com:80+&@127.88.23.245:22/#+@google.com:80/
+##! http://google.com:80+&@google.com:80#+@127.88.23.245:22/
+[a-zA-Z][\w\-\.]{1,255}:\d{1,5}\+&@(?:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|[a-zA-Z][\w\-\.]{1,255}):\d{1,5}\/?\#\+@(?:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|[a-zA-Z][\w\-\.]{1,255}):\d{1,5}\/?
+
+##! Enclosed alphanumerics are used for evasion (https://en.wikipedia.org/wiki/Enclosed_Alphanumerics)
+##! These will normally sound many alarms, but having them flagged as ssrf attempt makes sense 
+##! ①②⑦.
+\xe2\x91\xa0\xe2\x91\xa1\xe2\x91\xa6\.
+##! ①⑥⑨.
+\xe2\x91\xa0\xe2\x91\xa5\xe2\x91\xa8\.
+##! ⓛⓞⓒⓐⓛⓗⓞⓢⓣ
+\xe2\x93\x9b\xe2\x93\x9e\xe2\x93\x92\xe2\x93\x90\xe2\x93\x9b\xe2\x93\x97\xe2\x93\x9e\xe2\x93\xa2\xe2\x93\xa3
+##! ⓁⓄⒸⒶⓁⒽⓄⓈⓉ
+\xe2\x93\x81\xe2\x93\x84\xe2\x92\xb8\xe2\x92\xb6\xe2\x93\x81\xe2\x92\xbd\xe2\x93\x84\xe2\x93\x88\xe2\x93\x89
