@@ -272,7 +272,7 @@ SecRule ARGS|!DURATION:half-life|ARGS:foo|!ARGS:bar "@rx foo" "id:12"
 """
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
-        
+
 
     def test_replace_variable_with_multiple_args(self):
         arguments = [

@@ -7,7 +7,7 @@ Describe the big picture of your changes here to communicate to the maintainers 
 <!-- _Put an `x` in the boxes that apply. You can also fill these out after creating the PR. If you're unsure about any of them, don't hesitate to ask. We're here to help! This is simply a reminder of what we are going to look for before merging your code._ -->
 
 - [ ] I have read the [CONTRIBUTING](https://github.com/coreruleset/coreruleset/blob/v3.4/dev/CONTRIBUTING.md) doc
-- [ ] I have added positive tests proving my fix/feature works as intended. 
+- [ ] I have added positive tests proving my fix/feature works as intended.
 - [ ] I have added negative tests that prove my fix/feature considers common cases that might end in false positives
 - [ ] In case you changed a regular expression, you are not adding a ReDOS for pcre. You can check this using [regexploit](https://github.com/doyensec/regexploit)
 - [ ] My test use the `comment` field to write the expected behavior

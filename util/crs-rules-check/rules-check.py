@@ -312,7 +312,7 @@ if __name__ == "__main__":
                 output.append("\n")
             else:
                 output += [l + "\n" for l in l.split("\n")]
-        
+
         diff = difflib.unified_diff(fromlines, output)
         if fromlines == output:
             msg(" Indentation check ok.")

@@ -77,7 +77,7 @@ SecRule ARGS|ARGS:foo|!ARGS:bar \\
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
 
-        
+
     def test_append_action_with_chain(self):
         arguments = [
             "--append-action", "msg:foo",
@@ -173,7 +173,7 @@ SecRule ARGS|ARGS:foo|!ARGS:bar \\
     log:'abc'"
 """
         expected = rule_string
-        
+
         context = create_context(arguments, rule_string)
         assert expected == get_output(context)
 

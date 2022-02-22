@@ -115,4 +115,3 @@ $ for f in `ls -1 /path/to/coreruleset/rules/*.conf`; do b=`basename ${f}`; diff
 ...
 
 As you can see, the version string at the end of comment line has changed in line 2.
-
