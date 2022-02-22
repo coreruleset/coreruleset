@@ -76,7 +76,7 @@ As you can see, there are two `"` missing above: the first one after the `chain`
 Check it:
 
 ```
-$ ./rules-check.py -r examples/test1.conf 
+$ ./rules-check.py -r examples/test1.conf
 Config file: examples/test1.conf
 Can't parse config file: examples/test1.conf
   file=examples/test1.conf, line=8, endLine=8, title=Parser error: can't parse file
@@ -98,7 +98,7 @@ SecRule REQUEST_URI "@beginswith /index.php" \
 In this rule the operator is lowercase. Mod_security allows both form.
 
 ```
-$ ./rules-check.py -r examples/test2.conf 
+$ ./rules-check.py -r examples/test2.conf
 Config file: examples/test2.conf
  Parsing ok.
  Ignore case check found error(s)
@@ -123,7 +123,7 @@ SecRule REQUEST_URI "@beginsWith /index.php" \
 In this rule, the `phase` and `id` are interchanged. As [documentation](https://github.com/coreruleset/coreruleset/wiki/Order-of-ModSecurity-Actions-in-CRS-rules) says, the first action **must** be the `id`, the second one is the `phase`.
 
 ```
-$ ./rules-check.py -r examples/test3.conf 
+$ ./rules-check.py -r examples/test3.conf
 Config file: examples/test3.conf
  Parsing ok.
  Ignore case check ok.
@@ -159,14 +159,14 @@ SecRule ARGS "@rx foo" \
 In this rule set, the first line and the rule with `id:3` first action have an extra leading space. As [documentation](https://github.com/coreruleset/coreruleset/blob/v3.4/dev/CONTRIBUTING.md#general-formatting-guidelines-for-rules-contributions) describes, CRS has a strict indentation rules. The script checks the indentation with help of Python's [difflib](https://docs.python.org/3.9/library/difflib.html).
 
 ```
-$ ./rules-check.py -r examples/test4.conf 
+$ ./rules-check.py -r examples/test4.conf
 Config file: examples/test4.conf
  Parsing ok.
  Ignore case check ok.
  Action order check ok.
  Indentation check found error(s)
---- 
-+++ 
+---
++++
   file=examples/test4.conf, line=1, endLine=6, title=Indentation error: an indetation error has found
 @@ -1,5 +1,5 @@
 - SecRule ARGS "@rx foo" \
@@ -179,7 +179,7 @@ Config file: examples/test4.conf
   file=examples/test4.conf, line=11, endLine=18, title=Indentation error: an indetation error has found
 @@ -11,7 +11,7 @@
      nolog"
- 
+
  SecRule ARGS "@rx foo" \
 -     "id:3,\
 +    "id:3,\
@@ -187,4 +187,3 @@ Config file: examples/test4.conf
      pass,\
      nolog"
 ```
-

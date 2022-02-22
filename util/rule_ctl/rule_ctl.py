@@ -57,7 +57,7 @@ class Context(object):
         self.parser = None
         self._rules = []
         self._rules_map = {}
-    
+
     def parse_rules(self, data):
         mparser = msc_pyparser.MSCParser()
         mparser.parser.parse(data, debug = False)
@@ -121,7 +121,7 @@ class Context(object):
     def parse_arguments(self, args=None):
         args_parser = self._create_args_parser()
         self.args = args_parser.parse_args(args)
-    
+
     def _create_args_parser(self):
         parser = argparse.ArgumentParser(description="OWASP CRS Configuration Control")
         parser.add_argument("--config", dest="config", help="OWASP ModSecurity CRS config file path", required=True)
@@ -151,7 +151,7 @@ class RuleFileItem(object):
     def __init__(self, data, context):
         self._data = data
         self._line_numbers = {"rule_line": data["lineno"]}
-    
+
     def modify(self, context):
         pass
 
@@ -214,7 +214,7 @@ class SecAction(RuleFileItem):
             "negated": negated,
             "counter": counter
         }
-    
+
     def _is_equal_variable(self, variable1, variable2):
         compare_fields = ("variable", "variable_part", "negated", "counter")
         return all(variable1[field] == variable2[field] for field in compare_fields)
@@ -247,7 +247,7 @@ class SecAction(RuleFileItem):
                 if any(lineno > self._line_numbers['rule_line'] for lineno in self._line_numbers.values()):
                     last_line_number += 1
                 action["lineno"] = last_line_number
-        
+
         original_first_line_number = min(self._line_numbers.values())
         original_last_line_number = max(self._line_numbers.values())
         original_length = original_last_line_number - original_first_line_number
@@ -289,7 +289,7 @@ class SecAction(RuleFileItem):
             return self._data["variables"]
         except KeyError:
             return []
-    
+
     def set_variables(self, variables):
         self._data["variables"] = variables
 
@@ -298,7 +298,7 @@ class SecAction(RuleFileItem):
 
     def get_ctls(self):
         return [action for action in self.get_actions() if action["act_name"] == "ctl"]
-    
+
     def matches_id(self, id_pattern):
         if self._id_matcher is None:
             self._id_matcher = re.compile(id_pattern)
@@ -307,12 +307,12 @@ class SecAction(RuleFileItem):
     def append_tag(self, context):
         if context.args.append_tag is None:
             return
-        
+
         #TODO: support appending multiple tags
         tags = self.get_tags()
         if context.args.append_tag in [tag["act_arg"] for tag in tags]:
             return
-        
+
         actions = self.get_actions()
         new_act_list = []
         last_tag_line = 0
@@ -348,7 +348,7 @@ class SecAction(RuleFileItem):
     def remove_tag(self, context):
         if context.args.remove_tag is None:
             return
-        
+
         #TODO: support removing multiple tags
         actions = self.get_actions()
         new_act_list = []
@@ -361,17 +361,17 @@ class SecAction(RuleFileItem):
                         context.dprint(self.id, "remove-tag", f"remove tag {context.args.remove_tag} on line {action['lineno']}", 0)
             else:
                 new_act_list.append(action)
-        
+
         self.set_actions(new_act_list)
 
     def rename_tag(self, context):
         if context.args.rename_tag is None:
             return
-        
+
         match = self.TAG_RENAME_REGEX.match(context.args.rename_tag)
         if match is None:
             return
-        
+
         old_tag = match.group(1)
         new_tag = match.group(2)
         new_act_list = []
@@ -391,11 +391,11 @@ class SecAction(RuleFileItem):
     def append_action(self, context):
         if context.args.append_action is None:
             return
-        
+
         match = self.ACTION_REPLACE_VALUES_REGEX.match(context.args.append_action)
         if match is None:
             return
-        
+
         new_action_name = match.group(1)
         new_action_value = match.group(2) or ""
 
@@ -406,7 +406,7 @@ class SecAction(RuleFileItem):
             new_action_value in [action["act_arg"] for action in actions]
         ):
             return
-        
+
         new_act_list = []
         last_action_line = 0
         new_action_order = ACTION_ORDER[new_action_name]
@@ -442,7 +442,7 @@ class SecAction(RuleFileItem):
 
         if len(new_act_list) == 0:
             new_act_list.append(new_action)
-        
+
         self.set_actions(new_act_list)
 
 
@@ -461,7 +461,7 @@ class SecAction(RuleFileItem):
         to_match = self.ACTION_REPLACE_VALUES_REGEX.match(to_string)
         if from_match is None or to_match is None:
             return
-        
+
         from_actname = from_match.group(1)
         from_actvalue = from_match.group(2) or ""
         to_actname = to_match.group(1)
@@ -481,7 +481,7 @@ class SecAction(RuleFileItem):
     def remove_action(self, context):
         if context.args.remove_action is None:
             return
-        
+
         actions = self.get_actions()
         new_act_list = []
         for action in actions:
@@ -493,12 +493,12 @@ class SecAction(RuleFileItem):
     def append_tfunc(self, context):
         if context.args.append_tfunc is None:
             return
-        
+
         transform_order = ACTION_ORDER["t"]
         actions = self.get_actions()
         last_action_index = len(actions) - 1
         transformation_names = [action["act_arg"] for action in actions if action["act_name"] == "t"]
-        
+
         for tfunc in context.args.append_tfunc:
             if tfunc in transformation_names:
                 continue
@@ -516,12 +516,12 @@ class SecAction(RuleFileItem):
                     done = True
                     new_act_list.append({
                         'id': uuid.uuid4(),
-                        'act_name': 't', 
-                        'lineno': last_lineno, 
-                        'act_quote': 'no_quote', 
-                        'act_arg': tfunc, 
-                        'act_arg_val': '', 
-                        'act_arg_val_param': '', 
+                        'act_name': 't',
+                        'lineno': last_lineno,
+                        'act_quote': 'no_quote',
+                        'act_arg': tfunc,
+                        'act_arg_val': '',
+                        'act_arg_val_param': '',
                         'act_arg_val_param_val': ''
                     })
                     if context.args.debug:
@@ -554,7 +554,7 @@ class SecAction(RuleFileItem):
     def append_variables(self, context):
         if context.args.append_variable is None:
             return
-        
+
         variables = self.get_variables()
         for nv in context.args.append_variable:
             newvar = self._parse_var(nv)
@@ -574,7 +574,7 @@ class SecAction(RuleFileItem):
             if context.args.debug:
                 context.dprint(self.id, "append-variable", f"Append variable {newvar}:{newvar['variable_part']}", 0)
             variables = new_var_list
-        
+
         self.set_variables(variables)
 
 
@@ -605,7 +605,7 @@ class SecAction(RuleFileItem):
     def replace_variables(self, context):
         if context.args.replace_variable is None:
             return
-        
+
         variables = self.get_variables()
         for nv_tosplit in context.args.replace_variable:
             oldvar, newvar = nv_tosplit.split(",")
@@ -645,7 +645,7 @@ class SecAction(RuleFileItem):
         # TODO: support appending multiple ctl
         if context.args.append_ctl is None:
             return
-        
+
         match = self.CTL_APPEND_REGEX.match(context.args.append_ctl)
         if match is None:
             return
@@ -654,7 +654,7 @@ class SecAction(RuleFileItem):
         if arg.startswith('ctl:'):
             arg = arg[4:]
         val = match.group(2)
-    
+
         params = self.CTL_APPEND_PARAMS_REGEX.match(match.group(3))
         param = params.group(1) if params is not None else ""
         paramval = params.group(2) if params is not None else ""
@@ -709,7 +709,7 @@ class SecAction(RuleFileItem):
         #TODO: tags don't need to be grouped together; need to look through all actions
         if not context.args.sort_tags:
             return
-        
+
         new_act_list = []
         post_tag_actions = []
         tags = []
@@ -728,7 +728,7 @@ class SecAction(RuleFileItem):
 
         def get_sort_key(tag):
             return tag["act_arg"].lower()
-        
+
         sorted_tags = sorted(tags, key=get_sort_key)
         for tag in sorted_tags:
             new_act_list.append(tag)
@@ -737,7 +737,7 @@ class SecAction(RuleFileItem):
 
         for act in post_tag_actions:
             new_act_list.append(act)
-                
+
         self.set_actions(new_act_list)
 
 class Comment(RuleFileItem):
@@ -766,7 +766,7 @@ class SecRule(SecAction):
     def modify(self, context):
         if context.args.skip_chain and self.is_chained():
             return
-    
+
         super().modify(context)
 
 
@@ -779,11 +779,11 @@ def write_output(context):
         if not context.args.silent:
             print("\n".join(context.generate_output()))
         return
-    
+
     path = context.args.target_file if context.args.target_file else context.args.config
     with open(path, 'w') as handle:
         handle.write("\n".join(context.generate_output()))
-    
+
 
 def run():
     context = Context()

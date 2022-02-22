@@ -5,4 +5,3 @@
 ## SILVER SPONSORS
 
 * Google Cloud Armor
-

@@ -103,4 +103,3 @@ if len(sys.argv) > 4:
     args['cversion'] = sys.argv[4]
 
 fh = FileHandler(**args)
-
