@@ -61,7 +61,7 @@ def regexp_char(char, mode):
 # Insert these sequences between characters to prevent evasion.
 # This emulates the relevant parts of t:cmdLine.
 evasions = {
-    'unix': r'''[\\\\'\"]*''',
+    'unix': r'''[\x5c'\"]*''',
     'windows': r'''[\"\^]*''',
 }
 
