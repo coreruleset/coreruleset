@@ -330,14 +330,14 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # evaluation, then blocking happens immediately (if blocking is enabled) and
 # the phase 2 (and phase 4 respectively) will no longer be executed.
 #
-# Enable the rule 900120 that sets the variable tx.blocking_early to 1 in order
-# to enable early blocking. The variable tx.blocking_early is set to 0 by
+# Enable the rule 900120 that sets the variable tx.early_blocking to 1 in order
+# to enable early blocking. The variable tx.early_blocking is set to 0 by
 # default. Early blocking is thus disabled by default.
 #
-# Please note that blocking early will hide potential alerts from you. This
+# Please note that early blocking will hide potential alerts from you. This
 # means that a payload that would appear in an alert in phase 2 (or phase 4)
 # does not get evaluated if the request is being blocked early. So when you
-# disabled blocking early again at some point in the future, then new alerts
+# disabled early blocking again at some point in the future, then new alerts
 # from phase 2 might pop up.
 #SecAction \
 #  "id:900120,\
@@ -345,7 +345,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  nolog,\
 #  pass,\
 #  t:none,\
-#  setvar:tx.blocking_early=1"
+#  setvar:tx.early_blocking=1"
 
 
 # -- [[ Application Specific Rule Exclusions ]] ----------------------------------------
