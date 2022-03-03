@@ -318,6 +318,30 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  setvar:tx.inbound_anomaly_score_threshold=5,\
 #  setvar:tx.outbound_anomaly_score_threshold=4"
 
+
+#
+# -- [[ Anomaly Score Reporting Level ]] ------------------------------
+#
+# By setting the reporting level, the verbosity of the reporting rules in
+# phase 5 can be configured. There are 4 reporting levels: 0, 1, 2, 3. The
+# higher the reporting level, the more verbose the reporting is. By setting the
+# reporting level to 0 reports in phase 5 are disabled completely.
+# 0 - No phase 5 reporting
+# 1 - Reporting for requests that were blocked
+# 2 - Reporting for requests that scored larger than 0
+# 3 - Reporting for all requests
+#
+# The default reporting level is 2.
+#
+#SecAction \
+# "id:900115,\
+#  phase:1,\
+#  nolog,\
+#  pass,\
+#  t:none,\
+#  setvar:tx.reporting_level=2"
+
+
 #
 # -- [[ Early Anomaly Scoring Mode Blocking ]] ------------------------------
 #
