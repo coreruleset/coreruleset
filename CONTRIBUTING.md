@@ -132,8 +132,8 @@ Please read file ```crs-setup.conf.example``` for an introduction and a more det
 
 The CRS project used the numerical id rule namespace from 900,000 to 999,999 for the CRS rules as well as 9,000,000 to 9,999,999 for default CRS rule exclusion packages.
 
-Rules applying to the incoming request use the id range 900,000 to 949,999.
-Rules applying to the outgoing response use the id range 950,000 to 999,999.
+Rules applying to the inbound request use the id range 900,000 to 949,999.
+Rules applying to the outbound response use the id range 950,000 to 999,999.
 
 The rules are grouped by vulnerability class they address (SQLi, RCE, etc.) or functionality (initialization). These groups occupy blocks of thousands (e.g. SQLi: 942,000 - 942,999).
 The grouped rules are defined in files dedicated to a single group or functionality. The filename takes up the first three digits of the rule ids defined within the file (e.g. SQLi: REQUEST-942-APPLICATION-ATTACK-SQLI.conf).

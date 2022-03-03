@@ -32,7 +32,7 @@ SecAction "id:900005,\
   pass,\
   ctl:ruleEngine=DetectionOnly,\
   ctl:ruleRemoveById=910000,\
-  setvar:tx.paranoia_level=4,\
+  setvar:tx.blocking_paranoia_level=4,\
   setvar:tx.crs_validate_utf8_encoding=1,\
   setvar:tx.arg_name_length=100,\
   setvar:tx.arg_length=400,\

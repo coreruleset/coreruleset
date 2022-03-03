@@ -180,7 +180,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #   nolog,\
 #   pass,\
 #   t:none,\
-#   setvar:tx.paranoia_level=1"
+#   setvar:tx.blocking_paranoia_level=1"
 
 
 # It is possible to execute rules from a higher paranoia level but not include
@@ -189,16 +189,16 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # the new rules would lead to false positives that raise your score above the
 # threshold.
 # This optional feature is enabled by uncommenting the following rule and
-# setting the tx.executing_paranoia_level.
-# Technically, rules up to the level defined in tx.executing_paranoia_level
-# will be executed, but only the rules up to tx.paranoia_level affect the
+# setting the tx.detection_paranoia_level.
+# Technically, rules up to the level defined in tx.detection_paranoia_level
+# will be executed, but only the rules up to tx.blocking_paranoia_level affect the
 # anomaly scores.
-# By default, tx.executing_paranoia_level is set to tx.paranoia_level.
-# tx.executing_paranoia_level must not be lower than tx.paranoia_level.
+# By default, tx.detection_paranoia_level is set to tx.blocking_paranoia_level.
+# tx.detection_paranoia_level must not be lower than tx.blocking_paranoia_level.
 #
-# Please notice that setting tx.executing_paranoia_level to a higher paranoia
+# Please notice that setting tx.detection_paranoia_level to a higher paranoia
 # level results in a performance impact that is equally high as setting
-# tx.paranoia_level to said level.
+# tx.blocking_paranoia_level to said level.
 #
 #SecAction \
 #  "id:900001,\
@@ -206,7 +206,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #   nolog,\
 #   pass,\
 #   t:none,\
-#   setvar:tx.executing_paranoia_level=1"
+#   setvar:tx.detection_paranoia_level=1"
 
 
 #
