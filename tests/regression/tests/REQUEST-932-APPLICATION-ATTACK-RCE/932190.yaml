@@ -6,7 +6,7 @@ meta:
   name: 932190.yaml
 tests:
   - test_title: 932190-1
-    desc: "Match wild card evasion in '1+un/**/ion'"
+    desc: "Match wild card evasion in 'cat+/et*/*wd'"
     stages:
       - stage:
           input:
@@ -18,12 +18,12 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?id=1%2Bun%2F%2A%2A%2Fion
+            uri: /?id=cat%2B%2Fet*%2F*wd
             version: HTTP/1.0
           output:
             log_contains: id "932190"
   - test_title: 932190-2
-    desc: "No FP with backslashes in '1+un\\**\\ion'"
+    desc: "Match wild card evasion in 'cat+/ET*/*WD'"
     stages:
       - stage:
           input:
@@ -35,10 +35,10 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?id=1%2Bun%5C%2A%2A%5Cion
+            uri: /?id=cat%2B%2FET*%2F*WD
             version: HTTP/1.0
           output:
-            no_log_contains: id "932190"
+            log_contains: id "932190"
   - test_title: 932190-3
     desc: "Match wild card evasion in '/???/?s'"
     stages:
@@ -57,23 +57,6 @@ tests:
           output:
             log_contains: id "932190"
   - test_title: 932190-4
-    desc: "No FP with backslashes in '\\???\\?s'"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Host: localhost
-              Proxy-Connection: keep-alive
-              User-Agent: OWASP ModSecurity Core Rule Set
-            method: GET
-            port: 80
-            uri: /?id=%5C%3F%3F%3F%5C%3Fs
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "932190"
-  - test_title: 932190-5
     desc: "No FP in 'Does the * shine bright?'"
     stages:
       - stage:
