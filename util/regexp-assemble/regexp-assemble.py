@@ -56,19 +56,15 @@ def handle_generate(namespace: argparse.Namespace):
 
     if namespace.rule_id:
         with open(
-            os.path.join(context.data_files_directory, f"{namespace.rule_id}.data")
+            os.path.join(context.data_files_directory, f"{namespace.rule_id}.data"), 'rt'
         ) as handle:
-            lines = assembler.run(handle)
+            regex = assembler.run(handle)
     elif "stdin" in namespace:
-        lines = assembler.run(namespace.stdin)
+        regex = assembler.run(namespace.stdin)
     else:
         raise argparse.ArgumentError("Unhandled combination of arguments")
 
-    for index, line in enumerate(lines):
-        sys.stdout.write(line.decode('utf-8'))
-        if index + 1 < len(lines):
-            sys.stdout.write("\n")
-
+    print(regex)
 
 def handle_update(namespace: argparse.Namespace):
     updater = Updater(create_context())

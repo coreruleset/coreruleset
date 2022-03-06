@@ -18,7 +18,7 @@ class Assembler(object):
             "cmdline": (FilePreprocessor, CmdLine),
         }
 
-    def run(self, file: TextIO) -> list[bytes]:
+    def run(self, file: TextIO) -> str:
         iterator = file.readlines().__iter__()
         lines = self.preprocess(iterator)
         if len(lines) == 0:
@@ -66,7 +66,7 @@ class Assembler(object):
             iterator = final_lines.__iter__()
         return final_lines
 
-    def assemble(self, lines) -> list[bytes]:
+    def assemble(self, lines) -> str:
         args = [self.context.regexp_assemble_pl_path]
         outs = None
         errs = None
@@ -87,7 +87,7 @@ class Assembler(object):
             print("Stderr: " + errs.decode("utf-8"))
             sys.exit(1)
 
-        return outs.split(b"\n")
+        return outs.split(b"\n")[0].decode('utf-8')
 
 
 class Preprocessor(object):
@@ -99,7 +99,9 @@ class Preprocessor(object):
 
     def _preprocess(self, iterator, filter):
         for line in filter(iterator):
-            self.processor.process_line(line)
+            stripped_line = line.rstrip('\n')
+            if not stripped_line == '':
+                self.processor.process_line(stripped_line)
 
         return self.processor.complete()
 

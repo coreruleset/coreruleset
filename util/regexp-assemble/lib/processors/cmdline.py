@@ -51,7 +51,10 @@ class CmdLine(Processor):
             raise ValueError(f'No command line processor of type {type} defined')
 
     # override
-    def process_line(self, line: bytes):
+    def process_line(self, line: str):
+        if line == '':
+            return
+        
         processed = self.regexp_str(line)
         LOGGER.debug(line)
         LOGGER.debug(processed)

@@ -32,9 +32,11 @@ class Parser(object):
                     os.path.join(self.context.data_files_directory, file), assembler, func
                 )
 
-    def process_regex(self, file, assembler, func):
-        regex = assembler.run(file).decode("utf-8").split("\n")[0]
-        rule_id = self.rule_id_regex.match(os.path.basename(file)).group(1)
+    def process_regex(self, file_path: str, assembler: Assembler, func):
+        rule_id = self.rule_id_regex.match(os.path.basename(file_path)).group(1)
+        with open(file_path, 'rt') as file:
+            regex = assembler.run(file)
+
         print(f"Processing {rule_id}")
         rule_prefix = rule_id[:3]
         if rule_prefix in self.parsers:
@@ -44,7 +46,7 @@ class Parser(object):
                 if rule_prefix in rule_file:
                     self.prefix_to_file_map[rule_prefix] = rule_file
                     with open(
-                        os.path.join(self.context.rules_directory, rule_file), "r"
+                        os.path.join(self.context.rules_directory, rule_file), "rt"
                     ) as handle:
                         parser = MSCParser()
                         self.parsers[rule_prefix] = parser
