@@ -14,7 +14,7 @@
     ```
 4. You should now be able to use the script. Try running something like the following:
     ```bash
-    printf "(?:homer)? simpson\n(?:lisa)? simpson" | util/regexp-assemble/regexp-assemble.py
+    printf "(?:homer)? simpson\n(?:lisa)? simpson" | util/regexp-assemble/regexp-assemble.py generate -
     ```
     You should see:
     ```bash
