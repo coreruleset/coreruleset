@@ -9,9 +9,7 @@ class Context(object):
         self.regexp_assemble_directory = os.path.join(
             self.util_directory, "regexp-assemble"
         )
-        self.data_files_directory = os.path.join(
-            self.regexp_assemble_directory, "data"
-        )
+        self.data_files_directory = os.path.join(self.regexp_assemble_directory, "data")
         self.regexp_assemble_pl_path = os.path.join(
             self.regexp_assemble_directory, "lib", "regexp-assemble.pl"
         )

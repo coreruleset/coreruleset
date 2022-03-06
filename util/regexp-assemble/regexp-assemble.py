@@ -10,8 +10,9 @@
 # and the value is the script you want to execute (expected to be in the lib directory).
 
 import os, re, sys
-from pydoc import cram
 import argparse
+import logging
+
 from lib.operators.assembler import Assembler
 from lib.operators.comparer import Comparer
 from lib.operators.updater import Updater
@@ -22,6 +23,9 @@ def build_args_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Utilities for generating and managing regular expressions in CRS rule files"
     )
+    levels = ("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL")
+    parser.add_argument("--log-level", default="INFO", choices=levels)
+
     subparsers = parser.add_subparsers()
     build_generate_args_parser(subparsers)
     build_update_args_parser(subparsers)
@@ -56,7 +60,8 @@ def handle_generate(namespace: argparse.Namespace):
 
     if namespace.rule_id:
         with open(
-            os.path.join(context.data_files_directory, f"{namespace.rule_id}.data"), 'rt'
+            os.path.join(context.data_files_directory, f"{namespace.rule_id}.data"),
+            "rt",
         ) as handle:
             regex = assembler.run(handle)
     elif "stdin" in namespace:
@@ -64,7 +69,9 @@ def handle_generate(namespace: argparse.Namespace):
     else:
         raise argparse.ArgumentError("Unhandled combination of arguments")
 
-    print(regex)
+    sys.stdout.write(regex)
+    sys.stdout.write("\n")
+
 
 def handle_update(namespace: argparse.Namespace):
     updater = Updater(create_context())
@@ -108,11 +115,20 @@ class RuleNameParser(argparse.Action):
             raise ValueError(f"Failed to identify rule from argument {values}")
         setattr(namespace, self.dest, match.group(1))
 
+
 def create_context() -> Context:
     script_directory = os.path.dirname(__file__)
     root_directory = os.path.dirname(os.path.dirname(script_directory))
     return Context(root_directory)
 
+
+def setup_logger(namespace: argparse.Namespace):
+    logger = logging.getLogger()
+    logger.setLevel(namespace.log_level)
+    logger.addHandler(logging.StreamHandler())
+
+
 if __name__ == "__main__":
     namespace = build_args_parser().parse_args()
+    setup_logger(namespace)
     namespace.func(namespace)

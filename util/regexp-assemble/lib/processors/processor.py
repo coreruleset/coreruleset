@@ -1,13 +1,19 @@
 from abc import abstractmethod
-
 from abc import ABC
 from typing import TypeVar, Type
 
-T = TypeVar('T', bound='Processor')
+import re
+import logging
+
+T = TypeVar("T", bound="Processor")
+
 class Processor(ABC):
+    comment_regex = re.compile(r"^##!")
+    logger = logging.getLogger()
+
     @classmethod
     @abstractmethod
-    def create(cls: Type[T]) -> T:
+    def create(cls: T) -> T:
         pass
 
     @abstractmethod

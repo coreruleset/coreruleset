@@ -1,93 +1,11 @@
-import os, re, sys
+import re, sys
 from subprocess import Popen, PIPE, TimeoutExpired
-from typing import TextIO
+from typing import TextIO, TypeVar
+import logging
+
 from lib.context import Context
 from lib.processors.processor import Processor
 from lib.processors.cmdline import CmdLine
-
-
-class Assembler(object):
-    special_comment_markers = "^$+><"
-    simple_comment_regex = re.compile(r"^##![^" + special_comment_markers + r"].*")
-    # prefix, suffix, flags, block start block end
-    preprocessor_regex = re.compile(r"^##!>\s*(.*)")
-
-    def __init__(self, context: Context):
-        self.context = context
-        self.preprocessor_map = {
-            "cmdline": (FilePreprocessor, CmdLine),
-        }
-
-    def run(self, file: TextIO) -> str:
-        iterator = file.readlines().__iter__()
-        lines = self.preprocess(iterator)
-        if len(lines) == 0:
-            print(
-                "No input. Either pass a filename, a rule id or pipe data to the script"
-            )
-            sys.exit(1)
-        return self.assemble(lines)
-
-    def detect_preprocessor(self, line):
-        match = self.preprocessor_regex.match(line)
-        if match is None:
-            return
-
-        definition = match.group(1).split()
-        try:
-            processor_type, processor_cls = self.preprocessor_map[definition[0]]
-            return processor_type(processor_cls, definition[1:])
-        except KeyError:
-            print(f"No processor found for {definition}")
-            sys.exit(1)
-
-    def _is_simple_comment(self, line):
-        return self.simple_comment_regex.match(line) is not None
-
-    def preprocess(self, lines):
-        iterator = lines.__iter__()
-        final_lines = []
-        for processor_type in (LinePreprocessor, BlockPreprocessor, FilePreprocessor):
-            transformed_lines = []
-            line = next(iterator, None)
-            while line is not None:
-                if self._is_simple_comment(line):
-                    line = next(iterator, None)
-                    continue
-                processor = self.detect_preprocessor(line)
-                if processor is None or not isinstance(processor, processor_type):
-                    transformed_lines.append(line)
-                    line = next(iterator, None)
-                    continue
-                transformed_lines += processor.run(iterator)
-                line = next(iterator, None)
-
-            final_lines = transformed_lines
-            iterator = final_lines.__iter__()
-        return final_lines
-
-    def assemble(self, lines) -> str:
-        args = [self.context.regexp_assemble_pl_path]
-        outs = None
-        errs = None
-        proc = Popen(args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
-        for line in lines:
-            proc.stdin.write(line.encode("utf-8"))
-            proc.stdin.write(b"\n")
-        try:
-            outs, errs = proc.communicate(timeout=30)
-        except TimeoutExpired:
-            proc.kill()
-            print(f"Assembling regex timed out")
-            print("Stderr: " + errs.decode("utf-8"))
-            sys.exit(1)
-
-        if errs:
-            print("Failed to assemble regex")
-            print("Stderr: " + errs.decode("utf-8"))
-            sys.exit(1)
-
-        return outs.split(b"\n")[0].decode('utf-8')
 
 
 class Preprocessor(object):
@@ -99,8 +17,8 @@ class Preprocessor(object):
 
     def _preprocess(self, iterator, filter):
         for line in filter(iterator):
-            stripped_line = line.rstrip('\n')
-            if not stripped_line == '':
+            stripped_line = line.rstrip("\n")
+            if not stripped_line == "":
                 self.processor.process_line(stripped_line)
 
         return self.processor.complete()
@@ -125,3 +43,83 @@ class BlockPreprocessor(Preprocessor):
         while line is not None and not self.block_preprocessor_end_regex.match(line):
             yield line
             line = next(iterator, None)
+
+
+class Assembler(object):
+    special_comment_markers = "^$+><"
+    simple_comment_regex = re.compile(r"^##![^" + special_comment_markers + r"].*")
+    # prefix, suffix, flags, block start block end
+    preprocessor_regex = re.compile(r"^##!>\s*(.*)")
+    logger = logging.getLogger()
+
+    def __init__(self, context: Context):
+        self.context = context
+        self.preprocessor_map = {
+            "cmdline": (FilePreprocessor, CmdLine),
+        }
+
+    def run(self, file: TextIO) -> str:
+        iterator = file.readlines().__iter__()
+        lines = self.preprocess(iterator)
+        return self.assemble(lines)
+
+    def detect_preprocessor(self, line: str) -> Preprocessor:
+        match = self.preprocessor_regex.match(line)
+        if match is None:
+            return
+
+        definition = match.group(1).split()
+        try:
+            processor_type, processor_cls = self.preprocessor_map[definition[0]]
+            return processor_type(processor_cls, definition[1:])
+        except KeyError:
+            self.logger.critical(f"No processor found for {definition}")
+            sys.exit(1)
+
+    def _is_simple_comment(self, line: str) -> bool:
+        return self.simple_comment_regex.match(line) is not None
+
+    def preprocess(self, lines: list[str]) -> list[str]:
+        iterator = lines.__iter__()
+        final_lines = []
+        for processor_type in (LinePreprocessor, BlockPreprocessor, FilePreprocessor):
+            transformed_lines = []
+            line = next(iterator, None)
+            while line is not None:
+                if self._is_simple_comment(line):
+                    line = next(iterator, None)
+                    continue
+                processor = self.detect_preprocessor(line)
+                if processor is None or not isinstance(processor, processor_type):
+                    transformed_lines.append(line)
+                    line = next(iterator, None)
+                    continue
+                transformed_lines += processor.run(iterator)
+                line = next(iterator, None)
+
+            final_lines = transformed_lines
+            iterator = final_lines.__iter__()
+        return final_lines
+
+    def assemble(self, lines: list[str]) -> str:
+        args = [self.context.regexp_assemble_pl_path]
+        outs = None
+        errs = None
+        proc = Popen(args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        for line in lines:
+            proc.stdin.write(line.encode("utf-8"))
+            proc.stdin.write(b"\n")
+        try:
+            outs, errs = proc.communicate(timeout=30)
+        except TimeoutExpired:
+            proc.kill()
+            self.logger.error("Assembling regex timed out")
+            self.logger.err("Stderr: %s", errs)
+            sys.exit(1)
+
+        if errs:
+            self.logger.error("Failed to assemble regex")
+            self.logger.error("Stderr: %s", errs)
+            sys.exit(1)
+
+        return outs.split(b"\n")[0].decode("utf-8")

@@ -20,9 +20,9 @@ class Comparer(Parser):
         config_key: str,
     ):
         if current_regex == generated_regex:
-            print(f"Regex of {rule_id} has not changed")
+            sys.stdout.write(f"Regex of {rule_id} has not changed")
         else:
-            print(f"Regex of {rule_id} has changed!")
+            sys.stdout.write(f"Regex of {rule_id} has changed!")
             diff_found = False
             max_chunks = ceil(max(len(current_regex), len(generated_regex)) / 50)
             for index in range(0, max_chunks * 50, 50):

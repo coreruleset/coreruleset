@@ -1,10 +1,9 @@
 import re, os
 from typing import Mapping
 
+from msc_pyparser import MSCParser
 from lib.context import Context
 from lib.operators.assembler import Assembler
-
-from msc_pyparser import MSCParser
 
 
 class Parser(object):
@@ -23,21 +22,25 @@ class Parser(object):
             for file in files:
                 if rule_id in file:
                     self.process_regex(
-                        os.path.join(self.context.data_files_directory, file), assembler, func
+                        os.path.join(self.context.data_files_directory, file),
+                        assembler,
+                        func,
                     )
                     break
         else:
             for file in files:
                 self.process_regex(
-                    os.path.join(self.context.data_files_directory, file), assembler, func
+                    os.path.join(self.context.data_files_directory, file),
+                    assembler,
+                    func,
                 )
 
     def process_regex(self, file_path: str, assembler: Assembler, func):
         rule_id = self.rule_id_regex.match(os.path.basename(file_path)).group(1)
-        with open(file_path, 'rt') as file:
+        with open(file_path, "rt") as file:
             regex = assembler.run(file)
 
-        print(f"Processing {rule_id}")
+        self.logger.info("Processing %s", rule_id)
         rule_prefix = rule_id[:3]
         if rule_prefix in self.parsers:
             parser = self.parsers[rule_prefix]

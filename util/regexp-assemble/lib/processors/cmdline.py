@@ -19,18 +19,11 @@
 # Refer to rule 932100, 932110, 932150 for documentation.
 #
 
-import sys, re
 from typing import TypeVar, Type
-import logging
 
 from lib.processors.processor import Processor
 
-T = TypeVar('T', bound='CmdLine')
-
-COMMENT_REGEX = re.compile(r"^##!")
-LOGGER = logging.getLogger()
-LOGGER.setLevel(logging.INFO)
-LOGGER.addHandler(logging.StreamHandler())
+T = TypeVar("T", bound="CmdLine")
 
 
 class CmdLine(Processor):
@@ -42,23 +35,24 @@ class CmdLine(Processor):
 
     # override
     @classmethod
-    def create(cls: Type[T], type: str) -> T:
-        if type == 'unix':
+    def create(cls: T, type: str) -> T:
+        if type == "unix":
             return CmdLineUnix()
-        elif type == 'windows':
+        elif type == "windows":
             return CmdLineWindows()
         else:
-            raise ValueError(f'No command line processor of type {type} defined')
+            raise ValueError(f"No command line processor of type {type} defined")
 
     # override
     def process_line(self, line: str):
-        if line == '':
+        if line == "":
             return
-        
+
         processed = self.regexp_str(line)
-        LOGGER.debug(line)
-        LOGGER.debug(processed)
         self.lines.append(processed)
+
+        self.logger.debug("cmdlin in:  %s", line)
+        self.logger.debug("cmdlin out: %s", processed)
 
     # overrride
     def complete(self) -> list[bytes]:
@@ -74,7 +68,7 @@ class CmdLine(Processor):
         # verbatim.
         if input[0] == "'":
             return input[1:]
-        elif COMMENT_REGEX.match(input) is not None:
+        elif self.comment_regex.match(input) is not None:
             return input
 
         result = ""
@@ -117,23 +111,3 @@ class CmdLineWindows(CmdLine):
             # "more<foo", "more>foo"
             r"""(?:[\s,;]|\.|/|<|>).*""",
         )
-
-
-if __name__ == "__main__":
-    import fileinput
-
-    # Parse arguments
-    if len(sys.argv) <= 1 or not sys.argv[1] in ("unix", "windows"):
-        print(sys.argv[0] + " unix|windows [infile]")
-        sys.exit(1)
-
-    mode = sys.argv[1]
-    del sys.argv[1]
-    processor = CmdLine.of_type(mode)
-
-    # Process lines from input file, or if not specified, standard input
-    for line in fileinput.input():
-        if line != "":
-            processor.process_line(line.rstrip("\n"))
-
-    sys.stdout.writelines(processor.complete())
