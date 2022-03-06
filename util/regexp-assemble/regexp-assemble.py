@@ -106,6 +106,116 @@ class Assembler(object):
 		
 		return outs
 
+class Parser(object):
+	rule_id_regex = re.compile(r'^(\d{6})')
+	script_directory = os.path.dirname(__file__)
+	data_directory = os.path.join(script_directory, 'data')
+	root_directory = os.path.dirname(os.path.dirname(script_directory))
+	rules_directory = os.path.join(root_directory, 'rules')
+	parsers: Mapping[str, msc_pyparser.MSCParser] = {}
+	prefix_to_file_map: Mapping[str, str] = {}
+
+	def perform_compare_or_update(self, rule_id: str=None, func=None):
+		files = os.listdir(self.data_directory)
+		files.sort()
+		assembler = Assembler()
+		if rule_id:
+			for file in files:
+				if rule_id in file:
+					self.process_regex(os.path.join(self.data_directory, file), assembler, func)
+					break
+		else:
+			for file in files:
+				self.process_regex(os.path.join(self.data_directory, file), assembler, func)
+		
+
+	def process_regex(self, file, assembler, func):
+		regex = assembler.run(file).decode('utf-8').split('\n')[0]
+		rule_id = self.rule_id_regex.match(os.path.basename(file)).group(1)
+		print(f'Processing {rule_id}')
+		rule_prefix = rule_id[:3]
+		if rule_prefix in self.parsers:
+			parser = self.parsers[rule_prefix]
+		else:
+			for rule_file in os.listdir(self.rules_directory):
+				if rule_prefix in rule_file:
+					self.prefix_to_file_map[rule_prefix] = rule_file
+					with open(os.path.join(self.rules_directory, rule_file), 'r') as handle:
+						parser = msc_pyparser.MSCParser()
+						self.parsers[rule_prefix] = parser
+						parser.parser.parse(handle.read())
+						break
+			if not parser:
+				raise Warning(f'No rule file found for data file {file}')
+		
+		for config in parser.configlines:
+			if config['type'] == 'SecRule':
+				for action in config['actions']:
+					if action['act_name'] == 'id' and action['act_arg'] == rule_id:
+						func(rule_id, regex, config['operator_argument'], config, 'operator_argument')
+						break
+
+
+class Comparer(Parser):
+	def run(self, rule_id: str):
+		self.perform_compare_or_update(rule_id, self.compare_regex)
+
+	def run_all(self):
+		self.perform_compare_or_update(None, self.compare_regex)
+
+	def compare_regex(self, rule_id: str, generated_regex: str, current_regex: str, config: dict, config_key: str):
+		if current_regex == generated_regex:
+			print(f'Regex of {rule_id} has not changed')
+		else:
+			print(f'Regex of {rule_id} has changed!')
+			diff_found = False
+			max_chunks = ceil(max(len(current_regex), len(generated_regex)) / 50)
+			for index in range(0, max_chunks * 50, 50):
+				end_index = min(len(current_regex), index + 50)
+				if end_index > index:
+					current_chunk = current_regex[index:end_index]
+				end_index = min(len(generated_regex), index + 50)
+				if end_index > index:
+					generated_chunk = generated_regex[index:end_index]
+				
+				print_first_diff = not diff_found and current_chunk and generated_chunk and current_chunk != generated_chunk
+				if print_first_diff:
+					diff_found = True
+					sys.stdout.write('\n===========\nfirst difference\n-----------')
+				if current_chunk:
+					sys.stdout.write('\ncurrent:  ')
+					sys.stdout.write(current_chunk.rjust(len(current_chunk) + 5))
+					sys.stdout.write(f'({int(index / 50) + 1} / {ceil(len(current_regex) / 50)})'.rjust(65 - len(current_chunk)))
+				if generated_chunk:
+					sys.stdout.write('\ngenerated: ')
+					sys.stdout.write(generated_chunk.rjust(len(generated_chunk) + 4))
+					sys.stdout.write(f'({int(index / 50) + 1} / {ceil(len(current_regex) / 50)})'.rjust(65 - len(generated_chunk)))
+					sys.stdout.write('\n')
+				if print_first_diff:
+					sys.stdout.write('===========\n')
+
+			sys.stdout.write('\n')
+
+class Updater(Parser):
+	def run(self, rule_id: str):
+		self.perform_compare_or_update(rule_id, self.update_regex)
+		self.write_updates()
+
+	def run_all(self):
+		self.perform_compare_or_update(None, self.update_regex)
+
+	def update_regex(self, rule_id: str, generated_regex: str, current_regex: str, config: dict, config_key: str):
+		config[config_key] = generated_regex
+
+	def write_updates(self):
+		for rule_prefix, parser in self.parsers.items():
+			writer = msc_pyparser.MSCWriter(parser.configlines)
+			file_path = os.path.join(self.rules_directory, self.prefix_to_file_map[rule_prefix])
+			with open(file_path, "w") as handle:
+				writer.generate()
+				# add extra new line at the end of file
+				writer.output.append("")
+				handle.write("\n".join(writer.output))
 class Preprocessor(object):
 	def __init__(self, script_path, args):
 		self.callout = [script_path] + args
@@ -189,113 +299,18 @@ def handle_generate(namespace: argparse.Namespace):
 
 def handle_update(namespace: argparse.Namespace):
 	if namespace.rule_id:
-		perform_compare_or_update(namespace.rule_id, update=True)
+		Updater().run(namespace.rule_id)
 	elif namespace.all:
-		perform_compare_or_update(update=True)
+		Updater().run_all()
 
 
-def perform_compare_or_update(rule_id: str=None, update: bool=False):
-	rule_id_regex = re.compile(r'^(\d{6})')
-	script_directory = os.path.dirname(__file__)
-	# TODO: handle multiple data files for single rule
-	data_directory = os.path.join(script_directory, 'data')
-	root_directory = os.path.dirname(os.path.dirname(script_directory))
-	rules_directory = os.path.join(root_directory, 'rules')
-	files = os.listdir(data_directory)
-	files.sort()
-	assembler = Assembler()
-	parsers: Mapping[str, msc_pyparser.MSCParser] = {}
-	prefix_to_file_map: Mapping[str, str] = {}
-	if rule_id:
-		for file in files:
-			if rule_id in file:
-				# TODO: handle multiple data files for single rule
-				compare_or_update_file(os.path.join(data_directory, file), prefix_to_file_map, parsers, assembler, rule_id_regex, rules_directory, update=update)
-				break
-	else:
-		for file in files:
-			compare_or_update_file(os.path.join(data_directory, file), prefix_to_file_map, parsers, assembler, rule_id_regex, rules_directory, update=update)
-	
-	if not update:
-		return
 
-	for rule_prefix, parser in parsers.items():
-		writer = msc_pyparser.MSCWriter(parser.configlines)
-		file_path = os.path.join(rules_directory, prefix_to_file_map[rule_prefix])
-		with open(file_path, "w") as handle:
-			writer.generate()
-			# add extra new line at the end of file
-			writer.output.append("")
-			handle.write("\n".join(writer.output))
-
-def compare_or_update_file(file, prefix_to_file_map, parsers, assembler, rule_id_regex, rules_directory, update=False):
-	regex = assembler.run(file).decode('utf-8').split('\n')[0]
-	rule_id = rule_id_regex.match(os.path.basename(file)).group(1)
-	print(f'Processing {rule_id}')
-	rule_prefix = rule_id[:3]
-	if rule_prefix in parsers:
-		parser = parsers[rule_prefix]
-	else:
-		for rule_file in os.listdir(rules_directory):
-			if rule_prefix in rule_file:
-				prefix_to_file_map[rule_prefix] = rule_file
-				with open(os.path.join(rules_directory, rule_file), 'r') as handle:
-					parser = msc_pyparser.MSCParser()
-					parsers[rule_prefix] = parser
-					parser.parser.parse(handle.read())
-					break
-		if not parser:
-			raise Warning(f'No rule file found for data file {file}')
-	
-	for config in parser.configlines:
-		if config['type'] == 'SecRule':
-			for action in config['actions']:
-				if action['act_name'] == 'id' and action['act_arg'] == rule_id:
-					if update:
-						config['operator_argument'] = regex
-					else:
-						compare_regex(rule_id, regex, config['operator_argument'])
-					break
-
-def compare_regex(rule_id: str, generated_regex: str, current_regex: str):
-	if current_regex == generated_regex:
-		print(f'Regex of {rule_id} has not changed')
-	else:
-		print(f'Regex of {rule_id} has changed!')
-		diff_found = False
-		max_chunks = ceil(max(len(current_regex), len(generated_regex)) / 50)
-		for index in range(0, max_chunks * 50, 50):
-			end_index = min(len(current_regex), index + 50)
-			if end_index > index:
-				current_chunk = current_regex[index:end_index]
-			end_index = min(len(generated_regex), index + 50)
-			if end_index > index:
-				generated_chunk = generated_regex[index:end_index]
-			
-			print_first_diff = not diff_found and current_chunk and generated_chunk and current_chunk != generated_chunk
-			if print_first_diff:
-				diff_found = True
-				sys.stdout.write('\n===========\nfirst difference\n-----------')
-			if current_chunk:
-				sys.stdout.write('\ncurrent:  ')
-				sys.stdout.write(current_chunk.rjust(len(current_chunk) + 5))
-				sys.stdout.write(f'({int(index / 50) + 1} / {ceil(len(current_regex) / 50)})'.rjust(65 - len(current_chunk)))
-			if generated_chunk:
-				sys.stdout.write('\ngenerated: ')
-				sys.stdout.write(generated_chunk.rjust(len(generated_chunk) + 4))
-				sys.stdout.write(f'({int(index / 50) + 1} / {ceil(len(current_regex) / 50)})'.rjust(65 - len(generated_chunk)))
-				sys.stdout.write('\n')
-			if print_first_diff:
-				sys.stdout.write('===========\n')
-
-
-		sys.stdout.write('\n')
 
 def handle_compare(namespace: argparse.Namespace):
 	if namespace.rule_id:
-		perform_compare_or_update(namespace.rule_id, update=False)
+		Comparer().run(namespace.rule_id)
 	elif namespace.all:
-		perform_compare_or_update(update=False)
+		Comparer().run_all()
 
 class RuleNameParser(argparse.Action):
 	def __init__(self,
@@ -324,7 +339,6 @@ class RuleNameParser(argparse.Action):
 				raise ValueError('Invalid arguments')
 			return
 		
-		# TODO: handle mutliple data files for single rule
 		match = re.fullmatch(r'(\d{6})(?:\.data)?', values)
 		if not match:
 			raise ValueError(f'Failed to identify rule from argument {values}')
