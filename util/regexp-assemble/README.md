@@ -6,7 +6,13 @@
     ```bash
     git submodule update --init util/regexp-assemble/lib/lib
     ```
-3. You should now be able to use the script. Try running something like the following:
+3. You need to install some dependencies. With `virutalenv`, installing them would look like this:
+    ```bash
+    virtualenv venv
+    source venv/bin/activate
+    pip install -r util/regexp-assemble/requirements.txt
+    ```
+4. You should now be able to use the script. Try running something like the following:
     ```bash
     printf "(?:homer)? simpson\n(?:lisa)? simpson" | util/regexp-assemble/regexp-assemble.py
     ```
@@ -18,9 +24,26 @@
 ## Example use
 To generate a reduced expression from a list of expressions, simply pass the rule id to the script of pipe the contents to it:
 ```bash
-util/regexp-assemble/regexp-assemble.py 942170
+util/regexp-assemble/regexp-assemble.py generate 942170
 # or
-cat util/regexp-assemble/data/942170.data | util/regexp-assemble/regexp-assemble.py
+cat util/regexp-assemble/data/942170.data | util/regexp-assemble/regexp-assemble.py generate -
+```
+
+You can also compare generated expressions to the current expressions in the rule files:
+```bash
+util/regexp-assemble/regexp-assemble.py compare 942170
+```
+
+Even better, you can update rule files directly:
+```bash
+util/regexp-assemble/regexp-assemble.py update 942170
+# or update all
+util/regexp-assemble/regexp-assemble.py update --all
+```
+
+Read the help for the full documentation:
+```bash
+util/regexp-assemble/regexp-assemble.py --help
 ```
 
 # Data file format

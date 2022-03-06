@@ -1,5 +1,6 @@
 import re, os
 from typing import Mapping
+import logging
 
 from msc_pyparser import MSCParser
 from lib.context import Context
@@ -10,6 +11,7 @@ class Parser(object):
     rule_id_regex = re.compile(r"^(\d{6})")
     parsers: Mapping[str, MSCParser] = {}
     prefix_to_file_map: Mapping[str, str] = {}
+    logger = logging.getLogger()
 
     def __init__(self, context: Context):
         self.context = context
