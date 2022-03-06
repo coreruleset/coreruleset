@@ -12,11 +12,14 @@
 import os, re, sys
 import argparse
 import logging
+from typing import TypeVar
 
 from lib.operators.assembler import Assembler
 from lib.operators.comparer import Comparer
 from lib.operators.updater import Updater
 from lib.context import Context
+
+S = TypeVar("S", bound="argparse._SubParserAction[argparse.ArgumentParser]")
 
 
 def build_args_parser() -> argparse.ArgumentParser:
@@ -24,7 +27,12 @@ def build_args_parser() -> argparse.ArgumentParser:
         description="Utilities for generating and managing regular expressions in CRS rule files"
     )
     levels = ("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL")
-    parser.add_argument("--log-level", default="INFO", choices=levels)
+    parser.add_argument(
+        "--log-level",
+        default="INFO",
+        choices=levels,
+        help="Change the log level; default is INFO",
+    )
 
     subparsers = parser.add_subparsers()
     build_generate_args_parser(subparsers)
@@ -34,23 +42,84 @@ def build_args_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def build_generate_args_parser(subparsers):
-    parser = subparsers.add_parser("generate")
-    parser.add_argument("rule_id", action=RuleNameParser)
+def build_generate_args_parser(subparsers: S):
+    parser = subparsers.add_parser(
+        "generate",
+        help="Generate regular expression from a data file",
+        description="""
+    Generate regular expression from a data file.
+    This command is mainly used for quick debugging.
+    It prints the generated regular expression to stdout.""",
+    )
+    parser.add_argument(
+        "rule_id",
+        action=RuleNameParser,
+        help="""
+    The six digit ID of the rule, e.g. 932100.
+    The special token `-` will cause the script to accept input
+    from stdin.
+    """,
+    )
     parser.set_defaults(func=handle_generate)
 
 
-def build_update_args_parser(subparsers):
-    parser = subparsers.add_parser("update")
-    parser.add_argument("rule_id", nargs="?", action=RuleNameParser, default=None)
-    parser.add_argument("--all", action="store_true")
+def build_update_args_parser(subparsers: S):
+    parser = subparsers.add_parser(
+        "update",
+        help="Update regular expressions in rule files",
+        description="""
+    Update regular expressions in rule files.
+    This command will generate regulare expressions from the data
+    files and update the associated rule.
+    """,
+    )
+    parser.add_argument(
+        "rule_id",
+        nargs="?",
+        action=RuleNameParser,
+        default=None,
+        help="The six digit ID of the rule, e.g. 932100",
+    )
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="""
+    Instead of supplying a rule_id, you can tell the script to
+    update all rules from their data files
+    """,
+    )
     parser.set_defaults(func=handle_update)
 
 
-def build_compare_args_parser(subparsers):
-    parser = subparsers.add_parser("compare")
-    parser.add_argument("rule_id", nargs="?", action=RuleNameParser, default=None)
-    parser.add_argument("--all", action="store_true")
+def build_compare_args_parser(subparsers: S):
+    parser = subparsers.add_parser(
+        "compare",
+        help="Compare generated regular expressions with the contents of associated rules",
+        description="""
+    Compare generated regular expressions with the contents of associated
+    rules.
+    This command is mainly used for debugging.
+    It prints regular expressions in fixed sized chunks and detects the
+    first change.
+    You can use this command to quickly check whether any rules are out of
+    sync with their data file.
+    """,
+    )
+    parser.add_argument(
+        "rule_id",
+        nargs="?",
+        action=RuleNameParser,
+        default=None,
+        help="The six digit ID of the rule, e.g. 932100",
+    )
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="""
+    Instead of supplying a rule_id, you can tell the script to
+    compare all regular expressions
+    """,
+    )
     parser.set_defaults(func=handle_compare)
 
 
@@ -90,9 +159,30 @@ def handle_compare(namespace: argparse.Namespace):
 
 
 class RuleNameParser(argparse.Action):
-    def __init__(self, option_strings, dest, nargs=None, default=None, required=False):
+    def __init__(
+        self,
+        option_strings,
+        dest,
+        nargs=None,
+        const=None,
+        default=None,
+        type=None,
+        choices=None,
+        required=False,
+        help=None,
+        metavar=None,
+    ):
         super().__init__(
-            option_strings, dest, nargs=nargs, default=default, required=required
+            option_strings,
+            dest,
+            nargs=nargs,
+            const=const,
+            default=default,
+            type=type,
+            choices=choices,
+            required=required,
+            help=help,
+            metavar=metavar,
         )
 
     def __call__(
