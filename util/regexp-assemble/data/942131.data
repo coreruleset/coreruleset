@@ -25,33 +25,38 @@
 ##! General comments:
 ##!
 ##! The idea behind this expressions is to capture simple logic based (un)equalities that
-##! are used to quickly test SQL Logic that always returns TRUE (hence the term "SQL Tautology").
+##! are used to quickly test SQL Logic that always returns FALSE.
 
-##! Prefix: captures the initial part that will be matched on the right hand side of the logicl construct.
+##! Prefix: captures the initial part that will be unmatched on the right hand side of the logicl construct.
 ##! This goes into the first rule of the chain:
 ##! [\s'\"`()]*?\b([\d\w]+)\b[\s'\"`()]*?
 
 ##!+ i
 
-##! These expressions try to match the logic using the operator,
-##! so when the operator targets a TRUE operation, the initial match
-##! should be present after the operator, logically meaning TRUE
+##! These expressions try to match the logic using the negative operator,
+##! so when the operator targets a false operation, the initial match
+##! should *not* be present after the operator, effectively meaning TRUE
 ##!
 ##! Examples:
-##! '1' = '1'
-##! 'f' like 'f'
+##! '1' <= '2'
+##! 'a' not like 'b'
+##!
+##! SQL Comparison Operators: =, !=, <=, >=, <>, <, >, !>, !<, ^
 
-##! This one will also match the "equal" part of '<=' and '>='
-=[\s'\"`()]*?(?:\b%{tx.lhs_942130}\b)
+\!=[\s'\"`()]*?(?:\b%{tx.lhs_942131}\b)
+<>[\s'\"`()]*?(?:\b%{tx.lhs_942131}\b)
+<[\s'\"`()]*?(?:\b%{tx.lhs_942131}\b)
+\!<[\s'\"`()]*?(?:\b%{tx.lhs_942131}\b)
+>[\s'\"`()]*?(?:\b%{tx.lhs_942131}\b)
+\!>[\s'\"`()]*?(?:\b%{tx.lhs_942131}\b)
+<=[\s'\"`()]*?(?:\b%{tx.lhs_942131}\b)
+>=[\s'\"`()]*?(?:\b%{tx.lhs_942131}\b)
+\^[\s'\"`()]*?(?:\b%{tx.lhs_942131}\b)
 
-<=>[\s'\"`()]*?(?:\b%{tx.lhs_942130}\b)
+is\s+not[\s'\"`()]*?(?:\b%{tx.lhs_942131}\b)
+not\s+like[\s'\"`()]*?(?:d\b%{tx.lhs_942131}\b)
 
-##! Like queries allow you to use wilcards: '%'
+##! String based regexp.
 
-like[\s'\"`()]*?(?:\b%?%{tx.lhs_942130}%?\b)
-sounds\s+like[\s'\"`()]*?(?:\b%?%{tx.lhs_942130}%?\b)
-
-##! String based regexp. These don't use % as wildcard.
-rlike[\s'\"`()]*?(?:\b%{tx.lhs_942130}\b)
-regexp[\s'\"`()]*?(?:\b%{tx.lhs_942130}\b)
-
+not\s+rlike[\s'\"`()]*?(?:\b%{tx.lhs_942131}\b)
+not\s+regexp[\s'\"`()]*?(?:\b%{tx.lhs_942131}\b)
