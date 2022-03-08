@@ -28,8 +28,16 @@
 ##! handles numerical HTML entities well but only handles 5 named
 ##! entities. The official list of named entities can be found here:
 ##! https://html.spec.whatwg.org/multipage/named-characters.html.
+##!
+##! Note:
+##!     - We don't match `&rbrace;` or `&rcub;` because it would enable more
+##!         evasions while also increasing the number of potential false positives.
+##!         The risk of false negatives in this case is acceptable.
+##!     - Omitting the terminating semi-colon can be used as an evasion with lenient
+##!         parsers. We catch those by making the semi-colon optional.
+
 
 ##!+ i
 
-(?:\$|&dollar)(?:\{|&(?:lbrace|lcub);)[^}]{0,15}(?:\$|&dollar)(?:\{|&(?:lbrace|lcub);)
-(?:\$|&dollar)(?:\{|&(?:lbrace|lcub);)(?:jndi|ctx)
+(?:\$|&dollar;?)(?:\{|&(?:lbrace|lcub);?)[^}]{0,15}(?:\$|&dollar;?)(?:\{|&(?:lbrace|lcub);?)
+(?:\$|&dollar;?)(?:\{|&(?:lbrace|lcub);?)(?:jndi|ctx)

