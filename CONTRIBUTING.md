@@ -150,3 +150,10 @@ Within a rule file / block, there are sometimes smaller groups of rules that bel
 
 Stricter siblings often have a different paranoia level. This means that the base rule and the stricter sibling do not reside next to one another in the rule file. Instead they are ordered in their appropriate paranoia level and can be linked via the first digits of the rule id. It is a good practice to introduce stricter siblings together with the base rule in the comments of the base rule and to reference the base rule with the keyword stricter sibling in the comments of the stricter sibling. E.g., "... This is
 performed in two separate stricter siblings of this rule: 9XXXX1 and 9XXXX2", "This is a stricter sibling of rule 9XXXX0."
+
+## Non-rules general guidelines
+
+* Remove trailing spaces from files (if they are not needed). This will make linters happy.
+* EOF should have an EOL
+
+You can use `pre-commit` to fix those automatically. Just go to the [pre-commit](https://pre-commit.com/) website and download it. After installing, use `pre-commit install` so the tools are installed and run each time you want to commit. We provide you with the config file that will keep our repo clean.
