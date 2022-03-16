@@ -51,3 +51,24 @@ tests:
             data: <?php12345
           output:
             no_log_contains: "id \"959100\""
+  - test_title: 959100-2
+    desc: Test is basically identical to 959100-0 (see above) but here we assert that the scores are summed up and reported propperly
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            headers:
+              Host: "localhost"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Accept-Charset: "ISO-8859-1,utf-8;q=0.7,*;q=0.7"
+              Accept-Encoding: "gzip,deflate"
+              Accept-Language: "en-us,en;q=0.5"
+              Content-Type: "text/plain"
+            method: "GET"
+            version: "HTTP/1.0"
+            uri: "/anything"
+            data: <?php echo "Hello World!\n" ?>
+          output:
+            log_contains: "Outbound Anomaly Score Exceeded [(]Total Outbound Score [(]blocking/detection[)]: 4/4 - SQLI=0,XSS=0,RFI=0,LFI=0,RCE=0,PHPI=0,HTTP=0,SESS=0[)]: individual paranoia level scores: 4, 0, 0, 0"
