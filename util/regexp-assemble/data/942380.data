@@ -23,15 +23,13 @@
 
 ##!+i
 
-##! Replaced whitespace ' ' with \s
-
 \bhaving\b\s+\d{1,10}\s*?[=<>]
 \bhaving\b\s+'[^=]{1,10}'\s*?[=<>]
 \bexecute\(
 \bexecute\s{1,5}[\w\.$]{1,5}\s{0,3}
-\bhaving\b\s?\d{1,10}\s?[=<>]+
-\bhaving\b\s?[\'\"][^=]{1,10}[\'\"\s?[=<>]+
-\bcreate\s+table.{0,20}?\(
+\bhaving\b ?\d{1,10} ?[=<>]+
+\bhaving\b ?[\'\"][^=]{1,10}[\'\" ?[=<>]+
+\bcreate\s+?table.{0,20}?\(
 \blike\W*?char\W*?\(
 select.*?case
 from.*?limit
@@ -45,13 +43,3 @@ exists\ssystem\s\(
 exists\s\bhaving\b\s+\d{1,10}
 exists\s'[^=]{1,10}'
 \bexists\s*?\(\s*?select\b
-
-##! Added (?:\/\*.*?\*\/)?\s* to support comment block that can be used to bypass the filter
-##! Replaced lazy \s? to greedy \s* and whitespace ' ' with \s
-
-\bhaving\b\s+\d{1,10}\s*[=<>]
-\bhaving\b\s+'[^=]{1,10}'\s*[=<>]
-\bhaving\b\s?\d{1,10}\s?[=<>]+
-\bhaving\b\s?[\'\"][^=]{1,10}[\'\"\s?[=<>]+
-\bcreate\s+table.{0,20}?\(
-\bexists\s*\(\s*select\b

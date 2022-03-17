@@ -63,27 +63,3 @@ between[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
 not[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
 \|\|[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
 \&\&[\s(]+\w+[\s)]*?[!=+]+[\s\d]*?[\"'`=()]
-
-##! Added (?:\/\*.*?\*\/)?\s* to support comment block that can be used to bypass the filter
-##! Replaced lazy \s? to greedy \s*
-
-@.+=\s*\(\s*select
-\d\s*or\s*\d+\s*[\-+]
-\d\s*xor\s*\d+\s*[\-+]
-\d\s*div\s*\d+\s*[\-+]
-\d\s*like\s*\d+\s*[\-+]
-\d\s*between\s*\d+\s*[\-+]
-\d\s*and\s*\d+\s*[\-+]
-;\s*drop
-#\s*drop
---\s*drop
-;\s*alter
-#\s*alter
---\s*alter
-;\s*update\s*\w{2,}
-#\s*update\s*\w{2,}
---\s*update\s*\w{2,}
-;\s*insert\s*\w{2,}
-#\s*insert\s*\w{2,}
---\s*insert\s*\w{2,}
-[^\w]SET\s*@\w+

@@ -34,23 +34,14 @@
 <=>
 \bxor\b
 \bregexp\b
-##! regexp\s+binary
+regexp\s+binary
 \bisnull\b
 \brlike\b
-##! rlike\s+binary
-##! not\s+between\s+0\s+and
-##! not\s+between\s+(?:(?:'[^']*')|(?:\"[^\"]*\"))\s+and\s+(?:(?:'[^']*')|(?:\"[^\"]*\"))
-##! is\s+null
-##! like\s+null
+rlike\s+binary
+not\s+between\s+0\s+and
+not\s+between\s+(?:(?:'[^']*')|(?:\"[^\"]*\"))\s+and\s+(?:(?:'[^']*')|(?:\"[^\"]*\"))
+is\s+null
+like\s+null
 ^in[+\s]*\([\s\d\"]+[^()]*\)
 \Win[+\s]*\([\s\d\"]+[^()]*\)
-##! <>\s+binary
-
-##! Added (?:\/\*.*?\*\/)?\s* to support comment block that can be used to bypass the filter
-regexp\s+(?:\/\*.*?\*\/)?\s*binary
-rlike\s+(?:\/\*.*?\*\/)?\s*binary
-not\s+(?:\/\*.*?\*\/)?\s*between\s+(?:\/\*.*?\*\/)?\s*0\s+(?:\/\*.*?\*\/)?\s*and
-not\s+(?:\/\*.*?\*\/)?\s*between\s+(?:\/\*.*?\*\/)?\s*(?:(?:'[^']*')|(?:\"[^\"]*\"))\s+(?:\/\*.*?\*\/)?\s*and\s+(?:\/\*.*?\*\/)?\s*(?:(?:'[^']*')|(?:\"[^\"]*\"))
-is\s+(?:\/\*.*?\*\/)?\s*null
-like\s+(?:\/\*.*?\*\/)?\s*null
-<>\s+(?:\/\*.*?\*\/)?\s*binary
+<>\s+binary
