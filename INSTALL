@@ -98,9 +98,10 @@ Installing on Apache
     ```
     <IfModule security2_module>
           Include modsecurity.d/owasp-modsecurity-crs/crs-setup.conf
-          Include modsecurity.d/owasp-modsecurity-crs/plugins/*-before.conf
+          IncludeOptional modsecurity.d/owasp-modsecurity-crs/plugins/*-config.conf
+          IncludeOptional modsecurity.d/owasp-modsecurity-crs/plugins/*-before.conf
           Include modsecurity.d/owasp-modsecurity-crs/rules/*.conf
-          Include modsecurity.d/owasp-modsecurity-crs/plugins/*-after.conf
+          IncludeOptional modsecurity.d/owasp-modsecurity-crs/plugins/*-after.conf
     </IfModule>
     ```
     8. Restart web server and ensure it starts without errors
@@ -142,6 +143,7 @@ Installing on Nginx
     ```
     Include modsecurity.conf
     Include owasp-modsecurity-crs/crs-setup.conf
+    Include owasp-modsecurity-crs/plugins/*-config.conf
     Include owasp-modsecurity-crs/plugins/*-before.conf
     Include owasp-modsecurity-crs/rules/*.conf
     Include owasp-modsecurity-crs/plugins/*-after.conf
@@ -171,6 +173,7 @@ Installing on IIS
     'modsecurity_iis' to include the following:
     ```
     Include owasp-modsecurity-crs/crs-setup.conf
+    Include owasp-modsecurity-crs/plugins/*-config.conf
     Include owasp-modsecurity-crs/plugins/*-before.conf
     Include owasp-modsecurity-crs/rules/*.conf
     Include owasp-modsecurity-crs/plugins/*-after.conf

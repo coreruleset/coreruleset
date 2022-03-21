@@ -30,11 +30,12 @@ jobs:
                 REQUEST-931-APPLICATION-ATTACK-RFI,
                 REQUEST-932-APPLICATION-ATTACK-RCE,
                 REQUEST-933-APPLICATION-ATTACK-PHP,
-                REQUEST-934-APPLICATION-ATTACK-NODEJS,
+                REQUEST-934-APPLICATION-ATTACK-GENERIC,
                 REQUEST-941-APPLICATION-ATTACK-XSS,
                 REQUEST-942-APPLICATION-ATTACK-SQLI,
                 REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION,
-                REQUEST-944-APPLICATION-ATTACK-JAVA]
+                REQUEST-944-APPLICATION-ATTACK-JAVA,
+                RESPONSE-953-DATA-LEAKAGES-PHP]
         # Will include soon for modsec3-nginx
 
     steps:
@@ -44,8 +45,8 @@ jobs:
       - name: Set up Python 3
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
-
+          # 3.10 requires pytest 6.2.5+ (currently fixed to 4.6 by tests)
+          python-version: '3.9'
       - uses: actions/cache@v2
         id: cache
         with:

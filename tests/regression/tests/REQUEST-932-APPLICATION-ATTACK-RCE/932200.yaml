@@ -1,187 +1,215 @@
 ---
-  meta:
-    author: theMiddle
-    description: RCE Bypass
-    enabled: true
-    name: 932200.yaml
-  tests:
-  -
-    test_title: 932200-1
+meta:
+  author: theMiddle
+  description: RCE Bypass
+  enabled: true
+  name: 932200.yaml
+tests:
+  - test_title: 932200-1
     desc: globbing patterns
     stages:
-    -
-      stage:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?host=www.google.com;/bin/ca?+/et*/passwd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932200"
+  - test_title: 932200-2
+    desc: uninitialized variable
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?host=www.google.com;cat+/etc/%24%7Ba%7Dpasswd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932200"
+  - test_title: 932200-3
+    desc: bash function
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?host=www.google.com;cat+/etc/%24%28echo%29passwd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932200"
+  - test_title: 932200-4
+    desc: uninitialized vars
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?host=www.google.com;c%24%40at%2B%2Fet%24%40c%2Fpas%24%40swd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932200"
+  - test_title: 932200-5
+    desc: uninitialized vars
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?host=www.google.com;c%24%21at%2B%2Fet%24%21c%2Fpas%24%21swd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932200"
+  - test_title: 932200-6
+    desc: uninitialized vars
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?host=www.google.com;c%24%2Aat%2B%2Fet%24%2Ac%2Fpas%24%2Aswd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932200"
+  - test_title: 932200-7
+    desc: uninitialized vars
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?host=www.google.com;c%24%3Fat%2B%2Fet%24%3Fc%2Fpas%24%3Fswd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932200"
+  - test_title: 932200-8
+    desc: uninitialized vars
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?host=www.google.com;c%24-at%2B%2Fet%24-c%2Fpas%24-swd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932200"
+  - test_title: 932200-9
+    desc: uninitialized vars
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?host=www.google.com;c%24_at%2B%2Fet%24_c%2Fpas%24_swd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932200"
+  - test_title: 932200-10
+    desc: uninitialized vars
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?host=www.google.com;c%24%24at%2B%2Fet%24%24c%2Fpas%24%24swd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932200"
+  - test_title: 932200-11
+    desc: "Test first backslash match ([*?`\\'][^/\n]+/) with: c\at /etc/passwd"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?host=www.google.com;c%5Cat%20%2Fetc%2Fpasswd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932200"
+  - test_title: 932200-12
+    desc: "Test second backslash match (/[^/]+?[*?`\\']) with: cat /etc/p\asswd"
+    stages:
+    - stage:
         input:
           dest_addr: 127.0.0.1
           headers:
-            Accept: "*/*"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Host: localhost
-            User-Agent: ModSecurity CRS 3 Tests
+            User-Agent: OWASP ModSecurity Core Rule Set
+          method: GET
+          port: 80
+          uri: /?host=www.google.com;cat%20%2Fetc%2Fp%5Casswd
+          version: HTTP/1.0
+        output:
+          log_contains: id "932200"
+  - test_title: 932200-13
+    desc: "Test correct logging"
+    stages:
+    - stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: OWASP ModSecurity Core Rule Set
           method: GET
           port: 80
           uri: /?host=www.google.com;/bin/ca?+/et*/passwd
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
-  -
-    test_title: 932200-2
-    desc: uninitialized variable
-    stages:
-    -
-      stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: ModSecurity CRS 3 Tests
-          method: GET
-          port: 80
-          uri: /?host=www.google.com;cat+/etc/%24%7Ba%7Dpasswd
-          version: HTTP/1.0
-        output:
-          log_contains: id "932200"
-  -
-    test_title: 932200-3
-    desc: bash function
-    stages:
-    -
-      stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: ModSecurity CRS 3 Tests
-          method: GET
-          port: 80
-          uri: /?host=www.google.com;cat+/etc/%24%28echo%29passwd
-          version: HTTP/1.0
-        output:
-          log_contains: id "932200"
-  -
-    test_title: 932200-4
-    desc: uninitialized vars
-    stages:
-    -
-      stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: ModSecurity CRS 3 Tests
-          method: GET
-          port: 80
-          uri: /?host=www.google.com;c%24%40at%2B%2Fet%24%40c%2Fpas%24%40swd
-          version: HTTP/1.0
-        output:
-          log_contains: id "932200"
-  -
-    test_title: 932200-5
-    desc: uninitialized vars
-    stages:
-    -
-      stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: ModSecurity CRS 3 Tests
-          method: GET
-          port: 80
-          uri: /?host=www.google.com;c%24%21at%2B%2Fet%24%21c%2Fpas%24%21swd
-          version: HTTP/1.0
-        output:
-          log_contains: id "932200"
-  -
-    test_title: 932200-6
-    desc: uninitialized vars
-    stages:
-    -
-      stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: ModSecurity CRS 3 Tests
-          method: GET
-          port: 80
-          uri: /?host=www.google.com;c%24%2Aat%2B%2Fet%24%2Ac%2Fpas%24%2Aswd
-          version: HTTP/1.0
-        output:
-          log_contains: id "932200"
-  -
-    test_title: 932200-7
-    desc: uninitialized vars
-    stages:
-    -
-      stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: ModSecurity CRS 3 Tests
-          method: GET
-          port: 80
-          uri: /?host=www.google.com;c%24%3Fat%2B%2Fet%24%3Fc%2Fpas%24%3Fswd
-          version: HTTP/1.0
-        output:
-          log_contains: id "932200"
-  -
-    test_title: 932200-8
-    desc: uninitialized vars
-    stages:
-    -
-      stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: ModSecurity CRS 3 Tests
-          method: GET
-          port: 80
-          uri: /?host=www.google.com;c%24-at%2B%2Fet%24-c%2Fpas%24-swd
-          version: HTTP/1.0
-        output:
-          log_contains: id "932200"
-  -
-    test_title: 932200-9
-    desc: uninitialized vars
-    stages:
-    -
-      stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: ModSecurity CRS 3 Tests
-          method: GET
-          port: 80
-          uri: /?host=www.google.com;c%24_at%2B%2Fet%24_c%2Fpas%24_swd
-          version: HTTP/1.0
-        output:
-          log_contains: id "932200"
-  -
-    test_title: 932200-10
-    desc: uninitialized vars
-    stages:
-    -
-      stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: ModSecurity CRS 3 Tests
-          method: GET
-          port: 80
-          uri: /?host=www.google.com;c%24%24at%2B%2Fet%24%24c%2Fpas%24%24swd
-          version: HTTP/1.0
-        output:
-          log_contains: id "932200"
+          no_log_contains: found within MATCHED_VAR

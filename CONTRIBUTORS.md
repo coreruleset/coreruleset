@@ -4,6 +4,7 @@
 
 - [Christian Folini](https://github.com/dune73)
 - [Walter Hop](https://github.com/lifeforms)
+- [Felipe Zipitría](https://github.com/fzipi)
 
 ## Developers:
 
@@ -18,7 +19,6 @@
 - [Federico G. Schwindt](https://github.com/fgsch)
 - [Manuel Spartan](https://github.com/spartantri)
 - [Jozef Sudolský](https://github.com/azurit)
-- [Felipe Zipitría](https://github.com/fzipi)
 
 ## Contributors:
 

@@ -1,0 +1,28 @@
+##! This is a data file used to generate a regular expression for a CRS rule. 
+##! The generation of the regular expression happens with the help of 
+##! util/regexp-assemble/regexp-assemble.py.
+##! The ID of the rule in question is part of the file name of this data file. 
+##! Read more about the format of this data file and the use of the assembly 
+##! script in util/regexp-assemble/README.md.
+##!
+##! Lines starting with `##!` are comments and will be skipped,
+##! empty lines will be ignored completely.
+##! 
+##! Five special comments are at your disposal to influence the assembled expression:
+##! - `##!+`: the flag comment
+##! - `##!^`: the prefix comment
+##! - `##!$`: the suffix comment
+##! - `##!>`: the preprocessor comment
+##! - `##!<`: the block preprocessor end comment
+##! Please refer to util/regexp-assemble/README.md for a full explanation.
+
+##!^ (?si)\r\n.*?\b
+
+##! POP3 Commands - PL3
+
+##! POP3 Commands - No args
+QUIT
+STAT
+NOOP
+RSET
+CAPA

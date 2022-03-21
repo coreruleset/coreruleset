@@ -19,14 +19,13 @@ tests:
               Host: localhost
               Keep-Alive: "300"
               Proxy-Connection: keep-alive
-              User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv
+              User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
             uri: /foo.bak
             version: HTTP/1.1
           output:
             log_contains: id "920440"
-
   - test_title: 920440-2
     desc: URL file extension is restricted by policy (920440) from old modsec regressions
     stages:
@@ -41,7 +40,7 @@ tests:
               Host: localhost
               Keep-Alive: "300"
               Proxy-Connection: keep-alive
-              User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv
+              User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
             uri: /foo.db
@@ -62,7 +61,7 @@ tests:
               Host: localhost
               Keep-Alive: "300"
               Proxy-Connection: keep-alive
-              User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv
+              User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
             uri: /foo.old
@@ -83,7 +82,7 @@ tests:
               Host: localhost
               Keep-Alive: "300"
               Proxy-Connection: keep-alive
-              User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv
+              User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
             uri: /foo.bar.sql
@@ -104,7 +103,7 @@ tests:
               Host: localhost
               Keep-Alive: "300"
               Proxy-Connection: keep-alive
-              User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv
+              User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
             uri: /dump.rdb
