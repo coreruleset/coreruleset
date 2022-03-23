@@ -26,6 +26,7 @@ services:
     volumes:
       - ./logs/modsec2-apache:/var/log:rw
       - ../rules:/opt/owasp-crs/rules:ro
+      - ../plugins:/opt/owasp-crs/plugins:ro
     ports:
       - "80:80"
     depends_on:
@@ -54,6 +55,7 @@ services:
     volumes:
       - ./logs/modsec3-nginx:/var/log:rw
       - ../rules:/opt/owasp-crs/rules:ro
+      - ../plugins:/opt/owasp-crs/plugins:ro
     ports:
       - "80:80"
     depends_on:
