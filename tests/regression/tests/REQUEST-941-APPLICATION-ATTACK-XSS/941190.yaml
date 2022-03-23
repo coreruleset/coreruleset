@@ -53,3 +53,35 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
             log_contains: id "941190"
+  - test_title: 941190-4
+    desc: Test first replaced backslash match (\x5c)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: GET
+            port: 80
+            uri: '/'
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: localhost
+              Cookie: 'My-Cookie=<STYLE>@\\\\'
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          output:
+            log_contains: id "941190"
+  - test_title: 941190-5
+    desc: Test second replaced backslash match (\x5c)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: GET
+            port: 80
+            uri: '/'
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: localhost
+              Cookie: 'My-Cookie=<STYLE>=\\\\'
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          output:
+            log_contains: id "941190"
