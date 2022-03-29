@@ -260,7 +260,7 @@ tests:
           output:
             log_contains: id "942440"
   - test_title: 942440-16
-    desc: "Avoid False Positive on JWT"
+    desc: "Avoid False Positive on JWT (body)"
     stages:
       - stage:
           input:
@@ -270,8 +270,40 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: "POST"
             port: 80
-            version: "HTTP/1.0"
+            version: "HTTP/1.1"
             uri: "/post"
             data: "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c"
+          output:
+            no_log_contains: id "942440"
+  - test_title: 942440-17
+    desc: "Avoid False Positive on JWT (cookie)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Cookie: "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c"
+            method: "POST"
+            port: 80
+            version: "HTTP/1.1"
+            uri: "/post"
+            data: "foo=bar"
+          output:
+            no_log_contains: id "942440"
+  - test_title: 942440-18
+    desc: "Avoid False Positive on JWT (querystring)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: "GET"
+            port: 80
+            version: "HTTP/1.1"
+            uri: "/callback?token=token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c"
           output:
             no_log_contains: id "942440"
