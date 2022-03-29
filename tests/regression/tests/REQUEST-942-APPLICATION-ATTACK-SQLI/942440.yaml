@@ -259,3 +259,19 @@ tests:
             data: "test=0/**/union/*!50000select*/table_name`foo`/**/"
           output:
             log_contains: id "942440"
+  - test_title: 942440-16
+    desc: "Avoid False Positive on JWT"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: "POST"
+            port: 80
+            version: "HTTP/1.0"
+            uri: "/post"
+            data: "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c"
+          output:
+            no_log_contains: id "942440"
