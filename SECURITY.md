@@ -79,7 +79,7 @@ Do this before submitting a vulnerability using our email:
 
 We also provide you with the [Sandbox project](https://coreruleset.org/docs/development/sandbox/), where you can test your bypass and report back to us. If testing using the sandbox, please include the `X-Unique-ID` from the response in your email.
 
-Our email is [security@coreruleset.org](mailto:security@coreruleset.org). You can send us encrypted email using the same GPG key we use to sign releases fingerprint: `3600 6F0E 0BA1 6783 2158 8211 38EE ACA1 AB8A 6E72`.
+Our email is [security@coreruleset.org](mailto:security@coreruleset.org). You can send us encrypted email using the same GPG key we use to sign releases, fingerprint: `3600 6F0E 0BA1 6783 2158 8211 38EE ACA1 AB8A 6E72`.
 
 We are happy to work with the community to provide CVE identifiers for any discovered security issues if requested.
 
