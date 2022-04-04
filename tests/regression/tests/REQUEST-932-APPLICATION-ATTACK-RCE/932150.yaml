@@ -66,3 +66,33 @@ tests:
             protocol: "http"
           output:
             no_log_contains: "id \"932150\""
+  - test_title: 932150-5
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "POST"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: 'foo=ping pong tables'
+            protocol: "http"
+          output:
+            no_log_contains: "id \"932150\""
+  - test_title: 932150-6
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "POST"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: 'foo=time is of the essence'
+            protocol: "http"
+          output:
+            no_log_contains: "id \"932150\""
