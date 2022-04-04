@@ -23,6 +23,6 @@ tests:
             method: "GET"
             version: "HTTP/1.0"
             uri: "/anything"
-            data: "[match sql-errors.data]the used select statements have different number of columns[/match]: [5000A] [Actian][Ingres ODBC Driver][Ingres]Delimited identifier starting with \'\' \n contains no valid characters. (6692) (SQLExecDirectW)"
+            data: "[match sql-errors.data]the used select statements have different number of columns[/match]: [5000A] [Actian][Ingres ODBC Driver][Ingres]Delimited identifier starting with '' contains no valid characters. (6692) (SQLExecDirectW)"
           output:
             log_contains: "id \"951190\""
