@@ -241,3 +241,18 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
             no_log_contains: "id \"920470\""
+  - test_title: 920470-17
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            method: POST
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Content-Type: 'application/*+json'
+              Content-Length: 0
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          output:
+            no_log_contains: "id \"920470\""
