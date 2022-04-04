@@ -21,40 +21,42 @@
 ##! - cmdline [windows|unix] (file scope)
 ##! Please refer to util/regexp-assemble/README.md for a full explanation
 
-##!+ i
 
 ##! General comments:
 ##!
 ##! The idea behind this expressions is to capture simple logic based (un)equalities that
-##! are used to quickly test SQL Logic that always returns TRUE (hence the term "SQL Tautology").
+##! are used to quickly test SQL Logic that always returns FALSE.
 
-##! We also want to capture the left and right side, and compare for equality.
-##! That's why you see below that some of the patterns include grouping explicitly
-
-##! Prefix: captures the initial part that will be matched on the right hand side of the logical construct.
+##! Prefix: captures the initial part that will be unmatched on the right hand side of the logical construct.
 
 ##!^ [\s'\"`()]*?\b([\d\w]+)\b[\s'\"`()]*?
 
-##! These expressions try to match the logic using the operator,
-##! so when the operator targets a TRUE operation, the initial match
-##! should be present after the operator, logically meaning TRUE
+##!+ i
+
+##! These expressions try to match the logic using the negative operator,
+##! so when the operator targets a false operation, the initial match
+##! should *not* be present after the operator, effectively meaning TRUE.
 ##!
 ##! Examples:
-##! '1' = '1'
-##! 'f' like 'f'
+##! '1' <= '2'
+##! 'a' not like 'b'
+##!
+##! SQL Comparison Operators: =, !=, <=, >=, <>, <, >, !>, !<, ^
 
-##! This one will also match the "equal" part of '<=' and '>='
-=[\s'\"`()]*?\b([\d\w]+)\b
+\!=[\s'\"`()]*?\b([\d\w]+)\b
+<>[\s'\"`()]*?\b([\d\w]+)\b
+<[\s'\"`()]*?\b([\d\w]+)\b
+\!<[\s'\"`()]*?\b([\d\w]+)\b
+>[\s'\"`()]*?\b([\d\w]+)\b
+\!>[\s'\"`()]*?\b([\d\w]+)\b
+<=[\s'\"`()]*?\b([\d\w]+)\b
+>=[\s'\"`()]*?\b([\d\w]+)\b
+\^[\s'\"`()]*?\b([\d\w]+)\b
 
-##! <=> NULL-safe equal to operator in MySQL
-<=>[\s'\"`()]*?\b([\d\w]+)\b
+is\s+not[\s'\"`()]*?\b([\d\w]+)\b
+not\s+like[\s'\"`()]*?\b([\d\w]+)\b
 
-##! Like queries allow you to use wilcards: '%'
+##! String based regexp.
 
-like[\s'\"`()]*?\b([\d\w]+)\b
-sounds\s+like[\s'\"`()]*?\b([\d\w]+)\b
-
-##! String based regexp. These don't use % as wildcard.
-rlike[\s'\"`()]*?\b([\d\w]+)\b
-regexp[\s'\"`()]*?\b([\d\w]+)\b
-
+not\s+rlike[\s'\"`()]*?\b([\d\w]+)\b
+not\s+regexp[\s'\"`()]*?\b([\d\w]+)\b
