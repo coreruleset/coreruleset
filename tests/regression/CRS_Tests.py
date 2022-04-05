@@ -66,7 +66,7 @@ class FooLogChecker(logchecker.LogChecker):
 
     @staticmethod
     def find_log_location(config):
-        key = 'find_log_location_linux' 
+        key = 'log_location_linux' 
         # First, try to find the log configuration from config.ini
         if key in config:
             return config[key]
