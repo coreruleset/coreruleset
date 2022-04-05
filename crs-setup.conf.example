@@ -322,16 +322,27 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #
 # -- [[ Anomaly Score Reporting Level ]] ------------------------------
 #
-# By setting the reporting level, the verbosity of the reporting rules in
-# phase 5 can be configured. There are 4 reporting levels: 0, 1, 2, 3. The
-# higher the reporting level, the more verbose the reporting is. By setting the
-# reporting level to 0 reports in phase 5 are disabled completely.
-# 0 - No phase 5 reporting
-# 1 - Reporting for requests that were blocked
-# 2 - Reporting for requests that scored larger than 0
+# When a request is being blocked due to the anomaly score meeting
+# the anomaly threshold, then the blocking rule will also report the
+# anomaly score. This applies to the separate inbound and outbound
+# anomaly score.
+# In phase 5, there are additional rules that can perform additional
+# reporting of anomaly scores with a verbosity that depends on
+# the reporting level defined below.
+# By setting the reporting level you control whether you want additional
+# reporting beyond the blocking rule or not and if yes, which requests should
+# be covered.
+# There are 4 reporting levels: 0, 1, 2, 3.
+# The higher the reporting level, the more verbose the reporting is.
+#
+# 0 - Reporting disabled
+# 1 - Reporting for requests that were blocked due to anomaly score
+# 2 - Reporting for requests with an anomaly score larger than 0
 # 3 - Reporting for all requests
 #
-# The default reporting level is 2.
+# A value of 3 can be useful on platforms where you are interested
+# non-scoring requests, yet it is not possible to report this information in
+# the request / access log. This applies to NGINX for example.
 #
 #SecAction \
 # "id:900115,\
