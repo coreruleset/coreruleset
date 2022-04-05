@@ -82,3 +82,20 @@ tests:
             protocol: "http"
           output:
             no_log_contains: "id \"932130\""
+  - test_title: 932130-6
+    desc: "Unix command injection"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "var=0.84622338492032948`echo${IFS}crs312``echo${IFS}34test`"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932130"
