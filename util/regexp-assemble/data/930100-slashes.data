@@ -40,21 +40,7 @@
 ##! the value for “9” (57) to “v” (118); if the result is greater than 127, then
 ##! subtract 128—hint, the final result should be 47.
 
-##! Prepend the "\x5c" pattern manually because Regexp::Assemble will
-##! automatically convert it into a "\" character if it's fed in with the other
-##! pattern lines below. We want to maintain the original form of "\x5c" because
-##! a.) that maintains the original regular expression, and b.) using "\x5c"
-##! works as intended with both ModSecurity 2 and libmodsecurity (i.e. it works
-##! around the issue of representing a literal backslash character, using tricks
-##! like [\\\\], etc.).
-
-##!^ (?:\x5c|
-
-##! Manually append the closing bracket to match the manually prepended opening
-##! one.
-
-##!$ )
-
+\x5c
 ##! URI encoded
 %2f
 %5c

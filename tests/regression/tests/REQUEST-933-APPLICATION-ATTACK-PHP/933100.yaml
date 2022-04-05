@@ -47,3 +47,35 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "933100"
+  - test_title: 933100-3
+    desc: "PHP injection attack: looking for [/php] closing tag"
+    stages:
+    - stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: OWASP ModSecurity Core Rule Set
+          method: GET
+          port: 80
+          uri: /?foo=somePhpWouldGoHere%5B%2Fphp%5D
+          version: HTTP/1.0
+        output:
+          log_contains: id "933100"
+  - test_title: 933100-4
+    desc: 'PHP injection attack: looking for [\php] closing tag'
+    stages:
+    - stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: OWASP ModSecurity Core Rule Set
+          method: GET
+          port: 80
+          uri: /?foo=somePhpWouldGoHere%5B%5Cphp%5D
+          version: HTTP/1.0
+        output:
+          log_contains: id "933100"

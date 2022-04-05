@@ -23,9 +23,11 @@ services:
       MODSEC_RESP_BODY_ACCESS: "On"
       MODSEC_RESP_BODY_MIMETYPE: "text/plain text/html text/xml application/json"
       COMBINED_FILE_SIZES: "65535"
+      CRS_ENABLE_TEST_MARKER: 1
     volumes:
       - ./logs/modsec2-apache:/var/log:rw
       - ../rules:/opt/owasp-crs/rules:ro
+      - ../plugins:/opt/owasp-crs/plugins:ro
     ports:
       - "80:80"
     depends_on:
@@ -51,9 +53,11 @@ services:
       MODSEC_RESP_BODY_ACCESS: "On"
       MODSEC_RESP_BODY_MIMETYPE: "text/plain text/html text/xml application/json"
       COMBINED_FILE_SIZES: "65535"
+      CRS_ENABLE_TEST_MARKER: 1
     volumes:
       - ./logs/modsec3-nginx:/var/log:rw
       - ../rules:/opt/owasp-crs/rules:ro
+      - ../plugins:/opt/owasp-crs/plugins:ro
     ports:
       - "80:80"
     depends_on:

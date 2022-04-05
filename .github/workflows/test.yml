@@ -22,22 +22,6 @@ jobs:
       fail-fast: false
       matrix:
         modsec_version: [modsec2-apache]
-        tests: [REQUEST-911-METHOD-ENFORCEMENT,
-                REQUEST-913-SCANNER-DETECTION,
-                REQUEST-920-PROTOCOL-ENFORCEMENT,
-                REQUEST-921-PROTOCOL-ATTACK,
-                REQUEST-930-APPLICATION-ATTACK-LFI,
-                REQUEST-931-APPLICATION-ATTACK-RFI,
-                REQUEST-932-APPLICATION-ATTACK-RCE,
-                REQUEST-933-APPLICATION-ATTACK-PHP,
-                REQUEST-934-APPLICATION-ATTACK-GENERIC,
-                REQUEST-941-APPLICATION-ATTACK-XSS,
-                REQUEST-942-APPLICATION-ATTACK-SQLI,
-                REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION,
-                REQUEST-944-APPLICATION-ATTACK-JAVA,
-                RESPONSE-953-DATA-LEAKAGES-PHP]
-        # Will include soon for modsec3-nginx
-
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v2
@@ -45,8 +29,7 @@ jobs:
       - name: Set up Python 3
         uses: actions/setup-python@v2
         with:
-          # 3.10 requires pytest 6.2.5+ (currently fixed to 4.6 by tests)
-          python-version: '3.9'
+          python-version: '3.x'
       - uses: actions/cache@v2
         id: cache
         with:
@@ -68,7 +51,7 @@ jobs:
           # Use mounted volume path
           py.test -vs --tb=short tests/regression/CRS_Tests.py \
             --config="${{ matrix.modsec_version }}" \
-            --ruledir=./tests/regression/tests/${{ matrix.tests }}
+            --ruledir_recurse=./tests/regression/tests/
 
       - name: "Change permissions if failed"
         if: failure()

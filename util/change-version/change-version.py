@@ -44,7 +44,7 @@ class FileHandler(object):
 
         self.output = self.output.rstrip("/") + "/"
 
-        # iterate throught the list of files
+        # iterate through the list of files
         for f in glob.glob(self.input):
             print(f"Working with file: %s" % (f))
             # read the file content

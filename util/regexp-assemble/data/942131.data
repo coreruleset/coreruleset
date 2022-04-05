@@ -1,0 +1,62 @@
+##! This is a data file used to generate a regular expression for a CRS rule.
+##! The generation of the regular expression happens with the help of
+##! util/regexp-assemble/regexp-assemble.py.
+##! The ID of the rule in question is part of the file name of this data file.
+##! Read more about the format of this data file and the use of the assembly
+##! script in util/regexp-assemble/README.md.
+##!
+##! Lines starting with `##!` are comments and will be skipped,
+##! empty lines will be ignored completely.
+##! In addition, the quote character `'` at the beginning of a line will
+##! cause the line to be interpreted as literal by the cmdline preprocessor only.
+##!
+##! Five special comments are at your disposal to influence the assembled expression:
+##! - `##!+`: the flag comment
+##! - `##!^`: the prefix comment
+##! - `##!$`: the suffix comment
+##! - `##!>`: the preprocessor comment
+##! - `##!<`: the block preprocessor end comment
+##!
+##! Currently supported preprocessors:
+##! - cmdline [windows|unix] (file scope)
+##! Please refer to util/regexp-assemble/README.md for a full explanation
+
+
+##! General comments:
+##!
+##! The idea behind this expressions is to capture simple logic based (un)equalities that
+##! are used to quickly test SQL Logic that always returns FALSE.
+
+##! Prefix: captures the initial part that will be unmatched on the right hand side of the logical construct.
+
+##!^ [\s'\"`()]*?\b([\d\w]+)\b[\s'\"`()]*?
+
+##!+ i
+
+##! These expressions try to match the logic using the negative operator,
+##! so when the operator targets a false operation, the initial match
+##! should *not* be present after the operator, effectively meaning TRUE.
+##!
+##! Examples:
+##! '1' <= '2'
+##! 'a' not like 'b'
+##!
+##! SQL Comparison Operators: =, !=, <=, >=, <>, <, >, !>, !<, ^
+
+\!=[\s'\"`()]*?\b([\d\w]+)\b
+<>[\s'\"`()]*?\b([\d\w]+)\b
+<[\s'\"`()]*?\b([\d\w]+)\b
+\!<[\s'\"`()]*?\b([\d\w]+)\b
+>[\s'\"`()]*?\b([\d\w]+)\b
+\!>[\s'\"`()]*?\b([\d\w]+)\b
+<=[\s'\"`()]*?\b([\d\w]+)\b
+>=[\s'\"`()]*?\b([\d\w]+)\b
+\^[\s'\"`()]*?\b([\d\w]+)\b
+
+is\s+not[\s'\"`()]*?\b([\d\w]+)\b
+not\s+like[\s'\"`()]*?\b([\d\w]+)\b
+
+##! String based regexp.
+
+not\s+rlike[\s'\"`()]*?\b([\d\w]+)\b
+not\s+regexp[\s'\"`()]*?\b([\d\w]+)\b
