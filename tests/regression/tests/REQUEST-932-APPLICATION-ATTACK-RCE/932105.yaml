@@ -55,7 +55,7 @@ tests:
             data: "var=` /bin/cat /etc/passwd`"
             version: HTTP/1.0
           output:
-            log_contains: id "943105"
+            log_contains: id "932105"
   - test_title: 932105-4
     desc: "Unix command injection"
     stages:
@@ -72,7 +72,7 @@ tests:
             data: "var=0.84622338492032948`echo${IFS}crs312``echo${IFS}34test`"
             version: HTTP/1.0
           output:
-            log_contains: id "943105"
+            log_contains: id "932105"
   - test_title: 932105-5
     desc: "Unix command injection"
     stages:
@@ -89,7 +89,7 @@ tests:
             data: "var=`echo crs312``echo 34test`"
             version: HTTP/1.0
           output:
-            log_contains: id "943105"
+            log_contains: id "932105"
   - test_title: 932105-6
     desc: "Unix command injection"
     stages:
@@ -105,4 +105,5 @@ tests:
             uri: "/"
             data: "var=123-456-01@coreruleset.org'|ping -c 1337 127.0.0.1 #"
             version: HTTP/1.0
-          output3105: id "942260"
+          output:
+            log_contains: id "932105"
