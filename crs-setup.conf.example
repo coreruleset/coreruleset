@@ -180,7 +180,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #   nolog,\
 #   pass,\
 #   t:none,\
-#   setvar:tx.paranoia_level=1"
+#   setvar:tx.blocking_paranoia_level=1"
 
 
 # It is possible to execute rules from a higher paranoia level but not include
@@ -189,16 +189,16 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # the new rules would lead to false positives that raise your score above the
 # threshold.
 # This optional feature is enabled by uncommenting the following rule and
-# setting the tx.executing_paranoia_level.
-# Technically, rules up to the level defined in tx.executing_paranoia_level
-# will be executed, but only the rules up to tx.paranoia_level affect the
+# setting the tx.detection_paranoia_level.
+# Technically, rules up to the level defined in tx.detection_paranoia_level
+# will be executed, but only the rules up to tx.blocking_paranoia_level affect the
 # anomaly scores.
-# By default, tx.executing_paranoia_level is set to tx.paranoia_level.
-# tx.executing_paranoia_level must not be lower than tx.paranoia_level.
+# By default, tx.detection_paranoia_level is set to tx.blocking_paranoia_level.
+# tx.detection_paranoia_level must not be lower than tx.blocking_paranoia_level.
 #
-# Please notice that setting tx.executing_paranoia_level to a higher paranoia
+# Please notice that setting tx.detection_paranoia_level to a higher paranoia
 # level results in a performance impact that is equally high as setting
-# tx.paranoia_level to said level.
+# tx.blocking_paranoia_level to said level.
 #
 #SecAction \
 #  "id:900001,\
@@ -206,7 +206,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #   nolog,\
 #   pass,\
 #   t:none,\
-#   setvar:tx.executing_paranoia_level=1"
+#   setvar:tx.detection_paranoia_level=1"
 
 
 #
@@ -317,6 +317,41 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  t:none,\
 #  setvar:tx.inbound_anomaly_score_threshold=5,\
 #  setvar:tx.outbound_anomaly_score_threshold=4"
+
+
+#
+# -- [[ Anomaly Score Reporting Level ]] ------------------------------
+#
+# When a request is being blocked due to the anomaly score meeting
+# the anomaly threshold, then the blocking rule will also report the
+# anomaly score. This applies to the separate inbound and outbound
+# anomaly score.
+# In phase 5, there are additional rules that can perform additional
+# reporting of anomaly scores with a verbosity that depends on
+# the reporting level defined below.
+# By setting the reporting level you control whether you want additional
+# reporting beyond the blocking rule or not and if yes, which requests should
+# be covered.
+# There are 4 reporting levels: 0, 1, 2, 3.
+# The higher the reporting level, the more verbose the reporting is.
+#
+# 0 - Reporting disabled
+# 1 - Reporting for requests that were blocked due to anomaly score
+# 2 - Reporting for requests with an anomaly score larger than 0
+# 3 - Reporting for all requests
+#
+# A value of 3 can be useful on platforms where you are interested
+# non-scoring requests, yet it is not possible to report this information in
+# the request / access log. This applies to NGINX for example.
+#
+#SecAction \
+# "id:900115,\
+#  phase:1,\
+#  nolog,\
+#  pass,\
+#  t:none,\
+#  setvar:tx.reporting_level=2"
+
 
 #
 # -- [[ Early Anomaly Scoring Mode Blocking ]] ------------------------------

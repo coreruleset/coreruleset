@@ -1,0 +1,53 @@
+---
+meta:
+  author: "studersi"
+  enabled: true
+  name: "980140.yaml"
+  description: |
+    Test whether level 1 outbound reporting in phase 5 works by testing whether rule 980140 is triggered.
+    For these tests, existing test are repurposed with different assertions. Instead of asserting that the original
+    rules are triggered that the tests are written for, we assert that triggering these rules causes the corresponding
+    reporting rules to be triggered.
+tests:
+  - test_title: 980140-0
+    desc: Test is basically identical to 953120-0 (PHP leakage positive test in phase 4) but here we assert that level 1 outbound reporting is triggered
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            headers:
+              Host: "localhost"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Accept-Charset: "ISO-8859-1,utf-8;q=0.7,*;q=0.7"
+              Accept-Encoding: "gzip,deflate"
+              Accept-Language: "en-us,en;q=0.5"
+              Content-Type: "text/plain"
+            method: "GET"
+            version: "HTTP/1.0"
+            uri: "/anything"
+            data: <?php echo "Hello World!\n" ?>
+          output:
+            log_contains: "id \"980140\""
+  - test_title: 980140-1
+    desc: Test is basically identical to 953120-1 (PHP leakage negative test in phase 4) but here we assert that level 1 outbound reporting is not triggered
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            headers:
+              Host: "localhost"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Accept-Charset: "ISO-8859-1,utf-8;q=0.7,*;q=0.7"
+              Accept-Encoding: "gzip,deflate"
+              Accept-Language: "en-us,en;q=0.5"
+              Content-Type: "text/plain"
+            method: "GET"
+            version: "HTTP/1.0"
+            uri: "/anything"
+            data: <?php12345
+          output:
+            no_log_contains: "id \"980140\""
