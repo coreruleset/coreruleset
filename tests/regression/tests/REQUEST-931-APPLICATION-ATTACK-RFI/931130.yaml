@@ -182,7 +182,7 @@ tests:
           output:
             no_log_contains: id "931130"
   - test_title: 931130-12
-    desc: Bypass
+    desc: Bypass 1
     stages:
       - stage:
           input:
@@ -197,3 +197,35 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "931130"
+  - test_title: 931130-13
+    desc: Bypass 2
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: example.com
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /?x=http://example.com%2f@evil.com/
+            version: HTTP/1.1
+          output:
+            log_contains: id "931130"
+  - test_title: 931130-14
+    desc: basic auth
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: example.com
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /?x=http://foo:bar@example.com/
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "931130"
