@@ -6,7 +6,7 @@
     ```bash
     git submodule update --init util/regexp-assemble/lib/lib
     ```
-3. You need to install some dependencies. With `virutalenv`, installing them would look like this:
+3. You need to install some dependencies. With `virtualenv`, installing them would look like this:
     ```bash
     virtualenv venv
     source venv/bin/activate
