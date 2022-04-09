@@ -392,7 +392,6 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #
 # These variables are used in the following rule files:
 # - REQUEST-911-METHOD-ENFORCEMENT.conf
-# - REQUEST-912-DOS-PROTECTION.conf
 # - REQUEST-920-PROTOCOL-ENFORCEMENT.conf
 
 # HTTP methods that a client is allowed to use.
@@ -719,34 +718,6 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  pass,\
 #  t:none,\
 #  setvar:'tx.high_risk_country_codes='"
-
-
-#
-# -- [[ Anti-Automation / DoS Protection ]] ------------------------------------
-#
-# Optional DoS protection against clients making requests too quickly.
-#
-# When a client is making more than 100 requests (excluding static files) within
-# 60 seconds, this is considered a 'burst'. After two bursts, the client is
-# blocked for 600 seconds.
-#
-# Requests to static files are not counted towards DoS; they are listed in the
-# 'tx.static_extensions' setting, which you can change in this file (see
-# section "HTTP Policy Settings").
-#
-# For a detailed description, see rule file REQUEST-912-DOS-PROTECTION.conf.
-#
-# Uncomment this rule to use this feature:
-#
-#SecAction \
-# "id:900700,\
-#  phase:1,\
-#  nolog,\
-#  pass,\
-#  t:none,\
-#  setvar:'tx.dos_burst_time_slice=60',\
-#  setvar:'tx.dos_counter_threshold=100',\
-#  setvar:'tx.dos_block_timeout=600'"
 
 
 #
