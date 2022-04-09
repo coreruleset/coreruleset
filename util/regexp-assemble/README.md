@@ -2,13 +2,20 @@
 
 ## Set up
 1. You will need a Perl environment and Perl version >= 5.10
+2. You will need a Python environment with Python version >= 3
 2. Initialize the Git submodule with the Regexp::Assemble Perl module by running:
     ```bash
     git submodule update --init util/regexp-assemble/lib/lib
     ```
-3. You should now be able to use the script. Try running something like the following:
+3. You need to install some dependencies. With `virtualenv`, installing them would look like this:
     ```bash
-    printf "(?:homer)? simpson\n(?:lisa)? simpson" | util/regexp-assemble/regexp-assemble.py
+    virtualenv -p 3 venv
+    source venv/bin/activate
+    pip install -r util/regexp-assemble/requirements.txt
+    ```
+4. You should now be able to use the script. Try running something like the following:
+    ```bash
+    printf "(?:homer)? simpson\n(?:lisa)? simpson" | util/regexp-assemble/regexp-assemble.py generate -
     ```
     You should see:
     ```bash
@@ -18,10 +25,32 @@
 ## Example use
 To generate a reduced expression from a list of expressions, simply pass the rule id to the script of pipe the contents to it:
 ```bash
-util/regexp-assemble/regexp-assemble.py 942170
+util/regexp-assemble/regexp-assemble.py generate 942170
 # or
-cat util/regexp-assemble/data/942170.data | util/regexp-assemble/regexp-assemble.py
+cat util/regexp-assemble/data/942170.data | util/regexp-assemble/regexp-assemble.py generate -
 ```
+
+You can also compare generated expressions to the current expressions in the rule files:
+```bash
+util/regexp-assemble/regexp-assemble.py compare 942170
+```
+
+Even better, you can update rule files directly:
+```bash
+util/regexp-assemble/regexp-assemble.py update 942170
+# or update all
+util/regexp-assemble/regexp-assemble.py update --all
+```
+
+Read the help for the full documentation:
+```bash
+util/regexp-assemble/regexp-assemble.py --help
+```
+
+## Adjusting the Logging Level
+The level of logging can be adjusted with the `--loglevel` option, accepted values are `DEBUG`, `INFO`, `WARNING`, `ERROR`, and `CRITICAL`.
+
+Not many things are currently written to the log, so it may seem that changing the logging level doesn't have any effect, especially, since the processing modules depend on the rule the script processes and the command that is being run (e.g. `generate` usually produces no output since stdout is used to print the resulting regular expression). The `cmdline` processor, for example, includes debug log output, but the `assemble` prorcessor currently doesn't.
 
 # Data file format
 The data files (`.data` suffix, under `util/regexp-assemble/data`) contain one regular expression per line. These files are meant to be processed by [regexp-assemble.py](regexp-assemble.py).
