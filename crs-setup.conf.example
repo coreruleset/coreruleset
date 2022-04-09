@@ -467,19 +467,6 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  t:none,\
 #  setvar:'tx.restricted_headers=/proxy/ /lock-token/ /content-range/ /if/ /user-agentt/'"
 
-# File extensions considered static files.
-# Extensions include the dot, lowercase, enclosed by /slashes/ as delimiters.
-# Used in DoS protection rule. See section "Anti-Automation / DoS Protection".
-# Default: /.jpg/ /.jpeg/ /.png/ /.gif/ /.js/ /.css/ /.ico/ /.svg/ /.webp/
-# Uncomment this rule to change the default.
-#SecAction \
-# "id:900260,\
-#  phase:1,\
-#  nolog,\
-#  pass,\
-#  t:none,\
-#  setvar:'tx.static_extensions=/.jpg/ /.jpeg/ /.png/ /.gif/ /.js/ /.css/ /.ico/ /.svg/ /.webp/'"
-
 # Content-Types charsets that a client is allowed to send in a request.
 # The content-types are enclosed by |pipes| as delimiters to guarantee exact matches.
 # Default: |utf-8| |iso-8859-1| |iso-8859-15| |windows-1252|
