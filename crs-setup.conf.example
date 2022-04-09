@@ -383,51 +383,6 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  setvar:tx.early_blocking=1"
 
 
-# -- [[ Application Specific Rule Exclusions ]] ----------------------------------------
-#
-# Some well-known applications may undertake actions that appear to be
-# malicious. This includes actions such as allowing HTML or Javascript within
-# parameters. In such cases the CRS aims to prevent false positives by allowing
-# administrators to enable prebuilt, application specific exclusions on an
-# application by application basis.
-# These application specific exclusions are distinct from the rules that would
-# be placed in the REQUEST-900-EXCLUSION-RULES-BEFORE-CRS configuration file as
-# they are prebuilt for specific applications. The 'REQUEST-900' file is
-# designed for users to add their own custom exclusions. Note, using these
-# application specific exclusions may loosen restrictions of the CRS,
-# especially if used with an application they weren't designed for. As a result
-# they should be applied with care.
-# To use this functionality you must specify a supported application. To do so
-# uncomment rule 900130. In addition to uncommenting the rule you will need to
-# specify which application(s) you'd like to enable exclusions for. Only a
-# (very) limited set of applications are currently supported, please use the
-# filenames prefixed with 'REQUEST-903' to guide you in your selection.
-# Such filenames use the following convention:
-# REQUEST-903.9XXX-{APPNAME}-EXCLUSIONS-RULES.conf
-#
-# It is recommended if you run multiple web applications on your site to limit
-# the effects of the exclusion to only the path where the excluded webapp
-# resides using a rule similar to the following example:
-# SecRule REQUEST_URI "@beginsWith /wordpress/" setvar:tx.crs_exclusions_wordpress=1
-
-#
-# Modify and uncomment this rule to select which application:
-#
-#SecAction \
-# "id:900130,\
-#  phase:1,\
-#  nolog,\
-#  pass,\
-#  t:none,\
-#  setvar:tx.crs_exclusions_cpanel=1,\
-#  setvar:tx.crs_exclusions_dokuwiki=1,\
-#  setvar:tx.crs_exclusions_drupal=1,\
-#  setvar:tx.crs_exclusions_nextcloud=1,\
-#  setvar:tx.crs_exclusions_phpbb=1,\
-#  setvar:tx.crs_exclusions_phpmyadmin=1,\
-#  setvar:tx.crs_exclusions_wordpress=1,\
-#  setvar:tx.crs_exclusions_xenforo=1"
-
 #
 # -- [[ HTTP Policy Settings ]] ------------------------------------------------
 #
