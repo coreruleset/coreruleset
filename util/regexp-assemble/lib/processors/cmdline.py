@@ -51,8 +51,8 @@ class CmdLine(Processor):
         processed = self.regexp_str(line)
         self.lines.append(processed)
 
-        self.logger.debug("cmdlin in:  %s", line)
-        self.logger.debug("cmdlin out: %s", processed)
+        self.logger.debug("cmdline in:  %s", line)
+        self.logger.debug("cmdline out: %s", processed)
 
     # overrride
     def complete(self) -> list[bytes]:

@@ -136,7 +136,7 @@ def handle_generate(namespace: argparse.Namespace):
     elif "stdin" in namespace:
         regex = assembler.run(namespace.stdin)
     else:
-        raise argparse.ArgumentError("Unhandled combination of arguments")
+        raise argparse.ValueError("Unhandled combination of arguments")
 
     sys.stdout.write(regex)
     sys.stdout.write("\n")
@@ -197,12 +197,12 @@ class RuleNameParser(argparse.Action):
             return
         elif not values:
             if self.nargs == "?" and not namespace.all:
-                raise ValueError("Invalid arguments")
+                raise argparse.ArgumentError(self, "Either supply rule ID or use --all")
             return
 
         match = re.fullmatch(r"(\d{6})(?:\.data)?", values)
         if not match:
-            raise ValueError(f"Failed to identify rule from argument {values}")
+            raise argparse.ArgumentError(self, f"Failed to identify rule from argument {values}")
         setattr(namespace, self.dest, match.group(1))
 
 
@@ -219,6 +219,11 @@ def setup_logger(namespace: argparse.Namespace):
 
 
 if __name__ == "__main__":
-    namespace = build_args_parser().parse_args()
+    parser = build_args_parser()
+    namespace = parser.parse_args()
     setup_logger(namespace)
-    namespace.func(namespace)
+
+    if 'func' in namespace:
+        namespace.func(namespace)
+    else:
+        parser.print_help()
