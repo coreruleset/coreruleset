@@ -2,13 +2,14 @@
 
 ## Set up
 1. You will need a Perl environment and Perl version >= 5.10
+2. You will need a Python environment with Python version >= 3
 2. Initialize the Git submodule with the Regexp::Assemble Perl module by running:
     ```bash
     git submodule update --init util/regexp-assemble/lib/lib
     ```
 3. You need to install some dependencies. With `virtualenv`, installing them would look like this:
     ```bash
-    virtualenv venv
+    virtualenv -p 3 venv
     source venv/bin/activate
     pip install -r util/regexp-assemble/requirements.txt
     ```

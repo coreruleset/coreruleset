@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 # This script is a simple wrapper around regexp-assemble.pl, regexp-cmdline.py, and
 # regexp-negativelookbehind.py. It takes a rule id, data file name or data file path
