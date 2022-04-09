@@ -19,15 +19,17 @@
 # Refer to rule 932100, 932110, 932150 for documentation.
 #
 
-from typing import TypeVar, Type
+from multiprocessing.sharedctypes import Value
+from typing import TypeVar
 
 from lib.processors.processor import Processor
+from lib.context import Context
 
 T = TypeVar("T", bound="CmdLine")
 
 
 class CmdLine(Processor):
-    lines: list[bytes] = []
+    lines: list[str] = []
 
     def __init__(self, evasion_pattern, suffix_evasion_pattern):
         self.evasion_pattern = evasion_pattern
@@ -35,7 +37,11 @@ class CmdLine(Processor):
 
     # override
     @classmethod
-    def create(cls: T, type: str) -> T:
+    def create(cls: T, context: Context, args: list[str]) -> T:
+        if len(args) < 1:
+            raise ValueError("No type defined for command line processor, expected `unix` or `windows`")
+
+        type = args[0]
         if type == "unix":
             return CmdLineUnix()
         elif type == "windows":
@@ -63,7 +69,7 @@ class CmdLine(Processor):
 
     # Convert a single line to regexp format, and insert anti-cmdline
     # evasions between characters.
-    def regexp_str(self, input):
+    def regexp_str(self, input) -> str:
         # By convention, if the line starts with ' char, copy the rest
         # verbatim.
         if input[0] == "'":
