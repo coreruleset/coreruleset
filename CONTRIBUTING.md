@@ -139,7 +139,7 @@ Consider, for example, needing to find the string `/admin/content/assets/add/evi
 If the input is changed, it can be seen that this expression can easily produce a false positive: `/admin/content/assets/add/evilbutactuallynot/nonevilfile`. If it is known that the file being searched for can't be in a subdirectory of `add` then the `$` anchor can be used to match the end of the input:
 
 ```python
-"@rx /admin/content/assets/add/evil$
+"@rx /admin/content/assets/add/evil$"
 ```
 
 This could be made a bit more general:
@@ -153,7 +153,7 @@ This could be made a bit more general:
 It is sometimes necessary to match the entire input string to ensure that it _exactly_ matches what is expected. It might be necessary to find the "edit" action transmitted by WordPress, for example. To avoid false positives on variations (e.g., "myedit", "the edit", "editable", etc.), the `^` caret and `$` dollar anchors can be used to indicate that an exact string is expected. For example, to only match the _exact_ strings `edit` or `editpost`:
 
 ```python
-"@rx ^(?:edit|editpost)$
+"@rx ^(?:edit|editpost)$"
 ```
 
 #### Other Anchors
