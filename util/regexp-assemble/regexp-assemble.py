@@ -55,7 +55,7 @@ def build_generate_args_parser(subparsers: S):
         "rule_id",
         action=RuleNameParser,
         help="""
-    The six digit ID of the rule, e.g. 932100.
+    The ID of the rule, e.g., 932100, or the data file name.
     The special token `-` will cause the script to accept input
     from stdin.
     """,
@@ -78,7 +78,7 @@ def build_update_args_parser(subparsers: S):
         nargs="?",
         action=RuleNameParser,
         default=None,
-        help="The six digit ID of the rule, e.g. 932100",
+        help="The ID of the rule, e.g., 932100, or the data file name",
     )
     parser.add_argument(
         "--all",
@@ -110,7 +110,7 @@ def build_compare_args_parser(subparsers: S):
         nargs="?",
         action=RuleNameParser,
         default=None,
-        help="The six digit ID of the rule, e.g. 932100",
+        help="The ID of the rule, e.g., 932100, or the data file name",
     )
     parser.add_argument(
         "--all",
@@ -129,7 +129,7 @@ def handle_generate(namespace: argparse.Namespace):
 
     if namespace.rule_id:
         with open(
-            os.path.join(context.data_files_directory, f"{namespace.rule_id}.data"),
+            os.path.join(context.data_files_directory, namespace.fileName),
             "rt",
         ) as handle:
             regex = assembler.run(handle)
@@ -200,10 +200,11 @@ class RuleNameParser(argparse.Action):
                 raise argparse.ArgumentError(self, "Either supply rule ID or use --all")
             return
 
-        match = re.fullmatch(r"(\d{6})(?:\.data)?", values)
+        match = re.fullmatch(r"(\d{6})[\w\-_.]*(?:\.data)?", values)
         if not match:
             raise argparse.ArgumentError(self, f"Failed to identify rule from argument {values}")
         setattr(namespace, self.dest, match.group(1))
+        setattr(namespace, "fileName", values + ".data")
 
 
 def create_context() -> Context:
