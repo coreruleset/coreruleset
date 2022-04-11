@@ -16,7 +16,7 @@
 
 ## Making Changes
 
-* Base any changes on the latest dev branch (e.g., `v3.4/dev`).
+* Base any changes on the latest dev branch.
 * Create a topic branch for each new contribution.
 * Fix only one problem at a time. This helps to quickly test and merge submitted changes. If intending to fix *multiple unrelated problems* then use a separate branch for each problem.
 * Make commits of logical units.
