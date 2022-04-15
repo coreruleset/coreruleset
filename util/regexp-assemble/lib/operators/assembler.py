@@ -1,6 +1,6 @@
 import re, sys
 from subprocess import Popen, PIPE, TimeoutExpired
-from typing import TextIO, TypeVar
+from typing import TextIO, List
 import logging
 
 from lib.context import Context
@@ -79,7 +79,7 @@ class Assembler(object):
     def _is_simple_comment(self, line: str) -> bool:
         return self.simple_comment_regex.match(line) is not None
 
-    def preprocess(self, lines: list[str]) -> list[str]:
+    def preprocess(self, lines: List[str]) -> List[str]:
         iterator = lines.__iter__()
         final_lines = []
         for processor_type in (LinePreprocessor, BlockPreprocessor, FilePreprocessor):
@@ -101,7 +101,7 @@ class Assembler(object):
             iterator = final_lines.__iter__()
         return final_lines
 
-    def assemble(self, lines: list[str]) -> str:
+    def assemble(self, lines: List[str]) -> str:
         args = [self.context.regexp_assemble_pl_path]
         outs = None
         errs = None
