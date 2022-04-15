@@ -19,7 +19,7 @@
 # Refer to rule 932100, 932110, 932150 for documentation.
 #
 
-from typing import TypeVar, Type
+from typing import TypeVar, List
 
 from lib.processors.processor import Processor
 
@@ -27,7 +27,7 @@ T = TypeVar("T", bound="CmdLine")
 
 
 class CmdLine(Processor):
-    lines: list[bytes] = []
+    lines: List[bytes] = []
 
     def __init__(self, evasion_pattern, suffix_evasion_pattern):
         self.evasion_pattern = evasion_pattern
@@ -55,7 +55,7 @@ class CmdLine(Processor):
         self.logger.debug("cmdline out: %s", processed)
 
     # overrride
-    def complete(self) -> list[bytes]:
+    def complete(self) -> List[bytes]:
         try:
             return self.lines
         finally:
