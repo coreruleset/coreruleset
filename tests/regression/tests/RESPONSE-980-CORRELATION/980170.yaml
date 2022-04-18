@@ -4,13 +4,13 @@ meta:
   enabled: true
   name: "980170.yaml"
   description: |
-    Test whether level 2 inbound reporting in phase 5 works by testing whether rule 980170 is triggered.
+    Test whether level 4 inbound reporting in phase 5 works by testing whether rule 980170 is triggered.
     For these tests, existing test are repurposed with different assertions. Instead of asserting that the original
     rules are triggered that the tests are written for, we assert that triggering these rules causes the corresponding
     reporting rules to be triggered.
 tests:
   - test_title: 980170-0
-    desc: Test is similar to 920350-1 but here we check if at reporting level 2 a request is logged that was blocked
+    desc: Test is similar to 920350-1 but here we check if at reporting level 4 a request is logged that was blocked
     stages:
       - stage:
           input:
@@ -26,7 +26,7 @@ tests:
           output:
             log_contains: "id \"980170\""
   - test_title: 980170-1
-    desc: Test is similar to 920350-1 but here we check if at reporting level 2 a request is logged that scored but was not blocked
+    desc: Test is similar to 920350-1 but here we check if at reporting level 4 a request is logged that scored but was not blocked
     stages:
       - stage:
           input:
@@ -42,7 +42,7 @@ tests:
           output:
             log_contains: "id \"980170\""
   - test_title: 980170-2
-    desc: Test is similar to 920350-1 but here we check if at reporting level 2 a request is not logged that did not score
+    desc: Test is similar to 920350-1 but here we check if at reporting level 4 a request is not logged that did not score
     stages:
       - stage:
           input:
