@@ -28,9 +28,9 @@ T = TypeVar("T", bound="CmdLine")
 
 
 class CmdLine(Processor):
-    lines: List[str] = []
-
     def __init__(self, evasion_pattern, suffix_evasion_pattern):
+        super().__init__()
+
         self.evasion_pattern = evasion_pattern
         self.suffix_evasion_pattern = suffix_evasion_pattern
 

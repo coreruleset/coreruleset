@@ -10,9 +10,9 @@ T = TypeVar("T", bound="Assemble")
 
 
 class Assemble(Processor):
-    lines: list[str] = []
-
     def __init__(self, context: Context):
+        super().__init__()
+
         self.context = context
 
     # override

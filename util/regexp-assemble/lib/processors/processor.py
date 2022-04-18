@@ -13,6 +13,9 @@ class Processor(ABC):
     comment_regex = re.compile(r"^##!")
     logger = logging.getLogger()
 
+    def __init__(self):
+        self.lines: List[str] = []
+
     @classmethod
     @abstractmethod
     def create(cls: T, context: Context, args: List[str]) -> T:
