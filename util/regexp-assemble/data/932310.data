@@ -1,13 +1,13 @@
-##! This is a data file used to generate a regular expression for a CRS rule. 
-##! The generation of the regular expression happens with the help of 
+##! This is a data file used to generate a regular expression for a CRS rule.
+##! The generation of the regular expression happens with the help of
 ##! util/regexp-assemble/regexp-assemble.py.
-##! The ID of the rule in question is part of the file name of this data file. 
-##! Read more about the format of this data file and the use of the assembly 
+##! The ID of the rule in question is part of the file name of this data file.
+##! Read more about the format of this data file and the use of the assembly
 ##! script in util/regexp-assemble/README.md.
 ##!
 ##! Lines starting with `##!` are comments and will be skipped,
 ##! empty lines will be ignored completely.
-##! 
+##!
 ##! Five special comments are at your disposal to influence the assembled expression:
 ##! - `##!+`: the flag comment
 ##! - `##!^`: the prefix comment
@@ -18,13 +18,13 @@
 
 ##! All IMAP4 commands start with a "tag"
 
-##!^ (?is)\r\n\w{1,50}\b\ 
+##!^ (?is)\r\n\w{1,50}\b[ ]
 
 ##! IMAP4 Commands - PL2
 
 ##! - IMAP4Rev1 Commands - with params
-APPEND (?:[\w\"\.\-\x5c\/%\*&#]+)?(?: \((?:[A-Za-z\x5c\ ])+\))?(?: \"?\d{1,2}-\w{3}-\d{4} \d{2}:\d{2}:\d{2} [+-]\d{4}\"?)? \{\d{1,20}\+?\}
-AUTHENTICATE [A-Z0-9-_]{1,20}\r\n
+APPEND (?:[\w\"\.\-\x5c\/%\*&#]+)?(?: \((?:[a-z\x5c\ ])+\))?(?: \"?\d{1,2}-\w{3}-\d{4} \d{2}:\d{2}:\d{2} [+-]\d{4}\"?)? \{\d{1,20}\+?\}
+AUTHENTICATE [a-z0-9-_]{1,20}\r\n
 LSUB (?:[\w\"~\/\*#\.]+)? (?:[\w\"\.\x5c\/%\*&]+)?
 STATUS (?:[\w\"\.\-\x5c\/%\*&]+)? \((?:UNSEEN|UIDNEXT|MESSAGES|UIDVALIDITY|RECENT| )+\)
 UID (?:COPY|FETCH|STORE) (?:[0-9,:\*]+)?

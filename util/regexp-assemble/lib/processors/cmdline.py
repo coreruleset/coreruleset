@@ -19,8 +19,7 @@
 # Refer to rule 932100, 932110, 932150 for documentation.
 #
 
-from multiprocessing.sharedctypes import Value
-from typing import TypeVar
+from typing import TypeVar, List
 
 from lib.processors.processor import Processor
 from lib.context import Context
@@ -29,7 +28,7 @@ T = TypeVar("T", bound="CmdLine")
 
 
 class CmdLine(Processor):
-    lines: list[str] = []
+    lines: List[str] = []
 
     def __init__(self, evasion_pattern, suffix_evasion_pattern):
         self.evasion_pattern = evasion_pattern
@@ -37,7 +36,7 @@ class CmdLine(Processor):
 
     # override
     @classmethod
-    def create(cls: T, context: Context, args: list[str]) -> T:
+    def create(cls: T, context: Context, args: List[str]) -> T:
         if len(args) < 1:
             raise ValueError("No type defined for command line processor, expected `unix` or `windows`")
 
@@ -61,7 +60,7 @@ class CmdLine(Processor):
         self.logger.debug("cmdline out: %s", processed)
 
     # overrride
-    def complete(self) -> list[bytes]:
+    def complete(self) -> List[bytes]:
         try:
             return self.lines
         finally:

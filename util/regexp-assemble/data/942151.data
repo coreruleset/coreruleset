@@ -1,0 +1,221 @@
+##! This is a data file used to generate a regular expression for a CRS rule.
+##! The generation of the regular expression happens with the help of
+##! util/regexp-assemble/regexp-assemble.py.
+##! The ID of the rule in question is part of the file name of this data file.
+##! Read more about the format of this data file and the use of the assembly
+##! script in util/regexp-assemble/README.md.
+##!
+##! Lines starting with `##!` are comments and will be skipped,
+##! empty lines will be ignored completely.
+##! In addition, the quote character `'` at the beginning of a line will
+##! cause the line to be interpreted as literal by the cmdline preprocessor only.
+##!
+##! Five special comments are at your disposal to influence the assembled expression:
+##! - `##!+`: the flag comment
+##! - `##!^`: the prefix comment
+##! - `##!$`: the suffix comment
+##! - `##!>`: the preprocessor comment
+##! - `##!<`: the block preprocessor end comment
+##!
+##! Currently supported preprocessors:
+##! - cmdline [windows|unix] (file scope)
+##! Please refer to util/regexp-assemble/README.md for a full explanation
+
+##!+ i
+##!^ \b
+##!$ \W*\(
+
+adddate
+addtime
+aes_decrypt
+aes_encrypt
+ascii
+asciistr
+asin
+atan
+atan2
+benchmark
+bin_to_num
+bit_and
+bit_count
+bit_length
+bit_or
+bit_xor
+ciel
+cieling
+coalesce
+coercibility
+collation
+compress
+concat
+concat_ws
+connection_id
+conv
+convert
+convert_tz
+cos
+cot
+cr32
+curdate
+current_date
+current_time
+current_timestamp
+current_user
+curtime
+database
+date_add
+datediff
+date_format
+date_sub
+dayname
+dayofmonth
+dayofweek
+dayofyear
+dcount
+decode
+degrees
+des_decrypt
+des_encrypt
+dump
+elt
+encode
+encrypt
+exp
+export_set
+extract
+extractvalue
+field_in_set
+find_in_set
+found_rows
+from_base64
+from_days
+from_unixtime
+geometrycollection
+get_format
+get_lock
+greatest
+group_concat
+gtid_subset
+hex
+hextoraw
+character_length
+char_length
+ifnull
+inet_aton
+inet_ntoa
+inet6_aton
+inet6_ntoa
+insert
+instr
+interval
+is_free_lock
+is_ipv4
+is_ipv4_compat
+is_ipv4_mapped
+is_ipv6
+is_not
+is_not_null
+is_null
+isnull
+is_used_lock
+last_day
+last_inser_id
+lcase
+least
+left
+linestring
+load_file
+localtimestamp
+locate
+log10
+log2
+lower
+lpad
+ltrim
+makedate
+make_set
+master_pos_wait
+md5
+microsecond
+mid
+monthname
+multilinestring
+multipoint
+multipolygon
+name_const
+not_in
+nullif
+oct
+octet_length
+old_password
+ord
+period_add
+period_diff
+pg_sleep
+polygon
+position
+pow
+procedure_analyse
+quarter
+quote
+radians
+rand
+rawtohex
+release_lock
+row_count
+rpad
+rtrim
+sec_to_time
+session_user
+sha
+sha1
+sha2
+schema
+sin
+soundex
+space
+sqrt
+std
+stddev_pop
+stddev_samp
+strcmp
+str_to_date
+subdate
+substr
+substring
+substring_index
+subtime
+sysdate
+system_user
+timediff
+time_format
+timestamp
+timestampadd
+timestampdiff
+time_to_sec
+to_base64
+todays
+tochar
+tonchar
+toseconds
+trim
+truncate
+ucase
+uncompress
+uncompressed_length
+unhex
+unix_timestamp
+updatexml
+utc_date
+utc_time
+utc_timestamp
+uuid
+uuid_short
+variance
+var_pop
+var_samp
+weekday
+weekofyear
+weight_string
+xmltype
+yearweek

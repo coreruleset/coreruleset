@@ -17,9 +17,9 @@ Please see the [OWASP ModSecurity Core Rule Set page](https://coreruleset.org/) 
 
 ## Contributing to the CRS
 
-We strive to make the OWASP ModSecurity CRS accessible to a wide audience of beginner and experienced users. We are interested in hearing any bug reports, false positive alert reports, evasions, usability issues, and suggestions for new detections.
+We strive to make the OWASP ModSecurity CRS accessible to a wide audience of beginner and experienced users. We are interested in hearing any bug reports, false-positive alert reports, evasions, usability issues, and suggestions for new detections.
 
-[Create an issue on GitHub](https://github.com/coreruleset/coreruleset/issues) to report a false positive or false negative (evasion). Please include your installed version and the relevant portions of your ModSecurity audit log. We will try and address your issue and potentially ask for additional information in order to reproduce your problem. Please also note that stale issues will be flagged and closed after 120 days. You can search for stale issues with the following [search query](https://github.com/coreruleset/coreruleset/issues?q=label%3A%22Stale+issue%22).
+[Create an issue on GitHub](https://github.com/coreruleset/coreruleset/issues) to report a false positive or false negative (evasion). Please include your installed version and the relevant portions of your ModSecurity audit log. We will try and address your issue and potentially ask for additional information to reproduce your problem. Please also note that stale issues will be flagged and closed after 120 days. You can search for stale issues with the following [search query](https://github.com/coreruleset/coreruleset/issues?q=label%3A%22Stale+issue%22).
 
 [Sign up for our Google Group](https://groups.google.com/a/owasp.org/forum/#!forum/modsecurity-core-rule-set-project) to ask general usage questions and participate in discussions on the CRS. Also [here](https://lists.owasp.org/pipermail/owasp-modsecurity-core-rule-set/index) you can find the archives for the previous mailing list.
 

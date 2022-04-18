@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------
 # OWASP ModSecurity Core Rule Set ver.3.4.0-dev
 # Copyright (c) 2006-2020 Trustwave and contributors. All rights reserved.
-# Copyright (c) 2021 Core Rule Set project. All rights reserved.
+# Copyright (c) 2021-2022 Core Rule Set project. All rights reserved.
 #
 # The OWASP ModSecurity Core Rule Set is distributed under
 # Apache Software License (ASL) version 2
@@ -160,10 +160,9 @@
 #     ctl:ruleRemoveById=941000-942999"
 #
 #
-# The application specific rule exclusion files
-# REQUEST-903.9001-DRUPAL-EXCLUSION-RULES.conf
-# REQUEST-903.9002-WORDPRESS-EXCLUSION-RULES.conf
-# bring additional examples which can be useful then tuning a service.
+# The application-specific rule exclusion plugins
+# (see: https://github.com/coreruleset/plugin-registry)
+# provide additional examples which can be useful then tuning a service.
 
 
 #
@@ -177,7 +176,6 @@
 # conditions will not be matched against the following rules:
 #
 # - id: 911100 (allowed methods)
-# - tag: attack-dos (DoS protection)
 # - id: 913100,913110,913120,913101,913102 (scan detection)
 # - id: 920280 (missing/empty host header)
 # - id: 920350 (IP address in host header)
@@ -199,5 +197,4 @@
 #           ctl:ruleRemoveById=913102,\
 #           ctl:ruleRemoveById=920280,\
 #           ctl:ruleRemoveById=920350,\
-#           ctl:ruleRemoveByTag=attack-disclosure,\
-#           ctl:ruleRemoveByTag=attack-dos"
+#           ctl:ruleRemoveByTag=attack-disclosure"
