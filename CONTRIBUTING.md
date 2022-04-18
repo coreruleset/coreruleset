@@ -27,8 +27,9 @@
 
 * American English should be used throughout.
 * 4 spaces should be used for indentation (no tabs).
+* Files must end with a single newline character.
 * No trailing whitespace at EOL.
-* No trailing blank lines at EOF.
+* No trailing blank lines at EOF (only the required single EOF newline character is allowed).
 * Add comments where possible and clearly explain any new rules.
 * Adhere to an 80 character line length limit where possible.
 * All [chained rules](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual(v2.x)#chain) should be indented like so, for readability:
@@ -298,6 +299,94 @@ The ID of a rule does not correspond directly with its paranoia level. Given the
 Within a rule file / block, there are sometimes smaller groups of rules that belong together. They're closely linked and very often represent copies of the original rules with a stricter limit (alternatively, they can represent the same rule addressing a different *target* in a second rule, where this is necessary). These are **stricter siblings** of the base rule. Stricter siblings usually share the first five digits of the rule ID and raise the rule ID by one, e.g., a base rule at 9xx160 and a stricter sibling at 9xx161.
 
 Stricter siblings often have different paranoia levels. This means that the base rule and the stricter siblings don't usually reside next to each another in the rule file. Instead, they're ordered by paranoia level and are linked by the first digits of their rule IDs. It's good practice to introduce all stricter siblings together as part of the definition of the base rule: this can be done in the comments of the base rule. It's also good practice to refer back to the base rule with the keywords "stricter sibling" in the comments of the stricter siblings themselves. For example: "...This is performed in two separate stricter siblings of this rule: 9xxxx1 and 9xxxx2", and "This is a stricter sibling of rule 9xxxx0."
+
+## Writing Tests
+
+Each rule should be accompanied by tests. Rule tests are an invaluable way to check that a rule behaves as expected:
+
+- Does the rule correctly match against the payloads and behaviors that the rule is designed to detect? (**Positive tests**)
+- Does the rule correctly **not** match against legitimate requests, i.e., the rule doesn't cause obvious false positives? (**Negative tests**)
+
+Rule tests also provide an excellent way to test WAF engines and implementations to ensure they behave and execute CRS rules as expected.
+
+The rule tests are located under `tests/regression/tests`. Each CRS rule *file* has a corresponding *directory* and each individual *rule* has a corresponding *YAML file* containing all the tests for that rule. For example, the tests for rule 911100 *(Method is not allowed by policy)* are in the file `REQUEST-911-METHOD-ENFORCEMENT/911100.yaml`.
+
+Full documentation of the required formatting and available options of the YAML tests can be found at https://github.com/coreruleset/ftw/blob/main/docs/YAMLFormat.md.
+
+### Positive Tests
+
+Example of a simple *positive test*:
+
+```yaml
+- test_title: 932100-21
+    desc: "Unix command injection"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: */*
+            method: POST
+            uri: "/"
+            data: "var=` /bin/cat /etc/passwd`"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932100"
+```
+
+This test will succeed if the log output contains `id "932100"`, which would indicate that the rule in question matched and generated an alert.
+
+It's important that tests consistently include the HTTP header fields `Host`, `User-Agent`, and `Accept`. CRS includes rules that detect if these headers are missing or empty, so these headers should be included in each test to avoid unnecessarily causing those rules to match. Ideally, *each positive test should cause* **only** *the rule in question to match*.
+
+The rule's description field, `desc`, is important. It should describe what is being tested: what *should* match, what should *not* match, etc.
+
+### Negative Tests
+
+Example of a simple *negative test*:
+
+```yaml
+- test_title: 932150-5
+    desc: "Natural language 'ping pong tables' should not cause FPs"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: */*
+            method: POST
+            uri: "/"
+            data: "foo=ping pong tables"
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932150"
+```
+
+This test will succeed if the log output does **not** contain `id "932150"`, which would indicate that the rule in question did **not** match and so did **not** generate an alert.
+
+### Encoded and Raw Requests
+
+It is possible to *encode* an entire test request. This encapsulates the request and means that the request headers and payload don't need to be explicitly declared. This is useful when a test request needs to use unusual bytes which might break YAML parsers, or when a test request must be intentionally malformed in a way that is impossible to describe otherwise. An encoded request is sent exactly as intended.
+
+The `encoded_request` field works like so:
+
+```yaml
+encoded_request: <Base64 string>
+```
+
+For example:
+```yaml
+encoded_request: "R0VUIFwgSFRUUA0KDQoK"
+```
+
+where `R0VUIFwgSFRUUA0KDQoK` is the base64-encoded equivalent of `GET \ HTTP\r\n\r\n`.
+
+The older method of using `raw_request` is deprecated as it's difficult to maintain and less portable than `encoded_request`.
 
 ## Non-Rules General Guidelines
 
