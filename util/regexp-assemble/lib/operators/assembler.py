@@ -8,16 +8,14 @@ from lib.processors.processor import Processor
 from lib.processors.cmdline import CmdLine
 from lib.processors.assemble import Assemble
 
-
 class Preprocessor(object):
+    preprocessor_end_regex = re.compile(r"^##!<.*")
+
     def __init__(self, processor_cls: Processor, context: Context, args):
         self.processor = processor_cls.create(context, args)
 
     def run(self, iterator: Iterator[str]) -> list[str]:
-        return self._preprocess(iterator, self._filter)
-
-    def _preprocess(self, iterator: Iterator[str], filter) -> list[str]:
-        for line in filter(iterator):
+        for line in self._filter(iterator):
             stripped_line = line.rstrip("\n")
             if not stripped_line == "":
                 self.processor.process_line(stripped_line)
@@ -25,27 +23,8 @@ class Preprocessor(object):
         return self.processor.complete()
 
     def _filter(self, iterator: Iterator[str]) -> Generator[str, None, None]:
-        for line in iterator:
-            yield line
-
-
-class FilePreprocessor(Preprocessor):
-    pass
-
-
-class LinePreprocessor(Preprocessor):
-    # override
-    def _filter(self, iterator):
-        yield next(iterator)
-
-
-class BlockPreprocessor(Preprocessor):
-    block_preprocessor_end_regex = re.compile(r"^##!<.*")
-
-    # override
-    def _filter(self, iterator: Iterator[str]) -> Generator[str, None, None]:
         line = next(iterator, None)
-        while line is not None and not self.block_preprocessor_end_regex.match(line):
+        while line is not None and not self.preprocessor_end_regex.match(line):
             yield line
             line = next(iterator, None)
 
@@ -60,8 +39,8 @@ class Assembler(object):
     def __init__(self, context: Context):
         self.context = context
         self.preprocessor_map = {
-            "cmdline": (BlockPreprocessor, CmdLine),
-            "assemble": (BlockPreprocessor, Assemble)
+            "cmdline": CmdLine,
+            "assemble": Assemble
         }
 
     def run(self, file: TextIO) -> str:
@@ -82,31 +61,30 @@ class Assembler(object):
             sys.exit(1)
 
     def _instantiate_preprocessor(self, name: str, args: list[str]) -> Preprocessor:
-        processor_type, processor_cls = self.preprocessor_map[name]
-        return processor_type(processor_cls, self.context, args)
+        processor_cls = self.preprocessor_map[name]
+        return Preprocessor(processor_cls, self.context, args)
 
     def _is_simple_comment(self, line: str) -> bool:
         return self.simple_comment_regex.match(line) is not None
 
     def preprocess(self, iterator: Iterator[str]) -> list[str]:
         final_lines = []
-        for processor_type in (LinePreprocessor, BlockPreprocessor, FilePreprocessor):
-            transformed_lines = []
-            line = next(iterator, None)
-            while line is not None:
-                if self._is_simple_comment(line):
-                    line = next(iterator, None)
-                    continue
-                processor = self.detect_preprocessor(line)
-                if processor is None or not isinstance(processor, processor_type):
-                    transformed_lines.append(line)
-                    line = next(iterator, None)
-                    continue
-                transformed_lines += processor.run(iterator)
+        transformed_lines = []
+        line = next(iterator, None)
+        while line is not None:
+            if self._is_simple_comment(line):
                 line = next(iterator, None)
+                continue
+            processor = self.detect_preprocessor(line)
+            if processor is None:
+                transformed_lines.append(line)
+                line = next(iterator, None)
+                continue
+            transformed_lines += processor.run(iterator)
+            line = next(iterator, None)
 
-            final_lines = transformed_lines
-            iterator = final_lines.__iter__()
+        final_lines = transformed_lines
+        iterator = final_lines.__iter__()
         return final_lines
 
     def assemble(self, lines: list[str]) -> str:
