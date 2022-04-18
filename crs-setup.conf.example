@@ -320,29 +320,37 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 
 #
-# -- [[ Anomaly Score Reporting Level ]] ------------------------------
+# -- [[ Anomaly Score Reporting Level ]] ---------------------------------------
 #
-# When a request is being blocked due to the anomaly score meeting
-# the anomaly threshold, then the blocking rule will also report the
-# anomaly score. This applies to the separate inbound and outbound
-# anomaly score.
-# In phase 5, there are additional rules that can perform additional
-# reporting of anomaly scores with a verbosity that depends on
-# the reporting level defined below.
+# When a request is blocked due to the anomaly score meeting or exceeding the
+# anomaly threshold then the blocking rule will also report the anomaly score.
+# This applies to the separate inbound and outbound anomaly scores.
+#
+# In phase 5, there are additional rules that can perform additional reporting
+# of anomaly scores with a verbosity that depends on the reporting level defined
+# below.
+#
 # By setting the reporting level you control whether you want additional
-# reporting beyond the blocking rule or not and if yes, which requests should
-# be covered.
-# There are 4 reporting levels: 0, 1, 2, 3.
-# The higher the reporting level, the more verbose the reporting is.
+# reporting beyond the blocking rule or not and, if yes, which requests should
+# be covered. The higher the reporting level, the more verbose the reporting is.
+#
+# There are 6 reporting levels:
 #
 # 0 - Reporting disabled
-# 1 - Reporting for requests that were blocked due to anomaly score
-# 2 - Reporting for requests with an anomaly score larger than 0
-# 3 - Reporting for all requests
+# 1 - Reporting for requests with a blocking anomaly score >= a threshold
+# 2 - Reporting for requests with a detection anomaly score >= a threshold
+# 3 - Reporting for requests with a blocking anomaly score greater than 0
+# 4 - Reporting for requests with a detection anomaly score greater than 0
+# 5 - Reporting for all requests
 #
-# A value of 3 can be useful on platforms where you are interested
+# Note: Reporting levels 1 and 2 make it possible to differentiate between
+# requests that are blocked and requests that are *not* blocked but would have
+# been blocked if the blocking PL was equal to detection PL. This may be useful
+# for certain FP tuning methodologies, for example moving to a higher PL.
+#
+# A value of 5 can be useful on platforms where you are interested in logging
 # non-scoring requests, yet it is not possible to report this information in
-# the request / access log. This applies to NGINX for example.
+# the request/access log. This applies to Nginx, for example.
 #
 #SecAction \
 # "id:900115,\
@@ -350,7 +358,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  nolog,\
 #  pass,\
 #  t:none,\
-#  setvar:tx.reporting_level=2"
+#  setvar:tx.reporting_level=4"
 
 
 #
