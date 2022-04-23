@@ -11,9 +11,7 @@ T = TypeVar("T", bound="Assemble")
 
 class Assemble(Processor):
     def __init__(self, context: Context):
-        super().__init__()
-
-        self.context = context
+        super().__init__(context)
 
     # override
     @classmethod

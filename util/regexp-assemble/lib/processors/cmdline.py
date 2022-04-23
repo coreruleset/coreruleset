@@ -24,12 +24,12 @@ from typing import TypeVar, List
 from lib.processors.processor import Processor
 from lib.context import Context
 
-T = TypeVar("T", bound="CmdLine")
+T = TypeVar('T', bound='CmdLine')
 
 
 class CmdLine(Processor):
-    def __init__(self, evasion_pattern, suffix_evasion_pattern):
-        super().__init__()
+    def __init__(self, context: Context, evasion_pattern: str, suffix_evasion_pattern: str):
+        super().__init__(context)
 
         self.evasion_pattern = evasion_pattern
         self.suffix_evasion_pattern = suffix_evasion_pattern
@@ -38,26 +38,26 @@ class CmdLine(Processor):
     @classmethod
     def create(cls: T, context: Context, args: List[str]) -> T:
         if len(args) < 1:
-            raise ValueError("No type defined for command line processor, expected `unix` or `windows`")
+            raise ValueError('No type defined for command line processor, expected `unix` or `windows`')
 
         type = args[0]
-        if type == "unix":
-            return CmdLineUnix()
-        elif type == "windows":
-            return CmdLineWindows()
+        if type == 'unix':
+            return CmdLineUnix(context)
+        elif type == 'windows':
+            return CmdLineWindows(context)
         else:
-            raise ValueError(f"No command line processor of type {type} defined")
+            raise ValueError(f'No command line processor of type {type} defined')
 
     # override
     def process_line(self, line: str):
-        if line == "":
+        if line == '':
             return
 
         processed = self.regexp_str(line)
         self.lines.append(processed)
 
-        self.logger.debug("cmdline in:  %s", line)
-        self.logger.debug("cmdline out: %s", processed)
+        self.logger.debug('cmdline in:  %s', line)
+        self.logger.debug('cmdline out: %s', processed)
 
     # overrride
     def complete(self) -> List[bytes]:
@@ -76,7 +76,7 @@ class CmdLine(Processor):
         elif self.comment_regex.match(input) is not None:
             return input
 
-        result = ""
+        result = ''
         for i, char in enumerate(input):
             if i > 0:
                 result += self.evasion_pattern
@@ -86,33 +86,35 @@ class CmdLine(Processor):
 
     # Ensure that some special characters are escaped
     def regexp_char(self, char):
-        char = str.replace(char, ".", "\.")
-        char = str.replace(char, "-", "\-")
-        if char == "@":
-            char = str.replace(char, "@", self.suffix_evasion_pattern)
+        char = str.replace(char, '.', '\.')
+        char = str.replace(char, '-', '\-')
+        if char == '@':
+            char = str.replace(char, '@', self.suffix_evasion_pattern)
 
         # Ensure multiple spaces are matched
-        return str.replace(char, " ", "\s+")
+        return str.replace(char, ' ', '\s+')
 
 
 class CmdLineUnix(CmdLine):
-    def __init__(self):
+    def __init__(self, context: Context):
         super().__init__(
+            context,
             # Insert these sequences between characters to prevent evasion.
             # This emulates the relevant parts of t:cmdLine.
-            r"""[\x5c'\"]*""",
+            r'''[\x5c'\"]*''',
             # Unix: "cat foo", "cat<foo", "cat>foo"
-            r"""(?:\s|<|>).*""",
+            r'''(?:\s|<|>).*''',
         )
 
 
 class CmdLineWindows(CmdLine):
-    def __init__(self):
+    def __init__(self, context: Context):
         super().__init__(
+            context,
             # Insert these sequences between characters to prevent evasion.
             # This emulates the relevant parts of t:cmdLine.
-            r"""[\"\^]*""",
+            r'''[\"\^]*''',
             # Windows: "more foo", "more,foo", "more;foo", "more.com", "more/e",
             # "more<foo", "more>foo"
-            r"""(?:[\s,;]|\.|/|<|>).*""",
+            r'''(?:[\s,;]|\.|/|<|>).*''',
         )

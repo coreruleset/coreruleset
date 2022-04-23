@@ -1,5 +1,5 @@
 import pytest
-from lib.operators.assembler import Assembler
+from lib.operators.assembler import Assembler, Peekerator
 from lib.context import Context
 
 class TestFileFormat:
@@ -8,10 +8,10 @@ class TestFileFormat:
 ##! line2
 ##!\tline3
 '''
-        context = Context("")
+        context = Context('')
         assembler = Assembler(context)
 
-        output = assembler.preprocess(contents.splitlines().__iter__())
+        output = list(assembler.preprocess(contents.splitlines().__iter__()))
 
         assert len(output) == 0
 
@@ -23,36 +23,36 @@ class TestFileFormat:
 ##!$suffix
 ##!$ suffix
 '''
-        context = Context("")
+        context = Context('')
         assembler = Assembler(context)
 
-        output = assembler.preprocess(contents.splitlines().__iter__())
+        output = list(assembler.preprocess(contents.splitlines().__iter__()))
 
         assert output == contents.splitlines()
 
 
-    def test_preprocess_requires_comments_to_start_line(self):
+    def test_preprocess_does_not_require_comments_to_start_line(self):
         contents = '''##!line1
  ##! line2
- ##!+smx
- ##!^prefix
- ##!$suffix
- ##!>block
+ not blank ##!+smx 
+\t\t##!foo
+\t ##! bar
 ##!\tline3
 '''
-        context = Context("")
+        context = Context('')
         assembler = Assembler(context)
 
-        output = assembler.preprocess(contents.splitlines().__iter__())
+        output = list(assembler.preprocess(contents.splitlines().__iter__()))
 
-        assert output == contents.splitlines()[1:-1]
+        assert len(output) == 1
+        assert output[0] == ' not blank ##!+smx '
 
     def test_preprocess_handles_preprocessor_comments(self):
         contents = '##!> assemble'
-        context = Context("")
+        context = Context('')
         assembler = Assembler(context)
 
-        output = assembler.preprocess(contents.splitlines().__iter__())
+        output = list(assembler.preprocess(contents.splitlines().__iter__()))
 
         assert len(output) == 1
         assert output[0] == ''
@@ -61,10 +61,10 @@ class TestFileFormat:
         contents = '''some line
 
 another line'''
-        context = Context("")
+        context = Context('')
         assembler = Assembler(context)
 
-        output = assembler.preprocess(contents.splitlines().__iter__())
+        output = list(assembler.preprocess(contents.splitlines().__iter__()))
 
         assert output == contents.splitlines()
 
@@ -75,7 +75,7 @@ another line'''
 ##!<
 ##!<
 '''
-        context = Context("")
+        context = Context('')
         assembler = Assembler(context)
 
         with pytest.raises(ValueError):
@@ -84,7 +84,7 @@ another line'''
     def test_preprocess_fails_on_too_few_end_markers(self):
         contents = '''##!> assemble
 ##!> assemble'''
-        context = Context("")
+        context = Context('')
         assembler = Assembler(context)
 
         with pytest.raises(ValueError):
@@ -95,10 +95,10 @@ another line'''
 ##!> assemble
 ##!<
 '''
-        context = Context("")
+        context = Context('')
         assembler = Assembler(context)
 
-        output = assembler.preprocess(contents.splitlines().__iter__())
+        output = list(assembler.preprocess(contents.splitlines().__iter__()))
 
         assert len(output) == 1
         assert output[0] == ''
@@ -120,10 +120,10 @@ three
 four
 five
 '''
-        context = Context("")
+        context = Context('')
         assembler = Assembler(context)
 
-        output = assembler.preprocess(contents.splitlines().__iter__())
+        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
 
         assert output == [
             'f[\\x5c\'\\"]*o[\\x5c\'\\"]*o',
@@ -135,23 +135,52 @@ five
 
     def test_nested_preprocessors(self):
         contents = '''##!> assemble
-##!> cmdline unix
+    ##!> cmdline unix
 foo
-##!<
-##!> cmdline windows
+    ##!<
+    ##!> cmdline windows
 bar
+    ##!<
 ##!<
-##!<
+four
+five
 '''
-        context = Context("")
+        context = Context('')
         assembler = Assembler(context)
 
-        output = assembler.preprocess(contents.splitlines().__iter__())
+        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+
 
         assert output == [
-            'f[\\x5c\'\\"]*o[\\x5c\'\\"]*o',
-            'b[\\"\\^]*a[\\"\\^]*r',
-            '(?:t(?:hree|wo)|one)',
+            '(?:f[\\x5c\'\\"]*o[\\x5c\'\\"]*o|b[\\"\\^]*a[\\"\\^]*r)',
+            'four',
+            'five'
+        ]
+
+    def test_complex_nested_preprocessors(self):
+        contents = '''##!> assemble
+    ##!> cmdline unix
+foo
+        ##!> assemble
+ab
+cd
+        ##!<
+    ##!<
+    ##!> cmdline windows
+bar
+    ##!<
+##!<
+four
+five
+'''
+        context = Context('')
+        assembler = Assembler(context)
+
+        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+
+
+        assert output == [
+            '(?:([\\x5c\'\\"]*?[\\x5c\'\\"]*:[\\x5c\'\\"]*a[\\x5c\'\\"]*b[\\x5c\'\\"]*|[\\x5c\'\\"]*c[\\x5c\'\\"]*d[\\x5c\'\\"]*)|f[\\x5c\'\\"]*o[\\x5c\'\\"]*o|b[\\"\\^]*a[\\"\\^]*r)',
             'four',
             'five'
         ]

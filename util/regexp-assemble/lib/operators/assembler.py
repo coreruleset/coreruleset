@@ -1,4 +1,4 @@
-from typing import TextIO
+from typing import Iterable, TextIO, List, TypeVar, Generic
 from collections.abc import Generator, Iterator
 
 import re, logging, sys
@@ -8,13 +8,43 @@ from lib.processors.processor import Processor
 from lib.processors.cmdline import CmdLine
 from lib.processors.assemble import Assemble
 
+T = TypeVar('T')
+
+class Peekerator(Generic[T]):
+    def __init__(self, iterable: Iterable[T]) -> None:
+        self.iterator = iter(iterable)
+        self.peeked = None
+
+    def __iter__(self) -> Iterator[T]:
+        return self.iterator
+
+    def __next__(self) -> T:
+        if self.peeked:
+            try:
+                return self.peeked
+            finally:
+                self.peeked = None
+        else:
+            return next(self.iterator)
+
+    def peek(self, default: any=None) -> T:
+        if not self.peeked:
+            try:
+                self.peeked = next(self.iterator)
+            except StopIteration:
+                return default
+        return self.peeked
+
+
 class Preprocessor(object):
     preprocessor_end_regex = re.compile(r"^##!<.*")
 
-    def __init__(self, processor_cls: Processor, context: Context, args):
+    def __init__(self, peekerator: Peekerator[str], processor_cls: Processor, context: Context, args):
         self.processor = processor_cls.create(context, args)
+        # consume the preprocessor comment
+        next(peekerator, None)
 
-    def run(self, iterator: Iterator[str]) -> list[str]:
+    def run(self, iterator: Iterator[str]) -> List[str]:
         for line in self._filter(iterator):
             stripped_line = line.rstrip("\n")
             if not stripped_line == "":
@@ -28,12 +58,18 @@ class Preprocessor(object):
             yield line
             line = next(iterator, None)
 
+class NoOpPreprocessor(object):
+    def __init__(self, peekerator: Peekerator[str]) -> None:
+        pass
+
+    def run(self, iterator: Iterator[str]) -> List[str]:
+        return list(iterator)
 
 class Assembler(object):
-    special_comment_markers = "^$+><"
-    simple_comment_regex = re.compile(r"^##![^" + special_comment_markers + r"].*")
     # prefix, suffix, flags, block start block end
-    preprocessor_regex = re.compile(r"^##!>\s*(.*)")
+    special_comment_markers = '^$+><'
+    simple_comment_regex = re.compile(r'^\s*##![^' + special_comment_markers + r'].*')
+    preprocessor_regex = re.compile(r'^\s*##!>\s*(.*)')
     logger = logging.getLogger()
 
     def __init__(self, context: Context):
@@ -44,49 +80,60 @@ class Assembler(object):
         }
 
     def run(self, file: TextIO) -> str:
-        iterator = file.readlines().__iter__()
-        lines = self.preprocess(iterator)
+        peekerator = Peekerator(file.readlines())
+        lines = list(self.preprocess(peekerator))
         return self.assemble(lines)
 
-    def detect_preprocessor(self, line: str) -> Preprocessor:
-        match = self.preprocessor_regex.match(line)
+    def detect_preprocessor(self, peekerator: Peekerator[str]) -> Preprocessor:
+        match = self.preprocessor_regex.match(peekerator.peek())
         if match is None:
-            return
+            return NoOpPreprocessor(peekerator)
 
         definition = match.group(1).split()
         try:
-            return self._instantiate_preprocessor(definition[0], definition[1:])
+            return self._instantiate_preprocessor(peekerator, definition[0], definition[1:])
         except KeyError:
             self.logger.critical(f"No processor found for {definition}")
             sys.exit(1)
 
-    def _instantiate_preprocessor(self, name: str, args: list[str]) -> Preprocessor:
+    def _instantiate_preprocessor(self, peekerator: Peekerator[str], name: str, args: List[str]) -> Preprocessor:
         processor_cls = self.preprocessor_map[name]
-        return Preprocessor(processor_cls, self.context, args)
+        return Preprocessor(peekerator, processor_cls, self.context, args)
 
     def _is_simple_comment(self, line: str) -> bool:
         return self.simple_comment_regex.match(line) is not None
 
-    def preprocess(self, iterator: Iterator[str]) -> list[str]:
-        final_lines = []
-        transformed_lines = []
-        line = next(iterator, None)
-        while line is not None:
-            if self._is_simple_comment(line):
-                line = next(iterator, None)
-                continue
-            processor = self.detect_preprocessor(line)
-            if processor is None:
-                transformed_lines.append(line)
-                line = next(iterator, None)
-                continue
-            transformed_lines += processor.run(iterator)
-            line = next(iterator, None)
+    def preprocess(self, peekerator: Peekerator[str]) -> Peekerator[str]:
+        lines: List[str] = []
+        while peekerator.peek(None) is not None:
+            lines += self._preprocess(peekerator)
 
-        final_lines = transformed_lines
-        iterator = final_lines.__iter__()
-        return final_lines
+        return lines
 
-    def assemble(self, lines: list[str]) -> str:
+    
+
+    def assemble(self, lines: List[str]) -> str:
         processor = self._instantiate_preprocessor("assemble", [])
-        return processor.run(lines.__iter__())[0]
+        return processor.run(Peekerator(lines))[0]
+
+    def _preprocess(self, peekerator: Peekerator[str]) -> List[str]:
+        processor = self.detect_preprocessor(peekerator)
+        lines = self.lines_to_process(peekerator)
+        return processor.run(Peekerator(lines))
+
+    def lines_to_process(self, peekerator: Peekerator[str]) -> List[str]:
+        start_regex = re.compile(r'^\s*##!>.*')
+        end_regex = re.compile(r'^\s*##!<$')
+        lines: List[str] = []
+        line = peekerator.peek(None)
+        while line is not None:
+            if end_regex.fullmatch(line):
+                # consume the item
+                next(peekerator)
+                break
+            elif start_regex.match(line):
+                lines += self._preprocess(peekerator)
+            else:
+                lines.append(next(peekerator))
+            line = peekerator.peek(None)
+        return lines
