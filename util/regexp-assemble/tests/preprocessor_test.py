@@ -26,8 +26,7 @@ class TestAssemblePreprocessor:
 
         output = assemble.complete()
 
-        assert len(output) == 1
-        assert output[0] == ''
+        assert len(output) == 0
 
     def test_handles_prefix_comment(self):
         contents = '''##!^ a prefix
@@ -75,7 +74,7 @@ another line'''
         assert len(output) == 1
         assert output[0] == '(?i)(?:another|some) line'
 
-    def test_returns_empty_string_for_empty_input(self):
+    def test_returns_no_output_for_empty_input(self):
         contents = '''##!+ _
 
 '''
@@ -87,8 +86,7 @@ another line'''
 
         output = assemble.complete()
 
-        assert len(output) == 1
-        assert output[0] == ''
+        assert len(output) == 0
 
     def test_handles_backslash_escape_correctly(self):
         contents = r'\x5c\x5ca'
@@ -148,7 +146,7 @@ d
         assert output == '(?:a+b|c|d)\W*\(two'
 
     def test_assembling_3(self):
-        contents = '''##!> assemble concat
+        contents = '''##!> assemble
 line1
 ##!=>
   ##!> assemble
@@ -163,14 +161,22 @@ cd
         output = assembler._run(Peekerator(contents.splitlines()))
         assert output == 'line1(?:ab|cd)'
 
-class TestAssembleConcatPreprocessor:
-    def test_fails_for_unknown_type(self):
+    def test_assembling_4(self):
+        contents = '''##!> assemble
+ab
+##!=< myinput
+##!<
+##!> assemble
+##!=> myinput
+'''
         context = Context("")
-        with pytest.raises(ValueError):
-            Assemble.create(context, ['unknown'])
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+        assert output == 'ab'
 
     def test_concatenating(self):
-        contents = '''##!> assemble concat
+        contents = '''##!> assemble
 one
 two
 ##!=>
@@ -191,7 +197,7 @@ five
         ]
 
     def test_concatenating_multiple_segments(self):
-        contents = '''##!> assemble concat
+        contents = '''##!> assemble
 one
 two
 ##!=>
@@ -200,7 +206,7 @@ four
 ##!=>
 five
 ##!=>
-  ##!> assemble concat
+  ##!> assemble
 six
 seven
   ##!=>
@@ -220,7 +226,7 @@ ten
         assert output[0] == '(?:one|two)(?:three|four)fives(?:even|ix)(?:eight|nine)ten'
         
     def test_concatenating_multiple_segments_(self):
-        contents = '''##!> assemble concat
+        contents = '''##!> assemble
 one
 two
 ##!=>
@@ -229,7 +235,7 @@ four
 ##!=>
 five
 ##!=>
-  ##!> assemble concat
+  ##!> assemble
 six
 seven
   ##!=>
@@ -248,7 +254,7 @@ ten
         assert output[0] == '(?:one|two)(?:three|four)five(?:s(?:even|ix)(?:eight|nine)|ten)'
 
     def test_concatenating_with_stored_input(self):
-        contents = '''##!> assemble concat
+        contents = '''##!> assemble
 ##! slash patterns
 \x5c
 ##! URI encoded
@@ -273,14 +279,14 @@ ten
         assert output[0] == '(?:%(?:2f|5c)|\\)\\.(?:%0[01])?(?:%(?:2f|5c)|\\)'
 
     def test_stored_input_is_global(self):
-        contents = '''##!> assemble concat
+        contents = '''##!> assemble
 ab
 cd
-##!=< globalinput
+##!=< globalinput1
 ##!<
 
-##!> assemble concat
-##!=> globalinput
+##!> assemble
+##!=> globalinput1
 '''
         context = Context("")
         assembler = Assembler(context)
@@ -291,12 +297,12 @@ cd
         assert output[0] == '(?:ab|cd)'
 
     def test_stored_input_isnt_available_to_inner_scope(self):
-        contents = '''##!> assemble concat
+        contents = '''##!> assemble
 ab
 cd
-##!=< globalinput
-    ##!> assemble concat
-    ##!=> globalinput
+##!=< globalinput2
+    ##!> assemble
+    ##!=> globalinput2
     ##!<
 ##!<
 '''
@@ -307,8 +313,8 @@ cd
             assembler.preprocess(Peekerator(contents.splitlines()))
 
     def test_stored_input_is_available_to_outer_scope(self):
-        contents = '''##!> assemble concat
-  ##!> assemble concat
+        contents = '''##!> assemble
+  ##!> assemble
 ab
 cd
   ##!=< globalinput
@@ -324,7 +330,7 @@ cd
         assert output[0] == '(?:ab|cd)'
 
     def test_concatenating_fails_when_input_unknown(self):
-        contents = '''##!> assemble concat
+        contents = '''##!> assemble
 ##!=> unknown
 '''
         context = Context("")

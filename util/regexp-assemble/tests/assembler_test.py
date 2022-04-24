@@ -54,8 +54,7 @@ class TestFileFormat:
 
         output = list(assembler.preprocess(Peekerator(contents.splitlines())))
 
-        assert len(output) == 1
-        assert output[0] == ''
+        assert len(output) == 0
 
     def test_preprocess_ignores_empty_lines(self):
         contents = '''some line
@@ -103,8 +102,7 @@ another line'''
 
         output = list(assembler.preprocess(Peekerator(contents.splitlines())))
 
-        assert len(output) == 1
-        assert output[0] == ''
+        assert len(output) == 0
 
 
 class TestPreprocessors:

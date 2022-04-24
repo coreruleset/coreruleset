@@ -10,12 +10,20 @@ from lib.processors.assemble import Assemble
 
 T = TypeVar('T')
 
+COMMENT_REGEX_PREFIX = r'\s*##!'
+# prefix, suffix, flags, block start block end
+SPECIAL_COMMENT_MARKERS = '^$+><='
+PREPROCESSOR_START_REGEX = re.compile(rf'{COMMENT_REGEX_PREFIX}>\s*(.*)')
+PREPROCESSOR_END_REGEX = re.compile(rf'{COMMENT_REGEX_PREFIX}<')
+SIMPLE_COMMENT_REGEX = re.compile(rf'{COMMENT_REGEX_PREFIX}[^{SPECIAL_COMMENT_MARKERS}]')
+
 class NestingError(Exception):
     def __init__(self, line: int, depth: int):
         super().__init__()
 
         self.line = line
         self.depth = depth
+
 class Stats(object):
     def __init__(self):
         self.line = 0
@@ -59,12 +67,10 @@ class Peekerator(Generic[T]):
 
 
 class Preprocessor(object):
-    preprocessor_start_regex = re.compile(r"^\s*##!>.*")
-    preprocessor_end_regex = re.compile(r"^\s*##!<.*")
-
     def __init__(self, peekerator: Peekerator[str], processor_cls: Processor, context: Context, args):
         self.processor = processor_cls.create(context, args)
-        if self.preprocessor_start_regex.match(peekerator.peek()):
+        if PREPROCESSOR_START_REGEX.match(peekerator.peek()):
+            # when instantiated programmatically, the preprocessor marker won't be there
             # consume the preprocessor comment
             next(peekerator, None)
 
@@ -78,22 +84,19 @@ class Preprocessor(object):
 
     def _filter(self, peekerator: Peekerator[str]) -> Generator[str, None, None]:
         line = next(peekerator, None)
-        while line is not None and not self.preprocessor_end_regex.match(line):
+        while line is not None and not PREPROCESSOR_END_REGEX.match(line):
             yield line
             line = next(peekerator, None)
 
 class NoOpPreprocessor(object):
     def __init__(self, peekerator: Peekerator[str]) -> None:
+        self.processor = None
         pass
 
     def run(self, iterator: Iterator[str]) -> List[str]:
         return list(iterator)
 
 class Assembler(object):
-    # prefix, suffix, flags, block start block end
-    special_comment_markers = '^$+><='
-    simple_comment_regex = re.compile(r'^\s*##![^' + special_comment_markers + r'].*')
-    preprocessor_regex = re.compile(r'^\s*##!>\s*(.*)')
     logger = logging.getLogger()
 
     def __init__(self, context: Context):
@@ -114,7 +117,7 @@ class Assembler(object):
         return self.assemble(lines)
 
     def detect_preprocessor(self, peekerator: Peekerator[str]) -> Preprocessor:
-        match = self.preprocessor_regex.match(peekerator.peek())
+        match = PREPROCESSOR_START_REGEX.match(peekerator.peek())
         if match is None:
             return NoOpPreprocessor(peekerator)
 
@@ -123,7 +126,7 @@ class Assembler(object):
         try:
             return self._instantiate_preprocessor(peekerator, definition[0], definition[1:])
         except KeyError:
-            self.logger.critical(f"No processor found for {definition}")
+            self.logger.critical('No processor found for %s', definition)
             sys.exit(1)
 
     def _instantiate_preprocessor(self, peekerator: Peekerator[str], name: str, args: List[str]) -> Preprocessor:
@@ -131,7 +134,7 @@ class Assembler(object):
         return Preprocessor(peekerator, processor_cls, self.context, args)
 
     def _is_simple_comment(self, line: str) -> bool:
-        return self.simple_comment_regex.match(line) is not None
+        return SIMPLE_COMMENT_REGEX.match(line) is not None
 
     def preprocess(self, peekerator: Peekerator[str]) -> Peekerator[str]:
         lines: List[str] = []
@@ -153,30 +156,32 @@ class Assembler(object):
 
     def _preprocess(self, peekerator: Peekerator[str]) -> List[str]:
         processor = self.detect_preprocessor(peekerator)
-        self.logger.debug('detected processor: %s', processor.__class__)
+        self.logger.debug('detected processor: %s', processor.processor.__class__)
         lines = self.lines_to_process(peekerator)
         self.logger.debug('processor will process: %s', lines)
         return processor.run(Peekerator(lines))
 
     def lines_to_process(self, peekerator: Peekerator[str]) -> List[str]:
-        start_regex = re.compile(r'^\s*##!>.*')
-        end_regex = re.compile(r'^\s*##!<$')
         lines: List[str] = []
         line = peekerator.peek()
         while line is not None:
             self.stats.line_parsed()
 
-            if end_regex.fullmatch(line):
+            if PREPROCESSOR_END_REGEX.match(line):
                 # consume the item
                 next(peekerator)
                 self.stats.processor_end()
+                self.logger.debug('Found preprocessor end marker')
                 break
-            elif line.strip() == '' or self.simple_comment_regex.match(line):
+            elif line.strip() == '' or SIMPLE_COMMENT_REGEX.match(line):
                 # consume the item
                 next(peekerator)
-            elif start_regex.match(line):
+                self.logger.debug('Found simple comment')
+            elif PREPROCESSOR_START_REGEX.match(line):
                 lines += self._preprocess(peekerator)
+                self.logger.debug('Found preprocessor start marker')
             else:
                 lines.append(next(peekerator))
+                self.logger.debug('Found regular input %r', line)
             line = peekerator.peek()
         return lines

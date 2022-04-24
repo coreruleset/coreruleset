@@ -149,22 +149,19 @@ The special token `@` will be replaced with the expression `(?:\s|<|>).*` in `un
 Processor name: `assemble`
 
 ###### Arguments
-- `concat` (optional): Concatenates multiple assembled expressions.
+This preprocessor does not accept any arguments.
 
 ###### Output
-Single line regular expression, where each line of the input is treated as an alterntion of the regular expression.
-
-With the `concat` option, this processor produces the concatenation of blocks delimited with `##!=>`.
+Single line regular expression, where each line of the input is treated as an alternation of the regular expression. Input can also be concatenated by using the two marker comments for input `##!=<` and `##!=>` output.
 
 ###### Description
-Each line of the input is treated as an alternation of a regular expression, processed into a single line. The resulting regular expression is optimized.
+Each line of the input is treated as an alternation of a regular expression, processed into a single line. The resulting regular expression is not optimized (in the strict sense) but reduced (i.e., common elements may be put into character classes or groups).
 
-With the `concat` option, this processor produces the concatenation of blocks delimited with `##!=>`.
-The `concat` option supports two special markers, one for output (`##!=>`) and one for input (`##!=<`).
+This processor can also produce the concatenation of blocks delimited with `##!=>`. It supports two special markers, one for output (`##!=>`) and one for input (`##!=<`).
 
-Lines within blocks are treated as alternations, as usual. The `concat` option enables more complex scenarios, such as separating parts of the regular expression in the data file for improved readability. Rule 930100, for example, uses separate rules for periods and slashes and it easier to reason about the differences when they are physically separated. The following example is based on rules from 930100:
+Lines within blocks delimited by input or output markers are treated as alternations, as usual. The input and output markers enables more complex scenarios, such as separating parts of the regular expression in the data file for improved readability. Rule 930100, for example, uses separate rules for periods and slashes and it easier to reason about the differences when they are physically separated. The following example is based on rules from 930100:
 ```python
-##!> assemble concat
+##!> assemble
 ##! slash patterns
 \x5c
 ##! URI encoded
@@ -177,10 +174,31 @@ Lines within blocks are treated as alternations, as usual. The `concat` option e
 \.%00
 \.%01
 ```
+The above would produce the following, concatenated regular expression:
+```python
+(?:%(?:2f|5c)|\x5c)\.(?:%0[01])?
+```
 
-The input marker `##!=<` (not to be confused with the output marker `##!=>`) takes an identifier as parameter and associates the associated block with the identifier. No output is produced when using the `##!=<` marker. To concatenate the output of a previously stored block, you pass the identifier to the output marker `##!=>`. Stored blocks remain in storage until the end of the program and are available globally, i.e., in nested blocks, as well as in later blocks outside of the preprocessor block in which the input was stored.
+The input marker `##!=<` takes an identifier as parameter and associates the associated block with the identifier. No output is produced when using the input `##!=<` marker. To concatenate the output of a previously stored block, the appropriate identifier must be passed to the output marker `##!=>` as argument. Stored blocks remain in storage until the end of the program and are available globally. However, since preprocessors run from innermost nesting level to outermost, the following would produce an error because the input `myinput` hasn't been stored yet:
+```python
+##!> assemble
+ab
+##!=< myinput
+  ##!> assemble
+  ##!=> myinput
+  ##!<
+```
+Storing the input earlier works and produces the expect ouput `ab`:
+```python
+##!> assemble
+ab
+##!=< myinput
+##!<
+##!> assemble
+##!=> myinput
+```
 
-Rule 930100 requires the following concatenation of rules: `<slash rules><dot rules><slash rules>`, where `slash rules` refers to the same expression. The following example produces this sequence by storing the expression for slashes with the identifier `slashes`:
+Rule 930100 requires the following concatenation of rules: `<slash rules><dot rules><slash rules>`, `slash rules` is concatenated twice. The following example produces this sequence by storing the expression for slashes with the identifier `slashes`, thus avoiding duplication:
 ```python
 ##!> assemble concat
 ##! slash patterns
