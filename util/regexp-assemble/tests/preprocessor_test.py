@@ -4,6 +4,7 @@ from lib.context import Context
 from lib.operators.assembler import Assembler, Peekerator
 from lib.processors.assemble import Assemble
 from lib.processors.cmdline import CmdLine
+from lib.processors.template import Template
 
 class TestAssemblePreprocessor:
     def test_handles_ignore_case_flag(self):
@@ -188,13 +189,9 @@ five
         context = Context("")
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+        output = assembler._run(Peekerator(contents.splitlines()))
 
-        assert len(output) == 2
-        assert output == [
-            '(?:one|two)(?:three|four)',
-            'five'
-        ]
+        assert output == '(?:(?:one|two)(?:three|four)|five)'
 
     def test_concatenating_multiple_segments(self):
         contents = '''##!> assemble
@@ -220,10 +217,9 @@ ten
         context = Context("")
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+        output = assembler._run(Peekerator(contents.splitlines()))
 
-        assert len(output) == 1
-        assert output[0] == '(?:one|two)(?:three|four)fives(?:even|ix)(?:eight|nine)ten'
+        assert output == '(?:one|two)(?:three|four)fives(?:even|ix)(?:eight|nine)ten'
         
     def test_concatenating_multiple_segments_(self):
         contents = '''##!> assemble
@@ -248,10 +244,9 @@ ten
         context = Context("")
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+        output = assembler._run(Peekerator(contents.splitlines()))
 
-        assert len(output) == 1
-        assert output[0] == '(?:one|two)(?:three|four)five(?:s(?:even|ix)(?:eight|nine)|ten)'
+        assert output == '(?:one|two)(?:three|four)five(?:s(?:even|ix)(?:eight|nine)|ten)'
 
     def test_concatenating_with_stored_input(self):
         contents = '''##!> assemble
@@ -273,10 +268,9 @@ ten
         context = Context("")
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+        output = assembler._run(Peekerator(contents.splitlines()))
 
-        assert len(output) == 1
-        assert output[0] == '(?:%(?:2f|5c)|\\)\\.(?:%0[01])?(?:%(?:2f|5c)|\\)'
+        assert output == '(?:%(?:2f|5c)|\\)\\.(?:%0[01])?(?:%(?:2f|5c)|\\)'
 
     def test_stored_input_is_global(self):
         contents = '''##!> assemble
@@ -291,10 +285,9 @@ cd
         context = Context("")
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+        output = assembler._run(Peekerator(contents.splitlines()))
 
-        assert len(output) == 1
-        assert output[0] == '(?:ab|cd)'
+        assert output == '(?:ab|cd)'
 
     def test_stored_input_isnt_available_to_inner_scope(self):
         contents = '''##!> assemble
@@ -324,10 +317,9 @@ cd
         context = Context("")
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+        output = assembler._run(Peekerator(contents.splitlines()))
 
-        assert len(output) == 1
-        assert output[0] == '(?:ab|cd)'
+        assert output == '(?:ab|cd)'
 
     def test_concatenating_fails_when_input_unknown(self):
         contents = '''##!> assemble
@@ -450,3 +442,94 @@ class TestCmdLinePreprocessor:
 
         with pytest.raises(ValueError):
             CmdLine.create(context, [])
+
+class TestTemplatePreprocessor:
+    def test_fails_for_missing_identifier(self):
+        context = Context("")
+        with pytest.raises(ValueError):
+            Template.create(context, [])
+
+    def test_fails_for_invalid_identifier(self):
+        context = Context("")
+        with pytest.raises(ValueError):
+            Template.create(context, ['+', ''])
+
+        with pytest.raises(ValueError):
+            Template.create(context, ['^', ''])
+
+    def test_fails_for_missing_replacement(self):
+        context = Context("")
+        with pytest.raises(ValueError):
+            Template.create(context, ['id'])
+
+    def test_replaces_template(self):
+        contents = r'''##!> template id **replaced**
+{{id}}
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        assert output == '**replaced**'
+
+    def test_replaces_multiple_templates(self):
+        contents = r'''##!> template id **replaced**
+some
+{{id}}
+other
+{{id}}
+##! lines
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        assert output == '(?:**replaced**|other|some)'
+
+    def test_ignores_comments(self):
+        contents = r'''##!> template id **replaced**
+##! {{id}}
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        assert output == ''
+
+    def test_replaces_multiple_per_line(self):
+        contents = r'''##!> template id **replaced**
+{{id}}some{{id}}other{{id}}
+##! lines
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        assert output == '**replaced**some**replaced**other**replaced**'
+
+    def test_retains_escapes(self):
+        contents = r'''##!> template id \n\s\b\v\t
+{{id}}
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        assert output == r'\n\s\b\v\t'
+
+    
+    def test_template1(self):
+        contents = r'''##!> template slashes [/\]
+regex with {{slashes}}
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        assert output == r'regex with [\/\]'

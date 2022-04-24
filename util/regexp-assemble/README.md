@@ -217,6 +217,36 @@ Rule 930100 requires the following concatenation of rules: `<slash rules><dot ru
 ##!=> slashes
 ```
 
+##### Template preprocessor
+Processor name: `template`
+
+###### Arguments
+- identifier (required): The name of the template that will be processed by this preprocessor
+- replacement (required): The string that replaces the template identified by `identifier`
+
+###### Output
+One line per line of input, with all template strings replaced with the specified replacement.
+
+###### Description
+The template processor makes it easy to add recurring strings to expressions. This helps reduce maintenance when a template needs to be updated and it improves readability as template strings provide readable and bounded information, where otherwise a regular expression must be read and boundaries must be identified.
+
+The format of template strings is as follows:
+```
+{{identifier}}
+```
+The template string starts with two opening braces, is followed by an identifier, and ened with two closing braces. The identifier format must satisfy the following regular expression:
+```python
+[a-z-A-Z\d_-]+
+```
+An identifier must have at least one character and consist only of upper and lowercase letters a through z, digits 0 through 9, and underscore or dash.
+
+The following example shows how to use the template processor:
+```python
+##!> template slashes [/\]
+regex with {{slashes}}
+```
+This would result in the output `regex with [\/\]` (the assembler escapes the forward slash).
+
 ## Example
 The following is an example of what a data file might contain:
 

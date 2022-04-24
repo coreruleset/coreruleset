@@ -7,6 +7,7 @@ from lib.context import Context
 from lib.processors.processor import Processor
 from lib.processors.cmdline import CmdLine
 from lib.processors.assemble import Assemble
+from lib.processors.template import Template
 
 T = TypeVar('T')
 
@@ -69,7 +70,7 @@ class Peekerator(Generic[T]):
 class Preprocessor(object):
     def __init__(self, peekerator: Peekerator[str], processor_cls: Processor, context: Context, args):
         self.processor = processor_cls.create(context, args)
-        if PREPROCESSOR_START_REGEX.match(peekerator.peek()):
+        if PREPROCESSOR_START_REGEX.match(peekerator.peek('')):
             # when instantiated programmatically, the preprocessor marker won't be there
             # consume the preprocessor comment
             next(peekerator, None)
@@ -104,7 +105,8 @@ class Assembler(object):
         self.stats = Stats()
         self.preprocessor_map = {
             "cmdline": CmdLine,
-            "assemble": Assemble
+            "assemble": Assemble,
+            "template": Template
         }
 
     def run(self, file: TextIO) -> str:
@@ -147,12 +149,11 @@ class Assembler(object):
 
         return lines
 
-    
-
     def assemble(self, lines: List[str]) -> str:
         peekerator = Peekerator(lines)
         processor = self._instantiate_preprocessor(peekerator, "assemble", [])
-        return processor.run(peekerator)[0]
+        result = processor.run(peekerator)
+        return result[0] if len(result) > 0 else ''
 
     def _preprocess(self, peekerator: Peekerator[str]) -> List[str]:
         processor = self.detect_preprocessor(peekerator)
