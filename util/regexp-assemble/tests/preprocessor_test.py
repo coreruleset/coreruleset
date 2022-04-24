@@ -1,6 +1,7 @@
 import pytest
 
 from lib.context import Context
+from lib.operators.assembler import Assembler, Peekerator
 from lib.processors.assemble import Assemble
 from lib.processors.cmdline import CmdLine
 
@@ -122,6 +123,215 @@ another line'''
         assert len(output) == 1
         assert output[0] == r'\x48'
 
+    def test_assembling_1(self):
+        contents = '''##!^ \W*\(
+##!^ two
+a+b|c
+d
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+        assert output == '\W*\(two(?:a+b|c|d)'
+
+    def test_assembling_2(self):
+        contents = '''##!$ \W*\(
+##!$ two
+a+b|c
+d
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+        assert output == '(?:a+b|c|d)\W*\(two'
+
+    def test_assembling_3(self):
+        contents = '''##!> assemble concat
+line1
+##!=>
+  ##!> assemble
+ab
+cd
+  ##!<
+##!<
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+        assert output == 'line1(?:ab|cd)'
+
+class TestAssembleConcatPreprocessor:
+    def test_fails_for_unknown_type(self):
+        context = Context("")
+        with pytest.raises(ValueError):
+            Assemble.create(context, ['unknown'])
+
+    def test_concatenating(self):
+        contents = '''##!> assemble concat
+one
+two
+##!=>
+three
+four
+##!<
+five
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+
+        assert len(output) == 2
+        assert output == [
+            '(?:one|two)(?:three|four)',
+            'five'
+        ]
+
+    def test_concatenating_multiple_segments(self):
+        contents = '''##!> assemble concat
+one
+two
+##!=>
+three
+four
+##!=>
+five
+##!=>
+  ##!> assemble concat
+six
+seven
+  ##!=>
+eight
+nine
+  ##!<
+##!=>
+ten
+##!<
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+
+        assert len(output) == 1
+        assert output[0] == '(?:one|two)(?:three|four)fives(?:even|ix)(?:eight|nine)ten'
+        
+    def test_concatenating_multiple_segments_(self):
+        contents = '''##!> assemble concat
+one
+two
+##!=>
+three
+four
+##!=>
+five
+##!=>
+  ##!> assemble concat
+six
+seven
+  ##!=>
+eight
+nine
+  ##!<
+ten
+##!<
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+
+        assert len(output) == 1
+        assert output[0] == '(?:one|two)(?:three|four)five(?:s(?:even|ix)(?:eight|nine)|ten)'
+
+    def test_concatenating_with_stored_input(self):
+        contents = '''##!> assemble concat
+##! slash patterns
+\x5c
+##! URI encoded
+%2f
+%5c
+##!=< slashes
+##!=> slashes
+
+##! dot patterns
+\.
+\.%00
+\.%01
+##!=>
+##!=> slashes
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+
+        assert len(output) == 1
+        assert output[0] == '(?:%(?:2f|5c)|\\)\\.(?:%0[01])?(?:%(?:2f|5c)|\\)'
+
+    def test_stored_input_is_global(self):
+        contents = '''##!> assemble concat
+ab
+cd
+##!=< globalinput
+##!<
+
+##!> assemble concat
+##!=> globalinput
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+
+        assert len(output) == 1
+        assert output[0] == '(?:ab|cd)'
+
+    def test_stored_input_isnt_available_to_inner_scope(self):
+        contents = '''##!> assemble concat
+ab
+cd
+##!=< globalinput
+    ##!> assemble concat
+    ##!=> globalinput
+    ##!<
+##!<
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        with pytest.raises(KeyError):
+            assembler.preprocess(Peekerator(contents.splitlines()))
+
+    def test_stored_input_is_available_to_outer_scope(self):
+        contents = '''##!> assemble concat
+  ##!> assemble concat
+ab
+cd
+  ##!=< globalinput
+  ##!<
+##!=> globalinput
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        output = list(assembler.preprocess(Peekerator(contents.splitlines())))
+
+        assert len(output) == 1
+        assert output[0] == '(?:ab|cd)'
+
+    def test_concatenating_fails_when_input_unknown(self):
+        contents = '''##!> assemble concat
+##!=> unknown
+'''
+        context = Context("")
+        assembler = Assembler(context)
+
+        with pytest.raises(KeyError):
+            assembler.preprocess(Peekerator(contents.splitlines()))
 
 
 class TestCmdLinePreprocessor:
@@ -225,7 +435,6 @@ class TestCmdLinePreprocessor:
         assert output[0] == r'''a[\x5c'\"]*\s+[\x5c'\"]*b[\x5c'\"]*\s+[\x5c'\"]*\s+[\x5c'\"]*\s+[\x5c'\"]*\s+[\x5c'\"]*\s+[\x5c'\"]*c[\x5c'\"]*\s+[\x5c'\"]*\s+[\x5c'\"]*e'''
 
     def test_fails_for_unknown_target_system(self):
-        contents = 'foo'
         context = Context("")
         with pytest.raises(ValueError):
             CmdLine.create(context, ['unknown'])

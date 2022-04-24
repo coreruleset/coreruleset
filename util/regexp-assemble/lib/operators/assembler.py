@@ -59,26 +59,28 @@ class Peekerator(Generic[T]):
 
 
 class Preprocessor(object):
-    preprocessor_end_regex = re.compile(r"^##!<.*")
+    preprocessor_start_regex = re.compile(r"^\s*##!>.*")
+    preprocessor_end_regex = re.compile(r"^\s*##!<.*")
 
     def __init__(self, peekerator: Peekerator[str], processor_cls: Processor, context: Context, args):
         self.processor = processor_cls.create(context, args)
-        # consume the preprocessor comment
-        next(peekerator, None)
+        if self.preprocessor_start_regex.match(peekerator.peek()):
+            # consume the preprocessor comment
+            next(peekerator, None)
 
-    def run(self, iterator: Iterator[str]) -> List[str]:
-        for line in self._filter(iterator):
+    def run(self, peekerator: Peekerator[str]) -> List[str]:
+        for line in self._filter(peekerator):
             stripped_line = line.rstrip("\n")
-            if not stripped_line == "":
+            if not stripped_line == '':
                 self.processor.process_line(stripped_line)
 
         return self.processor.complete()
 
-    def _filter(self, iterator: Iterator[str]) -> Generator[str, None, None]:
-        line = next(iterator, None)
+    def _filter(self, peekerator: Peekerator[str]) -> Generator[str, None, None]:
+        line = next(peekerator, None)
         while line is not None and not self.preprocessor_end_regex.match(line):
             yield line
-            line = next(iterator, None)
+            line = next(peekerator, None)
 
 class NoOpPreprocessor(object):
     def __init__(self, peekerator: Peekerator[str]) -> None:
@@ -89,7 +91,7 @@ class NoOpPreprocessor(object):
 
 class Assembler(object):
     # prefix, suffix, flags, block start block end
-    special_comment_markers = '^$+><'
+    special_comment_markers = '^$+><='
     simple_comment_regex = re.compile(r'^\s*##![^' + special_comment_markers + r'].*')
     preprocessor_regex = re.compile(r'^\s*##!>\s*(.*)')
     logger = logging.getLogger()
@@ -104,7 +106,11 @@ class Assembler(object):
 
     def run(self, file: TextIO) -> str:
         peekerator = Peekerator(file.readlines())
+        return self._run(peekerator)
+
+    def _run(self, peekerator: Peekerator) -> str:
         lines = list(self.preprocess(peekerator))
+        self.logger.debug('preprocessed lines: %s', lines)
         return self.assemble(lines)
 
     def detect_preprocessor(self, peekerator: Peekerator[str]) -> Preprocessor:
@@ -141,12 +147,15 @@ class Assembler(object):
     
 
     def assemble(self, lines: List[str]) -> str:
-        processor = self._instantiate_preprocessor("assemble", [])
-        return processor.run(Peekerator(lines))[0]
+        peekerator = Peekerator(lines)
+        processor = self._instantiate_preprocessor(peekerator, "assemble", [])
+        return processor.run(peekerator)[0]
 
     def _preprocess(self, peekerator: Peekerator[str]) -> List[str]:
         processor = self.detect_preprocessor(peekerator)
+        self.logger.debug('detected processor: %s', processor.__class__)
         lines = self.lines_to_process(peekerator)
+        self.logger.debug('processor will process: %s', lines)
         return processor.run(Peekerator(lines))
 
     def lines_to_process(self, peekerator: Peekerator[str]) -> List[str]:

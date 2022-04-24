@@ -76,45 +76,57 @@ will produce the regular expression `(?i)a+b|c`.
 We currently only support the ignore case flag `i`.
 
 ### Prefix marker
-A line starting with `##!^` can be used to pass a prefix to the script. The last found prefix comment line overwrites
-all previous prefix comment lines. The resulting expression will be prefixed with the literal contents of the line. For example, the
+A line starting with `##!^` can be used to pass a global prefix to the script. The resulting expression will be prefixed with the literal contents of the line. Multiple prefix lines will be concatenated in order. For example, the
  lines
 ```
 ##!^ \W*\(
+##!^ two
 a+b|c
 d
 ```
-will produce the regular expression `\W*\((?:a+b|c|d)`.
+will produce the regular expression `\W*\(two(?:a+b|c|d)`.
+
+<!-- TODO: fix url -->
+The prefix marker exists for convenience and improved readability. The same can be achieved with the (assemble concat)[#] preprocessor.
 
 ### Suffix marker
 A line starting with `##!$` can be used to pass a suffix to the script. The last found suffix comment line overwrites all previous suffix comment lines. The resulting expression will be suffixed with the literal contents of the line.
 For example, the two lines
 ```
 ##!$ \W*\(
+##!$ two
 a+b|c
 d
 ```
-will produce the regular expression `(?:a+b|c|d)\W*\(`.
+will produce the regular expression `(?:a+b|c|d)\W*\(two`.
+
+<!-- TODO: fix url -->
+The suffix marker exists for convenience and improved readability. The same can be achieved with the (assemble concat)[#] preprocessor.
 
 ### Preprocessor marker
-A line starting with `##!>` is a preprocessor directive. The preprocessor marker can be used to preprocess a single line, a block of lines or the entire file.
+A line starting with `##!>` is a preprocessor directive. The preprocessor marker can be used to preprocess a block of lines.
+A line starting with `##!<` marks the end of the most recent preprocessor.
 
 Processor markers have the following general format: `<marker> <processor name>[ <processor arguments>]`.
 Example: `##!> cmdline unix`.
 The arguments depend on the preprocessor and may be empty.
 
 Preprocessors are defined in the [regexp-assemble.py](regexp-assemble.py) script. Whenever a preprocessor runs, the concerning markers are consumed (not passed on to any subsequently running script), all other markers are left in tact. 
-#### Line preprocessors
-A line preprocessor transforms the line immediately following the preprocessor marker.
 
-Currently, no line preprocessors are defined.
+#### Nesting
+Preprocessors may be nested. This enables complex scenarios, such as assembling a smaller expression to concatenate it to another line of block of lines. For example:
+```python
+##!> assemble concat
+line1
+##!=>
+  ##!> assemble
+ab
+cd
+  ##!<
+##!<
+```
 
-#### Block preprocessors
-A block preprocessor transforms all the lines up to the next block end marker `##!<`. In absence of an end marker, lines will be consumed to the end of file.
-
-There are currently no implementations of block processors (we removed the one we had). We might add new ones in the future though.
-#### File preprocessors
-A file preprocessor transforms all the lines of the file (except for comments).
+There is no practical limit to the nesting depth. Each preprocess block must be ended with the end marker `##!<`, except for the outermost block, where the end marker is optional.
 
 ##### Command line evasion preprocessor
 Processor name: `cmdline`
@@ -131,6 +143,61 @@ The command line evasion preprocessor processes the entire file. Each line is tr
 Lines starting with a single quote `'` are treated as literals and will not be escaped.
 
 The special token `@` will be replaced with the expression `(?:\s|<|>).*` in `unix` mode and `(?:[\s,;]|\.|/|<|>).*` in `windows` mode. This can be used in the context of shell to reduce the number of of false positives for a word by requiring a subsequent token to be present. Example: `diff@`.
+
+
+##### Assemble preprocessor
+Processor name: `assemble`
+
+###### Arguments
+- `concat` (optional): Concatenates multiple assembled expressions.
+
+###### Output
+Single line regular expression, where each line of the input is treated as an alterntion of the regular expression.
+
+With the `concat` option, this processor produces the concatenation of blocks delimited with `##!=>`.
+
+###### Description
+Each line of the input is treated as an alternation of a regular expression, processed into a single line. The resulting regular expression is optimized.
+
+With the `concat` option, this processor produces the concatenation of blocks delimited with `##!=>`.
+The `concat` option supports two special markers, one for output (`##!=>`) and one for input (`##!=<`).
+
+Lines within blocks are treated as alternations, as usual. The `concat` option enables more complex scenarios, such as separating parts of the regular expression in the data file for improved readability. Rule 930100, for example, uses separate rules for periods and slashes and it easier to reason about the differences when they are physically separated. The following example is based on rules from 930100:
+```python
+##!> assemble concat
+##! slash patterns
+\x5c
+##! URI encoded
+%2f
+%5c
+##!=>
+
+##! dot patterns
+\.
+\.%00
+\.%01
+```
+
+The input marker `##!=<` (not to be confused with the output marker `##!=>`) takes an identifier as parameter and associates the associated block with the identifier. No output is produced when using the `##!=<` marker. To concatenate the output of a previously stored block, you pass the identifier to the output marker `##!=>`. Stored blocks remain in storage until the end of the program and are available globally, i.e., in nested blocks, as well as in later blocks outside of the preprocessor block in which the input was stored.
+
+Rule 930100 requires the following concatenation of rules: `<slash rules><dot rules><slash rules>`, where `slash rules` refers to the same expression. The following example produces this sequence by storing the expression for slashes with the identifier `slashes`:
+```python
+##!> assemble concat
+##! slash patterns
+\x5c
+##! URI encoded
+%2f
+%5c
+##!=< slashes
+##!=> slashes
+
+##! dot patterns
+\.
+\.%00
+\.%01
+##!=>
+##!=> slashes
+```
 
 ## Example
 The following is an example of what a data file might contain:
