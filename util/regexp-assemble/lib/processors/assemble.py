@@ -16,11 +16,6 @@ class Assemble(Processor):
     # override
     @classmethod
     def create(cls: T, context: Context, args: list[str]) -> T:
-        # TODO:
-        # - handle prefix / suffix -> what are the cases? alternation, prefix, suffix? generalizeable?
-        # - call preprocess() recursively to support nesting (from inner most to outer most)
-        # - handle data split accross multiple files
-        # - add tests!
         return cls(context)
 
     # override
