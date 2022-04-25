@@ -1,0 +1,41 @@
+##! This is a data file used to generate a regular expression for a CRS rule.
+##! The generation of the regular expression happens with the help of
+##! util/regexp-assemble/regexp-assemble.py.
+##! The ID of the rule in question is part of the file name of this data file.
+##! Read more about the format of this data file and the use of the assembly
+##! script in util/regexp-assemble/README.md.
+##!
+##! Lines starting with `##!` are comments and will be skipped,
+##! empty lines will be ignored completely.
+##! In addition, the quote character `'` at the beginning of a line will
+##! cause the line to be interpreted as literal by the cmdline preprocessor only.
+##!
+##! Five special comments are at your disposal to influence the assembled expression:
+##! - `##!+`: the flag comment
+##! - `##!^`: the prefix comment
+##! - `##!$`: the suffix comment
+##! - `##!>`: the preprocessor comment
+##! - `##!<`: the block preprocessor end comment
+##!
+##! Currently supported preprocessors:
+##! - cmdline [windows|unix] (file scope)
+##! Please refer to util/regexp-assemble/README.md for a full explanation
+
+##!+ i
+
+supplied argument is not a valid MySQL
+Column count doesn't match value count at row
+mysql_fetch_array\(\)
+on MySQL result index
+You have an error in your SQL syntax;
+You have an error in your SQL syntax near
+MySQL server version for the right syntax to use
+\[MySQL\]\[ODBC
+Column count doesn't match
+Table '[^']+' doesn't exist
+SQL syntax.*MySQL
+##! Because of the bug in RE2 (golang), we cannot use {0,n} (a range started at 0), so it was replaced with (?:...{1,n})?
+Warning.{1,10}mysql_(?:[a-z_()]{1,26})?
+valid MySQL result
+MySqlClient\.
+ERROR [0-9]{4} \([a-z0-9]{5}\):
