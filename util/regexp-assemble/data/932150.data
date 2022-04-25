@@ -23,54 +23,12 @@
 
 ##! Word list for rule 932150 (RCE Unix command injection)
 
-##! starting tokens prefix
-##!> assemble prefix
-##! ifconfig
-^
-##! ={ifconfig}
-=
-##!<
-
-##! match possible white space between prefix expressions
-##!^ \s*
-
-##! commands prefix
-##!^ (?:
-##!> assemble prefix
-##! { ifconfig }
-\{
-##! ( ifconfig )
-\s*\(\s*
-##! VARNAME=xyz ifconfig
-\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
-##! ! ifconfig
-!\s*
-##! $ifconfig
-\$
-##!<
-##!^ )*
-
-##! match possible white space between prefix expressions
-##!^ \s*
-
-##! quoting prefix
-##!^ (?:
-##!> assemble prefix
-##! 'ifconfig'
-'
-##! "ifconfig"
-"
-##!<
-##!^ )*
-
-##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
-##!^ (?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
-
-##! we require a trailing space (denoting command parameters) or command
-##! separator character after the command (includes evacion prefix)
-##!$ [\x5c'\"]*(?:\s|;|\||&|<|>)
-
 ##!> cmdline unix
+
+##! Magic prefix (origin unknown)
+##!^ (?:^|=)\s*(?:{|\s*\(\s*|\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+|!\s*|\$)*\s*(?:'|\")*(?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
+
+##!$ [\x5c'\"]*(?:\s|;|\||&|<|>)
 
 bash
 bsdcat

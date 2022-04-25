@@ -32,72 +32,12 @@
 ##!   diff@
 
 ##!+ i
-
-##! starting tokens prefix
-##!> assemble prefix
-##! ;cmd
-;
-##! {cmd
-\{
-##! |cmd
-\|
-##! ||cmd
-\|\|
-##! &cmd
-&
-##! &&cmd
-&&
-##! \ncmd
-\n
-##! \rcmd
-\r
-##! `cmd
-`
-##!<
-
-##! match possible white space between prefix expressions
-##!^ \s*
-
-##! commands prefix
-##!^ (?:
-##!> assemble prefix
-##! (cmd)
-(
-##! ,cmd
-,
-##! @cmd
-@
-##! 'cmd'
-'
-##! "cmd"
-"
-##! spacing+cmd
-\s
-##!<
-##!^ )*
-
-##! paths prefix
-##!^ (?:
-##!> assemble prefix
-##! /path/cmd
-[\w'"\./]+/
-##! C:\Program Files\cmd
-[\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c
-##! \\net\share\dir\cmd
-[\^\.\w '\"/\x5c]*\x5c
-##!<
-##!^ )?[\"\^]*
-
-##! Note: the quoting prefixes are part of the command prefixes, except for ^
-##!       which, for unknown reasons, is not part of the expression
-
-##! extension/switches suffix
-##! cmd.com, cmd.exe, etc.
-##!$ (?:\.[\"\^]*\w+)?
-##! cmd/h
-##!$ \b
-
 ##!> cmdline windows
+
+##! Magic prefix (origin unknown)
+##!^ (?:;|\{|\||\|\||&|&&|\n|\r|`)\s*[\(,@\'\"\s]*(?:[\w'\"\./]+/|[\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c|[\^\.\w '\"/\x5c]*\x5c)?[\"\^]*
+
+##!$ (?:\.[\"\^]*\w+)?\b
 
 7z
 7za
