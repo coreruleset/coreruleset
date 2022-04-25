@@ -8,7 +8,7 @@ from lib.operators.assembler import Assembler
 
 
 class Parser(object):
-    rule_id_regex = re.compile(r"^(\d{6})(?:-(chain\d+))?")
+    rule_id_regex = re.compile(r"^(\d{6})(?:-chain(\d+))?")
     parsers: Mapping[str, MSCParser] = {}
     prefix_to_file_map: Mapping[str, str] = {}
     logger = logging.getLogger()
@@ -66,12 +66,12 @@ class Parser(object):
         self.process_configlines(parser.configlines, file_path, rule_id, chain_offset, regex, func)
 
     def process_configlines(self, configlines, file_path, rule_id, chain_offset, regex, func):
-        for config in configlines:
-            current_chain_offset = 0
-            check_chain_rules = False
+        current_chain_offset = 0
+        check_chain_rules = False
 
+        for config in configlines:
             if config["type"] == "SecRule":
-                if check_chain_rules and "chain" in config["actions"]:
+                if check_chain_rules and "id" not in config["actions"]:
                     current_chain_offset += 1
                     if current_chain_offset == chain_offset:
                         func(
@@ -99,3 +99,4 @@ class Parser(object):
                                 return
                             else:
                                 check_chain_rules = True
+                                break
