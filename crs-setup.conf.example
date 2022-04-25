@@ -320,6 +320,22 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 
 #
+# -- [[ Application Specific Rule Exclusions ]] --------------------------------
+#
+# CRS 3.x contained exclusion packages to tweak the CRS for use with common
+# web applications, lowering the number of false positives.
+#
+# In CRS 4, these are no longer part of the CRS itself, but they are available
+# as "CRS plugins". Some plugins improve support for web applications, and others
+# may bring new functionality. Plugins are not installed by default, but can be
+# downloaded from the plugin registry:
+# https://github.com/coreruleset/plugin-registry
+#
+# For detailed information about using and installing plugins, please see:
+# https://coreruleset.org/docs/configuring/plugins/
+
+
+#
 # -- [[ Anomaly Score Reporting Level ]] ---------------------------------------
 #
 # When a request is blocked due to the anomaly score meeting or exceeding the
