@@ -8,13 +8,15 @@
 == Version 4.0.0 - 2022-06-?? ==
 
 Important changes:
- * Introduce plugin architecture for extending CRS and minimizing attack surface. Application exclusions and less-used functionality have been migrated to plugins. See the plugin repository at https://github.com/coreruleset/plugin-registry (Christian Folini, Max Leske, Andrew Howe) [#2038, #2448, #2404]
+ * Introduce plugin architecture for extending CRS and minimizing attack surface. Application exclusions and less-used functionality have been migrated to plugins. See the plugin repository at https://github.com/coreruleset/plugin-registry (Christian Folini, Max Leske, Jozef Sudolský, Andrew Howe) [#2038, #2448, #2404]
+ * Implement early blocking (Christian Folini) [#1955]
+ * Refactor and rename anomaly scoring variables and paranoia level definition (Simon Studer) [#2417]
+ * Add granular control over reporting levels in 9801xx rules (Simon Studer, Andrew Howe, Christian Folini) [#2482, #2488]
+ * Made all formerly PCRE-only regular expressions compatible with Re2/Hyperscan WAF engines (Max Leske, Felipe Zipitria, Allan Boll, Franziska Bühler) [#1868, #2356, #2425, #2426, #2371, #2372]
  * Publish nightly packages (Felipe Zipitria) [#2207]
  * Drop HTTP/0.9 support to resolve FP (Federico G. Schwindt) [#1966]
 
 New functionality and detections:
- * Add granular control over reporting levels (Andrew Howe, Simon Studer) [#2482, #2488]
- * Implement early blocking (Christian Folini) [#1955]
  * Detect Log4j / Log4Shell (Christian Folini, Max Leske, Andrew Howe) [#2349]
  * Detect Spring4Shell (Christian Folini, Andrea Menin) [#2464]
  * Detect JavaScript prototype pollution (Walter Hop) [#2411]
@@ -65,7 +67,6 @@ New functionality and detections:
  * Add utility to change version numbers (Ervin Hegedus) [#2085]
 
 Improved compatibility:
- * All PCRE-only regular expressions for compatibility with Re2/Hyperscan WAF engines (Max Leske, Felipe Zipitria, Allan Boll, Franziska Bühler) [#1868, #2356, #2425, #2426, #2371, #2372]
  * Update backslashes to \x5c representation for better compatibility with known WAF engines (Andrew Howe, Max Leske) [#2335, #2345, #2375, #2376, #2399, #2400, #2402, #2410, #2420, #2441, #2442, #2454, #2426]
  * Don't cook hex escapes (Max Leske) [#2215]
  * Adapt rule 942440 to work in all ModSecurity versions (Andrew Howe) [#2201]
@@ -124,7 +125,6 @@ Fixes and improvements:
  * Optimize regex in 942440 (Felipe Zipitria) [#2459]
  * Improve performance by removing unnecessary lowercase transformations (Jozef Sudolský) [#2106]
  * change-version: fix typo (Deepshikha Sinha) [#2430]
- * Refactor scoring variables (Simon Studer) [#2417]
  * Renaming tx.blocking_early to tx.early_blocking (Christian Folini) [#2414]
  * Add editorconfig file to keep spacing in good shape (Felipe Zipitria) [#2407]
  * Remove all whitespace at EOL (Felipe Zipitria) [#2405, #2406]
