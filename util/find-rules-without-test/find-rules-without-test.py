@@ -29,7 +29,7 @@ oformat = "native"
 def find_ids(s, test_cases):
     """
         s: the parsed structure
-        test_cases: all avaliable test cases
+        test_cases: all available test cases
     """
     rids = {}
     for i in s:
@@ -41,7 +41,7 @@ def find_ids(s, test_cases):
                     # get the argument of the action
                     rid = int(a['act_arg']) # int
                     srid = a['act_arg']     # string
-                    if (rid%1000) >= 100:   # skip the PL controll rules
+                    if (rid%1000) >= 100:   # skip the PL control rules
                         # also skip these hardcoded rules
                         need_check = True
                         for excl in EXCLUSION_LIST:
