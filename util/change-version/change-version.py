@@ -30,7 +30,7 @@ class FileTransform(object):
                 if d['type'].lower() == "seccomponentsignature":
                     d['arguments'][0]['argument'] = version
 
-                # repace the versions in comments if cversion exists
+                # replace the versions in comments if cversion exists
                 if cversion is not None:
                     if d['type'].lower() == "comment" and self.re_cverpatt.search(d['argument']):
                         d['argument'] = re.sub(self.cverpatt, "ver.%s" % (cversion), d['argument'])
@@ -52,7 +52,7 @@ class FileHandler(object):
                 with open(f) as file:
                     data = file.read()
             except:
-                print("Exception catched - ", sys.exc_info())
+                print("Exception caught - ", sys.exc_info())
                 sys.exit(1)
 
             # build AST from content
@@ -81,7 +81,7 @@ class FileHandler(object):
                     mwriter.output.append("")
                     file.write("\n".join(mwriter.output))
             except:
-                print("Exception catched - ", sys.exc_info())
+                print("Exception caught - ", sys.exc_info())
                 sys.exit(1)
 
 if len(sys.argv) < 4:
