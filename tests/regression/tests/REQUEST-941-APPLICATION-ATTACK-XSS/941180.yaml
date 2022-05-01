@@ -86,3 +86,19 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "941180"
+  - test_title: 941180-6
+    desc: Node-validator deny list keywords, ARGS, issue #2512
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            uri: '/bar'
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: 'arg=...(document.domain)...'
+          output:
+            log_contains: id "941180"
