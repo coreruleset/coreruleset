@@ -1,0 +1,36 @@
+---
+meta:
+  author: "azurit"
+  enabled: true
+  name: "920471.yaml"
+  description: "Content-Type header format checks"
+tests:
+  - test_title: 920470-1
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Content-Type: "application/json;charset=UTF-8;charset=UTF-7"
+              Content-Length: 0
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          output:
+            log_contains: "id \"920471\""
+  - test_title: 920470-2
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            method: POST
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Content-Type: "application/json; charset=UTF-8; action=test; boundary=test; component=test; start=test; start-info=test; type=test; version=test"
+              Content-Length: 0
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          output:
+            no_log_contains: "id \"920471\""
