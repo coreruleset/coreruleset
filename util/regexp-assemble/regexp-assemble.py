@@ -208,7 +208,7 @@ class RuleNameParser(argparse.Action):
 
 
 def create_context() -> Context:
-    script_directory = os.path.dirname(__file__)
+    script_directory = os.path.dirname(os.path.abspath(__file__))
     root_directory = os.path.dirname(os.path.dirname(script_directory))
     return Context(root_directory)
 
