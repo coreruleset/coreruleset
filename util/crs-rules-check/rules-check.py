@@ -141,7 +141,7 @@ class Check(object):
         for d in self.data:
             if "actions" in d:
                 aidx = 0        # stores the index of current action
-                max_order = 0   # maximum position of readed actions
+                max_order = 0   # maximum position of read actions
                 if self.chained == False:
                     self.current_ruleid = 0
                 else:
