@@ -16,32 +16,31 @@ class Parser(object):
     def __init__(self, context: Context):
         self.context = context
 
-    def perform_compare_or_update(self, rule_id: str = None, func=None):
+    def perform_compare_or_update(self, process_all: bool, func=None):
         files = os.listdir(self.context.data_files_directory)
         files.sort()
         assembler = Assembler(self.context)
-        if rule_id:
-            for file in files:
-                if rule_id in file:
-                    self.process_regex(
-                        os.path.join(self.context.data_files_directory, file),
-                        assembler,
-                        func,
-                    )
-                    break
-        else:
-            for file in files:
+        for file in files:
+            if process_all:
+                match = self.rule_id_regex.match(os.path.basename(file))
+                rule_id = match.group(1)
+                chain_offset = int(match.group(2)) if match.group(2) else 0
+            else:
+                rule_id = self.context.single_rule_id
+                chain_offset = self.context.single_chain_offset
+
+            if rule_id in file and ('chain' not in file or f'chain{chain_offset}' in file):
                 self.process_regex(
+                    rule_id,
+                    chain_offset,
                     os.path.join(self.context.data_files_directory, file),
                     assembler,
                     func,
                 )
+                if not process_all:
+                    break
 
-    def process_regex(self, file_path: str, assembler: Assembler, func):
-        match = self.rule_id_regex.match(os.path.basename(file_path))
-        rule_id = match.group(1)
-        chain_offset = int(match.group(2)) if match.group(2) else 0
-
+    def process_regex(self, rule_id: str, chain_offset: int, file_path: str, assembler: Assembler, func):
         with open(file_path, "rt") as file:
             regex = assembler.run(file)
 

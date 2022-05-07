@@ -143,19 +143,19 @@ def handle_generate(namespace: argparse.Namespace):
 
 
 def handle_update(namespace: argparse.Namespace):
-    updater = Updater(create_context())
+    updater = Updater(create_context(namespace.rule_id))
     if namespace.rule_id:
-        updater.run(namespace.rule_id)
+        updater.run(False)
     elif namespace.all:
-        updater.run_all()
+        updater.run(True)
 
 
 def handle_compare(namespace: argparse.Namespace):
-    comparer = Comparer(create_context())
+    comparer = Comparer(create_context(namespace))
     if namespace.rule_id:
-        comparer.run(namespace.rule_id)
+        comparer.run(False)
     elif namespace.all:
-        comparer.run_all()
+        comparer.run(True)
 
 
 class RuleNameParser(argparse.Action):
@@ -200,17 +200,18 @@ class RuleNameParser(argparse.Action):
                 raise argparse.ArgumentError(self, "Either supply rule ID or use --all")
             return
 
-        match = re.fullmatch(r"(\d{6})[\w\-_.]*(?:\.data)?", values)
+        match = re.fullmatch(r"(\d{6})(?:-chain(\d+))?(?:\.data)?", values)
         if not match:
             raise argparse.ArgumentError(self, f"Failed to identify rule from argument {values}")
         setattr(namespace, self.dest, match.group(1))
+        setattr(namespace, "chain_offset", int(match.group(2) if match.group(2) else 0))
         setattr(namespace, "fileName", values + ".data")
 
 
-def create_context() -> Context:
+def create_context(namespace: argparse.Namespace) -> Context:
     script_directory = os.path.dirname(os.path.abspath(__file__))
     root_directory = os.path.dirname(os.path.dirname(script_directory))
-    return Context(root_directory)
+    return Context(root_directory, namespace)
 
 
 def setup_logger(namespace: argparse.Namespace):

@@ -5,11 +5,8 @@ from lib.operators.parser import Parser
 
 
 class Comparer(Parser):
-    def run(self, rule_id: str):
-        self.perform_compare_or_update(rule_id, self.compare_regex)
-
-    def run_all(self):
-        self.perform_compare_or_update(None, self.compare_regex)
+    def run(self, process_all: bool):
+        self.perform_compare_or_update(process_all, self.compare_regex)
 
     def compare_regex(
         self,
