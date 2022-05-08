@@ -107,7 +107,7 @@ The suffix marker exists for convenience and improved readability. The same can 
 A line starting with `##!>` is a preprocessor directive. The preprocessor marker can be used to preprocess a block of lines.
 A line starting with `##!<` marks the end of the most recent preprocessor.
 
-Processor markers have the following general format: `<marker> <processor name>[ <processor arguments>]`.
+Processor markers have the following general format: `<marker> <processor name>[<processor arguments>]`.
 Example: `##!> cmdline unix`.
 The arguments depend on the preprocessor and may be empty.
 
@@ -155,7 +155,7 @@ This preprocessor does not accept any arguments.
 Single line regular expression, where each line of the input is treated as an alternation of the regular expression. Input can also be concatenated by using the two marker comments for input `##!=<` and `##!=>` output.
 
 ###### Description
-Each line of the input is treated as an alternation of a regular expression, processed into a single line. The resulting regular expression is not optimized (in the strict sense) but reduced (i.e., common elements may be put into character classes or groups).
+Each line of the input is treated as an alternation of a regular expression, processed into a single line. The resulting regular expression is not optimized (in the strict sense) but reduced (i.e., common elements may be put into character classes or groups). The ordering of alternations in the output can differ from the order in the file (ordering alternations by length is a simple performance optimization).
 
 This processor can also produce the concatenation of blocks delimited with `##!=>`. It supports two special markers, one for output (`##!=>`) and one for input (`##!=<`).
 
