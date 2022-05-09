@@ -87,6 +87,8 @@ class Parser(object):
 
                     for action in config["actions"]:
                         if action["act_name"] == "id" and action["act_arg"] == rule_id:
+                            if config["operator"] != "@rx":
+                                raise Warning(f"Rule {rule_id} does not use the @rx operator, but {config['operator']}")
                             if chain_offset == 0:
                                 func(
                                     rule_id,
