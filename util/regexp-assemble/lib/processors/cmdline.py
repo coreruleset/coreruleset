@@ -22,37 +22,42 @@
 from typing import TypeVar, List
 
 from lib.processors.processor import Processor
+from lib.context import Context
 
-T = TypeVar("T", bound="CmdLine")
+T = TypeVar('T', bound='CmdLine')
 
 
 class CmdLine(Processor):
-    lines: List[bytes] = []
+    def __init__(self, context: Context, evasion_pattern: str, suffix_evasion_pattern: str):
+        super().__init__(context)
 
-    def __init__(self, evasion_pattern, suffix_evasion_pattern):
         self.evasion_pattern = evasion_pattern
         self.suffix_evasion_pattern = suffix_evasion_pattern
 
     # override
     @classmethod
-    def create(cls: T, type: str) -> T:
-        if type == "unix":
-            return CmdLineUnix()
-        elif type == "windows":
-            return CmdLineWindows()
+    def create(cls: T, context: Context, args: List[str]) -> T:
+        if len(args) < 1:
+            raise ValueError('No type defined for command line processor, expected `unix` or `windows`')
+
+        type = args[0]
+        if type == 'unix':
+            return CmdLineUnix(context)
+        elif type == 'windows':
+            return CmdLineWindows(context)
         else:
-            raise ValueError(f"No command line processor of type {type} defined")
+            raise ValueError(f'No command line processor of type {type} defined')
 
     # override
     def process_line(self, line: str):
-        if line == "":
+        if line == '':
             return
 
         processed = self.regexp_str(line)
         self.lines.append(processed)
 
-        self.logger.debug("cmdline in:  %s", line)
-        self.logger.debug("cmdline out: %s", processed)
+        self.logger.debug('cmdline in:  %s', line)
+        self.logger.debug('cmdline out: %s', processed)
 
     # overrride
     def complete(self) -> List[bytes]:
@@ -63,7 +68,7 @@ class CmdLine(Processor):
 
     # Convert a single line to regexp format, and insert anti-cmdline
     # evasions between characters.
-    def regexp_str(self, input):
+    def regexp_str(self, input) -> str:
         # By convention, if the line starts with ' char, copy the rest
         # verbatim.
         if input[0] == "'":
@@ -71,7 +76,7 @@ class CmdLine(Processor):
         elif self.comment_regex.match(input) is not None:
             return input
 
-        result = ""
+        result = ''
         for i, char in enumerate(input):
             if i > 0:
                 result += self.evasion_pattern
@@ -81,33 +86,35 @@ class CmdLine(Processor):
 
     # Ensure that some special characters are escaped
     def regexp_char(self, char):
-        char = str.replace(char, ".", "\.")
-        char = str.replace(char, "-", "\-")
-        if char == "@":
-            char = str.replace(char, "@", self.suffix_evasion_pattern)
+        char = str.replace(char, '.', '\.')
+        char = str.replace(char, '-', '\-')
+        if char == '@':
+            char = str.replace(char, '@', self.suffix_evasion_pattern)
 
         # Ensure multiple spaces are matched
-        return str.replace(char, " ", "\s+")
+        return str.replace(char, ' ', '\s+')
 
 
 class CmdLineUnix(CmdLine):
-    def __init__(self):
+    def __init__(self, context: Context):
         super().__init__(
+            context,
             # Insert these sequences between characters to prevent evasion.
             # This emulates the relevant parts of t:cmdLine.
-            r"""[\x5c'\"]*""",
+            r'''[\x5c'\"]*''',
             # Unix: "cat foo", "cat<foo", "cat>foo"
-            r"""(?:\s|<|>).*""",
+            r'''(?:\s|<|>).*''',
         )
 
 
 class CmdLineWindows(CmdLine):
-    def __init__(self):
+    def __init__(self, context: Context):
         super().__init__(
+            context,
             # Insert these sequences between characters to prevent evasion.
             # This emulates the relevant parts of t:cmdLine.
-            r"""[\"\^]*""",
+            r'''[\"\^]*''',
             # Windows: "more foo", "more,foo", "more;foo", "more.com", "more/e",
             # "more<foo", "more>foo"
-            r"""(?:[\s,;]|\.|/|<|>).*""",
+            r'''(?:[\s,;]|\.|/|<|>).*''',
         )
