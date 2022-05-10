@@ -124,7 +124,7 @@ def build_compare_args_parser(subparsers: S):
 
 
 def handle_generate(namespace: argparse.Namespace):
-    context = create_context()
+    context = create_context(namespace)
     assembler = Assembler(context)
 
     if namespace.rule_id:
@@ -143,7 +143,7 @@ def handle_generate(namespace: argparse.Namespace):
 
 
 def handle_update(namespace: argparse.Namespace):
-    updater = Updater(create_context(namespace.rule_id))
+    updater = Updater(create_context(namespace))
     if namespace.rule_id:
         updater.run(False)
     elif namespace.all:

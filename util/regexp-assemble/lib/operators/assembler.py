@@ -20,7 +20,7 @@ SIMPLE_COMMENT_REGEX = re.compile(rf'{COMMENT_REGEX_PREFIX}[^{SPECIAL_COMMENT_MA
 
 class NestingError(Exception):
     def __init__(self, line: int, depth: int):
-        super().__init__()
+        super().__init__(f"Nesting error on line {line}, nesting level {depth}")
 
         self.line = line
         self.depth = depth
