@@ -12,12 +12,79 @@
 ##!   diff@
 
 ##!+ i
-##!> cmdline windows
 
-##! Magic prefix (origin unknown)
-##!^ (?:;|\{|\||\|\||&|&&|\n|\r|`)\s*[\(,@\'\"\s]*(?:[\w'\"\./]+/|[\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c|[\^\.\w '\"/\x5c]*\x5c)?[\"\^]*
+##! Note: the quoting prefixes are part of the command prefixes, except for ^
+##!       which, for unknown reasons, is not part of the expression
 
-##!$ (?:\.[\"\^]*\w+)?\b
+##! extension/switches suffix
+##! cmd.com, cmd.exe, etc.
+##!$ (?:\.[\"\^]*\w+)?
+##! cmd/h
+##!$ \b
+
+##! starting tokens prefix
+##!> assemble
+##! ;cmd
+;
+##! {cmd
+\{
+##! |cmd
+\|
+##! ||cmd
+\|\|
+##! &cmd
+&
+##! &&cmd
+&&
+##! \ncmd
+\n
+##! \rcmd
+\r
+##! `cmd
+`
+##!=>
+
+##! match possible white space between prefix expressions
+\s*
+##!=>
+
+##! commands prefix
+(?:
+##!=>
+
+##! (cmd)
+(
+##! ,cmd
+,
+##! @cmd
+@
+##! 'cmd'
+'
+##! "cmd"
+\"
+##! spacing+cmd
+\s
+##!=>
+
+)*
+##!=>
+
+##! paths prefix
+(?:
+##!=>
+
+##! /path/cmd
+[\w'\"\./]+/
+##! C:\Program Files\cmd
+[\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c
+##! \\net\share\dir\cmd
+[\^\.\w '\"/\x5c]*\x5c
+##!=>
+
+)?[\"\^]*
+##!=>
+
+  ##!> cmdline windows
 
 7z
 7za
@@ -168,3 +235,4 @@ nmap
 nslookup
 ntbackup
 ntrights
+  ##!<
