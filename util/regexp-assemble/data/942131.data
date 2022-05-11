@@ -8,18 +8,23 @@
 ##! Lines starting with `##!` are comments and will be skipped,
 ##! empty lines will be ignored completely.
 ##! In addition, the quote character `'` at the beginning of a line will
-##! cause the line to be interpreted as literal by the cmdline preprocessor only.
+##! cause the line to be interpreted literally by the cmdline preprocessor only.
 ##!
-##! Five special comments are at your disposal to influence the assembled expression:
+##! Seven special comments are at your disposal to influence the assembly of the
+##! expression:
 ##! - `##!+`: the flag comment
 ##! - `##!^`: the prefix comment
 ##! - `##!$`: the suffix comment
 ##! - `##!>`: the preprocessor comment
-##! - `##!<`: the block preprocessor end comment
+##! - `##!<`: the preprocessor end comment
+##! - `##!=>`: the concatenation output comment
+##! - `##!=<`: the concatenation input comment
 ##!
 ##! Currently supported preprocessors:
-##! - cmdline [windows|unix] (file scope)
-##! Please refer to util/regexp-assemble/README.md for a full explanation
+##! - assemble
+##! - cmdline [windows|unix]
+##!
+##! Please refer to util/regexp-assemble/README.md for a full explanation.
 
 
 ##! General comments:
