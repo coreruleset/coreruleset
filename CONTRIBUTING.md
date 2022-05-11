@@ -79,6 +79,14 @@ chain
 skip
 skipAfter
 ```
+- Rule without explicit operator isn't allowed (this will be interpreted as `@rx`). You should write:
+```
+SecRule ARGS "@rx foo" "id:1,phase:1,t:none,pass"
+```
+instead of
+```
+SecRule ARGS "foo" "id:1,phase:1,t:none,pass"
+```
 
 ## Variable Naming Conventions
 
