@@ -31,10 +31,87 @@
 ##!
 ##!   diff@
 
-##!> cmdline unix
-##!^ (?:;|\{|\||\|\||&|&&|\n|\r|\$\(|\$\(\(|`|\${|<\(|>\(|\(\s*\))\s*(?:{|\s*\(\s*|\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+|!\s*|\$)*\s*(?:'|\")*(?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
-
 ##!$ \b
+
+##! starting tokens prefix
+##!> assemble
+##! ;ifconfig
+;
+##! {ifconfig}
+\{
+##! |ifconfig
+\|
+##! ||ifconfig
+\|\|
+##! &ifconfig
+&
+##! & &ifconfig
+&&
+##! ;\nifconfig 
+\n
+##! ;\rifconfig
+\r
+##! $(ifconfig)
+\$\(
+##! $((ifconfig))
+$\(\(
+##! `ifconfig`
+`
+##! ${ifconfig}
+\${
+##! <( ifconfig )
+<\(
+##! >( ifconfig )
+>\(
+##! a() ( ifconfig; ); a	
+\(\s*\)
+##!=>
+
+##! match possible white space between prefix expressions
+\s*
+##!=> 
+
+##! commands prefix
+(?:
+##!=>
+
+##! { ifconfig }
+\{
+##! ( ifconfig )
+\s*\(\s*
+##! VARNAME=xyz ifconfig
+\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
+##! ! ifconfig
+!\s*
+##! $ifconfig
+\$
+##!=>
+
+)*
+##!=>
+
+##! match possible white space between prefix expressions
+\s*
+##!=>
+
+##! quoting prefix
+(?:
+##!=>
+
+##! 'ifconfig'
+'
+##! "ifconfig"
+\"
+##!=>
+
+)*
+##!=>
+
+##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
+(?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
+##!=>
+
+  ##!> cmdline unix
 
 7z
 7za
@@ -203,3 +280,4 @@ mailx@
 mkdir@
 mlocate
 more@
+  ##!<
