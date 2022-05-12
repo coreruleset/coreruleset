@@ -81,7 +81,7 @@ skipAfter
 ```
 - Rule without explicit operator isn't allowed (ModSecurity defaults to `@rx`). You should write:
 ```
-SecRule ARGS "@rx foo" "id:1,phase:1,t:none,pass"
+SecRule ARGS "@rx foo" "id:1,phase:1,pass,t:none"
 ```
 instead of
 ```
