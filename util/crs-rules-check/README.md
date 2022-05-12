@@ -28,7 +28,7 @@ After it found the set, it starts a loop: open every file, and makes these steps
   * try to parse the structure - this is a syntax check
     **note**: this script is a bit more strict than mod_security. There are some cases, where mod_security allows the syntax, but [msc_pyparser](https://github.com/digitalwave/msc_pyparser/) not.
   * runs a case sensitive format of operators, actions, transformations and ctl methods
-    eg. `@beginsWith` is allowed, `@beginswith` is not. In this step, the script also checks the existence of operator - empty (implicit) operator is not allowed.
+    eg. `@beginsWith` is allowed, `@beginswith` is not. In this step, the script also ensures that an operator is present.
   * check the order of actions - [see the wiki](https://github.com/coreruleset/coreruleset/wiki/Order-of-ModSecurity-Actions-in-CRS-rules)
   * CRS has a good reference for [indentation](https://github.com/coreruleset/coreruleset/blob/v3.4/dev/CONTRIBUTING.md#general-formatting-guidelines-for-rules-contributions) and other formatting. `msc_pyparser` follows these rules when it creates the config file(s) from parsed structure(s). After the re-build is done, it runs a compare between the original file and the built one with help of `difflib`. If there are any mismatch, it shows that.
   **Note**, that `difflib` is a part of the standard Python library, you don't need to install it.
