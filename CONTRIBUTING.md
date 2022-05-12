@@ -79,7 +79,7 @@ chain
 skip
 skipAfter
 ```
-- Rule without explicit operator isn't allowed (ModSecurity defaults to `@rx`). You should write:
+- Rule operators must always be explicitly specified. Although ModSecurity defaults to using the `@rx` operator, for clarity `@rx` should always be explicitly specified when used. For example, write:
 ```
 SecRule ARGS "@rx foo" "id:1,phase:1,pass,t:none"
 ```
