@@ -85,7 +85,7 @@ SecRule ARGS "@rx foo" "id:1,phase:1,pass,t:none"
 ```
 instead of
 ```
-SecRule ARGS "foo" "id:1,phase:1,t:none,pass"
+SecRule ARGS "foo" "id:1,phase:1,pass,t:none"
 ```
 
 ## Variable Naming Conventions
