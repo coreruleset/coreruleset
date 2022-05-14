@@ -40,6 +40,10 @@
 ##! the value for “9” (57) to “v” (118); if the result is greater than 127, then
 ##! subtract 128—hint, the final result should be 47.
 
+##!+ i
+
+##! slash patterns
+##!> assemble
 \x5c
 ##! URI encoded
 %2f
@@ -82,3 +86,44 @@
 %u002f
 %1u
 /
+##!=< slashes
+##!=> slashes
+
+##! dot patterns
+##! These use the same techniques as for slashes to evade the detection of '.'
+\.
+\.%00
+\.%01
+\.\?
+\?\.
+\?
+%2e
+0x2e
+%c0\.
+%252e
+%c0%2e
+%c0%ae
+%c0%5e
+%c0%ee
+%c0%fe
+%uff0e
+%%32%%65
+%e0%80%ae
+%25c0%25ae
+%f0%80%80%ae
+%f8%80%80%80%ae
+%fc%80%80%80%80%ae
+%2%45
+%u002e
+%uff0e
+%u2024
+%%32%45
+%%32E
+%c0%6e
+##!=>
+
+##! Append {2,3} to the result, as we're looking for two or three dots (e.g. /../, /.../)
+{2,3}
+##!=>
+
+##!=> slashes
