@@ -15,7 +15,9 @@ class Context(object):
             self.regexp_assemble_directory, "lib", "regexp-assemble.pl"
         )
         self.single_rule_id = namespace.rule_id if namespace else None
-        self.single_chain_offset = namespace.chain_offset if namespace else None
+        self.single_chain_offset = None
+        if namespace and "chain_offset" in namespace:
+            self.single_chain_offset = namespace.chain_offset
 
         assert (
             os.path.exists(self.rules_directory)

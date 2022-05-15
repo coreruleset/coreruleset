@@ -19,7 +19,6 @@ class Parser(object):
     def perform_compare_or_update(self, process_all: bool, func=None):
         files = os.listdir(self.context.data_files_directory)
         files.sort()
-        assembler = Assembler(self.context)
         for file in files:
             if process_all:
                 match = self.rule_id_regex.match(os.path.basename(file))
@@ -34,17 +33,18 @@ class Parser(object):
                     rule_id,
                     chain_offset,
                     os.path.join(self.context.data_files_directory, file),
-                    assembler,
+                    Assembler(self.context),
                     func,
                 )
                 if not process_all:
                     break
 
     def process_regex(self, rule_id: str, chain_offset: int, file_path: str, assembler: Assembler, func):
+        self.logger.info("Processing %s, chain offset %s", rule_id, chain_offset)
+
         with open(file_path, "rt") as file:
             regex = assembler.run(file)
 
-        self.logger.info("Processing %s, chain offset %s", rule_id, chain_offset)
         rule_prefix = rule_id[:3]
         if rule_prefix in self.parsers:
             parser = self.parsers[rule_prefix]
@@ -73,6 +73,9 @@ class Parser(object):
                 if check_chain_rules and "id" not in config["actions"]:
                     current_chain_offset += 1
                     if current_chain_offset == chain_offset:
+                        if config["operator"] != "@rx":
+                            raise Warning(f"Rule {rule_id} does not use the @rx operator, but {config['operator']}")
+
                         func(
                             rule_id,
                             regex,
@@ -87,9 +90,10 @@ class Parser(object):
 
                     for action in config["actions"]:
                         if action["act_name"] == "id" and action["act_arg"] == rule_id:
-                            if config["operator"] != "@rx":
-                                raise Warning(f"Rule {rule_id} does not use the @rx operator, but {config['operator']}")
                             if chain_offset == 0:
+                                if config["operator"] != "@rx":
+                                    raise Warning(f"Rule {rule_id} does not use the @rx operator, but {config['operator']}")
+
                                 func(
                                     rule_id,
                                     regex,
