@@ -5,11 +5,8 @@ from lib.operators.parser import Parser
 
 
 class Comparer(Parser):
-    def run(self, rule_id: str):
-        self.perform_compare_or_update(rule_id, self.compare_regex)
-
-    def run_all(self):
-        self.perform_compare_or_update(None, self.compare_regex)
+    def run(self, process_all: bool):
+        self.perform_compare_or_update(process_all, self.compare_regex)
 
     def compare_regex(
         self,
@@ -45,19 +42,17 @@ class Comparer(Parser):
                 if current_chunk:
                     sys.stdout.write("\ncurrent:  ")
                     sys.stdout.write(current_chunk.rjust(len(current_chunk) + 5))
-                    sys.stdout.write(
-                        f"({int(index / 50) + 1} / {ceil(len(current_regex) / 50)})".rjust(
-                            65 - len(current_chunk)
-                        )
-                    )
+                    counter = f"({int(index / 50) + 1} / {ceil(len(current_regex) / 50)})"
+                    if generated_chunk is None or current_chunk != generated_chunk:
+                        counter = "~ " + counter
+                    sys.stdout.write(counter.rjust(65 - len(current_chunk)))
                 if generated_chunk:
                     sys.stdout.write("\ngenerated: ")
                     sys.stdout.write(generated_chunk.rjust(len(generated_chunk) + 4))
-                    sys.stdout.write(
-                        f"({int(index / 50) + 1} / {ceil(len(current_regex) / 50)})".rjust(
-                            65 - len(generated_chunk)
-                        )
-                    )
+                    counter = f"({int(index / 50) + 1} / {ceil(len(current_regex) / 50)})"
+                    if current_chunk is None or current_chunk != generated_chunk:
+                        counter = "~ " + counter
+                    sys.stdout.write(counter.rjust(65 - len(generated_chunk)))
                     sys.stdout.write("\n")
                 if print_first_diff:
                     sys.stdout.write("===========\n")

@@ -5,12 +5,9 @@ from lib.operators.parser import Parser
 
 
 class Updater(Parser):
-    def run(self, rule_id: str):
-        self.perform_compare_or_update(rule_id, self.update_regex)
+    def run(self, process_all: bool):
+        self.perform_compare_or_update(process_all, self.update_regex)
         self.write_updates()
-
-    def run_all(self):
-        self.perform_compare_or_update(None, self.update_regex)
 
     def update_regex(
         self,

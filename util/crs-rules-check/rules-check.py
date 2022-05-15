@@ -132,6 +132,10 @@ class Check(object):
                 # check the operator case sensitive format
                 if self.operators[self.operatorsl.index(op.lower())] != op:
                     self.store_error("Operator case mismatch: %s" % d['operator'])
+            else:
+                if d['type'].lower() == "secrule":
+                    self.curr_lineno = d['lineno']
+                    self.store_error("Empty operator isn't allowed")
             if self.current_ruleid > 0:
                 for e in self.caseerror:
                     e['ruleid'] = self.current_ruleid

@@ -28,7 +28,7 @@ After it found the set, it starts a loop: open every file, and makes these steps
   * try to parse the structure - this is a syntax check
     **note**: this script is a bit more strict than mod_security. There are some cases, where mod_security allows the syntax, but [msc_pyparser](https://github.com/digitalwave/msc_pyparser/) not.
   * runs a case sensitive format of operators, actions, transformations and ctl methods
-    eg. `@beginsWith` is allowed, `@beginswith` is not.
+    eg. `@beginsWith` is allowed, `@beginswith` is not. In this step, the script also ensures that an operator is present.
   * check the order of actions - [see the wiki](https://github.com/coreruleset/coreruleset/wiki/Order-of-ModSecurity-Actions-in-CRS-rules)
   * CRS has a good reference for [indentation](https://github.com/coreruleset/coreruleset/blob/v3.4/dev/CONTRIBUTING.md#general-formatting-guidelines-for-rules-contributions) and other formatting. `msc_pyparser` follows these rules when it creates the config file(s) from parsed structure(s). After the re-build is done, it runs a compare between the original file and the built one with help of `difflib`. If there are any mismatch, it shows that.
   **Note**, that `difflib` is a part of the standard Python library, you don't need to install it.
@@ -186,4 +186,29 @@ Config file: examples/test4.conf
      phase:1,\
      pass,\
      nolog"
+```
+
+### Test 5 - empty (implicit @rx) operator
+
+```
+SecRule REQUEST_URI "index.php" \
+    "phase:1,\
+    id:1,\
+    deny,\
+    t:none,\
+    nolog"
+```
+
+In this rule, the operator is missing. As [ModSecurity documentation](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-(v2.x)#rx) says "the rules that do not explicitly specify an operator default to @rx". In CRS, this isn't allowed.
+
+```
+$ ./rules-check.py -r examples/test5.conf
+Config file: examples/test5.conf
+ Parsing ok.
+ Ignore case check found error(s)
+  file=examples/test5.conf, line=1, endLine=1, title=Case check: Empty operator isn't allowed (rule: 1)
+ Action order check ok.
+ Indentation check ok.
+$ echo $?
+1
 ```

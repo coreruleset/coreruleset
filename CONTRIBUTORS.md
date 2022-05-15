@@ -18,6 +18,7 @@
 - [Chaim Sanders](https://github.com/csanders-git)
 - [Federico G. Schwindt](https://github.com/fgsch)
 - [Manuel Spartan](https://github.com/spartantri)
+- [Simon Studer](https://github.com/studersi)
 - [Jozef Sudolský](https://github.com/azurit)
 
 ## Contributors:
@@ -88,7 +89,6 @@
 - Emile-Hugo Spir
 - [somechris](https://github.com/somechris)
 - [Marc Stern](https://github.com/marcstern)
-- [Simon Studer](https://github.com/studersi)
 - [supplient](https://github.com/supplient)
 - [Mike Taylor](https://github.com/miketaylr)
 - [ThanhPT](https://github.com/nevol1708)
