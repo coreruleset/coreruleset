@@ -1,4 +1,4 @@
-from typing import TypeVar
+from typing import TypeVar, List
 
 import re
 
@@ -21,7 +21,7 @@ class Template(Processor):
 
     # override
     @classmethod
-    def create(cls: T, context: Context, args: list[str]) -> T:
+    def create(cls: T, context: Context, args: List[str]) -> T:
         if len(args) < 1:
             raise ValueError('No identifier supplied to template processor')
         if len(args) < 2:
@@ -48,6 +48,6 @@ class Template(Processor):
             self.lines.append(line)
 
     # override
-    def complete(self) -> list[str]:
+    def complete(self) -> List[str]:
         self.logger.debug('Completing template processor')
         return self.lines
