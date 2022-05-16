@@ -39,3 +39,20 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942340"
+  - test_title: 942340-3
+    desc: "basic SQL authentication bypass attempts 3/3"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            # 'except values (1,2)
+            uri: "/?var='except%20values(1%2C2)"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942340"
