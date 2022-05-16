@@ -27,5 +27,5 @@ class Processor(ABC):
         pass
 
     @abstractmethod
-    def complete(self) -> list[str]:
+    def complete(self) -> List[str]:
         pass

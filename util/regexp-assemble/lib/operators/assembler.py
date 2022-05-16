@@ -1,5 +1,4 @@
-from typing import Iterable, TextIO, List, TypeVar, Generic
-from collections.abc import Generator, Iterator
+from typing import Iterable, TextIO, List, TypeVar, Generic, Generator, Iterator
 
 import re, logging, sys
 
