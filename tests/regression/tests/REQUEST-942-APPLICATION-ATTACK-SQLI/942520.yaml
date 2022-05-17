@@ -1,12 +1,12 @@
 ---
 meta:
   author: "terjanq"
-  description: None
+  description: "Detects basic SQL authentication bypass attempts 4/4"
   enabled: true
   name: 942520.yaml
 tests:
   - test_title: 942520-1
-    desc: "Detects basic SQL authentication bypass attempts 4/4"
+    desc: "Detects the most basic authentication bypass with 'or'"
     stages:
       - stage:
           input:
@@ -22,7 +22,7 @@ tests:
           output:
             log_contains: id "942520"
   - test_title: 942520-2
-    desc: "Detects basic SQLite authentication bypass attempts 4/4"
+    desc: "Detects basic SQLite authentication bypass with 'or?'"
     stages:
       - stage:
           input:
@@ -38,7 +38,7 @@ tests:
           output:
             log_contains: id "942520"
   - test_title: 942520-3
-    desc: "(false positive) Detects basic SQL authentication bypass attempts 4/4"
+    desc: "(false positive) for detecting or-based authentication bypass"
     stages:
       - stage:
           input:
