@@ -1,12 +1,12 @@
 ---
 meta:
   author: "terjanq"
-  description: None
+  description: "Restrict multiple charsets inside the content type header"
   enabled: true
   name: "920530.yaml"
 tests:
   - test_title: 920530-1
-    desc: "Multiple charsets inside content type header"
+    desc: "A valid request with a single charset"
     stages:
       - stage:
           input:
@@ -22,7 +22,7 @@ tests:
           output:
             no_log_contains: "id \"920530\""
   - test_title: 920530-2
-    desc: "Multiple charsets inside content type header"
+    desc: "Bypass attempt with two charsets"
     stages:
       - stage:
           input:
@@ -38,7 +38,7 @@ tests:
           output:
             log_contains: "id \"920530\""
   - test_title: 920530-3
-    desc: "Multiple charsets inside content type header"
+    desc: "Bypass attempt with hiding the charset inside a field"
     stages:
       - stage:
           input:
@@ -54,7 +54,7 @@ tests:
           output:
             log_contains: "id \"920530\""
   - test_title: 920530-4
-    desc: "Multiple charsets inside content type header"
+    desc: "Bypass attempt with uppercase CHARSET"
     stages:
       - stage:
           input:
