@@ -67,7 +67,7 @@ class Assemble(Processor):
         if errs:
             self.logger.error("Failed to assemble regex")
             self.logger.error("Stderr: %s", errs)
-            sys.exit(1)
+            # sys.exit(1)
 
         self.lines = []
 
