@@ -133,3 +133,35 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
+  - test_title: 934100-8
+    desc: ssti test 1
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?foo=%23%7Bprocess.binding%28foo%29.spawn%28foo2%29%7D
+            version: HTTP/1.0
+          output:
+            log_contains: id "934100"
+  - test_title: 934100-9
+    desc: ssti test 2
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?foo=%23%7Brequire.main.constructor._load%28foo%29.readdirSync%28foo2%29%7D
+            version: HTTP/1.0
+          output:
+            log_contains: id "934100"
