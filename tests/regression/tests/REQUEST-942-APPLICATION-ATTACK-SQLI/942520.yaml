@@ -165,3 +165,36 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
+  - test_title: 942520-11
+    desc: "Detects basic SQL auth bypass and-based"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var=user'and%20id%20is%20not?--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-12
+    desc: "(false positive) Detects Detects basic SQL auth bypass and-based"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var=it%20is%20your%20parents'%20and%20yours"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+
