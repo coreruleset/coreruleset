@@ -300,7 +300,7 @@ tests:
             port: 80
             uri: /?code=this%20is%20a%20'dog'%20(not%20a%20cat).
           output:
-            log_contains: id "933211"
+            no_log_contains: id "933211"
   - test_title: 933211-22
     desc: Block function call bypass '(sy.(st).em)(@id)' (without trailing semi-colon)
     stages:
