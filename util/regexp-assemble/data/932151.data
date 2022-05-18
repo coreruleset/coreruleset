@@ -23,9 +23,13 @@
 
 ##! RegEx list for rule 932151 (RCE Unix command injection)
 
+##! Make RegEx case-insensitive
+##!^ (?i)
+
 ##! Prefix with anchor since payloads are directly injected
 ##!^ ^
 
 \w+`.*`\w*
 \w+[$<>]\(.*\)\w*
 find\s+(?:--?[\w]|\.\s|\.\.\/)
+ln\s+(?:-[Fhfinsv]|\/[\w-]+|[\w][\w-]*\s+(?:[\w-]+|\/[\w-]+))
