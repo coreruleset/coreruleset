@@ -38,7 +38,7 @@ tests:
           output:
             log_contains: id "942520"
   - test_title: 942520-3
-    desc: "(false positive) for detecting or-based authentication bypass"
+    desc: "(false positive) Detecting or-based authentication bypass"
     stages:
       - stage:
           input:
@@ -50,6 +50,70 @@ tests:
             method: POST
             port: 80
             data: "var=is%20this%20your%20parents'%20or%20yours?"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-4
+    desc: "Detects basic SQL auth bypass with 'is not something'"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var=id'is%20not-id--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-5
+    desc: "Should not block 'is notes"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var=id'is%20notes"
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "942520"
+  - test_title: 942520-6
+    desc: "Detects basic SQL auth bypass with 'not like something'"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var=id'not%20like%20id--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-7
+    desc: "Detects basic SQL auth bypass with 'not like glob'"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var=id'not%20glob-id--"
             version: HTTP/1.0
           output:
             log_contains: id "942520"
