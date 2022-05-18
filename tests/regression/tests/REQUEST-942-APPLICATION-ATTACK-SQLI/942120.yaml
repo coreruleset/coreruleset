@@ -464,3 +464,39 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942120"
+  - test_title: 942120-28
+    desc: "Collate bypass with character escaping"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            # collate"\utf8mb4_general_ci"
+            data: "var=user'collate%22%5Cutf8mb4_general_ci%22--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942120"
+  - test_title: 942120-29
+    desc: "Collate bypass with postgress string escaping U&"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            # collate U&"\0441\043B\043E\043D"
+            data: "var=user'collate U%26%22%241%23B%23E%23D%22--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942120"
