@@ -1,0 +1,119 @@
+---
+meta:
+  author: karelorigin
+  enabled: true
+  name: "932151.yaml"
+  description: "Tests to trigger or not trigger rule 932151"
+tests:
+  - test_title: 932151-1
+    desc: Backticks command subtition WAF evasion
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=ping``%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
+  - test_title: 932151-2
+    desc: Backticks command subtition WAF evasion (mid command)
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=pi``ng%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
+  - test_title: 932151-3
+    desc: Dollar sign command subtition WAF evasion
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=ping$()%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
+  - test_title: 932151-4
+    desc: Dollar sign command subtition WAF evasion (mid command)
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=pi$()ng%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
+  - test_title: 932151-5
+    desc: Process subtition '<()' WAF evasion (mid command)
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=pi<()ng%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
+  - test_title: 932151-6
+    desc: Process subtition '>()' WAF evasion (mid command)
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=pi>()ng%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
+  - test_title: 932151-7
+    desc: Arithmetic expansion '$(())' WAF evasion (mid command)
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=c$((9))9"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
