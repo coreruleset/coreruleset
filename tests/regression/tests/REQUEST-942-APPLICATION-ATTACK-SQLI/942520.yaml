@@ -117,7 +117,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-7
+  - test_title: 942520-8
     desc: "Detects basic SQL auth bypass with 'not like glob'"
     stages:
       - stage:
@@ -133,7 +133,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-7
+  - test_title: 942520-9
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -146,6 +146,22 @@ tests:
             method: POST
             port: 80
             data: "var=x'%7Cemail--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-10
+    desc: "Detects basic SQL auth bypass with mod"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var=x'%20mod%20id--"
             version: HTTP/1.0
           output:
             log_contains: id "942520"
