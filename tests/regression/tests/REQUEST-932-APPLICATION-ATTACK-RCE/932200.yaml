@@ -213,3 +213,20 @@ tests:
           version: HTTP/1.0
         output:
           no_log_contains: found within MATCHED_VAR
+  - test_title: 932200-14
+    desc: windows wildcard bypass
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            # /?host=www.google.com;C:\Windows\System32\WindowsPowerShell\v1.0\power?hell.exe
+            uri: /?host=www.google.com;C:%5CWindows%5CSystem32%5CWindowsPowerShell%5Cv1.0%5Cpower?hell.exe
+            version: HTTP/1.0
+          output:
+            log_contains: id "932200"
