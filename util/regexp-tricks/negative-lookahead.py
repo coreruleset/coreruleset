@@ -1,5 +1,14 @@
 import argparse
 
+# WARNING: This script is EXPERIMENTAL. Use with caution.
+#
+# Known issues:
+#   * At the moment, it will probably will not work with more than two strings.
+#
+# Known limitations:
+#   * Any substrings of a target string will also NOT be matched. This is probably due to a limitation in this technique,
+#   make sure that subtrings of the negative lookahead are not harmful in any way.
+
 parser = argparse.ArgumentParser(description="This script takes a list of strings and converts them into \
     a regex that acts like a negative lookahead")
 parser.add_argument("strings", type=str, nargs='+',
