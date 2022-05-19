@@ -3,7 +3,7 @@ import argparse
 # WARNING: This script is EXPERIMENTAL. Use with caution.
 #
 # Known issues:
-#   * At the moment, it will probably will not work with more than two strings.
+#   * At the moment, it will probably not work with more than two strings.
 #
 # Known limitations:
 #   * Any substrings of a target string will also NOT be matched. This is probably due to a limitation in this technique,
