@@ -126,10 +126,10 @@ tests:
               Host: localhost
               User-Agent: OWASP ModSecurity Core Rule Set
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
+            method: GET
             port: 80
-            uri: "/"
-            data: "var=0.84622338492032948`cat /etc/pa[s]swd`"
+            # cat /etc/pa[s]swd
+            uri: "/?cmd=cat%20/etc/pa%5Bs%5Dswd"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
