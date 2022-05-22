@@ -1,4 +1,5 @@
-import re, os
+import re
+from pathlib import Path
 from typing import Mapping
 import logging
 
@@ -17,44 +18,42 @@ class Parser(object):
         self.context = context
 
     def perform_compare_or_update(self, process_all: bool, func=None):
-        files = os.listdir(self.context.data_files_directory)
+        files = [file for file in self.context.data_files_directory.iterdir()]
         files.sort()
         for file in files:
             if process_all:
-                match = self.rule_id_regex.match(os.path.basename(file))
+                match = self.rule_id_regex.match(file.name)
                 rule_id = match.group(1)
                 chain_offset = int(match.group(2)) if match.group(2) else 0
             else:
                 rule_id = self.context.single_rule_id
                 chain_offset = self.context.single_chain_offset
 
-            if rule_id in file and ('chain' not in file or f'chain{chain_offset}' in file):
+            if rule_id in file and ('chain' not in file.name or f'chain{chain_offset}' in file.name):
                 self.process_regex(
                     rule_id,
                     chain_offset,
-                    os.path.join(self.context.data_files_directory, file),
+                    file,
                     Assembler(self.context),
                     func,
                 )
                 if not process_all:
                     break
 
-    def process_regex(self, rule_id: str, chain_offset: int, file_path: str, assembler: Assembler, func):
+    def process_regex(self, rule_id: str, chain_offset: int, file_path: Path, assembler: Assembler, func):
         self.logger.info("Processing %s, chain offset %s", rule_id, chain_offset)
 
-        with open(file_path, "rt") as file:
+        with file_path.open("rt") as file:
             regex = assembler.run(file)
 
         rule_prefix = rule_id[:3]
         if rule_prefix in self.parsers:
             parser = self.parsers[rule_prefix]
         else:
-            for rule_file in os.listdir(self.context.rules_directory):
+            for rule_file in self.context.rules_directory.iterdir():
                 if rule_prefix in rule_file:
                     self.prefix_to_file_map[rule_prefix] = rule_file
-                    with open(
-                        os.path.join(self.context.rules_directory, rule_file), "rt"
-                    ) as handle:
+                    with (self.context.rules_directory / rule_file).open("rt") as handle:
                         parser = MSCParser()
                         self.parsers[rule_prefix] = parser
                         parser.parser.parse(handle.read())
