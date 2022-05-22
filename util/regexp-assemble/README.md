@@ -128,16 +128,16 @@ cd
 
 There is no practical limit to the nesting depth. Each preprocess block must be ended with the end marker `##!<`, except for the outermost block, where the end marker is optional.
 
-##### Command line evasion preprocessor
+#### Command line evasion preprocessor
 Processor name: `cmdline`
 
-###### Arguments
+##### Arguments
 - `unix|windows` (required): The processor argument determines the escaping strategy used for the regular expression. Currently, the two supported strategies are Windows cmd (`windows`) and "unix like" terminal (`unix`).
 
-###### Output
+##### Output
 One line per line of input, escaped for the specified environment.
 
-###### Description
+##### Description
 The command line evasion preprocessor processes the entire file. Each line is treated as a word (e.g. shell command) that needs to be escaped.
 
 Lines starting with a single quote `'` are treated as literals and will not be escaped.
@@ -145,16 +145,16 @@ Lines starting with a single quote `'` are treated as literals and will not be e
 The special token `@` will be replaced with the expression `(?:\s|<|>).*` in `unix` mode and `(?:[\s,;]|\.|/|<|>).*` in `windows` mode. This can be used in the context of shell to reduce the number of of false positives for a word by requiring a subsequent token to be present. Example: `diff@`.
 
 
-##### Assemble preprocessor
+#### Assemble preprocessor
 Processor name: `assemble`
 
-###### Arguments
+##### Arguments
 This preprocessor does not accept any arguments.
 
-###### Output
+##### Output
 Single line regular expression, where each line of the input is treated as an alternation of the regular expression. Input can also be concatenated by using the two marker comments for input `##!=<` and `##!=>` output.
 
-###### Description
+##### Description
 Each line of the input is treated as an alternation of a regular expression, processed into a single line. The resulting regular expression is not optimized (in the strict sense) but reduced (i.e., common elements may be put into character classes or groups). The ordering of alternations in the output can differ from the order in the file (ordering alternations by length is a simple performance optimization).
 
 This processor can also produce the concatenation of blocks delimited with `##!=>`. It supports two special markers, one for output (`##!=>`) and one for input (`##!=<`).
@@ -217,17 +217,17 @@ Rule 930100 requires the following concatenation of rules: `<slash rules><dot ru
 ##!=> slashes
 ```
 
-##### Template preprocessor
+#### Template preprocessor
 Processor name: `template`
 
-###### Arguments
+##### Arguments
 - identifier (required): The name of the template that will be processed by this preprocessor
 - replacement (required): The string that replaces the template identified by `identifier`
 
-###### Output
+##### Output
 One line per line of input, with all template strings replaced with the specified replacement.
 
-###### Description
+##### Description
 The template processor makes it easy to add recurring strings to expressions. This helps reduce maintenance when a template needs to be updated and it improves readability as template strings provide readable and bounded information, where otherwise a regular expression must be read and boundaries must be identified.
 
 The format of template strings is as follows:
@@ -246,6 +246,35 @@ The following example shows how to use the template processor:
 regex with {{slashes}}
 ```
 This would result in the output `regex with [\/\]` (the assembler escapes the forward slash).
+
+#### Include preprocessor
+Processor name: `include`
+
+##### Arguments
+- include file name (required): The name of the file to include, without suffix
+
+##### Output
+The exact contents of the included file.
+
+##### Description
+The incluce preprocessor reduces repetition across data files. Repeated blocks can be put into a file in the `include` directory and then be included with the `include` preprocessor comment. The contents of an include file could for example be the alternation of accepted HTTP headers:
+
+```python
+POST
+GET
+HEAD
+```
+
+This could be included into a data file for a rule that adds an additional method:
+
+```python
+##!> include http-headers
+OPTIONS
+```
+
+The resulting regular expression would be `(?:(?:POS|GE)T|OPTIONS|HEAD)`.
+
+Note that the include preprocessor does not have a body, therefore, the end marker is optional.
 
 ## Example
 The following is an example of what a data file might contain:
