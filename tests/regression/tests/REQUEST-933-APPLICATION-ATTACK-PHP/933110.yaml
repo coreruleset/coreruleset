@@ -408,3 +408,72 @@ tests:
             uri: /upload7
           output:
             log_contains: id "933110"
+  - test_title: 933110-28
+    desc: PHP upload via multipart
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "POST"
+            port: 80
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Content-Type: "multipart/form-data; boundary=--------397236876"
+            data: |
+              ----------397236876
+              Content-Disposition: form-data; name="fileRap"; filename="something/dangerous.php"
+              Content-Type: text/plain
+
+              please block me
+              ----------397236876--
+            protocol: "http"
+          output:
+            log_contains: id "933110"
+  - test_title: 933110-29
+    desc: PHP upload via multipart should pass
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "POST"
+            port: 80
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Content-Type: "multipart/form-data; boundary=--------397236876"
+            data: |
+              ----------397236876
+              Content-Disposition: form-data; name="something/dangerous.php"; filename="safe.txt"
+              Content-Type: text/plain
+
+              please don't block me
+              ----------397236876--
+            protocol: "http"
+          output:
+            no_log_contains: id "933110"
+  - test_title: 933110-30
+    desc: PHP upload via multipart should pass
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "POST"
+            port: 80
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Content-Type: "multipart/form-data; boundary=--------397236876"
+            data: |
+              ----------397236876
+              Content-Disposition: form-data; name="file"; filename="safe.phpinfo"
+              Content-Type: text/plain
+
+              please don't block me
+              ----------397236876--
+            protocol: "http"
+          output:
+            no_log_contains: id "933110"
