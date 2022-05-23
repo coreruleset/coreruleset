@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import Mapping
+from typing import Mapping, List
 import logging
 
 from msc_pyparser import MSCParser
@@ -51,9 +51,9 @@ class Parser(object):
             parser = self.parsers[rule_prefix]
         else:
             for rule_file in self.context.rules_directory.iterdir():
-                if rule_prefix in rule_file:
+                if rule_prefix in rule_file.name:
                     self.prefix_to_file_map[rule_prefix] = rule_file
-                    with (self.context.rules_directory / rule_file).open("rt") as handle:
+                    with rule_file.open("rt") as handle:
                         parser = MSCParser()
                         self.parsers[rule_prefix] = parser
                         parser.parser.parse(handle.read())
@@ -63,7 +63,7 @@ class Parser(object):
 
         self.process_configlines(parser.configlines, file_path, rule_id, chain_offset, regex, func)
 
-    def process_configlines(self, configlines, file_path, rule_id, chain_offset, regex, func):
+    def process_configlines(self, configlines: List, file_path: Path, rule_id: str, chain_offset: int, regex: str, func):
         current_chain_offset = 0
         check_chain_rules = False
 
