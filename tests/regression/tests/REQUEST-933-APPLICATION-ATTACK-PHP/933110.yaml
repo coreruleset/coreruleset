@@ -6,7 +6,7 @@ meta:
   name: 933110.yaml
 tests:
   - test_title: 933110-1
-    desc: PHP script uploads
+    desc: PHP no file upload
     stages:
       - stage:
           input:
@@ -20,7 +20,7 @@ tests:
           output:
             no_log_contains: id "933110"
   - test_title: 933110-2
-    desc: PHP script uploads
+    desc: PHP .php upload
     stages:
       - stage:
           input:
@@ -35,7 +35,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-3
-    desc: PHP script uploads
+    desc: PHP .php upload in X_Filename
     stages:
       - stage:
           input:
@@ -50,7 +50,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-4
-    desc: PHP script uploads
+    desc: PHP .php upload in X-File-Name
     stages:
       - stage:
           input:
@@ -65,7 +65,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-5
-    desc: PHP script uploads
+    desc: PHP .php.. upload
     stages:
       - stage:
           input:
@@ -80,7 +80,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-6
-    desc: PHP script uploads
+    desc: PHP .phtml upload
     stages:
       - stage:
           input:
@@ -95,7 +95,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-7
-    desc: PHP script uploads
+    desc: PHP .phtml...... upload in X-File-Name
     stages:
       - stage:
           input:
@@ -110,7 +110,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-8
-    desc: PHP script uploads
+    desc: PHP .php5 upload in X-File-Name
     stages:
       - stage:
           input:
@@ -125,7 +125,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-9
-    desc: PHP script uploads
+    desc: PHP .php5 upload in X-File-Name
     stages:
       - stage:
           input:
@@ -140,7 +140,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-10
-    desc: PHP script uploads
+    desc: PHP .php7 upload in X-File-Name
     stages:
       - stage:
           input:
@@ -155,7 +155,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-11
-    desc: PHP script uploads
+    desc: PHP no file upload
     stages:
       - stage:
           input:
@@ -169,7 +169,7 @@ tests:
           output:
             no_log_contains: id "933110"
   - test_title: 933110-12
-    desc: PHP script uploads
+    desc: PHP php5... upload
     stages:
       - stage:
           input:
@@ -184,7 +184,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-13
-    desc: PHP script uploads
+    desc: PHP php5... upload in X_Filename
     stages:
       - stage:
           input:
@@ -199,7 +199,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-14
-    desc: PHP script uploads
+    desc: PHP .php. upload in X_Filename
     stages:
       - stage:
           input:
@@ -214,7 +214,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-15
-    desc: PHP script uploads
+    desc: PHP sfewfda.php............. upload
     stages:
       - stage:
           input:
@@ -244,7 +244,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-17
-    desc: PHP script uploads
+    desc: PHP .php907............. upload
     stages:
       - stage:
           input:
@@ -259,7 +259,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-18
-    desc: PHP script uploads
+    desc: PHP .phtml upload
     stages:
       - stage:
           input:
@@ -274,7 +274,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-19
-    desc: PHP script uploads
+    desc: PHP .phtml987... upload passes in X_Filename
     stages:
       - stage:
           input:
@@ -289,7 +289,7 @@ tests:
           output:
             no_log_contains: id "933110"
   - test_title: 933110-20
-    desc: PHP script uploads
+    desc: PHP .php upload
     stages:
       - stage:
           input:
@@ -304,7 +304,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-21
-    desc: PHP script uploads
+    desc: PHP .php5... upload
     stages:
       - stage:
           input:
@@ -319,7 +319,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-22
-    desc: PHP script uploads
+    desc: PHP .php. upload
     stages:
       - stage:
           input:
@@ -334,7 +334,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-23
-    desc: PHP script uploads
+    desc: PHP .phtml987... upload passes in X.Filename
     stages:
       - stage:
           input:
@@ -349,7 +349,7 @@ tests:
           output:
             no_log_contains: id "933110"
   - test_title: 933110-24
-    desc: PHP script uploads
+    desc: PHP .phar upload
     stages:
       - stage:
           input:
@@ -364,7 +364,7 @@ tests:
           output:
             log_contains: id "933110"
   - test_title: 933110-25
-    desc: PHP script uploads
+    desc: PHP .phps upload
     stages:
       - stage:
           input:
@@ -373,6 +373,36 @@ tests:
               Host: localhost
               User-Agent: OWASP ModSecurity Core Rule Set
               X.Filename: dangerous.phps
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            uri: /upload7
+          output:
+            log_contains: id "933110"
+  - test_title: 933110-26
+    desc: PHP .pht upload
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              X.Filename: dangerous.pht
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            port: 80
+            uri: /upload7
+          output:
+            log_contains: id "933110"
+  - test_title: 933110-27
+    desc: PHP .phpt upload
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              X.Filename: dangerous.phpt
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
             uri: /upload7
