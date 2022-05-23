@@ -29,7 +29,7 @@ class Parser(object):
                 rule_id = self.context.single_rule_id
                 chain_offset = self.context.single_chain_offset
 
-            if rule_id in file and ('chain' not in file.name or f'chain{chain_offset}' in file.name):
+            if rule_id in file.name and ('chain' not in file.name or f'chain{chain_offset}' in file.name):
                 self.process_regex(
                     rule_id,
                     chain_offset,
