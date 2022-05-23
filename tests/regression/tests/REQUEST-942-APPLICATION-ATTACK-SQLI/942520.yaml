@@ -133,7 +133,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-9
+  - test_title: 942520-9-0
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -145,10 +145,198 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            # x'|email--
             data: "var=x'%7Cemail--"
             version: HTTP/1.0
           output:
             log_contains: id "942520"
+  - test_title: 942520-9-1
+    desc: "Detects basic SQL auth bypass with binary operators"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # x'-email--
+            data: "var=x'-email--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-9-2
+    desc: "Detects basic SQL auth bypass with binary operators"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # x'+email-- (there seem to be a bug with double encoding in tests)
+            data: "var=x'%252Bemail--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-9-3
+    desc: "Detects basic SQL auth bypass with binary operators"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # x'^email--
+            data: "var=x'%5Eemail--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-9-4
+    desc: "Nagive test: Detects basic SQL auth bypass with binary operators"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # x'@email--
+            data: "var=x'%40email--"
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "942520"
+  - test_title: 942520-9-5
+    desc: "Detects basic SQL auth bypass with binary operators"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # x'&email-- 
+            data: "var=x'%26email--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-9-6
+    desc: "Detects basic SQL auth bypass with binary operators"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # x'<email--
+            data: "var=x'%3Cemail--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-9-7
+    desc: "Detects basic SQL auth bypass with binary operators"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # x'>email--
+            data: "var=x'%3Eemail--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-9-8
+    desc: "Detects basic SQL auth bypass with binary operators"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # x'=email--
+            data: "var=x'%3Demail--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-9-9
+    desc: "Detects basic SQL auth bypass with binary operators"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # x'/email--
+            data: "var=x'%2Femail--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-9-10
+    desc: "Detects basic SQL auth bypass with binary operators"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # x'%email--
+            data: "var=x'%25email--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942520"
+  - test_title: 942520-9-11
+    desc: "Negative test: Detects basic SQL auth bypass with binary operators"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # x'~email--
+            data: "var=x'~email--"
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "942520"
   - test_title: 942520-10
     desc: "Detects basic SQL auth bypass with mod"
     stages:
@@ -182,7 +370,7 @@ tests:
           output:
             log_contains: id "942520"
   - test_title: 942520-12
-    desc: "(false positive) Detects Detects basic SQL auth bypass and-based"
+    desc: "False-positve: is it your parents' or yours"
     stages:
       - stage:
           input:
@@ -198,7 +386,7 @@ tests:
           output:
             log_contains: id "942520"
   - test_title: 942520-13
-    desc: "(false positive) Detects Detects basic SQL auth bypass and-based"
+    desc: "Detects basic SQL auth bypass with: sounds like"
     stages:
       - stage:
           input:
