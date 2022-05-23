@@ -70,7 +70,7 @@ tests:
           output:
             log_contains: id "942520"
   - test_title: 942520-5
-    desc: "Should not block 'is notes"
+    desc: "Negative test: 'is notes"
     stages:
       - stage:
           input:
@@ -102,7 +102,7 @@ tests:
           output:
             log_contains: id "942520"
   - test_title: 942520-7
-    desc: "Detects basic SQL auth bypass with 'not like glob'"
+    desc: "Detects basic SQL auth bypass with 'not glob'"
     stages:
       - stage:
           input:
@@ -213,3 +213,67 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
+  - test_title: 942520-14
+    desc: "Negative test: 'fork"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var='fork"
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "942520"
+  - test_title: 942520-15
+    desc: "Negative test: 'for"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var='%20for"
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "942520"
+  - test_title: 942520-16
+    desc: "Negative test: 'oreo"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var='oreo"
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "942520"
+  - test_title: 942520-17
+    desc: "Negative test: mother or daugher"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var=mother%20or%20daughter"
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "942520"
