@@ -1,59 +1,11 @@
 ---
 meta:
   author: "terjanq"
-  description: "Detects basic SQL authentication bypass attempts 4/4"
+  description: "Detects basic SQL authentication bypass attempts 4.0/4"
   enabled: true
   name: 942520.yaml
 tests:
   - test_title: 942520-1
-    desc: "Detects the most basic authentication bypass with 'or'"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            data: "var=a'or'a"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942520"
-  - test_title: 942520-2
-    desc: "Detects basic SQLite authentication bypass with 'or?'"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            data: "var=a'or?--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942520"
-  - test_title: 942520-3
-    desc: "False-positive: Detects or-based authentication bypass"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            data: "var=is%20this%20your%20parents'%20or%20yours?"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942520"
-  - test_title: 942520-4
     desc: "Detects basic SQL auth bypass with 'is not something'"
     stages:
       - stage:
@@ -69,7 +21,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-5
+  - test_title: 942520-2
     desc: "Negative test: 'is notes"
     stages:
       - stage:
@@ -85,7 +37,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "942520"
-  - test_title: 942520-6
+  - test_title: 942520-3
     desc: "Detects basic SQL auth bypass with 'not like something'"
     stages:
       - stage:
@@ -101,7 +53,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-7
+  - test_title: 942520-4
     desc: "Detects basic SQL auth bypass with 'not glob'"
     stages:
       - stage:
@@ -117,7 +69,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-8
+  - test_title: 942520-5
     desc: "Detects basic SQL auth bypass with 'not like glob'"
     stages:
       - stage:
@@ -133,7 +85,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-9-0
+  - test_title: 942520-6-0
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -150,7 +102,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-9-1
+  - test_title: 942520-6-1
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -167,7 +119,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-9-2
+  - test_title: 942520-6-2
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -184,7 +136,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-9-3
+  - test_title: 942520-6-3
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -201,7 +153,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-9-4
+  - test_title: 942520-6-4
     desc: "Nagive test: Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -218,7 +170,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "942520"
-  - test_title: 942520-9-5
+  - test_title: 942520-6-5
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -235,7 +187,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-9-6
+  - test_title: 942520-6-6
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -252,7 +204,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-9-7
+  - test_title: 942520-6-7
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -269,7 +221,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-9-8
+  - test_title: 942520-6-8
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -286,7 +238,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-9-9
+  - test_title: 942520-6-9
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -303,7 +255,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-9-10
+  - test_title: 942520-6-10
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -320,7 +272,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-9-11
+  - test_title: 942520-6-11
     desc: "Negative test: Detects basic SQL auth bypass with binary operators"
     stages:
       - stage:
@@ -337,7 +289,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "942520"
-  - test_title: 942520-10
+  - test_title: 942520-7
     desc: "Detects basic SQL auth bypass with mod"
     stages:
       - stage:
@@ -353,39 +305,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-11
-    desc: "Detects basic SQL auth bypass and-based"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            data: "var=user'and%20id%20is%20not?--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942520"
-  - test_title: 942520-12
-    desc: "False-positve: is it your parents' or yours"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            data: "var=it%20is%20your%20parents'%20and%20yours"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942520"
-  - test_title: 942520-13
+  - test_title: 942520-8
     desc: "Detects basic SQL auth bypass with: sounds like"
     stages:
       - stage:
@@ -401,8 +321,8 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942520"
-  - test_title: 942520-14
-    desc: "Negative test: 'fork"
+  - test_title: 942520-9
+    desc: "Bypass with a comment"
     stages:
       - stage:
           input:
@@ -413,12 +333,12 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            data: "var='fork"
+            data: "var='%2F**%2F*2--"
             version: HTTP/1.0
           output:
-            no_log_contains: id "942520"
-  - test_title: 942520-15
-    desc: "Negative test: 'for"
+            log_contains: id "942520"
+  - test_title: 942520-10
+    desc: "Integration test: 942521 blocks foo'or'oof"
     stages:
       - stage:
           input:
@@ -429,12 +349,12 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            data: "var='%20for"
+            data: "var=foo'or'oof"
             version: HTTP/1.0
           output:
-            no_log_contains: id "942520"
-  - test_title: 942520-16
-    desc: "Negative test: 'oreo"
+            log_contains: id "942521"
+  - test_title: 942520-11
+    desc: "Integration test: 942522 blocks foo\\''or'oof"
     stages:
       - stage:
           input:
@@ -445,39 +365,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            data: "var='oreo"
+            data: "var=foo%5c''or'oof"
             version: HTTP/1.0
           output:
-            no_log_contains: id "942520"
-  - test_title: 942520-17
-    desc: "Negative test: mother or daugher"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            data: "var=mother%20or%20daughter"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "942520"
-  - test_title: 942520-18
-    desc: "Negative test: bob's or alice's"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            data: "var=bob's%20or%20alice's"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "942520"
+            log_contains: id "942522"

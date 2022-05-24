@@ -1,0 +1,106 @@
+---
+meta:
+  author: "terjanq"
+  description: "Detects basic SQL authentication bypass attempts 4.1/4"
+  enabled: true
+  name: 942522.yaml
+tests:
+  - test_title: 942522-1
+    desc: "Blocks bypass with escaped quotes"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # \'or'1
+            data: "var=%5C'or'1"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942522"
+  - test_title: 942522-2
+    desc: "Blocks bypass with escaped quotes"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # \"or"1
+            data: "var=%5C%22or%221"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942522"
+  - test_title: 942522-3
+    desc: "Blocks bypass with escaped quotes"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            # \`or`1
+            data: "var=%5C%60or%601"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942522"
+  - test_title: 942522-4
+    desc: "Blocks bypass with: \\'and"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var=%5C'and"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942522"
+  - test_title: 942522-5
+    desc: "Negative test: doesn't block normal SQLi"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var='or'1"
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "942522"
+  - test_title: 942522-6
+    desc: "Negative test: doesn't block escaped quotes without following (and|or)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "var=%5C' foo or"
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "942522"
