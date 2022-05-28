@@ -1,11 +1,11 @@
-== OWASP ModSecurity Core Rule Set (CRS) CHANGES ==
+# OWASP ModSecurity Core Rule Set (CRS) CHANGES #
 
-== Report Bugs/Issues to GitHub Issues Tracker or the mailinglist ==
+## Report Bugs/Issues to GitHub Issues Tracker or the mailinglist ##
 * https://github.com/coreruleset/coreruleset/issues
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/forum/#!forum/modsecurity-core-rule-set-project
 
-== Version 4.0.0 - 2022-06-?? ==
+## Version 4.0.0 - 2022-06-?? ##
 
 Important changes:
  * Introduce plugin architecture for extending CRS and minimizing attack surface. Application exclusions and less-used functionality have been migrated to plugins. See the plugin repository at https://github.com/coreruleset/plugin-registry (Christian Folini, Max Leske, Jozef Sudolský, Andrew Howe) [#2038, #2448, #2404]
@@ -220,12 +220,12 @@ Fixes and improvements:
  * Tests: fix requirements version (nobletrout) [#2004]
  * Tests: fix tests lacking charset (Felipe Zipitria) [#1932]
 
-== Version 3.3.2 - 2021-06-30 ==
+## Version 3.3.2 - 2021-06-30 ##
 
 Fixes and improvements:
  * Fix CVE-2021-35368 WAF bypass using pathinfo (Christian Folini)
 
-== Version 3.3.0 - 2020-07-01 ==
+## Version 3.3.0 - 2020-07-01 ##
 
 Important changes:
  * The format of crs-setup.conf variable "tx.allowed_request_content_type" has been changed to be more in line with the other variables. If you have overridden this variable, please see the example in crs-setup.conf for the new separator to use.
@@ -392,7 +392,7 @@ Fixes and improvements:
  * 920470: include chars from rfc 2046 RFC 2046 allows additional chars for the boundary. \d removed as it is covered by \w in the regex. Removed unnecessary escapes. (Tim Herren)
  * update Dockerfiles and Travis to use v3.3/dev (Walter Hop)
 
-== Version 3.2.0 - 2019-09-24 ==
+## Version 3.2.0 - 2019-09-24 ##
 
 New functionality:
  * Add AngularJS client side template injection 941380 PL2 (Franziska Bühler)
@@ -559,7 +559,7 @@ Documentation:
  * Update README.md (Rufus125)
  * Updating crs site location (Chaim Sanders)
 
-== Version 3.1.1 - 2019-06-26 ==
+## Version 3.1.1 - 2019-06-26 ##
 
  * Fix CVE-2019-11387 ReDoS against CRS on ModSecurity 3 at PL 2 (Christoph Hansen, Federico G. Schwindt)
  * Content-Type made case insensitive in 920240, 920400 (Federico G. Schwindt)
@@ -569,7 +569,7 @@ Documentation:
  * Reduce false positives in 921110 (Yu Yagihashi, Federico G. Schwindt)
  * Fix bug in 943120 (XeroChen)
 
-== Version 3.1.0 - 2018-08-07 ==
+## Version 3.1.0 - 2018-08-07 ##
 
  * Add Detectify scanner (Andrea Menin)
  * Renaming matched_var/s (Victor Hora)
@@ -672,12 +672,12 @@ Documentation:
  * Removed deprecated t:removeComments from 942100 (Christian Folini)
  * Add word boundary to rule 942410 (Franziska Bühler)
 
-== Version 3.0.2 - 2017-05-12 ==
+## Version 3.0.2 - 2017-05-12 ##
 
  * Remove debug rule that popped up in 3.0.1 (Christian Folini)
 
 
-== Version 3.0.1 - 2017-05-09 ==
+## Version 3.0.1 - 2017-05-09 ##
 
  * SECURITY: Removed insecure handling of X-Forwarded-For header;
    reported by Christoph Hansen (Walter Hop)
@@ -714,7 +714,7 @@ Documentation:
  * Fixed bug with DoS rule 912160 (@loudly-soft, Christian Folini)
 
 
-== Version 3.0.0 - 2016-11-10 ==
+## Version 3.0.0 - 2016-11-10 ##
 
 Huge changeset running in separate branch from September 2013 to September 2016.
 This is a cursory summary of the most important changes:
@@ -787,7 +787,7 @@ This is a cursory summary of the most important changes:
  * Many improvements to rules in 2014/5 (Ryan Barnett)
 
 
-== Version 2.2.9 - 2013-09-30 ==
+## Version 2.2.9 - 2013-09-30 ##
 
 Improvements:
 * Updated the /util directory structure
@@ -799,7 +799,7 @@ Bug Fixes:
   https://github.com/SpiderLabs/owasp-modsecurity-crs/issues/157
 
 
-== Version 2.2.8 - 2013-06-30 ==
+## Version 2.2.8 - 2013-06-30 ##
 
 Improvements:
 * Updatd the /util directory structure
@@ -828,7 +828,7 @@ Bug Fixes:
   - https://github.com/SpiderLabs/owasp-modsecurity-crs/issues/18
 
 
-== Version 2.2.7 - 2012-12-19 ==
+## Version 2.2.7 - 2012-12-19 ##
 
 Improvements:
 * Added JS Overrides file to identify successful XSS probes
@@ -843,7 +843,7 @@ Bug Fixes:
 * Fixed bug in XSS rules checking TX:PM_XSS_SCORE variable
 
 
-== Version 2.2.6 - 2012-09-14 ==
+## Version 2.2.6 - 2012-09-14 ##
 
 Improvements:
 * Started rule formatting update for better readability
@@ -864,7 +864,7 @@ Bug Fixes:
   https://www.modsecurity.org/tracker/browse/CORERULES-78
 
 
-== Version 2.2.5 - 2012-06-14 ==
+## Version 2.2.5 - 2012-06-14 ##
 
 Security Fixes:
 * Updated the anomaly scoring value for rule ID 960000 to critical
@@ -888,7 +888,7 @@ Bug Fixes:
 * Added forceRequestBodyVariable action to rule ID 960904
 
 
-== Version 2.2.4 - 2012-03-14 ==
+## Version 2.2.4 - 2012-03-14 ##
 
 Improvements:
 * Added Location and Set-Cookie checks to Response Splitting rule ID 950910
@@ -904,7 +904,7 @@ Bug Fixes:
 * Fixed duplidate rule IDs
 
 
-== Version 2.2.3 - 2011-12-19 ==
+## Version 2.2.3 - 2011-12-19 ##
 
 Improvements:
 * Added Watcher Cookie Checks to optional_rules/modsecurity_crs_55_appication_defects.conf file
@@ -920,7 +920,7 @@ Bug Fixes:
 * Updated the regex and added tags for RFI rules.
 
 
-== Version 2.2.2 - 2011-09-28 ==
+## Version 2.2.2 - 2011-09-28 ##
 
 
 Improvements:
@@ -939,7 +939,7 @@ Bug Fixes:
 * Updated the SQLi regex for rule ID 981242
 
 
-== Version 2.2.1 - 2011-07-20 ==
+## Version 2.2.1 - 2011-07-20 ##
 
 
 Improvements:
@@ -960,7 +960,7 @@ Bug Fixes:
 * Updated rule ID 971150 signature to remove ;
 
 
-== Version 2.2.0 - 2011-05-26 ==
+## Version 2.2.0 - 2011-05-26 ##
 
 
 Improvements:
@@ -1010,7 +1010,7 @@ Bug Fixes:
   They will now inherit the settings from the SecDefaultAction
 
 
-== Version 2.1.2 - 2011-02-17 ==
+## Version 2.1.2 - 2011-02-17 ##
 
 
 Improvements:
@@ -1024,7 +1024,7 @@ Bug Fixes:
 * Added missing " in the skipAfter SecAction in the CC Detection rule set
 
 
-== Version 2.1.1 - 2010-12-30 ==
+## Version 2.1.1 - 2010-12-30 ##
 
 
 Bug Fixes:
@@ -1037,7 +1037,7 @@ Bug Fixes:
 * Moved the comment spam data file into the optional_rules directory
 
 
-== Version 2.1.0 - 2010-12-29 ==
+## Version 2.1.0 - 2010-12-29 ##
 
 
 Improvements:
@@ -1068,7 +1068,7 @@ Improvements:
 
 
 
-== Version 2.0.10 - 2010-11-29 ==
+## Version 2.0.10 - 2010-11-29 ##
 
 
 Improvements:
@@ -1082,7 +1082,7 @@ Bug Fixes:
 
 
 
-== Version 2.0.9 - 2010-11-17 ==
+## Version 2.0.9 - 2010-11-17 ##
 
 
 Improvements:
@@ -1117,12 +1117,12 @@ Bug Fixes:
   https://www.modsecurity.org/tracker/browse/CORERULES-62
 
 
-== Version 2.0.8 - 2010-08-27 ==
+## Version 2.0.8 - 2010-08-27 ##
 
 
 Improvements:
 * Updated the PHPIDS filters
-* Updated the SQL Injection filters to detect boolean attacks (1<2, foo == bar, etc..)
+* Updated the SQL Injection filters to detect boolean attacks (1<2, foo ## bar, etc..)
 * Updated the SQL Injection filters to account for different quotes
 * Added UTF-8 encoding validation support to the modsecurity_crs_10_config.conf file
 * Added Rule ID 950109 to detect multiple URL encodings
@@ -1140,7 +1140,7 @@ Bug Fixes:
   https://www.modsecurity.org/tracker/browse/CORERULES-29
 
 
-== Version 2.0.7 - 2010-06-04 ==
+## Version 2.0.7 - 2010-06-04 ##
 
 
 Improvements:
@@ -1167,7 +1167,7 @@ Bug Fixes:
 * Fixed restricted_extension false positive by adding boundary characters
 
 
-== Version 2.0.6 - 2010-02-26 ==
+## Version 2.0.6 - 2010-02-26 ##
 
 
 Bug Fixes:
@@ -1186,7 +1186,7 @@ Bug Fixes:
 * Update phpids filters to use pass action instead of block
 
 
-== Version 2.0.5 - 2010-02-01 ==
+## Version 2.0.5 - 2010-02-01 ##
 
 
 Improvements:
@@ -1226,7 +1226,7 @@ Bug Fixes:
   and blocking
 
 
-== Version 2.0.4 - 2009-11-30 ==
+## Version 2.0.4 - 2009-11-30 ##
 
 
 Improvements:
@@ -1243,7 +1243,7 @@ Bug Fixes:
   phase:4 which would allow for blocking based on information leakage issues.
 
 
-== Version 2.0.3 - 2009-11-05 ==
+## Version 2.0.3 - 2009-11-05 ##
 
 
 Improvements:
@@ -1267,7 +1267,7 @@ Bug Fixes:
   https://www.modsecurity.org/tracker/browse/CORERULES-23
 
 
-== Version 2.0.2 - 2009-09-11 ==
+## Version 2.0.2 - 2009-09-11 ##
 
 
 Improvements:
@@ -1279,7 +1279,7 @@ Bug Fixes:
   https://www.modsecurity.org/tracker/browse/CORERULES-15
 
 
-== Version 2.0.1 - 2009-08-07 ==
+## Version 2.0.1 - 2009-08-07 ##
 
 
 Improvements:
@@ -1297,7 +1297,7 @@ Bug Fixes:
   https://www.modsecurity.org/tracker/browse/CORERULES-9
 
 
-== Version 2.0.0 - 2009-07-29 ==
+## Version 2.0.0 - 2009-07-29 ##
 
 
 New Rules & Features:
@@ -1395,7 +1395,7 @@ Other Fixes:
   rules and chained rules).
 
 
-== Version 1.6.1 - 2008-04-22 ==
+## Version 1.6.1 - 2008-04-22 ##
 
 
 * Fixed a bug where phases and transformations where not specified explicitly
@@ -1403,7 +1403,7 @@ Other Fixes:
     recommend to upgrade.
 
 
-== Version 1.6.0 - 2008-02-19 ==
+## Version 1.6.0 - 2008-02-19 ##
 
 
 New Rulesets & Features:
@@ -1441,7 +1441,7 @@ Additional rules logic:
 
 
 
-== Version 1.5.1 - 2007-12-06 ==
+## Version 1.5.1 - 2007-12-06 ##
 
 
 False Positives Fixes:
@@ -1458,7 +1458,7 @@ Other Fixes:
 * File 55 contained empty regular expressions. Fixed.
 
 
-== Version 1.5 - 2007-11-23 ==
+## Version 1.5 - 2007-11-23 ##
 
 
 New Rulesets:
@@ -1593,14 +1593,14 @@ Fixed apache 2.4 dummy requests exclusion
 Added persistent PDF UXSS detection rule
 
 
-== Version 1.3.2 build 3 2007-01-10 ==
+## Version 1.3.2 build 3 2007-01-10 ##
 
 
 Fixed regular expression in rule 960010 (file #30) to allow multipart form data
 content
 
 
-== Version 1.3.2 - 2006-12-27 ==
+## Version 1.3.2 - 2006-12-27 ##
 
 
 New events:
@@ -1636,7 +1636,7 @@ Modified descriptions:
 * Added ctl:auditLogParts=+E for outbound events and attacks to collect response.
 
 
-== Version 1.2 - 2006-11-19 ==
+## Version 1.2 - 2006-11-19 ##
 
 
 Changes:
@@ -1652,7 +1652,7 @@ SecResponseBodyMimeType)
 + Too many FPs with events 950903 & 950905. Commented them out until fixed.
 
 
-== Version 1.1 - 2006-10-18 ==
+## Version 1.1 - 2006-10-18 ##
 
 
 Initial version
