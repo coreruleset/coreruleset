@@ -17,10 +17,12 @@ use lib "$RealBin/lib/lib";
 use Regexp::Assemble;
 
 # cook_hex: disable replacing hex escapes with decodec bytes
-my $ra = Regexp::Assemble->new(cook_hex => 0);
-my $flags = '';
-my $prefix = '';
-my $suffix = '';
+# force_escape_tokens: we embed the resulting regex within double quotes,
+#                      so they all need to be escaped
+my $ra = Regexp::Assemble->new(cook_hex => 0, force_escape_tokens => q("));
+my @flags = ();
+my @prefixes = ();
+my @suffixes = ();
 
 while (<>)
 {
@@ -29,11 +31,11 @@ while (<>)
 
   # this is a flag comment (##!+), save it for later
   # we currently only support the `i` flag
-  $flags = $1 if $_ =~ /^##!\+\s*([i]+)/;
+  push (@flags, $1) if $_ =~ /^##!\+\s*([i]+)/;
   # this is a prefix comment (##!^), save it for later
-  $prefix = $1 if $_ =~ /^##!\^\s*(.*)/;
+  push (@prefixes, $1) if $_ =~ /^##!\^\s*(.*)/;
   # this is a suffix comment (##!$), save it for later
-  $suffix = $1 if $_ =~ /^##!\$\s*(.*)/;
+  push (@suffixes, $1) if $_ =~ /^##!\$\s*(.*)/;
   # skip comments
   next if $_ =~ /^##!/;
   # skip empty lines
@@ -64,9 +66,14 @@ while (<>)
   # we now have what we would want to pass to add(), so add it
   $ra->insert(@$arr);
 }
-# print flags
-if ($flags ne '') {
-  print '(?' . $flags . ')';
+if (@flags > 0) {
+  print "(?" . join('', @flags) . ")";
 }
-# print the assembly, surrounded by prefix and suffix
-print $prefix . $ra->as_string() . $suffix . "\n";
+# print the prefixes
+print join('', @prefixes);
+# call as_string() to make stats_length() work
+my $pattern = $ra->as_string();
+# don't print the assembled string if nothing was added, the module will produce an all-matching pattern
+print $pattern if $ra->stats_length() > 0;
+# print the suffixes
+print join('', @suffixes) . "\n";

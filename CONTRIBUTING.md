@@ -22,6 +22,10 @@
 * Make commits of logical units.
 * Make sure commits adhere to the contribution guidelines presented in this document.
 * Make sure commit messages follow the [standard Git format](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
+* Make sure changes are submitted as a pull request (PR) on [GitHub](https://github.com/coreruleset/coreruleset/pulls).
+    * PR titles should follow the [Conventional Commits format](https://www.conventionalcommits.org/en/v1.0.0/), for example: `fix(rce): Fix a FP in rule 912345 with keyword 'time'`.
+    * If a PR only affects a single rule then the rule ID should be included in the title.
+    * If a PR title does not follow the correct format then a CRS developer will fix it.
 
 ## General Formatting Guidelines for Rules Contributions
 
@@ -78,6 +82,14 @@ expirevar
 chain
 skip
 skipAfter
+```
+- Rule operators must always be explicitly specified. Although ModSecurity defaults to using the `@rx` operator, for clarity `@rx` should always be explicitly specified when used. For example, write:
+```
+SecRule ARGS "@rx foo" "id:1,phase:1,pass,t:none"
+```
+instead of
+```
+SecRule ARGS "foo" "id:1,phase:1,pass,t:none"
 ```
 
 ## Variable Naming Conventions
@@ -232,7 +244,7 @@ This list is not exhaustive but covers the most important points. The [RE2 docum
 
 ## Rules Compliance with Paranoia Levels
 
-The rules in CRS are organized into **paranoia levels** (PLs) which makes it possible to define how aggressive CRS is. See the documentation on [paranoia levels](https://coreruleset.org/docs/configuring/paranoia_levels/) for an introduction and more detailed explanation.
+The rules in CRS are organized into **paranoia levels** (PLs) which makes it possible to define how aggressive CRS is. See the documentation on [paranoia levels](https://coreruleset.org/docs/concepts/paranoia_levels/) for an introduction and more detailed explanation.
 
 The types of rules that are allowed at each paranoia level are as follows:
 
