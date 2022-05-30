@@ -230,7 +230,7 @@ SecRule TX:sql_error_match "@eq 1" \
         setvar:'tx.sql_injection_score=+%{tx.critical_anomaly_score}'"
 ```
 
-In this rule, the `ctl:autidLogParts=+E` is in wrong place, because some non-disruptive actions will be executed on non-disruptive rules (most CRS rules are non-disruptive) even if the chained rules are not satisfied.
+In this rule, the `ctl:auditLogParts=+E` is in wrong place, because some non-disruptive actions will be executed on non-disruptive rules (most CRS rules are non-disruptive) even if the chained rules are not satisfied.
 
 See the CRS issue [#2530](https://github.com/coreruleset/coreruleset/issues/2530)
 
