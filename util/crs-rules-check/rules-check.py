@@ -69,6 +69,7 @@ class Check(object):
         self.chained        = False # holds the chained flag
         self.caseerror      = []    # list of case mismatch errors
         self.orderacts      = []    # list of ordered action errors
+        self.auditlogparts  = []    # list of wrong ctl:auditLogParts
 
     def store_error(self, msg):
         # store the error msg in the list
@@ -190,6 +191,48 @@ class Check(object):
                     if a['ruleid'] == 0:
                         a['ruleid'] = self.current_ruleid
                         a['message'] += " (rule: %d)" % (self.current_ruleid)
+
+    def check_ctl_audit_log(self):
+        for d in self.data:
+            if "actions" in d:
+                aidx = 0        # stores the index of current action
+                max_order = 0   # maximum position of read actions
+                if self.chained == False:
+                    self.current_ruleid = 0
+                else:
+                    self.chained = False
+
+                # collect ctl:auditLogParts action if exists
+                auditlogparts = []
+
+                while aidx < len(d['actions']):
+                    # read the action into 'a'
+                    a = d['actions'][aidx]
+
+                    # get the 'id' of rule
+                    self.curr_lineno = a['lineno']
+                    if a['act_name'] == "id":
+                        self.current_ruleid = int(a['act_arg'])
+
+                    # check if chained
+                    if a['act_name'] == "chain":
+                        self.chained = True
+
+                    # check if action is ctl:auditLogParts
+                    if a['act_name'] == "ctl" and a['act_arg'] == "auditLogParts":
+                        auditlogparts.append({
+                                'ruleid' : 0,
+                                'line'   : a['lineno'],
+                                'endLine': a['lineno'],
+                                'message': "action can only be placed in last part of a chained rule"
+                        })
+
+                    aidx += 1
+                if self.chained == True and len(auditlogparts) > 0:
+                    for a in auditlogparts:
+                        a['ruleid'] = self.current_ruleid
+                        a['message'] += " (rule: %d)" % (self.current_ruleid)
+                        self.auditlogparts.append(a)
 
 def errmsg(msg):
     if oformat == "github":
@@ -334,5 +377,18 @@ if __name__ == "__main__":
                 }
                 errmsgf(e)
             errmsg(d.strip("\n"))
+
+        ### check `ctl:auditLogParts=+E` right place in chained rules
+        c.check_ctl_audit_log()
+        if len(c.auditlogparts) == 0:
+            msg(" 'ctl:auditLogParts' actions are in right place.")
+        else:
+            errmsg(" Found 'ctl:auditLogParts' action is in wrong place.")
+            for a in c.auditlogparts:
+                a['indent'] = 2
+                a['file']   = f
+                a['title']  = "'ctl:auditLogParts' action in wrong place"
+                errmsgf(a)
+                retval = 1
 
     sys.exit(retval)
