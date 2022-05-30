@@ -212,3 +212,37 @@ Config file: examples/test5.conf
 $ echo $?
 1
 ```
+
+### Test 6 - check 'ctl:auditLogParts' place in chained rules
+
+```
+SecRule TX:sql_error_match "@eq 1" \
+    "id:1,\
+    phase:4,\
+    block,\
+    capture,\
+    t:none,\
+    ctl:auditLogParts=+E,\
+    chain"
+    SecRule RESPONSE_BODY "@rx (?i:JET Database Engine|Access Database Engine|\[Microsoft\]\[ODBC Microsoft Access Driver\])" \
+        "capture,\
+        setvar:'tx.outbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}',\
+        setvar:'tx.sql_injection_score=+%{tx.critical_anomaly_score}'"
+```
+
+In this rule, the `ctl:autidLogParts=+E` is in wrong place, because some non-disruptive actions will be executed on non-disruptive rules (most CRS rules are non-disruptive) even if the chained rules are not satisfied.
+
+See the CRS issue [#2530](https://github.com/coreruleset/coreruleset/issues/2530)
+
+```
+$ util/crs-rules-check/rules-check.py -r util/crs-rules-check/examples/test6.conf 
+Config file: util/crs-rules-check/examples/test6.conf
+ Parsing ok.
+ Ignore case check ok.
+ Action order check ok.
+ Indentation check ok.
+ Found 'ctl:auditLogParts' action is in wrong place.
+  file=util/crs-rules-check/examples/test6.conf, line=7, endLine=7, title='ctl:auditLogParts' action in wrong place: action can only be placed in last part of a chained rule (rule: 1)
+$ echo $?
+1
+```
