@@ -21,7 +21,7 @@
 ##! - cmdline [windows|unix] (file scope)
 ##! Please refer to util/regexp-assemble/README.md for a full explanation
 
-##! Word list for rule 932110 (RCE Windows command injection part 1/2)
+##! Word list for rule 932120 (RCE Windows command injection - PowerShell aliases)
 ##!
 ##! To prevent some FP for a command, you can require command parameters
 ##! after a command. Only do this if the command regularly causes FP and if
@@ -34,157 +34,127 @@
 ##!+ i
 ##!> cmdline windows
 
-##! Magic prefix (origin unknown)
+##! Magic prefix (origin unkown)
 ##!^ (?:;|\{|\||\|\||&|&&|\n|\r|`)\s*[\(,@\'\"\s]*(?:[\w'\"\./]+/|[\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c|[\^\.\w '\"/\x5c]*\x5c)?[\"\^]*
 
 ##!$ (?:\.[\"\^]*\w+)?\b
 
-7z
-7za
-7zr
-addusers
-admodcmd
-arp@
-assoc
-attrib
-azman
-bcdboot
-bcdedit
-bitsadmin
-bootcfg
-browstat
-cacls
-call@
-certreq
-certutil
-##! disabled for FP: change
+ac@
+asnp@
+##! disabled for FP: cat@
 chdir@
-chkdsk
-chkntfs
-cipher
-cleanmgr
-clearmem
-cluster
-cmd
-cmdkey
-comexp
-comp@
-compact@
-compmgmt
-con2prt
-convert
-copy
-csccmd
-cscript
-csvde
-curl
-date@
-dcomcnfg
-debug
-defrag
+clc@
+clhy@
+cli@
+clp@
+clv@
+##! disabled for FP: compare@
+##! disabled for FP: copy@
+cpi@
+cpp@
+cvpa@
+dbp@
 del@
-delprof
-deltree
-devcon
-devmgmt
-diff@
 dir@
-diruse
-diskmgmt
-diskpart
-diskshadow
-dnsstat
-doskey
-driverquery
-dsacls
-dsadd
-dsget
-dsmod
-dsmove
-dsquery
-dsrm
-dxdiag
-echo
-egrep
-endlocal
-erase
-eventcreate
-eventvwr
-expand@
-explorer
+ebp@
+epal@
+epcsv@
+epsn@
+##! disabled for FP: erase@
+etsn@
+exsn@
 fc@
-fgrep
-find@
-findstr
-foreach
-forfiles
-format@
-freedisk
-fsmgmt
-fsutil
-ftp@
-ftype
-gathernetworkinfo
-getmac
-git@
-gpedit
-gpresult
-gpupdate
-hdwwiz
-hostname
-icacls
-ifmember
-inetcpl
-ipconfig
-irb
-irb1
-irb18
-irb19
-irb20
-irb21
-irb22
-java@
-label@
-logevent
-logman
-logoff
-logtime
-lusrmgr
-mapisend
-mbsacli
-md@
-mdsched
-measure
-mkdir@
-mklink
-mmsys
-mode@
-more@
-mount@
-mountvol
-moveuser
-msconfig
-msg@
-mshta
-msiexec
-msinfo32
-mstsc
-mysql
-mysqladmin
-mysqldump
-mysqldumpslow
-mysqlhotcopy
-mysqlshow
-nbtstat
-nc@
-ncat
-net@
-netcat
-netdom
-netsh
-netstat
-netsvc
-nmap
-nslookup
-ntbackup
-ntrights
+fl@
+foreach@
+ft@
+fw@
+gal@
+gbp@
+gc@
+gci@
+gcm@
+gcs@
+gdr@
+ghy@
+gi@
+gjb@
+gl@
+gm@
+gmo@
+gp@
+gps@
+##! disabled for FP: group
+gsn@
+gsnp@
+gsv@
+gu@
+gv@
+gwmi@
+##! disabled for FP: history
+icm@
+iex@
+ihy@
+ii@
+ipal@
+ipcsv@
+ipmo@
+ipsn@
+iwmi@
+iwr@
+##! disabled for FP: kill
+lp@
+##! disabled for FP: measure
+mi@
+##! disabled for FP: move
+mp@
+nal@
+ndr@
+ni@
+nmo@
+nsn@
+nv@
+ogv@
+##! disabled for FP: oh
+popd@
+pushd@
+##! disabled for FP: pwd
+rbp@
+rcjb@
+rd@
+rdr@
+ren@
+ri@
+rjb@
+rmdir@
+rmo@
+rni@
+rnp@
+rp@
+rsn@
+rsnp@
+rv@
+rvpa@
+rwmi@
+sajb@
+sal@
+saps@
+sasv@
+sbp@
+sc@
+##! disabled for FP: select
+##! disabled for FP: set
+si@
+sl@
+sls@
+sp@
+spjb@
+spps@
+spsv@
+##! disabled for FP: start
+sv@
+swmi@
+trcm@
+##! disabled for FP: type
+##! disabled for FP: where
+wjb@
+##! disabled for FP: write@
