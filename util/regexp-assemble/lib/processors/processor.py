@@ -22,6 +22,9 @@ class Processor(ABC):
     def create(cls: T, context: Context, args: List[str]) -> T:
         pass
 
+    def has_body(self):
+        return True
+
     @abstractmethod
     def process_line(self, line: str):
         pass

@@ -7,8 +7,6 @@
 ##!
 ##! Lines starting with `##!` are comments and will be skipped,
 ##! empty lines will be ignored completely.
-##! In addition, the quote character `'` at the beginning of a line will
-##! cause the line to be interpreted as literal by the cmdline preprocessor only.
 ##! 
 ##! Five special comments are at your disposal to influence the assembled expression:
 ##! - `##!+`: the flag comment
@@ -16,39 +14,33 @@
 ##! - `##!$`: the suffix comment
 ##! - `##!>`: the preprocessor comment
 ##! - `##!<`: the block preprocessor end comment
-##!
-##! Currently supported preprocessors:
-##! - cmdline [windows|unix] (file scope)
-##! Please refer to util/regexp-assemble/README.md for a full explanation
+##! Please refer to util/regexp-assemble/README.md for a full explanation.
 
-##!+ i
+\[?\$ne\]?
+\[?\$eq\]?
+\[?\$lt\]?
+\[?\$lte\]?
+\[?\$ni\]?
+\[?\$nin\]?
+\[?\$mod\]?
+\[?\$all\]?
+\[?\$size\]?
+\[?\$exists\]?
+\[?\$type\]?
+\[?\$slice\]?
+\[?\$or\]?
+\[?\$xor\]?
+\[?\$nor\]?
+\[?\$div\]?
+\[?\$like\]?
+\[?\$between\]?
+\[?\$and\]?
+\[?\$nor\]?
+\[?\$not\]?
+\[?\$regex\]?
+\[?\$text\]?
+\[?\$where\]?
+\[?\$jsonSchema\]?
+\[?\$elemMatch\]?
 
-\!\=
-\&\&
-\|\|
->>
-<<
->=
-<=
-<>
-<=>
-\bxor\b
-\bregexp\b
-regexp\s+binary
-\bisnull\b
-\brlike\b
-rlike\s+binary
-not\s+between\s+0\s+and
-not\s+between\s+(?:(?:'[^']*')|(?:\"[^\"]*\"))\s+and\s+(?:(?:'[^']*')|(?:\"[^\"]*\"))
-is\s+null
-like\s+null
-^in[+\s]*\([\s\d\"]+[^()]*\)
-\Win[+\s]*\([\s\d\"]+[^()]*\)
-<>\s+binary
-\bcollate\W*?(?:U&)?[\"'`]
-\bcollate\W+(?:binary|nocase|rtrim)\b
-\bcollate\W+\w*?_
-\bnotnull\b
-like\s+[\w]+\s+escape\b
-\bilike\b
-[<>=!]{1,2}\s*all\b
+
