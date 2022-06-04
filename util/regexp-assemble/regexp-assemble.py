@@ -9,9 +9,10 @@
 # the preprocessor_map. The key of the entry is the keyword used in the data file
 # and the value is the script you want to execute (expected to be in the lib directory).
 
-import os, re, sys
+import re, sys
 import argparse
 import logging
+from pathlib import Path
 from typing import TypeVar
 
 from lib.operators.assembler import Assembler
@@ -128,10 +129,7 @@ def handle_generate(namespace: argparse.Namespace):
     assembler = Assembler(context)
 
     if namespace.rule_id:
-        with open(
-            os.path.join(context.data_files_directory, namespace.fileName),
-            "rt",
-        ) as handle:
+        with (context.data_files_directory / namespace.fileName).open("rt") as handle:
             regex = assembler.run(handle)
     elif "stdin" in namespace:
         regex = assembler.run(namespace.stdin)
@@ -209,8 +207,8 @@ class RuleNameParser(argparse.Action):
 
 
 def create_context(namespace: argparse.Namespace) -> Context:
-    script_directory = os.path.dirname(os.path.abspath(__file__))
-    root_directory = os.path.dirname(os.path.dirname(script_directory))
+    script_directory = Path(__file__).parent
+    root_directory = Path(script_directory).parent.parent
     return Context(root_directory, namespace)
 
 
