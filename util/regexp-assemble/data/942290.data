@@ -7,8 +7,6 @@
 ##!
 ##! Lines starting with `##!` are comments and will be skipped,
 ##! empty lines will be ignored completely.
-##! In addition, the quote character `'` at the beginning of a line will
-##! cause the line to be interpreted as literal by the cmdline preprocessor only.
 ##! 
 ##! Five special comments are at your disposal to influence the assembled expression:
 ##! - `##!+`: the flag comment
@@ -16,23 +14,33 @@
 ##! - `##!$`: the suffix comment
 ##! - `##!>`: the preprocessor comment
 ##! - `##!<`: the block preprocessor end comment
-##!
-##! Currently supported preprocessors:
-##! - cmdline [windows|unix] (file scope)
-##! Please refer to util/regexp-assemble/README.md for a full explanation
+##! Please refer to util/regexp-assemble/README.md for a full explanation.
 
-##!+ i
+\[?\$ne\]?
+\[?\$eq\]?
+\[?\$lt\]?
+\[?\$lte\]?
+\[?\$ni\]?
+\[?\$nin\]?
+\[?\$mod\]?
+\[?\$all\]?
+\[?\$size\]?
+\[?\$exists\]?
+\[?\$type\]?
+\[?\$slice\]?
+\[?\$or\]?
+\[?\$xor\]?
+\[?\$nor\]?
+\[?\$div\]?
+\[?\$like\]?
+\[?\$between\]?
+\[?\$and\]?
+\[?\$nor\]?
+\[?\$not\]?
+\[?\$regex\]?
+\[?\$text\]?
+\[?\$where\]?
+\[?\$jsonSchema\]?
+\[?\$elemMatch\]?
 
 
-##!^ [\"'`]\s*?
-
-##! All tests below are prefixed with [\"'`]\s*?
-
-is\s+not\b
-##! all sqlite not smth from https://www.sqlite.org/lang_expr.html
-not\s+(?:like|glob|between|null|in|regexp|match)\b
-##! sql operators
-[|&<>*\/%=^+-]
-##! common operators that can't be added to 942120.data
-(?:mod|div)\b
-sounds\s+like\b

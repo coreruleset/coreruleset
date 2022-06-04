@@ -48,7 +48,7 @@ class Assemble(Processor):
 
     def _run_assembler(self) -> str:
         self.logger.debug('Running assembler with lines: %s', self.lines)
-        args = [self.context.regexp_assemble_pl_path]
+        args = [str(self.context.regexp_assemble_pl_path)]
         outs = None
         errs = None
         proc = Popen(args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
