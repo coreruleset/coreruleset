@@ -1,6 +1,6 @@
 ---
   meta:
-    author: "fzipitria"
+    author: "fzipitria, Max Leske"
     enabled: true
     name: "934120.yaml"
     description: "Description"
@@ -688,5 +688,525 @@
                 Accept-Language: en-us,en;q=0.5
               method: GET
               uri: "/get?ssrf=gopher://0x7f000001"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-35
+      desc: SSRF - IPv4, dotless decimal
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://2852039166/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-36
+      desc: SSRF - IPv4, dotless decimal with overflow
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://7147006462/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-37
+      desc: SSRF - IPv4, dotted hexadecimal
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://0xA9.0xFE.0xA9.0xFE/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-38
+      desc: SSRF - IPv4, dotless hexadecimal
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://0xA9FEA9FE/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-39
+      desc: SSRF - IPv4, dotless hexadecimal with overflow
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://0x41414141A9FEA9FE/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-40
+      desc: SSRF - IPv4, dotted octal
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://0251.0376.0251.0376/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-41
+      desc: SSRF - IPv4, dotted octal with padding
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://0251.00376.000251.0000376/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-42
+      desc: SSRF - IPv4, dotted, two bytes decimal, two bytes octal
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://169.254.43518/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-43
+      desc: SSRF - IPv4, dotted, one byte decimal, three bytes octal
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://169.16689662/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-44
+      desc: SSRF - IPv6, full format
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://[0:0:0:0:0:ffff:a9fe:a9fe]"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-45
+      desc: SSRF - IPv6, first 10 bytes compressed
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://[::ffff:a9fe:a9fe]"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-46
+      desc: SSRF - IPv6, first byte full, rest compressed
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://[a::]"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-47
+      desc: SSRF - IPv6, first byte full, last byte full, rest compressed
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://[a::b]"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-48
+      desc: SSRF - IPv6, compressed in the middle
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://[dead:beef:dead::beef:dead:beef:dead]"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-49
+      desc: SSRF - IPv6, link-local unicast with zone ID, compressed
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://[fe80::%zone1]"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-49
+      desc: SSRF - IPv6, link-local unicast with zone ID, full
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://[fe80::dead:beef:dead:beef:dead:beef%zone1]"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-50
+      desc: SSRF - IPv6, IPv4 mapped
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://[0:0:0:0:0:ffff:169.254.169.254]"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-51
+      desc: SSRF - IPv6, IPv4 compatible
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://[0:0:0:0:0:0:169.254.169.254]"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-52
+      desc: SSRF - URL bypass, IP + domain
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://google.com:80+&@127.88.23.245:22/#+@google.com:80/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-52
+      desc: SSRF - URL bypass, domain + IP
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://google.com:80+&@google.com:80#+@127.88.23.245:22/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-53
+      desc: SSRF - Enclosed alphanumerics, dots
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://http://169。254。169。254/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-54
+      desc: SSRF - Enclosed alphanumerics, ①②⑦
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://①②⑦.254.169.254/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-55
+      desc: SSRF - Enclosed alphanumerics, ①⑥⑨
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://127.254.①⑥⑨.254/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-56
+      desc: SSRF - Enclosed alphanumerics, ⓛⓞⓒⓐⓛⓗⓞⓢⓣ
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://ⓛⓞⓒⓐⓛⓗⓞⓢⓣ:8080/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-57
+      desc: SSRF - Enclosed alphanumerics, ⓁⓄⒸⒶⓁⒽⓄⓈⓉ
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://ⓁⓄⒸⒶⓁⒽⓄⓈⓉ:8080/"
+            output:
+              log_contains: id "934120"
+    -
+      test_title: 934120-58
+      desc: SSRF - IPv6, the unspecified address
+      stages:
+        -
+          stage:
+            input:
+              dest_addr: "127.0.0.1"
+              port: 80
+              headers:
+                Host: "localhost"
+                User-Agent: "ModSecurity CRS 3 Tests"
+                Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+                Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+                Accept-Encoding: gzip,deflate
+                Accept-Language: en-us,en;q=0.5
+              method: GET
+              uri: "/get?ssrf=http://[::]/"
             output:
               log_contains: id "934120"
