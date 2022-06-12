@@ -47,62 +47,16 @@
 
 ##! http://[::ffff:a9fe:a9fe] IPV6 Compressed - IPv6 (base regex from https://ihateregex.io/expr/ipv6/, with [0-9] converted to \d and with non-capturing groups (below))
 ##! http://[0:0:0:0:0:ffff:a9fe:a9fe] IPV6 Expanded
-##!   ##!> assemble
-##! \[
-##!   ##!=>
-##!     ##! template 1-4-hex  [a-f0-9]{1,4}
-##!     ##! [0:0:0:0:0:0:0:0]
-##! (?:{{1-4-hex}}:){7,7}{{1-4-hex}}
-##!     ##! [0:] ... [0:0:0:0:0:0:0:]
-##! (?:{{1-4-hex}}:){1,7}:
-##!     ##! [0::0] ... [0:0:0:0:0:0::0]
-##! (?:{{1-4-hex}}:){1,6}:{{1-4-hex}}
-##!     ##! [0::0] ... [0:0:0:0:0::0:0]
-##! (?:{{1-4-hex}}:){1,5}(?::{{1-4-hex}}){1,2}
-##!     ##! [0::0] ... [0:0:0:0::0:0:0]
-##! (?:{{1-4-hex}}:){1,4}(?::{{1-4-hex}}){1,3}
-##!     ##! [0::0] ... [0:0:0::0:0:0:0]
-##! (?:{{1-4-hex}}:){1,3}(?::{{1-4-hex}}){1,4}
-##!     ##! [0::0] ... [0:0::0:0:0:0:0]
-##! (?:{{1-4-hex}}:){1,2}(?::{{1-4-hex}}){1,5}
-##!     ##! [0::0] ... [0::0:0:0:0:0:0]
-##! {{1-4-hex}}:(?::{{1-4-hex}}){1,6}
-##!     ##! [::] ... [::0:0:0:0:0:0:0]
-##! :(?:(?::{{1-4-hex}}){1,7}|:)
-##!     ##! link-local unicast with zone ID
-##!     ##! [fe80%zone1] ... [fe80::%zone1] ... [fe80::0:0:0:0:0:0%zone1]
-##! fe80:(?::[a-f0-9]{0,4}){0,4}%[a-z0-9]{1,}
-
-##! ::(?:ffff(:0{1,4}){0,1}:){0,1}(?:(?:25[0-5]|(?:2[0-4]|1?\d)?\d)\.)?(?:25[0-5]|(?:2[0-4]|1?\d)?\d)
-##! (?:{{1-4-hex}}:){1,4}:(?:25[0-5]|(?:2[0-4]|1?\d)?\d)\.)?(?:25[0-5]|(?:2[0-4]|1?\d)?\d)
-##!     ##!<
-##!   ##!<
-
+##! http://[fe80::%zone1] link-local unicast with zone ID
 ##! http://[0:0:0:0:0:ffff:169.254.169.254] IPV6/IPV4
-##!   ##!> assemble
-##! \[
-##!   ##!=>
-##! 
-##!   ##! IPv6
-##! (?:[0-9a-f]{1,4}:){6}
-##!   ##!=>
-##! 
-##!   ##! IPv4
-##! (?:
-##!   ##!=>
-##!   ##!=> ipv4
-##! \.){3}
-##!   ##!=>
-##!   ##!=> ipv4
-##! 
-##! \]
-##!   ##!<
-
-##! http://[::]
+##! http://[::] the unspecified address
 
 ##! Something that looks like IPv6 in a URL.
 ##! Matches full and compressed IPv6, link-local IPv6 with
 ##! zone ID, and embedded IPv4.
+##! We could match the IPv6 specification here but that would
+##! decrease performance of the regular expression and would
+##! actually increase the possibility for bypasses.
 \[[a-f\d:]+(?:[\d.]+|%\w+)?\]
 
 
@@ -119,7 +73,7 @@
 ##! http://google.com:80+&@127.88.23.245:22/#+@google.com:80/
 ##! http://google.com:80+&@google.com:80#+@127.88.23.245:22/
 
-  ##! create ip-or-domain for later use
+##! create ip-or-domain for later use
   ##!> assemble
 (?:\d{1,3}\.){3,3}\d{1,3}
 [a-z][\w\-\.]{1,255}
@@ -160,7 +114,8 @@
   ##!=>
   ##!<
 
-##! Enclosed alphanumerics are used for evasion (https://en.wikipedia.org/wiki/Enclosed_Alphanumerics)
+##! Enclosed alphanumerics are used for evasion (https://en.wikipedia.org/wiki/Enclosed_Alphanumerics).
+##! See also https://github.com/cujanovic/SSRF-Testing.
 ##! These will normally sound many alarms, but having them flagged as ssrf attempt makes sense
 
   ##!> assemble
