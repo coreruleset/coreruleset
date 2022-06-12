@@ -119,6 +119,15 @@
 ##! http://google.com:80+&@127.88.23.245:22/#+@google.com:80/
 ##! http://google.com:80+&@google.com:80#+@127.88.23.245:22/
 
+  ##! create ip-or-domain for later use
+  ##!> assemble
+(?:\d{1,3}\.){3,3}\d{1,3}
+[a-z][\w\-\.]{1,255}
+  ##!=>
+:\d{1,5}
+  ##!=< ip-or-domain
+  ##!<
+
   ##!> assemble
   ##! domain + port
 [a-z][\w\-\.]{1,255}:\d{1,5}
@@ -129,12 +138,6 @@
   ##!=>
 
   ##! IPv4 + port or domain + port
-    ##!> assemble
-(?:\d{1,3}\.){3,3}\d{1,3}
-[a-z][\w\-\.]{1,255}
-    ##!<
-:\d{1,5}
-  ##!=< ip-or-domain
   ##!=> ip-or-domain
 
   ##! optional forward slash
@@ -159,13 +162,41 @@
 
 ##! Enclosed alphanumerics are used for evasion (https://en.wikipedia.org/wiki/Enclosed_Alphanumerics)
 ##! These will normally sound many alarms, but having them flagged as ssrf attempt makes sense
-##! ①②⑦.
-\xe2\x91\xa0\xe2\x91\xa1\xe2\x91\xa6\.
-##! ①⑥⑨.
-\xe2\x91\xa0\xe2\x91\xa5\xe2\x91\xa8\.
-##! ⓛⓞⓒⓐⓛⓗⓞⓢⓣ
-\xe2\x93\x9b\xe2\x93\x9e\xe2\x93\x92\xe2\x93\x90\xe2\x93\x9b\xe2\x93\x97\xe2\x93\x9e\xe2\x93\xa2\xe2\x93\xa3
-##! ⓁⓄⒸⒶⓁⒽⓄⓈⓉ
-\xe2\x93\x81\xe2\x93\x84\xe2\x92\xb8\xe2\x92\xb6\xe2\x93\x81\xe2\x92\xbd\xe2\x93\x84\xe2\x93\x88\xe2\x93\x89
+
+  ##!> assemble
+  ##! ⓪,①,②,③,④,⑤,⑥,⑦,⑧,⑨,⑩,⑪,⑫,⑬,⑭,⑮,⑯,⑰,⑱,⑲,⑳
+\xe2\x91[\xaa\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3]
+  ##! ⑴,⑵,⑶,⑷,⑸,⑹,⑺,⑻,⑼,⑽,⑾,⑿
+\xe2\x91[\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf]
+  ##! ⒀,⒁,⒂,⒃,⒄,⒅,⒆,⒇
+\xe2\x92[\x80\x81\x82\x83\x84\x85\x86\x87]
+  ##! ⒈,⒉,⒊,⒋,⒌,⒍,⒎,⒏,⒐,⒑,⒒,⒓,⒔,⒕,⒖,⒗,⒘,⒙,⒚,⒛
+\xe2\x92[\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b]
+  ##! ⒜,⒝,⒞,⒟,⒠,⒡,⒢,⒣,⒤,⒥,⒦,⒧,⒨,⒩,⒪,⒫,⒬,⒭,⒮,⒯,⒰,⒱,⒲,⒳,⒴,⒵
+\xe2\x92[\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5]
+  ##! Ⓐ,Ⓑ,Ⓒ,Ⓓ,Ⓔ,Ⓕ,Ⓖ,Ⓗ,Ⓘ,Ⓙ
+\xe2\x92[\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf]
+  ##! Ⓚ,Ⓛ,Ⓜ,Ⓝ,Ⓞ,Ⓟ,Ⓠ,Ⓡ,Ⓢ,Ⓣ,Ⓤ,Ⓥ,Ⓦ,Ⓧ,Ⓨ,Ⓩ
+\xe2\x93[\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f]
+  ##! ⓐ,ⓑ,ⓒ,ⓓ,ⓔ,ⓕ,ⓖ,ⓗ,ⓘ,ⓙ,ⓚ,ⓛ
+\xe2\x93[\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b]
+  ##! ⓜ,ⓝ,ⓞ,ⓟ,ⓠ,ⓡ,ⓢ,ⓣ,ⓤ,ⓥ,ⓦ,ⓧ,ⓨ,ⓩ
+\xe2\x93[\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9]
+  ##! ⓫,⓬,⓭,⓮,⓯,⓰,⓱,⓲,⓳,⓴
+\xe2\x93[\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4]
+  ##! ⓿,⓵,⓶,⓷,⓸,⓹,⓺,⓻,⓼,⓽,⓾
+\xe2\x93[\xbf\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe]
+  ##! ideographic full stop: 。
+\xe3\x80\x82
+  ##!=< enclosed-alnums
+
+  ##! an IP could start with digits and dots
+[\d.]{0,11}
+  ##!=>
+  ##!=> enclosed-alnums
+  ##! match all for capture
++
+  ##!=>
+  ##!<
 
 ##!<
