@@ -3,12 +3,62 @@
 
 ##! Word list for rule 932150 (RCE Unix command injection)
 
-##!> cmdline unix
-
-##! Magic prefix (origin unknown)
-##!^ (?:^|=)\s*(?:{|\s*\(\s*|\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+|!\s*|\$)*\s*(?:'|\")*(?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
-
+##! We require a trailing space (denoting command parameters) or command
+##! separator character after the command (includes evasion prefix)
 ##!$ [\x5c'\"]*(?:\s|;|\||&|<|>)
+
+##! starting tokens prefix
+##!> assemble
+##! ifconfig
+^
+##! ={ifconfig}
+=
+##!=>
+
+##! match possible white space between prefix expressions
+##!^ \s*
+
+##! commands prefix
+(?:
+##!=>
+
+##! { ifconfig }
+\{
+##! ( ifconfig )
+\s*\(\s*
+##! VARNAME=xyz ifconfig
+\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
+##! ! ifconfig
+!\s*
+##! $ifconfig
+\$
+##!=>
+
+)*
+##!=>
+
+##! match possible white space between prefix expressions
+\s*
+##!=>
+
+##! quoting prefix
+(?:
+##!=>
+
+##! 'ifconfig'
+'
+##! "ifconfig"
+\"
+##!=>
+
+)*
+##!=>
+
+##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
+(?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
+##!=> 
+
+  ##!> cmdline unix
 
 bash
 bsdcat
@@ -203,3 +253,4 @@ zless
 zmore
 zrun
 zsh
+  ##!<
