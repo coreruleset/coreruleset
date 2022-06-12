@@ -312,6 +312,24 @@ cd
         with pytest.raises(KeyError):
             assembler.preprocess(Peekerator(contents.splitlines()))
 
+    def test_storing_alternation_and_concatenation(self, context):
+        contents = '''##!> assemble
+  ##!> assemble
+a
+b
+  ##!=>
+c
+d
+  ##!=< input
+  ##!<
+  ##!<
+##!=> input
+'''
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        assert output == '[ab][cd]'
 
 class TestCmdLinePreprocessor:
     def test_adds_unix_escapes(self, context):
