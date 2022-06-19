@@ -32,12 +32,20 @@ class FooLogChecker(logchecker.LogChecker):
         def try_once():
             self.mark_and_flush_log(stage_id)
             self.backwards_reader.reset()
-            return self.backwards_reader.readline() or b''
-            
-        line = try_once()
-        while not (header_bytes in line and stage_id_bytes in line):
-            line = try_once()
-        return line
+            lines = []
+            # when anomaly score is triggered somehow we need to look back
+            # further, since anomaly soring will always appear at the end
+            # of the log entries
+            for _ in range(0, 3):
+                lines.append(self.backwards_reader.readline() or b'')
+            return lines
+
+        line = ''
+        while not len(line) > 0:
+            lines = try_once()
+            for line in lines:
+                if header_bytes in line and stage_id_bytes in line:
+                    return line
 
     def get_logs(self):
         logs = []
@@ -59,14 +67,14 @@ class FooLogChecker(logchecker.LogChecker):
             headers={
                 'Host': 'localhost',
                 'User-Agent': 'CRS',
-                'Accept': '*/*',
+                'Accept': '*/*; charset=utf-8',
                 CRS_HEADER: header_value
             },
             version='HTTP/1.0'))
 
     @staticmethod
     def find_log_location(config):
-        key = 'log_location_linux' 
+        key = 'log_location_linux'
         # First, try to find the log configuration from config.ini
         if key in config:
             return config[key]
@@ -132,7 +140,7 @@ class BackwardsReader:
       while line:
           yield line
           line = self.readline()
-        
+
   def reset(self):
     # get the file size
     self.size = os.stat(self.file)[6]
