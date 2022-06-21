@@ -1,25 +1,5 @@
-##! This is a data file used to generate a regular expression for a CRS rule. 
-##! The generation of the regular expression happens with the help of 
-##! util/regexp-assemble/regexp-assemble.py.
-##! The ID of the rule in question is part of the file name of this data file. 
-##! Read more about the format of this data file and the use of the assembly 
-##! script in util/regexp-assemble/README.md.
-##!
-##! Lines starting with `##!` are comments and will be skipped,
-##! empty lines will be ignored completely.
-##! In addition, the quote character `'` at the beginning of a line will
-##! cause the line to be interpreted as literal by the cmdline preprocessor only.
-##! 
-##! Five special comments are at your disposal to influence the assembled expression:
-##! - `##!+`: the flag comment
-##! - `##!^`: the prefix comment
-##! - `##!$`: the suffix comment
-##! - `##!>`: the preprocessor comment
-##! - `##!<`: the block preprocessor end comment
-##!
-##! Currently supported preprocessors:
-##! - cmdline [windows|unix] (file scope)
-##! Please refer to util/regexp-assemble/README.md for a full explanation.
+##! Please refer to the documentation at 
+##! https://coreruleset.org/docs/development/regexp_assemble/.
 
 ##! Word list for rule 932100 (RCE Unix command injection part 1/4)
 ##!
@@ -31,20 +11,100 @@
 ##!
 ##!   diff@
 
-##!> cmdline unix
-##!^ (?:;|\{|\||\|\||&|&&|\n|\r|\$\(|\$\(\(|`|\${|<\(|>\(|\(\s*\))\s*(?:{|\s*\(\s*|\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+|!\s*|\$)*\s*(?:'|\")*(?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
-
 ##!$ \b
+
+##! starting tokens prefix
+##!> assemble
+##! ;ifconfig
+;
+##! {ifconfig}
+\{
+##! |ifconfig
+\|
+##! ||ifconfig
+\|\|
+##! &ifconfig
+&
+##! & &ifconfig
+&&
+##! ;\nifconfig 
+\n
+##! ;\rifconfig
+\r
+##! $(ifconfig)
+\$\(
+##! $((ifconfig))
+$\(\(
+##! `ifconfig`
+`
+##! ${ifconfig}
+\${
+##! <( ifconfig )
+<\(
+##! >( ifconfig )
+>\(
+##! a() ( ifconfig; ); a	
+\(\s*\)
+##!=>
+
+##! match possible white space between prefix expressions
+\s*
+##!=> 
+
+##! commands prefix
+(?:
+##!=>
+
+##! { ifconfig }
+\{
+##! ( ifconfig )
+\s*\(\s*
+##! VARNAME=xyz ifconfig
+\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
+##! ! ifconfig
+!\s*
+##! $ifconfig
+\$
+##!=>
+
+)*
+##!=>
+
+##! match possible white space between prefix expressions
+\s*
+##!=>
+
+##! quoting prefix
+(?:
+##!=>
+
+##! 'ifconfig'
+'
+##! "ifconfig"
+\"
+##!=>
+
+)*
+##!=>
+
+##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
+(?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
+##!=>
+
+  ##!> cmdline unix
 
 7z
 7za
 7zr
+GET@
 adduser
 alias@
 alpine
 apt-get
+apt@
 arch@
 arp
+at@
 awk@
 aws@
 bash
@@ -54,6 +114,9 @@ bsdcat
 bsdiff
 bsdtar
 builtin
+bundler@
+busctl
+busybox
 bzcat
 bzdiff
 bzegrep
@@ -62,16 +125,24 @@ bzgrep
 bzip2
 bzless
 bzmore
+c89
+c99
+capsh@
 cat@
 cc@
+certbot
 chattr
 chdir@
 chflags
 chmod
 command@
+composer
 compress@
 coproc
 cp@
+cpan
+cpio
+cpulimit
 crontab
 csh
 curl
@@ -83,16 +154,21 @@ doas
 done
 dpkg
 du@
+easy_install
 echo@
+ed@
 egrep
+emacs
 endif
 endsw
 env
 env-update
 esac
 eval
+ex@
 exec@
 expand
+expect@
 export
 expr
 fc@
@@ -103,15 +179,18 @@ file@
 filetest
 find@
 fish
+flock@
 foreach
 ftp@
 ftpstats
 ftpwho
 function
+gcc
 gcc@
 gdb
-GET@
+gem@
 getfacl@
+git
 git@
 ##! golang compiler/command
 go@
@@ -130,6 +209,7 @@ hup@
 ##! injecting ';id' unfortunately.
 id@
 ifconfig
+ionice
 ip6tables
 ipconfig
 iptables
@@ -149,6 +229,7 @@ irb30
 java@
 jexec
 jobs@
+journalctl
 kill@
 killall
 ksh
@@ -162,13 +243,15 @@ less@
 lessecho
 lessfile
 lesspipe
-links@
 lftp
 lftpget
+links@
 ln@
 local@
 locate@
+loginctl
 logname
+logsave
 lp@
 ls
 ls-F
@@ -179,11 +262,12 @@ lsmod
 lsof
 lspci
 lsusb
-lua@
+ltrace
 lua5.1
 lua5.2
 lua5.3
 lua5.4
+lua@
 lwp-download
 lwp-dump
 lwp-mirror
@@ -198,8 +282,5 @@ lzgrep
 lzless
 lzma
 lzmore
-mailq
-mailx@
-mkdir@
-mlocate
-more@
+##! words starting with m continue in 932105.data
+##!<

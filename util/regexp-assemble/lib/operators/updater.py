@@ -1,5 +1,3 @@
-import os
-
 from msc_pyparser import MSCWriter
 from lib.operators.parser import Parser
 
@@ -22,10 +20,7 @@ class Updater(Parser):
     def write_updates(self):
         for rule_prefix, parser in self.parsers.items():
             writer = MSCWriter(parser.configlines)
-            file_path = os.path.join(
-                self.context.rules_directory, self.prefix_to_file_map[rule_prefix]
-            )
-            with open(file_path, "w") as handle:
+            with self.prefix_to_file_map[rule_prefix].open("w") as handle:
                 writer.generate()
                 # add extra new line at the end of file
                 writer.output.append("")

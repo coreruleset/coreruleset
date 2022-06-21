@@ -96,3 +96,33 @@ tests:
             protocol: "http"
           output:
             no_log_contains: "id \"932150\""
+  - test_title: 932150-7
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "POST"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: 'x=c99%20-wrapper%20sh,-c,curl%20google.com%20.'
+            protocol: "http"
+          output:
+            log_contains: "id \"932150\""
+  - test_title: 932150-8
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "POST"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: 'x=printf%20dwssap/cte/%20tac%20|%20rev%20|%20sh'
+            protocol: "http"
+          output:
+            log_contains: "id \"932150\""

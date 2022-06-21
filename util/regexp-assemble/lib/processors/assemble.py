@@ -48,7 +48,7 @@ class Assemble(Processor):
 
     def _run_assembler(self) -> str:
         self.logger.debug('Running assembler with lines: %s', self.lines)
-        args = [self.context.regexp_assemble_pl_path]
+        args = [str(self.context.regexp_assemble_pl_path)]
         outs = None
         errs = None
         proc = Popen(args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
@@ -80,7 +80,8 @@ class Assemble(Processor):
 
         regex = self._run_assembler()
         self.logger.debug('Storing expression at %s: %s', identifier, regex)
-        self.stash[identifier] = regex
+        self.stash[identifier] = self.output + regex
+        self.output = ''
 
     def _append(self, identifier:str):
         if not identifier:

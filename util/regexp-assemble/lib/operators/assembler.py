@@ -7,6 +7,7 @@ from lib.processors.processor import Processor
 from lib.processors.cmdline import CmdLine
 from lib.processors.assemble import Assemble
 from lib.processors.template import Template
+from lib.processors.include import Include
 
 T = TypeVar('T')
 
@@ -82,6 +83,9 @@ class Preprocessor(object):
 
         return self.processor.complete()
 
+    def has_body(self):
+        return self.processor.has_body()
+
     def _filter(self, peekerator: Peekerator[str]) -> Generator[str, None, None]:
         line = next(peekerator, None)
         while line is not None and not PREPROCESSOR_END_REGEX.match(line):
@@ -96,6 +100,9 @@ class NoOpPreprocessor(object):
     def run(self, iterator: Iterator[str]) -> List[str]:
         return list(iterator)
 
+    def has_body(self):
+        return True
+
 class Assembler(object):
     logger = logging.getLogger()
 
@@ -105,7 +112,8 @@ class Assembler(object):
         self.preprocessor_map = {
             "cmdline": CmdLine,
             "assemble": Assemble,
-            "template": Template
+            "template": Template,
+            "include": Include
         }
 
     def run(self, file: TextIO) -> str:
@@ -157,12 +165,12 @@ class Assembler(object):
     def _preprocess(self, peekerator: Peekerator[str]) -> List[str]:
         processor = self.detect_preprocessor(peekerator)
         self.logger.debug('detected processor: %s', processor.processor.__class__)
-        lines = self.lines_to_process(peekerator)
+        lines = self.lines_to_process(peekerator, processor)
         self.logger.debug('processor will process: %s', lines)
         return processor.run(Peekerator(lines))
 
-    def lines_to_process(self, peekerator: Peekerator[str]) -> List[str]:
-        lines: List[str] = []
+    def lines_to_process(self, peekerator: Peekerator[str], processor: Preprocessor) -> List[str]:
+        lines: List[str] = [] 
         line = peekerator.peek()
         while line is not None:
             self.stats.line_parsed()
@@ -172,6 +180,10 @@ class Assembler(object):
                 next(peekerator)
                 self.stats.processor_end()
                 self.logger.debug('Found preprocessor end marker')
+                break
+            elif not processor.has_body():
+                self.stats.processor_end()
+                self.logger.debug('Preprocessor has no body. No lines to process')
                 break
             elif line.strip() == '' or SIMPLE_COMMENT_REGEX.match(line):
                 # consume the item
