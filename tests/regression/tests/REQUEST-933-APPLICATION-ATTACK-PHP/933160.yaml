@@ -630,50 +630,18 @@ tests:
           output:
             log_contains: id "933160"
   - test_title: 933160-40
-    desc: decode a base-64 encoded string
+    desc: string function call
     stages:
       - stage:
           input:
-            data: atob($foo)
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
               User-Agent: OWASP ModSecurity Core Rule Set
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
+            method: GET
             port: 80
-            uri: /
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-41
-    desc: encode a string in base-64
-    stages:
-      - stage:
-          input:
-            data: btoa($foo)
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-42
-    desc: call "alert" to open pop-up
-    stages:
-      - stage:
-          input:
-            data: alert("crs")
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /
+            # /?foo=return"system"().s
+            uri: /?foo=return%22system%22%28xyz%29.s
           output:
             log_contains: id "933160"
