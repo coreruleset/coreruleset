@@ -1,30 +1,31 @@
 # The contents of this list come from the [PHP source code](https://github.com:php/php-src).
 #
-# There are different types of errors that might be thrown. An easy way to consolidate is to
+# There are different types of errors that might be thrown. An easy way to discover them is to
 # get any text that comes from the error handling functions: `zend_error`, `zend_throw_error`, `soap_error0`, etc.
 # Using the regexp `_error([0-9])?\(` will give you all. And you can see them using:
 # `ggrep -h -E -r -o --exclude="*.phpt" '\w+_error([0-9])?\(' * | sort | uniq`
 #
-# After getting the list, there are two different types of errors: those who are literal text, and those who include
+# After getting the list, there are two different types of errors: those with literal text, and those that include
 # print format args like `%s`, `%d`, `%zu`, etc. We sort them in two groups.
 #
 # The first group is just anything without formatting args. Only text, sorted ascending. Command used:
-#   - `ggrep -E -h -r --exclude="*.phpt" '_error([0-9])?\(' * | awk -F\" '{ print $2;} ' | sed -e 's/ \\$/ "/g' | sort | uniq | grep -v '%'`
-# Small post processing might be done to adjust strings that might cause false positives. Examples are lines too short,
-# or very common Enlgish sencentes (e.g. `Can use`, `Attribute`, etc.). There also text coming from php unit/regression
-# tests, like 'DROP TABLE IF EXISTS test_bug_71863` that we need to clean.
+#   - `grep -E -h -r --exclude="*.phpt" '_error([0-9])?\(' * | awk -F\" '{ print $2;} ' | sed -e 's/ \\$/ "/g' | sort | uniq | grep -v '%'`
+# Post processing might be necessary to adjust strings that can cause false positives, such as
+# - line is very short
+# - line is a (partial) common English sentence, like `Can use`, `Attribute`, etc.
+# - text coming from php unit/regression tests, like 'DROP TABLE IF EXISTS test_bug_71863`
 #
 # The second group will be the part with format strings. Only text, sorted ascending.
 # This will need a more careful processing. The format string will appear in the text result,
 # but it will (of course) be substituted by some variable value. So we need to clean more text here.
-# The easiest way is to split in lines when a format string is found. This will shorten the texts, but
-# then we can sort who are the ones more fit for being in this file.
+# The easiest way is to split a line whenever a format string is found. This will shorten the texts but,
+# then we can sort out the ones we don't want to include more easily.
 # We also remove:
-# - text with just one word (too easy for FP), or one word, one space (optional) and one non-word (optional).
-#   this will match things like `Collect "`, `Method` or `Class `.
+# - text with just one word (likely to be FP), or one word, one space (optional) and one non-word (optional),
+#   which will match things like `Collect "`, `Method` or `Class `.
 #
 # Command used:
-#   - `ggrep -E -h -r --exclude="*.phpt" '_error([0-9])?\(' * | awk -F\" '/%/ { print $2;} ' | sed -e 's/ \\$/ "/g' -e 's/%[zlp][ud]/\n/g' -e 's/%[a-z]/\n/g'  -e 's/%\.\*s/\n/g' | sort | uniq | ggrep -E -v '^\w+\s?\W?$' | ggrep -E -v '^\W+$'
+#   - `grep -E -h -r --exclude="*.phpt" '_error([0-9])?\(' * | awk -F\" '/%/ { print $2;} ' | sed -e 's/ \\$/ "/g' -e 's/%[zlp][ud]/\n/g' -e 's/%[a-z]/\n/g'  -e 's/%\.\*s/\n/g' | sort | uniq | grep -E -v '^\w+\s?\W?$' | grep -E -v '^\W+$'
 #
 # Anything that is too short, or nonsense, we remove.
 
