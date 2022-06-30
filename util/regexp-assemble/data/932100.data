@@ -1,4 +1,4 @@
-##! Please refer to the documentation at 
+##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regexp_assemble/.
 
 ##! Word list for rule 932100 (RCE Unix command injection part 1/4)
@@ -27,7 +27,7 @@
 &
 ##! & &ifconfig
 &&
-##! ;\nifconfig 
+##! ;\nifconfig
 \n
 ##! ;\rifconfig
 \r
@@ -43,13 +43,13 @@
 <\(
 ##! >( ifconfig )
 >\(
-##! a() ( ifconfig; ); a	
+##! a() ( ifconfig; ); a
 \(\s*\)
 ##!=>
 
 ##! match possible white space between prefix expressions
 \s*
-##!=> 
+##!=>
 
 ##! commands prefix
 (?:
@@ -96,27 +96,45 @@
 7z
 7za
 7zr
-GET@
+ab@
 adduser
+agetty
 alias@
 alpine
+ansible-playbook
 apt-get
 apt@
+ar@
 arch@
+aria2c
+arj
 arp
+as@
+ascii-xfr
+ascii85
+ash
+aspell
 at@
+atobm
 awk@
 aws@
+base32
+base64
+basenc
 bash
 batch@
+bpftrace
 breaksw
+bridge
 bsdcat
 bsdiff
 bsdtar
 builtin
+bundler
 bundler@
 busctl
 busybox
+byebug
 bzcat
 bzdiff
 bzegrep
@@ -127,50 +145,88 @@ bzless
 bzmore
 c89
 c99
+cancel@
+capsh
 capsh@
 cat@
 cc@
 certbot
 chattr
 chdir@
+check_by_ssh
+check_cups
+check_log
+check_memory
+check_raid
+check_ssl_cert
+check_statusfile
 chflags
 chmod
+choom
+chown
+chroot
+cmp
+cobc
+column
+comm
 command@
 composer
 compress@
 coproc
+cowsay
+cowthink
 cp@
 cpan
 cpio
 cpulimit
+crash@
 crontab
 csh
+csplit
+csvtool
+cupsfilter
 curl
+cut@
 dash
+date@
+dd
 dhclient
+dialog@
 diff@
+dig
 dmesg
+dmidecode
+dmsetup
+dnf
 doas
+docker
 done
+dosbox
 dpkg
 du@
+dvips
 easy_install
+eb@
 echo@
 ed@
+efax
 egrep
 emacs
 endif
 endsw
-env
+env@
 env-update
+eqn
 esac
 eval
 ex@
 exec@
+exiftool
 expand
 expect@
 export
 expr
+facter
 fc@
 fetch@
 fgrep
@@ -178,38 +234,60 @@ fi
 file@
 filetest
 find@
+finger
 fish
 flock@
+fmt
+fold@
 foreach
+fping
 ftp@
 ftpstats
 ftpwho
 function
+gawk
 gcc
 gcc@
+gcore
 gdb
 gem@
+genie
+genisoimage
+GET@
 getfacl@
+ghc
+ghci
+gimp
+ginsh
 git
 git@
-##! golang compiler/command
 go@
+grc
 grep@
+gtester
 gunzip
 gzcat
 gzip
+hd@
 head@
+hexdump
+highlight
 history
 hostid
 hostname
+hping3
 htdigest
 htpasswd
 hup@
+iconv
 ##! 'id' causes way too much FP, so we require whitespace; this will allow
 ##! injecting ';id' unfortunately.
 id@
 ifconfig
+iftop
+install
 ionice
+ip@
 ip6tables
 ipconfig
 iptables
@@ -226,17 +304,26 @@ irb25
 irb26
 irb27
 irb30
+ispell
 java@
 jexec
+jjs
 jobs@
+join@
 journalctl
+jq
+jrunscript
 kill@
 killall
+knife@
 ksh
+ksshell
 last@
 lastcomm
 lastlog
 lastlogin
+latex
+ld@
 ldconfig
 ldd@
 less@
@@ -252,6 +339,7 @@ locate@
 loginctl
 logname
 logsave
+look@
 lp@
 ls
 ls-F
@@ -263,11 +351,13 @@ lsof
 lspci
 lsusb
 ltrace
+lua@
 lua5.1
 lua5.2
 lua5.3
 lua5.4
-lua@
+lualatex
+luatex
 lwp-download
 lwp-dump
 lwp-mirror
