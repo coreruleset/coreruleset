@@ -3,7 +3,7 @@
 # There are different types of errors that might be thrown. An easy way to discover them is to
 # get any text that comes from the error handling functions: `zend_error`, `zend_throw_error`, `soap_error0`, etc.
 # Using the regexp `_error([0-9])?\(` will give you all. And you can see them using:
-# `ggrep -h -E -r -o --exclude="*.phpt" '\w+_error([0-9])?\(' * | sort | uniq`
+# `grep -h -E -r -o --exclude="*.phpt" '\w+_error([0-9])?\(' * | sort | uniq`
 #
 # After getting the list, there are two different types of errors: those with literal text, and those that include
 # print format args like `%s`, `%d`, `%zu`, etc. We sort them in two groups.
