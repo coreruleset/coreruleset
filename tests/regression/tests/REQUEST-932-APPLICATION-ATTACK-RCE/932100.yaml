@@ -45,8 +45,8 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "932100"
-  - test_title: True Positive Fix Test 1
-    desc: ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-10, ISO-8859-14, ISO-8859-15 are affected because the chars are encoded as decimal html %26%238222%3B and %26%238221%3B entities
+  - test_title: 932100-3
+    desc: True Positive Fix Test 1 ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-10, ISO-8859-14, ISO-8859-15 are affected because the chars are encoded as decimal html %26%238222%3B and %26%238221%3B entities
     stages:
       - stage:
           input:
@@ -65,8 +65,8 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: "id \"932100\""
-  - test_title: True Positive Fix Test 2
-    desc: Like True Positive Fix Test 1 but instead of space sign using new line sign
+  - test_title: 932100-4
+    desc: Like 932100-3 but instead of space sign using new line sign
     stages:
       - stage:
           input:
@@ -85,7 +85,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: "id \"932100\""
-  - test_title: True Positive Fix Test 3
+  - test_title: 932100-5
     desc: Another html entity - decimal 9977 (person with ball) with space sign after entity and dot
     stages:
       - stage:
@@ -105,7 +105,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: "id \"932100\""
-  - test_title: True Positive Fix Test 4
+  - test_title: 932100-6
     desc: Another html entity - decimal 128 (euro) with new line sign after entity and dot
     stages:
       - stage:
@@ -125,7 +125,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 1
+  - test_title: 932100-7
     desc: arg value of ";ifconfig Something „The Title”. After space or new line more characters" is blocked
     stages:
       - stage:
@@ -145,7 +145,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 2
+  - test_title: 932100-8
     desc: arg value of "Something „The Title”. After ;ifconfig something" is blocked
     stages:
       - stage:
@@ -165,8 +165,8 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 3
-    desc: RCE passed in one of the args
+  - test_title: 932100-9
+    desc: True Negative Rule Integrity 3 - RCE passed in one of the args
     stages:
       - stage:
           input:
@@ -185,7 +185,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 4
+  - test_title: 932100-10
     desc: RCE from test 932100.yaml combined with html entities in the middle
     stages:
       - stage:
@@ -205,7 +205,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 5
+  - test_title: 932100-11
     desc: RCE from test 932100.yaml combined with html entities at the beginning
     stages:
       - stage:
@@ -225,7 +225,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 6
+  - test_title: 932100-12
     desc: RCE from test 932100.yaml combined with html entities at the end
     stages:
       - stage:
@@ -245,7 +245,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 7
+  - test_title: 932100-13
     desc: RCE from https://github.com/payloadbox/command-injection-payload-list and html entities
     stages:
       - stage:
@@ -265,7 +265,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 8
+  - test_title: 932100-14
     desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
     stages:
       - stage:
@@ -285,7 +285,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 10
+  - test_title: 932100-15
     desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
     stages:
       - stage:
@@ -305,7 +305,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 11
+  - test_title: 932100-16
     desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
     stages:
       - stage:
@@ -325,7 +325,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 12
+  - test_title: 932100-17
     desc: RCE ;ifconfig with html entities two digit decimal of 59 (;)
     stages:
       - stage:
@@ -345,7 +345,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 13
+  - test_title: 932100-18
     desc: Like rule True Negative Rule Integrity 9 but the html entity is concatenation with RCE at the end
     stages:
       - stage:
@@ -365,7 +365,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 14
+  - test_title: 932100-19
     desc: Like rule True Negative Rule Integrity 9 but the html entity is concatenation with RCE at the beginning
     stages:
       - stage:
@@ -385,7 +385,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 15
+  - test_title: 932100-20
     desc: Like rule True Negative Rule Integrity 10 but the html entity is concatenation with RCE at the end
     stages:
       - stage:
@@ -405,7 +405,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 16
+  - test_title: 932100-21
     desc: Like rule True Negative Rule Integrity 10 but the html entity is concatenation with RCE at the beginning
     stages:
       - stage:
@@ -425,7 +425,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 17
+  - test_title: 932100-22
     desc: Like rule True Negative Rule Integrity 11 but the html entity is concatenation with RCE at the end
     stages:
       - stage:
@@ -445,7 +445,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 18
+  - test_title: 932100-23
     desc: Like rule True Negative Rule Integrity 11 but the html entity is concatenation with RCE at the beginning
     stages:
       - stage:
@@ -465,7 +465,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 19
+  - test_title: 932100-24
     desc: RCE in arg and html entity is sent in cookie
     stages:
       - stage:
@@ -486,7 +486,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: True Negative Rule Integrity 20
+  - test_title: 932100-25
     desc: RCE in arg and html entity is sent in cookie
     stages:
       - stage:
@@ -507,7 +507,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932100\""
-  - test_title: 932100-21
+  - test_title: 932100-26
     desc: "Unix command injection"
     stages:
       - stage:
@@ -524,7 +524,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "932100"
-  - test_title: 932100-22
+  - test_title: 932100-27
     desc: "Unix command injection"
     stages:
       - stage:
@@ -541,3 +541,43 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "932100"
+  - test_title: 932100-28
+    desc: Test RCE with new semantic versions - ;gcc10.1
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+              Content-Type: application/x-www-form-urlencoded
+            method: POST
+            port: 80
+            uri: "/post"
+            data: "arg=;gcc10.1<<<void main(){}"
+            version: HTTP/1.1
+          output:
+            log_contains: "id \"932100\""
+  - test_title: 932100-29
+    desc: Test RCE with new semantic versions - ;irb31
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+              Content-Type: application/x-www-form-urlencoded
+            method: POST
+            port: 80
+            uri: "/post"
+            data: "arg=;irb31<<<1+2"
+            version: HTTP/1.1
+          output:
+            log_contains: "id \"932100\""

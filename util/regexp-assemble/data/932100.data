@@ -3,6 +3,8 @@
 
 ##! Word list for rule 932100 (RCE Unix command injection part 1/4)
 ##!
+##! This list comes from (and should be in sync) the `unix-shell.data` file.
+##!
 ##! To prevent some FP for a command, you can require command parameters
 ##! after a command. Only do this if the command regularly causes FP and if
 ##! allowing the bare command (without parameters) is not too dangerous.
@@ -10,6 +12,9 @@
 ##! further on, so some letter/number is needed for a match). Example:
 ##!
 ##!   diff@
+##!
+##! The heuristic for applying the `@` is to apply it to commands that
+##! are equal to plain English words.
 
 ##!$ \b
 
@@ -100,7 +105,7 @@ ab@
 adduser
 agetty
 alias@
-alpine
+alpine@
 ansible-playbook
 apt-get
 apt@
@@ -112,7 +117,7 @@ arp
 as@
 ascii-xfr
 ascii85
-ash
+ash@
 aspell
 at@
 atobm
@@ -125,12 +130,11 @@ bash
 batch@
 bpftrace
 breaksw
-bridge
+bridge@
 bsdcat
 bsdiff
 bsdtar
 builtin
-bundler
 bundler@
 busctl
 busybox
@@ -146,7 +150,6 @@ bzmore
 c89
 c99
 cancel@
-capsh
 capsh@
 cat@
 cc@
@@ -167,7 +170,7 @@ chown
 chroot
 cmp
 cobc
-column
+column@
 comm
 command@
 composer
@@ -187,9 +190,9 @@ csvtool
 cupsfilter
 curl
 cut@
-dash
+dash@
 date@
-dd
+dd@
 dhclient
 dialog@
 diff@
@@ -199,8 +202,8 @@ dmidecode
 dmsetup
 dnf
 doas
-docker
-done
+docker@
+done@
 dosbox
 dpkg
 du@
@@ -222,9 +225,9 @@ eval
 ex@
 exec@
 exiftool
-expand
+expand@
 expect@
-export
+export@
 expr
 facter
 fc@
@@ -234,8 +237,8 @@ fi
 file@
 filetest
 find@
-finger
-fish
+finger@
+fish@
 flock@
 fmt
 fold@
@@ -246,20 +249,18 @@ ftpstats
 ftpwho
 function
 gawk
-gcc
-gcc@
+gcc~
 gcore
 gdb
 gem@
-genie
+genie@
 genisoimage
 GET@
 getfacl@
 ghc
 ghci
-gimp
+gimp@
 ginsh
-git
 git@
 go@
 grc
@@ -271,8 +272,8 @@ gzip
 hd@
 head@
 hexdump
-highlight
-history
+highlight@
+history@
 hostid
 hostname
 hping3
@@ -285,25 +286,13 @@ iconv
 id@
 ifconfig
 iftop
-install
+install@
 ionice
 ip@
 ip6tables
 ipconfig
 iptables
-irb
-irb1
-irb18
-irb19
-irb20
-irb21
-irb22
-irb23
-irb24
-irb25
-irb26
-irb27
-irb30
+irb~
 ispell
 java@
 jexec
@@ -322,7 +311,7 @@ last@
 lastcomm
 lastlog
 lastlogin
-latex
+latex@
 ld@
 ldconfig
 ldd@
@@ -352,10 +341,6 @@ lspci
 lsusb
 ltrace
 lua@
-lua5.1
-lua5.2
-lua5.3
-lua5.4
 lualatex
 luatex
 lwp-download
@@ -372,5 +357,8 @@ lzgrep
 lzless
 lzma
 lzmore
-##! words starting with m continue in 932105.data
+  ##!<
+
 ##!<
+
+##! words starting with m continue in 932105.data
