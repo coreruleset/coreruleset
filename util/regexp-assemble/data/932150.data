@@ -261,7 +261,11 @@ zsh
 python
     ##!<
   ##!=>
-[23]?(?:\.[0-9.]+)?(?:[dmu]+)?
+  ##! Need to add the evasion prevention into the following pattern by hand to
+  ##! counter evasions like python3.1""0 which are possible because a suffix
+  ##! marker is in use (see the suffix (##!$) at the beginning of this file).
+  ##! The original pattern is: [23]?(?:\.[0-9.]+)?(?:[dmu]+)?
+[\x5c'\"]*[23]?[\x5c'\"]*(?:\.[0-9.\x5c'\"]+)?(?:[dmu]+)?
   ##!=>
   ##!<
 
