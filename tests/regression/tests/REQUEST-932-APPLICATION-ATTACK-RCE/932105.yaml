@@ -39,7 +39,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "932105"
-  - test_title: 932105-6
+  - test_title: 932105-3
     desc: "Unix command injection"
     stages:
       - stage:
@@ -56,7 +56,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "932105"
-  - test_title: 932105-7
+  - test_title: 932105-4
     desc: "Unix command injection with gtfobin"
     stages:
       - stage:
@@ -70,6 +70,57 @@ tests:
             port: 80
             uri: "/"
             data: "x\";pidstat -e whoami #"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932105"
+  - test_title: 932105-5
+    desc: "Unix command injection with specific python version"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/post"
+            data: cmd='print("crs") | python3.11 -c
+            version: HTTP/1.0
+          output:
+            log_contains: id "932105"
+  - test_title: 932105-6
+    desc: "Unix command injection with specific pip version"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/post"
+            data: "pkg=requests; pip3 install $pkg"
+            version: HTTP/1.1
+          output:
+            log_contains: id "932105"
+  - test_title: 932105-7
+    desc: "Unix command injection with specific php version"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/post"
+            data: "TEST=echo | php7.4"
             version: HTTP/1.0
           output:
             log_contains: id "932105"
