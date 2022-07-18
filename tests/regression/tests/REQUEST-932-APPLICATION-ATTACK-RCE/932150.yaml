@@ -144,6 +144,23 @@ tests:
           output:
             log_contains: "id \"932150\""
   - test_title: 932150-10
+    desc: "Unix Command Injection - python version bypass test"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: "localhost"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+            method: GET
+            port: 80
+            # "cmd=python3.10 cmd"
+            uri: '/?cmd=""p""y""t""h""o""n""3"".""1""0""%20""c""m""d""'
+            version: HTTP/1.0
+          output:
+            log_contains: "id \"932150\""
+  - test_title: 932150-11
     desc: "Unix Command Injection - printf bypass test"
     stages:
       - stage:
