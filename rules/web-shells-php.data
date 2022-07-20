@@ -1,7 +1,17 @@
-# This list contains patterns of various web shells, backdoors and similar software.
-# There is no way how to automatically update this list, so it must be done by hand.
+# This list contains patterns of various web shells, backdoors and similar
+# software written in PHP language. There is no way how to automatically update
+# this list, so it must be done by hand. Here is a recommended way how to add
+# new malicious software:
+# 1.) As patterns are matched against RESPONSE_BODY, you need to run a malicious
+#     software (ideally in an isolated environment) and catch the output.
+# 2.) In the output, search for static pattern unique enough to match only
+#     the software in question and to not do any FPs. The best pick is usually
+#     a part of HTML code with software name.
+# 3.) Include software name and URL (if available) in the comment above
+#     the pattern.
 #
-# Data comes from multiple places of which some doesn't work anymore. Few are listed below:
+# Data comes from multiple places of which some doesn't work anymore. Few are
+# listed below:
 # - https://github.com/JohnTroony/php-webshells/tree/master/Collection
 # - https://www.localroot.net/shell/
 # - Google search (keywords like webshells, php backdoor and similar)
