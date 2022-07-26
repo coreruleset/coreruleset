@@ -4,12 +4,12 @@
 
 _\$\$ND_FUNC\$\$_
 __js_function
-\beval\s*\(
-String\s*\.\s*fromCharCode
-function\s*\(\s*\)\s*{
-new\s+Function\s*\(
+\beval\(
+String\.fromCharCode
+function\(\){
+new\s+Function\(
 this\.constructor
-module\.exports\s*=
+module\.exports=
 process\s*\W*\s*binding
 \(\s*\Wchild_process\W\s*\)
 require\s*\W*\s*main
@@ -93,5 +93,5 @@ writeFileSync\s*\(
 writeSync\s*\(
 writev\s*\(
 writevSync\s*\(
-console(?:\.info\s*\(|\[['"`]info\b)
+console(?:\.info\(|\[['"`]info\b)
 process(?:\.env|\[['"`]env)\b
