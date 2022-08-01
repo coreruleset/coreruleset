@@ -479,8 +479,10 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  setvar:'tx.restricted_extensions=.asa/ .asax/ .ascx/ .backup/ .bak/ .bat/ .cdx/ .cer/ .cfg/ .cmd/ .com/ .config/ .conf/ .cs/ .csproj/ .csr/ .dat/ .db/ .dbf/ .dll/ .dos/ .htr/ .htw/ .ida/ .idc/ .idq/ .inc/ .ini/ .key/ .licx/ .lnk/ .log/ .mdb/ .old/ .pass/ .pdb/ .pol/ .printer/ .pwd/ .rdb/ .resources/ .resx/ .sql/ .swp/ .sys/ .vb/ .vbs/ .vbproj/ .vsdisco/ .webinfo/ .xsd/ .xsx/'"
 
 # Forbidden file extensions - archives.
-# Guards against unintended exposure of archives files.
-# Default: .7z/ .bz/ .bz2/ .gz/ .rar/ .tar/ .tgz/ .zip/ .xz/
+# Guards against unintended exposure of archive files (e.g., compressed log
+# files, install/configuration packages, etc.). Based on the more common formats
+# listed at: https://en.wikipedia.org/wiki/List_of_archive_formats
+# Default: .7z/ .br/ .bz/ .bz2/ .cab/ .cpio/ .gz/ .img/ .iso/ .jar/ .rar/ .tar/ .tbz2/ .tgz/ .txz/ .xz/ .zip/ .zst/
 # Example: .gz/ .tar/ .zip/
 # Uncomment this rule to change the default.
 #SecAction \
@@ -489,7 +491,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  nolog,\
 #  pass,\
 #  t:none,\
-#  setvar:'tx.restricted_extensions_archives=.7z/ .bz/ .bz2/ .gz/ .rar/ .tar/ .tgz/ .zip/ .xz/'"
+#  setvar:'tx.restricted_extensions_archives=.7z/ .br/ .bz/ .bz2/ .cab/ .cpio/ .gz/ .img/ .iso/ .jar/ .rar/ .tar/ .tbz2/ .tgz/ .txz/ .xz/ .zip/ .zst/'"
 
 # Forbidden request headers.
 # Header names should be lowercase, enclosed by /slashes/ as delimiters.
