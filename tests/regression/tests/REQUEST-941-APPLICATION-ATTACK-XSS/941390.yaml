@@ -53,4 +53,19 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "941390"
-~                                      
+  - test_title: 941390-4
+    desc: "JavaScript constructor new Function()"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+            method: GET
+            port: 80
+            uri: '/?arg=new%20Function%28%29'
+            version: HTTP/1.1
+          output:
+            log_contains: id "941390"
