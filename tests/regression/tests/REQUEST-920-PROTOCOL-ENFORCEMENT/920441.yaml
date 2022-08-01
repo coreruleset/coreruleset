@@ -1,0 +1,57 @@
+---
+meta:
+  author: "Andrew Howe"
+  description: Test that access to archive and compressed files is blocked correctly
+  enabled: true
+  name: 920441.yaml
+tests:
+  - test_title: 920441-1
+    desc: Positive test: Match a reference to a .gz file (rotated log file)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: */*
+            method: POST
+            uri: /
+            data: code=cat /var/log/auth.log.2.gz
+            version: HTTP/1.1
+          output:
+            log_contains: id "920441"
+  - test_title: 920441-2
+    desc: Positive test: Match a reference to a .zst file (core dump)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: */*
+            method: POST
+            uri: /
+            data: code=cat /lib/systemd/coredump/core.wireplumber.120.e8b2adc7c703719cfb1f9765efaf63a1.933.1775785868000000.zst
+            version: HTTP/1.1
+          output:
+            log_contains: id "920441"
+  - test_title: 920441-3
+    desc: Negative test: Allow access to a non-restricted file extension (.webm)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: */*
+            method: GET
+            uri: /wikipedia/commons/6/67/Liquid_crystals.webm
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "920441"
