@@ -6,7 +6,7 @@ meta:
   name: 920441.yaml
 tests:
   - test_title: 920441-1
-    desc: Positive test: Match a reference to a .gz file (rotated log file)
+    desc: "Positive test: Match a reference to a .gz file (rotated log file)"
     stages:
       - stage:
           input:
@@ -23,7 +23,7 @@ tests:
           output:
             log_contains: id "920441"
   - test_title: 920441-2
-    desc: Positive test: Match a reference to a .zst file (core dump)
+    desc: "Positive test: Match a reference to a .zst file (core dump)"
     stages:
       - stage:
           input:
@@ -40,7 +40,7 @@ tests:
           output:
             log_contains: id "920441"
   - test_title: 920441-3
-    desc: Negative test: Allow access to a non-restricted file extension (.webm)
+    desc: "Negative test: Allow access to a non-restricted file extension (.webm)"
     stages:
       - stage:
           input:
