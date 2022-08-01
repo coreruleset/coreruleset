@@ -131,3 +131,24 @@ tests:
             data: <?=!@#$%^&
           output:
             no_log_contains: "id \"953120\""
+  - test_title: 953120-6
+    desc: "Case insensitive test <?PhP "
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            headers:
+              Host: "localhost"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Accept: "*/*"
+              Accept-Charset: "ISO-8859-1,utf-8;q=0.7,*;q=0.7"
+              Accept-Encoding: "gzip,deflate"
+              Accept-Language: "en-us,en;q=0.5"
+              Content-Type: "text/plain"
+            method: "GET"
+            version: "HTTP/1.0"
+            uri: "/anything"
+            data: <?PhP echo "Hello World!\n" ?>
+          output:
+            log_contains: "id \"953120\""
