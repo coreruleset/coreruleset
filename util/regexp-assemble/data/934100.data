@@ -1,25 +1,5 @@
-##! This is a data file used to generate a regular expression for a CRS rule. 
-##! The generation of the regular expression happens with the help of 
-##! util/regexp-assemble/regexp-assemble.py.
-##! The ID of the rule in question is part of the file name of this data file. 
-##! Read more about the format of this data file and the use of the assembly 
-##! script in util/regexp-assemble/README.md.
-##!
-##! Lines starting with `##!` are comments and will be skipped,
-##! empty lines will be ignored completely.
-##! In addition, the quote character `'` at the beginning of a line will
-##! cause the line to be interpreted as literal by the cmdline preprocessor only.
-##! 
-##! Five special comments are at your disposal to influence the assembled expression:
-##! - `##!+`: the flag comment
-##! - `##!^`: the prefix comment
-##! - `##!$`: the suffix comment
-##! - `##!>`: the preprocessor comment
-##! - `##!<`: the block preprocessor end comment
-##!
-##! Currently supported preprocessors:
-##! - cmdline [windows|unix] (file scope)
-##! Please refer to util/regexp-assemble/README.md for a full explanation
+##! Please refer to the documentation at 
+##! https://coreruleset.org/docs/development/regexp_assemble/.
 
 
 _\$\$ND_FUNC\$\$_
@@ -30,3 +10,86 @@ function\s*\(\s*\)\s*{
 new\s+Function\s*\(
 this\.constructor
 module\.exports\s*=
+process\s*\W*\s*binding
+require\s*\W*\s*main
+main\s*\W*\s*constructor
+main\s*\W*\s*require
+constructor\s*\W*\s*_load
+global\s*\W*\s*process
+process\s*\W*\s*mainModule
+mainModule\s*\W*\s*constructor
+mainModule\s*\W*\s*require
+require\s*\[
+main\s*\[
+constructor\s*\[
+process\s*\[
+global\s*\[
+mainModule\s*\[
+binding\s*\[
+access\s*\(
+accessSync\s*\(
+appendFile\s*\(
+appendFileSync\s*\(
+Availability\s*\(
+Caveats\s*\(
+chmodSync\s*\(
+chownSync\s*\(
+closeSync\s*\(
+copyFile\s*\(
+copyFileSync\s*\(
+cp\s*\(
+cpSync\s*\(
+createReadStream\s*\(
+createWriteStream\s*\(
+execFile\s*\(
+execFileSync\s*\(
+execSync\s*\(
+existsSync\s*\(
+fchmod\s*\(
+fchmodSync\s*\(
+fchown\s*\(
+fchownSync\s*\(
+fdatasync\s*\(
+fdatasyncSync\s*\(
+fstatSync\s*\(
+fsync\s*\(
+fsyncSync\s*\(
+futimes\s*\(
+futimesSync\s*\(
+Inodes\s*\(
+lchmod\s*\(
+lchmodSync\s*\(
+linkSync\s*\(
+lstatSync\s*\(
+lutimes\s*\(
+lutimesSync\s*\(
+mkdirSync\s*\(
+mkdtemp\s*\(
+mkdtempSync\s*\(
+opendirSync\s*\(
+openSync\s*\(
+readdirSync\s*\(
+readFileSync\s*\(
+readlinkSync\s*\(
+readSync\s*\(
+readv\s*\(
+readvSync\s*\(
+renameSync\s*\(
+rm\s*\(
+rmSync\s*\(
+spawnFile\s*\(
+spawnSync\s*\(
+statSync\s*\(
+symlinkSync\s*\(
+truncateSync\s*\(
+unlinkSync\s*\(
+unwatchFile\s*\(
+utimes\s*\(
+utimesSync\s*\(
+watchFile\s*\(
+writeFile\s*\(
+writeFileSync\s*\(
+writeSync\s*\(
+writev\s*\(
+writevSync\s*\(
+

@@ -80,7 +80,8 @@ class Assemble(Processor):
 
         regex = self._run_assembler()
         self.logger.debug('Storing expression at %s: %s', identifier, regex)
-        self.stash[identifier] = regex
+        self.stash[identifier] = self.output + regex
+        self.output = ''
 
     def _append(self, identifier:str):
         if not identifier:

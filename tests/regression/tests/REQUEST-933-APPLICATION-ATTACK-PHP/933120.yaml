@@ -18,7 +18,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: POST
           port: 80
-          data: "var=session.bug_compat_42%3dtrue"
+          uri: '/post'
+          data: "var=opcache.jit_max_polymorphic_calls%3d50"
           version: HTTP/1.0
         output:
           log_contains: id "933120"
@@ -34,8 +35,9 @@ tests:
             User-Agent: OWASP ModSecurity Core Rule Set
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: POST
+          uri: '/post'
           port: 80
-          data: "var=session.bug_compat_42%3dtrue"
+          data: "var=session.referer_check%3dtrue"
           version: HTTP/1.0
         output:
           no_log_contains: = found within

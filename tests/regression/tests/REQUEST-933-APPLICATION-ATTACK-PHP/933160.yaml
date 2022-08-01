@@ -1,6 +1,6 @@
 ---
 meta:
-  author: lifeforms
+  author: lifeforms, Franziska Bühler
   description: None
   enabled: true
   name: 933160.yaml
@@ -627,5 +627,21 @@ tests:
             method: POST
             port: 80
             uri: /?foo=system%20something%28%29
+          output:
+            log_contains: id "933160"
+  - test_title: 933160-40
+    desc: string function call
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            # /?foo=return"system"().s
+            uri: /?foo=return%22system%22%28xyz%29.s
           output:
             log_contains: id "933160"

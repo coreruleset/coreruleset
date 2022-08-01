@@ -116,3 +116,54 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "932130"
+  - test_title: 932130-8
+    desc: "Unix command injection - character set bypass technique"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            # cat /etc/pa[s]swd
+            uri: "/?cmd=cat%20/etc/pa%5Bs%5Dswd"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932130"
+  - test_title: 932130-9
+    desc: "Unix command injection - character set bypass technique"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            # cat /[?]tc/pa[?]swd
+            uri: "/?cmd=cat%20/%5B%3F%Dtc/pa%5B%3F%5Dswd"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932130"
+  - test_title: 932130-10
+    desc: "Unix command injection - character set bypass - negative test"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            # hello [text in brackets]
+            uri: "/?cmd=hello%20%5Btext%20in%20brackets%5D"
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932130"

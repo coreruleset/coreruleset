@@ -17,22 +17,16 @@
 ##! - `##!>`: the preprocessor comment
 ##! - `##!<`: the block preprocessor end comment
 ##!
-##! Currently supported preoprocessors:
+##! Currently supported preprocessors:
 ##! - cmdline [windows|unix] (file scope)
 ##! Please refer to util/regexp-assemble/README.md for a full explanation
 
-##! The following is an expansion of
-##! (?:\${[^}]{0,15}\${|\${(?:jndi|ctx))
-##! where every character also matches the equivalent named HTML entity.
-##! It is a workaround for the shortcomings of `htmlEntityDecode`, which
-##! handles numerical HTML entities well but only handles 5 named
-##! entities. The official list of named entities can be found here:
-##! https://html.spec.whatwg.org/multipage/named-characters.html.
-##!
-##!     - Omitting the terminating semi-colon can be used as an evasion with lenient
-##!         parsers. We catch those by making the semi-colon optional.
 
-
-##!+ i
-
-(?:\$|&dollar;?)(?:\{|&(?:lbrace|lcub);?)
+close\s*\(
+exists\s*\(
+fork\s*\(
+open\s*\(
+read\s*\(
+spawn\s*\(
+watch\s*\(
+write\s*\(
