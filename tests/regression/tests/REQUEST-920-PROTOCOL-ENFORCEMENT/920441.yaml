@@ -16,9 +16,8 @@ tests:
               Host: localhost
               User-Agent: OWASP ModSecurity Core Rule Set
               Accept: "*/*"
-            method: POST
-            uri: /
-            data: code=cat /var/log/auth.log.2.gz
+            method: GET
+            uri: /log/auth.log.2.gz
             version: HTTP/1.1
           output:
             log_contains: id "920441"
@@ -33,9 +32,8 @@ tests:
               Host: localhost
               User-Agent: OWASP ModSecurity Core Rule Set
               Accept: "*/*"
-            method: POST
-            uri: /
-            data: code=cat /lib/systemd/coredump/core.wireplumber.120.e8b2adc7c703719cfb1f9765efaf63a1.933.1775785868000000.zst
+            method: GET
+            uri: /lib/systemd/coredump/core.wireplumber.120.e8b2adc7c703719cfb1f9765efaf63a1.933.1775785868000000.zst
             version: HTTP/1.1
           output:
             log_contains: id "920441"
