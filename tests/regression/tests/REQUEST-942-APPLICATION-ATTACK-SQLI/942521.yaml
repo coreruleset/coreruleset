@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "terjanq"
+  author: "terjanq, Franziska Bühler"
   description: "Detects basic SQL authentication bypass attempts 4.1/4"
   enabled: true
   name: 942521.yaml
@@ -309,3 +309,19 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "942521"
+  - test_title: 942521-20
+    desc: "Detect admin%40juice-sh.op\'and%20likely%20(id)--"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            data: "admin%2540juice-sh.op%5C%27and%2520likely%2520%28id%29--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942521"
