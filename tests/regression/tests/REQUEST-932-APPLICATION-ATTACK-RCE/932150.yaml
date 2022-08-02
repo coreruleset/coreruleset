@@ -177,3 +177,33 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932150\""
+  - test_title: 932150-12
+    desc: "Positive test: Data exfiltration with gunzip"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "POST"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: 'cmd=gunzip -c /var/log/sensitive_log_file.gz'
+          output:
+            log_contains: "id \"932150\""
+  - test_title: 932150-13
+    desc: "Positive test: Data exfiltration with zstdcat"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "POST"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: 'cmd=zstdcat /var/log/sensitive_log_file.zst'
+          output:
+            log_contains: "id \"932150\""
