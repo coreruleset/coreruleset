@@ -167,3 +167,99 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "932130"
+  - test_title: 932130-11
+    desc: "Unix command injection - bracket bypass"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/?s=/etc/pas[s]wd"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932130"
+  - test_title: 932130-12
+    desc: "Unix command injection - bracket bypass"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "?s=/etc/%5Bp%5Dasswd"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932130"
+  - test_title: 932130-13
+    desc: "Unix command injection - bracket bypass"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "?s=/etc/%5B!q%5Dasswd"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932130"
+  - test_title: 932130-14
+    desc: "Unix command injection - bracket bypass"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "?s=/etc/%5Bm-z%5Dasswd"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932130"
+  - test_title: 932130-15
+    desc: "Unix command injection - bracket bypass"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "?s=/usr/bin/%5Bu%5Dname+-a"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932130"
+  - test_title: 932130-16
+    desc: "Unix command injection - bracket bypass"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "?exec=/bi%5Bn%5D/bash"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932130"
