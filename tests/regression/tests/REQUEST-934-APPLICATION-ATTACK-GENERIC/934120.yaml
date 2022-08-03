@@ -892,14 +892,14 @@
                 Accept-Encoding: gzip,deflate
                 Accept-Language: en-us,en;q=0.5
               method: POST
-              data:
-                - "----------397236876"
-                - "Content-Disposition: form-data; name=\"file\"; filename=\"http://2852039166/?.txt\""
-                - "Content-Type: text/plain"
-                - ""
-                - "My epic SSRF attempt"
-                - ""
-                - "----------397236876--"
+              data: |
+                ----------397236876
+                Content-Disposition: form-data; name="file"; filename="http://2852039166/?.txt"
+                Content-Type: text/plain
+
+                My epic SSRF attempt
+
+                ----------397236876--
             output:
               log_contains: id "934120"
         -
