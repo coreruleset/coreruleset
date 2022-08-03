@@ -66,3 +66,51 @@ tests:
             protocol: "http"
           output:
             no_log_contains: "id \"932160\""
+  - test_title: 932160-5
+    desc: "Positive test: Match against bin/gunzip"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "POST"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: 'cmd=/bin/gunzip -c /var/log/something_sensitive.gz'
+            protocol: "http"
+          output:
+            log_contains: "id \"932160\""
+  - test_title: 932160-6
+    desc: "Positive test: Match against bin/unxz"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "POST"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: 'cmd=/bin/unxz -c /var/log/something_sensitive.xz'
+            protocol: "http"
+          output:
+            log_contains: "id \"932160\""
+  - test_title: 932160-7
+    desc: "Negative test: Don't match against the word zip"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "POST"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: 'sentence=The zip on my coat is stuck'
+            protocol: "http"
+          output:
+            no_log_contains: "id \"932160\""
