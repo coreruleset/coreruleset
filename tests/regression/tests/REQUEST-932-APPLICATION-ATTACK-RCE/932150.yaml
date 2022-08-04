@@ -224,3 +224,54 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: "id \"932150\""
+  - test_title: 932150-15
+    desc: "Positive test: Unix Command Injection - $SHELL test"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: "localhost"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+            method: GET
+            port: 80
+            # code=$SHELL -c "echo hi"
+            uri: /?code=%24SHELL%20-c%20%22echo%20hi%22
+            version: HTTP/1.0
+          output:
+            log_contains: "id \"932150\""
+  - test_title: 932150-16
+    desc: "Positive test: Unix Command Injection - ${SHELL} test"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: "localhost"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+            method: GET
+            port: 80
+            # code=${SHELL} -c "echo hi"
+            uri: /?code=%24%7BSHELL%7D%20-c%20%22echo%20hi%22
+            version: HTTP/1.0
+          output:
+            log_contains: "id \"932150\""
+  - test_title: 932150-17
+    desc: "Positive test: Unix Command Injection - busybox test"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: "localhost"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+            method: GET
+            port: 80
+            # code=busybox -c "echo hi"
+            uri: /?code=busybox%20-c%20%22echo%20hi%22
+            version: HTTP/1.0
+          output:
+            log_contains: "id \"932150\""

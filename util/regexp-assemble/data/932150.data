@@ -1,4 +1,4 @@
-##! Please refer to the documentation at 
+##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regexp_assemble/.
 
 ##! Word list for rule 932150 (RCE Unix command injection)
@@ -56,7 +56,7 @@
 
 ##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
 (?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
-##!=> 
+##!=>
 
   ##!> cmdline unix
 
@@ -71,6 +71,7 @@ bsdcat
 bsdiff
 bsdtar
 builtin
+busybox
 bunzip2
 bzcat
 bzcmp
@@ -308,3 +309,9 @@ python
   ##!<
 
 ##!<
+
+##! Manually add in counter evasions
+##! $SHELL
+\$[\x5c'\"]*S[\x5c'\"]*H[\x5c'\"]*E[\x5c'\"]*L[\x5c'\"]*L
+##! ${SHELL}
+\$[\x5c'\"]*\{[\x5c'\"]*S[\x5c'\"]*H[\x5c'\"]*E[\x5c'\"]*L[\x5c'\"]*L[\x5c'\"]*\}
