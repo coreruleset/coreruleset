@@ -6,7 +6,7 @@ meta:
   name: 933200.yaml
 tests:
   - test_title: 933200-1
-    desc: "PHP Injection Attack: Wrapper scheme detected"
+    desc: "Positive test: PHP Injection Attack - Wrapper scheme detected (phar://)"
     stages:
       - stage:
           input:
@@ -21,3 +21,67 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "933200"
+  - test_title: 933200-2
+    desc: "Positive test: PHP Injection Attack - Wrapper scheme detected (compress.bzip2://)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: "localhost"
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /test.php?file=compress.bzip2://file.bz2
+            version: HTTP/1.1
+          output:
+            log_contains: id "933200"
+  - test_title: 933200-3
+    desc: "Positive test: PHP Injection Attack - Wrapper scheme detected (compress.zlib://)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: "localhost"
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /test.php?file=compress.zlib://http://www.example.com/some_file.gz
+            version: HTTP/1.1
+          output:
+            log_contains: id "933200"
+  - test_title: 933200-4
+    desc: "Positive test: PHP Injection Attack - Wrapper scheme detected (zip://)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: "localhost"
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /test.php?file=zip://archive.zip
+            version: HTTP/1.1
+          output:
+            log_contains: id "933200"
+  - test_title: 933200-5
+    desc: "Negative test: PHP Injection Attack - Non-existent wrapper scheme (lz77://)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: "localhost"
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /test.php?file=lz77://some_file.lz
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "933200"
