@@ -28,7 +28,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/char_test?mime=text/xml&body=%3Cx:script%20xmlns:x=%22http://www.w3.org/1999/xhtml%22%20src=%22data:,alert(1)%22%20/%3E'
+            uri: "/char_test?mime=text/xml&body=%3Cx:script%20xmlns:x=%22http://www.w3.org/1999/xhtml%22%20src=%22data:,alert(1)%22%20/%3E"
             headers:
               User-Agent: OWASP ModSecurity Core Rule Set
               Host: localhost
@@ -43,7 +43,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/char_test?mime=text/xml&body=%3Cx%20onend%3D'
+            uri: "/char_test?mime=text/xml&body=%3Cx%20onend%3D"
             headers:
               User-Agent: OWASP ModSecurity Core Rule Set
               Host: localhost
@@ -58,7 +58,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/char_test?mime=text/xml&body=%22onzoom%3D'
+            uri: "/char_test?mime=text/xml&body=%22onzoom%3D"
             headers:
               User-Agent: OWASP ModSecurity Core Rule Set
               Host: localhost
@@ -73,7 +73,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/char_test?mime=text/xml&body=%27formaction%3D'
+            uri: "/char_test?mime=text/xml&body=%27formaction%3D"
             headers:
               User-Agent: OWASP ModSecurity Core Rule Set
               Host: localhost
@@ -88,7 +88,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/char_test?mime=text/xml&body=%3C%20x%3A%20script'
+            uri: "/char_test?mime=text/xml&body=%3C%20x%3A%20script"
             headers:
               User-Agent: OWASP ModSecurity Core Rule Set
               Host: localhost
@@ -103,7 +103,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/char_test?mime=text/xml&body=$%3Cf%20o%20r%20m'
+            uri: "/char_test?mime=text/xml&body=$%3Cf%20o%20r%20m"
             headers:
               User-Agent: OWASP ModSecurity Core Rule Set
               Host: localhost
@@ -118,7 +118,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/'
+            uri: "/"
             headers:
               User-Agent: "OWASP ModSecurity Core Rule Set %3Cf%20o%20r%20m"
               Host: localhost
@@ -133,11 +133,11 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/'
+            uri: "/"
             headers:
               User-Agent: "OWASP ModSecurity Core Rule Set"
               Host: localhost
-              Referer: 'https://coreruleset.org/?%3Cf%20o%20r%20m'
+              Referer: "https://coreruleset.org/?%3Cf%20o%20r%20m"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
             log_contains: id "941160"
@@ -149,11 +149,11 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/'
+            uri: "/"
             headers:
               User-Agent: "OWASP ModSecurity Core Rule Set"
               Host: localhost
-              Cookie: 'PHPSESSID%3Cf%20o%20r%20m=1234'
+              Cookie: "PHPSESSID%3Cf%20o%20r%20m=1234"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
             log_contains: id "941160"
@@ -165,11 +165,11 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/'
+            uri: "/"
             headers:
               User-Agent: "OWASP ModSecurity Core Rule Set"
               Host: localhost
-              Cookie: 'PHPSESSID=1234%3Cf%20o%20r%20m'
+              Cookie: "PHPSESSID=1234%3Cf%20o%20r%20m"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
             log_contains: id "941160"
@@ -181,7 +181,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/?foo%3Cf%20o%20r%20m=bar'
+            uri: "/?foo%3Cf%20o%20r%20m=bar"
             headers:
               User-Agent: "OWASP ModSecurity Core Rule Set"
               Host: localhost
@@ -196,7 +196,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/?foo=bar%3Cf%20o%20r%20m'
+            uri: "/?foo=bar%3Cf%20o%20r%20m"
             headers:
               User-Agent: "OWASP ModSecurity Core Rule Set"
               Host: localhost
@@ -217,6 +217,22 @@ tests:
             port: 80
             uri: "/"
             data: "var='\"><svg/onload=(new(Image)).src='//m8vzjd10riomx3yxblmcnvaskjghsdz8xorciu7\\56coreruleset.org'>"
+            version: HTTP/1.0
+          output:
+            log_contains: id "941160"
+  - test_title: 941160-14
+    desc: "SVG onload injection in filename"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/index.php/%3Csvg/onload=alert()"
             version: HTTP/1.0
           output:
             log_contains: id "941160"
