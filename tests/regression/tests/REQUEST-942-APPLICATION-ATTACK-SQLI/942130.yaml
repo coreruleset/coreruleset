@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron and Allan Boll"
+  author: "Christian S.J. Peron and Allan Boll, Franziska Bühler"
   description: None
   enabled: true
   name: 942130.yaml
@@ -140,6 +140,21 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             uri: "/get?a=42<=>42"
+            version: HTTP/1.1
+          output:
+            log_contains: id "942130"
+  - test_title: 942130-10
+    desc: "SQL Injection Attack: SQL Tautology using glob"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            uri: "/?user=admin%40juice-sh.op'%20and%20password%20glob%20password;"
             version: HTTP/1.1
           output:
             log_contains: id "942130"
