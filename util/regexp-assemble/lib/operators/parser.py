@@ -42,6 +42,7 @@ class Parser(object):
 
     def process_regex(self, rule_id: str, chain_offset: int, file_path: Path, assembler: Assembler, func):
         self.logger.info("Processing %s, chain offset %s", rule_id, chain_offset)
+        self.logger.debug("Processing data file %s", file_path)
 
         with file_path.open("rt") as file:
             regex = assembler.run(file)
@@ -52,6 +53,7 @@ class Parser(object):
         else:
             for rule_file in self.context.rules_directory.iterdir():
                 if rule_prefix in rule_file.name:
+                    self.logger.debug("Updating rule file %s", rule_file.name)
                     self.prefix_to_file_map[rule_prefix] = rule_file
                     with rule_file.open("rt") as handle:
                         parser = MSCParser()

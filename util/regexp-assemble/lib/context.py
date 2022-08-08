@@ -1,5 +1,7 @@
 import argparse
 from pathlib import Path
+import logging
+
 
 
 class Context(object):
@@ -23,3 +25,14 @@ class Context(object):
             and self.data_files_directory.exists()
             and self.include_files_directory.exists()
         )
+
+        self._dump_to_debug_log()
+
+    def _dump_to_debug_log(self):
+        logger = logging.getLogger()
+        logger.debug("Root directory: %s", self.root_directory)
+        logger.debug("Rules directory: %s", self.rules_directory)
+        logger.debug("Data files directory: %s", self.data_files_directory)
+        logger.debug("Include files directory: %s", self.include_files_directory)
+        logger.debug("Parsed rule ID: %s", self.single_rule_id)
+        logger.debug("Parsed chain offset: %s", self.single_chain_offset)
