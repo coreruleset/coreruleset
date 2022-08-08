@@ -18,6 +18,8 @@ class Context(object):
         if namespace and "chain_offset" in namespace:
             self.single_chain_offset = namespace.chain_offset
 
+        self._dump_to_debug_log()
+
         assert (
             self.rules_directory.exists()
             and self.util_directory.exists()
@@ -26,7 +28,6 @@ class Context(object):
             and self.include_files_directory.exists()
         )
 
-        self._dump_to_debug_log()
 
     def _dump_to_debug_log(self):
         logger = logging.getLogger()

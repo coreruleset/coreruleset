@@ -19,6 +19,7 @@ class Parser(object):
 
     def perform_compare_or_update(self, process_all: bool, func=None):
         files = [file for file in self.context.data_files_directory.iterdir()]
+        files = [file for file in files if file.match('*.data')]
         files.sort()
         for file in files:
             if process_all:
@@ -51,7 +52,10 @@ class Parser(object):
         if rule_prefix in self.parsers:
             parser = self.parsers[rule_prefix]
         else:
-            for rule_file in self.context.rules_directory.iterdir():
+            files = [file for file in self.context.rules_directory.iterdir()]
+            files = [file for file in files if file.match('*.conf')]
+            files.sort()
+            for rule_file in files:
                 if rule_prefix in rule_file.name:
                     self.logger.debug("Updating rule file %s", rule_file.name)
                     self.prefix_to_file_map[rule_prefix] = rule_file
