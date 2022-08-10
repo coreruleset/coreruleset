@@ -166,7 +166,7 @@ def handle_compare(namespace: argparse.Namespace):
         if namespace.github:
             message = "All rules need to be up to date."
             message += " Please run `./regexp-assemble.py update --all\n"
-            sys.stdout.write("::error " + message)
+            sys.stdout.write("::error::" + message)
         sys.exit(1)
 
 
