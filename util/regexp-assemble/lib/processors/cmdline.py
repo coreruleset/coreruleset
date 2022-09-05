@@ -28,11 +28,12 @@ T = TypeVar('T', bound='CmdLine')
 
 
 class CmdLine(Processor):
-    def __init__(self, context: Context, evasion_pattern: str, suffix_evasion_pattern: str):
+    def __init__(self, context: Context, evasion_pattern: str, suffix_evasion_pattern: str, suffix_evasion_pattern_no_space: str):
         super().__init__(context)
 
         self.evasion_pattern = evasion_pattern
         self.suffix_evasion_pattern = suffix_evasion_pattern
+        self.suffix_evasion_pattern_no_space = suffix_evasion_pattern_no_space
 
     # override
     @classmethod
@@ -90,6 +91,8 @@ class CmdLine(Processor):
         char = str.replace(char, '-', '\-')
         if char == '@':
             char = str.replace(char, '@', self.suffix_evasion_pattern)
+        elif char == '~':
+            char = str.replace(char, '~', self.suffix_evasion_pattern_no_space)
 
         # Ensure multiple spaces are matched
         return str.replace(char, ' ', '\s+')
@@ -104,6 +107,10 @@ class CmdLineUnix(CmdLine):
             r'''[\x5c'\"]*''',
             # Unix: "cat foo", "cat<foo", "cat>foo"
             r'''(?:\s|<|>).*''',
+            # Same as above but does not allow any white space as the next token.
+            # This is useful for thing like `python3`, where `python@` would
+            # create too many false positives because it would match `python `.
+            r'''(?:<|>).*''',
         )
 
 
@@ -117,4 +124,8 @@ class CmdLineWindows(CmdLine):
             # Windows: "more foo", "more,foo", "more;foo", "more.com", "more/e",
             # "more<foo", "more>foo"
             r'''(?:[\s,;]|\.|/|<|>).*''',
+            # Same as above but does not allow any white space as the next token.
+            # This is useful for thing like `python3`, where `python@` would
+            # create too many false positives because it would match `python `.
+            r'''(?:[,;]|\.|/|<|>).*''',
         )

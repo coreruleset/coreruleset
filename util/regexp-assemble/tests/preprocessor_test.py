@@ -371,6 +371,16 @@ class TestCmdLinePreprocessor:
 
         assert len(output) == 1
         assert output[0] == r'''f[\"\^]*o[\"\^]*o[\"\^]*(?:[\s,;]|\.|/|<|>).*'''
+
+    def test_tilde_adds_windows_suffix_evasion_no_space(self, context):
+        contents = 'foo~'
+        assemble = CmdLine.create(context, ['windows'])
+
+        assemble.process_line(contents)
+        output = assemble.complete()
+
+        assert len(output) == 1
+        assert output[0] == r'''f[\"\^]*o[\"\^]*o[\"\^]*(?:[,;]|\.|/|<|>).*'''
     
     def test_at_adds_unix_anti_evasion_suffix(self, context):
         contents = 'foo@'
@@ -381,6 +391,17 @@ class TestCmdLinePreprocessor:
 
         assert len(output) == 1
         assert output[0] == r'''f[\x5c'\"]*o[\x5c'\"]*o[\x5c'\"]*(?:\s|<|>).*'''
+
+    def test_tilde_adds_no_space_suffix_evasion(self, context):
+        contents = 'foo~'
+        assemble = CmdLine.create(context, ['unix'])
+
+        assemble.process_line(contents)
+        output = assemble.complete()
+
+        assert len(output) == 1
+        assert output[0] == r'''f[\x5c'\"]*o[\x5c'\"]*o[\x5c'\"]*(?:<|>).*'''
+
 
     def test_literal_has_precendence_over_other_operations(self, context):
         contents = r''''foo@.-    '''
