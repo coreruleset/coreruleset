@@ -78,9 +78,11 @@ class Assemble(Processor):
         if not identifier:
             raise ValueError('missing identifier for input marker')
 
-        regex = self._run_assembler()
-        self.logger.debug('Storing expression at %s: %s', identifier, regex)
-        self.stash[identifier] = self.output + regex
+        self._append(None)
+        self.logger.debug('Storing expression at %s: %s', identifier, self.output)
+        self.stash[identifier] = self.output
+        # reset output, the next call to `complete` should not print
+        # the value we just stored
         self.output = ''
 
     def _append(self, identifier:str):

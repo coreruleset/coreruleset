@@ -70,6 +70,8 @@ class Peekerator(Generic[T]):
 class Preprocessor(object):
     def __init__(self, peekerator: Peekerator[str], processor_cls: Processor, context: Context, args):
         self.processor = processor_cls.create(context, args)
+        self.is_template = isinstance(self.processor, Template)
+        self.is_noop = False
         if PREPROCESSOR_START_REGEX.match(peekerator.peek('')):
             # when instantiated programmatically, the preprocessor marker won't be there
             # consume the preprocessor comment
@@ -88,14 +90,15 @@ class Preprocessor(object):
 
     def _filter(self, peekerator: Peekerator[str]) -> Generator[str, None, None]:
         line = next(peekerator, None)
-        while line is not None and not PREPROCESSOR_END_REGEX.match(line):
+        while line is not None and (self.is_template or not PREPROCESSOR_END_REGEX.match(line)):
             yield line
             line = next(peekerator, None)
 
 class NoOpPreprocessor(object):
     def __init__(self, peekerator: Peekerator[str]) -> None:
         self.processor = None
-        pass
+        self.is_template = False
+        self.is_noop = True
 
     def run(self, iterator: Iterator[str]) -> List[str]:
         return list(iterator)
@@ -121,7 +124,8 @@ class Assembler(object):
         return self._run(peekerator)
 
     def _run(self, peekerator: Peekerator) -> str:
-        lines = list(self.preprocess(peekerator))
+        lines = list(self.preprocess_templates(peekerator))
+        lines = list(self.preprocess(Peekerator(lines)))
         self.logger.debug('preprocessed lines: %s', lines)
         return self.assemble(lines)
 
@@ -154,6 +158,29 @@ class Assembler(object):
         if self.stats.depth > 1:
             raise NestingError(self.stats.line, self.stats.depth)
 
+        return lines
+    
+    def preprocess_templates(self, peekerator: Peekerator[str]) -> Peekerator[str]:
+        current_peekerator = peekerator
+        lines: List[str] = []
+        while current_peekerator.peek() is not None:
+            # `detect_preprocessor` will consume the proprocessor comment if
+            # there is one, so store it here
+            line = current_peekerator.peek()
+            processor = self.detect_preprocessor(current_peekerator)
+            if processor.is_template:
+                lines += processor.run(current_peekerator)
+                current_peekerator = Peekerator(lines)
+                lines = []
+            elif processor.is_noop:
+                lines.append(next(current_peekerator))
+            else:
+                # add the previously consumed preprocessor comment back
+                lines.append(line)
+                lines.append(next(current_peekerator))
+
+        # `detect_preprocessor` increases nesting level, needs to be reset
+        self.stats.depth = 0
         return lines
 
     def assemble(self, lines: List[str]) -> str:
@@ -188,7 +215,10 @@ class Assembler(object):
             elif line.strip() == '' or SIMPLE_COMMENT_REGEX.match(line):
                 # consume the item
                 next(peekerator)
-                self.logger.debug('Found simple comment')
+                if line.strip() != '':
+                    comment = line.strip()
+                    comment = comment[:min(len(line), 50)] + (' ...' if len(comment) >= 50 else '')
+                    self.logger.debug('Found simple comment %r', comment)
             elif PREPROCESSOR_START_REGEX.match(line):
                 lines += self._preprocess(peekerator)
                 self.logger.debug('Found preprocessor start marker')
