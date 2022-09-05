@@ -503,16 +503,53 @@ other
 
         assert output == r'\n\s\b\v\t'
 
-    
-    def test_template1(self, context):
+
+    def test_template_replaces_only_specified_template(self, context):
         contents = r'''##!> template slashes [/\]
-regex with {{slashes}}
+regex with {{slashes}} and {{dots}}
 '''
         assembler = Assembler(context)
 
         output = assembler._run(Peekerator(contents.splitlines()))
 
-        assert output == r'regex with [\/\]'
+        # TODO: Regexp::Assemble is inconsistent with escaping forward slashes in
+        # character classes. They should either be consistently escaped or not.
+        assert output == r'regex with [\/\] and {{dots}}'
+
+    def test_template_replaces_all(self, context):
+        contents = r'''##!> template slashes [/\]
+##!> template dots [.,;]
+regex with {{slashes}} and {{dots}}
+'''
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        # TODO: Regexp::Assemble is inconsistent with escaping forward slashes in
+        # character classes. They should either be consistently escaped or not.
+        assert output == r'regex with [/\] and [.,;]'
+
+    def test_template_replaces_on_all_lines(self, context):
+        contents = r'''##!> template slashes [/\]
+##!> template dots [.,;]
+##!> template other {{slashes}}+
+{{slashes}}
+##!=>
+{{dots}}
+##!=>
+regex with {{slashes}} and {{dots}}
+##!=>
+{{other}}
+##!=>
+'''
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        # TODO: Regexp::Assemble is inconsistent with escaping forward slashes in
+        # character classes. They should either be consistently escaped or not.
+        assert output == r'[\/\][.,;]regex with [/\] and [.,;][\/\]+'
+
 
 class TestIncludePreprocessor:
     def test_fails_for_missing_include_name(self, context):
