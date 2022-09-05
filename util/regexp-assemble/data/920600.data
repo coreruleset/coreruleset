@@ -1,0 +1,84 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regexp_assemble/.
+
+##! https://httpwg.org/specs/rfc7231.html#request.conneg
+##! https://httpwg.org/specs/rfc7230.html
+
+##!^ ^(?:
+##!$ )*$
+
+##! Helpers
+##!> template non-token-with-dquote-chars (),/:;<=>?![\x5c\]{}
+
+##!> template non-token-chars \"{{non-token-with-dquote-chars}}
+
+##!> template token-chars [^{{non-token-chars}}]
+
+##!> template token-with-dquote-chars [^{{non-token-with-dquote-chars}}]
+
+##!> template type-subtype (?:\*|{{token-chars}}+)
+
+##!> template media-type {{type-subtype}}/{{type-subtype}}
+
+##! list of allowed charsets
+  ##!> assemble
+(?:"?
+  ##!=>
+iso-8859-1
+utf-8
+  ##!=>
+"?)\b)
+  ##!=< allowed-charsets
+  ##!<
+
+
+##! Main assembly
+  ##!> assemble
+(?:{{media-type}})
+  ##!=>
+(?:\s*;\s*
+  ##!=>
+(?:(?:charset\s*=\s*
+  ##!=>
+  ##!=> allowed-charsets
+
+  ##! If the first part wasn't a "charset", then
+  ##! anything is allowed here that is not "charset".
+  ##! Note that this doesn't follow the RFC strictly.
+|(?:
+  ##!=>
+[^c{{non-token-chars}}]{{token-chars}}*
+c[^h{{non-token-chars}}]{{token-chars}}*
+ch[^a{{non-token-chars}}]{{token-chars}}*
+cha[^r{{non-token-chars}}]{{token-chars}}*
+char[^s{{non-token-chars}}]{{token-chars}}*
+chars[^e{{non-token-chars}}]{{token-chars}}*
+charse[^t{{non-token-chars}}]{{token-chars}}*
+  ##!=>
+)\s*=\s*{{token-with-dquote-chars}}+))*
+  ##!=>
+
+  ##! Multiple "media-range" expressions can be
+  ##! specified, comma separated.
+(?:\s*,\s*
+  ##!=>
+(?:{{media-type}})
+  ##!=>
+(?:\s*;\s*
+  ##!=>
+(?:(?:charset\s*=\s*
+  ##!=>
+  ##!=> allowed-charsets
+|(?:
+  ##!=>
+[^c{{non-token-chars}}]{{token-chars}}*
+c[^h{{non-token-chars}}]{{token-chars}}*
+ch[^a{{non-token-chars}}]{{token-chars}}*
+cha[^r{{non-token-chars}}]{{token-chars}}*
+char[^s{{non-token-chars}}]{{token-chars}}*
+chars[^e{{non-token-chars}}]{{token-chars}}*
+charse[^t{{non-token-chars}}]{{token-chars}}*
+  ##!=>
+)\s*=\s*{{token-with-dquote-chars}}+))*
+  ##!=>
+  ##!<
