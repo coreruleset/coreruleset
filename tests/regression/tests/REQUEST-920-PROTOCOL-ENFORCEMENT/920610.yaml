@@ -1,0 +1,21 @@
+---
+meta:
+  author: "karelorigin"
+  enabled: true
+  name: "920610.yaml"
+  description: "Accept-Charset header checks"
+tests:
+  - test_title: 920610-1
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            uri: "/"
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Accept: text/html
+              Accept-Charset: UTF-8
+          output:
+            log_contains: "id \"920610\""
