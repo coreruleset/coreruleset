@@ -4,8 +4,8 @@
 ##! https://httpwg.org/specs/rfc7231.html#request.conneg
 ##! https://httpwg.org/specs/rfc7230.html
 
-##!^ ^(?:
-##!$ )*$
+##!^ ^
+##!$ $
 
 ##! Helpers
 ##!> template non-token-with-dquote-chars (),/:;<=>?![\x5c\]{}
@@ -79,6 +79,6 @@ char[^s{{non-token-chars}}]{{token-chars}}*
 chars[^e{{non-token-chars}}]{{token-chars}}*
 charse[^t{{non-token-chars}}]{{token-chars}}*
   ##!=>
-)\s*=\s*{{token-with-dquote-chars}}+))*
+)\s*=\s*{{token-with-dquote-chars}}+))*)*
   ##!=>
   ##!<
