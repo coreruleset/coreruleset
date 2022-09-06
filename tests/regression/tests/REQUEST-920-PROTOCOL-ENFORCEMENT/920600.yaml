@@ -96,3 +96,29 @@ tests:
               Accept: text/html;q=0.9;charset="iso-8859-1",*/*;q=0.8;charset=utf-8
           output:
             no_log_contains: "id \"920600\""
+  - test_title: 920600-8
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            uri: "/"
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Accept: text/html;q=0.9;charset="iso-8859-15",*/*;q=0.8
+          output:
+            no_log_contains: "id \"920600\""
+  - test_title: 920600-9
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            uri: "/"
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Accept: text/html;q=0.9;charset="windows-1252",*/*;q=0.8
+          output:
+            no_log_contains: "id \"920600\""
