@@ -62,7 +62,12 @@ char[^s{{non-token-chars}}]{{token-chars}}*
 chars[^e{{non-token-chars}}]{{token-chars}}*
 charse[^t{{non-token-chars}}]{{token-chars}}*
   ##!=>
-)\s*+=\s*+{{token-with-dquote-chars}}+))*
+)\s*+=\s*+{{token-with-dquote-chars}}+)
+  ##! Clients like to violate the RFC, be lenient with
+  ##! terminating semi-colons.
+;?
+  ##!=>
+)*
   ##!=>
 
   ##! Multiple "media-range" expressions can be
@@ -86,6 +91,11 @@ char[^s{{non-token-chars}}]{{token-chars}}*
 chars[^e{{non-token-chars}}]{{token-chars}}*
 charse[^t{{non-token-chars}}]{{token-chars}}*
   ##!=>
-)\s*+=\s*+{{token-with-dquote-chars}}+))*)*
+)\s*+=\s*+{{token-with-dquote-chars}}+)
+  ##! Clients like to violate the RFC, be lenient with
+  ##! terminating semi-colons.
+;?
+  ##!=>
+)*)*
   ##!=>
   ##!<
