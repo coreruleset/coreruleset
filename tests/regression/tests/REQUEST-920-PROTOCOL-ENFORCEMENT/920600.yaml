@@ -122,3 +122,29 @@ tests:
               Accept: text/html;q=0.9;charset="windows-1252",*/*;q=0.8
           output:
             no_log_contains: "id \"920600\""
+  - test_title: 920600-10
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            uri: "/"
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Accept: text/html;q=0.9;charset="windows-1252",*/*;q=0.8;
+          output:
+            no_log_contains: "id \"920600\""
+  - test_title: 920600-11
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            uri: "/"
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Accept: text/html;q=0.9;charset="windows-1252";,*/*;q=0.8
+          output:
+            no_log_contains: "id \"920600\""
