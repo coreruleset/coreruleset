@@ -16,6 +16,12 @@ use FindBin qw( $RealBin );
 use lib "$RealBin/lib/lib";
 use Regexp::Assemble;
 
+ sub escape_string {
+   my $str = shift;
+   $str =~ s/(?<!\\)"/\\"/g;
+   return $str;
+ }
+
 # cook_hex: disable replacing hex escapes with decodec bytes
 # force_escape_tokens: we embed the resulting regex within double quotes,
 #                      so they all need to be escaped
@@ -70,10 +76,10 @@ if (@flags > 0) {
   print "(?" . join('', @flags) . ")";
 }
 # print the prefixes
-print join('', @prefixes);
+print escape_string(join('', @prefixes));
 # call as_string() to make stats_length() work
 my $pattern = $ra->as_string();
 # don't print the assembled string if nothing was added, the module will produce an all-matching pattern
 print $pattern if $ra->stats_length() > 0;
 # print the suffixes
-print join('', @suffixes) . "\n";
+print escape_string(join('', @suffixes)) . "\n";
