@@ -1,20 +1,26 @@
+# Contributors
+
 ## Project Co-Leads:
 
-- [Chaim Sanders](https://github.com/csanders-git)
 - [Christian Folini](https://github.com/dune73)
 - [Walter Hop](https://github.com/lifeforms)
+- [Felipe Zipitría](https://github.com/fzipi)
 
 ## Developers:
 
+- [Paul Beckett](https://github.com/53cur3M3)
 - [Franziska Bühler](https://github.com/franbuehler)
 - [Christoph Hansen](https://github.com/emphazer)
 - [Ervin Hegedus](https://github.com/airween)
-- [Victor Hora](https://github.com/victorhora)
+- [Andrew Howe](https://github.com/RedXanadu)
+- [Karel Knibbe](https://github.com/karelorigin)
+- [Max Leske](https://github.com/theseion)
 - [Andrea Menin](https://github.com/theMiddleBlue)
+- [Chaim Sanders](https://github.com/csanders-git)
 - [Federico G. Schwindt](https://github.com/fgsch)
 - [Manuel Spartan](https://github.com/spartantri)
-- [Felipe Zimmerle](https://github.com/zimmerle)
-- [Felipe Zipitría](https://github.com/fzipi)
+- [Simon Studer](https://github.com/studersi)
+- [Jozef Sudolský](https://github.com/azurit)
 
 ## Contributors:
 
@@ -28,21 +34,24 @@
 - [Brent Clark](https://github.com/brentclark)
 - [Jonathan Claudius](https://github.com/claudijd)
 - [coolt](https://github.com/coolt)
+- [Hussein Daher](https://github.com/hussein98d)
 - [Ashish Dixit](https://github.com/tundal45)
 - [Padraig Doran](https://github.com/padraigdoran)
 - [Dan Ehrlich](https://github.com/danehrlich1)
 - [Umar Farook](https://github.com/umarfarook882)
 - [FrozenSolid](https://github.com/frozenSolid)
 - [Pásztor Gábor](https://github.com/gpasztor87)
+- [Jan Gora](https://github.com/terjanq)
 - [Aaron Haaf](https://github.com/Everspace)
 - [Michael Haas](https://github.com/MichaelHaas)
+- [Victor Hora](https://github.com/victorhora)
 - [jamuse](https://github.com/jamuse)
 - [jschleus](https://github.com/jschleus)
 - [Krzysztof Kotowicz](https://github.com/koto)
-- [Max Leske](https://github.com/theseion)
 - Manuel Leos
 - [Evgeny Marmalstein](https://github.com/shimshon70)
 - [Christian Mehlmauer](https://github.com/FireFart)
+- [Pinaki Mondal](https://github.com/0xinfection)
 - [Glyn Mooney](https://github.com/skidoosh)
 - [na1ex](https://github.com/na1ex)
 - [Jose Nazario](https://github.com/paralax)
@@ -56,7 +65,6 @@
 - Breno Silva
 - siric\_
 - [Marc Stern](https://github.com/marcstern)
-- [Simon Studer](https://github.com/studersi)
 - [supplient](https://github.com/supplient)
 - [theMiddle](https://github.com/theMiddleBlue)
 - [Ben Williams](https://github.com/benwilliams)
