@@ -12,7 +12,7 @@ services:
       BACKEND: http://backend
       PORT: "80"
       MODSEC_RULE_ENGINE: DetectionOnly
-      BLOCKING_PARANOIA: 4
+      PARANOIA: 4
       TZ: "${TZ}"
       ERRORLOG: "/var/log/error.log"
       ACCESSLOG: "/var/log/access.log"
@@ -27,7 +27,6 @@ services:
     volumes:
       - ./logs/modsec2-apache:/var/log:rw
       - ../rules:/opt/owasp-crs/rules:ro
-      - ../plugins:/opt/owasp-crs/plugins:ro
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
     entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh && apachectl -D FOREGROUND"]
     ports:
@@ -44,7 +43,7 @@ services:
       BACKEND: http://backend
       PORT: "80"
       MODSEC_RULE_ENGINE: DetectionOnly
-      BLOCKING_PARANOIA: 4
+      PARANOIA: 4
       TZ: "${TZ}"
       ERRORLOG: "/var/log/error.log"
       LOGLEVEL: "info"
@@ -59,9 +58,8 @@ services:
     volumes:
       - ./logs/modsec3-nginx:/var/log:rw
       - ../rules:/opt/owasp-crs/rules:ro
-      - ../plugins:/opt/owasp-crs/plugins:ro
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
-    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh && nginx -g 'daemon off;'"]
+    command: ["nginx", "-g", "daemon off;"]
     ports:
       - "80:80"
     depends_on:
