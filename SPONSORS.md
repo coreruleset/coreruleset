@@ -6,5 +6,5 @@
 
 ## SILVER SPONSORS
 
-* Google Cloud Armor
 * Bug Bounty Switzerland
+* Google Cloud Armor
