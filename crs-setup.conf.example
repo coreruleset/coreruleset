@@ -455,13 +455,21 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 # Forbidden request headers.
 # Header names should be lowercase, enclosed by /slashes/ as delimiters.
-# Blocking Proxy header prevents 'httpoxy' vulnerability: https://httpoxy.org
-# Default: /accept-charset/ /proxy/ /lock-token/ /content-range/ /if/
+# Default: /accept-charset/ /content-encoding/ /proxy/ /lock-token/ /content-range/ /if/
 #
 # Note: Accept-Charset is a deprecated header that should not be used by clients and
 # ignored by servers. It can be used for a response WAF bypass, by asking for a charset
 # that the WAF cannot decode.
 # Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Charset
+#
+# Note: Content-Encoding is used to list any encodings that have been applied to the
+# original payload. It is only used for compression, which isn't supported by CRS by
+# default since it blocks newlines and null bytes inside the request body. Most
+# compression algorithms require at least null bytes per RFC. Blocking it shouldn't
+# break anything and increases security since ModSecurity is incapable of properly
+# scanning compressed request bodies.
+#
+# Note: Blocking Proxy header prevents 'httpoxy' vulnerability: https://httpoxy.org
 #
 # Uncomment this rule to change the default.
 #SecAction \
@@ -470,7 +478,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  nolog,\
 #  pass,\
 #  t:none,\
-#  setvar:'tx.restricted_headers=/accept-charset/ /proxy/ /lock-token/ /content-range/ /if/'"
+#  setvar:'tx.restricted_headers=/accept-charset/ /content-encoding/ /proxy/ /lock-token/ /content-range/ /if/'"
 
 # File extensions considered static files.
 # Extensions include the dot, lowercase, enclosed by /slashes/ as delimiters.
