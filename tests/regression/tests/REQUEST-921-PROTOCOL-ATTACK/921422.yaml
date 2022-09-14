@@ -261,3 +261,19 @@ tests:
             version: HTTP/1.1
           output:
             no_log_contains: id "921422"
+  - test_title: 921422-17
+    desc: Negative test for rule 921422-9
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Content-Type: multipart/form-data; boundary=----webkitformboundary12w4lszoxn26vnd
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "921422"
