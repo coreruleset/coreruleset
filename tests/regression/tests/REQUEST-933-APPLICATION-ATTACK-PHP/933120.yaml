@@ -8,36 +8,36 @@ tests:
   - test_title: 933120-1
     desc: "PHP Injection Attack: Configuration Directive"
     stages:
-    - stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: "localhost"
-            Cache-Control: "no-cache, no-store, must-revalidate"
-            User-Agent: OWASP ModSecurity Core Rule Set
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: '/post'
-          data: "var=opcache.jit_max_polymorphic_calls%3d50"
-          version: HTTP/1.0
-        output:
-          log_contains: id "933120"
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: "localhost"
+              Cache-Control: "no-cache, no-store, must-revalidate"
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: '/post'
+            data: "var=opcache.jit_max_polymorphic_calls%3d50"
+            version: HTTP/1.0
+          output:
+            log_contains: id "933120"
   - test_title: 933120-2
     desc: "Test correct logging"
     stages:
-    - stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: "localhost"
-            Cache-Control: "no-cache, no-store, must-revalidate"
-            User-Agent: OWASP ModSecurity Core Rule Set
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          uri: '/post'
-          port: 80
-          data: "var=session.referer_check%3dtrue"
-          version: HTTP/1.0
-        output:
-          no_log_contains: = found within
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: "localhost"
+              Cache-Control: "no-cache, no-store, must-revalidate"
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            uri: '/post'
+            port: 80
+            data: "var=session.referer_check%3dtrue"
+            version: HTTP/1.0
+          output:
+            no_log_contains: = found within
