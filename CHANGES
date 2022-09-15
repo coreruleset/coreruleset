@@ -8,7 +8,8 @@
 == Version 3.3.3 - 2022-09-12 ==
 
 Important changes:
-* This update requires ModSecurity version 2.9.6 or 3.0.8 (or an updated version with backports of the security fixes in these versions) or a compatible engine supporting these changes. If you do not upgrade ModSecurity, the file REQUEST-922-MULTIPART-ATTACK.conf will cause ModSecurity to fail to start. In that case, you can temporarily delete that file. However, you will be missing protection from these rules. Therefore, we recommend upgrading your ModSecurity or other engine instead.
+ * This update requires ModSecurity version 2.9.6 or 3.0.8 (or an updated version with backports of the security fixes in these versions) or a compatible engine supporting these changes. If you do not upgrade ModSecurity, the file REQUEST-922-MULTIPART-ATTACK.conf will cause ModSecurity to fail to start. In that case, you can temporarily delete that file. However, you will be missing protection from these rules. Therefore, we recommend upgrading your ModSecurity or other engine instead.
+ * By default, the request headers "Accept-Charset" and "Content-Encoding" are now blocked to prevent a WAF bypass. Especially the "Accept-Charset" header may be in use by clients. If you need to serve clients that send this header, uncomment and edit rule 900250 in crs-setup.conf.
 
 Fixes and improvements:
  * Fix CVE-2022-39955 Multiple charsets defined in Content-Type header (Jan Gora)
