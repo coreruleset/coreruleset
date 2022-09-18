@@ -817,3 +817,20 @@ tests:
             data: "<?xml version=\"1.0\"?><xml><ssrf>http://2852039166/</ssrf></xml>"
           output:
             log_contains: id "934120"
+  - test_title: 934120-44
+    desc: SSRF - data:// scheme test - IN2OZO3N coverage
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            headers:
+              Host: "localhost"
+              User-Agent: "ModSecurity CRS 3 Tests"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip,deflate
+              Accept-Language: en-us,en;q=0.5
+            method: GET
+            uri: "/get?ssrf=data://text/plain;base64,SSBsb3ZlIFBIUAo="
+          output:
+            log_contains: id "934120"
