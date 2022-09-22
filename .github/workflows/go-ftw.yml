@@ -30,7 +30,11 @@ jobs:
       - name: "Run tests for ${{ matrix.modsec_version }}"
         run: |
           mkdir -p tests/logs/${{ matrix.modsec_version }}/{nginx,apache2}
+          docker-compose -f ./tests/docker-compose.yml pull
           docker-compose -f ./tests/docker-compose.yml up -d "${{ matrix.modsec_version }}"
+          docker-compose -f ./tests/docker-compose.yml logs
+          docker ps
+          docker images
           ./ftw check -d tests/regression/tests
           ./ftw run -d tests/regression/tests
         env:
