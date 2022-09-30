@@ -1,6 +1,6 @@
 ---
 meta:
-  author: flo405
+  author: "flo405, Franziska Bühler"
   description: SQLite System Command Execution
   enabled: true
   name: 932210.yaml
@@ -66,6 +66,22 @@ tests:
             method: GET
             port: 80
             uri: /?foo=;\n.databases
+            version: HTTP/1.0
+          output:
+            log_contains: id "932210"
+  - test_title: 932210-5
+    desc: "Fix N9FKP2XQ: .sh whoami"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /juiceshop?s=1;.sh+whoami
             version: HTTP/1.0
           output:
             log_contains: id "932210"
