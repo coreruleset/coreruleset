@@ -585,3 +585,74 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942120"
+  - test_title: 942120-35
+    desc: "Test for IJ5N1CXB - unlikely"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/post"
+            data: "email=admin%40juice-sh.op'and%20unlikely%20(id)--"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942120"
+  - test_title: 942120-36
+    desc: "Negative test for IJ5N1CXB - unlikely"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/post"
+            data:
+              text=It is highly unlikely this is going to be a false positive
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "942120"
+  - test_title: 942120-37
+    desc: "Test for HOH7M88Q - likelihood"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/post"
+            data: |
+              email=admin%40juice-sh.op\'%20and(%20likelihood%20(id,.0));'
+            version: HTTP/1.1
+          output:
+            log_contains: id "942120"
+  - test_title: 942120-38
+    desc: "Negative test for HOH7M88Q - likelihood"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/post"
+            data: |
+              text=After calculating the likelihood this should not be matched.
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "942120"
