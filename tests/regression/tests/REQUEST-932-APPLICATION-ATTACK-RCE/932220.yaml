@@ -1,0 +1,183 @@
+---
+meta:
+  author: "Andrea Menin"
+  description: RCE shell command injection
+  enabled: true
+  name: 932220.yaml
+tests:
+  - test_title: 932220-1
+    desc: "inject sh command"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?format=whxami%7Ctr%2Bx%2Bo%7Csh%20%23%22
+            version: HTTP/1.0
+          output:
+            log_contains: id "932220"
+  - test_title: 932220-2
+    desc: "inject sh command"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?format=foo%3Bwhxami%7Ctr%2Bx%2Bo%7Csh%20%23
+            version: HTTP/1.0
+          output:
+            log_contains: id "932220"
+  - test_title: 932220-3
+    desc: "inject sh command"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?format=foo%3Bxcat%20-lvp%2080%20-e%20ba%22sh%20%7C%20tr%20x%20n%20%7C%20sh%20%23
+            version: HTTP/1.0
+          output:
+            log_contains: id "932220"
+  - test_title: 932220-4
+    desc: "inject sh command"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?format=whxami%7Ctr%20x%20o%7C%7Csh%20%23
+            version: HTTP/1.0
+          output:
+            log_contains: id "932220"
+  - test_title: 932220-5
+    desc: "inject sh command"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?format=whxami%7Ctr%2Bx%2Bo%7Csh%3B
+            version: HTTP/1.0
+          output:
+            log_contains: id "932220"
+  - test_title: 932220-6
+    desc: "inject sh command"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?format=whxami%7Ctr%2Bx%2Bo%20%7C%20sh%20%7C%20grep%20foo
+            version: HTTP/1.0
+          output:
+            log_contains: id "932220"
+  - test_title: 932220-7
+    desc: "inject sh command"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?format=whxami%7Ctr%2Bx%2Bo%20%7C%20sh%20%24%7Bfoo%7D%20%23
+            version: HTTP/1.0
+          output:
+            log_contains: id "932220"
+  - test_title: 932220-8
+    desc: "inject sh command"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?format=whxami%7Ctr%2Bx%2Bo%20%7C%20sh%20%24%28%29%20%23
+            version: HTTP/1.0
+          output:
+            log_contains: id "932220"
+  - test_title: 932220-9
+    desc: "inject sh command"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?format=whxami%7Ctr%2Bx%2Bo%20%7C%20sh%20%60%60
+            version: HTTP/1.0
+          output:
+            log_contains: id "932220"
+  - test_title: 932220-10
+    desc: "inject sh command"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?format=whxami%7Ctr%2Bx%2Bo%20%7C%20sh%20%60foo%60
+            version: HTTP/1.0
+          output:
+            log_contains: id "932220"
+  - test_title: 932220-11
+    desc: "inject sh command"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?format=whxami%7Ctr%2Bx%2Bo%20%7C%20sh%20-a
+            version: HTTP/1.0
+          output:
+            log_contains: id "932220"
