@@ -246,6 +246,8 @@ This list is not exhaustive but covers the most important points. The [RE2 docum
 
 The rules in CRS are organized into **paranoia levels** (PLs) which makes it possible to define how aggressive CRS is. See the documentation on [paranoia levels](https://coreruleset.org/docs/concepts/paranoia_levels/) for an introduction and more detailed explanation.
 
+Each rule that is placed into a paranoia level must contain the tag `paranoia-level/N`, where *N* is the PL value, however this tag can only be added if the rule does **not** use the nolog action.
+
 The types of rules that are allowed at each paranoia level are as follows:
 
 **PL 0:**
@@ -286,8 +288,6 @@ The types of rules that are allowed at each paranoia level are as follows:
 * False positive rates are higher (even on single strings)
 * False negatives should not happen at this level
 * Check everything against RFCs and allow listed values for the most popular elements
-
-Each rule which placed into a paranoia level must contain tag `paranoia-level/N`, where N is the PL value, but this tag can only be added if rule does **not** have `nolog` action.
 
 ## ID Numbering Scheme
 
