@@ -263,7 +263,7 @@ The types of rules that are allowed at each paranoia level are as follows:
 
 **PL 2:**
 
-* [Chain](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual(v2.x)#chain) usage is allowed
+* [Chain](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#chain) usage is allowed
 * Confirmed matches use score critical
 * Matches that cause false positives are limited to using scores notice or warning
 * Low false positive rates
@@ -286,6 +286,8 @@ The types of rules that are allowed at each paranoia level are as follows:
 * False positive rates are higher (even on single strings)
 * False negatives should not happen at this level
 * Check everything against RFCs and allow listed values for the most popular elements
+
+Each rule which placed into a paranoia level must contain tag `paranoia-level/N`, where N is the PL value, but this tag can only be added if rule does **not** have `nolog` action.
 
 ## ID Numbering Scheme
 
