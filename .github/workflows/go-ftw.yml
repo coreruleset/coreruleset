@@ -25,7 +25,7 @@ jobs:
 
       - name: "Install dependencies"
         run: |
-          curl https://api.github.com/repos/fzipi/go-ftw/releases/latest | grep "browser_download_url" | grep -Eo 'https://[^\"]*Linux_x86_64.tar.gz' | xargs curl -L -o - | tar -xzf - ftw
+          curl https://api.github.com/repos/coreruleset/go-ftw/releases/latest | grep "browser_download_url" | grep -Eo 'https://[^\"]*Linux_x86_64.tar.gz' | xargs curl -L -o - | tar -xzf - ftw
 
       - name: "Run tests for ${{ matrix.modsec_version }}"
         run: |
