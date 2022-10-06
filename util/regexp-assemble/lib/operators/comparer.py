@@ -5,8 +5,15 @@ from lib.operators.parser import Parser
 
 
 class Comparer(Parser):
+    def __init__(self, process_all: bool):
+        super().__init__(process_all)
+        
+        self._all_match = True
+
     def run(self, process_all: bool):
         self.perform_compare_or_update(process_all, self.compare_regex)
+        if not self._all_match:
+            raise ComparisonError()
 
     def compare_regex(
         self,
@@ -19,6 +26,8 @@ class Comparer(Parser):
         if current_regex == generated_regex:
             sys.stdout.write(f"Regex of {rule_id} has not changed\n")
         else:
+            self._all_match = False
+
             sys.stdout.write(f"Regex of {rule_id} has changed!\n")
             diff_found = False
             max_chunks = ceil(max(len(current_regex), len(generated_regex)) / 50)
@@ -58,3 +67,6 @@ class Comparer(Parser):
                     sys.stdout.write("===========\n")
 
             sys.stdout.write("\n")
+
+class ComparisonError(Exception):
+    pass

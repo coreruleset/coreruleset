@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import TypeVar
 
 from lib.operators.assembler import Assembler
-from lib.operators.comparer import Comparer
+from lib.operators.comparer import Comparer, ComparisonError
 from lib.operators.updater import Updater
 from lib.context import Context
 
@@ -121,6 +121,13 @@ def build_compare_args_parser(subparsers: S):
     compare all regular expressions
     """,
     )
+    parser.add_argument(
+        "--github",
+        action="store_true",
+        help="""
+    Produce output for Github workflow, for failures specifically
+    """,
+    )
     parser.set_defaults(func=handle_compare)
 
 
@@ -150,10 +157,17 @@ def handle_update(namespace: argparse.Namespace):
 
 def handle_compare(namespace: argparse.Namespace):
     comparer = Comparer(create_context(namespace))
-    if namespace.rule_id:
-        comparer.run(False)
-    elif namespace.all:
-        comparer.run(True)
+    try:
+        if namespace.rule_id:
+            comparer.run(False)
+        elif namespace.all:
+            comparer.run(True)
+    except ComparisonError: 
+        if namespace.github:
+            message = "All rules need to be up to date."
+            message += " Please run `./regexp-assemble.py update --all\n"
+            sys.stdout.write("::error::" + message)
+        sys.exit(1)
 
 
 class RuleNameParser(argparse.Action):
