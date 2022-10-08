@@ -1,6 +1,6 @@
 ---
 meta:
-  author: csanders-git, Piotr Pazola <piotr@webtrip.pl>
+  author: csanders-git, Piotr Pazola <piotr@webtrip.pl>, Franziska Bühler
   description: Old tests and tests for fix of 932100 rule triggered with html decimal entities because of using legacy ISO-8859 charsets family - https://github.com/coreruleset/coreruleset/issues/1886
   enabled: true
   name: 932100.yaml
@@ -578,6 +578,78 @@ tests:
             port: 80
             uri: "/post"
             data: "arg=;irb31<<<1+2"
+            version: HTTP/1.1
+          output:
+            log_contains: "id \"932100\""
+  - test_title: 932100-30
+    desc: System Command Injection bypass with time
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: en-us,en;q=0.5
+            method: GET
+            port: 80
+            uri: "/?foo=time+ls"
+            version: HTTP/1.1
+          output:
+            log_contains: "id \"932100\""
+  - test_title: 932100-31
+    desc: System Command Injection bypass with time negative test
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: en-us,en;q=0.5
+            method: GET
+            port: 80
+            uri: "/?foo=time+warner"
+            version: HTTP/1.1
+          output:
+            no_log_contains: "id \"932100\""
+  - test_title: 932100-32
+    desc: System Command Injection test for BB finding 935E1D91
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: en-us,en;q=0.5
+            method: GET
+            port: 80
+            uri: "/?foo=time+curl+coreruleset.org"
+            version: HTTP/1.1
+          output:
+            log_contains: "id \"932100\""
+  - test_title: 932100-33
+    desc: System Command Injection test for BB finding 935E1D91 - time evasion attempt
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: en-us,en;q=0.5
+            method: GET
+            port: 80
+            uri: "/get?foo=ti''me+curl+coreruleset.org"
             version: HTTP/1.1
           output:
             log_contains: "id \"932100\""
