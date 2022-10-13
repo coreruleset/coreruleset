@@ -176,8 +176,8 @@ class Assembler(object):
                 lines.append(next(current_peekerator))
             else:
                 # add the previously consumed preprocessor comment back
-                lines.append(line)
-                lines.append(next(current_peekerator))
+                lines.extend(line)
+                lines.extend(next(current_peekerator))
 
         # `detect_preprocessor` increases nesting level, needs to be reset
         self.stats.depth = 0
@@ -187,7 +187,7 @@ class Assembler(object):
         peekerator = Peekerator(lines)
         processor = self._instantiate_preprocessor(peekerator, "assemble", [])
         result = processor.run(peekerator)
-        return result[0] if len(result) > 0 else ''
+        return result[0] if result else ''
 
     def _preprocess(self, peekerator: Peekerator[str]) -> List[str]:
         processor = self.detect_preprocessor(peekerator)

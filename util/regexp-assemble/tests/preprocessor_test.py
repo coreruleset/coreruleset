@@ -1,6 +1,6 @@
 import re
 import pytest
-from pathlib import Path
+from pathlib import Path, PurePath
 
 from .fixtures import *
 from lib.operators.assembler import Assembler, Peekerator
@@ -208,7 +208,7 @@ ten
         output = assembler._run(Peekerator(contents.splitlines()))
 
         assert output == '(?:one|two)(?:three|four)fives(?:even|ix)(?:eight|nine)ten'
-        
+
     def test_concatenating_multiple_segments_(self, context):
         contents = '''##!> assemble
 one
@@ -341,8 +341,8 @@ class TestCmdLinePreprocessor:
         output = assemble.complete()
 
         assert len(output) == 1
-        assert output[0] == r'''f[\x5c'\"]*o[\x5c'\"]*o''' 
-        
+        assert output[0] == r'''f[\x5c'\"]*o[\x5c'\"]*o'''
+
     def test_adds_windows_escapes(self, context):
         contents = 'foo'
         assemble = CmdLine.create(context, ['windows'])
@@ -401,7 +401,7 @@ class TestCmdLinePreprocessor:
         match = regex.match('gcc10.1<<<foo')
         assert match is not None
         assert match.group(0) == 'gcc10.1<<<foo'
-    
+
     def test_at_adds_unix_anti_evasion_suffix(self, context):
         contents = 'foo@'
         assemble = CmdLine.create(context, ['unix'])
@@ -631,3 +631,29 @@ next line
         output = assembler._run(Peekerator(contents.splitlines()))
 
         assert output == '(?:file contents|next line)'
+
+    def test_includes_content_recursive(self, context):
+        name1 = f'{uuid.uuid4()}.data'
+        name2 = f'{uuid.uuid4()}.data'
+
+        file1_path = PurePath.joinpath(context.include_files_directory, name1)
+        file2_path = PurePath.joinpath(context.include_files_directory, name2)
+
+        Path(file1_path).write_text(rf'''##!> include {Path(file2_path).stem}
+text 1''')
+        Path(file2_path).write_text(rf'''text 2''')
+
+        contents = rf'''##!> include {Path(file1_path).stem}
+text 3'''
+
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        # Unlink before fail
+        Path.unlink(file1_path)
+        Path.unlink(file2_path)
+
+        assert output == '(?:text (1|2|3))'
+
+

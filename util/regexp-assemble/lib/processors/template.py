@@ -44,8 +44,7 @@ class Template(Processor):
             def replacer(matchobj):
                 if matchobj.group(1) == self.identifier:
                     return self.replacement
-                else:
-                    return matchobj.group(0)
+                return matchobj.group(0)
             transformed_line = self.template_regex.sub(replacer, line)
             self.lines.append(transformed_line)
             self.logger.debug('Transformed line: %s', transformed_line)
