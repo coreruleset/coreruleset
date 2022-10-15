@@ -138,7 +138,7 @@ class Assembler(object):
 
         while keep_processing:
             phase2 = list(self.preprocess_phase1(Peekerator(phase1)))
-            if phase1 == phase2:
+            keep_processing = phase1 != phase2:
                 keep_processing = False
             phase1 = phase2
 
@@ -173,7 +173,7 @@ class Assembler(object):
         current_peekerator = peekerator
         lines: List[str] = []
         while current_peekerator.peek() is not None:
-            # `detect_preprocessor` will consume the proprocessor comment if
+            # `detect_preprocessor` will consume the preprocessor comment if
             # there is one, so store it here
             line = current_peekerator.peek()
             processor = self.detect_preprocessor(current_peekerator)
