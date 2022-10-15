@@ -117,7 +117,7 @@ another line'''
         assert output[0] == r'\x48'
 
     def test_assembling_1(self, context):
-        contents = '''##!^ \W*\(
+        contents = r'''##!^ \W*\(
 ##!^ two
 a+b|c
 d
@@ -125,10 +125,10 @@ d
         assembler = Assembler(context)
 
         output = assembler._run(Peekerator(contents.splitlines()))
-        assert output == '\W*\(two(?:a+b|c|d)'
+        assert output == r'''\W*\(two(?:a+b|c|d)'''
 
     def test_assembling_2(self, context):
-        contents = '''##!$ \W*\(
+        contents = r'''##!$ \W*\(
 ##!$ two
 a+b|c
 d
@@ -136,7 +136,7 @@ d
         assembler = Assembler(context)
 
         output = assembler._run(Peekerator(contents.splitlines()))
-        assert output == '(?:a+b|c|d)\W*\(two'
+        assert output == r'''(?:a+b|c|d)\W*\(two'''
 
     def test_assembling_3(self, context):
         contents = '''##!> assemble
@@ -287,7 +287,7 @@ cd
         assembler = Assembler(context)
 
         with pytest.raises(KeyError):
-            assembler.preprocess_phase3(Peekerator(contents.splitlines()))
+            assembler.preprocess_assembler(Peekerator(contents.splitlines()))
 
     def test_stored_input_is_available_to_outer_scope(self, context):
         contents = '''##!> assemble
@@ -311,7 +311,7 @@ cd
         assembler = Assembler(context)
 
         with pytest.raises(KeyError):
-            assembler.preprocess_phase3(Peekerator(contents.splitlines()))
+            assembler.preprocess_assembler(Peekerator(contents.splitlines()))
 
     def test_storing_alternation_and_concatenation(self, context):
         contents = '''##!> assemble

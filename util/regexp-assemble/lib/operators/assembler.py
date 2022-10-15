@@ -132,19 +132,18 @@ class Assembler(object):
 
     def _run(self, peekerator: Peekerator) -> str:
         """ Execute preprocessors until there are no more further changes """
-        phase1 = list(self.preprocess_phase1(peekerator))
+        phase1 = list(self.preprocess_includes(peekerator))
         phase2 = []
         keep_processing = True
 
         while keep_processing:
-            phase2 = list(self.preprocess_phase1(Peekerator(phase1)))
-            keep_processing = phase1 != phase2:
-                keep_processing = False
+            phase2 = list(self.preprocess_includes(Peekerator(phase1)))
+            keep_processing = phase1 != phase2
             phase1 = phase2
 
-        phase3 = list(self.preprocess_phase2(Peekerator(phase2)))
+        phase3 = list(self.preprocess_templates(Peekerator(phase2)))
 
-        lines = list(self.preprocess_phase3(Peekerator(phase3)))
+        lines = list(self.preprocess_assembler(Peekerator(phase3)))
         self.logger.debug('preprocessed lines: %s', lines)
         return self.assemble(lines)
 
@@ -168,7 +167,7 @@ class Assembler(object):
     def _is_simple_comment(self, line: str) -> bool:
         return SIMPLE_COMMENT_REGEX.match(line) is not None
 
-    def preprocess_phase1(self, peekerator: Peekerator[str]) -> Peekerator[str]:
+    def preprocess_includes(self, peekerator: Peekerator[str]) -> Peekerator[str]:
         """ Phase 1: solve all includes and get one big string list """
         current_peekerator = peekerator
         lines: List[str] = []
@@ -190,7 +189,7 @@ class Assembler(object):
         self.stats.depth = 0
         return lines
 
-    def preprocess_phase2(self, peekerator: Peekerator[str]) -> Peekerator[str]:
+    def preprocess_templates(self, peekerator: Peekerator[str]) -> Peekerator[str]:
         """ Phase 2: replace all templates """
         current_peekerator = peekerator
         lines: List[str] = []
@@ -214,7 +213,7 @@ class Assembler(object):
         self.stats.depth = 0
         return lines
 
-    def preprocess_phase3(self, peekerator: Peekerator[str]) -> Peekerator[str]:
+    def preprocess_assembler(self, peekerator: Peekerator[str]) -> Peekerator[str]:
         """ Phase 3: Performs the assembling """
         lines: List[str] = []
         while peekerator.peek() is not None:

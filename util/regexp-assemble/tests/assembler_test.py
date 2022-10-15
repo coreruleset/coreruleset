@@ -12,7 +12,7 @@ class TestFileFormat:
 '''
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess_phase3(Peekerator(contents.splitlines())))
+        output = list(assembler.preprocess_assembler(Peekerator(contents.splitlines())))
 
         assert len(output) == 0
 
@@ -26,7 +26,7 @@ class TestFileFormat:
 '''
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess_phase3(Peekerator(contents.splitlines())))
+        output = list(assembler.preprocess_assembler(Peekerator(contents.splitlines())))
 
         assert output == contents.splitlines()
 
@@ -34,23 +34,23 @@ class TestFileFormat:
     def test_preprocess_does_not_require_comments_to_start_line(self, context):
         contents = '''##!line1
  ##! line2
- not blank ##!+smx
+ not blank ##!+smx 
 \t\t##!foo
 \t ##! bar
 ##!\tline3
 '''
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess_phase3(Peekerator(contents.splitlines())))
+        output = list(assembler.preprocess_assembler(Peekerator(contents.splitlines())))
 
         assert len(output) == 1
-        assert output[0] == ' not blank ##!+smx'
+        assert output[0] == ' not blank ##!+smx '
 
     def test_preprocess_handles_preprocessor_comments(self, context):
         contents = '##!> assemble'
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess_phase3(Peekerator(contents.splitlines())))
+        output = list(assembler.preprocess_assembler(Peekerator(contents.splitlines())))
 
         assert len(output) == 0
 
@@ -60,7 +60,7 @@ class TestFileFormat:
 another line'''
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess_phase3(Peekerator(contents.splitlines())))
+        output = list(assembler.preprocess_assembler(Peekerator(contents.splitlines())))
 
         assert output == [
             'some line',
@@ -77,7 +77,7 @@ another line'''
         assembler = Assembler(context)
 
         with pytest.raises(NestingError):
-            assembler.preprocess_phase3(Peekerator(contents.splitlines()))
+            assembler.preprocess_assembler(Peekerator(contents.splitlines()))
 
     def test_preprocess_fails_on_too_few_end_markers(self, context):
         contents = '''##!> assemble
@@ -85,7 +85,7 @@ another line'''
         assembler = Assembler(context)
 
         with pytest.raises(NestingError):
-            assembler.preprocess_phase3(Peekerator(contents.splitlines()))
+            assembler.preprocess_assembler(Peekerator(contents.splitlines()))
 
     def test_preprocess_does_not_require_final_end_marker(self, context):
         contents = '''##!> assemble
@@ -94,7 +94,7 @@ another line'''
 '''
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess_phase3(Peekerator(contents.splitlines())))
+        output = list(assembler.preprocess_assembler(Peekerator(contents.splitlines())))
 
         assert len(output) == 0
 
@@ -117,7 +117,7 @@ five
 '''
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess_phase3(Peekerator(contents.splitlines())))
+        output = list(assembler.preprocess_assembler(Peekerator(contents.splitlines())))
 
         assert output == [
             'f[\\x5c\'\\"]*o[\\x5c\'\\"]*o',
@@ -141,7 +141,7 @@ five
 '''
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess_phase3(Peekerator(contents.splitlines())))
+        output = list(assembler.preprocess_assembler(Peekerator(contents.splitlines())))
 
 
         assert output == [
@@ -173,7 +173,7 @@ eight
 '''
         assembler = Assembler(context)
 
-        output = list(assembler.preprocess_phase3(Peekerator(contents.splitlines())))
+        output = list(assembler.preprocess_assembler(Peekerator(contents.splitlines())))
 
 
         assert output == [
