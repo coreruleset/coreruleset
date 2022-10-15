@@ -1,17 +1,17 @@
 import uuid
-from pathlib import Path, PurePath
+from pathlib import Path
 import pytest
 
 from lib.context import Context
 
 @pytest.fixture
 def include_file(context, include_file_name):
-    file_path = PurePath.joinpath(context.include_files_directory, include_file_name)
-    Path(file_path).touch()
+    file_path = Path.joinpath(context.include_files_directory, include_file_name)
+    file_path.touch()
     try:
         yield file_path
     finally:
-        Path.unlink(file_path)
+        file_path.unlink()
 
 
 @pytest.fixture

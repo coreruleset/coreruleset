@@ -18,12 +18,14 @@ PREPROCESSOR_START_REGEX = re.compile(rf'{COMMENT_REGEX_PREFIX}>\s*(.*)')
 PREPROCESSOR_END_REGEX = re.compile(rf'{COMMENT_REGEX_PREFIX}<')
 SIMPLE_COMMENT_REGEX = re.compile(rf'{COMMENT_REGEX_PREFIX}[^{SPECIAL_COMMENT_MARKERS}]')
 
+
 class NestingError(Exception):
     def __init__(self, line: int, depth: int):
         super().__init__(f"Nesting error on line {line}, nesting level {depth}")
 
         self.line = line
         self.depth = depth
+
 
 class Stats(object):
     def __init__(self):
@@ -40,6 +42,7 @@ class Stats(object):
         self.depth -= 1
         if self.depth < 0:
             raise NestingError(self.line, self.depth)
+
 
 class Peekerator(Generic[T]):
     def __init__(self, iterable: Iterable[T]) -> None:
@@ -58,7 +61,7 @@ class Peekerator(Generic[T]):
         else:
             return next(self.iterator)
 
-    def peek(self, default: any=None) -> T:
+    def peek(self, default: any = None) -> T:
         if not self.peeked:
             try:
                 self.peeked = next(self.iterator)
@@ -95,6 +98,7 @@ class Preprocessor(object):
             yield line
             line = next(peekerator, None)
 
+
 class NoOpPreprocessor(object):
     def __init__(self, peekerator: Peekerator[str]) -> None:
         self.processor = None
@@ -107,6 +111,7 @@ class NoOpPreprocessor(object):
 
     def has_body(self):
         return True
+
 
 class Assembler(object):
     logger = logging.getLogger()
@@ -127,13 +132,19 @@ class Assembler(object):
 
     def _run(self, peekerator: Peekerator) -> str:
         """ Execute preprocessors until there are no more further changes """
-        initial = list(self.preprocess_templates(peekerator))
-        lines = []
-        while set(initial) != set(lines):
-            lines = list(self.preprocess_templates(Peekerator(initial)))
-            initial = lines
+        phase1 = list(self.preprocess_phase1(peekerator))
+        phase2 = []
+        keep_processing = True
 
-        lines = list(self.preprocess(Peekerator(lines)))
+        while keep_processing:
+            phase2 = list(self.preprocess_phase1(Peekerator(phase1)))
+            if phase1 == phase2:
+                keep_processing = False
+            phase1 = phase2
+
+        phase3 = list(self.preprocess_phase2(Peekerator(phase2)))
+
+        lines = list(self.preprocess_phase3(Peekerator(phase3)))
         self.logger.debug('preprocessed lines: %s', lines)
         return self.assemble(lines)
 
@@ -157,17 +168,30 @@ class Assembler(object):
     def _is_simple_comment(self, line: str) -> bool:
         return SIMPLE_COMMENT_REGEX.match(line) is not None
 
-    def preprocess(self, peekerator: Peekerator[str]) -> Peekerator[str]:
+    def preprocess_phase1(self, peekerator: Peekerator[str]) -> Peekerator[str]:
+        """ Phase 1: solve all includes and get one big string list """
+        current_peekerator = peekerator
         lines: List[str] = []
-        while peekerator.peek() is not None:
-            lines += self._preprocess(peekerator)
+        while current_peekerator.peek() is not None:
+            # `detect_preprocessor` will consume the proprocessor comment if
+            # there is one, so store it here
+            line = current_peekerator.peek()
+            processor = self.detect_preprocessor(current_peekerator)
+            if processor.is_include:
+                lines += processor.run(Peekerator([]))
+            elif processor.is_noop:
+                lines.append(next(current_peekerator))
+            else:
+                # add the previously consumed preprocessor comment back
+                lines.append(line)
+                lines.append(next(current_peekerator))
 
-        # the outermost preprocessor end marker is optional
-        if self.stats.depth > 1:
-            raise NestingError(self.stats.line, self.stats.depth)
-
+        # `detect_preprocessor` increases nesting level, needs to be reset
+        self.stats.depth = 0
         return lines
-    def preprocess_templates(self, peekerator: Peekerator[str]) -> Peekerator[str]:
+
+    def preprocess_phase2(self, peekerator: Peekerator[str]) -> Peekerator[str]:
+        """ Phase 2: replace all templates """
         current_peekerator = peekerator
         lines: List[str] = []
         while current_peekerator.peek() is not None:
@@ -179,8 +203,6 @@ class Assembler(object):
                 lines += processor.run(current_peekerator)
                 current_peekerator = Peekerator(lines)
                 lines = []
-            elif processor.is_include:
-                lines += processor.run(Peekerator([]))
             elif processor.is_noop:
                 lines.append(next(current_peekerator))
             else:
@@ -190,6 +212,18 @@ class Assembler(object):
 
         # `detect_preprocessor` increases nesting level, needs to be reset
         self.stats.depth = 0
+        return lines
+
+    def preprocess_phase3(self, peekerator: Peekerator[str]) -> Peekerator[str]:
+        """ Phase 3: Performs the assembling """
+        lines: List[str] = []
+        while peekerator.peek() is not None:
+            lines += self._preprocess(peekerator)
+
+        # the outermost preprocessor end marker is optional
+        if self.stats.depth > 1:
+            raise NestingError(self.stats.line, self.stats.depth)
+
         return lines
 
     def assemble(self, lines: List[str]) -> str:

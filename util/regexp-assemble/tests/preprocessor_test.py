@@ -287,7 +287,7 @@ cd
         assembler = Assembler(context)
 
         with pytest.raises(KeyError):
-            assembler.preprocess(Peekerator(contents.splitlines()))
+            assembler.preprocess_phase3(Peekerator(contents.splitlines()))
 
     def test_stored_input_is_available_to_outer_scope(self, context):
         contents = '''##!> assemble
@@ -311,7 +311,7 @@ cd
         assembler = Assembler(context)
 
         with pytest.raises(KeyError):
-            assembler.preprocess(Peekerator(contents.splitlines()))
+            assembler.preprocess_phase3(Peekerator(contents.splitlines()))
 
     def test_storing_alternation_and_concatenation(self, context):
         contents = '''##!> assemble
@@ -636,22 +636,22 @@ next line
         name1 = f'{uuid.uuid4()}.data'
         name2 = f'{uuid.uuid4()}.data'
 
-        file1_path = PurePath.joinpath(context.include_files_directory, name1)
-        file2_path = PurePath.joinpath(context.include_files_directory, name2)
+        file1_path = Path.joinpath(context.include_files_directory, name1)
+        file2_path = Path.joinpath(context.include_files_directory, name2)
 
-        contents = rf'''##!> include {Path(file1_path).stem}
+        contents = rf'''##!> include {file1_path.stem}
 first text 1'''
-        Path(file1_path).write_text(rf'''##!> include {Path(file2_path).stem}
+        file1_path.write_text(rf'''##!> include {file2_path.stem}
 second text 5''')
-        Path(file2_path).write_text(rf'''third text 10''')
+        file2_path.write_text(rf'''third text 10''')
 
         assembler = Assembler(context)
 
         output = assembler._run(Peekerator(contents.splitlines()))
 
         # Unlink before fail
-        Path.unlink(file1_path)
-        Path.unlink(file2_path)
+        file1_path.unlink()
+        file2_path.unlink()
 
         assert output == '(?:second text 5|third text 10|first text 1)'
 
@@ -659,17 +659,17 @@ second text 5''')
         name1 = f'{uuid.uuid4()}.data'
         name2 = f'{uuid.uuid4()}.data'
 
-        file1_path = PurePath.joinpath(context.include_files_directory, name1)
-        file2_path = PurePath.joinpath(context.include_files_directory, name2)
+        file1_path = Path.joinpath(context.include_files_directory, name1)
+        file2_path = Path.joinpath(context.include_files_directory, name2)
 
-        contents = rf'''##!> include {Path(file1_path).stem}
+        contents = rf'''##!> include {file1_path.stem}
 first text 1'''
-        Path(file1_path).write_text(rf'''##!> include {Path(file2_path).stem}
+        Path(file1_path).write_text(rf'''##!> include {file2_path.stem}
 second text 5
 ##!> template slashes [/\]
 {{{{slashes}}}}
 ''')
-        Path(file2_path).write_text(r'''##!> template hex [a-fA-F0-9]
+        file2_path.write_text(r'''##!> template hex [a-fA-F0-9]
 {{hex}}
 third text
 ''')
@@ -679,7 +679,38 @@ third text
         output = assembler._run(Peekerator(contents.splitlines()))
 
         # Unlink before fail
-        Path.unlink(file1_path)
-        Path.unlink(file2_path)
+        file1_path.unlink()
+        file2_path.unlink()
+
+        assert output == '(?:second text 5|first text 1|[a-fA-F0-9]|third text|[\\/\\])'
+
+    def test_template_with_usage_included_from_other_file(self, context):
+        name1 = f'{uuid.uuid4()}.data'
+        name2 = f'{uuid.uuid4()}.data'
+
+        file1_path = Path.joinpath(context.include_files_directory, name1)
+        file2_path = Path.joinpath(context.include_files_directory, name2)
+
+        contents = rf'''##!> include {file1_path.stem}
+first text 1'''
+        Path(file1_path).write_text(rf'''##!> template hex [a-fA-F0-9]
+second text 5
+##!> template slashes [/\]
+
+##!> include {file2_path.stem}
+''')
+        file2_path.write_text(r'''##! all templates were defined in previous file
+{{hex}}
+third text
+{{slashes}}
+''')
+
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        # Unlink before fail
+        file1_path.unlink()
+        file2_path.unlink()
 
         assert output == '(?:second text 5|first text 1|[a-fA-F0-9]|third text|[\\/\\])'
