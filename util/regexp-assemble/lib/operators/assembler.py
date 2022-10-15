@@ -71,6 +71,7 @@ class Preprocessor(object):
     def __init__(self, peekerator: Peekerator[str], processor_cls: Processor, context: Context, args):
         self.processor = processor_cls.create(context, args)
         self.is_template = isinstance(self.processor, Template)
+        self.is_include = isinstance(self.processor, Include)
         self.is_noop = False
         if PREPROCESSOR_START_REGEX.match(peekerator.peek('')):
             # when instantiated programmatically, the preprocessor marker won't be there
@@ -98,6 +99,7 @@ class NoOpPreprocessor(object):
     def __init__(self, peekerator: Peekerator[str]) -> None:
         self.processor = None
         self.is_template = False
+        self.is_include = False
         self.is_noop = True
 
     def run(self, iterator: Iterator[str]) -> List[str]:
@@ -124,7 +126,13 @@ class Assembler(object):
         return self._run(peekerator)
 
     def _run(self, peekerator: Peekerator) -> str:
-        lines = list(self.preprocess_templates(peekerator))
+        """ Execute preprocessors until there are no more further changes """
+        initial = list(self.preprocess_templates(peekerator))
+        lines = []
+        while set(initial) != set(lines):
+            lines = list(self.preprocess_templates(Peekerator(initial)))
+            initial = lines
+
         lines = list(self.preprocess(Peekerator(lines)))
         self.logger.debug('preprocessed lines: %s', lines)
         return self.assemble(lines)
@@ -159,7 +167,6 @@ class Assembler(object):
             raise NestingError(self.stats.line, self.stats.depth)
 
         return lines
-    
     def preprocess_templates(self, peekerator: Peekerator[str]) -> Peekerator[str]:
         current_peekerator = peekerator
         lines: List[str] = []
@@ -172,12 +179,14 @@ class Assembler(object):
                 lines += processor.run(current_peekerator)
                 current_peekerator = Peekerator(lines)
                 lines = []
+            elif processor.is_include:
+                lines += processor.run(Peekerator([]))
             elif processor.is_noop:
                 lines.append(next(current_peekerator))
             else:
                 # add the previously consumed preprocessor comment back
-                lines.extend(line)
-                lines.extend(next(current_peekerator))
+                lines.append(line)
+                lines.append(next(current_peekerator))
 
         # `detect_preprocessor` increases nesting level, needs to be reset
         self.stats.depth = 0
@@ -197,7 +206,7 @@ class Assembler(object):
         return processor.run(Peekerator(lines))
 
     def lines_to_process(self, peekerator: Peekerator[str], processor: Preprocessor) -> List[str]:
-        lines: List[str] = [] 
+        lines: List[str] = []
         line = peekerator.peek()
         while line is not None:
             self.stats.line_parsed()

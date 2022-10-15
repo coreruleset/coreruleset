@@ -639,12 +639,11 @@ next line
         file1_path = PurePath.joinpath(context.include_files_directory, name1)
         file2_path = PurePath.joinpath(context.include_files_directory, name2)
 
-        Path(file1_path).write_text(rf'''##!> include {Path(file2_path).stem}
-text 1''')
-        Path(file2_path).write_text(rf'''text 2''')
-
         contents = rf'''##!> include {Path(file1_path).stem}
-text 3'''
+first text 1'''
+        Path(file1_path).write_text(rf'''##!> include {Path(file2_path).stem}
+second text 5''')
+        Path(file2_path).write_text(rf'''third text 10''')
 
         assembler = Assembler(context)
 
@@ -654,6 +653,33 @@ text 3'''
         Path.unlink(file1_path)
         Path.unlink(file2_path)
 
-        assert output == '(?:text (1|2|3))'
+        assert output == '(?:second text 5|third text 10|first text 1)'
 
+    def test_includes_content_with_templates_recursive(self, context):
+        name1 = f'{uuid.uuid4()}.data'
+        name2 = f'{uuid.uuid4()}.data'
 
+        file1_path = PurePath.joinpath(context.include_files_directory, name1)
+        file2_path = PurePath.joinpath(context.include_files_directory, name2)
+
+        contents = rf'''##!> include {Path(file1_path).stem}
+first text 1'''
+        Path(file1_path).write_text(rf'''##!> include {Path(file2_path).stem}
+second text 5
+##!> template slashes [/\]
+{{{{slashes}}}}
+''')
+        Path(file2_path).write_text(r'''##!> template hex [a-fA-F0-9]
+{{hex}}
+third text
+''')
+
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        # Unlink before fail
+        Path.unlink(file1_path)
+        Path.unlink(file2_path)
+
+        assert output == '(?:second text 5|first text 1|[a-fA-F0-9]|third text|[\\/\\])'
