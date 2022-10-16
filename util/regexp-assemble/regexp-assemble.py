@@ -216,7 +216,7 @@ class RuleNameParser(argparse.Action):
         if not match:
             raise argparse.ArgumentError(self, f"Failed to identify rule from argument {values}")
         setattr(namespace, self.dest, match.group(1))
-        setattr(namespace, "chain_offset", int(match.group(2) if match.group(2) else 0))
+        setattr(namespace, "chain_offset", int(match.group(2) or 0))
         setattr(namespace, "fileName", values + ".data")
 
 

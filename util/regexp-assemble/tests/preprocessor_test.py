@@ -1,6 +1,6 @@
 import re
 import pytest
-from pathlib import Path
+from pathlib import Path, PurePath
 
 from .fixtures import *
 from lib.operators.assembler import Assembler, Peekerator
@@ -117,7 +117,7 @@ another line'''
         assert output[0] == r'\x48'
 
     def test_assembling_1(self, context):
-        contents = '''##!^ \W*\(
+        contents = r'''##!^ \W*\(
 ##!^ two
 a+b|c
 d
@@ -125,10 +125,10 @@ d
         assembler = Assembler(context)
 
         output = assembler._run(Peekerator(contents.splitlines()))
-        assert output == '\W*\(two(?:a+b|c|d)'
+        assert output == r'''\W*\(two(?:a+b|c|d)'''
 
     def test_assembling_2(self, context):
-        contents = '''##!$ \W*\(
+        contents = r'''##!$ \W*\(
 ##!$ two
 a+b|c
 d
@@ -136,7 +136,7 @@ d
         assembler = Assembler(context)
 
         output = assembler._run(Peekerator(contents.splitlines()))
-        assert output == '(?:a+b|c|d)\W*\(two'
+        assert output == r'''(?:a+b|c|d)\W*\(two'''
 
     def test_assembling_3(self, context):
         contents = '''##!> assemble
@@ -208,7 +208,7 @@ ten
         output = assembler._run(Peekerator(contents.splitlines()))
 
         assert output == '(?:one|two)(?:three|four)fives(?:even|ix)(?:eight|nine)ten'
-        
+
     def test_concatenating_multiple_segments_(self, context):
         contents = '''##!> assemble
 one
@@ -287,7 +287,7 @@ cd
         assembler = Assembler(context)
 
         with pytest.raises(KeyError):
-            assembler.preprocess(Peekerator(contents.splitlines()))
+            assembler.preprocess_assembler(Peekerator(contents.splitlines()))
 
     def test_stored_input_is_available_to_outer_scope(self, context):
         contents = '''##!> assemble
@@ -311,7 +311,7 @@ cd
         assembler = Assembler(context)
 
         with pytest.raises(KeyError):
-            assembler.preprocess(Peekerator(contents.splitlines()))
+            assembler.preprocess_assembler(Peekerator(contents.splitlines()))
 
     def test_storing_alternation_and_concatenation(self, context):
         contents = '''##!> assemble
@@ -341,8 +341,8 @@ class TestCmdLinePreprocessor:
         output = assemble.complete()
 
         assert len(output) == 1
-        assert output[0] == r'''f[\x5c'\"]*o[\x5c'\"]*o''' 
-        
+        assert output[0] == r'''f[\x5c'\"]*o[\x5c'\"]*o'''
+
     def test_adds_windows_escapes(self, context):
         contents = 'foo'
         assemble = CmdLine.create(context, ['windows'])
@@ -401,7 +401,7 @@ class TestCmdLinePreprocessor:
         match = regex.match('gcc10.1<<<foo')
         assert match is not None
         assert match.group(0) == 'gcc10.1<<<foo'
-    
+
     def test_at_adds_unix_anti_evasion_suffix(self, context):
         contents = 'foo@'
         assemble = CmdLine.create(context, ['unix'])
@@ -631,3 +631,86 @@ next line
         output = assembler._run(Peekerator(contents.splitlines()))
 
         assert output == '(?:file contents|next line)'
+
+    def test_includes_content_recursive(self, context):
+        name1 = f'{uuid.uuid4()}.data'
+        name2 = f'{uuid.uuid4()}.data'
+
+        file1_path = Path.joinpath(context.include_files_directory, name1)
+        file2_path = Path.joinpath(context.include_files_directory, name2)
+
+        contents = rf'''##!> include {file1_path.stem}
+first text 1'''
+        file1_path.write_text(rf'''##!> include {file2_path.stem}
+second text 5''')
+        file2_path.write_text(rf'''third text 10''')
+
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        # Unlink before fail
+        file1_path.unlink()
+        file2_path.unlink()
+
+        assert output == '(?:second text 5|third text 10|first text 1)'
+
+    def test_includes_content_with_templates_recursive(self, context):
+        name1 = f'{uuid.uuid4()}.data'
+        name2 = f'{uuid.uuid4()}.data'
+
+        file1_path = Path.joinpath(context.include_files_directory, name1)
+        file2_path = Path.joinpath(context.include_files_directory, name2)
+
+        contents = rf'''##!> include {file1_path.stem}
+first text 1'''
+        Path(file1_path).write_text(rf'''##!> include {file2_path.stem}
+second text 5
+##!> template slashes [/\]
+{{{{slashes}}}}
+''')
+        file2_path.write_text(r'''##!> template hex [a-fA-F0-9]
+{{hex}}
+third text
+''')
+
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        # Unlink before fail
+        file1_path.unlink()
+        file2_path.unlink()
+
+        assert output == '(?:second text 5|first text 1|[a-fA-F0-9]|third text|[\\/\\])'
+
+    def test_template_with_usage_included_from_other_file(self, context):
+        name1 = f'{uuid.uuid4()}.data'
+        name2 = f'{uuid.uuid4()}.data'
+
+        file1_path = Path.joinpath(context.include_files_directory, name1)
+        file2_path = Path.joinpath(context.include_files_directory, name2)
+
+        contents = rf'''##!> include {file1_path.stem}
+first text 1'''
+        Path(file1_path).write_text(rf'''##!> template hex [a-fA-F0-9]
+second text 5
+##!> template slashes [/\]
+
+##!> include {file2_path.stem}
+''')
+        file2_path.write_text(r'''##! all templates were defined in previous file
+{{hex}}
+third text
+{{slashes}}
+''')
+
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        # Unlink before fail
+        file1_path.unlink()
+        file2_path.unlink()
+
+        assert output == '(?:second text 5|first text 1|[a-fA-F0-9]|third text|[\\/\\])'
