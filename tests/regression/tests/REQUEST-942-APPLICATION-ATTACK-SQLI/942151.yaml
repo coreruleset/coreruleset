@@ -124,3 +124,67 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942151"
+  - test_title: 942151-8
+    desc: "SQL injection using PostgreSQL starts_with() function"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/index.php?id=starts_with(password,'a')::int"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942151"
+  - test_title: 942151-9
+    desc: "SQL injection using PostgreSQL jsonb_pretty() function"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:  
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/index.php?id=jsonb_pretty(...(1,password)::jsonb)::int"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942151"
+  - test_title: 942151-10
+    desc: "SQL injection using PostgreSQL json_build_object() function"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:  
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/index.php?id=...(json_build_object(1,password)::jsonb)::int"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942151"
+  - test_title: 942151-11
+    desc: "SQL injection using unistr() function"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:  
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/index.php?id=unistr(password)::int"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942151"
