@@ -41,7 +41,11 @@ class Template(Processor):
             self.logger.debug('Found template %s in line %s', self.identifier, line)
             # need to use a function as the replacement to prevent Python from parsing
             # escape sequences
-            transformed_line = self.template_regex.sub(lambda _: self.replacement, line)
+            def replacer(matchobj):
+                if matchobj.group(1) == self.identifier:
+                    return self.replacement
+                return matchobj.group(0)
+            transformed_line = self.template_regex.sub(replacer, line)
             self.lines.append(transformed_line)
             self.logger.debug('Transformed line: %s', transformed_line)
         else:

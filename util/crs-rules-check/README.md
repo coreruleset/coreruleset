@@ -9,7 +9,7 @@ Prerequisites
 To run the tool, you need:
 
 + a **Python 3** interpreter
-+ **msc_pyparser** - a SecRule parser (>=1.2.0)
++ **msc_pyparser** - a SecRule parser (>=1.2.1)
 
 `msc_pyparser` was written in Python 3 and has not been tested with Python 2, therefore you have to use Python 3.
 

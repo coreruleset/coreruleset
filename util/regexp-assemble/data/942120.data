@@ -1,4 +1,4 @@
-##! Please refer to the documentation at 
+##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regexp_assemble/.
 
 ##!+ i
@@ -25,7 +25,13 @@ like\s+null
 ^in[+\s]*\([\s\d\"]+[^()]*\)
 \Win[+\s]*\([\s\d\"]+[^()]*\)
 <>\s+binary
+\bcollate\W*?(?:U&)?[\"'`]
+\bcollate\W+(?:binary|nocase|rtrim)\b
+\bcollate\W+\w*?_
 \bnotnull\b
 like\s+[\w]+\s+escape\b
 \bilike\b
 [<>=!]{1,2}\s*all\b
+\blikelihood\s*\(
+\bunlikely\s*\(
+\blikely\s*\(

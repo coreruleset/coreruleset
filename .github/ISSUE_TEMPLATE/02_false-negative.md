@@ -13,7 +13,7 @@ assignees: ''
 <!-- Include any relevant CVEs or research links. -->
 <!-- If the bypass works in paranoia level 4, please consider sending -->
 <!-- us an email instead. See -->
-<!-- https://github.com/SpiderLabs/owasp-modsecurity-crs/security/policy -->
+<!-- https://github.com/coreruleset/coreruleset/security/policy -->
 <!-- for details. -->
 
 ### Your Environment

@@ -4,18 +4,18 @@
 
 OWASP CRS has two types of releases, Major releases (3.0.0, 3.1.0, 3.2.0 etc.) and point releases (3.0.1, 3.0.2 etc.).
 For more information see our [wiki](https://github.com/coreruleset/coreruleset/wiki/Release-Policy).
-The OWASP CRS officially supports the two point releases with security patching preceding the current major release .
+The OWASP CRS officially supports the two latest point releases with severe security patches.
 We are happy to receive and merge PR's that address security issues in older versions of the project, but the team itself may choose not to fix these.
 Along those lines, OWASP CRS team may not issue security notifications for unsupported software.
 
 | Version   | Supported          |
 | --------- | ------------------ |
-| 4.0.0     | :white_check_mark: |
-| 3.4.x-dev | :white_check_mark: |
+| 4.0.0-RC1 | :x:                |
 | 3.3.x     | :white_check_mark: |
-| 3.2.x     | :x:                |
+| 3.2.x     | :white_check_mark: |
 | 3.1.x     | :x:                |
 | 3.0.x     | :x:                |
+| 2.x       | :x:                |
 
 ## GPG Signed Releases
 

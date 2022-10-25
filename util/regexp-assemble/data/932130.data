@@ -1,4 +1,4 @@
-##! Please refer to the documentation at 
+##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regexp_assemble/.
 
 \$\(.*\)
@@ -6,3 +6,8 @@
 <\(.*\)
 >\(.*\)
 \$\(\(.*\)\)
+
+##! Find wordlist bypasses using [ ] glob characters, like: /e[t]c
+##! Require a / in front to prevent false positives like [text in brackets]
+/\w*\[!.+\]
+/\w*\[.+\]

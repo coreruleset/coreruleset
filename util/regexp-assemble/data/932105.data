@@ -1,4 +1,4 @@
-##! Please refer to the documentation at 
+##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regexp_assemble/.
 
 ##! Word list for rule 932105 (RCE Unix command injection part 2/4)
@@ -15,6 +15,10 @@
 
 ##! starting tokens prefix
 ##!> assemble
+##! time ifconfig
+  ##!> cmdline unix
+time
+  ##!<
 ##! ;ifconfig
 ;
 ##! {ifconfig}
@@ -27,14 +31,14 @@
 &
 ##! & &ifconfig
 &&
-##! ;\nifconfig 
+##! ;\nifconfig
 \n
 ##! ;\rifconfig
 \r
 ##! $(ifconfig)
 \$\(
 ##! $((ifconfig))
-$\(\(
+\$\(\(
 ##! `ifconfig`
 `
 ##! ${ifconfig}
@@ -43,13 +47,13 @@ $\(\(
 <\(
 ##! >( ifconfig )
 >\(
-##! a() ( ifconfig; ); a	
+##! a() ( ifconfig; ); a
 \(\s*\)
 ##!=>
 
 ##! match possible white space between prefix expressions
 \s*
-##!=> 
+##!=>
 
 ##! commands prefix
 (?:
@@ -93,7 +97,8 @@ $\(\(
 
   ##!> cmdline unix
 
-##! words starting with a-n are in 932100.data
+##! words starting with a-l are in 932100.data
+mail
 mailq
 mailx@
 make@
@@ -102,7 +107,15 @@ mawk
 mkdir@
 mlocate
 more@
+mosquitto
 mount@
+msgattrib
+msgcat
+msgconv
+msgfilter
+msgmerge
+msguniq
+mtr
 mutt@
 mv@
 mysql
@@ -112,16 +125,20 @@ mysqldumpslow
 mysqlhotcopy
 mysqlshow
 nano@
+nasm
 nawk
 nc.openbsd
 nc.traditional
 nc@
 ncat
+neofetch
 net@
 netcat
 netkit-ftp
 netstat
 nice@
+nl@
+nm@
 nmap
 node@
 nohup
@@ -131,69 +148,86 @@ nroff
 nsenter
 nslookup
 nstat
+octave@
+od@
 onintr
 openssl
+openvpn
+openvt
+opkg
 passwd
+paste@
 patch@
+pax@
 pdb
+pdflatex
+pdftex
+perf
 perl
 perl5
 perlsh
 perms
 pf@
 pftp
+pg
 pgrep
-php
-php5
-php7
+php@
 pic@
 pico@
 pidstat
-ping
-pip@
+ping@
+pip~
 pkexec
 pkg
 pkg_info
 pkginfo
 pkill
 popd
+pr@
 printenv
 printf@
+pry@
 ps@
+psftp
+psql
 ptar
 ptardiff
 ptargrep
+ptx
+python~
+puppet@
 pushd
-python
-python2
-python3
-python3m
 rake@
 raku
 rar@
 rcp@
+readelf
 realpath
+red@
+redcarpet@
 rename@
 repeat@
 replace@
+restic
+rev@
+rlogin
+rlwrap
 rm@
 rmdir@
 rmuser
 rnano
-route
+route@
 rpm@
+rpmdb
+rpmquery
+rpmverify
 rsync
-ruby
-ruby1
-ruby18
-ruby19
-ruby20
-ruby21
-ruby22
+ruby~
 run-mailcap
 run-parts
 rview
 rvim
+sash@
 sched
 scp@
 screen@
@@ -211,14 +245,23 @@ sftp
 sg@
 sh.distrib
 sh@
-shutdown
-sleep
+shuf
+shutdown@
+sleep@
+slsh
+smbclient
+snap@
 socat
+soelim
 sort@
 source@
 split@
 sqlite3
-ssh
+ss@
+ssh@
+ssh-keygen
+ssh-keyscan
+sshpass
 start-stop-daemon
 stdbuf
 strace
@@ -227,26 +270,41 @@ su@
 sudo
 svn
 sysctl
-tail
+systemctl
+systemd-resolve
+tac
+tail@
 tailf
 tar@
+task
 taskset
+tbl
+tclsh
+tcpdump
 tcping
 tcptraceroute
 tcsh
 tee@
 telnet
+tex
+tftp
+tic@
 time@
 timedatectl
-timeout
+timeout@
 tmux
 top
 touch@
 traceroute
 traceroute6
+troff
+tshark
+ul@
 ulimit@
 uname
 uncompress
+unexpand
+uniq
 unlink@
 unlzma
 unrar
@@ -254,25 +312,40 @@ unset@
 unshare@
 unxz
 unzip
+update-alternatives
 useradd
 userdel
 usermod
+uudecode
+uuencode
+valgrind
 vi@
 view@
 vigr
 vim@
 vimdiff
 vipw
+virsh
+volatility
 w3m
+wall@
 watch@
+wc
 wget
-##! 'who' causes many FP, so require whitespace.
-##! Unfortunately, without whitespace it may still leak some info.
+whiptail
 who@
 whoami
+whois
+wireshark
+wish@
 xargs
+xelatex
+xetex
+xmodmap
+xmore
+xpad
 xterm
-xxd@
+xxd
 xz@
 xzcat
 xzcmp
@@ -283,7 +356,10 @@ xzfgrep
 xzgrep
 xzless
 xzmore
+yarn
+yelp@
 yum
+zathura
 zcat
 zcmp
 zdiff
@@ -295,4 +371,7 @@ zless
 zmore
 zrun
 zsh
+zsoelim
+zypper
   ##!<
+##!<

@@ -48,7 +48,6 @@ New functionality and detections:
  * Detect CensysInspect and seoscanners.net crawlers (Andrew Howe) [#2155]
  * Detect burpcollaborator scanner (Amir Hosein Aliakbarian) [#2152]
  * Detect QQGameHall malware (Walter Hop) [#2144]
- * Detect zerodium PHP backdoor: 'User-Agentt' (Andrea Menin) [#2048]
  * Detect 'httpx' scanner (Will Woodson) [#2045]
  * Detect 'ecairn' crawler (Jozef Sudolský) [#2024]
  * Detect LeakIX scanner (Jozef Sudolský) [#1961]

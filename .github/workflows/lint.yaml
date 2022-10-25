@@ -46,3 +46,9 @@ jobs:
           pip install --upgrade setuptools
           pip install -r ./util/find-rules-without-test/requirements.txt
           ./util/find-rules-without-test/find-rules-without-test.py --output=github .
+
+      - name: "Check that all rules are up to date"
+        run: |
+          pip install -r ./util/regexp-assemble/requirements.txt
+          git submodule update --init util/regexp-assemble/lib/lib
+          ./util/regexp-assemble/regexp-assemble.py --log-level WARNING compare --all --github

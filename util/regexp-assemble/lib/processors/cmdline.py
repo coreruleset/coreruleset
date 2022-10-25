@@ -28,11 +28,12 @@ T = TypeVar('T', bound='CmdLine')
 
 
 class CmdLine(Processor):
-    def __init__(self, context: Context, evasion_pattern: str, suffix_evasion_pattern: str):
+    def __init__(self, context: Context, evasion_pattern: str, suffix_evasion_pattern: str, suffix_evasion_pattern_expanded_command: str):
         super().__init__(context)
 
         self.evasion_pattern = evasion_pattern
         self.suffix_evasion_pattern = suffix_evasion_pattern
+        self.suffix_evasion_pattern_expanded_command = suffix_evasion_pattern_expanded_command
 
     # override
     @classmethod
@@ -90,6 +91,8 @@ class CmdLine(Processor):
         char = str.replace(char, '-', '\-')
         if char == '@':
             char = str.replace(char, '@', self.suffix_evasion_pattern)
+        elif char == '~':
+            char = str.replace(char, '~', self.suffix_evasion_pattern_expanded_command)
 
         # Ensure multiple spaces are matched
         return str.replace(char, ' ', '\s+')
@@ -104,6 +107,17 @@ class CmdLineUnix(CmdLine):
             r'''[\x5c'\"]*''',
             # Unix: "cat foo", "cat<foo", "cat>foo"
             r'''(?:\s|<|>).*''',
+            # Same as above but does not allow any white space as the next token.
+            # This is useful for thing like `python3`, where `python@` would
+            # create too many false positives because it would match `python `.
+            # This will match:
+            #
+            # python<<<foo
+            # python2 foo
+            #
+            # It will _not_ match:
+            # python foo
+            r'''(?:(?:<|>)|(?:[\w\d._-][\x5c'\"]*)+(?:\s|<|>)).*''',
         )
 
 
@@ -117,4 +131,16 @@ class CmdLineWindows(CmdLine):
             # Windows: "more foo", "more,foo", "more;foo", "more.com", "more/e",
             # "more<foo", "more>foo"
             r'''(?:[\s,;]|\.|/|<|>).*''',
+            # Same as above but does not allow any white space as the next token.
+            # This is useful for thing like `python3`, where `python@` would
+            # create too many false positives because it would match `python `.
+            # This will match:
+            #
+            # python,foo
+            # python2 foo
+            #
+            # It will _not_ match:
+            # python foo
+
+            r'''(?:(?:[,;]|\.|/|<|>)|(?:[\w\d._-][\"\^]*)+(?:[\s,;]|\.|/|<|>)).*''',
         )

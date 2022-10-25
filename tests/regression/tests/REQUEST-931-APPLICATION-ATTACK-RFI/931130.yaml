@@ -245,3 +245,99 @@ tests:
             version: HTTP/1.1
           output:
             no_log_contains: id "931130"
+  - test_title: 931130-16
+    desc: "Positive test: Remote File Inclusion Attack (931130) - Detect url:file://"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /?x=url:file://foo.bar
+            version: HTTP/1.1
+          output:
+            log_contains: id "931130"
+  - test_title: 931130-17
+    desc: Remote File Inclusion Attack (931130) - Detect gopher://
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /?x=gopher://google.com/_SSRFTest!
+            version: HTTP/1.1
+          output:
+            log_contains: id "931130"
+  - test_title: 931130-18
+    desc: Remote File Inclusion Attack (931130) - Ldap Protocol
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /?x=ldap://127.0.0.1/
+            version: HTTP/1.1
+          output:
+            log_contains: id "931130"
+  - test_title: 931130-19
+    desc: Remote File Inclusion Attack (931130)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /?x=jar:http://evil.co/b.zip!a
+            version: HTTP/1.1
+          output:
+            log_contains: id "931130"
+  - test_title: 931130-20
+    desc: Remote File Inclusion Attack (931130) with Java backend
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /?x=url:file://etc/services
+            version: HTTP/1.1
+          output:
+            log_contains: id "931130"
+  - test_title: 931130-21
+    desc: Remote File Inclusion Attack (931130) with local_file url scheme
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /get?x=local_file://something
+            version: HTTP/1.1
+          output:
+            log_contains: id "931130"

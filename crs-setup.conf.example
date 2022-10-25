@@ -434,14 +434,34 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 # Content-Types that a client is allowed to send in a request.
 # Default: |application/x-www-form-urlencoded| |multipart/form-data| |multipart/related|
-# |text/xml| |application/xml| |application/soap+xml| |application/x-amf| |application/json|
-# |application/cloudevents+json| |application/cloudevents-batch+json| |application/octet-stream|
-# |application/csp-report| |application/xss-auditor-report| |text/plain|
-# Uncomment this rule to change the default.
+# |text/xml| |application/xml| |application/soap+xml| |application/json|
+# |application/cloudevents+json| |application/cloudevents-batch+json|
 #
 # Please note, that the rule where CRS uses this variable (920420) evaluates it with operator
 # `@within`, which is case sensitive, but uses t:lowercase. You must add your whole custom
 # Content-Type with lowercase.
+#
+# Bypass Warning: some applications may not rely on the content-type request header in order
+# to parse the request body. This could make an attacker able to send malicious URLENCODED/JSON/XML
+# payloads without being detected by the WAF. Allowing request content-type that doesn't activate any
+# body processor (for example: "text/plain", "application/x-amf", "application/octet-stream", etc..)
+# could lead to a WAF bypass. For example, a malicious JSON payload submitted with a "text/plain"
+# content type may still be interpreted as JSON by a backend application but would not trigger the
+# JSON body parser at the WAF, leading to a bypass.
+#
+# To prevent blocking request with not allowed content-type by default, you can create an exclusion
+# rule that removes rule 920420. For example:
+# SecRule REQUEST_HEADERS:Content-Type "@rx ^text/plain" \
+#  "id:1234,\
+#  phase:1,\
+#  nolog,\
+#  pass,\
+#  t:none,\
+#  ctl:ruleRemoveById=920420,\
+#  chain"
+#  SecRule REQUEST_URI "@rx ^/foo/bar" "t:none"
+#
+# Uncomment this rule to change the default.
 #
 #SecAction \
 # "id:900220,\
@@ -449,7 +469,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  nolog,\
 #  pass,\
 #  t:none,\
-#  setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |multipart/related| |text/xml| |application/xml| |application/soap+xml| |application/x-amf| |application/json| |application/cloudevents+json| |application/cloudevents-batch+json| |application/octet-stream| |application/csp-report| |application/xss-auditor-report| |text/plain|'"
+#  setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |multipart/related| |text/xml| |application/xml| |application/soap+xml| |application/json| |application/cloudevents+json| |application/cloudevents-batch+json|'"
 
 # Allowed HTTP versions.
 # Default: HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0
@@ -467,8 +487,17 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 # Forbidden file extensions.
 # Guards against unintended exposure of development/configuration files.
-# Default: .asa/ .asax/ .ascx/ .axd/ .backup/ .bak/ .bat/ .cdx/ .cer/ .cfg/ .cmd/ .com/ .config/ .conf/ .cs/ .csproj/ .csr/ .dat/ .db/ .dbf/ .dll/ .dos/ .htr/ .htw/ .ida/ .idc/ .idq/ .inc/ .ini/ .key/ .licx/ .lnk/ .log/ .mdb/ .old/ .pass/ .pdb/ .pol/ .printer/ .pwd/ .rdb/ .resources/ .resx/ .sql/ .swp/ .sys/ .vb/ .vbs/ .vbproj/ .vsdisco/ .webinfo/ .xsd/ .xsx/
+# Default: .asa/ .asax/ .ascx/ .backup/ .bak/ .bat/ .cdx/ .cer/ .cfg/ .cmd/ .com/ .config/ .conf/ .cs/ .csproj/ .csr/ .dat/ .db/ .dbf/ .dll/ .dos/ .htr/ .htw/ .ida/ .idc/ .idq/ .inc/ .ini/ .key/ .licx/ .lnk/ .log/ .mdb/ .old/ .pass/ .pdb/ .pol/ .printer/ .pwd/ .rdb/ .resources/ .resx/ .sql/ .swp/ .sys/ .vb/ .vbs/ .vbproj/ .vsdisco/ .webinfo/ .xsd/ .xsx/
 # Example: .bak/ .config/ .conf/ .db/ .ini/ .log/ .old/ .pass/ .pdb/ .rdb/ .sql/
+# Note that .axd was removed due to false positives (see PR 1925).
+#
+# To additionally guard against configuration/install archive files from being
+# accidentally exposed, common archive file extensions can be added to the
+# restricted extensions list. An example list of common archive file extensions
+# is presented below:
+# .7z/ .br/ .bz/ .bz2/ .cab/ .cpio/ .gz/ .img/ .iso/ .jar/ .rar/ .tar/ .tbz2/ .tgz/ .txz/ .xz/ .zip/ .zst/
+# (Source: https://en.wikipedia.org/wiki/List_of_archive_formats)
+#
 # Uncomment this rule to change the default.
 #SecAction \
 # "id:900240,\
@@ -476,12 +505,26 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  nolog,\
 #  pass,\
 #  t:none,\
-#  setvar:'tx.restricted_extensions=.asa/ .asax/ .ascx/ .axd/ .backup/ .bak/ .bat/ .cdx/ .cer/ .cfg/ .cmd/ .com/ .config/ .conf/ .cs/ .csproj/ .csr/ .dat/ .db/ .dbf/ .dll/ .dos/ .htr/ .htw/ .ida/ .idc/ .idq/ .inc/ .ini/ .key/ .licx/ .lnk/ .log/ .mdb/ .old/ .pass/ .pdb/ .pol/ .printer/ .pwd/ .rdb/ .resources/ .resx/ .sql/ .swp/ .sys/ .vb/ .vbs/ .vbproj/ .vsdisco/ .webinfo/ .xsd/ .xsx/'"
+#  setvar:'tx.restricted_extensions=.asa/ .asax/ .ascx/ .backup/ .bak/ .bat/ .cdx/ .cer/ .cfg/ .cmd/ .com/ .config/ .conf/ .cs/ .csproj/ .csr/ .dat/ .db/ .dbf/ .dll/ .dos/ .htr/ .htw/ .ida/ .idc/ .idq/ .inc/ .ini/ .key/ .licx/ .lnk/ .log/ .mdb/ .old/ .pass/ .pdb/ .pol/ .printer/ .pwd/ .rdb/ .resources/ .resx/ .sql/ .swp/ .sys/ .vb/ .vbs/ .vbproj/ .vsdisco/ .webinfo/ .xsd/ .xsx/'"
 
 # Forbidden request headers.
 # Header names should be lowercase, enclosed by /slashes/ as delimiters.
-# Blocking Proxy header prevents 'httpoxy' vulnerability: https://httpoxy.org
-# Default: /proxy/ /lock-token/ /content-range/ /if/ /user-agentt/
+# Default: /accept-charset/ /content-encoding/ /proxy/ /lock-token/ /content-range/ /if/
+#
+# Note: Accept-Charset is a deprecated header that should not be used by clients and
+# ignored by servers. It can be used for a response WAF bypass, by asking for a charset
+# that the WAF cannot decode.
+# Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Charset
+#
+# Note: Content-Encoding is used to list any encodings that have been applied to the
+# original payload. It is only used for compression, which isn't supported by CRS by
+# default since it blocks newlines and null bytes inside the request body. Most
+# compression algorithms require at least null bytes per RFC. Blocking it shouldn't
+# break anything and increases security since ModSecurity is incapable of properly
+# scanning compressed request bodies.
+#
+# Note: Blocking Proxy header prevents 'httpoxy' vulnerability: https://httpoxy.org
+#
 # Uncomment this rule to change the default.
 #SecAction \
 # "id:900250,\
@@ -489,7 +532,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  nolog,\
 #  pass,\
 #  t:none,\
-#  setvar:'tx.restricted_headers=/proxy/ /lock-token/ /content-range/ /if/ /user-agentt/'"
+#  setvar:'tx.restricted_headers=/accept-charset/ /content-encoding/ /proxy/ /lock-token/ /content-range/ /if/'"
 
 # Content-Types charsets that a client is allowed to send in a request.
 # The content-types are enclosed by |pipes| as delimiters to guarantee exact matches.

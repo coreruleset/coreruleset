@@ -1,7 +1,9 @@
-##! Please refer to the documentation at 
+##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regexp_assemble/.
 
 ##! Word list for rule 932100 (RCE Unix command injection part 1/4)
+##!
+##! This list comes from (and should be in sync) the `unix-shell.data` file.
 ##!
 ##! To prevent some FP for a command, you can require command parameters
 ##! after a command. Only do this if the command regularly causes FP and if
@@ -10,11 +12,18 @@
 ##! further on, so some letter/number is needed for a match). Example:
 ##!
 ##!   diff@
+##!
+##! The heuristic for applying the `@` is to apply it to commands that
+##! are equal to plain English words.
 
 ##!$ \b
 
 ##! starting tokens prefix
 ##!> assemble
+##! time ifconfig
+  ##!> cmdline unix
+time
+  ##!<
 ##! ;ifconfig
 ;
 ##! {ifconfig}
@@ -27,14 +36,14 @@
 &
 ##! & &ifconfig
 &&
-##! ;\nifconfig 
+##! ;\nifconfig
 \n
 ##! ;\rifconfig
 \r
 ##! $(ifconfig)
 \$\(
 ##! $((ifconfig))
-$\(\(
+\$\(\(
 ##! `ifconfig`
 `
 ##! ${ifconfig}
@@ -43,13 +52,13 @@ $\(\(
 <\(
 ##! >( ifconfig )
 >\(
-##! a() ( ifconfig; ); a	
+##! a() ( ifconfig; ); a
 \(\s*\)
 ##!=>
 
 ##! match possible white space between prefix expressions
 \s*
-##!=> 
+##!=>
 
 ##! commands prefix
 (?:
@@ -96,20 +105,36 @@ $\(\(
 7z
 7za
 7zr
-GET@
+ab@
 adduser
+agetty
 alias@
-alpine
+alpine@
+ansible-playbook
 apt-get
 apt@
+ar@
 arch@
+aria2c
+arj
 arp
+as@
+ascii-xfr
+ascii85
+ash@
+aspell
 at@
+atobm
 awk@
 aws@
+base32
+base64
+basenc
 bash
 batch@
+bpftrace
 breaksw
+bridge@
 bsdcat
 bsdiff
 bsdtar
@@ -117,6 +142,7 @@ builtin
 bundler@
 busctl
 busybox
+byebug
 bzcat
 bzdiff
 bzegrep
@@ -127,50 +153,87 @@ bzless
 bzmore
 c89
 c99
+cancel@
 capsh@
 cat@
 cc@
 certbot
 chattr
 chdir@
+check_by_ssh
+check_cups
+check_log
+check_memory
+check_raid
+check_ssl_cert
+check_statusfile
 chflags
 chmod
+choom
+chown
+chroot
+cmp
+cobc
+column@
+comm
 command@
 composer
 compress@
 coproc
+cowsay
+cowthink
 cp@
 cpan
 cpio
 cpulimit
+crash@
 crontab
 csh
+csplit
+csvtool
+cupsfilter
 curl
-dash
+cut@
+dash@
+date@
+dd@
 dhclient
+dialog@
 diff@
+dig
 dmesg
+dmidecode
+dmsetup
+dnf
 doas
-done
+docker@
+done@
+dosbox
 dpkg
 du@
+dvips
 easy_install
+eb@
 echo@
 ed@
+efax
 egrep
 emacs
 endif
 endsw
-env
+env@
 env-update
+eqn
 esac
 eval
 ex@
 exec@
-expand
+exiftool
+expand@
 expect@
-export
+export@
 expr
+facter
 fc@
 fetch@
 fgrep
@@ -178,65 +241,82 @@ fi
 file@
 filetest
 find@
-fish
+finger@
+fish@
 flock@
+fmt
+fold@
 foreach
+fping
 ftp@
 ftpstats
 ftpwho
 function
-gcc
-gcc@
+gawk
+gcc~
+gcore
 gdb
 gem@
+genie@
+genisoimage
+GET@
 getfacl@
-git
+ghc
+ghci
+gimp@
+ginsh
 git@
-##! golang compiler/command
 go@
+grc
 grep@
+gtester
 gunzip
 gzcat
 gzip
+hd@
 head@
-history
+hexdump
+highlight@
+history@
 hostid
 hostname
+hping3
 htdigest
 htpasswd
 hup@
+iconv
 ##! 'id' causes way too much FP, so we require whitespace; this will allow
 ##! injecting ';id' unfortunately.
 id@
 ifconfig
+iftop
+install@
 ionice
+ip@
 ip6tables
 ipconfig
 iptables
-irb
-irb1
-irb18
-irb19
-irb20
-irb21
-irb22
-irb23
-irb24
-irb25
-irb26
-irb27
-irb30
+irb~
+ispell
 java@
 jexec
+jjs
 jobs@
+join@
 journalctl
+jq
+jrunscript
 kill@
 killall
+knife@
 ksh
+ksshell
 last@
 lastcomm
 lastlog
 lastlogin
+latex@
+ld@
 ldconfig
 ldd@
 less@
@@ -252,6 +332,7 @@ locate@
 loginctl
 logname
 logsave
+look@
 lp@
 ls
 ls-F
@@ -263,11 +344,9 @@ lsof
 lspci
 lsusb
 ltrace
-lua5.1
-lua5.2
-lua5.3
-lua5.4
 lua@
+lualatex
+luatex
 lwp-download
 lwp-dump
 lwp-mirror
@@ -282,5 +361,8 @@ lzgrep
 lzless
 lzma
 lzmore
-##! words starting with m continue in 932105.data
+  ##!<
+
 ##!<
+
+##! words starting with m continue in 932105.data

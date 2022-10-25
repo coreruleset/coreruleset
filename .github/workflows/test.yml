@@ -48,8 +48,10 @@ jobs:
         run: |
           mkdir -p tests/logs/${{ matrix.modsec_version }}/{nginx,apache2}
           docker-compose -f ./tests/docker-compose.yml up -d "${{ matrix.modsec_version }}"
+          docker-compose -f ./tests/docker-compose.yml logs
+          [ $(docker inspect ${{ matrix.modsec_version }} --format='{{.State.Running}}') = 'true' ]
           # Use mounted volume path
-          py.test -vs --tb=short tests/regression/CRS_Tests.py \
+          py.test --tb=no -ra tests/regression/CRS_Tests.py \
             --config="${{ matrix.modsec_version }}" \
             --ruledir_recurse=./tests/regression/tests/
 

@@ -25,13 +25,16 @@ jobs:
 
       - name: "Install dependencies"
         run: |
-          curl https://api.github.com/repos/fzipi/go-ftw/releases/latest | grep "browser_download_url" | grep -Eo 'https://[^\"]*Linux_x86_64.tar.gz' | xargs curl -L -o - | tar -xzf - ftw
+          curl -skLo - https://github.com/coreruleset/go-ftw/releases/download/v0.4.0/ftw_Linux_x86_64.tar.gz | tar -xzf - ftw
 
       - name: "Run tests for ${{ matrix.modsec_version }}"
         run: |
           mkdir -p tests/logs/${{ matrix.modsec_version }}/{nginx,apache2}
           docker-compose -f ./tests/docker-compose.yml up -d "${{ matrix.modsec_version }}"
-          ./ftw run
+          docker-compose -f ./tests/docker-compose.yml logs
+          [ $(docker inspect ${{ matrix.modsec_version }} --format='{{.State.Running}}') = 'true' ]
+          ./ftw check -d tests/regression/tests
+          ./ftw run -d tests/regression/tests
         env:
           FTW_LOGFILE: './tests/logs/modsec2-apache/error.log'
           FTW_LOGTYPE_NAME: 'apache'

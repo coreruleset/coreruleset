@@ -13,82 +13,79 @@
 
 ##!+ i
 
+##! Note: the quoting prefixes are part of the command prefixes, except for ^
+##!       which, for unknown reasons, is not part of the expression
+
+##! extension/switches suffix
+##! cmd.com, cmd.exe, etc.
+##!$ (?:\.[\"\^]*\w+)?
+##! cmd/h
+##!$ \b
+
 ##! starting tokens prefix
 ##!> assemble
-##! ;ifconfig
+##! time cmd
+  ##!> cmdline windows
+time
+  ##!<
+##! ;cmd
 ;
-##! {ifconfig}
+##! {cmd
 \{
-##! |ifconfig
+##! |cmd
 \|
-##! ||ifconfig
+##! ||cmd
 \|\|
-##! &ifconfig
+##! &cmd
 &
-##! & &ifconfig
+##! &&cmd
 &&
-##! ;\nifconfig 
+##! \ncmd
 \n
-##! ;\rifconfig
+##! \rcmd
 \r
-##! $(ifconfig)
-\$\(
-##! $((ifconfig))
-$\(\(
-##! `ifconfig`
+##! `cmd
 `
-##! ${ifconfig}
-\${
-##! <( ifconfig )
-<\(
-##! >( ifconfig )
->\(
-##! a() ( ifconfig; ); a	
-\(\s*\)
 ##!=>
 
 ##! match possible white space between prefix expressions
 \s*
-##!=> 
+##!=>
 
 ##! commands prefix
 (?:
 ##!=>
 
-##! { ifconfig }
-\{
-##! ( ifconfig )
-\s*\(\s*
-##! VARNAME=xyz ifconfig
-\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
-##! ! ifconfig
-!\s*
-##! $ifconfig
-\$
+##! (cmd)
+(
+##! ,cmd
+,
+##! @cmd
+@
+##! 'cmd'
+'
+##! "cmd"
+\"
+##! spacing+cmd
+\s
 ##!=>
 
 )*
 ##!=>
 
-##! match possible white space between prefix expressions
-\s*
-##!=>
-
-##! quoting prefix
+##! paths prefix
 (?:
 ##!=>
 
-##! 'ifconfig'
-'
-##! "ifconfig"
-\"
+##! /path/cmd
+[\w'\"\./]+/
+##! C:\Program Files\cmd
+[\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c
+##! \\net\share\dir\cmd
+[\^\.\w '\"/\x5c]*\x5c
 ##!=>
 
-)*
-##!=>
-
-##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
-(?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
+)?[\"\^]*
 ##!=>
 
 
