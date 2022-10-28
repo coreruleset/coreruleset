@@ -195,7 +195,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "?s=/etc/%5Bp%5Dasswd"
+            uri: "/?s=/etc/%5Bp%5Dasswd"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
@@ -211,7 +211,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "?s=/etc/%5B!q%5Dasswd"
+            uri: "/?s=/etc/%5B!q%5Dasswd"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
@@ -227,7 +227,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "?s=/etc/%5Bm-z%5Dasswd"
+            uri: "/?s=/etc/%5Bm-z%5Dasswd"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
@@ -243,7 +243,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "?s=/usr/bin/%5Bu%5Dname+-a"
+            uri: "/?s=/usr/bin/%5Bu%5Dname+-a"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
@@ -259,7 +259,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "?exec=/bi%5Bn%5D/bash"
+            uri: "/?exec=/bi%5Bn%5D/bash"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
