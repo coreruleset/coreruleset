@@ -361,7 +361,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/get?foo=;ZsTdcaT /var/log/sensitive_log_file.zst"
+            uri: "/get?foo='ZsTdcaT+/var/log/sensitive_log_file.zst"
             version: HTTP/1.1
           output:
             log_contains: "id \"932150\""
