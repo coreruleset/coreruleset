@@ -1,0 +1,158 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regexp_assemble/.
+
+##! Word list for rule 932120 (RCE for commands of two and three character words)
+##!
+##! Per discussion in https://github.com/coreruleset/coreruleset/issues/2632, we decided
+##! to extend the cmdline evasion regex, so we are applying the evasion to a subset of the
+##! original 93210(0|5) rules: the subset of commands from two or three chars what might pose
+##! a greater risk of false positives.
+
+##!+ i
+
+##!$ \b
+
+##! starting tokens prefix
+##!> assemble
+##! time ifconfig
+  ##!> cmdline unix
+time
+  ##!<
+##! ;ifconfig
+;
+##! {ifconfig}
+\{
+##! |ifconfig
+\|
+##! ||ifconfig
+\|\|
+##! &ifconfig
+&
+##! & &ifconfig
+&&
+##! ;\nifconfig
+\n
+##! ;\rifconfig
+\r
+##! $(ifconfig)
+\$\(
+##! $((ifconfig))
+\$\(\(
+##! `ifconfig`
+`
+##! ${ifconfig}
+\${
+##! <( ifconfig )
+<\(
+##! >( ifconfig )
+>\(
+##! a() ( ifconfig; ); a
+\(\s*\)
+##!=>
+
+##! match possible white space between prefix expressions
+\s*
+##!=>
+
+##! commands prefix
+(?:
+##!=>
+
+##! { ifconfig }
+\{
+##! ( ifconfig )
+\s*\(\s*
+##! VARNAME=xyz ifconfig
+\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
+##! ! ifconfig
+!\s*
+##! $ifconfig
+\$
+##!=>
+
+)*
+##!=>
+
+##! match possible white space between prefix expressions
+\s*
+##!=>
+
+##! quoting prefix
+(?:
+##!=>
+
+##! 'ifconfig'
+'
+##! "ifconfig"
+\"
+##!=>
+
+)*
+##!=>
+
+##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
+(?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
+##!=>
+
+  ##!> cmdline unix
+
+7z
+7za
+7zr
+GET
+ab
+apt
+ar
+arj
+arp
+as
+ash
+at
+awk
+aws
+c89
+c99
+cat
+cc
+cmp
+cp
+csh
+cut
+dd
+dig
+dnf
+du
+eb
+ed
+env
+eqn
+ex
+fc
+fi
+fmt
+ftp
+gcc
+gdb
+gem
+ghc
+git
+go
+grc
+hd
+hup
+id
+ip
+irb
+jjs
+jq
+ksh
+ld
+ldd
+ln
+lp
+ls
+lua
+
+  ##!<
+
+##!<
