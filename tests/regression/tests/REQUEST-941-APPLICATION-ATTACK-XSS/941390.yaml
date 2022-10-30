@@ -69,3 +69,51 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "941390"
+  - test_title: 941390-5
+    desc: "JavaScript call alert"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+            method: GET
+            port: 80
+            uri: '/?arg=alert%28%29'
+            version: HTTP/1.1
+          output:
+            log_contains: id "941390"
+  - test_title: 941390-6
+    desc: "JavaScript call atob"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+            method: GET
+            port: 80
+            uri: '/?arg=atob%28%29'
+            version: HTTP/1.1
+          output:
+            log_contains: id "941390"
+  - test_title: 941390-7
+    desc: "JavaScript call btoa"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+            method: GET
+            port: 80
+            uri: '/?arg=btoa%28%29'
+            version: HTTP/1.1
+          output:
+            log_contains: id "941390"
