@@ -1,9 +1,25 @@
 ##! Please refer to the documentation at 
 ##! https://coreruleset.org/docs/development/regexp_assemble/.
+##! \b
+##! (?:\s|/\*.*\*/|//.*|#.*|\")*\(.*\)
+##!                       \)?\s*\(.*\)
 
 ##!+ i
-##!^ \b
-##!$ (?:\s|/\*.*\*/|//.*|#.*|\")*\(.*\)
+##! optional opening bracket before command
+##!^ \b\(?
+##! optional qoutes
+##!^ ['\"]*
+
+##! 933160-40 test fails without following suffix:
+##!$ (?:\s|/\*.*\*/|//.*|#.*|\")*
+
+##! optional qoutes
+##!$ ['\"]*
+##! optional closing bracket after command
+##!$ \)?\s*
+
+##! mandatory paretheses containing optional parameters
+##!$ \(.*\)
 
 array_diff_uassoc
 array_diff_ukey
