@@ -161,6 +161,25 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: "id \"932105\""
+  - test_title: 932105-10
+    desc: System Command Injection test for BB finding AV6ZO3ZS - mixed case
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: en-us,en;q=0.5
+            method: GET
+            port: 80
+            uri: "/get?foo=;PiP3+install+requests"
+            version: HTTP/1.1
+          output:
+            log_contains: "id \"932105\""
+# yamllint disable-line rule:comments-indentation
   # FIXME: This test can only work once a fix has been made to the cmdline processor of regexp-assemble,
   #        that matches commands at the end of pipes
   # - test_title: 932105-7
