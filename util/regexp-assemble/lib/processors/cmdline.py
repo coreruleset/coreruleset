@@ -104,7 +104,7 @@ class CmdLineUnix(CmdLine):
             context,
             # Insert these sequences between characters to prevent evasion.
             # This emulates the relevant parts of t:cmdLine.
-            r'''[\x5c'\"]*''',
+            r'''[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?''',
             # Unix: "cat foo", "cat<foo", "cat>foo"
             r'''(?:\s|<|>).*''',
             # Same as above but does not allow any white space as the next token.
@@ -117,7 +117,7 @@ class CmdLineUnix(CmdLine):
             #
             # It will _not_ match:
             # python foo
-            r'''(?:(?:<|>)|(?:[\w\d._-][\x5c'\"]*)+(?:\s|<|>)).*''',
+            r'''(?:(?:<|>)|(?:[\w\d._-][\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?)+(?:\s|<|>)).*''',
         )
 
 
