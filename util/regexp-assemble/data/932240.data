@@ -4,19 +4,17 @@
 ##! Rule 932240 (Generic RCE Unix command evasion detection)
 ##!
 ##! Conceptually, we want to match:
-##! - at least one char
+##! - at least one character
 ##! - at least one character from an evasion technique
-##! -
 ##!+ i
 
 ##!$ \b
 
-##! starting tokens prefix
 ##!> assemble
 [a-z0-9_-]+
 ##!=>
 
-##! This is the evasion detection coming from cmdline: [\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?
+##! This is the evasion detection from the cmdline processor: [\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?
 [\x5c'\"\[\]]+
 \$[\x5ca-z0-9_@?!#{*-]+
 ##!=>
