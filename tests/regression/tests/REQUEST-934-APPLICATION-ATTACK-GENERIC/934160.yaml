@@ -389,3 +389,51 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934160"
+  - test_title: 934160-25
+    desc: while falsy with negation
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "*/*"
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+            method: GET
+            port: 80
+            uri: "/?eval=while(!null)"
+            version: HTTP/1.0
+          output:
+            log_contains: id "934160"
+  - test_title: 934160-26
+    desc: while falsy with negation
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "*/*"
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+            method: GET
+            port: 80
+            uri: "/?eval=while(!undefined)"
+            version: HTTP/1.0
+          output:
+            log_contains: id "934160"
+  - test_title: 934160-27
+    desc: while falsy with negation
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "*/*"
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+            method: GET
+            port: 80
+            uri: "/?eval=while(!NaN)"
+            version: HTTP/1.0
+          output:
+            log_contains: id "934160"
