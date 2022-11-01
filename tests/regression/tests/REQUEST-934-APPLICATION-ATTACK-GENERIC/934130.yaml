@@ -137,22 +137,6 @@ tests:
           output:
             log_contains: id "934130"
   - test_title: 934130-8
-    desc: positive test case with GET parameter, CVE-2021-20089
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "*/*"
-              Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
-            method: GET
-            port: 80
-            uri: "?__proto__%5Btest%5D%3D%7B%22json%22%3A%22value%22%7D"
-            version: HTTP/1.0
-          output:
-            log_contains: id "934130"
-  - test_title: 934130-9
     desc: positive test case with GET parameter, analytics-utils < 1.0.3
     stages:
       - stage:
@@ -168,7 +152,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934130"
-  - test_title: 934130-10
+  - test_title: 934130-9
     desc: positive test case with GET parameter, jQuery $.get
     stages:
       - stage:
@@ -184,7 +168,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934130"
-  - test_title: 934130-11
+  - test_title: 934130-10
     desc: positive test case with GET parameter, Vue.js
     stages:
       - stage:
