@@ -7,6 +7,9 @@
 ##! to extend the cmdline evasion regex, so we are applying the evasion to a subset of the
 ##! original 93210(0|5) rules: the subset of commands from two or three chars what might pose
 ##! a greater risk of false positives.
+##!
+##! How we got this list:
+##! awk '/^([a-z0-9-]+)$/ { if (length < 4) print; } /^([a-z0-9]+)(@|~)$/ { if (length <= 4)  {gsub(/@|~/, "", $0); print} }' 93210{0,5}.data
 
 ##!+ i
 
@@ -95,11 +98,9 @@ time
 ##!=>
 
   ##!> cmdline unix
-
 7z
 7za
 7zr
-GET
 ab
 apt
 ar
@@ -152,6 +153,60 @@ ln
 lp
 ls
 lua
+man
+mtr
+mv
+nc
+net
+nl
+nm
+npm
+od
+pax
+pdb
+pf
+pg
+php
+pic
+pip
+pkg
+pr
+pry
+ps
+ptx
+rar
+rcp
+red
+rev
+rm
+rpm
+scp
+sed
+set
+sg
+sh
+ss
+ssh
+su
+svn
+tac
+tar
+tbl
+tee
+tex
+tic
+top
+ul
+vi
+vim
+w3m
+wc
+who
+xxd
+xz
+yum
+zip
+zsh
 
   ##!<
 
