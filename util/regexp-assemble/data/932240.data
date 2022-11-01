@@ -1,0 +1,27 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regexp_assemble/.
+
+##! Rule 932240 (Generic RCE Unix command evasion detection)
+##!
+##! Conceptually, we want to match:
+##! - at least one char
+##! - at least one character from an evasion technique
+##! -
+##!+ i
+
+##!$ \b
+
+##! starting tokens prefix
+##!> assemble
+[a-z0-9_-]+
+##!=>
+
+##! This is the evasion detection coming from cmdline: [\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?
+[\x5c'\"\[\]]+
+\$[\x5ca-z0-9_@?!#{*-]+
+##!=>
+
+[a-z0-9_-]+
+##!=>
+
+##!<
