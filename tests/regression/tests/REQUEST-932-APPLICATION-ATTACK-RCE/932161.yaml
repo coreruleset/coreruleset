@@ -1,0 +1,52 @@
+---
+meta:
+  author: "Franziska Bühler"
+  enabled: true
+  name: "932161.yaml"
+  description: "Tests to trigger or not trigger rule 932161"
+tests:
+  - test_title: 932161-1
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "/etc/shadow"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            protocol: "http"
+          output:
+            log_contains: "id \"932161\""
+  - test_title: 932161-2
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "cat /proc/self/environ"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            protocol: "http"
+          output:
+            log_contains: "id \"932161\""
+  - test_title: 932161-3
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "/proc/self/environ"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            protocol: "http"
+          output:
+            log_contains: "id \"932161\""

@@ -1,0 +1,82 @@
+---
+meta:
+  author: "Franziska Bühler"
+  enabled: true
+  name: "932152.yaml"
+  description: "Tests to trigger or not trigger rule 932152"
+tests:
+  - test_title: 932152-1
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "ls -al"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            protocol: "http"
+          output:
+            log_contains: "id \"932152\""
+  - test_title: 932152-2
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "ls -al /etc/apache2"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            protocol: "http"
+          output:
+            log_contains: "id \"932152\""
+  - test_title: 932152-3
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "uname -a"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            protocol: "http"
+          output:
+            log_contains: "id \"932152\""
+  - test_title: 932152-4
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "base64 -w0 /var/www/html/index.php"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            protocol: "http"
+          output:
+            log_contains: "id \"932152\""
+  - test_title: 932152-5
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "bash /tmp/evil.sh"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            protocol: "http"
+          output:
+            log_contains: "id \"932152\""
