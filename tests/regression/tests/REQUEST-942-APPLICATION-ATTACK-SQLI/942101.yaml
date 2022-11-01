@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian Folini"
+  author: "Christian Folini, Matteo Pace"
   description: Various SQL injection tests
   enabled: true
   name: 942101.yaml
@@ -113,7 +113,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/foo/24'union+all+select+1,2,3+from+aa/bar"
+            uri: "/foo/24'union+all+select+1,2,3+from+aa"
             version: HTTP/1.0
           output:
             log_contains: id "942101"
