@@ -11,7 +11,10 @@
 ##!^ ['\"]*
 
 ##! 933160-40 test fails without following suffix:
-##!$ (?:\s|/\*.*\*/|//.*|#.*|\")*
+##! match comments: `/*...*/`, `//...`, `#...`
+##!$ (?:/\*.*\*/|//.*|#.*
+##! match white space and quotes
+##!$ \s|\")*
 
 ##! optional qoutes
 ##!$ ['\"]*
