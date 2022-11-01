@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian Folini"
+  author: "Christian Folini, Matteo Pace"
   description: Various SQL injection tests
   enabled: true
   name: 942101.yaml
@@ -101,3 +101,83 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942101"
+  - test_title: 942101-7
+    desc: "SQL Injection at the last segment of the path (request_basename detection)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/foo/24'union+all+select+1,2,3+from+aa"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942101"
+  - test_title: 942101-8
+    desc: "SQL Injection inside the path (request_filename detection)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/foo/24'union+all+select+1,2,3+from+aa/bar"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942101"
+  - test_title: 942101-9
+    desc: "SQL Injection inside the path with comment block (request_filename detection)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/%2A/%2A/2+union+all/bar"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942101"
+  - test_title: 942101-10
+    desc: "Negative test with incomplete SQL command inside the path"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/foo/9'union+all/bar"
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "942101"
+  - test_title: 942101-11
+    desc: "Negative test with complete SQL command inside the path, but without comma"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/foo/24+union+all+select+1,2,3+from+aa/bar"
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "942101"
