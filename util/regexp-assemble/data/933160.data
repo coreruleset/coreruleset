@@ -2,8 +2,23 @@
 ##! https://coreruleset.org/docs/development/regexp_assemble/.
 
 ##!+ i
-##!^ \b
-##!$ (?:\s|/\*.*\*/|//.*|#.*|\")*\(.*\)
+##! optional opening parenthesis before command
+##!^ \b\(?
+##! optional quotes
+##!^ ['\"]*
+
+##! match comments: `/*...*/`, `//...`, `#...`
+##!$ (?:/\*.*\*/|//.*|#.*
+##! match white space and quotes
+##!$ \s|\")*
+
+##! optional quotes
+##!$ ['\"]*
+##! optional closing parenthesis after command
+##!$ \)?\s*
+
+##! mandatory paretheses containing optional parameters
+##!$ \(.*\)
 
 array_diff_uassoc
 array_diff_ukey

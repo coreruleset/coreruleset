@@ -641,7 +641,70 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            # /?foo=return"system"().s
             uri: /?foo=return%22system%22%28xyz%29.s
+          output:
+            log_contains: id "933160"
+  - test_title: 933160-41
+    desc: system - whoami in braces
+    stages:
+      - stage:
+          input:
+            data: cmd=system(whoami)
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: /
+          output:
+            log_contains: id "933160"
+  - test_title: 933160-42
+    desc: system in braces - whoami in parentheses
+    stages:
+      - stage:
+          input:
+            data: cmd=(system)(whoami)
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: /
+          output:
+            log_contains: id "933160"
+  - test_title: 933160-43
+    desc: system call in single quotes and parentheses - whoami command in single quotes and parentheses
+    stages:
+      - stage:
+          input:
+            data: cmd=('system')('whoami')
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: /
+          output:
+            log_contains: id "933160"
+  - test_title: 933160-44
+    desc: system call in double quotes and parentheses - whoami command in double quotes and parentheses
+    stages:
+      - stage:
+          input:
+            data: cmd=("system")("whoami")
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: /
           output:
             log_contains: id "933160"
