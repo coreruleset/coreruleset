@@ -189,3 +189,19 @@ tests:
               ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
           output:
             log_contains: id "930110"
+  - test_title: 930110-12
+    desc: "Path Traversal Attack (;..;) query string"
+    stages:
+      - stage:
+          input:
+            dest_addr: "localhost"
+            method: "GET"
+            port: 80
+            headers:
+              Host: "localhost"
+              X-FTW: "This should trip"
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?a=..;.\\.;\\."
+          output:
+            log_contains: id "930110"
