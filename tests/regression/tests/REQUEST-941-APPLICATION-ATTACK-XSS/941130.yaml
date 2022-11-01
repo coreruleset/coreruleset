@@ -291,3 +291,20 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "941130"
+  - test_title: 941130-18
+    desc: "XSS test with encoded newline for 941130"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            data: "var=<chj%0Axmlns=\"http://a.b/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://a.b/ http://1pre0sif8x51eifcs006ceddz45084w4kx7ovd.examplefoo.bar/chj.xsd\">chj</chj>"
+            version: HTTP/1.0
+          output:
+            log_contains: id "941130"
