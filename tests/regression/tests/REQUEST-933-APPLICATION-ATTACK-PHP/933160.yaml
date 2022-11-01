@@ -678,11 +678,27 @@ tests:
           output:
             log_contains: id "933160"
   - test_title: 933160-43
-    desc: system qouted in braces - whoami qouted in braces
+    desc: system call in single quotes and braces - whoami command in single quotes and braces
     stages:
       - stage:
           input:
             data: cmd=('system')('whoami')
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: /
+          output:
+            log_contains: id "933160"
+  - test_title: 933160-44
+    desc: system call in double quotes and braces - whoami command in double quotes and braces
+    stages:
+      - stage:
+          input:
+            data: cmd=("system")("whoami")
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
