@@ -276,3 +276,54 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942150"
+  - test_title: 942150-17
+    desc: "SQLite 'json' function"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "email=admin%40juice-sh.op%5C'%20or%20json%20(id);"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942150"
+  - test_title: 942150-18
+    desc: "SQLite 'json_valid' function"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "email=admin%40juice-sh.op%5C'%20or%20json_valid%20(id);"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942150"
+  - test_title: 942150-19
+    desc: "SQLite 'glob' function"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "email=admin%40juice-sh.op%5C'%20or%20glob%20(id,id);"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942150"
