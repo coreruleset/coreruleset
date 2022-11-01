@@ -104,3 +104,51 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942320"
+  - test_title: 942320-7
+    desc: "Detects PostgreSQL bypass attempt with div(23,-2) - issue #2910"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/index.php?id=div(23,-2)"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942320"
+  - test_title: 942320-8
+    desc: "Detects PostgreSQL bypass attempt with div (23.23 , 2) - issue #2910"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/index.php?id=div+(23.23+,+2)"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942320"
+  - test_title: 942320-9
+    desc: "Detects PostgreSQL bypass attempt lo_import'( - issue #2912"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/index.php?id=lo_import(%27/etc%27%20||%20%27/pass%27%20||%20%27wd%27)"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942320"
