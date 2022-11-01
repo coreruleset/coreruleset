@@ -160,7 +160,23 @@ tests:
           output:
             log_contains: id "942480"
   - test_title: 942480-10
-    desc: "SQL injection using 'overlay(...placing..)"
+    desc: "SQL injection in User-Agent"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: DELETE FROM users;--
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942480"
+  - test_title: 942480-11
+    desc: "SQL injection in arbitrary header"
     stages:
       - stage:
           input:
@@ -168,7 +184,7 @@ tests:
             headers:
               Host: localhost
               User-Agent: OWASP ModSecurity Core Rule Set
-              Some-Header: DELETE FROM users;--
+              SomeHeader: DELETE FROM users;--
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
