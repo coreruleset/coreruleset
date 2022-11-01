@@ -437,3 +437,19 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934160"
+  - test_title: 934160-28
+    desc: while truthy
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "*/*"
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+            method: GET
+            port: 80
+            uri: "/?eval=while((true)))"
+            version: HTTP/1.0
+          output:
+            log_contains: id "934160"
