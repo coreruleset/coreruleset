@@ -2,15 +2,16 @@
 ##! https://coreruleset.org/docs/development/regexp_assemble/.
 
 ##!+ i
+##!^ [\s\S]
 ##!$ \b
 
-[\s\S]\bxlink:href
-[\s\S]\bxhtml
-[\s\S]\bxmlns
-[\s\S]!ENTITY\s+(?:\S+|%\s+\S+)\s+SYSTEM
-[\s\S]!ENTITY\s+(?:\S+|%\s+\S+)\s+PUBLIC
-[\s\S]\bdata:text/html
-[\s\S]\bformaction
-[\s\S]@import
-[\s\S];base64
-[\s\S]\bpattern\b.*?=
+\bxlink:href
+\bxhtml
+\bxmlns
+!ENTITY\s+(?:\S+|%\s+\S+)\s+SYSTEM
+!ENTITY\s+(?:\S+|%\s+\S+)\s+PUBLIC
+\bdata:text/html
+\bformaction
+@import
+;base64
+\bpattern\b.*?=
