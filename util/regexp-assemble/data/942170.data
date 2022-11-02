@@ -3,9 +3,23 @@
 
 ##!+ i
 
-select\s+benchmark\s*?\(\s*?\(?\s*?\w+
-;\s+benchmark\s*?\(\s*?\(?\s*?\w+
-select\s+if\s*?\(\s*?\(?\s*?\w+
-;\s+if\s*?\(\s*?\(?\s*?\w+
-select\s+sleep\s*?\(\s*?\(?\s*?\w+
-;\s+sleep\s*?\(\s*?\(?\s*?\w+
+##!> template one_or_more_whitespace \s+
+##!> template select_or_terminate (?:select|;){{one_or_more_whitespace}}
+
+  ##!> assemble
+
+  ##! benchmark may be used to time how quickly MySQL processes the expression
+{{select_or_terminate}}benchmark
+
+  ##! conditional select
+{{select_or_terminate}}if
+
+  ##! sleep function
+{{select_or_terminate}}sleep
+  ##!=>
+
+  ##! function parameters
+\s*?\(\s*?\(?\s*?\w+
+  
+  ##!=>
+  ##!<
