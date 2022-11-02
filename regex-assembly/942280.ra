@@ -3,10 +3,18 @@
 
 ##!+ i
 
+##!> template semicolon ;
+
+##! The following part is going to be appended
+##! to match the end of a query or a comment syntax
+##!> template sql_comments (?:[#{{semicolon}}{]|\/\*|--)
+
+##! In PostgreSQL, you can use the pg_sleep() function
+##! to delay execution for a given number of seconds
 select\s*?pg_sleep
+
+##! WAITFOR DELAY blocks the execution until a time interval elapses
 waitfor\s*?delay\s?[\"'`]+\s?\d
-;\s*?shutdown\s*?;
-;\s*?shutdown\s*?--
-;\s*?shutdown\s*?#
-;\s*?shutdown\s*?\/\*
-;\s*?shutdown\s*?{
+
+##! SHUTDOWN immediately stops SQL Server
+{{semicolon}}\s*?shutdown\s*?{{sql_comments}}
