@@ -10,7 +10,7 @@
 
 ##!+ i
 
-##! The previous cmdline evasion detection was based on the one from modsecurity: `[\x5c'\"\[]*`
+##! The previous cmdline evasion detection was based on the one from modsecurity: `[\x5c'\"]*`
 ##! We extended the evasion detection from the cmdline processor with `(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?` to match:
 ##! - non-existing vars: cu$@rl
 ##! - vars + spacing: v='u';cu$v\r\l google.com
