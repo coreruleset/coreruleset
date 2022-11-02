@@ -3,27 +3,47 @@
 
 ##!+ i
 
-\d[\"'`]\s+[\"'`]\s+\d
-^admin\s*?[\"'`]
-(?:/\*)+[\"'`]+\s?
-(?:/\*)+[\"'`]+\s?--
-(?:/\*)+[\"'`]+\s?#
-(?:/\*)+[\"'`]+\s?/\*
-(?:/\*)+[\"'`]+\s?{
-[\"'`]\s*?or[\w\s-]+\s*?[+<>=(),-]\s*?[\d\"'`]
-[\"'`]\s*?xor[\w\s-]+\s*?[+<>=(),-]\s*?[\d\"'`]
-[\"'`]\s*?div[\w\s-]+\s*?[+<>=(),-]\s*?[\d\"'`]
-[\"'`]\s*?like[\w\s-]+\s*?[+<>=(),-]\s*?[\d\"'`]
-[\"'`]\s*?between[\w\s-]+\s*?[+<>=(),-]\s*?[\d\"'`]
-[\"'`]\s*?and[\w\s-]+\s*?[+<>=(),-]\s*?[\d\"'`]
-[\"'`]\s*?[^\w\s]?=\s*?[\"'`]
-[\"'`]\W*?[+=]+\W*?[\"'`]
-[\"'`]\s*?[!=|][\d\s!=+-]+.*?[\"'`(].*?$
-[\"'`]\s*?[!=|][\d\s!=]+.*?\d+$
-[\"'`]\s*?like\W+[\w\"'`(]
+
+##!> template open-comment (?:/\*)
+
+##!> template quotes [\"'`]
+##!> template quotes-plus-digits [\d\"'`]
+##!> template comment-suffix (?:--|#|\/*|\{)
+##!    PB: Should comment-suffix also include "\*/" ?
+
+##!> template logical-operators or|xor|and
+##!> template math-operators div
+##!> template comparison-operators like|between
+##!> template math-symbols [+<>=(),-]
+
+{{open-comment}}+{{quotes}}+\s?{{comment-suffix}}?
+
+  ##!> assemble
+{{quotes}}\s*
+  ##!=>
+{{logical-operators}}
+{{math-operators}}
+{{comparison-operators}}
+  ##!=>
+[\w\s-]+{{math-symbols}}\s*{{quotes-plus-digits}}
+  ##!=>
+  ##!<
+
+\d{{quotes}}\s+{{quotes}}\s+\d
+
+{{quotes}}[<>~]+{{quotes}}
+
+^admin\s*?{{quotes}}
+
+{{quotes}}\s*[^\w\s]?=\s*{{quotes}}
+
+{{quotes}}\W*?[+=]+\W*?{{quotes}}
+{{quotes}}\s*[!=|][\d\s!=+-]+.*?[\"'`(].*?$
+{{quotes}}\s*[!=|][\d\s!=]+.*?\d+$
+{{quotes}}\s*(?:like|print)\W+[\w\"'`(]
+{{quotes}}\s*;
+
 [\"'`\(\s]\s*?glob\W+[\w\"'`(]
-[\"'`]\s*?print\W+[\w\"'`(]
-[\"'`]\s*?;
+
 \sis\s*?0\W
 where\s[\s\w\.,-]+\s=
-[\"'`][<>~]+[\"'`]
