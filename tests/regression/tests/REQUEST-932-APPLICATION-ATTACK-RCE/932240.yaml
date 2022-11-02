@@ -1,12 +1,12 @@
 ---
 meta:
-  author: "Max Leske"
-  description: Unix shell RCE using pipe for less than 4 chars
+  author: "Felipe Zipitria"
+  description: Remote Command Execution Evasion Techniques
   enabled: true
-  name: 932220.yaml
+  name: 932240.yaml
 tests:
-  - test_title: 932220-1
-    desc: "TEST=echo | php7.4"
+  - test_title: 932240-1
+    desc: "globbing technique 1: garb=cur[l];$garb+google.com (BB X)"
     stages:
       - stage:
           input:
@@ -17,13 +17,14 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: POST
             port: 80
-            uri: "/post"
-            data: "TEST=echo | php7.4"
-            version: HTTP/1.0
+            uri: /post
+            data: |
+              cmd=garb=adduse[r];$garb pizza
+            version: HTTP/1.1
           output:
-            log_contains: id "932220"
-  - test_title: 932220-2
-    desc: "TEST=echo | ${php7.4}php7.4"
+            log_contains: id "932240"
+  - test_title: 932240-2
+    desc: 'globbing technique 2: {n$u\c$u,-nlvp,777} (BB X)'
     stages:
       - stage:
           input:
@@ -34,56 +35,65 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: POST
             port: 80
+            uri: /post
+            data: |
+              cmd={n$u\c$u,-nlvp,777}
+            version: HTTP/1.1
+          output:
+            log_contains: id "932240"
+  - test_title: 932240-3
+    desc: 'vars + spacing: v="u";cu$v\\r\l google.com (BB X)'
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              cmd=v='u';cu$v\\r\l google.com
+            version: HTTP/1.1
+          output:
+            log_contains: id "932240"
+  - test_title: 932240-4
+    desc: 'vars + spacing: non-existing vars: cu$@rl (BB X)'
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              cmd=cu$@rl google.com
+            version: HTTP/1.1
+          output:
+            log_contains: id "932240"
+  - test_title: 932240-5
+    desc: "Negative test on German numbering - Schauen Sie sich diese Zahl an:1'000'000"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: en-us,en;q=0.5
+            method: POST
+            port: 80
             uri: "/post"
-            data: "TEST=echo | ${php7.4}php7.4"
-            version: HTTP/1.0
+            data: |
+              text=Schauen%20Sie%20sich%20diese%20Zahl%20an%3A%201%27000%27000
+            version: HTTP/1.1
           output:
-            log_contains: id "932220"
-  - test_title: 932220-3
-    desc: "whxami|sh+``"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-            method: GET
-            port: 80
-            data: "whxami|sh+``"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932220"
-  - test_title: 932220-4
-    desc: "whxami|fish+``"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-            method: GET
-            port: 80
-            data: "whxami|fish+``"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932220"
-  - test_title: 932220-5
-    desc: "Negative test"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-            method: GET
-            port: 80
-            data: "echo | curx"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "932220"
+            no_log_contains: id "932240"

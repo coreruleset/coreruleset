@@ -103,8 +103,11 @@ class CmdLineUnix(CmdLine):
         super().__init__(
             context,
             # Insert these sequences between characters to prevent evasion.
-            # This emulates the relevant parts of t:cmdLine.
-            r'''[\x5c'\"]*''',
+            # This emulates the relevant parts of t:cmdLine, plus additional evasion techniques.
+            # - [\x5c'\"\[]* - same as before, relevant part of t:cmdline
+            # - (?:\$[a-z0-9_@?!#{*-]*)? - shell variable or shell special variables, can be empty
+            # - (?:\x5c)? - escaping next char, can be empty
+            r'''[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?''',
             # Unix: "cat foo", "cat<foo", "cat>foo"
             r'''(?:\s|<|>).*''',
             # Same as above but does not allow any white space as the next token.
@@ -117,7 +120,7 @@ class CmdLineUnix(CmdLine):
             #
             # It will _not_ match:
             # python foo
-            r'''(?:(?:<|>)|(?:[\w\d._-][\x5c'\"]*)+(?:\s|<|>)).*''',
+            r'''(?:(?:<|>)|(?:[\w\d._-][\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?)+(?:\s|<|>)).*''',
         )
 
 

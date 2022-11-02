@@ -341,7 +341,7 @@ class TestCmdLinePreprocessor:
         output = assemble.complete()
 
         assert len(output) == 1
-        assert output[0] == r'''f[\x5c'\"]*o[\x5c'\"]*o'''
+        assert output[0] == r'''f[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?o[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?o'''
 
     def test_adds_windows_escapes(self, context):
         contents = 'foo'
@@ -410,7 +410,7 @@ class TestCmdLinePreprocessor:
         output = assemble.complete()
 
         assert len(output) == 1
-        assert output[0] == r'''f[\x5c'\"]*o[\x5c'\"]*o[\x5c'\"]*(?:\s|<|>).*'''
+        assert output[0] == r'''f[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?o[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?o[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?(?:\s|<|>).*'''
 
         regex = re.compile(output[0])
         match = regex.match('foo10<<<foo')
@@ -427,7 +427,7 @@ class TestCmdLinePreprocessor:
         output = assemble.complete()
 
         assert len(output) == 1
-        assert output[0] == r'''g[\x5c'\"]*c[\x5c'\"]*c[\x5c'\"]*(?:(?:<|>)|(?:[\w\d._-][\x5c'\"]*)+(?:\s|<|>)).*'''
+        assert output[0] == r'''g[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?c[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?c[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?(?:(?:<|>)|(?:[\w\d._-][\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?)+(?:\s|<|>)).*'''
 
         regex = re.compile(output[0])
         match = regex.match('gcc foo')
@@ -459,7 +459,7 @@ class TestCmdLinePreprocessor:
         output = assemble.complete()
 
         assert len(output) == 1
-        assert output[0] == r'''\.[\x5c'\"]*\[\x5c'\"]*\.[\x5c'\"]*\[\x5c'\"]*\[\x5c'\"]*\.'''
+        assert output[0] == r'''\.[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\.[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\.'''
 
     def test_dash_always_escaped(self, context):
         contents = r'-\-\\-'
@@ -469,9 +469,9 @@ class TestCmdLinePreprocessor:
         output = assemble.complete()
 
         assert len(output) == 1
-        assert output[0] == r'''\-[\x5c'\"]*\[\x5c'\"]*\-[\x5c'\"]*\[\x5c'\"]*\[\x5c'\"]*\-'''
+        assert output[0] == r'''\-[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\-[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\-'''
 
-    def test_mutltiple_spaces_matched(self, context):
+    def test_multiple_spaces_matched(self, context):
         contents = r'a b     c  e'
         assemble = CmdLine.create(context, ['unix'])
 
@@ -479,7 +479,7 @@ class TestCmdLinePreprocessor:
         output = assemble.complete()
 
         assert len(output) == 1
-        assert output[0] == r'''a[\x5c'\"]*\s+[\x5c'\"]*b[\x5c'\"]*\s+[\x5c'\"]*\s+[\x5c'\"]*\s+[\x5c'\"]*\s+[\x5c'\"]*\s+[\x5c'\"]*c[\x5c'\"]*\s+[\x5c'\"]*\s+[\x5c'\"]*e'''
+        assert output[0] == r'''a[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\s+[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?b[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\s+[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\s+[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\s+[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\s+[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\s+[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?c[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\s+[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?\s+[\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?e'''
 
     def test_fails_for_unknown_target_system(self, context):
         with pytest.raises(ValueError):
