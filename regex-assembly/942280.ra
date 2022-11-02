@@ -7,7 +7,7 @@
 
 ##! The following part is going to be appended
 ##! to match the end of a query or a comment syntax
-##!> template sql_comments (?:[#;{]|\/\*|--)
+##!> template terminates (?:[#;{]|\/\*|--)
 
 ##! In PostgreSQL, you can use the pg_sleep() function
 ##! to delay execution for a given number of seconds
@@ -17,4 +17,4 @@ select{{optional_whitespace}}pg_sleep
 waitfor{{optional_whitespace}}delay\s?[\"'`]+\s?\d
 
 ##! SHUTDOWN immediately stops SQL Server
-;{{optional_whitespace}}shutdown{{optional_whitespace}}{{sql_comments}}
+;{{optional_whitespace}}shutdown{{optional_whitespace}}{{terminates}}
