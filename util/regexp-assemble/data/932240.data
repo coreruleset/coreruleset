@@ -10,11 +10,16 @@
 
 ##!+ i
 
+##! The previous cmdline evasion detection was based on the one from modsecurity: `[\x5c'\"\[]*`
+##! We extended the evasion detection from the cmdline processor with `(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?` to match:
+##! - non-existing vars: cu$@rl
+##! - vars + spacing: v='u';cu$v\r\l google.com
+##! - globbing pattern expansion: {n$u\c$u,-nlvp,777}
+##! - globbing: garb=cur[l];$garb+google.com
+
 ##!> assemble
 [a-z0-9_-]+
 ##!=>
-
-##! This is the evasion detection from the cmdline processor: [\x5c'\"\[]*(?:\$[a-z0-9_@?!#{*-]*)?(?:\x5c)?
 [\x5c'\"\[\]]+
 \$[\x5ca-z0-9_@?!#{*-]+
 ##!=>
