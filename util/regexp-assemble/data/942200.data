@@ -3,18 +3,38 @@
 
 ##!+ i
 
-,.*?[)\da-f\"'`][\"'`][\"'`].*?[\"'`]
-,.*?[)\da-f\"'`][\"'`](?:\r?\n)?\z
-,.*?[)\da-f\"'`][\"'`][^\"'`]+
+##! Helpers
+##!> template punctuation-hexnumbers ,.*?[)\da-f\"'`]
+
+##!> template ticks [\"'`]
+
+##!> template spaces \s*?\(\s*?space\s*?\(
+
+##! Main assembly
+  ##!> assemble
+{{punctuation-hexnumbers}}{{ticks}}
+  ##!=>
+{{ticks}}.*?{{ticks}}
+(?:\r?\n)?\z
+[^\"'`]+
+  ##!=>
+  ##!<
+
 \Wselect.+\W*?from
-alter\s*?\(\s*?space\s*?\(
-create\s*?\(\s*?space\s*?\(
-delete\s*?\(\s*?space\s*?\(
-desc\s*?\(\s*?space\s*?\(
-drop\s*?\(\s*?space\s*?\(
-insert\s*?\(\s*?space\s*?\(
-load\s*?\(\s*?space\s*?\(
-rename\s*?\(\s*?space\s*?\(
-select\s*?\(\s*?space\s*?\(
-truncate\s*?\(\s*?space\s*?\(
-update\s*?\(\s*?space\s*?\(
+
+  ##!> assemble
+alter
+create
+delete
+desc
+drop
+insert
+load
+rename
+select
+truncate
+update
+  ##!=>
+{{spaces}}
+  ##!=>
+  ##!<
