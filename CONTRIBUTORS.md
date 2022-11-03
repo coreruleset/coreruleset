@@ -13,6 +13,7 @@
 - [Christoph Hansen](https://github.com/emphazer)
 - [Ervin Hegedus](https://github.com/airween)
 - [Andrew Howe](https://github.com/RedXanadu)
+- [Karel Knibbe](https://github.com/karelorigin)
 - [Max Leske](https://github.com/theseion)
 - [Andrea Menin](https://github.com/theMiddleBlue)
 - [Chaim Sanders](https://github.com/csanders-git)
@@ -20,7 +21,6 @@
 - [Manuel Leos Rivas](https://github.com/spartantri)
 - [Simon Studer](https://github.com/studersi)
 - [Jozef Sudolský](https://github.com/azurit)
-- [Karel Knibbe](https://github.com/karelorigin)
 
 ## Contributors:
 
