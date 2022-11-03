@@ -8,21 +8,26 @@
 ##!=>
  ##!> assemble
   ##!> assemble
-\*.+or
-\*.+xor
-\*.+div
-\*.+like
-\*.+between
-\*.+and
-\*.+id
   ##!=>
+\*.+
+  ##!=>
+   ##!> assemble
+or
+xor
+div
+like
+between
+and
+id
+   ##!=>
 \W*?[\"'`]\d
-  ##!=>
-  ##!<
+   ##!=>
+    ##!<
+   ##!<
 [^\w\s?]+\s*?[^\w\s]+\s*?[\"'`]
 [^\w\s]+\s*?[\W\d].*?#
 [^\w\s]+\s*?[\W\d].*?--
-  ##!> assemble
+   ##!> assemble
 or
 xor
 div
