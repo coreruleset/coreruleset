@@ -42,3 +42,21 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "920190"
+  - test_title: 920190-3
+    desc: "Status Page Test - Request-Range header field with range end less than range start"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Request-Range: bytes=64-0
+            protocol: "http"
+            uri: "/"
+            version: "HTTP/1.1"
+          output:
+            log_contains: "id \"920190\""
