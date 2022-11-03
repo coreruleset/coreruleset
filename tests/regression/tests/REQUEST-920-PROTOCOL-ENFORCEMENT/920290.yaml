@@ -19,30 +19,3 @@ tests:
               Host: ""
           output:
             status: [403, 400]
-            #log_contains: "id \"920290\""
-#-
-#test_title: 920290-2
-#stages:
-#  -
-#    stage:
-#      input:
-#        dest_addr: "127.0.0.1"
-#        port: 80
-#        headers:
-#            User-Agent: "ModSecurity CRS 3 Tests"
-#            Host: "%00"
-#      output:
-#        no_log_contains: "id \"920290\""
-#    -
-#  test_title: 920290-3
-#  stages:
-#    -
-#      stage:
-#        input:
-#          dest_addr: "127.0.0.1"
-#          port: 80
-#          headers:
-#              User-Agent: "ModSecurity CRS 3 Tests"
-#              Host: "localhost"
-#        output:
-#          no_log_contains: "id \"920290\""
