@@ -97,3 +97,23 @@ tests:
             version: HTTP/1.1
           output:
             no_log_contains: id "932240"
+  - test_title: 932240-6
+    desc: "Negative test on WordPress like args"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: en-us,en;q=0.5
+            method: POST
+            port: 80
+            uri: "/post"
+            data: |
+              data%5Bwp-refresh-post-lock%5D%5Block%5D=1667487208%3A1&data%5Bwp-refresh-post-lock%5D%5Bpost_id%5D=1&interval=60&_nonce=25ed3b910d&action=heartbeat&screen_id=post&has_focus=false
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "932240"
