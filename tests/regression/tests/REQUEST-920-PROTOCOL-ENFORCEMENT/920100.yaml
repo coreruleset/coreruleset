@@ -264,3 +264,20 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
             status: [403, 400]
+  - test_title: 920100-16
+    desc: "Status Page Test - Invalid HTTP request line: URI has scheme and authority but no path"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            protocol: "http"
+            uri: "http://localhost"
+            version: "HTTP/1.1"
+          output:
+            log_contains: "id \"920100\""
