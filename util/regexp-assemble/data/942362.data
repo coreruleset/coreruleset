@@ -5,6 +5,8 @@
 
 ##! Helpers
 
+##!> template nonword_number ^[\W\d]+\s*?
+
 ##!> template cmd_alter    alter
 ##!> template cmd_create   create
 ##!> template cmd_delete   delete
@@ -15,16 +17,13 @@
 ##!> template cmd_select   select
 ##!> template cmd_truncate truncate
 ##!> template cmd_update   update
+##!> template cmd_drop     drop
+##!> template cmd_union    union
+##!> template nonword_number_cmd_alter {{nonword_number}}alter\s*
 
 ##!> template seq_char         \s+char\s?\(?
 ##!> template seq_group_concat \s+group_concat\s?\(?
 ##!> template seq_load_file    \s+load_file\s?\(?
-
-##!> template cmd_drop     drop
-
-##!> template nonword_number ^[\W\d]+\s*?
-##!> template nonword_number_cmd_alter ^[\W\d]+\s*?alter\s*
-##!> template cmd_alter_space alter\s*
 
 ##! Main assembly
   ##!> assemble
@@ -64,100 +63,109 @@ end\s*?\);
 {{cmd_truncate}}\b
 {{cmd_update}}\b
       ##!> assemble
-{{cmd_alter_space}}
+{{cmd_alter}}\s*
       ##!=>
-aggregate\b
-application\s*role\b
-assembly\b
-asymmetric\s*key\b
-audit\b
-authorization\b
-availability\s*group\b
-broker\s*priority\b
-bufferpool\b
-certificate\b
-cluster\b
-collation\b
-column\b
-conversion\b
-credential\b
-cryptographic\s*provider\b
-database\b
-default\b
-dimension\b
-diskgroup\b
-domain\b
-endpoint\b
-extension\b
-external\b
-event\b
-flashback\b
-foreign\b
-fulltext\b
-function\b
-hierarchy\b
-group\b
-histogram\b
-index\b
-indextype\b
-inmemory\b
-instance\b
-java\b
-language\b
-large\b
-library\b
-lockdown\b
-logfile\s*group\b
-login\b
-mask\b
-master\s*key\b
-materialized\b
-message\s*type\b
-method\b
-module\b
-nickname\b
-operator\b
-outline\b
-package\b
-partition\b
-permission\b
-procedure\b
-profile\b
-queue\b
-remote\b
-resource\b
-role\b
-rollback\b
-route\b
-schema\b
-search\b
-security\b
-server\b
-service\b
-sequence\b
-session\b
-symmetric\s*key\b
-synonym\b
-stogroup\b
-table\b
-tablespace\b
-text\b
-threshold\b
-trigger\b
-trusted\b
-type\b
-usage\b
-user\b
-view\b
-work\b
-workload\b
-wrapper\b
-xml\s*schema\b
-xsrobject\b
+aggregate
+application\s*role
+assembly
+asymmetric\s*key
+audit
+authorization
+availability\s*group
+broker\s*priority
+bufferpool
+certificate
+cluster
+collation
+column
+conversion
+credential
+cryptographic\s*provider
+database
+default
+dimension
+diskgroup
+domain
+endpoint
+extension
+external
+event
+flashback
+foreign
+fulltext
+function
+hierarchy
+group
+histogram
+index
+indextype
+inmemory
+instance
+java
+language
+large
+library
+lockdown
+logfile\s*group
+login
+mask
+master\s*key
+materialized
+message\s*type
+method
+module
+nickname
+operator
+outline
+package
+partition
+permission
+procedure
+profile
+queue
+remote
+resource
+role
+rollback
+route
+schema
+search
+security
+server
+service
+sequence
+session
+symmetric\s*key
+synonym
+stogroup
+table
+tablespace
+text
+threshold
+trigger
+trusted
+type
+usage
+user
+view
+work
+workload
+wrapper
+xml\s*schema
+xsrobject
+      ##!=>
+\b
+      ##!=>
       ##!<
-union\s*all\b
-union\s*select\b
-union\s*distinct\b
+      ##!> assemble
+{{cmd_union}}\s*
+      ##!=>
+all
+select
+distinct
+      ##!=>
+\b
+      ##!=>
+      ##!<
     ##!<
-
   ##!<
