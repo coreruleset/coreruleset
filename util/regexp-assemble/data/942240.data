@@ -3,8 +3,30 @@
 
 ##!+ i
 
-alter\s*?\w+.*?character\s+set\s+\w+
-alter\s*?\w+.*?char\s+set\s+\w+
-[\"'`];*?\s*?waitfor\s+time\s+[\"'`]
-[\"'`];*?\s*?waitfor\s+delay\s+[\"'`]
-[\"'`];.*?:\s*?goto
+##! Helpers
+##!> template alter alter\s*?\w+.*?
+
+##!> template set \s+set\s+\w+
+
+##!> template ticks [\"'`]
+
+##!> template waitfor \s*?waitfor\s+
+
+##! Main assembly
+  ##!> assemble
+{{alter}}
+  ##!=>
+char
+character
+  ##!=>
+{{set}}
+  ##!<
+
+  ##!> assemble
+{{ticks}}
+  ##!=>
+;*?{{waitfor}}time\s+[\"'`]
+;*?{{waitfor}}delay\s+[\"'`]
+;.*?:\s*?goto
+  ##!=>
+  ##!<
