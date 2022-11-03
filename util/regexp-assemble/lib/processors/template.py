@@ -36,8 +36,8 @@ class Template(Processor):
 
     # override
     def process_line(self, line: str):
-        match = self.template_regex.search(line)
-        if match and match.group(1) == self.identifier:
+        matches = self.template_regex.findall(line)
+        if self.identifier in matches:
             self.logger.debug('Found template %s in line %s', self.identifier, line)
             # need to use a function as the replacement to prevent Python from parsing
             # escape sequences

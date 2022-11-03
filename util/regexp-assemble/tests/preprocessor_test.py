@@ -575,7 +575,7 @@ regex with {{slashes}} and {{dots}}
         # character classes. They should either be consistently escaped or not.
         assert output == r'regex with [\/\] and {{dots}}'
 
-    def test_template_replaces_all(self, context):
+    def test_template_replaces_all_normal_order(self, context):
         contents = r'''##!> template slashes [/\]
 ##!> template dots [.,;]
 regex with {{slashes}} and {{dots}}
@@ -587,6 +587,20 @@ regex with {{slashes}} and {{dots}}
         # TODO: Regexp::Assemble is inconsistent with escaping forward slashes in
         # character classes. They should either be consistently escaped or not.
         assert output == r'regex with [/\] and [.,;]'
+
+    def test_template_replaces_all_inverse_order(self, context):
+        contents = r'''##!> template slashes [/\]
+##!> template dots [.,;]
+regex with {{dots}} and {{slashes}}
+'''
+        assembler = Assembler(context)
+
+        output = assembler._run(Peekerator(contents.splitlines()))
+
+        # TODO: Regexp::Assemble is inconsistent with escaping forward slashes in
+        # character classes. They should either be consistently escaped or not.
+        assert output == r'regex with [.,;] and [\/\]'
+
 
     def test_template_replaces_on_all_lines(self, context):
         contents = r'''##!> template slashes [/\]
