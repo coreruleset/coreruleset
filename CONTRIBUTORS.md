@@ -20,6 +20,7 @@
 - [Manuel Leos Rivas](https://github.com/spartantri)
 - [Simon Studer](https://github.com/studersi)
 - [Jozef Sudolský](https://github.com/azurit)
+- [Karel Knibbe](https://github.com/karelorigin)
 
 ## Contributors:
 
@@ -50,7 +51,6 @@
 - [Pásztor Gábor](https://github.com/gpasztor87)
 - [Jan Gora](https://github.com/terjanq)
 - [Aaron Haaf](https://github.com/Everspace)
-- [Karel Knibbe](https://github.com/karelorigin)
 - [Michael Haas](https://github.com/MichaelHaas)
 - [henkworks](https://github.com/henkworks)
 - [Tim Herren](https://github.com/nerrehmit)
