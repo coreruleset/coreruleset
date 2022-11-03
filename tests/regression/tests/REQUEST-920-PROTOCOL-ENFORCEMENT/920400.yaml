@@ -27,22 +27,22 @@ tests:
             port: 80
             uri: /
             version: HTTP/1.1
-            data:
-              - '-----------------------------265001916915724'
-              - 'Content-Disposition: form-data; name="file"; filename="test"'
-              - 'Content-Type: application/octet-stream'
-              - ''
-              - Rotem & Ayala
-              - ''
-              - '-----------------------------265001916915724'
-              - 'Content-Disposition: form-data; name="name"'
-              - ''
-              - tt2
-              - '-----------------------------265001916915724'
-              - 'Content-Disposition: form-data; name="B1"'
-              - ''
-              - Submit
-              - '-----------------------------265001916915724--'
+            data: |
+              -----------------------------265001916915724
+              Content-Disposition: form-data; name="file"; filename="test"
+              Content-Type: application/octet-stream
+              
+              Rotem & Ayala
+              
+              -----------------------------265001916915724
+              Content-Disposition: form-data; name="name"
+              
+              tt2
+              -----------------------------265001916915724
+              Content-Disposition: form-data; name="B1"
+              
+              Submit
+              -----------------------------265001916915724--
           output:
             # Most web servers simply won't respond to invalid requests like
             # like this they'll just time out when we get OR type checks
