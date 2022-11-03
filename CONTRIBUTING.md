@@ -36,7 +36,7 @@
 * No trailing blank lines at EOF (only the required single EOF newline character is allowed).
 * Add comments where possible and clearly explain any new rules.
 * Adhere to an 80 character line length limit where possible.
-* All [chained rules](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual(v2.x)#chain) should be indented like so, for readability:
+* All [chained rules](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#chain) should be indented like so, for readability:
 ```
 SecRule .. .. \
     "..."
@@ -246,6 +246,8 @@ This list is not exhaustive but covers the most important points. The [RE2 docum
 
 The rules in CRS are organized into **paranoia levels** (PLs) which makes it possible to define how aggressive CRS is. See the documentation on [paranoia levels](https://coreruleset.org/docs/concepts/paranoia_levels/) for an introduction and more detailed explanation.
 
+Each rule that is placed into a paranoia level must contain the tag `paranoia-level/N`, where *N* is the PL value, however this tag can only be added if the rule does **not** use the nolog action.
+
 The types of rules that are allowed at each paranoia level are as follows:
 
 **PL 0:**
@@ -263,7 +265,7 @@ The types of rules that are allowed at each paranoia level are as follows:
 
 **PL 2:**
 
-* [Chain](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual(v2.x)#chain) usage is allowed
+* [Chain](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#chain) usage is allowed
 * Confirmed matches use score critical
 * Matches that cause false positives are limited to using scores notice or warning
 * Low false positive rates
