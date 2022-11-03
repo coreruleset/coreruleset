@@ -8,9 +8,9 @@
 
 ##!> template set \s+set\s+\w+
 
-##!> template ticks [\"'`]
+##!> template ticks-semicolon-lazy [\"'`];*?
 
-##!> template waitfor .*?\s*?waitfor\s+
+##!> template waitfor \s*?waitfor\s+
 
 ##! Main assembly
   ##!> assemble
@@ -23,10 +23,10 @@ character
   ##!<
 
   ##!> assemble
-{{ticks}};
+{{ticks-semicolon-lazy}}
   ##!=>
 {{waitfor}}time\s+[\"'`]
 {{waitfor}}delay\s+[\"'`]
-.*?:\s*?goto
+:\s*?goto
   ##!=>
   ##!<
