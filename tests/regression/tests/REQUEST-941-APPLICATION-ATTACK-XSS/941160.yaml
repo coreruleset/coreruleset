@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, Franziska Bühler"
+  author: "csanders-git, Franziska Bühler, Walter Hop"
   enabled: true
   name: "941160.yaml"
   description: "Tests to trigger, or not trigger 941160"
@@ -217,6 +217,22 @@ tests:
             port: 80
             uri: "/"
             data: "var='\"><svg/onload=(new(Image)).src='//m8vzjd10riomx3yxblmcnvaskjghsdz8xorciu7\\56coreruleset.org'>"
+            version: HTTP/1.0
+          output:
+            log_contains: id "941160"
+  - test_title: 941160-14
+    desc: "SVG onload injection in filename"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/index.php/%3Csvg/onload=alert()"
             version: HTTP/1.0
           output:
             log_contains: id "941160"

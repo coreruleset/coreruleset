@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "4v3r9"
+  author: "4v3r9, Walter Hop"
   enabled: true
   name: "941101.yaml"
   description: "Test to trigger 941101"
@@ -32,5 +32,21 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          output:
+            log_contains: id "941101"
+  - test_title: 941101-3
+    desc: "SVG onload injection in filename"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/index.php/%3Csvg/onload=alert()"
+            version: HTTP/1.0
           output:
             log_contains: id "941101"
