@@ -36,6 +36,7 @@ SecAction "id:900005,\
   setvar:tx.crs_validate_utf8_encoding=1,\
   setvar:tx.arg_name_length=100,\
   setvar:tx.arg_length=400,\
+  setvar:tx.max_file_size=64100,\
   setvar:tx.combined_file_sizes=65535"
 ```
 
