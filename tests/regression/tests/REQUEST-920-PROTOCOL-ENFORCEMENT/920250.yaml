@@ -57,3 +57,20 @@ tests:
               Proxy-Connection: "keep-alive"
           output:
             log_contains: "id \"920250\""
+  - test_title: 920250-4
+    desc: "Status Page Test - Invalid UTF-8 encoding: %C2%A3 is a valid Pound sign; %E2%A3 is invalid UTF-8 (incorrect starting binary sequence)"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            uri: "/?param=%E2%A3"
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Accept-Language: "en-us,en;q=0.5"
+              Keep-Alive: "300"
+              Proxy-Connection: "keep-alive"
+          output:
+            log_contains: "id \"920250\""
