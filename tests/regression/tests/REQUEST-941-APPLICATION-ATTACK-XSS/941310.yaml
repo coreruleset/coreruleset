@@ -196,3 +196,20 @@ tests:
             data: var=\xd0\xb0\xd0\xb1\xd0\xb2\xd0\xb3\xd0\xb4\xd0\xb5\xd1\x91\xd0\xb6\xd0\xb7\xd0\xb8\xd0\xb9\xd0\xba\xd0\xbb\xd0\xbd\xd0\xbe\xd0\xbf\xd1\x80\xd1\x81\xd1\x82\xd1\x83\xd1\x84\xd1\x85\xd1\x86\xd1\x87\xd1\x88\xd1\x89\xd1\x8a\xd1\x8b\xd1\x8d\xd1\x8e\xd1\x8f
           output:
             no_log_contains: id "941310"
+  - test_title: 941310-12
+    desc: "Status Page Test - US-ASCII Malformed Encoding XSS Filter Attack"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              Content-Type: "application/x-www-form-urlencoded"
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: /
+            data: test=\xbctest\xbetest(\xa2XSS\xa2)\xbc/test\xbe
+          output:
+            log_contains: id "941310"
