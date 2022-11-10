@@ -47,9 +47,9 @@
   ##!> assemble
 (?:{{media-type}})
   ##!=>
-(?:\s*+;\s*+
+(?:\s*;\s*
   ##!=>
-(?:(?:charset\s*+=\s*+
+(?:(?:charset\s*=\s*
   ##!=>
   ##!=> allowed-charsets
 
@@ -66,7 +66,7 @@ char[^s{{non-token-chars}}]{{token-chars}}*
 chars[^e{{non-token-chars}}]{{token-chars}}*
 charse[^t{{non-token-chars}}]{{token-chars}}*
   ##!=>
-)\s*+=\s*+{{token-with-dquote-chars}}+)
+)\s*=\s*{{token-with-dquote-chars}}+)
   ##! Clients like to violate the RFC, be lenient with
   ##! terminating semi-colons.
 ;?
@@ -76,13 +76,13 @@ charse[^t{{non-token-chars}}]{{token-chars}}*
 
   ##! Multiple "media-range" expressions can be
   ##! specified, comma separated.
-(?:\s*+,\s*+
+(?:\s*,\s*
   ##!=>
 (?:{{media-type}})
   ##!=>
-(?:\s*+;\s*+
+(?:\s*;\s*
   ##!=>
-(?:(?:charset\s*+=\s*+
+(?:(?:charset\s*=\s*
   ##!=>
   ##!=> allowed-charsets
 |(?:
@@ -95,7 +95,7 @@ char[^s{{non-token-chars}}]{{token-chars}}*
 chars[^e{{non-token-chars}}]{{token-chars}}*
 charse[^t{{non-token-chars}}]{{token-chars}}*
   ##!=>
-)\s*+=\s*+{{token-with-dquote-chars}}+)
+)\s*=\s*{{token-with-dquote-chars}}+)
   ##! Clients like to violate the RFC, be lenient with
   ##! terminating semi-colons.
 ;?
