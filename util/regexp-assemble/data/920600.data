@@ -54,9 +54,9 @@
   ##! Note that this doesn't follow the RFC strictly.
 |(?:
   ##!=>
-##! Do not match space, otherwise this the following would be possible:
+##! Do not match space, otherwise the following would be possible:
 ##! "text/html; charset=invalid"
-##! `charset` would be matched by `{{token-chrs}}`
+##! `charset` would be matched by `{{token-chars}}`
 [^c\s{{non-token-chars}}]{{token-chars}}*
 c[^h{{non-token-chars}}]{{token-chars}}*
 ch[^a{{non-token-chars}}]{{token-chars}}*
@@ -86,9 +86,9 @@ charse[^t{{non-token-chars}}]{{token-chars}}*
   ##!=> allowed-charsets
 |(?:
   ##!=>
-##! Do not match space, otherwise this the following would be possible:
+##! Do not match space, otherwise the following would be possible:
 ##! "text/html; charset=invalid"
-##! `charset` would be matched by `{{token-chrs}}`
+##! `charset` would be matched by `{{token-chars}}`
 [^c\s{{non-token-chars}}]{{token-chars}}*
 c[^h{{non-token-chars}}]{{token-chars}}*
 ch[^a{{non-token-chars}}]{{token-chars}}*
