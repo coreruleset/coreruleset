@@ -49,7 +49,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=for%20%2fd%20%variable%20in%20%28set%29%20do%20command
+            uri: /?foo=for%20%2fd%20%25variable%20in%20%28set%29%20do%20command
             version: HTTP/1.0
           output:
             log_contains: id "932140"
