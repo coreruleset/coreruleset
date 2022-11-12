@@ -16,7 +16,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?932120-1=Invoke-WebRequest%20http://example.com/path/file.ps1"
+            uri: "/get?932120-1=Invoke-WebRequest%20http://example.com/path/file.ps1"
             protocol: "http"
           output:
             log_contains: "id \"932120\""
@@ -27,6 +27,7 @@ tests:
             dest_addr: "127.0.0.1"
             method: "POST"
             port: 80
+            uri: '/post'
             headers:
               User-Agent: OWASP ModSecurity Core Rule Set
               Host: "localhost"
@@ -47,7 +48,7 @@ tests:
               Host: "localhost"
               Cookie: "931120-3=Invoke-Expression%20-Command%20file.ps1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/'
+            uri: '/get'
             protocol: "http"
           output:
             log_contains: "id \"932120\""
@@ -58,6 +59,7 @@ tests:
             dest_addr: "127.0.0.1"
             method: "POST"
             port: 80
+            uri: "/post"
             headers:
               User-Agent: OWASP ModSecurity Core Rule Set
               Host: "localhost"
@@ -66,3 +68,20 @@ tests:
             protocol: "http"
           output:
             no_log_contains: "id \"932120\""
+  - test_title: 932120-5
+    desc: "Test for BB GU2FIXLC - powershell"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "POST"
+            port: 80
+            uri: "/post"
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: 'cmd=powershell%20C%3A%5Cwindows%5Csystem32%5Cnotepad.exe'
+            protocol: "http"
+          output:
+            log_contains: id "932120"
