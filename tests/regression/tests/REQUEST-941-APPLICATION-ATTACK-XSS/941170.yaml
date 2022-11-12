@@ -66,3 +66,18 @@ tests:
               Host: localhost
           output:
             log_contains: id "941170"
+  - test_title: 941170-5
+    desc: "Status Page Test -  data: , <x> as GET variable"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: GET
+            port: 80
+            uri: '/?test=%20data%3A%20%2C%20%3Cx%3E'
+            headers:
+              Accept: "*/*"
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: localhost
+          output:
+            log_contains: id "941170"
