@@ -115,12 +115,13 @@ tests:
           output:
             no_log_contains: "id \"932160\""
   - test_title: 932160-8
-    desc: "Positive test: Triggering only this rule an no other one"
+    desc: "Positive test: Triggering only this rule and no other one"
     stages:
       - stage:
           input:
             dest_addr: "127.0.0.1"
             method: "POST"
+            uri: "/post"
             port: 80
             headers:
               User-Agent: OWASP ModSecurity Core Rule Set
