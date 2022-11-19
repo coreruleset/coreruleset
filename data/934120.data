@@ -94,50 +94,49 @@
     ##!=>
 
     ##! at least one of the evasion techniques
-    (?:
-    ##!=>
-
-    ##! technique 1
     ##!> assemble
-      ##! possible white spaces to fool safety checks in URL parsers
-      \s*
-      ##!=>
+      ##! technique 1
+      ##!> assemble
+        ##! possible white spaces to fool safety checks in URL parsers
+        \s*
+        ##!=>
 
-      ##! &@ to confuse URL parsers (& can indicate query parameter, @ indicates user info)
-      &?@
-      ##!=>
+        ##! &@ to confuse URL parsers (& can indicate query parameter, @ indicates user info)
+        &?@
+        ##!=>
 
-      ##! IPv4 + port or domain + port
-      ##!=> ip-or-domain
+        ##! IPv4 + port or domain + port
+        ##!=> ip-or-domain
 
-      ##! optional forward slash
-      \/?
-      ##!=>
-    ##!<
+        ##! optional forward slash
+        \/?
+        ##!=>
+      ##!<
 
-    ##! technique 2
-    ##!> assemble
-      ##! fragment to confuse URL parsers
-      #
-      ##!=>
+      ##! technique 2
+      ##!> assemble
+        ##! fragment to confuse URL parsers
+        #
+        ##!=>
 
-      ##! possible white spaces to fool safety checks in URL parsers
-      \s*
-      ##!=>
+        ##! possible white spaces to fool safety checks in URL parsers
+        \s*
+        ##!=>
 
-      ##! &@ to confuse URL parsers (& can indicate query parameter, @ indicates user info)
-      &?@
-      ##!=>
+        ##! &@ to confuse URL parsers (& can indicate query parameter, @ indicates user info)
+        &?@
+        ##!=>
 
-      ##! IPv4 + port or domain + port
-      ##!=> ip-or-domain
+        ##! IPv4 + port or domain + port
+        ##!=> ip-or-domain
 
-      ##! optional forward slash
-      \/?
-      ##!=>
+        ##! optional forward slash
+        /?
+        ##!=>
+      ##!<
     ##!<
     ##!=>
-    )+
+    +
     ##!=>
   ##!<
 
@@ -171,14 +170,18 @@
     ##! ideographic full stop: 。
     \xe3\x80\x82
     ##!=< enclosed-alnums
-
-    ##! an IP could start with digits and dots
-    (?:[\d.]{0,11}(?:
-    ##!=>
-    ##!=> enclosed-alnums
-    ##! match all for capture
-    )+)
-    ##!=>
   ##!<
 
+  ##! an IP could start with digits and dots
+  ##!> assemble
+    [\d.]{0,11}
+    ##!=>
+    ##!> assemble
+      ##!=> enclosed-alnums
+    ##!<
+    ##!=>
+    ##! match all for capture
+    +
+    ##!=>
+  ##!<
 ##!<

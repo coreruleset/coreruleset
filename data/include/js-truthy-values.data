@@ -1,6 +1,7 @@
 ##! Falsy and negations
 ##!> assemble
-##!^ !+
+  !+
+  ##!=>
   false
   null
   undefined
@@ -13,8 +14,8 @@
 
 ##! Truthy and double negations (word boundary)
 ##!> assemble
-##!^ (?:!!)*
-##!$ \b
+  (?:!!)*
+  ##!=>
   true
   [-+]?Infinity
   [-+]?[1-9]\d*
@@ -26,13 +27,17 @@
   Object
   Array
   Function
+  ##!=>
+  \b
+  ##!=>
 ##!<
 
 
 ##! Truthy and double negations (no word boundary: anything that ends
 ##! with a special character)
 ##!> assemble
-##!^ (?:!!)*
+  (?:!!)*
+  ##!=>
   \{.*\}
   \[.*\]
   "[^"]+"

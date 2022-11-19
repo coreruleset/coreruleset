@@ -53,39 +53,37 @@
   ##!=>
 
   ##! commands prefix
-  (?:
+  ##!> assemble
+    ##! (cmd)
+    \(
+    ##! ,cmd
+    ,
+    ##! @cmd
+    @
+    ##! 'cmd'
+    '
+    ##! "cmd"
+    \"
+    ##! spacing+cmd
+    \s
+  ##!<
   ##!=>
 
-  ##! (cmd)
-  (
-  ##! ,cmd
-  ,
-  ##! @cmd
-  @
-  ##! 'cmd'
-  '
-  ##! "cmd"
-  \"
-  ##! spacing+cmd
-  \s
-  ##!=>
-
-  )*
+  *
   ##!=>
 
   ##! paths prefix
-  (?:
+  ##!> assemble
+    ##! /path/cmd
+    [\w'\"\./]+/
+    ##! C:\Program Files\cmd
+    [\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c
+    ##! \\net\share\dir\cmd
+    [\^\.\w '\"/\x5c]*\x5c
+  ##!<
   ##!=>
 
-  ##! /path/cmd
-  [\w'\"\./]+/
-  ##! C:\Program Files\cmd
-  [\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c
-  ##! \\net\share\dir\cmd
-  [\^\.\w '\"/\x5c]*\x5c
-  ##!=>
-
-  )?[\"\^]*
+  ?[\"\^]*
   ##!=>
 
   ##!> cmdline windows
@@ -240,3 +238,4 @@
     ntbackup
     ntrights
   ##!<
+##!<
