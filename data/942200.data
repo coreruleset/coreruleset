@@ -11,30 +11,30 @@
 ##!> template spaces \s*?\(\s*?space\s*?\(
 
 ##! Main assembly
-  ##!> assemble
-{{punctuation-hexnumbers}}{{ticks}}
+##!> assemble
+  {{punctuation-hexnumbers}}{{ticks}}
   ##!=>
-{{ticks}}.*?{{ticks}}
-(?:\r?\n)?\z
-[^\"'`]+
+  {{ticks}}.*?{{ticks}}
+  (?:\r?\n)?\z
+  [^\"'`]+
   ##!=>
-  ##!<
+##!<
 
 \Wselect.+\W*?from
 
-  ##!> assemble
-alter
-create
-delete
-desc
-drop
-insert
-load
-rename
-select
-truncate
-update
+##!> assemble
+  alter
+  create
+  delete
+  desc
+  drop
+  insert
+  load
+  rename
+  select
+  truncate
+  update
   ##!=>
-{{spaces}}
+  {{spaces}}
   ##!=>
-  ##!<
+##!<

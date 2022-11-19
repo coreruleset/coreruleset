@@ -1,31 +1,31 @@
 ##! Falsy and negations
 ##!> assemble
 ##!^ !+
-false
-null
-undefined
-NaN
-[-+]?0
-"{2}
-'{2}
-`{2}
+  false
+  null
+  undefined
+  NaN
+  [-+]?0
+  "{2}
+  '{2}
+  `{2}
 ##!<
 
 ##! Truthy and double negations (word boundary)
 ##!> assemble
 ##!^ (?:!!)*
 ##!$ \b
-true
-[-+]?Infinity
-[-+]?[1-9]\d*
-new [a-zA-Z]\w*
-this
-window
-String
-Boolean
-Object
-Array
-Function
+  true
+  [-+]?Infinity
+  [-+]?[1-9]\d*
+  new [a-zA-Z]\w*
+  this
+  window
+  String
+  Boolean
+  Object
+  Array
+  Function
 ##!<
 
 
@@ -33,9 +33,9 @@ Function
 ##! with a special character)
 ##!> assemble
 ##!^ (?:!!)*
-\{.*\}
-\[.*\]
-"[^"]+"
-'[^']+'
-`[^`]+`
+  \{.*\}
+  \[.*\]
+  "[^"]+"
+  '[^']+'
+  `[^`]+`
 ##!<

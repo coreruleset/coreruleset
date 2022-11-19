@@ -24,219 +24,219 @@
 
 ##! starting tokens prefix
 ##!> assemble
-##! time cmd
+  ##! time cmd
   ##!> cmdline windows
-time
+    time
   ##!<
-##! ;cmd
-;
-##! {cmd
-\{
-##! |cmd
-\|
-##! ||cmd
-\|\|
-##! &cmd
-&
-##! &&cmd
-&&
-##! \ncmd
-\n
-##! \rcmd
-\r
-##! `cmd
-`
-##!=>
+  ##! ;cmd
+  ;
+  ##! {cmd
+  \{
+  ##! |cmd
+  \|
+  ##! ||cmd
+  \|\|
+  ##! &cmd
+  &
+  ##! &&cmd
+  &&
+  ##! \ncmd
+  \n
+  ##! \rcmd
+  \r
+  ##! `cmd
+  `
+  ##!=>
 
-##! match possible white space between prefix expressions
-\s*
-##!=>
+  ##! match possible white space between prefix expressions
+  \s*
+  ##!=>
 
-##! commands prefix
-(?:
-##!=>
+  ##! commands prefix
+  (?:
+  ##!=>
 
-##! (cmd)
-(
-##! ,cmd
-,
-##! @cmd
-@
-##! 'cmd'
-'
-##! "cmd"
-\"
-##! spacing+cmd
-\s
-##!=>
+  ##! (cmd)
+  (
+  ##! ,cmd
+  ,
+  ##! @cmd
+  @
+  ##! 'cmd'
+  '
+  ##! "cmd"
+  \"
+  ##! spacing+cmd
+  \s
+  ##!=>
 
-)*
-##!=>
+  )*
+  ##!=>
 
-##! paths prefix
-(?:
-##!=>
+  ##! paths prefix
+  (?:
+  ##!=>
 
-##! /path/cmd
-[\w'\"\./]+/
-##! C:\Program Files\cmd
-[\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c
-##! \\net\share\dir\cmd
-[\^\.\w '\"/\x5c]*\x5c
-##!=>
+  ##! /path/cmd
+  [\w'\"\./]+/
+  ##! C:\Program Files\cmd
+  [\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c
+  ##! \\net\share\dir\cmd
+  [\^\.\w '\"/\x5c]*\x5c
+  ##!=>
 
-)?[\"\^]*
-##!=>
+  )?[\"\^]*
+  ##!=>
 
   ##!> cmdline windows
 
-7z
-7za
-7zr
-addusers
-admodcmd
-arp@
-assoc
-attrib
-azman
-bcdboot
-bcdedit
-bitsadmin
-bootcfg
-browstat
-cacls
-call@
-certreq
-certutil
-##! disabled for FP: change
-chdir@
-chkdsk
-chkntfs
-cipher
-cleanmgr
-clearmem
-cluster
-cmd
-cmdkey
-comexp
-comp@
-compact@
-compmgmt
-con2prt
-convert
-copy
-csccmd
-cscript
-csvde
-curl
-date@
-dcomcnfg
-debug
-defrag
-del@
-delprof
-deltree
-devcon
-devmgmt
-diff@
-dir@
-diruse
-diskmgmt
-diskpart
-diskshadow
-dnsstat
-doskey
-driverquery
-dsacls
-dsadd
-dsget
-dsmod
-dsmove
-dsquery
-dsrm
-dxdiag
-echo
-egrep
-endlocal
-erase
-eventcreate
-eventvwr
-expand@
-explorer
-fc@
-fgrep
-find@
-findstr
-foreach
-forfiles
-format@
-freedisk
-fsmgmt
-fsutil
-ftp@
-ftype
-gathernetworkinfo
-getmac
-git@
-gpedit
-gpresult
-gpupdate
-hdwwiz
-hostname
-icacls
-ifmember
-inetcpl
-ipconfig
-irb
-irb1
-irb18
-irb19
-irb20
-irb21
-irb22
-java@
-label@
-logevent
-logman
-logoff
-logtime
-lusrmgr
-mapisend
-mbsacli
-md@
-mdsched
-measure
-mkdir@
-mklink
-mmsys
-mode@
-more@
-mount@
-mountvol
-moveuser
-msconfig
-msg@
-mshta
-msiexec
-msinfo32
-mstsc
-mysql
-mysqladmin
-mysqldump
-mysqldumpslow
-mysqlhotcopy
-mysqlshow
-nbtstat
-nc@
-ncat
-net@
-netcat
-netdom
-netsh
-netstat
-netsvc
-nmap
-nslookup
-ntbackup
-ntrights
+    7z
+    7za
+    7zr
+    addusers
+    admodcmd
+    arp@
+    assoc
+    attrib
+    azman
+    bcdboot
+    bcdedit
+    bitsadmin
+    bootcfg
+    browstat
+    cacls
+    call@
+    certreq
+    certutil
+    ##! disabled for FP: change
+    chdir@
+    chkdsk
+    chkntfs
+    cipher
+    cleanmgr
+    clearmem
+    cluster
+    cmd
+    cmdkey
+    comexp
+    comp@
+    compact@
+    compmgmt
+    con2prt
+    convert
+    copy
+    csccmd
+    cscript
+    csvde
+    curl
+    date@
+    dcomcnfg
+    debug
+    defrag
+    del@
+    delprof
+    deltree
+    devcon
+    devmgmt
+    diff@
+    dir@
+    diruse
+    diskmgmt
+    diskpart
+    diskshadow
+    dnsstat
+    doskey
+    driverquery
+    dsacls
+    dsadd
+    dsget
+    dsmod
+    dsmove
+    dsquery
+    dsrm
+    dxdiag
+    echo
+    egrep
+    endlocal
+    erase
+    eventcreate
+    eventvwr
+    expand@
+    explorer
+    fc@
+    fgrep
+    find@
+    findstr
+    foreach
+    forfiles
+    format@
+    freedisk
+    fsmgmt
+    fsutil
+    ftp@
+    ftype
+    gathernetworkinfo
+    getmac
+    git@
+    gpedit
+    gpresult
+    gpupdate
+    hdwwiz
+    hostname
+    icacls
+    ifmember
+    inetcpl
+    ipconfig
+    irb
+    irb1
+    irb18
+    irb19
+    irb20
+    irb21
+    irb22
+    java@
+    label@
+    logevent
+    logman
+    logoff
+    logtime
+    lusrmgr
+    mapisend
+    mbsacli
+    md@
+    mdsched
+    measure
+    mkdir@
+    mklink
+    mmsys
+    mode@
+    more@
+    mount@
+    mountvol
+    moveuser
+    msconfig
+    msg@
+    mshta
+    msiexec
+    msinfo32
+    mstsc
+    mysql
+    mysqladmin
+    mysqldump
+    mysqldumpslow
+    mysqlhotcopy
+    mysqlshow
+    nbtstat
+    nc@
+    ncat
+    net@
+    netcat
+    netdom
+    netsh
+    netstat
+    netsvc
+    nmap
+    nslookup
+    ntbackup
+    ntrights
   ##!<
