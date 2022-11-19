@@ -47,3 +47,15 @@ jobs:
           pip install -r ./util/find-rules-without-test/requirements.txt
           ./util/find-rules-without-test/find-rules-without-test.py --output=github .
 
+      - name: "Install crs-toolchain"
+        uses: houqp/download-release-assets@v1
+        with:
+          release: latest
+          repo: coreruleset/crs-toolchain
+          match: "crs-toolchain_*_linux_amd64.tar.gz$"
+          rename: crs-toolchain
+
+
+      - name: "Check that all rules are up to date"
+        run: |
+          ./crs-toolchain regex compare -a
