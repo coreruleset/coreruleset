@@ -27,185 +27,185 @@
 
 ##! starting tokens prefix
 ##!> assemble
-##! ;cmd
-;
-##! {cmd
-\{
-##! |cmd
-\|
-##! ||cmd
-\|\|
-##! &cmd
-&
-##! &&cmd
-&&
-##! \ncmd
-\n
-##! \rcmd
-\r
-##! `cmd
-`
-##!=>
+  ##! ;cmd
+  ;
+  ##! {cmd
+  \{
+  ##! |cmd
+  \|
+  ##! ||cmd
+  \|\|
+  ##! &cmd
+  &
+  ##! &&cmd
+  &&
+  ##! \ncmd
+  \n
+  ##! \rcmd
+  \r
+  ##! `cmd
+  `
+  ##!=>
 
-##! match possible white space between prefix expressions
-\s*
-##!=>
+  ##! match possible white space between prefix expressions
+  \s*
+  ##!=>
 
-##! commands prefix
-(?:
-##!=>
+  ##! commands prefix
+  (?:
+  ##!=>
 
-##! (cmd)
-(
-##! ,cmd
-,
-##! @cmd
-@
-##! 'cmd'
-'
-##! "cmd"
-\"
-##! spacing+cmd
-\s
-##!=>
+  ##! (cmd)
+  (
+  ##! ,cmd
+  ,
+  ##! @cmd
+  @
+  ##! 'cmd'
+  '
+  ##! "cmd"
+  \"
+  ##! spacing+cmd
+  \s
+  ##!=>
 
-)*
-##!=>
+  )*
+  ##!=>
 
-##! paths prefix
-(?:
-##!=>
+  ##! paths prefix
+  (?:
+  ##!=>
 
-##! /path/cmd
-[\w'\"\./]+/
-##! C:\Program Files\cmd
-[\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c
-##! \\net\share\dir\cmd
-[\^\.\w '\"/\x5c]*\x5c
-##!=>
+  ##! /path/cmd
+  [\w'\"\./]+/
+  ##! C:\Program Files\cmd
+  [\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c
+  ##! \\net\share\dir\cmd
+  [\^\.\w '\"/\x5c]*\x5c
+  ##!=>
 
-)?[\"\^]*
-##!=>
+  )?[\"\^]*
+  ##!=>
 
   ##!> cmdline windows
 
-ac@
-asnp@
-##! disabled for FP: cat@
-chdir@
-clc@
-clhy@
-cli@
-clp@
-clv@
-##! disabled for FP: compare@
-##! disabled for FP: copy@
-cpi@
-cpp@
-cvpa@
-dbp@
-del@
-dir@
-ebp@
-epal@
-epcsv@
-epsn@
-##! disabled for FP: erase@
-etsn@
-exsn@
-fc@
-fl@
-foreach@
-ft@
-fw@
-gal@
-gbp@
-gc@
-gci@
-gcm@
-gcs@
-gdr@
-ghy@
-gi@
-gjb@
-gl@
-gm@
-gmo@
-gp@
-gps@
-##! disabled for FP: group
-gsn@
-gsnp@
-gsv@
-gu@
-gv@
-gwmi@
-##! disabled for FP: history
-icm@
-iex@
-ihy@
-ii@
-ipal@
-ipcsv@
-ipmo@
-ipsn@
-iwmi@
-iwr@
-##! disabled for FP: kill
-lp@
-##! disabled for FP: measure
-mi@
-##! disabled for FP: move
-mp@
-nal@
-ndr@
-ni@
-nmo@
-nsn@
-nv@
-ogv@
-##! disabled for FP: oh
-popd@
-pushd@
-##! disabled for FP: pwd
-rbp@
-rcjb@
-rd@
-rdr@
-ren@
-ri@
-rjb@
-rmdir@
-rmo@
-rni@
-rnp@
-rp@
-rsn@
-rsnp@
-rv@
-rvpa@
-rwmi@
-sajb@
-sal@
-saps@
-sasv@
-sbp@
-sc@
-##! disabled for FP: select
-##! disabled for FP: set
-si@
-sl@
-sls@
-sp@
-spjb@
-spps@
-spsv@
-##! disabled for FP: start
-sv@
-swmi@
-trcm@
-##! disabled for FP: type
-##! disabled for FP: where
-wjb@
-##! disabled for FP: write@
+    ac@
+    asnp@
+    ##! disabled for FP: cat@
+    chdir@
+    clc@
+    clhy@
+    cli@
+    clp@
+    clv@
+    ##! disabled for FP: compare@
+    ##! disabled for FP: copy@
+    cpi@
+    cpp@
+    cvpa@
+    dbp@
+    del@
+    dir@
+    ebp@
+    epal@
+    epcsv@
+    epsn@
+    ##! disabled for FP: erase@
+    etsn@
+    exsn@
+    fc@
+    fl@
+    foreach@
+    ft@
+    fw@
+    gal@
+    gbp@
+    gc@
+    gci@
+    gcm@
+    gcs@
+    gdr@
+    ghy@
+    gi@
+    gjb@
+    gl@
+    gm@
+    gmo@
+    gp@
+    gps@
+    ##! disabled for FP: group
+    gsn@
+    gsnp@
+    gsv@
+    gu@
+    gv@
+    gwmi@
+    ##! disabled for FP: history
+    icm@
+    iex@
+    ihy@
+    ii@
+    ipal@
+    ipcsv@
+    ipmo@
+    ipsn@
+    iwmi@
+    iwr@
+    ##! disabled for FP: kill
+    lp@
+    ##! disabled for FP: measure
+    mi@
+    ##! disabled for FP: move
+    mp@
+    nal@
+    ndr@
+    ni@
+    nmo@
+    nsn@
+    nv@
+    ogv@
+    ##! disabled for FP: oh
+    popd@
+    pushd@
+    ##! disabled for FP: pwd
+    rbp@
+    rcjb@
+    rd@
+    rdr@
+    ren@
+    ri@
+    rjb@
+    rmdir@
+    rmo@
+    rni@
+    rnp@
+    rp@
+    rsn@
+    rsnp@
+    rv@
+    rvpa@
+    rwmi@
+    sajb@
+    sal@
+    saps@
+    sasv@
+    sbp@
+    sc@
+    ##! disabled for FP: select
+    ##! disabled for FP: set
+    si@
+    sl@
+    sls@
+    sp@
+    spjb@
+    spps@
+    spsv@
+    ##! disabled for FP: start
+    sv@
+    swmi@
+    trcm@
+    ##! disabled for FP: type
+    ##! disabled for FP: where
+    wjb@
+    ##! disabled for FP: write@
   ##!<

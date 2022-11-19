@@ -17,89 +17,89 @@
 
 ##! starting tokens prefix
 ##!> assemble
-\s*
-##! time ifconfig
+  \s*
+  ##! time ifconfig
   ##!> cmdline unix
-time
+    time
   ##!<
-##! ;ifconfig
-;
-##! {ifconfig}
-\{
-##! |ifconfig
-\|
-##! ||ifconfig
-\|\|
-##! &ifconfig
-&
-##! & &ifconfig
-&&
-##! ;\nifconfig
-\n
-##! ;\rifconfig
-\r
-##! $(ifconfig)
-\$\(
-##! $((ifconfig))
-\$\(\(
-##! `ifconfig`
-`
-##! ${ifconfig}
-\${
-##! <( ifconfig )
-<\(
-##! >( ifconfig )
->\(
-##! a() ( ifconfig; ); a
-\(\s*\)
-##!=>
+  ##! ;ifconfig
+  ;
+  ##! {ifconfig}
+  \{
+  ##! |ifconfig
+  \|
+  ##! ||ifconfig
+  \|\|
+  ##! &ifconfig
+  &
+  ##! & &ifconfig
+  &&
+  ##! ;\nifconfig
+  \n
+  ##! ;\rifconfig
+  \r
+  ##! $(ifconfig)
+  \$\(
+  ##! $((ifconfig))
+  \$\(\(
+  ##! `ifconfig`
+  `
+  ##! ${ifconfig}
+  \${
+  ##! <( ifconfig )
+  <\(
+  ##! >( ifconfig )
+  >\(
+  ##! a() ( ifconfig; ); a
+  \(\s*\)
+  ##!=>
 
-##! match possible white space between prefix expressions
-\s*
-##!=>
+  ##! match possible white space between prefix expressions
+  \s*
+  ##!=>
 
-##! commands prefix
-(?:
-##!=>
+  ##! commands prefix
+  (?:
+  ##!=>
 
-##! { ifconfig }
-\{
-##! ( ifconfig )
-\s*\(\s*
-##! VARNAME=xyz ifconfig
-\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
-##! ! ifconfig
-!\s*
-##! $ifconfig
-\$
-##!=>
+  ##! { ifconfig }
+  \{
+  ##! ( ifconfig )
+  \s*\(\s*
+  ##! VARNAME=xyz ifconfig
+  \w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
+  ##! ! ifconfig
+  !\s*
+  ##! $ifconfig
+  \$
+  ##!=>
 
-)*
-##!=>
+  )*
+  ##!=>
 
-##! match possible white space between prefix expressions
-\s*
-##!=>
+  ##! match possible white space between prefix expressions
+  \s*
+  ##!=>
 
-##! quoting prefix
-(?:
-##!=>
+  ##! quoting prefix
+  (?:
+  ##!=>
 
-##! 'ifconfig'
-'
-##! "ifconfig"
-\"
-##!=>
+  ##! 'ifconfig'
+  '
+  ##! "ifconfig"
+  \"
+  ##!=>
 
-)*
-##!=>
+  )*
+  ##!=>
 
-##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
-(?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
-##!=>
+  ##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
+  (?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
+  ##!=>
 
   ##!> cmdline unix
 
-##!> include unix-shell-upto3
+    ##!> include unix-shell-upto3
 
   ##!<
