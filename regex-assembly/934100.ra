@@ -13,162 +13,162 @@ module\.exports=
 \(\s*\Wchild_process\W\s*\)
 
 ##!> assemble
-\[['\"`]
-##!=< js-prop-start
+  \[['\"`]
+  ##!=< js-prop-start
 ##!<
 
 ##!> assemble
-['\"`]\]
-##!=< js-prop-finish
+  ['\"`]\]
+  ##!=< js-prop-finish
 ##!<
 
 ##!> assemble
-\(
-\.call\(
-##!=< js-call
+  \(
+  \.call\(
+  ##!=< js-call
 ##!<
 
 ##! All "process" method names
 ##!> assemble
-access
-accesssync
-appendfile
-appendfilesync
-availability
-caveats
-chmodsync
-chownsync
-closesync
-copyfile
-copyfilesync
-cp
-cpsync
-createreadstream
-createwritestream
-execfile
-execfilesync
-execsync
-existssync
-fchmod
-fchmodsync
-fchown
-fchownsync
-fdatasync
-fdatasyncsync
-fstatsync
-fsync
-fsyncsync
-futimes
-futimessync
-inodes
-lchmod
-lchmodsync
-linksync
-lstatsync
-lutimes
-lutimessync
-mkdirsync
-mkdtemp
-mkdtempsync
-opendirsync
-opensync
-readdirsync
-readfilesync
-readlinksync
-readsync
-readv
-readvsync
-renamesync
-rm
-rmsync
-spawnfile
-spawnsync
-statsync
-symlinksync
-truncatesync
-unlinksync
-unwatchfile
-utimes
-utimessync
-watchfile
-writefile
-writefilesync
-writesync
-writev
-writevsync
-##!=< process-funcs
+  access
+  accesssync
+  appendfile
+  appendfilesync
+  availability
+  caveats
+  chmodsync
+  chownsync
+  closesync
+  copyfile
+  copyfilesync
+  cp
+  cpsync
+  createreadstream
+  createwritestream
+  execfile
+  execfilesync
+  execsync
+  existssync
+  fchmod
+  fchmodsync
+  fchown
+  fchownsync
+  fdatasync
+  fdatasyncsync
+  fstatsync
+  fsync
+  fsyncsync
+  futimes
+  futimessync
+  inodes
+  lchmod
+  lchmodsync
+  linksync
+  lstatsync
+  lutimes
+  lutimessync
+  mkdirsync
+  mkdtemp
+  mkdtempsync
+  opendirsync
+  opensync
+  readdirsync
+  readfilesync
+  readlinksync
+  readsync
+  readv
+  readvsync
+  renamesync
+  rm
+  rmsync
+  spawnfile
+  spawnsync
+  statsync
+  symlinksync
+  truncatesync
+  unlinksync
+  unwatchfile
+  utimes
+  utimessync
+  watchfile
+  writefile
+  writefilesync
+  writesync
+  writev
+  writevsync
+  ##!=< process-funcs
 ##!<
 
 ##! All "process" prop names
 ##!> assemble
-binding
-constructor
-env
-global
-main
-mainModule
-process
-require
-##!=< process-props
+  binding
+  constructor
+  env
+  global
+  main
+  mainModule
+  process
+  require
+  ##!=< process-props
 ##!<
 
 ##! All "console" method names
 ##!> assemble
-debug
-error
-info
-trace
-warn
-##!=< console-funcs
+  debug
+  error
+  info
+  trace
+  warn
+  ##!=< console-funcs
 ##!<
 
 ##! "process" payloads
 ##!> assemble
-process
-##!=>
+  process
+  ##!=>
 
-    ##! Match method calls via their usual syntax: foo.bar()
-    ##!> assemble
-\.
+  ##! Match method calls via their usual syntax: foo.bar()
+  ##!> assemble
+    \.
     ##!=>
     ##!=> process-funcs
     ##!=> js-call
-    ##!<
+  ##!<
 
-    ##! Match properties via their usual syntax: foo.bar
-    ##!> assemble
-\.
+  ##! Match properties via their usual syntax: foo.bar
+  ##!> assemble
+    \.
     ##!=>
     ##!=> process-props
-    ##!<
+  ##!<
 
-    ##! Match properties functions via: foo["bar"]
-    ##!> assemble
+  ##! Match properties functions via: foo["bar"]
+  ##!> assemble
     ##!=> js-prop-start
     ##!=> process-funcs
     ##!=> process-props
     ##!=> js-prop-finish
-    ##!<
+  ##!<
 ##!<
 
 
 ##! "console" payloads
 ##!> assemble
-console
-##!=>
+  console
+  ##!=>
 
-    ##! Match method calls via their usual syntax: foo.bar()
-    ##!> assemble
-\.
+  ##! Match method calls via their usual syntax: foo.bar()
+  ##!> assemble
+    \.
     ##!=>
     ##!=> console-funcs
     ##!=> js-call
-    ##!<
+  ##!<
 
-    ##! Match properties and functions via: foo["bar"]
-    ##!> assemble
+  ##! Match properties and functions via: foo["bar"]
+  ##!> assemble
     ##!=> js-prop-start
     ##!=> console-funcs
     ##!=> js-prop-finish
-    ##!<
+  ##!<
 ##!<
