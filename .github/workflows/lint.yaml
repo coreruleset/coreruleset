@@ -55,7 +55,10 @@ jobs:
           tar xzf crs-toolchain*_linux_amd64.tar.gz
           rm crs-toolchain*_linux_amd64.tar.gz
 
+      - name: "Check that all assembly files are properly formatted"
+        run: |
+          ./crs-toolchain regex format -aco github
 
       - name: "Check that all rules are up to date"
         run: |
-          ./crs-toolchain regex compare -a -o github
+          ./crs-toolchain regex compare -ao github
