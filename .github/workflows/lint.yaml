@@ -52,6 +52,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release download -R coreruleset/crs-toolchain -p '*_linux_amd64.tar.gz'
+          ls crs-toolchain*
           tar xzf crs-toolchain*_linux_amd64.tar.gz
           rm crs-toolchain*_linux_amd64.tar.gz
 
