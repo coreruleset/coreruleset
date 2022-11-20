@@ -1,26 +1,26 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
+##! Note that the rule removes all white space before applying the
+##! regular expression.
 
-_\$\$ND_FUNC\$\$_
+##!+ i
+
+##!> define js-prop-start \[['\"`]
+##!> define js-prop-start-dynamic \[
+##!> define js-prop-finish ['\"`]\]
+
+
+_\$\$nd_func\$\$_
 __js_function
 \beval\(
-String\.fromCharCode
+string\.fromcharcode
 function\(\){
-new\s+Function\s*\(
+newfunction\(
 this\.constructor
 module\.exports=
-\(\s*\Wchild_process\W\s*\)
+\(\Wchild_process\W\)
 
-##!> assemble
-  \[['\"`]
-  ##!=< js-prop-start
-##!<
-
-##!> assemble
-  ['\"`]\]
-  ##!=< js-prop-finish
-##!<
 
 ##!> assemble
   \(
@@ -29,73 +29,63 @@ module\.exports=
 ##!<
 
 ##! All "process" method names
+##! Note that `sync` will be appended optionally to all, as many
+##! of the names have a twin with the `sync` suffix.
 ##!> assemble
   access
-  accesssync
   appendfile
-  appendfilesync
+  argv
   availability
   caveats
-  chmodsync
-  chownsync
-  closesync
+  chmod
+  chown
+  close
   copyfile
-  copyfilesync
   cp
-  cpsync
   createreadstream
   createwritestream
+  exec
   execfile
-  execfilesync
-  execsync
-  existssync
+  exists
   fchmod
-  fchmodsync
   fchown
-  fchownsync
+  fdata
+  ##! yes, fdatasyncsync
   fdatasync
-  fdatasyncsync
-  fstatsync
+  fstat
+  ##! yes, fsyncsync
   fsync
-  fsyncsync
   futimes
-  futimessync
   inodes
   lchmod
-  lchmodsync
-  linksync
-  lstatsync
+  link
+  lstat
   lutimes
-  lutimessync
-  mkdirsync
+  mkdir
   mkdtemp
-  mkdtempsync
-  opendirsync
-  opensync
-  readdirsync
-  readfilesync
-  readlinksync
-  readsync
+  open
+  opendir
+  read
+  readdir
+  readfile
+  readlink
   readv
-  readvsync
-  renamesync
+  rename
   rm
-  rmsync
+  spawn
   spawnfile
-  spawnsync
-  statsync
-  symlinksync
-  truncatesync
-  unlinksync
+  stat
+  symlink
+  truncate
+  unlink
   unwatchfile
   utimes
-  utimessync
   watchfile
   writefile
-  writefilesync
-  writesync
+  write
   writev
-  writevsync
+  ##!=>
+  (?:sync)?
   ##!=< process-funcs
 ##!<
 
@@ -122,6 +112,21 @@ module\.exports=
   ##!=< console-funcs
 ##!<
 
+##! All "require" method names
+##!> assemble
+  resolve
+  ##!=< require-funcs
+##!<
+
+##! All "require" property names
+##!> assemble
+  main
+  extensions
+  cache
+  ##!=< require-props
+##!<
+
+
 ##! "process" payloads
 ##!> assemble
   process
@@ -144,11 +149,24 @@ module\.exports=
 
   ##! Match properties functions via: foo["bar"]
   ##!> assemble
-    ##!=> js-prop-start
-    ##!=> process-funcs
-    ##!=> process-props
-    ##!=> js-prop-finish
+    {{js-prop-start}}
+    ##!=>
+    ##!> assemble
+      ##!=> process-funcs
+    ##!<
+    ##!> assemble
+      ##!=> process-props
+    ##!<
+    ##!=>
+    {{js-prop-finish}}
   ##!<
+##!<
+
+##! Match dynamic property access: process[req.query.a]
+##! Note that we don't require `process` as a prefix here
+##!> assemble
+  ##!=> process-props
+  {{js-prop-start-dynamic}}
 ##!<
 
 
@@ -167,8 +185,45 @@ module\.exports=
 
   ##! Match properties and functions via: foo["bar"]
   ##!> assemble
-    ##!=> js-prop-start
+    {{js-prop-start}}
+    ##!=>
     ##!=> console-funcs
-    ##!=> js-prop-finish
+    ##!=>
+    {{js-prop-finish}}
+  ##!<
+##!<
+
+##! "require" payloads
+##!> assemble
+  require
+  ##!=>
+
+  ##! Match method calls via their usual syntax: foo.bar()
+  ##!> assemble
+    \.
+    ##!=>
+    ##!=> require-funcs
+    ##!=> js-call
+  ##!<
+
+  ##! Match properties via their usual syntax: foo.bar
+  ##!> assemble
+    \.
+    ##!=>
+    ##!=> require-props
+  ##!<
+
+  ##! Match properties and functions via: foo["bar"]
+  ##!> assemble
+    {{js-prop-start}}
+    ##!=>
+    ##!> assemble
+      ##!=> require-funcs
+    ##!<
+    ##!> assemble
+      ##!=> require-props
+    ##!<
+    ##!=>
+    {{js-prop-finish}}
   ##!<
 ##!<
