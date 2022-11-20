@@ -47,3 +47,15 @@ jobs:
           pip install -r ./util/find-rules-without-test/requirements.txt
           ./util/find-rules-without-test/find-rules-without-test.py --output=github .
 
+      - name: "Install crs-toolchain"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download -R coreruleset/crs-toolchain -p '*_linux_amd64.tar.gz'
+          tar xzf crs-toolchain*_linux_amd64.tar.gz
+          rm crs-toolchain*_linux_amd64.tar.gz
+
+
+      - name: "Check that all rules are up to date"
+        run: |
+          ./crs-toolchain regex compare -a -o github
