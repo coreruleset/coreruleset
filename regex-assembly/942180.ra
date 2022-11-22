@@ -5,10 +5,9 @@
 
 
 ##!> define open-comment (?:/\*)
-
 ##!> define quotes [\"'`]
 ##!> define quotes-plus-digits [\d\"'`]
-##!> define comment-suffix (?:--|#|\/*|\{)
+##!> define comment-suffix (?:--|#|{{open-comment}}|\{)
 ##!    PB: Should comment-suffix also include "\*/" ?
 
 ##!> define logical-operators or|xor|and
@@ -21,29 +20,44 @@
 ##!> assemble
   {{quotes}}\s*
   ##!=>
-  {{logical-operators}}
-  {{math-operators}}
-  {{comparison-operators}}
+  ##! logical operators
+  or
+  xor
+  and
+
+  ##! math operators
+  div
+
+  ##! comparison operators
+  like
+  between
   ##!=>
   [\w\s-]+{{math-symbols}}\s*{{quotes-plus-digits}}
   ##!=>
 ##!<
 
+
+##!> assemble
+  {{quotes}}
+  ##!=>
+  [<>~]+
+  \s*[^\w\s]?=\s*
+  \W*?[+=]+\W*?
+  ##!=>
+  {{quotes}}
+##!<
+
+##!> assemble
+  {{quotes}}
+  ##!=>
+  \s*[!=|][\d\s!=+-]+.*?[\"'`(].*?$
+  \s*[!=|][\d\s!=]+.*?\d+$
+  \s*(?:like|print)\W+[\w\"'`(]
+  \s*;
+##!<
+
 \d{{quotes}}\s+{{quotes}}\s+\d
-
-{{quotes}}[<>~]+{{quotes}}
-
 ^admin\s*?{{quotes}}
-
-{{quotes}}\s*[^\w\s]?=\s*{{quotes}}
-
-{{quotes}}\W*?[+=]+\W*?{{quotes}}
-{{quotes}}\s*[!=|][\d\s!=+-]+.*?[\"'`(].*?$
-{{quotes}}\s*[!=|][\d\s!=]+.*?\d+$
-{{quotes}}\s*(?:like|print)\W+[\w\"'`(]
-{{quotes}}\s*;
-
 [\"'`\(\s]\s*?glob\W+[\w\"'`(]
-
 \sis\s*?0\W
 where\s[\s\w\.,-]+\s=
