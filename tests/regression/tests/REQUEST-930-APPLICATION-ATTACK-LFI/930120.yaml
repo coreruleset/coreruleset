@@ -80,7 +80,7 @@ tests:
               Host: "localhost"
               User-Agent: OWASP ModSecurity Core Rule Set
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?foo=arg&path_comp=.ssh/id_rsa"
+            uri: "/get/?foo=arg&path_comp=.ssh/id_rsa"
           output:
             log_contains: id "930120"
   - test_title: 930120-5
@@ -95,7 +95,7 @@ tests:
               User-Agent: "OWASP ModSecurity Core Rule Set"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?/sys/class=test"
+            uri: "/get/?/sys/class=test"
           output:
             log_contains: id "930120"
   - test_title: 930120-6
@@ -110,6 +110,36 @@ tests:
               User-Agent: "OWASP ModSecurity Core Rule Set"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?test=/sys/class"
+            uri: "/get/?test=/sys/class"
+          output:
+            log_contains: id "930120"
+  - test_title: 930120-7
+    desc: "LFI via parameter value: /etc/subuid"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get/?code=cat+%2Fetc%2Fsubuid"
+          output:
+            log_contains: id "930120"
+  - test_title: 930120-8
+    desc: "LFI via parameter value: /etc/subuid-"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get/?code=cat+%2Fetc%2Fsubuid-"
           output:
             log_contains: id "930120"
