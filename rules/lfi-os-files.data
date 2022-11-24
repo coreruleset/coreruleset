@@ -3,21 +3,12 @@
 # - https://raw.githubusercontent.com/DragonJAR/Security-Wordlist/main/LFI-WordList-Linux
 # /proc and /sys entries should be kept in sync with restricted-files.data
 
-# The rationale applied in this list is that there LFI testing will list a set
-# of files to test.
-# If the path raises enough suspicions, it doesn't mind for us to block anything below it.
-# An example of this reasoning is that lists will tell you to go and try to grab:
-# `.ssh/id_dsa` and `.ssh/id_rsa`.
-# But for us if you try to use `.ssh` should be enough to be blocked: there is nothing for you to see there.
-# Same reasoning for /var/log/mysql: it doesn't mind if you look at `mysql.err` or `mysql.log`...
-
 # Entries in this list generally use the shortest path that suffices for identifying them as dangerous.
 # .ssh/id_rsa and .ssh/id_dsa for example, are both dangerous paths but are represented in this list as .ssh.
 # The same applies to different log files below /var/log/mysql: var/log/mysql is enough to tell us that the request is suspicious.
 # Additionally, similar paths with different roots are represented as a single entry.
 # For example, the two entries usr/local/mysql/data/mysql.err and xampp/mysql/data/mysql.err are
 # represented as mysal/data, as that is enough to identify the paths as being suspicious.
-# Files ending in `.conf` or `.log` should be handled by 920440 (restricted file extensions)
 
 .addressbook
 .aptitude/config
