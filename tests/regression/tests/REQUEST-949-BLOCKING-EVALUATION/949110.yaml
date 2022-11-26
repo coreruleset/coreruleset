@@ -9,7 +9,7 @@ meta:
     rules are triggered that the tests are written for, we assert that triggering these rules causes the blocking
     rule to be triggered.
 tests:
-  - test_title: 949110-0
+  - test_title: 949110-1
     desc: Test is basically identical to 941100-1 (XSS positive test in phase 2) but here we assert that the inbound blocking mechanism is triggered
     stages:
       - stage:
@@ -24,7 +24,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
             log_contains: id "949110"
-  - test_title: 949110-1
+  - test_title: 949110-2
     desc: Test is basically identical to 941100-4 (XSS negative test in phase 2) but here we assert that inbound blocking mechanism is not triggered
     stages:
       - stage:
@@ -40,7 +40,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
             no_log_contains: id "949110"
-  - test_title: 949110-2
+  - test_title: 949110-3
     desc: Test is basically identical to 920100-9 (protocol enforcement negative test in phase 1) but here we assert that the inbound blocking mechanism is not triggered
     stages:
       - stage:
@@ -57,7 +57,7 @@ tests:
             version: "HTTP/1.1"
           output:
             no_log_contains: "id \"949110\""
-  - test_title: 949110-3
+  - test_title: 949110-4
     desc: Test is basically identical to 920100-10 (protocol enforcement positive test in phase 1) but here we assert that inbound blocking mechanism is triggered
     stages:
       - stage:
@@ -74,7 +74,7 @@ tests:
             version: "HTTP/1.1"
           output:
             log_contains: "id \"949110\""
-  - test_title: 949110-4
+  - test_title: 949110-5
     desc: Test is basically identical to 949110-0 (see above) but here we assert that the scores are summed up and reported properly
     stages:
       - stage:

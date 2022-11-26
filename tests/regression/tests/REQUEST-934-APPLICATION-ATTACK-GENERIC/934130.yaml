@@ -5,7 +5,7 @@ meta:
   name: "934130.yaml"
   description: "Tests for rule 934130"
 tests:
-  - test_title: 934130-0
+  - test_title: 934130-1
     desc: negative test case
     stages:
       - stage:
@@ -21,7 +21,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "934130"
-  - test_title: 934130-1
+  - test_title: 934130-2
     desc: positive test case with JSON POST
     stages:
       - stage:
@@ -40,7 +40,7 @@ tests:
               {"text":"a","title":{"__proto__":{"where":{"name":"sqlinjection","where":null}}}}
           output:
             log_contains: id "934130"
-  - test_title: 934130-2
+  - test_title: 934130-3
     desc: positive test case, CVE-2021-20083
     stages:
       - stage:
@@ -56,7 +56,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934130"
-  - test_title: 934130-3
+  - test_title: 934130-4
     desc: positive test case, CVE-2021-20084, 1/2
     stages:
       - stage:
@@ -72,7 +72,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934130"
-  - test_title: 934130-4
+  - test_title: 934130-5
     desc: positive test case, CVE-2021-20084, 2/2
     stages:
       - stage:
@@ -88,7 +88,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934130"
-  - test_title: 934130-5
+  - test_title: 934130-6
     desc: positive test case with space evasion, CVE-2021-20084, 2/2
     stages:
       - stage:
@@ -104,7 +104,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934130"
-  - test_title: 934130-6
+  - test_title: 934130-7
     desc: positive test case with GET parameter, jQuery $.get
     stages:
       - stage:
@@ -120,7 +120,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934130"
-  - test_title: 934130-7
+  - test_title: 934130-8
     desc: positive test case with GET parameter, V4Fire Core Library
     stages:
       - stage:
@@ -136,7 +136,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934130"
-  - test_title: 934130-8
+  - test_title: 934130-9
     desc: positive test case with GET parameter, analytics-utils < 1.0.3
     stages:
       - stage:
@@ -152,7 +152,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934130"
-  - test_title: 934130-9
+  - test_title: 934130-10
     desc: positive test case with GET parameter, jQuery $.get
     stages:
       - stage:
@@ -168,7 +168,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934130"
-  - test_title: 934130-10
+  - test_title: 934130-11
     desc: positive test case with GET parameter, Vue.js
     stages:
       - stage:

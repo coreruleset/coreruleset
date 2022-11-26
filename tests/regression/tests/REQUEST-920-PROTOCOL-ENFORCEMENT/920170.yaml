@@ -58,7 +58,7 @@ tests:
             log_contains: "id \"920170\""
   - # GET Request but content length is 0 and data is provided
     # Weird HTTP 1.0 support bug in Apache, without newline causes 408
-    test_title: 920170-5
+    test_title: 920170-4
     stages:
       - stage:
           input:
@@ -78,7 +78,7 @@ tests:
           output:
             no_log_contains: "id \"920170\""
   - # GET request with content length 0 and no data.
-    test_title: 920170-6
+    test_title: 920170-5
     stages:
       - stage:
           input:
@@ -96,7 +96,7 @@ tests:
             uri: "/"
           output:
             no_log_contains: "id \"920170\""
-  - test_title: 920170-7
+  - test_title: 920170-6
     desc: GET or HEAD Request with Body Content (920170)  from old modsec regressions
     stages:
       - stage:
