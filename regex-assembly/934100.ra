@@ -1,25 +1,26 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
-##! Note that the rule removes all white space before applying the
-##! regular expression.
-
-##!+ i
+##! Note that the rule uses `multiMatch` and `removeWhitespace.
+##! The explicit white space matches will be matched before
+##! `removeWhitespace` is applied, everything else will be matched
+##! after white space removal.
 
 ##!> define js-prop-start \[['\"`]
 ##!> define js-prop-start-dynamic \[
 ##!> define js-prop-finish ['\"`]\]
 
 
-_\$\$nd_func\$\$_
+##! node-serialize serialized function flag
+_\$\$ND_FUNC\$\$_
 __js_function
 \beval\(
-string\.fromcharcode
+String\.fromCharCode
 function\(\){
-newfunction\(
+new\s+Function\s*\(
 this\.constructor
 module\.exports=
-\(\Wchild_process\W\)
+\(\s*\Wchild_process\W\s*\)
 
 
 ##!> assemble

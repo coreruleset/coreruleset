@@ -5,7 +5,7 @@ meta:
   name: "934100.yaml"
   description: "Tests for rule 934100"
 tests:
-  - test_title: 934100-0
+  - test_title: 934100-1
     desc: imported test
     stages:
       - stage:
@@ -21,7 +21,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-1
+  - test_title: 934100-2
     desc: imported test
     stages:
       - stage:
@@ -37,7 +37,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-2
+  - test_title: 934100-3
     desc: imported test
     stages:
       - stage:
@@ -53,7 +53,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-3
+  - test_title: 934100-4
     desc: imported test
     stages:
       - stage:
@@ -69,7 +69,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-4
+  - test_title: 934100-5
     desc: imported test
     stages:
       - stage:
@@ -85,7 +85,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-5
+  - test_title: 934100-6
     desc: imported test
     stages:
       - stage:
@@ -101,7 +101,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-6
+  - test_title: 934100-7
     desc: imported test
     stages:
       - stage:
@@ -114,22 +114,6 @@ tests:
             method: GET
             port: 80
             uri: /?foo=module.exports%3D
-            version: HTTP/1.0
-          output:
-            log_contains: id "934100"
-  - test_title: 934100-7
-    desc: base64 encoded test
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-            method: GET
-            port: 80
-            uri: /?foo=XyQkTkRfRlVOQyQkXwo=
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -150,6 +134,22 @@ tests:
           output:
             log_contains: id "934100"
   - test_title: 934100-9
+    desc: base64 encoded test
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: GET
+            port: 80
+            uri: /?foo=XyQkTkRfRlVOQyQkXwo=
+            version: HTTP/1.0
+          output:
+            log_contains: id "934100"
+  - test_title: 934100-10
     desc: process.env test
     stages:
       - stage:
@@ -165,7 +165,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-10
+  - test_title: 934100-11
     desc: console.info test
     stages:
       - stage:
@@ -181,7 +181,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-11
+  - test_title: 934100-12
     desc: console.info test (JavaScript escape sequences)
     stages:
       - stage:
@@ -197,7 +197,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-12
+  - test_title: 934100-13
     desc: process.env test (square bracket property access)
     stages:
       - stage:
@@ -213,7 +213,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-13
+  - test_title: 934100-14
     desc: console.info test (square bracket property access)
     stages:
       - stage:
@@ -229,7 +229,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-14
+  - test_title: 934100-15
     desc: console.info test (call method)
     stages:
       - stage:
@@ -245,7 +245,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-15
+  - test_title: 934100-16
     desc: '"process" false positive test'
     stages:
       - stage:
@@ -261,7 +261,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "934100"
-  - test_title: 934100-16
+  - test_title: 934100-17
     desc: '"console" false positive test'
     stages:
       - stage:
@@ -277,7 +277,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "934100"
-  - test_title: 934100-17
+  - test_title: 934100-18
     desc: ssti test 1
     stages:
       - stage:
@@ -293,7 +293,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-18
+  - test_title: 934100-19
     desc: ssti test 2
     stages:
       - stage:
@@ -309,7 +309,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-19
+  - test_title: 934100-20
     desc: ssti test 3
     stages:
       - stage:
@@ -325,7 +325,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-20
+  - test_title: 934100-21
     desc: ssti test 4
     stages:
       - stage:
@@ -341,7 +341,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-21
+  - test_title: 934100-22
     desc: ssti test 5
     stages:
       - stage:
@@ -357,7 +357,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934100"
-  - test_title: 934100-13
+  - test_title: 934100-23
     desc: require child_process
     stages:
       - stage:
