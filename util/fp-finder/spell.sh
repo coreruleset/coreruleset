@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-RULES_DIR="$SCRIPT_DIR/../../rules/"
+RULES_DIR="${SCRIPT_DIR}/../../rules/"
 
 for datafile in "$RULES_DIR"*.data; do
     DATAFILE_NAME=${datafile##*/}
