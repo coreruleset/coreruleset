@@ -12,7 +12,7 @@ for datafile in "$RULES_DIR"*.data; do
     for word in $(grep -E '^[a-z]+$' "$datafile" | uniq | sort); do
         IS_NOT_ENGLISH=$(echo "${word}" | spell | wc -l)
         if [ "${IS_NOT_ENGLISH}" -lt 1 ]; then
-            echo "   \`- found English word: $word"
+            echo "   \`- found English word: ${word}"
         fi
     done
 
