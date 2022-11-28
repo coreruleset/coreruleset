@@ -5,7 +5,7 @@ meta:
   name: "953120.yaml"
   description: "Positive tests for rule 953120"
 tests:
-  - test_title: 953120-0
+  - test_title: 953120-1
     desc: "Just something that returns <?php "
     stages:
       - stage:
@@ -25,7 +25,7 @@ tests:
             data: <?php echo "Hello World!\n" ?>
           output:
             log_contains: "id \"953120\""
-  - test_title: 953120-1
+  - test_title: 953120-2
     desc: "Negative test, returns <?php12345, should not match"
     stages:
       - stage:
@@ -45,7 +45,7 @@ tests:
             data: <?php12345
           output:
             no_log_contains: "id \"953120\""
-  - test_title: 953120-2
+  - test_title: 953120-3
     desc: "Positive test, returns <? "
     stages:
       - stage:
@@ -65,7 +65,7 @@ tests:
             data: "<? "
           output:
             log_contains: "id \"953120\""
-  - test_title: 953120-3
+  - test_title: 953120-4
     desc: "Negative test, returns <?1234"
     stages:
       - stage:
@@ -85,7 +85,7 @@ tests:
             data: <?1234
           output:
             no_log_contains: "id \"953120\""
-  - test_title: 953120-4
+  - test_title: 953120-5
     desc: "Positive test, returns <?= "
     stages:
       - stage:
@@ -105,7 +105,7 @@ tests:
             data: <?= "Hello World!\n" =?>
           output:
             log_contains: "id \"953120\""
-  - test_title: 953120-5
+  - test_title: 953120-6
     desc: "Negative test, returns <?=!@#$%^&"
     stages:
       - stage:
@@ -125,7 +125,7 @@ tests:
             data: <?=!@#$%^&
           output:
             no_log_contains: "id \"953120\""
-  - test_title: 953120-6
+  - test_title: 953120-7
     desc: "Case insensitive test <?PhP "
     stages:
       - stage:

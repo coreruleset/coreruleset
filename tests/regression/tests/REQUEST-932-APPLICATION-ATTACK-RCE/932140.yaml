@@ -2517,8 +2517,9 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "932140"
-  - test_title: FP when using `t:urlDecodeUni`
+  - test_title: 932140-158
     desc: |
+      FP when using `t:urlDecodeUni`.
       Using `t:urlDecodeUni` removes the `+` from the encoded value in the XML document,
       which produced a false positive match.
       See https://github.com/coreruleset/coreruleset/issues/1785

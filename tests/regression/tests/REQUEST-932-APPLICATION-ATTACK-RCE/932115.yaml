@@ -5,8 +5,10 @@ meta:
   enabled: true
   name: 932115.yaml
 tests:
-  - test_title: "932115: Windows shell command injection with 'sort': view=image.jpg%26sort < file.txt"
-    desc: "Match input redirection to sort"
+  - test_title: 932115-1
+    desc: |
+      Windows shell command injection with 'sort': view=image.jpg%26sort < file.txt
+      Match input redirection to sort
     stages:
       - stage:
           input:
@@ -22,8 +24,10 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "932115"
-  - test_title: "932115: Windows shell command injection with 'sort': view=image.jpg%26sort /r file.txt"
-    desc: "Match sort with normal argument"
+  - test_title: 932115-2
+    desc: |
+      Windows shell command injection with 'sort': view=image.jpg%26sort /r file.txt
+      Match sort with normal argument
     stages:
       - stage:
           input:
@@ -39,8 +43,10 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "932115"
-  - test_title: "932115: Windows shell command injection with 'sort': view=image.jpg%26sort/r file.txt"
-    desc: "Match sort with argument without preceding space"
+  - test_title: 932115-3
+    desc: |
+      Windows shell command injection with 'sort': view=image.jpg%26sort/r file.txt
+      Match sort with argument without preceding space
     stages:
       - stage:
           input:
@@ -56,8 +62,10 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "932115"
-  - test_title: "932115: Windows shell command injection with 'sort': view=image.jpg%26sort  /r file.txt"
-    desc: "Match sort with argument with multiple preceding space"
+  - test_title: 932115-4
+    desc: |
+      Windows shell command injection with 'sort': view=image.jpg%26sort  /r file.txt
+      Match sort with argument with multiple preceding space
     stages:
       - stage:
           input:
@@ -73,8 +81,10 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "932115"
-  - test_title: "932115: Windows shell command injection with 'sort' (false positive): sort%3Dex%26sortdir%3Dascending"
-    desc: "Do not match query parameter"
+  - test_title: 932115-5
+    desc: |
+      Windows shell command injection with 'sort' (false positive): sort%3Dex%26sortdir%3Dascending
+      Do not match query parameter
     stages:
       - stage:
           input:
@@ -90,8 +100,10 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "932115"
-  - test_title: "932115: Windows shell command injection with 'sort' (false positive): sort%3D0"
-    desc: "Do not match encoded path"
+  - test_title: 932115-6
+    desc: |
+      Windows shell command injection with 'sort' (false positive): sort%3D0
+      Do not match encoded path
     stages:
       - stage:
           input:
