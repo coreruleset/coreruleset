@@ -63,3 +63,7 @@ jobs:
       - name: "Check that all rules are up to date"
         run: |
           ./crs-toolchain regex compare -ao github
+
+      - name: "Check that all tests are properly numbered"
+        run: |
+          ./crs-toolchain util renumber-tests -cao github
