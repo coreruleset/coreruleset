@@ -11,7 +11,7 @@ jobs:
     # check why is failing and change afterwards
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Lint Yaml
         uses: ibiqlik/action-yamllint@v3
@@ -25,7 +25,7 @@ jobs:
         id: linelint
 
       - name: Set up Python 3
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.7
 
@@ -52,10 +52,18 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release download -R coreruleset/crs-toolchain -p '*_linux_amd64.tar.gz'
+          ls crs-toolchain*
           tar xzf crs-toolchain*_linux_amd64.tar.gz
           rm crs-toolchain*_linux_amd64.tar.gz
 
+      - name: "Check that all assembly files are properly formatted"
+        run: |
+          ./crs-toolchain regex format -aco github
 
       - name: "Check that all rules are up to date"
         run: |
-          ./crs-toolchain regex compare -a -o github
+          ./crs-toolchain regex compare -ao github
+
+      - name: "Check that all tests are properly numbered"
+        run: |
+          ./crs-toolchain util renumber-tests -cao github

@@ -42,6 +42,40 @@ tests:
           output:
             log_contains: id "932240"
   - test_title: 932240-3
+    desc: 'globbing technique 3: una$$me -a in cookies (BB S01X1GRV)'
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Cookie: "una$$me -a"
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.1
+          output:
+            log_contains: id "932240"
+  - test_title: 932240-4
+    desc: 'globbing technique 4: uname$u -a (BB S01X1GRV)'
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Cookie: "uname$u -a"
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.1
+          output:
+            log_contains: id "932240"
+  - test_title: 932240-5
     desc: 'vars + spacing: v="u";cu$v\\r\l google.com (BB X)'
     stages:
       - stage:
@@ -59,7 +93,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932240"
-  - test_title: 932240-4
+  - test_title: 932240-6
     desc: 'vars + spacing: non-existing vars: cu$@rl (BB X)'
     stages:
       - stage:
@@ -77,7 +111,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932240"
-  - test_title: 932240-5
+  - test_title: 932240-7
     desc: "Negative test on German numbering - Schauen Sie sich diese Zahl an:1'000'000"
     stages:
       - stage:
@@ -97,7 +131,7 @@ tests:
             version: HTTP/1.1
           output:
             no_log_contains: id "932240"
-  - test_title: 932240-6
+  - test_title: 932240-8
     desc: "Negative test on WordPress like args"
     stages:
       - stage:

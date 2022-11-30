@@ -9,7 +9,7 @@ meta:
     rules are triggered that the tests are written for, we assert that triggering these rules causes the blocking
     rule to be triggered.
 tests:
-  - test_title: 959100-0
+  - test_title: 959100-1
     desc: Test is basically identical to 953120-0 (PHP leakage positive test in phase 4) but here we assert that the outbound blocking mechanism is triggered
     stages:
       - stage:
@@ -29,7 +29,7 @@ tests:
             data: <?php echo "Hello World!\n" ?>
           output:
             log_contains: "id \"959100\""
-  - test_title: 959100-1
+  - test_title: 959100-2
     desc: Test is basically identical to 953120-1 (PHP leakage negative test in phase 4) but here we assert that the outbound blocking mechanism is not triggered
     stages:
       - stage:
@@ -49,7 +49,7 @@ tests:
             data: <?php12345
           output:
             no_log_contains: "id \"959100\""
-  - test_title: 959100-2
+  - test_title: 959100-3
     desc: Test is basically identical to 959100-0 (see above) but here we assert that the scores are summed up and reported properly
     stages:
       - stage:

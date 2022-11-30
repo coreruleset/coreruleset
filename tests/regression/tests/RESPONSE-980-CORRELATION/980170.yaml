@@ -9,7 +9,7 @@ meta:
     rules are triggered that the tests are written for, we assert that triggering these rules causes the corresponding
     reporting rules to be triggered.
 tests:
-  - test_title: 980170-0
+  - test_title: 980170-1
     desc: Test is similar to 920350-1 but here we check if at reporting level 4 a request is logged that was blocked
     stages:
       - stage:
@@ -25,7 +25,7 @@ tests:
             uri: "/?a=/bin/bash"
           output:
             log_contains: "id \"980170\""
-  - test_title: 980170-1
+  - test_title: 980170-2
     desc: Test is similar to 920350-1 but here we check if at reporting level 4 a request is logged that scored but was not blocked
     stages:
       - stage:
@@ -41,7 +41,7 @@ tests:
             uri: "/"
           output:
             log_contains: "id \"980170\""
-  - test_title: 980170-2
+  - test_title: 980170-3
     desc: Test is similar to 920350-1 but here we check if at reporting level 4 a request is not logged that did not score
     stages:
       - stage:

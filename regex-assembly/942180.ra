@@ -3,27 +3,60 @@
 
 ##!+ i
 
-\d[\"'`]\s+[\"'`]\s+\d
-^admin\s*?[\"'`]
-(?:/\*)+[\"'`]+\s?
-(?:/\*)+[\"'`]+\s?--
-(?:/\*)+[\"'`]+\s?#
-(?:/\*)+[\"'`]+\s?/\*
-(?:/\*)+[\"'`]+\s?{
-[\"'`]\s*?or[\w\s-]+\s*?[+<>=(),-]\s*?[\d\"'`]
-[\"'`]\s*?xor[\w\s-]+\s*?[+<>=(),-]\s*?[\d\"'`]
-[\"'`]\s*?div[\w\s-]+\s*?[+<>=(),-]\s*?[\d\"'`]
-[\"'`]\s*?like[\w\s-]+\s*?[+<>=(),-]\s*?[\d\"'`]
-[\"'`]\s*?between[\w\s-]+\s*?[+<>=(),-]\s*?[\d\"'`]
-[\"'`]\s*?and[\w\s-]+\s*?[+<>=(),-]\s*?[\d\"'`]
-[\"'`]\s*?[^\w\s]?=\s*?[\"'`]
-[\"'`]\W*?[+=]+\W*?[\"'`]
-[\"'`]\s*?[!=|][\d\s!=+-]+.*?[\"'`(].*?$
-[\"'`]\s*?[!=|][\d\s!=]+.*?\d+$
-[\"'`]\s*?like\W+[\w\"'`(]
+##!> define open-comment (?:/\*)
+##!> define quotes [\"'`]
+##!> define quotes-plus-digits [\d\"'`]
+##!> define comment-suffix (?:--|#|{{open-comment}}|\{)
+##!    PB: Should comment-suffix also include "\*/" ?
+
+##!> define logical-operators or|xor|and
+##!> define math-operators div
+##!> define comparison-operators like|between
+##!> define math-symbols [+<>=(),-]
+
+{{open-comment}}+{{quotes}}+\s?{{comment-suffix}}?
+
+##!> assemble
+  {{quotes}}\s*
+  ##!=>
+  ##! logical operators
+  or
+  xor
+  and
+
+  ##! math operators
+  div
+
+  ##! comparison operators
+  like
+  between
+  ##!=>
+  [\w\s-]+{{math-symbols}}\s*{{quotes-plus-digits}}
+  ##!=>
+##!<
+
+
+##!> assemble
+  {{quotes}}
+  ##!=>
+  [<>~]+
+  \s*[^\w\s]?=\s*
+  \W*?[+=]+\W*?
+  ##!=>
+  {{quotes}}
+##!<
+
+##!> assemble
+  {{quotes}}
+  ##!=>
+  \s*[!=|][\d\s!=+-]+.*?[\"'`(].*?$
+  \s*[!=|][\d\s!=]+.*?\d+$
+  \s*(?:like|print)\W+[\w\"'`(]
+  \s*;
+##!<
+
+\d{{quotes}}\s+{{quotes}}\s+\d
+^admin\s*?{{quotes}}
 [\"'`\(\s]\s*?glob\W+[\w\"'`(]
-[\"'`]\s*?print\W+[\w\"'`(]
-[\"'`]\s*?;
 \sis\s*?0\W
 where\s[\s\w\.,-]+\s=
-[\"'`][<>~]+[\"'`]
