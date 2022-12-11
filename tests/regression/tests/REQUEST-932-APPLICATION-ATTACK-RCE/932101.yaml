@@ -1,7 +1,7 @@
 ---
 meta:
   author: Piotr Pazola <piotr@webtrip.pl>
-  description: Tests for fix of 932100 rule triggered with html decimal entities because of using legacy ISO-8859 charsets family - https://github.com/coreruleset/coreruleset/issues/1886
+  description: Tests for fix of 932101 rule triggered with html decimal entities because of using legacy ISO-8859 charsets family - https://github.com/coreruleset/coreruleset/issues/1886
   enabled: true
   name: 932101.yaml
 tests:
@@ -26,4 +26,4 @@ tests:
             data: "arg=ifconfig;.+rm+-rf+/;+Something+%26%238222%3BThe+Title%26%238221%3B.+After+space+or+new+line+more+characters"
             version: HTTP/1.0
           output:
-            log_contains: "id \"932101\""
+            log_contains: id "932101"
