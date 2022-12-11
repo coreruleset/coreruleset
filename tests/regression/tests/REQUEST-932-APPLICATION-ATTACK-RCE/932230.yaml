@@ -710,3 +710,84 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932230"
+  - test_title: 932230-37
+    desc: |
+      IXMZUXBGb:
+        - brace expension, empty variable, fake escape
+        - used in User-Agent header
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: a=;nc&&$a -nlvp 555
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.0
+          output:
+            log_contains: id "932230"
+  - test_title: 932230-38
+    desc: |
+      IXMZUXBGb:
+        - brace expension, empty variable, fake escape
+        - used in Referer header
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Referer: a=;nc&&$a -nlvp 666
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.0
+          output:
+            log_contains: id "932230"
+  - test_title: 932230-39
+    desc: |
+      IXMZUXBGb:
+        - brace expension, empty variable, fake escape
+        - used in argument name
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              {n$u\c$u,-nlvp,777}=xxx
+          output:
+            log_contains: id "932230"
+  - test_title: 932230-39
+    desc: |
+      IXMZUXBGb:
+        - brace expension, empty variable, fake escape
+        - used in argument value
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              xxx=;\$u{n$u\c$u,-nlvp,777}
+          output:
+            log_contains: id "932230"
