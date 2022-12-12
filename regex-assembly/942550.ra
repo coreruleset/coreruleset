@@ -17,10 +17,10 @@
 ##!> assemble
   ##! example: SELECT id FROM users WHERE '{"a":1}'/**/::/**/jSonb/**/<@'{"a":1}'::jsonb;
   {{json_ending_brackets}}{{quotes}}.*::.*jsonb.*{{psql_operator}}.*{{json_ending_brackets}}{{quotes}}.*::.*jsonb
-  
+
   ##! example: SELECT id FROM users WHERE id='{"a":2,"c":[4,5,{"f":7}]}' -> '$.c[2].f'
   {{json_ending_brackets}}{{quotes}}.*{{sqlite_operator}}.*{{quotes}}
-  
+
   ##! example: SELECT id FROM users WHERE id=JsoN_EXTraCT/**/(/**/'  {"a":1}  '/**/,/**/' $.a '/**/);
   json_extract.*\(.*{{json_ending_brackets}}{{quotes}}.*\)
 ##!<
