@@ -16,26 +16,14 @@
 ##! MySQL: JSON_EXTRACT('{"id": 14, "name": "Aztalan"}', '$.name') = 'Aztalan'
 
 ##!> define quotes [\"'`]
-##!> define not_quotes [^\"'`]*
-##!> define psql_operator [@<>]+
-##!> define sqlite_operator [<>\-]+
+##!> define operators (@>|<@|\?|\?\||\?&|#>|#>>|->>|<|>|->|<-)
 ##!> define json_ending_brackets [\]\}]
 ##!> define json_starting_brackets [\[\{]
 
 ##!> assemble
-  ##! example: SELECT id FROM users WHERE '{"a":1}'/**/::/**/jSonb/**/<@'{"a":1}'::jsonb;
-  ##! example: SELECT id FROM users WHERE '{"a":1}'/**/::/**/jSonb/**/<@'{"a":1}';
-  ##! example: SELECT id FROM users WHERE '{"a":1}'/**/<@'{"a":1}'::jsonb;
-  ##! <@, @>, <, >, @ are all valid operators
-  {{json_ending_brackets}}{{quotes}}.*::.*jsonb.*{{psql_operator}}.*{{json_ending_brackets}}{{quotes}}.*::.*jsonb
-  {{json_ending_brackets}}{{quotes}}.*::.*jsonb.*{{psql_operator}}.*{{json_ending_brackets}}{{quotes}}
-  {{json_ending_brackets}}{{quotes}}.*{{psql_operator}}.*{{json_ending_brackets}}{{quotes}}.*::.*jsonb
-  {{psql_operator}}{{quotes}}{{json_starting_brackets}}.*{{json_ending_brackets}}{{quotes}}
-
-  ##! example: SELECT id FROM users WHERE id='{"a":2,"c":[4,5,{"f":7}]}' -> '$.c[2].f'
-  ##! sqlite> SELECT '{"a":2,"c":[4,5,{"f":7}]}' -> '$.c[2].f' = 7;   
-  ##! 0
-  {{quotes}}{{json_starting_brackets}}.*{{json_ending_brackets}}{{quotes}}.*{{sqlite_operator}}.*{{quotes}}\$.*{{quotes}}
+  ##! https://regex101.com/r/mzG5Fg/1
+  {{quotes}}{{json_starting_brackets}}.*{{json_ending_brackets}}{{quotes}}.*(::.*jsonb?)?.*{{operators}}
+  {{operators}}{{quotes}}{{json_starting_brackets}}.*{{json_ending_brackets}}{{quotes}}
 
   ##! example: SELECT id FROM users WHERE id=JsoN_EXTraCT/**/(/**/'  {"a":1}  '/**/,/**/' $.a '/**/);
   json_extract.*\(.*\)
