@@ -71,7 +71,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/1+OR+%27%7B%22a%22%3A1%7D%27%2F%2A%2A%2F%3A%3A%2F%2A%2A%2FjSonb%2F%2A%2A%2F%3C%40%27%7B%22a%22%3A1%7D%27%3A%3Ajsonb"
+            uri: "/1+OR+%27%7B%22b%22%3A2%7D%27%3A%3Ajsonb%20%40%3E%20%27%7B%22a%22%3A1%2C%20%22b%22%3A2%7D%27%3A%3Ajsonb"
             version: HTTP/1.0
           output:
             log_contains: id "942550"
@@ -103,7 +103,23 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/1+OR+1%3DJsoN_EXTraCT%2F%2A%2A%2F%28%2F%2A%2A%2F%27%20%20%7B%22a%22%3A1%7D%20%20%27%2F%2A%2A%2F%2C%2F%2A%2A%2F%27%20%24.a%20%27%2F%2A%2A%2F%29"
+            uri: "/1+OR+1%3DJSON_EXTRACT%28%27%7B%22id%22%3A%201%7D%27%2C%20%27%24.id%27%29"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942550"
+  - test_title: 942550-7
+    desc: "PostgreSQL JSON in SQL in path"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/blah/\"}'%20and%20data%20@>%20'{\"a\":\"a\"}'%20union%20select%20ASCII(s.token)%20from%20unnset(string_to_array((select%20cookie%20from%20cookie%20limit%201%20),NULL))%20s(token)--/state?sig=1&timeStamp=50"
             version: HTTP/1.0
           output:
             log_contains: id "942550"
