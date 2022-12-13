@@ -2,7 +2,7 @@
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
 ##! Referring to https://claroty.com/team82/research/js-on-security-off-abusing-json-based-sql-to-bypass-waf
-##! this rule tries to match the following payload:
+##! this rule tries to match the following payloads:
 ##! 
 ##! PostgreSQL: '{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb
 ##! PostgreSQL: '{"b":2}'::jsonb @> '{"a":1, "b":2}'::jsonb
@@ -16,7 +16,7 @@
 ##! MySQL: JSON_EXTRACT('{"id": 14, "name": "Aztalan"}', '$.name') = 'Aztalan'
 
 ##!> define quotes [\"'`]
-##!> define operators (@>|<@|\?|\?\||\?&|#>|#>>|->>|<|>|->|<-)
+##!> define operators (?:@>|<@|\?|\?\||\?&|#>|#>>|->>|<|>|->|<-)
 ##!> define json_ending_brackets [\]\}]
 ##!> define json_starting_brackets [\[\{]
 
