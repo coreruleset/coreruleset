@@ -525,6 +525,9 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #
 # Note: Blocking Proxy header prevents 'httpoxy' vulnerability: https://httpoxy.org
 #
+# Note: Blocking the x-http-method-override,x-http-method and x-method-override headers
+# prevents attacks as described here: https://www.sidechannel.blog/en/http-method-override-what-it-is-and-how-a-pentester-can-use-it
+#
 # Uncomment this rule to change the default.
 #SecAction \
 # "id:900250,\
