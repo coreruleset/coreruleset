@@ -656,3 +656,19 @@ tests:
             version: HTTP/1.1
           output:
             no_log_contains: id "942120"
+  - test_title: 942120-39
+    desc: "Detect path-based SQLi attempt"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: "*/*"
+            method: POST
+            uri: "/catalogue/rest/products/2499999||this.product/reviews"
+            version: HTTP/1.0
+          output:
+            log_contains: id "942120"
