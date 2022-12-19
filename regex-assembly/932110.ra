@@ -3,6 +3,8 @@
 
 ##! Word list for rule 932110 (RCE Windows command injection part 1/2)
 ##!
+##! The list comes from the project LOLBAS. You can get it using the following one-liner:
+##! `curl -s -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/LOLBAS-Project/LOLBAS/git/trees/master\?recursive\=1 | jq -r '.tree[].path ' | grep ^yml/ | cut -f3 -d/ | cut -f1 -d. | tr 'A-Z' 'a-z' | sort | uniq`
 ##! To prevent some FP for a command, you can require command parameters
 ##! after a command. Only do this if the command regularly causes FP and if
 ##! allowing the bare command (without parameters) is not too dangerous.
@@ -88,154 +90,180 @@
 
   ##!> cmdline windows
 
-    7z
-    7za
-    7zr
-    addusers
-    admodcmd
-    arp@
-    assoc
-    attrib
-    azman
-    bcdboot
-    bcdedit
+    acccheckconsole
+    adplus
+    advpack
+    agentexecutor
+    appinstaller
+    appvlp
+    aspnet_compiler
+    at@
+    atbroker
+    bash
+    bginfo
     bitsadmin
-    bootcfg
-    browstat
-    cacls
-    call@
+    cdb
+    certoc
     certreq
     certutil
-    ##! disabled for FP: change
-    chdir@
-    chkdsk
-    chkntfs
-    cipher
-    cleanmgr
-    clearmem
-    cluster
+    cl_invocation
+    cl_loadassembly
+    cl_mutexverifiers
     cmd
     cmdkey
-    comexp
-    comp@
-    compact@
-    compmgmt
-    con2prt
-    convert
-    copy
-    csccmd
+    cmdl32
+    cmstp
+    comsvcs
+    configsecuritypolicy
+    conhost
+    control
+    coregen
+    createdump
+    csc
     cscript
-    csvde
-    curl
-    date@
-    dcomcnfg
-    debug
-    defrag
-    del@
-    delprof
-    deltree
-    devcon
-    devmgmt
-    diff@
-    dir@
-    diruse
-    diskmgmt
-    diskpart
+    csi
+    customshellhost
+    datasvcutil
+    defaultpack
+    desk
+    desktopimgdownldr
+    devicecredentialdeployment
+    devtoolslauncher
+    dfshim
+    dfsvc
+    diantz
     diskshadow
-    dnsstat
-    doskey
-    driverquery
-    dsacls
-    dsadd
-    dsget
-    dsmod
-    dsmove
-    dsquery
-    dsrm
-    dxdiag
-    echo
-    egrep
-    endlocal
-    erase
-    eventcreate
+    dnscmd
+    dnx
+    dotnet
+    dump64
+    dxcap
+    esentutl
     eventvwr
-    expand@
+    excel
+    expand
     explorer
-    fc@
-    fgrep
-    find@
+    extexport
+    extrac32
     findstr
-    foreach
+    finger
+    fltmc
     forfiles
-    format@
-    freedisk
-    fsmgmt
+    fsi
+    fsianycpu
     fsutil
-    ftp@
-    ftype
-    gathernetworkinfo
-    getmac
-    git@
-    gpedit
-    gpresult
-    gpupdate
-    hdwwiz
-    hostname
-    icacls
-    ifmember
-    inetcpl
-    ipconfig
-    irb
-    irb1
-    irb18
-    irb19
-    irb20
-    irb21
-    irb22
-    java@
-    label@
-    logevent
-    logman
-    logoff
-    logtime
-    lusrmgr
-    mapisend
-    mbsacli
-    md@
-    mdsched
-    measure
-    mkdir@
-    mklink
-    mmsys
-    mode@
-    more@
-    mount@
-    mountvol
-    moveuser
+    ftp
+    gfxdownloadwrapper
+    gpscript
+    hh
+    ie4uinit
+    ieadvpack
+    ieexec
+    ieframe
+    ilasm
+    imewdbld
+    infdefaultinstall
+    installutil
+    jsc
+    launch-vsdevshell
+    ldifde
+    makecab
+    manage-bde
+    mavinject
+    mftrace
+    microsoft
+    mmc
+    mpcmdrun
+    msbuild
     msconfig
-    msg@
+    msdeploy
+    msdt
     mshta
+    mshtml
     msiexec
-    msinfo32
-    mstsc
-    mysql
-    mysqladmin
-    mysqldump
-    mysqldumpslow
-    mysqlhotcopy
-    mysqlshow
-    nbtstat
-    nc@
-    ncat
-    net@
-    netcat
-    netdom
+    msohtmed
+    mspub
+    msxsl
     netsh
-    netstat
-    netsvc
-    nmap
-    nslookup
-    ntbackup
-    ntrights
+    ntdsutil
+    odbcconf
+    offlinescannershell
+    onedrivestandaloneupdater
+    openconsole
+    pcalua
+    pcwrun
+    pcwutl
+    pester
+    pktmon
+    pnputil
+    powerpnt
+    presentationhost
+    print
+    printbrm
+    procdump
+    protocolhandler
+    psr
+    pubprn
+    rasautou
+    rcsi
+    rdrleakdiag
+    reg
+    regasm
+    regedit
+    regini
+    register-cimprovider
+    regsvcs
+    regsvr32
+    remote
+    replace
+    rpcping
+    rundll32
+    runexehelper
+    runonce
+    runscripthelper
+    sc@
+    schtasks
+    scriptrunner
+    setres
+    settingsynchost
+    setupapi
+    shdocvw
+    shell32
+    sqldumper
+    sqlps
+    sqltoolsps
+    squirrel
+    ssh
+    stordiag
+    syncappvpublishingserver
+    syssetup
+    te@
+    tracker
+    ttdinject
+    tttracer
+    unregmp2
+    update
+    url
+    utilityfunctions
+    vbc
+    verclsid
+    visualuiaverifynative
+    vsiisexelauncher
+    vsjitdebugger
+    wab
+    wfc
+    winget
+    winrm
+    winword
+    wlrmdr
+    wmic
+    workfolders
+    wscript
+    wsl
+    wsreset
+    wt@
+    wuauclt
+    xwizard
+    zipfldr
   ##!<
 ##!<
