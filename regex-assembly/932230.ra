@@ -7,9 +7,6 @@
 ##! to extend the cmdline evasion regex, so we are applying the evasion to a subset of the
 ##! original 93210(0|5) rules: the subset of commands from two or three characters that might pose
 ##! a greater risk of false positives.
-##!
-##! How we got this list:
-##! awk '/^([a-z0-9-]+)$/ { if (length < 4) print; } /^([a-z0-9]+)(@|~)$/ { if (length <= 4)  {gsub(/@|~/, "", $0); print} }' 93210{0,5}.data
 
 ##!+ i
 
