@@ -2,9 +2,16 @@
 name: 'False positive'
 about: Report a false positive (incorrect blocking)
 title: ''
-labels: 'False Positive'
+labels: ':heavy_plus_sign: False Positive'
 assignees: ''
 ---
+<!-- 
+For help and support please go here:
+- https://security.stackexchange.com/questions/tagged/owasp-crs
+
+Ask general usage questions and participate in discussions on the CRS:
+- https://groups.google.com/a/owasp.org/forum/#!forum/modsecurity-core-rule-set-project
+-->
 
 ### Description
 
