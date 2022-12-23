@@ -87,3 +87,23 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "932220"
+  - test_title: 932220-6
+    desc: |
+      Test for BB finding 9P5LL13Y
+      echo "foo;whxam"i | tr x o | sh #"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            uri: "/post"
+            port: 80
+            data: |
+              echo "foo;whxam"i | tr x o | sh #"
+            version: HTTP/1.1
+          output:
+            log_contains: id "932220"
