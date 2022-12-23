@@ -17,8 +17,8 @@ tests:
               User-Agent: "OWASP ModSecurity Core Rule Set"
             method: GET
             port: 80
-            # "cmd=; format C:"
-            uri: /?cmd=%3B%20format%20C%3A
+            # "cmd=; regedit HKLM\Software\Microsoft\WindowsNT\CurrentVersion\ProfileList;"
+            uri: /?cmd=%3B%regedit%20HKLM%5CSoftware%5CMicrosoft%5CWindowsNT%5CCurrentVersion%5CProfileList
             version: HTTP/1.0
           output:
             log_contains: id "932110"
@@ -106,7 +106,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/?foo=time+curl+coreruleset.org"
+            uri: "/?foo=time+winget+coreruleset.org"
             version: HTTP/1.1
           output:
             log_contains: "id \"932110\""
@@ -124,7 +124,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/?foo=ti^me+curl+coreruleset.org"
+            uri: "/?foo=ti^me+winget+coreruleset.org"
             version: HTTP/1.1
           output:
             log_contains: "id \"932110\""
