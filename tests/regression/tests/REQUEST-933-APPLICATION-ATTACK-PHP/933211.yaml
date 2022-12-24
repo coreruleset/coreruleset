@@ -288,20 +288,6 @@ tests:
           output:
             log_contains: id "933211"
   - test_title: 933211-21
-    desc: Check false-positive for "this is a 'dog' (not a cat)."
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            port: 80
-            uri: /?code=this%20is%20a%20'dog'%20(not%20a%20cat).
-          output:
-            no_log_contains: id "933211"
-  - test_title: 933211-22
     desc: Block function call bypass '(sy.(st).em)(@id)' (without trailing semi-colon)
     stages:
       - stage:
