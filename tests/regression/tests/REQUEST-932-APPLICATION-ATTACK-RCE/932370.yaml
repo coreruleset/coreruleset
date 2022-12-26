@@ -18,8 +18,8 @@ tests:
             method: GET
             port: 80
             # "cmd=; regedit HKLM\Software\Microsoft\WindowsNT\CurrentVersion\ProfileList;"
-            uri: /?cmd=%3B%regedit%20HKLM%5CSoftware%5CMicrosoft%5CWindowsNT%5CCurrentVersion%5CProfileList
-            version: HTTP/1.0
+            uri: /get?cmd=%3Bregedit%20HKLM%5CSoftware%5CMicrosoft%5CWindowsNT%5CCurrentVersion%5CProfileList
+            version: HTTP/1.1
           output:
             log_contains: id "932370"
   - test_title: 932370-2
@@ -35,7 +35,7 @@ tests:
             method: GET
             port: 80
             # "cmd=format "
-            uri: /?cmd=format%20
+            uri: /?cmd=procdump%20
             version: HTTP/1.0
           output:
             no_log_contains: id "932370"
