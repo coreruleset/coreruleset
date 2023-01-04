@@ -1,6 +1,6 @@
 ![GHA build v4.0/dev](https://github.com/coreruleset/coreruleset/workflows/Regression%20Tests/badge.svg?branch=v4.0%2Fdev)
 ![GHA build v3.3/dev](https://github.com/coreruleset/coreruleset/workflows/Regression%20Tests/badge.svg?branch=v3.3%2Fdev)
-![GHA build v3.2/dev](https://github.com/coreruleset/coreruleset/workflows/Regression%20Tests/badge.svg?branch=v3.2%2Fdev)
+![GHA build v3.2/dev](https://github.com/coreruleset/coreruleset/workflows/Regression%20Tests/badge.svg?branch=v3.2%2Fdev)</br>
 [![OWASP Flagship](https://img.shields.io/badge/owasp-flagship%20project-38a047.svg)](https://owasp.org/projects/)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1390/badge)](https://bestpractices.coreinfrastructure.org/projects/1390)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -27,7 +27,7 @@ We strive to make the OWASP ModSecurity CRS accessible to a wide audience of beg
 
 ## License
 
-Copyright (c) 2006-2020 Trustwave and contributors. All rights reserved.
-Copyright (c) 2021-2022 Core Rule Set project. All rights reserved.
+Copyright (c) 2006-2020 Trustwave and contributors. All rights reserved.</br>
+Copyright (c) 2021-2023 Core Rule Set project. All rights reserved.
 
 The OWASP ModSecurity Core Rule Set is distributed under Apache Software License (ASL) version 2. Please see the enclosed LICENSE file for full details.
