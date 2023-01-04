@@ -28,7 +28,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GO_FTW_VERSION: '0.4.6'
         run: |
-          gh release download -R coreruleset/go-ftw v${GO_FTW_VERSION} -p "ftw_${GO_FTW_VERSION}_darwin_amd64.tar.gz" -O - | tar xvf - ftw
+          gh release download -R coreruleset/go-ftw v${GO_FTW_VERSION} -p "ftw_${GO_FTW_VERSION}_linux_amd64.tar.gz" -O - | tar -xzvf - ftw
 
       - name: "Run tests for ${{ matrix.modsec_version }}"
         run: |
