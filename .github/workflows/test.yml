@@ -40,9 +40,6 @@ jobs:
           ./ftw run -d tests/regression/tests
         env:
           FTW_LOGFILE: './tests/logs/modsec2-apache/error.log'
-          FTW_LOGTYPE_NAME: 'apache'
-          FTW_LOGTYPE_TIMEREGEX: '\[([A-Z][a-z]{2} [A-z][a-z]{2} \d{1,2} \d{1,2}\:\d{1,2}\:\d{1,2}\.\d+? \d{4})\]'
-          FTW_LOGTYPE_TIMEFORMAT: 'ddd MMM DD HH:mm:ss.S YYYY'
 
       - name: "Change permissions if failed"
         if: failure()
