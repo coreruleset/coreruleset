@@ -37,7 +37,7 @@ jobs:
           docker-compose -f ./tests/docker-compose.yml logs
           [ $(docker inspect ${{ matrix.modsec_version }} --format='{{.State.Running}}') = 'true' ]
           ./ftw check -d tests/regression/tests
-          ./ftw run -d tests/regression/tests
+          ./ftw run -d tests/regression/tests --show-failures-only
         env:
           FTW_LOGFILE: './tests/logs/modsec2-apache/error.log'
 
