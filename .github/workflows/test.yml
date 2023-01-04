@@ -14,35 +14,21 @@ on:
       - '.github/**'
 
 jobs:
-  # "modsec2-apache", "modsec3-apache", "modsec3-nginx"
   regression:
     runs-on: ubuntu-latest
     strategy:
-      # change to true
-      fail-fast: false
       matrix:
         modsec_version: [modsec2-apache]
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v3
 
-      - name: Set up Python 3
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.7
-      - uses: actions/cache@v2
-        id: cache
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
       - name: "Install dependencies"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GO_FTW_VERSION: '0.4.6'
         run: |
-          pip install --upgrade setuptools wheel
-          pip install -r tests/regression/requirements.txt
-          pip install pytest-github-actions-annotate-failures
+          gh release download -R coreruleset/go-ftw v${GO_FTW_VERSION} -p "ftw_${GO_FTW_VERSION}_darwin_amd64.tar.gz" -O - | tar xvf - ftw
 
       - name: "Run tests for ${{ matrix.modsec_version }}"
         run: |
@@ -50,10 +36,13 @@ jobs:
           docker-compose -f ./tests/docker-compose.yml up -d "${{ matrix.modsec_version }}"
           docker-compose -f ./tests/docker-compose.yml logs
           [ $(docker inspect ${{ matrix.modsec_version }} --format='{{.State.Running}}') = 'true' ]
-          # Use mounted volume path
-          py.test --tb=no -ra tests/regression/CRS_Tests.py \
-            --config="${{ matrix.modsec_version }}" \
-            --ruledir_recurse=./tests/regression/tests/
+          ./ftw check -d tests/regression/tests
+          ./ftw run -d tests/regression/tests
+        env:
+          FTW_LOGFILE: './tests/logs/modsec2-apache/error.log'
+          FTW_LOGTYPE_NAME: 'apache'
+          FTW_LOGTYPE_TIMEREGEX: '\[([A-Z][a-z]{2} [A-z][a-z]{2} \d{1,2} \d{1,2}\:\d{1,2}\:\d{1,2}\.\d+? \d{4})\]'
+          FTW_LOGTYPE_TIMEFORMAT: 'ddd MMM DD HH:mm:ss.S YYYY'
 
       - name: "Change permissions if failed"
         if: failure()
