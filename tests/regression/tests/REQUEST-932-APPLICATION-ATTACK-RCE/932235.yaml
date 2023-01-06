@@ -1,12 +1,12 @@
 ---
 meta:
   author: "Max Leske"
-  description: Unix shell RCE using pipe for less than 4 chars
+  description: Unix shell RCE wordlist for more than 3 characters
   enabled: true
-  name: 932220.yaml
+  name: 932235.yaml
 tests:
-  - test_title: 932220-1
-    desc: "TEST=echo | php7.4"
+  - test_title: 932235-1
+    desc: "4JOGUXYQ"
     stages:
       - stage:
           input:
@@ -17,93 +17,135 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: POST
             port: 80
-            uri: "/post"
-            data: "TEST=echo | php7.4"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932220"
-  - test_title: 932220-2
-    desc: "TEST=echo | ${php7.4}php7.4"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "TEST=echo | ${php7.4}php7.4"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932220"
-  - test_title: 932220-3
-    desc: "whxami|sh+``"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-            method: GET
-            port: 80
-            data: "whxami|sh+``"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932220"
-  - test_title: 932220-4
-    desc: "whxami|fish+``"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-            method: GET
-            port: 80
-            data: "whxami|fish+``"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932220"
-  - test_title: 932220-5
-    desc: "Negative test"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-            method: GET
-            port: 80
-            data: "echo | curx"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "932220"
-  - test_title: 932220-6
-    desc: |
-      Test for BB finding 9P5LL13Y
-      echo "foo;whxam"i | tr x o | sh #"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
-            method: POST
-            uri: "/post"
-            port: 80
+            uri: /post
             data: |
-              echo "foo;whxam"i | tr x o | sh #"
-            version: HTTP/1.1
+              code=;find /etc -name passwd -exec cat {} +
+            version: HTTP/1.0
           output:
-            log_contains: id "932220"
+            log_contains: id "932235"
+  - test_title: 932235-2
+    desc: "5Y3V6UZT"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=cd /;cd etc;column passwd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932235"
+  - test_title: 932235-3
+    desc: "6BIVX1QB"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=cd /;cd etc;bridge -b passwd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932235"
+  - test_title: 932235-4
+    desc: "7JRJIWP8"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=cd /;cd etc;fold passwd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932235"
+  - test_title: 932235-5
+    desc: "ANQ9SN3S"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=;flock -u / whoami
+            version: HTTP/1.0
+          output:
+            log_contains: id "932235"
+  - test_title: 932235-6
+    desc: "AVI5619I"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=;cd /;cd etc;base32 passwd|base32 -d
+            version: HTTP/1.0
+          output:
+            log_contains: id "932235"
+  - test_title: 932235-7
+    desc: "P6E0KY27"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=;cpulimit -l 100 -f whoami
+          output:
+            log_contains: id "932235"
+  - test_title: 932235-8
+    desc: "PDDUY935"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              cd /;cd etc;comm passwd passwd
+          output:
+            log_contains: id "932235"

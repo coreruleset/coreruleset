@@ -1,7 +1,9 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
-##! This list should be synced to unix-shell with commands up to 3 chars.
+##! This list was generated from the original lists with the following command:
+##! awk '/^([a-z0-9_-]+)/ { x = $0; gsub(/[@~]/, "", x); if (length(x) <= 3) print x }' 93210{0,5}.data
+
 7z
 7za
 7zr

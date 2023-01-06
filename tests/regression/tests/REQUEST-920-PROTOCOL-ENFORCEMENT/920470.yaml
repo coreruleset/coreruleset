@@ -256,3 +256,18 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
             no_log_contains: "id \"920470\""
+  - test_title: 920470-18
+    desc: "Status Page Test - Illegal Content-Type header: 'text/xml; blah' where blah isn't a valid parameter for this header field"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Content-Type: "text/xml; blah"
+              Content-Length: 0
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          output:
+            log_contains: "id \"920470\""

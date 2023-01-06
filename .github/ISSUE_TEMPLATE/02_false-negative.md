@@ -2,7 +2,7 @@
 name: 'False negative'
 about: Report a false negative (incorrect bypass)
 title: ''
-labels: 'False Negative - Evasion'
+labels: ':heavy_minus_sign: False Negative - Evasion'
 assignees: ''
 ---
 
@@ -21,9 +21,9 @@ assignees: ''
 <!-- Include as many relevant details about the environment you -->
 <!-- experienced the bug in: -->
 
-* CRS version (e.g., v3.2.0):
+* CRS version (e.g., v3.3.4):
 * Paranoia level setting:
-* ModSecurity version (e.g., 2.9.3):
+* ModSecurity version (e.g., 2.9.4):
 * Web Server and version (e.g., apache 2.4.41):
 * Operating System and version:
 

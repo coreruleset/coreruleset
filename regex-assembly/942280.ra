@@ -3,10 +3,18 @@
 
 ##!+ i
 
-select\s*?pg_sleep
-waitfor\s*?delay\s?[\"'`]+\s?\d
-;\s*?shutdown\s*?;
-;\s*?shutdown\s*?--
-;\s*?shutdown\s*?#
-;\s*?shutdown\s*?\/\*
-;\s*?shutdown\s*?{
+##!> define optional_whitespace \s*?
+
+##! The following part is going to be appended
+##! to match the end of a query or a comment syntax
+##!> define terminators (?:[#;{]|\/\*|--)
+
+##! In PostgreSQL, you can use the pg_sleep() function
+##! to delay execution for a given number of seconds
+select{{optional_whitespace}}pg_sleep
+
+##! WAITFOR DELAY blocks the execution until a time interval elapses
+waitfor{{optional_whitespace}}delay\s?[\"'`]+\s?\d
+
+##! SHUTDOWN immediately stops SQL Server
+;{{optional_whitespace}}shutdown{{optional_whitespace}}{{terminators}}
