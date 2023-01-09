@@ -62,3 +62,22 @@ tests:
             version: HTTP/1.1
           output:
             no_log_contains: id "921120"
+  - test_title: 921120-4
+    desc: "Status Page Test - Parameter with value 'CR.LF.Content-Length: 0' to match the rule's regular expression"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              Proxy-Connection: keep-alive
+              Referer: http
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "var=%0d%0aContent-Length: 0"
+            version: HTTP/1.1
+          output:
+            log_contains: id "921120"
