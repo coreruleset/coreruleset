@@ -24,9 +24,12 @@
     \*.+
     ##!=>
     ##!> assemble
-      ##!=> operators
+      ##!> assemble
+        ##!=> operators
+      ##!<
+      id
+      ##!=>
     ##!<
-    id
     ##!=>
     \W*?{{quotes}}\d
     ##!=>
@@ -34,8 +37,13 @@
   [^\w\s?]+\s*?[^\w\s]+\s*?{{quotes}}
   [^\w\s]+\s*?[\W\d].*?#
   [^\w\s]+\s*?[\W\d].*?--
-  ##!=> operators
-  \s[^\d]+[\w-]+.*?\d
+  ##!> assemble
+    ##!> assemble
+      ##!=> operators
+    ##!<
+    ##!=>
+    \s[^\d]+[\w-]+.*?\d
+  ##!<
 ##!<
 
 \^{{quotes}}
