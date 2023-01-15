@@ -4,42 +4,38 @@
 ##!+ i
 
 ##! Helpers
-##!> template quotes [\"'`]
+##!> define quotes [\"'`]
 
 ##!> assemble
-or
-xor
-div
-like
-between
-and
-##!=< operators
+  or
+  xor
+  div
+  like
+  between
+  and
+  ##!=< operators
 ##!<
 
 ##! Main assembly
 ##!> assemble
-{{quotes}}\s*?
-##!=>
- ##!> assemble
-\*.+
- ##!=>
-   ##!> assemble
-   ##!=> operators
-   ##!<
-id
+  {{quotes}}\s*?
   ##!=>
-\W*?{{quotes}}\d
-  ##!=>
+  ##!> assemble
+    \*.+
+    ##!=>
+    ##!> assemble
+      ##!=> operators
+    ##!<
+    id
+    ##!=>
+    \W*?{{quotes}}\d
+    ##!=>
   ##!<
-[^\w\s?]+\s*?[^\w\s]+\s*?{{quotes}}
-[^\w\s]+\s*?[\W\d].*?#
-[^\w\s]+\s*?[\W\d].*?--
-   ##!> assemble
-   ##!=> operators
-  ##!=>
-\s[^\d]+[\w-]+.*?\d
-  ##!=>
- ##!<
+  [^\w\s?]+\s*?[^\w\s]+\s*?{{quotes}}
+  [^\w\s]+\s*?[\W\d].*?#
+  [^\w\s]+\s*?[\W\d].*?--
+  ##!=> operators
+  \s[^\d]+[\w-]+.*?\d
 ##!<
 
 \^{{quotes}}
