@@ -1,0 +1,73 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##! Word list for rule 932260 (RCE Unix command injection)
+
+##!+ i
+
+##! We require a trailing space (denoting command parameters) or command
+##! separator character after the command (includes evasion prefix)
+##!$ [\x5c'\"]*(?:\s|;|\||&|<|>)
+
+##! starting tokens prefix
+##!> assemble
+  ##! ifconfig
+  ^
+  ##! ={ifconfig}
+  =
+  ##!=>
+
+  ##! match possible white space between prefix expressions
+##!^ \s*
+
+  ##! commands prefix
+  ##!> assemble
+    ##! time ifconfig
+    ##!> cmdline unix
+      time
+    ##!<
+    ##! { ifconfig }
+    \{
+    ##! ( ifconfig )
+    \s*\(\s*
+    ##! VARNAME=xyz ifconfig
+    \w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
+    ##! ! ifconfig
+    !\s*
+    ##! $ifconfig
+    \$
+  ##!<
+  ##!=>
+
+  *
+  ##!=>
+
+  ##! match possible white space between prefix expressions
+  \s*
+  ##!=>
+
+  ##! quoting prefix
+  ##!> assemble
+    ##! 'ifconfig'
+    '
+    ##! "ifconfig"
+    \"
+  ##!<
+  ##!=>
+
+  *
+  ##!=>
+
+  ##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
+  (?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
+  ##!=>
+
+  ##!> include unix-shell-4andup-with-params
+  
+##!<
+
+##! Manually add in counter evasions
+##! $SHELL
+\$[\x5c'\"]*S[\x5c'\"]*H[\x5c'\"]*E[\x5c'\"]*L[\x5c'\"]*L
+##! ${SHELL}
+\$[\x5c'\"]*\{[\x5c'\"]*S[\x5c'\"]*H[\x5c'\"]*E[\x5c'\"]*L[\x5c'\"]*L[\x5c'\"]*\}
