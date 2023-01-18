@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Paul Beckett, Franziska Bühler"
+  author: "Paul Beckett, Franziska Bühler, karelorigin"
   enabled: true
   name: "932260.yaml"
   description: "Tests to trigger or not trigger rule 932260"
@@ -320,3 +320,131 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: "id \"932260\""
+  - test_title: 932260-20
+    desc: Backticks command subtition WAF evasion
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=ping``%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
+  - test_title: 932260-21
+    desc: Backticks command subtition WAF evasion (mid command)
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=pi``ng%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
+  - test_title: 932260-22
+    desc: Dollar sign command subtition WAF evasion
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=ping$()%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
+  - test_title: 932260-23
+    desc: Dollar sign command subtition WAF evasion (mid command)
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=pi$()ng%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
+  - test_title: 932260-24
+    desc: Process subtition '<()' WAF evasion (mid command)
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=pi<()ng%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
+  - test_title: 932260-25
+    desc: Process subtition '>()' WAF evasion (mid command)
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=pi>()ng%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
+  - test_title: 932260-26
+    desc: "'find' direct command injection"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=find%20.%201%20-exec%20curl%20google.com%20\\;"
+            protocol: "http"
+          output:
+            log_contains: "id \"932151\""
+  - test_title: 932260-27
+    desc: "'find' direct command injection FP test"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=find%20x%20for%20y"
+            protocol: "http"
+          output:
+            no_log_contains: "id \"932151\""
