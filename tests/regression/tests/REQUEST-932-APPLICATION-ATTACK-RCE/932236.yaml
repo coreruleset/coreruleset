@@ -1,0 +1,39 @@
+---
+meta:
+  author: "Franziska Bühler"
+  description: Unix shell RCE wordlist for more than 3 characters
+  enabled: true
+  name: 932236.yaml
+tests:
+  - test_title: 932236-1
+    desc: "Unix RCE in request headers"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: ";chmod +x evil.php"
+            method: GET
+            port: 80
+            uri: /
+            version: HTTP/1.0
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-2
+    desc: "Unix RCE in request headers - uppercase"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: ";CHMOD +X EVIL.PHP"
+            method: GET
+            port: 80
+            uri: /
+            version: HTTP/1.0
+          output:
+            log_contains: id "932236"
