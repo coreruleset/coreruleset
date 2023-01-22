@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Max Leske"
+  author: "Christian S.J. Peron, Max Leske, Franziska Bühler"
   description: |
     classic SQL injection probings 2/3
 
@@ -170,6 +170,35 @@ tests:
             method: POST
             port: 80
             data: "var=>foo##'."
+            version: HTTP/1.0
+          output:
+            log_contains: id "942370"
+  - test_title: 942370-10
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: 1"and json_search (json_array(password),0b11000010110110001101100,"t_______________")#
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            version: HTTP/1.0
+          output:
+            log_contains: id "942370"
+  - test_title: 942370-11
+    desc: encode(lo_get(16400),'base64')::int
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: encode(lo_get(16400),'base64')::int
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
             version: HTTP/1.0
           output:
             log_contains: id "942370"
