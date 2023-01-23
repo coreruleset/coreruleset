@@ -34,7 +34,7 @@ After it found the set, it starts a loop: on each parsed structure it does these
   * **Order actions check** - checking the order of actions - [see the wiki](https://github.com/coreruleset/coreruleset/wiki/Order-of-ModSecurity-Actions-in-CRS-rules)
   * **Identation check** CRS has a good reference for [indentation](https://github.com/coreruleset/coreruleset/blob/v3.4/dev/CONTRIBUTING.md#general-formatting-guidelines-for-rules-contributions) and other formatting. `msc_pyparser` follows these rules when it creates the config file(s) from parsed structure(s). After the re-build is done, it runs a compare between the original file and the built one with help of `difflib`. If there are any mismatch, it shows that.
   **Note**, that `difflib` is a part of the standard Python library, you don't need to install it.
-  * **checking the 'ctl:auditLogParts' actions** - this step checks that the `ctl:auditLogParts` action is on the right place. In cae of a chained rule this action **must** placed in the last rule.
+  * **checking the 'ctl:auditLogParts' actions** - this step checks that the `ctl:auditLogParts` isn't at any rule. CRS [no longer allows](https://github.com/coreruleset/coreruleset/pull/3090) this action.
   * **Duplicate ID's check** - checks the uniqueness of identifiers, and refers if a duplicate ID has found
   * **paranoia-level/N tag and its value** - checks the existence (or non-existence) of `paranoia-level` tag where it is necessary or not, and its correctness. This step does:
     * if a rule activated on a certain PL, and it does not have `nolog` action, it **must** have the correct `tag:'paranoia-level/N'` action with correct `N` value
