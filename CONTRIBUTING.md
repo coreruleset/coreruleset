@@ -402,6 +402,12 @@ where `R0VUIFwgSFRUUA0KDQoK` is the base64-encoded equivalent of `GET \ HTTP\r\n
 
 The older method of using `raw_request` is deprecated as it's difficult to maintain and less portable than `encoded_request`.
 
+## Further Guidance on Rule Writing
+
+### Leaving Audit Log Configuration Unchanged
+
+Former versions of CRS dynamically included the HTTP response body in the audit log via special `ctl` statements on certain individual response rules. This was never applied in a systematic way and, regardless, CRS should not change the format of the audit log by itself, namely because this can lead to information leakages. Therefore, the use of `ctl:auditLogParts=+E` or any other form of `ctl:auditLogParts` is not allowed in CRS rules.
+
 ## Non-Rules General Guidelines
 
 * Remove trailing spaces from files (if they're not needed). This will make linters happy.
