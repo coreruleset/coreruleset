@@ -24,14 +24,32 @@ How does it work
 
 The script expects an argument at least - this would be a single file or a file list, eg: `/path/to/coreruleset/*.conf`.
 
-After it found the set, it starts a loop: open every file, and makes these steps:
-  * try to parse the structure - this is a syntax check
-    **note**: this script is a bit more strict than mod_security. There are some cases, where mod_security allows the syntax, but [msc_pyparser](https://github.com/digitalwave/msc_pyparser/) not.
-  * runs a case sensitive format of operators, actions, transformations and ctl methods
-    eg. `@beginsWith` is allowed, `@beginswith` is not. In this step, the script also ensures that an operator is present.
-  * check the order of actions - [see the wiki](https://github.com/coreruleset/coreruleset/wiki/Order-of-ModSecurity-Actions-in-CRS-rules)
-  * CRS has a good reference for [indentation](https://github.com/coreruleset/coreruleset/blob/v3.4/dev/CONTRIBUTING.md#general-formatting-guidelines-for-rules-contributions) and other formatting. `msc_pyparser` follows these rules when it creates the config file(s) from parsed structure(s). After the re-build is done, it runs a compare between the original file and the built one with help of `difflib`. If there are any mismatch, it shows that.
+First it parses all of the files what you given, and tries to parse. This is a "pre-check", and runs on all files before the other tests.
+  * **Parsing check** - try to parse the structure, this is a syntax check
+    **note**: this script is a bit more strict than mod_security. There are some cases, where mod_security allows the syntax, but [msc_pyparser](https://github.com/digitalwave/msc_pyparser/) not. Also note, that this step runs on all rules files before the others
+
+After it found the set, it starts a loop: on each parsed structure it does these steps:
+  * **Case sensitive check** - runs a case sensitive format of operators, actions, transformations and ctl methods
+    eg. `@beginsWith` is allowed, `@beginswith` is not. In this step, the script also ensures that an operator is present, eg `SecRule ARGS "^.*"` isn't allowed without `@rx` operator.
+  * **Order actions check** - checking the order of actions - [see the wiki](https://github.com/coreruleset/coreruleset/wiki/Order-of-ModSecurity-Actions-in-CRS-rules)
+  * **Identation check** CRS has a good reference for [indentation](https://github.com/coreruleset/coreruleset/blob/v3.4/dev/CONTRIBUTING.md#general-formatting-guidelines-for-rules-contributions) and other formatting. `msc_pyparser` follows these rules when it creates the config file(s) from parsed structure(s). After the re-build is done, it runs a compare between the original file and the built one with help of `difflib`. If there are any mismatch, it shows that.
   **Note**, that `difflib` is a part of the standard Python library, you don't need to install it.
+  * **checking the 'ctl:auditLogParts' actions** - this step checks that the `ctl:auditLogParts` action is on the right place. In cae of a chained rule this action **must** placed in the last rule.
+  * **Duplicate ID's check** - checks the uniqueness of identifiers, and refers if a duplicate ID has found
+  * **paranoia-level/N tag and its value** - checks the existence (or non-existence) of `paranoia-level` tag where it is necessary or not, and its correctness. This step does:
+    * if a rule activated on a certain PL, and it does not have `nolog` action, it **must** have the correct `tag:'paranoia-level/N'` action with correct `N` value
+    * if a rule activated outside of any PL, or it has a `nolog` action, it **must not** have any `tag:paranoia-level/N` action
+ * **PL anomaly_scores check** - checks the scoring mechanism checks the rule consistency on a certain PL:
+    * rule must have the `severity` action
+    * rule must have the `setvar:(inbound|outbound)_anomaly_score_plN=+%{tx.SEVERITY_anomaly_score}`
+ * **Initialization of used TX variables** - all used TX variables have to initialize before it used. Using of a TX variable means:
+    * it occurs as a target, eg `SecRule TX.foo ...`
+    * it occurs as an operator argument, eg `SecRule ARGS "@rx %{TX.foo}"...`
+    * it occurs as a right side operand in a `setvar` action, eg `setvar:tx.bar=%{tx.foo}`
+    * it occurs as a substitution, eg in a `msg` value: `msg:'Current value of variable: %{tx.foo}`
+
+After these steps there is a cumulated report about not used TX variables. This could happen if a rule creates a TX variable (eg. `setvar:tx.foo=1`) but variable never used. This will only be revealed after we have reviewed all the rules.
+
 
 If script finds any parser error, it stops immediately. In case of other error, shows it (rule-by-rule). Finally, the script returns a non-zero value.
 
@@ -40,13 +58,13 @@ If everything is fine, rule returns with 0.
 Normally, you should run the script:
 
 ```
-./rules-check.py -r /path/to/coreruleset/*.conf
+./util/crs-rules-check/rules-check.py -r crs-setup.conf.example -r rules/*.conf
 ```
 
 Optionally, you can add the option `--output=github` (default value is `native`):
 
 ```
-./rules-check.py --output=github -r /path/to/coreruleset/*.conf
+./util/crs-rules-check/rules-check.py --output=github -r crs-setup.conf.example -r rules/*.conf
 ```
 
 In this case, each line will have a prefix, which could be `::debug` or `::error`. See [this](https://docs.github.com/en/actions/learn-github-actions/workflow-commands-for-github-actions#setting-an-error-message).
@@ -213,7 +231,7 @@ $ echo $?
 1
 ```
 
-### Test 6 - check 'ctl:auditLogParts' place in chained rules
+### Test 6 - check that rule does not contain 'ctl:auditLogParts'
 
 ```
 SecRule TX:sql_error_match "@eq 1" \
@@ -222,20 +240,15 @@ SecRule TX:sql_error_match "@eq 1" \
     block,\
     capture,\
     t:none,\
-    ctl:auditLogParts=+E,\
-    chain"
-    SecRule RESPONSE_BODY "@rx (?i:JET Database Engine|Access Database Engine|\[Microsoft\]\[ODBC Microsoft Access Driver\])" \
-        "capture,\
-        setvar:'tx.outbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}',\
-        setvar:'tx.sql_injection_score=+%{tx.critical_anomaly_score}'"
+    ctl:auditLogParts=+E"
 ```
 
-In this rule, the `ctl:auditLogParts=+E` is in wrong place, because some non-disruptive actions will be executed on non-disruptive rules (most CRS rules are non-disruptive) even if the chained rules are not satisfied.
+The `ctl:auditLogParts=+E` (or any kind of `ctl:auditLogParts`) is not allowed in CRS.
 
-See the CRS issue [#2530](https://github.com/coreruleset/coreruleset/issues/2530)
+See the CRS PR [#3034](https://github.com/coreruleset/coreruleset/pull/3034)
 
 ```
-$ util/crs-rules-check/rules-check.py -r util/crs-rules-check/examples/test6.conf 
+$ util/crs-rules-check/rules-check.py -r util/crs-rules-check/examples/test6.conf
 Config file: util/crs-rules-check/examples/test6.conf
  Parsing ok.
  Ignore case check ok.
@@ -246,3 +259,158 @@ Config file: util/crs-rules-check/examples/test6.conf
 $ echo $?
 1
 ```
+
+### Test 7 - check duplicated id's
+
+```
+SecRule ARGS "@rx foo" \
+    "id:1001,\
+    phase:2,\
+    block,\
+    capture,\
+    t:none"
+
+SecRule ARGS_NAMES "@rx bar" \
+    "id:1001,\
+    phase:2,\
+    block,\
+    capture,\
+    t:none"
+```
+
+In this rule file, there are two rules with same `id`.
+
+```
+$ util/crs-rules-check/rules-check.py -r util/crs-rules-check/examples/test7.conf
+Config file: util/crs-rules-check/examples/test7.conf
+ Parsing ok.
+Checking parsed rules...
+util/crs-rules-check/examples/test7.conf
+ Ignore case check ok.
+ Action order check ok.
+ Indentation check ok.
+ 'ctl:auditLogParts' actions are in right place.
+ Found duplicated id('s)
+  file=util/crs-rules-check/examples/test7.conf, line=10, endLine=10, title='id' is duplicated: id 1001 is duplicated, previous place: util/crs-rules-check/examples/test7.conf:3
+ paranoia-level tags are correct.
+ PL anomaly_scores are correct.
+ All TX variables are set
+End of checking parsed rules
+$ echo $?
+1
+```
+
+### Test 8 - paranoia-level consitency check
+
+```
+
+SecRule &TX:blocking_paranoia_level "@eq 0" \
+    "id:901120,\
+    phase:1,\
+    pass,\
+    nolog,\
+    ver:'OWASP_CRS/4.0.0-rc1',\
+    setvar:'tx.blocking_paranoia_level=1'"
+
+SecRule &TX:detection_paranoia_level "@eq 0" \
+    "id:901125,\
+    phase:1,\
+    pass,\
+    nolog,\
+    ver:'OWASP_CRS/4.0.0-rc1',\
+    setvar:'tx.detection_paranoia_level=%{TX.blocking_paranoia_level}'"
+
+SecRule &TX:error_anomaly_score "@eq 0" \
+    "id:901141,\
+    phase:1,\
+    pass,\
+    nolog,\
+    ver:'OWASP_CRS/4.0.0-rc1',\
+    setvar:'tx.error_anomaly_score=4'"
+
+SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 1" "id:920011,phase:1,pass,nolog,skipAfter:END-REQUEST-920-PROTOCOL-ENFORCEMENT"
+SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 1" "id:920012,phase:2,pass,nolog,skipAfter:END-REQUEST-920-PROTOCOL-ENFORCEMENT"
+
+SecRule REQUEST_HEADERS:Content-Length "!@rx ^\d+$" \
+    "id:920160,\
+    phase:1,\
+    block,\
+    t:none,\
+    tag:'paranoia-level/2',\
+    severity:'CRITICAL',\
+    setvar:'tx.inbound_anomaly_score_pl1=+%{tx.error_anomaly_score}'"
+
+SecRule REQUEST_HEADERS:Content-Length "!@rx ^\d+$" \
+    "id:920161,\
+    phase:1,\
+    block,\
+    t:none,\
+    tag:'paranoia-level/1',\
+    setvar:'tx.inbound_anomaly_score_pl1=+%{tx.error_anomaly_score}'"
+
+SecRule REQUEST_HEADERS:Content-Length "!@rx ^\d+$" \
+    "id:920162,\
+    phase:1,\
+    block,\
+    t:none,\
+    tag:'paranoia-level/1',\
+    severity:'CRITICAL',\
+    setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+
+SecMarker "END-REQUEST-920-PROTOCOL-ENFORCEMENT"
+
+```
+
+In this rule file, there are more problems:
+* rule 920160 is activated on PL1, but the `tag` value is PL2
+* at rule 920160, the TX variable gets error_anomaly_score, but the severity is CRITICAL
+* at rule 920161 there is no severity action
+* rule 920162 increments anomaly_score_pl2, but it's in PL1
+
+```
+$ ./rules-check.py -r examples/test8.conf
+Config file: examples/test8.conf
+ Parsing ok.
+Checking parsed rules...
+examples/test8.conf
+ Ignore case check ok.
+ Action order check ok.
+ Indentation check ok.
+ 'ctl:auditLogParts' actions are in right place.
+ no duplicate id's
+ Found incorrect paranoia-level/N tag(s)
+  file=examples/test8.conf, line=34, endLine=34, title=wrong or missing paranoia-level/N tag: tag 'paranoia-level/2' on PL 1, rule id: 920160
+ Found incorrect (inbound|outbout)_anomaly_score value(s)
+  file=examples/test8.conf, line=36, endLine=36, title=wrong (inbound|outbout)_anomaly_score variable or value: invalid value for anomaly_score_pl1: tx.error_anomaly_score with severity critical, rule id: 920160
+  file=examples/test8.conf, line=44, endLine=44, title=wrong (inbound|outbout)_anomaly_score variable or value: missing severity action, rule id: 920161
+  file=examples/test8.conf, line=53, endLine=53, title=wrong (inbound|outbout)_anomaly_score variable or value: variable inbound_anomaly_score_pl2 on PL 1, rule id: 920162
+ There are one or more unset TX variables.
+  file=examples/test8.conf, line=53, endLine=53, title=unset TX variable: TX variable 'critical_anomaly_score' not set / later set (rvar) in rule 920162
+End of checking parsed rules
+Cumulated report about unused TX variables
+ No unused TX variable
+$ echo $?
+1
+```
+
+### Test 9 - check state of used TX variables
+
+
+```
+SecRule TX:foo "@rx bar" \
+    "id:1001,\
+    phase:1,\
+    pass,\
+    nolog"
+
+SecRule ARGS "@rx ^.*$" \
+    "id:1002,\
+    phase:1,\
+    pass,\
+    nolog,\
+    setvar:tx.bar=1"
+```
+
+In this rule file, there are more problems:
+* rule 1001 used an uninitialized variable (`TX:foo`)
+* rule 1002 sets a TX variable which never used
