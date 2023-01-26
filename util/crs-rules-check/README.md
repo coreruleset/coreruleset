@@ -24,31 +24,32 @@ How does it work
 
 The script expects an argument at least - this would be a single file or a file list, eg: `/path/to/coreruleset/*.conf`.
 
-First it parses all of the files what you given, and tries to parse. This is a "pre-check", and runs on all files before the other tests.
+First, an attempt is made to parse each file specified on the command line. This is a "pre-check", and runs on all files before the other tests.
   * **Parsing check** - try to parse the structure, this is a syntax check
-    **note**: this script is a bit more strict than mod_security. There are some cases, where mod_security allows the syntax, but [msc_pyparser](https://github.com/digitalwave/msc_pyparser/) not. Also note, that this step runs on all rules files before the others
+    **note**: this script is a bit more strict than mod_security. There are some cases, where mod_security allows the syntax, but [msc_pyparser](https://github.com/digitalwave/msc_pyparser/) not.
 
-After it found the set, it starts a loop: on each parsed structure it does these steps:
-  * **Case sensitive check** - runs a case sensitive format of operators, actions, transformations and ctl methods
-    eg. `@beginsWith` is allowed, `@beginswith` is not. In this step, the script also ensures that an operator is present, eg `SecRule ARGS "^.*"` isn't allowed without `@rx` operator.
-  * **Order actions check** - checking the order of actions - [see the wiki](https://github.com/coreruleset/coreruleset/wiki/Order-of-ModSecurity-Actions-in-CRS-rules)
-  * **Identation check** CRS has a good reference for [indentation](https://github.com/coreruleset/coreruleset/blob/v3.4/dev/CONTRIBUTING.md#general-formatting-guidelines-for-rules-contributions) and other formatting. `msc_pyparser` follows these rules when it creates the config file(s) from parsed structure(s). After the re-build is done, it runs a compare between the original file and the built one with help of `difflib`. If there are any mismatch, it shows that.
+Second, the script loops over each of the parsed structures. Each iteration consists of the following steps:
+  * **Casing check** - checks operators, actions, transformations and ctl names for proper casing
+    e.g., `@beginsWith` is allowed, `@beginswith` is not. In this step, the script also ensures that an operator is present, eg `SecRule ARGS "^.*"` isn't allowed without `@rx` operator.
+  * **Action order check** - This step verifies that actions are specified in the correct order - [see the wiki](https://github.com/coreruleset/coreruleset/wiki/Order-of-ModSecurity-Actions-in-CRS-rules)
+  * **Format check** CRS has a good reference for [indentation](https://github.com/coreruleset/coreruleset/blob/v3.4/dev/CONTRIBUTING.md#general-formatting-guidelines-for-rules-contributions) and other formatting. `msc_pyparser` follows these rules when it creates the config file(s) from parsed structure(s). After the re-build is done, it runs a compare between the original file and the built one with help of `difflib`. The script reports all non-compliant formatting.
   **Note**, that `difflib` is a part of the standard Python library, you don't need to install it.
-  * **checking the 'ctl:auditLogParts' actions** - this step checks that the `ctl:auditLogParts` isn't at any rule. CRS [no longer allows](https://github.com/coreruleset/coreruleset/pull/3090) this action.
-  * **Duplicate ID's check** - checks the uniqueness of identifiers, and refers if a duplicate ID has found
-  * **paranoia-level/N tag and its value** - checks the existence (or non-existence) of `paranoia-level` tag where it is necessary or not, and its correctness. This step does:
-    * if a rule activated on a certain PL, and it does not have `nolog` action, it **must** have the correct `tag:'paranoia-level/N'` action with correct `N` value
-    * if a rule activated outside of any PL, or it has a `nolog` action, it **must not** have any `tag:paranoia-level/N` action
- * **PL anomaly_scores check** - checks the scoring mechanism checks the rule consistency on a certain PL:
-    * rule must have the `severity` action
+  * **Deprecation check** - This step checks for use of deprecated features. The following features are deprecated:
+    * `ctl:auditLogParts` [is no longer supported by CRS](https://github.com/coreruleset/coreruleset/pull/3090)
+  * **Duplicate ID's check** - This step checks that each rule has a unique ID.
+  * **paranoia-level/N tag and its value** - This step checks that the `paranoia-level/N` tag is present when required and whether it has the correct value `N` for its context. Specifically:
+    * if a rule is activated for a specific paranoia level `L` and does not have the `nolog` action, the `paranoia-level/N` tag **must** be set and the value of `N` **must** be `L`
+    * if a rule is activated outside of any paranoia level, or has the `nolog` action, the `paranoia-level/N` tag **must not** be set
+ * **Anomaly scoring check** - This step checks that rules are configured properly for the anomaly scoring mechanism:
+    * every rule must update the correct scoring variable with the correct severity related score, for example: `setvar:inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}`
     * rule must have the `setvar:(inbound|outbound)_anomaly_score_plN=+%{tx.SEVERITY_anomaly_score}`
- * **Initialization of used TX variables** - all used TX variables have to initialize before it used. Using of a TX variable means:
-    * it occurs as a target, eg `SecRule TX.foo ...`
-    * it occurs as an operator argument, eg `SecRule ARGS "@rx %{TX.foo}"...`
-    * it occurs as a right side operand in a `setvar` action, eg `setvar:tx.bar=%{tx.foo}`
-    * it occurs as a substitution, eg in a `msg` value: `msg:'Current value of variable: %{tx.foo}`
+ * **Initialization of used transaction (TX) variables** - all used TX variables **must** be initialised before their first use. Using a TX variable means one of the following:
+    * the variable is a target of a rule, e.g., `SecRule TX.foo ...`
+    * the variable is an operator argument, eg `SecRule ARGS "@rx %{TX.foo}"...`
+    * the variable is a right hand side operand in a `setvar` action, eg `setvar:tx.bar=%{tx.foo}`
+    * the variable is in an expansion, e.g., as part of the value of a `msg` action: `msg:'Current value of variable: %{tx.foo}`
 
-After these steps there is a cumulated report about not used TX variables. This could happen if a rule creates a TX variable (eg. `setvar:tx.foo=1`) but variable never used. This will only be revealed after we have reviewed all the rules.
+Finally, the script prints a report of all unused TX variables. Usually, unused TX variables occur when a rule creates a TX variable (e.g., `setvar:tx.foo=1`) but the value of the variable is never used anywhere else. This will only be revealed after the script has checked all rules.
 
 
 If script finds any parser error, it stops immediately. In case of other error, shows it (rule-by-rule). Finally, the script returns a non-zero value.
@@ -260,7 +261,7 @@ $ echo $?
 1
 ```
 
-### Test 7 - check duplicated id's
+### Test 7 - check duplicate id's
 
 ```
 SecRule ARGS "@rx foo" \
@@ -303,7 +304,6 @@ $ echo $?
 ### Test 8 - paranoia-level consitency check
 
 ```
-
 SecRule &TX:blocking_paranoia_level "@eq 0" \
     "id:901120,\
     phase:1,\
