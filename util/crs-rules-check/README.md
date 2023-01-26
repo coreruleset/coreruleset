@@ -42,7 +42,7 @@ Second, the script loops over each of the parsed structures. Each iteration cons
     * if a rule is activated outside of any paranoia level, or has the `nolog` action, the `paranoia-level/N` tag **must not** be set
  * **Anomaly scoring check** - This step checks that rules are configured properly for the anomaly scoring mechanism:
     * every rule must update the correct scoring variable with the correct severity related score, for example: `setvar:inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}`
-    * rule must have the `setvar:(inbound|outbound)_anomaly_score_plN=+%{tx.SEVERITY_anomaly_score}`
+    * every rule must update the correct scoring variable with the correct severity related score, for example: `setvar:inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}`
  * **Initialization of used transaction (TX) variables** - all used TX variables **must** be initialised before their first use. Using a TX variable means one of the following:
     * the variable is a target of a rule, e.g., `SecRule TX.foo ...`
     * the variable is an operator argument, eg `SecRule ARGS "@rx %{TX.foo}"...`
