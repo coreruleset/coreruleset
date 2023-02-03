@@ -11,8 +11,11 @@ import re
 oformat = "native"
 
 class Check(object):
-    def __init__(self, data):
+    def __init__(self, data, txvars):
 
+        # txvars is a global used hash table, but processing of rules is a sequential flow
+        # all rules need this global table
+        self.globtxvars  = txvars
         # list available operators, actions, transformations and ctl args
         self.operators   = "beginsWith|containsWord|contains|detectSQLi|detectXSS|endsWith|eq|fuzzyHash|geoLookup|ge|gsbLookup|gt|inspectFile|ipMatch|ipMatchF|ipMatchFromFile|le|lt|noMatch|pmFromFile|pmf|pm|rbl|rsub|rx|streq|strmatch|unconditionalMatch|validateByteRange|validateDTD|validateHash|validateSchema|validateUrlEncoding|validateUtf8Encoding|verifyCC|verifyCPF|verifySSN|within".split("|")
         self.operatorsl  = [o.lower() for o in self.operators]
@@ -27,8 +30,8 @@ class Check(object):
         # see wiki: https://github.com/SpiderLabs/owasp-modsecurity-crs/wiki/Order-of-ModSecurity-Actions-in-CRS-rules
         # note, that these tokens are with lovercase here, but used only for to check the order
         self.ordered_actions = [
-            "id",                   # 0
-            "phase",                # 1
+            "id",                       # 0
+            "phase",                    # 1
             "allow",
             "block",
             "deny",
@@ -37,7 +40,7 @@ class Check(object):
             "proxy",
             "redirect",
             "status",
-            "capture",              # 10
+            "capture",                  # 10
             "t",
             "log",
             "nolog",
@@ -57,7 +60,7 @@ class Check(object):
             "initcol",
             "setenv",
             "setvar",
-            "expirevar",            # 30
+            "expirevar",                # 30
             "chain",
             "skip",
             "skipafter",
@@ -70,6 +73,13 @@ class Check(object):
         self.caseerror      = []    # list of case mismatch errors
         self.orderacts      = []    # list of ordered action errors
         self.auditlogparts  = []    # list of wrong ctl:auditLogParts
+        self.undef_txvars   = []    # list of undefined TX variables
+        self.pltags         = []    # list of incosistent PL tags
+        self.plscores       = []    # list of incosistent PL scores
+        self.dupes          = []    # list of duplicated id's
+        self.ids            = {}    # list of rule id's
+
+        self.re_tx_var      = re.compile("%\{\}")
 
     def store_error(self, msg):
         # store the error msg in the list
@@ -197,17 +207,10 @@ class Check(object):
                         a['message'] += " (rule: %d)" % (self.current_ruleid)
 
     def check_ctl_audit_log(self):
+        """check there is no ctl:auditLogParts action in any rules"""
         for d in self.data:
             if "actions" in d:
                 aidx = 0        # stores the index of current action
-                max_order = 0   # maximum position of read actions
-                if self.chained == False:
-                    self.current_ruleid = 0
-                else:
-                    self.chained = False
-
-                # collect ctl:auditLogParts action if exists
-                auditlogparts = []
 
                 while aidx < len(d['actions']):
                     # read the action into 'a'
@@ -218,25 +221,353 @@ class Check(object):
                     if a['act_name'] == "id":
                         self.current_ruleid = int(a['act_arg'])
 
-                    # check if chained
-                    if a['act_name'] == "chain":
-                        self.chained = True
-
                     # check if action is ctl:auditLogParts
-                    if a['act_name'] == "ctl" and a['act_arg'] == "auditLogParts":
-                        auditlogparts.append({
-                                'ruleid' : 0,
+                    if a['act_name'].lower() == "ctl" and a['act_arg'].lower() == "auditlogparts":
+                        self.auditlogparts.append({
+                                'ruleid' : self.current_ruleid,
                                 'line'   : a['lineno'],
                                 'endLine': a['lineno'],
-                                'message': "action can only be placed in last part of a chained rule"
+                                'message': ""
                         })
 
                     aidx += 1
-                if self.chained == True and len(auditlogparts) > 0:
-                    for a in auditlogparts:
-                        a['ruleid'] = self.current_ruleid
-                        a['message'] += " (rule: %d)" % (self.current_ruleid)
-                        self.auditlogparts.append(a)
+
+    def collect_tx_variable(self, fname):
+        """collect TX variables in rules
+        this function collects the TX variables at rules,
+        if the variable is at a 'setvar' action's left side, eg
+        setvar:tx.foo=bar
+
+        Because this rule called before any other check,
+        additionally it checks the duplicated rule ID
+        """
+        chained = False
+        for d in self.data:
+            if "actions" in d:
+                aidx = 0        # stores the index of current action
+                if chained == False:
+                    ruleid = 0      # ruleid
+                    phase = 2       # works only in Apache, libmodsecurity uses default phase 1
+                else:
+                    chained = False
+                while aidx < len(d['actions']):
+                    # read the action into 'a'
+                    a = d['actions'][aidx]
+                    if a['act_name'] == "id":
+                        ruleid = int(a['act_arg'])
+                        if ruleid in self.ids:
+                            self.dupes.append({
+                                'ruleid' : ruleid,
+                                'line'   : a['lineno'],
+                                'endLine': a['lineno'],
+                                'message': "id %d is duplicated, previous place: %s:%d" % (ruleid, self.ids[ruleid]['fname'], self.ids[ruleid]['lineno'])
+                            })
+                        else:
+                            self.ids[ruleid] = {'fname': fname, 'lineno': a['lineno']}
+                    if a['act_name'] == "phase":
+                        phase = int(a['act_arg'])
+                    if a['act_name'] == "chain":
+                        chained = True
+                    if a['act_name'] == "setvar":
+                        if a['act_arg'][0:2].lower() == "tx":
+                            txv = a['act_arg'][3:].split("=")
+                            txv[0] = txv[0].lower()
+                            # set TX variable if there is no such key
+                            # OR
+                            # key exists but the existing struct's phase is higher
+                            if (txv[0] not in self.globtxvars or self.globtxvars[txv[0]]['phase'] > phase) and \
+                               not re.search("%\{[^%]+\}", txv[0]):
+                                self.globtxvars[txv[0]] = {
+                                    'phase'  : phase,
+                                    'used'   : False,
+                                    'file'   : fname,
+                                    'ruleid' : ruleid,
+                                    'message': "",
+                                    'line'   : a['lineno'],
+                                    'endLine': a['lineno']
+                                }
+                            else:
+                                pass
+                    aidx += 1
+
+    def check_tx_variable(self, fname):
+        """this function checks if a used TX variable has set
+
+        a variable is used when:
+          * it's an operator argument: "@rx %{TX.foo}"
+          * it's a target: SecRule TX.foo "@..."
+          * it's a right side value in a value giving: setvar:tx.bar=tx.foo
+
+        this function collects the variables if it is used but not set previously
+        """
+        check_exists   = None   # set if rule checks the existence of varm eg `&TX:foo "@eq 1"`
+        has_disruptive = False  # set if rule contains disruptive action
+        chained = False
+        for d in self.data:
+            if d['type'].lower() in ["secrule", "secaction"]:
+                aidx = 0        # stores the index of current action
+                if chained == False:
+                    phase = 2       # works only in Apache, libmodsecurity uses default phase 1
+                    ruleid = 0
+                else:
+                    chained = False
+
+                # iterate over actions and collect these values:
+                # ruleid, phase, chained, rule has or not any disruptive action
+                while aidx < len(d['actions']):
+                    # read the action into 'a'
+                    a = d['actions'][aidx]
+                    if a['act_name'] == "id":
+                        ruleid = int(a['act_arg'])
+                    if a['act_name'] == "phase":
+                        phase = int(a['act_arg'])
+                    if a['act_name'] == "chain":
+                        chained = True
+                    if a['act_name'] in ['block', 'deny', 'drop', 'allow', 'proxy', 'redirect']:
+                        has_disruptive = True
+
+                    # check wheter tx.var is used at setvar's right side
+                    val_act = []
+                    val_act_arg = []
+                    # example:
+                    #    setvar:'tx.inbound_anomaly_score_threshold=5'
+                    #
+                    #  act_arg     <- tx.inbound_anomaly_score_threshold
+                    #  act_atg_val <- 5
+                    #
+                    # example2 (same as above, but no single quotes!):
+                    #    setvar:tx.inbound_anomaly_score_threshold=5
+                    #  act_arg     <- tx.inbound_anomaly_score_threshold
+                    #  act_atg_val <- 5
+                    #
+                    if "act_arg" in a and a['act_arg'] is not None:
+                        val_act = re.findall("%\{(tx.[^%]*)\}", a['act_arg'], re.I)
+                    if "act_arg_val" in a and a['act_arg_val'] is not None:
+                        val_act_arg = re.findall("%\{(tx.[^%]*)\}", a['act_arg_val'], re.I)
+                    for v in val_act + val_act_arg:
+                        v = v.lower().replace("tx.", "")
+                        # check whether the variable is a captured var, eg TX.1 - we do not care that case
+                        if not re.match("^\d$", v, re.I):
+                            # v holds the tx.ANY variable, but not the captured ones
+                            # we should collect these variables
+                            if (v not in self.globtxvars or phase < self.globtxvars[v]['phase']):
+                                self.undef_txvars.append({
+                                    'var'    : v,
+                                    'ruleid' : ruleid,
+                                    'line'   : a['lineno'],
+                                    'endLine': a['lineno'],
+                                    'message': "TX variable '%s' not set / later set (rvar) in rule %d" % (v, ruleid)
+                                })
+                            else:
+                                self.globtxvars[v]['used'] = True
+                        else:
+                            if v in self.globtxvars:
+                                self.globtxvars[v]['used'] = True
+                    aidx += 1
+
+                if "operator_argument" in d:
+                    oparg = re.findall("%\{(tx.[^%]*)\}", d['operator_argument'], re.I)
+                    if oparg:
+                        for o in oparg:
+                            o = o.lower()
+                            o = re.sub("tx\.", "", o, re.I)
+                            if (o not in self.globtxvars or phase < self.globtxvars[o]['phase']) and \
+                              not re.match("^\d$", o) and \
+                              not re.match("\/.*\/", o) and \
+                              check_exists is None:
+                                self.undef_txvars.append({
+                                    'var'    : o,
+                                    'ruleid' : ruleid,
+                                    'line'   : d['lineno'],
+                                    'endLine': d['lineno'],
+                                    'message': "TX variable '%s' not set / later set (OPARG) in rule %d" % (o, ruleid)
+                                })
+                            elif o in self.globtxvars and phase >= self.globtxvars[o]['phase'] and \
+                                not re.match("^\d$", o) and \
+                                not re.match("\/.*\/", o):
+                                    self.globtxvars[o]['used'] = True
+                if "variables" in d:
+                    for v in d['variables']:
+                        # check if the variable is TX and has not a & prefix, which counts
+                        # the variable length
+                        if v['variable'].lower() == "tx":
+                            if v['counter'] != True:
+                                # * if the variable part (after '.' or ':') is not there in
+                                #   the list of collected TX variables, and
+                                # * not a numeric, eg TX:2, and
+                                # * not a regular expression, between '/' chars, eg TX:/^foo/
+                                # OR
+                                # * rule's phase lower than declaration's phase
+                                rvar = v['variable_part'].lower()
+                                if (rvar not in self.globtxvars or (ruleid != self.globtxvars[rvar]['ruleid'] and phase < self.globtxvars[rvar]['phase'])) and \
+                                  not re.match("^\d$", rvar) and \
+                                  not re.match("\/.*\/", rvar):
+                                    self.undef_txvars.append({
+                                        'var'    : rvar,
+                                        'ruleid' : ruleid,
+                                        'line'   : d['lineno'],
+                                        'endLine': d['lineno'],
+                                        'message': "TX variable '%s' not set / later set (VAR)" % (v['variable_part'])
+                                    })
+                                elif rvar in self.globtxvars and phase >= self.globtxvars[rvar]['phase'] and \
+                                    not re.match("^\d$", rvar) and \
+                                    not re.match("\/.*\/", rvar):
+                                        self.globtxvars[rvar]['used'] = True
+                            else:
+                                check_exists = True
+                                self.globtxvars[v['variable_part'].lower()] = {
+                                    'var'    : v['variable_part'].lower(),
+                                    'phase'  : phase,
+                                    'used'   : False,
+                                    'file'   : fname,
+                                    'ruleid' : ruleid,
+                                    'message': "",
+                                    'line'   : d['lineno'],
+                                    'endLine': d['lineno']
+                                }
+                                if has_disruptive == True:
+                                    self.globtxvars[v['variable_part'].lower()]['used'] = True
+                                if len(self.undef_txvars) > 0 and self.undef_txvars[-1]['var'] == v['variable_part'].lower():
+                                    del(self.undef_txvars[-1])
+                if chained == False:
+                    check_exists   = None
+                    has_disruptive = False
+
+    def check_pl_consistency(self):
+        """this method checks the PL consistency
+
+        the function iterates through the rules, and catches the set PL, eg:
+
+        SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 1" ...
+        this means we are on PL1 currently
+
+        all rules must consist with current PL at the used tags and variables
+
+        eg:
+            tag:'paranoia-level/1'
+                                ^
+            setvar:'tx.outbound_anomaly_score_pl1=+%{tx.error_anomaly_score}'"
+                                              ^^^
+        additional relations:
+        * all rules must have the "tag:'paranoia-level/N'" if it does not have "nolog" action
+        * if rule have "nolog" action it must not have "tag:'paranoia-level/N'" action
+        * anomaly scoring value on current PL must increment by value corresponding to severity
+
+        """
+        curr_pl   = 0
+        tags      = []       # collect tags
+        _txvars   = {}       # collect setvars and values
+        _txvlines = {}       # collect setvars and its lines
+        severity  = None     # severity
+        has_nolog = False    # nolog action exists
+
+        for d in self.data:
+            # find the current PL
+            if d['type'].lower() in ["secrule"]:
+                for v in d['variables']:
+                    if v['variable'].lower() == "tx" and \
+                       v['variable_part'].lower() == "detection_paranoia_level" and \
+                       d['operator'] == "@lt" and re.match("^\d$", d['operator_argument']):
+                            curr_pl = int(d['operator_argument'])
+
+            if "actions" in d:
+                aidx     = 0    # stores the index of current action
+                chained  = False
+                while aidx < len(d['actions']):
+                    # read the action into 'a'
+                    a = d['actions'][aidx]
+                    if a['act_name'] == "id":
+                        ruleid = int(a['act_arg'])
+                    if a['act_name'] == "severity":
+                        severity = a['act_arg'].replace("'", "").lower()
+                    if a['act_name'] == "tag":
+                        tags.append(a)
+                    if a['act_name'] == "setvar":
+                        if a['act_arg'][0:2].lower() == "tx":
+                            # this hack necessary, because sometimes we use setvar argument
+                            # between '', sometimes not
+                            # eg
+                            # setvar:crs_setup_version=334
+                            # setvar:'tx.inbound_anomaly_score_threshold=5'
+                            txv = a['act_arg'][3:].split("=")
+                            txv[0] = txv[0].lower()                     # variable name
+                            if len(txv) > 1:
+                                txv[1] = txv[1].lower().strip("+\{\}")  # variable value
+                            else:
+                                txv.append(a['act_arg_val'].strip("+\{\}"))
+                            _txvars[txv[0]] = txv[1]
+                            _txvlines[txv[0]] = a['lineno']
+                    if a['act_name'] == "nolog":
+                        has_nolog = True
+                    if a['act_name'] == "chain":
+                        chained = True
+                    aidx += 1
+
+                has_pl_tag = False
+                for a in tags:
+                    if a['act_arg'][0:14] == "paranoia-level":
+                        has_pl_tag = True
+                        pltag = int(a['act_arg'].split("/")[1])
+                        if has_nolog:
+                            self.pltags.append({
+                                'ruleid' : ruleid,
+                                'line'   : a['lineno'],
+                                'endLine': a['lineno'],
+                                'message': "tag '%s' with 'nolog' action, rule id: %d" % (a['act_arg'], ruleid)
+                            })
+                        elif pltag != curr_pl and curr_pl > 0:
+                            self.pltags.append({
+                                'ruleid' : ruleid,
+                                'line'   : a['lineno'],
+                                'endLine': a['lineno'],
+                                'message': "tag '%s' on PL %d, rule id: %d" % (a['act_arg'], curr_pl, ruleid)
+                            })
+
+                if has_pl_tag != True and has_nolog == False and curr_pl >= 1:
+                    self.pltags.append({
+                        'ruleid' : ruleid,
+                        'line'   : a['lineno'],
+                        'endLine': a['lineno'],
+                        'message': "rule does not have `paranoia-level/%d` action, rule id: %d" % (curr_pl, ruleid)
+                    })
+
+                for t in _txvars:
+                    subst_val = re.search("%{tx.[a-z]+_anomaly_score}", _txvars[t], re.I)
+                    val = re.sub("[\+\%\{\}]", "", _txvars[t]).lower()
+                    scorepl = re.search("anomaly_score_pl\d$", t)   # check if last char is a numeric, eg ...anomaly_score_pl1
+                    if scorepl:
+                        if curr_pl > 0 and int(t[-1]) != curr_pl:
+                            self.plscores.append({
+                                'ruleid' : ruleid,
+                                'line'   : _txvlines[t],
+                                'endLine': _txvlines[t],
+                                'message': "variable %s on PL %d, rule id: %d" % (t, curr_pl, ruleid)
+                            })
+                        if severity is None and subst_val: # - do we need this?
+                            self.plscores.append({
+                                'ruleid' : ruleid,
+                                'line'   : _txvlines[t],
+                                'endLine': _txvlines[t],
+                                'message': "missing severity action, rule id: %d" % (ruleid)
+                            })
+                        else:
+                            if val != 'tx.%s_anomaly_score' % (severity) and val != "0":
+                                self.plscores.append({
+                                    'ruleid' : ruleid,
+                                    'line'   : _txvlines[t],
+                                    'endLine': _txvlines[t],
+                                    'message': "invalid value for anomaly_score_pl%d: %s with severity %s, rule id: %d" % (int(t[-1]), val, severity, ruleid)
+                                })
+                        # variable has found so we need to mark it as used
+                        self.globtxvars[t]['used'] = True
+
+                # reset local variables if we are done with a rule <==> no more 'chain' action
+                if chained == False:
+                    tags      = []       # collect tags
+                    _txvars   = {}       # collect setvars and values
+                    _txvlines = {}       # collect setvars and its lines
+                    severity  = None     # severity
+                    has_nolog = False    # rule has nolog action
 
 def errmsg(msg):
     if oformat == "github":
@@ -246,9 +577,15 @@ def errmsg(msg):
 
 def errmsgf(msg):
     if oformat == "github":
-        print("::error%sfile={file},line={line},endLine={endLine},title={title}::{message}".format(**msg) % (msg['indent']*" "))
+        if 'message' in msg and msg['message'].strip() != "":
+            print("::error%sfile={file},line={line},endLine={endLine},title={title}: {message}".format(**msg) % (msg['indent']*" "))
+        else:
+            print("::error%sfile={file},line={line},endLine={endLine},title={title}".format(**msg) % (msg['indent']*" "))
     else:
-        print("%sfile={file}, line={line}, endLine={endLine}, title={title}: {message}".format(**msg) % (msg['indent']*" "))
+        if 'message' in msg and msg['message'].strip() != "":
+            print("%sfile={file}, line={line}, endLine={endLine}, title={title}: {message}".format(**msg) % (msg['indent']*" "))
+        else:
+            print("%sfile={file}, line={line}, endLine={endLine}, title={title}".format(**msg) % (msg['indent']*" "))
 
 def msg(msg):
     if oformat == "github":
@@ -260,10 +597,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="CRS Rules Check tool")
     parser.add_argument("-o", "--output", dest="output", help="Output format native[default]|github", required=False)
     parser.add_argument("-r", "--rules", metavar='/path/to/coreruleset/*.conf', type=str,
-                            nargs='*', help='Directory path to CRS rules', required=True)
+                            nargs='*', help='Directory path to CRS rules', required=True,
+                            action="append")
     args = parser.parse_args()
 
-    crspath = args.rules
+    crspath = []
+    for l in args.rules:
+        crspath += l
 
     if args.output is not None:
         if args.output not in ["native", "github"]:
@@ -283,6 +623,9 @@ if __name__ == "__main__":
         errmsg("List of files is empty!")
         sys.exit(1)
 
+    parsed_structs = {}
+    txvars         = {}
+
     for f in flist:
         try:
             with open(f, 'r') as inputfile:
@@ -297,6 +640,7 @@ if __name__ == "__main__":
             mparser = msc_pyparser.MSCParser()
             mparser.parser.parse(data)
             msg(" Parsing ok.")
+            parsed_structs[f] = mparser.configlines
         except Exception as e:
             err = e.args[1]
             if err['cause'] == "lexer":
@@ -314,7 +658,11 @@ if __name__ == "__main__":
             retval = 1
             continue
 
-        c = Check(mparser.configlines)
+    msg("Checking parsed rules...")
+    for f in parsed_structs.keys():
+
+        msg(f)
+        c = Check(parsed_structs[f], txvars)
 
         ### check case usings
         c.check_ignore_case()
@@ -350,7 +698,7 @@ if __name__ == "__main__":
             errmsg("  Can't open file for indent check: %s" % (f))
             retval = 1
         # virtual output
-        mwriter = msc_pyparser.MSCWriter(mparser.configlines)
+        mwriter = msc_pyparser.MSCWriter(parsed_structs[f])
         mwriter.generate()
         #mwriter.output.append("")
         output = []
@@ -385,14 +733,86 @@ if __name__ == "__main__":
         ### check `ctl:auditLogParts=+E` right place in chained rules
         c.check_ctl_audit_log()
         if len(c.auditlogparts) == 0:
-            msg(" 'ctl:auditLogParts' actions are in right place.")
+            msg(" no 'ctl:auditLogParts' action found.")
         else:
-            errmsg(" Found 'ctl:auditLogParts' action is in wrong place.")
+            errmsg(" Found 'ctl:auditLogParts' action")
             for a in c.auditlogparts:
                 a['indent'] = 2
                 a['file']   = f
-                a['title']  = "'ctl:auditLogParts' action in wrong place"
+                a['title']  = "'ctl:auditLogParts' isn't allowed in CRS"
                 errmsgf(a)
                 retval = 1
+
+        ### collect TX variables
+        #   this method collects the TX variables, which set via a
+        #   `setvar` action anywhere
+        #   this method does not check any mandatory clause
+        c.collect_tx_variable(f)
+
+        ### check duplicate ID's
+        #   c.dupes filled during the tx variable collected
+        if len(c.dupes) == 0:
+            msg(" no duplicate id's")
+        else:
+            errmsg(" Found duplicated id('s)")
+            for a in c.dupes:
+                a['indent'] = 2
+                a['file']   = f
+                a['title']  = "'id' is duplicated"
+                errmsgf(a)
+                retval = 1
+
+        ### check PL consistency
+        c.check_pl_consistency()
+        if len(c.pltags) == 0:
+            msg(" paranoia-level tags are correct.")
+        else:
+            errmsg(" Found incorrect paranoia-level/N tag(s)")
+            for a in c.pltags:
+                a['indent'] = 2
+                a['file']   = f
+                a['title']  = "wrong or missing paranoia-level/N tag"
+                errmsgf(a)
+                retval = 1
+        if len(c.plscores) == 0:
+            msg(" PL anomaly_scores are correct.")
+        else:
+            errmsg(" Found incorrect (inbound|outbout)_anomaly_score value(s)")
+            for a in c.plscores:
+                a['indent'] = 2
+                a['file']   = f
+                a['title']  = "wrong (inbound|outbout)_anomaly_score variable or value"
+                errmsgf(a)
+                retval = 1
+
+        ### check existence of used TX variables
+        c.check_tx_variable(f)
+        if len(c.undef_txvars) == 0:
+            msg(" All TX variables are set")
+        else:
+            errmsg(" There are one or more unset TX variables.")
+            for a in c.undef_txvars:
+                a['indent'] = 2
+                a['file']   = f
+                a['title']  = "unset TX variable"
+                errmsgf(a)
+                retval = 1
+    msg("End of checking parsed rules")
+    msg("Cumulated report about unused TX variables")
+    has_unused = False
+    for tk in txvars:
+        if txvars[tk]['used'] == False:
+            if has_unused == False:
+                msg(" Unused TX variable(s):")
+            a = txvars[tk]
+            a['indent'] = 2
+            a['title']  = "unused TX variable"
+            a['message'] = "unused variable: %s" % (tk)
+            errmsgf(a)
+            retval = 1
+            has_unused = True
+
+    if has_unused == False:
+        msg(" No unused TX variable")
 
     sys.exit(retval)
