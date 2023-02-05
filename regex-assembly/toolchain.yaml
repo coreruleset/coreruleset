@@ -4,11 +4,12 @@
 patterns:
   # The Unix evasion patterns, were extended per decision in https://github.com/coreruleset/coreruleset/issues/2632.
   anti_evasion:
-    # - [\x5c'\"\[]: common evasion tokens and path expansion, e.g. `/bin/[c]''a""\t`
-    # - \|\||&&)\s*: hiding of empty variables through logial operators, e.g., `nc&&$u -p 777`
-    # - \$[a-z0-9_@?!#{*-]*: empty variable evasion, e.g. `n\$uc -p 777`
+    # - [\x5c'\"\[)]: common evasion tokens and path expansion, e.g., `/bin/[c]''a""\t`
+    # - (?:\|\||&&)\s*: hiding of empty variables through logial operators, e.g., `nc&&$u -p 777`
+    # - \$[a-z0-9_@?!#{(*-]*: empty variable evasion, e.g., `n\$uc -p 777`
+    # - [\x5c'\"\[)], \$[a-z0-9_@?!#{(*-]*: arithmetic expansion evaision, e.g., `c$((9))9`
     unix: |
-      [\x5c'\"\[]*(?:(?:(?:\|\||&&)\s*)?\$[a-z0-9_@?!#{*-]*)?\x5c?
+      [\x5c'\"\[)]*(?:(?:(?:\|\||&&)\s*)?\$[a-z0-9_@?!#{(*-]*)?\x5c?
     windows: |
       [\"\^]*
   anti_evasion_suffix:
