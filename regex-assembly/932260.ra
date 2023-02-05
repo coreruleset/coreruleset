@@ -5,10 +5,6 @@
 
 ##!+ i
 
-##! We require a trailing space (denoting command parameters) or command
-##! separator character after the command (includes evasion prefix)
-##!$ [\x5c'\"]*(?:\s|;|\||&|<|>)
-
 ##! starting tokens prefix
 ##!> assemble
   ##! ifconfig
@@ -18,7 +14,8 @@
   ##!=>
 
   ##! match possible white space between prefix expressions
-##!^ \s*
+  \s*
+##!=>
 
   ##! commands prefix
   ##!> assemble
@@ -65,9 +62,3 @@
   ##!> include-except unix-shell-4andup-with-params unix-shell-fps
 
 ##!<
-
-##! Manually add in counter evasions
-##! $SHELL
-\$[\x5c'\"]*S[\x5c'\"]*H[\x5c'\"]*E[\x5c'\"]*L[\x5c'\"]*L
-##! ${SHELL}
-\$[\x5c'\"]*\{[\x5c'\"]*S[\x5c'\"]*H[\x5c'\"]*E[\x5c'\"]*L[\x5c'\"]*L[\x5c'\"]*\}
