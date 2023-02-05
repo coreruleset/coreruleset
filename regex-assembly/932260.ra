@@ -5,60 +5,8 @@
 
 ##!+ i
 
-##! starting tokens prefix
 ##!> assemble
-  ##! ifconfig
-  ^
-  ##! ={ifconfig}
-  =
-  ##!=>
-
-  ##! match possible white space between prefix expressions
-  \s*
-##!=>
-
-  ##! commands prefix
-  ##!> assemble
-    ##! time ifconfig
-    ##!> cmdline unix
-      time
-    ##!<
-    ##! { ifconfig }
-    \{
-    ##! ( ifconfig )
-    \s*\(\s*
-    ##! VARNAME=xyz ifconfig
-    \w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
-    ##! ! ifconfig
-    !\s*
-    ##! $ifconfig
-    \$
-  ##!<
-  ##!=>
-
-  *
-  ##!=>
-
-  ##! match possible white space between prefix expressions
-  \s*
-  ##!=>
-
-  ##! quoting prefix
-  ##!> assemble
-    ##! 'ifconfig'
-    '
-    ##! "ifconfig"
-    \"
-  ##!<
-  ##!=>
-
-  *
-  ##!=>
-
-  ##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
-  (?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
-  ##!=>
+  ##!> include unix-shell-prefix-start-of-string
 
   ##!> include-except unix-shell-4andup-with-params unix-shell-fps
-
 ##!<

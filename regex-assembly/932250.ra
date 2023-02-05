@@ -2,68 +2,13 @@
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
 ##! Word list for rule 932250 (RCE Unix command injection)
-##!
-##! This list comes from (and should be in sync) the `unix-shell.data` file.
 
 ##!+ i
 
-
-##! starting tokens prefix
 ##!> assemble
-  ##! ifconfig
-  ^
-  ##! ={ifconfig}
-  =
-  ##!=>
-
-  ##! match possible white space between prefix expressions
-  \s*
-  ##!=>
-
-  ##! commands prefix
-  ##!> assemble
-    ##! time ifconfig
-    ##!> cmdline unix
-      time
-    ##!<
-    ##! { ifconfig }
-    \{
-    ##! ( ifconfig )
-    \s*\(\s*
-    ##! VARNAME=xyz ifconfig
-    \w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
-    ##! ! ifconfig
-    !\s*
-    ##! $ifconfig
-    \$
-  ##!<
-  ##!=>
-
-  *
-  ##!=>
-
-  ##! match possible white space between prefix expressions
-  \s*
-  ##!=>
-
-  ##! quoting prefix
-  ##!> assemble
-    ##! 'ifconfig'
-    '
-    ##! "ifconfig"
-    \"
-  ##!<
-  ##!=>
-
-  *
-  ##!=>
-
-  ##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
-  (?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
-  ##!=>
+  ##!> include unix-shell-prefix-start-of-string
 
   ##!> cmdline unix
     ##!> include-except unix-shell-upto3-with-params unix-shell-fps
   ##!<
-
 ##!<
