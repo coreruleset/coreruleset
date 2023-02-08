@@ -47,22 +47,21 @@
 ##!=>
 
 ##! commands prefix
-(?:
+##!> assemble
+  ##! { ifconfig }
+  \{
+  ##! ( ifconfig )
+  \s*\(\s*
+  ##! VARNAME=xyz ifconfig
+  \w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
+  ##! ! ifconfig
+  !\s*
+  ##! $ifconfig
+  \$
+##!<
 ##!=>
 
-##! { ifconfig }
-\{
-##! ( ifconfig )
-\s*\(\s*
-##! VARNAME=xyz ifconfig
-\w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
-##! ! ifconfig
-!\s*
-##! $ifconfig
-\$
-##!=>
-
-)*
+*
 ##!=>
 
 ##! match possible white space between prefix expressions
@@ -70,16 +69,15 @@
 ##!=>
 
 ##! quoting prefix
-(?:
+##!> assemble
+  ##! 'ifconfig'
+  '
+  ##! "ifconfig"
+  \"
+##!<
 ##!=>
 
-##! 'ifconfig'
-'
-##! "ifconfig"
-\"
-##!=>
-
-)*
+*
 ##!=>
 
 ##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
