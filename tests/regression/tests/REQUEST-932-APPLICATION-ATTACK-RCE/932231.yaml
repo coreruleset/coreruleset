@@ -1,6 +1,6 @@
 ---
 meta:
-  author: Max Leske
+  author: Max Leske, Franziska Bühler
   description: "Old tests and tests for fix of 932231 rule triggered with html decimal entities because of using legacy ISO-8859 charsets family - https://github.com/coreruleset/coreruleset/issues/1886. \nIf you need to trigger tests on a command, use one of the three letter commands in the file included by the 932231 data rule.\n"
   enabled: true
   name: 932231.yaml
@@ -126,3 +126,19 @@ tests:
             version: HTTP/1.1
           output:
             no_log_contains: id "932231"
+  - test_title: 932231-7
+    desc: "False negative report"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: ;cp /var/log/apache2/error.log evil.php
+            method: POST
+            port: 80
+            uri: /
+            version: HTTP/1.0
+          output:
+            log_contains: id "932231"
