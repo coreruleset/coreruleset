@@ -1,11 +1,11 @@
 ---
 meta:
   author: Piotr Pazola <piotr@webtrip.pl>
-  description: Tests for fix of 932101 rule triggered with html decimal entities because of using legacy ISO-8859 charsets family - https://github.com/coreruleset/coreruleset/issues/1886
+  description: Tests for fix of 932231 rule triggered with html decimal entities because of using legacy ISO-8859 charsets family - https://github.com/coreruleset/coreruleset/issues/1886
   enabled: true
-  name: 932101.yaml
+  name: 932231.yaml
 tests:
-  - test_title: 932101-1
+  - test_title: 932231-1
     desc: |
       True Negative Rule Integrity 1
       arg value of "ifconfig;. rm -rf /; Something „The Title”. After space or new line more characters" is blocked
@@ -26,4 +26,4 @@ tests:
             data: "arg=ifconfig;.+rm+-rf+/;+Something+%26%238222%3BThe+Title%26%238221%3B.+After+space+or+new+line+more+characters"
             version: HTTP/1.0
           output:
-            log_contains: id "932101"
+            log_contains: id "932231"

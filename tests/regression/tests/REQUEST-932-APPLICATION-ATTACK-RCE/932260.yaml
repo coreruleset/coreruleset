@@ -1,11 +1,11 @@
 ---
 meta:
-  author: "Paul Beckett, Franziska Bühler"
+  author: "Paul Beckett, Franziska Bühler, karelorigin"
   enabled: true
-  name: "932150.yaml"
-  description: "Tests to trigger or not trigger rule 932150"
+  name: "932260.yaml"
+  description: "Tests to trigger or not trigger rule 932260"
 tests:
-  - test_title: 932150-1
+  - test_title: 932260-1
     stages:
       - stage:
           input:
@@ -16,26 +16,11 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?932150-1=bash%20-c%20%22echo%20test%22"
+            uri: "/get?932260-1=bash%20-c%20%22echo%20test%22"
             protocol: "http"
           output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-2
-    stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "POST"
-            port: 80
-            headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            data: '932150-2=tar -xzf /var/www/exfiltrate.tar.gz /etc'
-            protocol: "http"
-          output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-3
+            log_contains: id "932260"
+  - test_title: 932260-2
     stages:
       - stage:
           input:
@@ -47,11 +32,11 @@ tests:
               Host: "localhost"
               Cookie: "931120-3=exec 5<>/dev/tcp/8.8.8.8/80"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/'
+            uri: '/post'
             protocol: "http"
           output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-4
+            log_contains: id "932260"
+  - test_title: 932260-3
     stages:
       - stage:
           input:
@@ -62,11 +47,11 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            data: '932150-2=dont match commands that are not at start;tar -xzf /var/www/exfiltrate.tar.gz /etc'
-            protocol: "http"
+            data: '932260-2=dont match commands that are not at start;tar -xzf /var/www/exfiltrate.tar.gz /etc'
+            uri: '/post'
           output:
-            no_log_contains: "id \"932150\""
-  - test_title: 932150-5
+            no_log_contains: id "932260"
+  - test_title: 932260-4
     stages:
       - stage:
           input:
@@ -78,10 +63,10 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'foo=ping pong tables'
-            protocol: "http"
+            uri: '/post'
           output:
-            no_log_contains: "id \"932150\""
-  - test_title: 932150-6
+            no_log_contains: id "932260"
+  - test_title: 932260-5
     stages:
       - stage:
           input:
@@ -93,25 +78,10 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'foo=time is of the essence'
-            protocol: "http"
+            uri: '/post'
           output:
-            no_log_contains: "id \"932150\""
-  - test_title: 932150-7
-    stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "POST"
-            port: 80
-            headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            data: 'x=c99%20-wrapper%20sh,-c,curl%20google.com%20.'
-            protocol: "http"
-          output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-8
+            no_log_contains: id "932260"
+  - test_title: 932260-6
     stages:
       - stage:
           input:
@@ -123,10 +93,10 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'x=printf%20dwssap/cte/%20tac%20|%20rev%20|%20sh'
-            protocol: "http"
+            uri: '/post'
           output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-9
+            log_contains: id "932260"
+  - test_title: 932260-7
     desc: "Unix Command Injection - python version bypass test"
     stages:
       - stage:
@@ -139,28 +109,11 @@ tests:
             method: GET
             port: 80
             # "cmd=python cmd"
-            uri: /?cmd=python3.10%20cmd
+            uri: /get?cmd=python3.10%20cmd
             version: HTTP/1.0
           output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-10
-    desc: "Unix Command Injection - python version bypass test"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: "localhost"
-              User-Agent: "OWASP ModSecurity Core Rule Set"
-            method: GET
-            port: 80
-            # "cmd=python3.10 cmd"
-            uri: '/?cmd=""p""y""t""h""o""n""3"".""1""0""%20""c""m""d""'
-            version: HTTP/1.0
-          output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-11
+            log_contains: id "932260"
+  - test_title: 932260-8
     desc: "Unix Command Injection - printf bypass test"
     stages:
       - stage:
@@ -173,11 +126,11 @@ tests:
             method: GET
             port: 80
             # "cmd=printf dW5hbWUgLWE=|base64 -d|sh"
-            uri: /?cmd=printf%20dW5hbWUgLWE=%7Cbase64%20-d%7Csh
+            uri: /get?cmd=printf%20dW5hbWUgLWE=%7Cbase64%20-d%7Csh
             version: HTTP/1.0
           output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-12
+            log_contains: id "932260"
+  - test_title: 932260-9
     desc: "Positive test: Data exfiltration with gunzip"
     stages:
       - stage:
@@ -190,9 +143,10 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'cmd=gunzip -c /var/log/sensitive_log_file.gz'
+            uri: '/post'
           output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-13
+            log_contains: id "932260"
+  - test_title: 932260-10
     desc: "Positive test: Data exfiltration with zstdcat"
     stages:
       - stage:
@@ -205,26 +159,10 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'cmd=zstdcat /var/log/sensitive_log_file.zst'
+            uri: '/post'
           output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-14
-    desc: "Positive test: Unix Command Injection - ksh test"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: "localhost"
-              User-Agent: "OWASP ModSecurity Core Rule Set"
-            method: GET
-            port: 80
-            # code=ksh -c "curl google."COM
-            uri: /?code=ksh%20-c%20"curl%20google."COM
-            version: HTTP/1.0
-          output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-15
+            log_contains: id "932260"
+  - test_title: 932260-11
     desc: "Positive test: Unix Command Injection - $SHELL test"
     stages:
       - stage:
@@ -237,11 +175,11 @@ tests:
             method: GET
             port: 80
             # code=$SHELL -c "echo hi"
-            uri: /?code=%24SHELL%20-c%20%22echo%20hi%22
+            uri: "/get?code=%24SHELL%20-c%20%22echo%20hi%22"
             version: HTTP/1.0
           output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-16
+            log_contains: id "932260"
+  - test_title: 932260-12
     desc: "Positive test: Unix Command Injection - ${SHELL} test"
     stages:
       - stage:
@@ -254,11 +192,11 @@ tests:
             method: GET
             port: 80
             # code=${SHELL} -c "echo hi"
-            uri: /?code=%24%7BSHELL%7D%20-c%20%22echo%20hi%22
+            uri: /get?code=%24%7BSHELL%7D%20-c%20%22echo%20hi%22
             version: HTTP/1.0
           output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-17
+            log_contains: id "932260"
+  - test_title: 932260-13
     desc: "Positive test: Unix Command Injection - busybox test"
     stages:
       - stage:
@@ -271,11 +209,11 @@ tests:
             method: GET
             port: 80
             # code=busybox -c "echo hi"
-            uri: /?code=busybox%20-c%20%22echo%20hi%22
+            uri: /get?code=busybox%20-c%20%22echo%20hi%22
             version: HTTP/1.0
           output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-18
+            log_contains: id "932260"
+  - test_title: 932260-14
     desc: Remote Command Execution bypass with time
     stages:
       - stage:
@@ -289,11 +227,11 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/?foo=time+zip+"
+            uri: "/get?foo=time+unzip+"
             version: HTTP/1.1
           output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-19
+            log_contains: id "932260"
+  - test_title: 932260-15
     desc: Remote Command Execution bypass with time negative test
     stages:
       - stage:
@@ -307,11 +245,11 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/?foo=time+warner+"
+            uri: "/get?foo=time+warner+"
             version: HTTP/1.1
           output:
-            no_log_contains: "id \"932150\""
-  - test_title: 932150-20
+            no_log_contains: id "932260"
+  - test_title: 932260-16
     desc: Remote Command Injection test for BB finding 935E1D91
     stages:
       - stage:
@@ -325,11 +263,11 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/?foo=time+curl+coreruleset.org"
+            uri: "/get?foo=time+curl+coreruleset.org"
             version: HTTP/1.1
           output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-21
+            log_contains: id "932260"
+  - test_title: 932260-17
     desc: Remote Command Injection test for BB finding 935E1D91 - time evasion attempt
     stages:
       - stage:
@@ -346,8 +284,8 @@ tests:
             uri: "/get?foo=ti''me+curl+coreruleset.org"
             version: HTTP/1.1
           output:
-            log_contains: "id \"932150\""
-  - test_title: 932150-22
+            log_contains: id "932260"
+  - test_title: 932260-18
     desc: System Command Injection test for BB finding AV6ZO3ZS - mixed case
     stages:
       - stage:
@@ -364,4 +302,52 @@ tests:
             uri: "/get?foo='ZsTdcaT+/var/log/sensitive_log_file.zst"
             version: HTTP/1.1
           output:
-            log_contains: "id \"932150\""
+            log_contains: id "932260"
+  - test_title: 932260-19
+    desc: "'find' direct command injection FP test"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=find%20.%201%20-exec%20curl%20google.com%20\\;"
+            protocol: "http"
+          output:
+            no_log_contains: id "932260"
+  - test_title: 932260-20
+    desc: "'find' direct command injection FP test"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=find%20x%20for%20y"
+            protocol: "http"
+          output:
+            no_log_contains: id "932260"
+  - test_title: 932260-21
+    desc: "'ping' direct command injection FP test"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=ping%20127.0.0.1"
+            protocol: "http"
+          output:
+            no_log_contains: id "932260"

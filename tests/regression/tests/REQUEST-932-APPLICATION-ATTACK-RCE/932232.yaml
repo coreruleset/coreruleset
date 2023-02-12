@@ -3,9 +3,9 @@ meta:
   author: "Franziska Bühler"
   description: "Remote Command Execution: Unix Command Injection"
   enabled: true
-  name: 932106.yaml
+  name: 932232.yaml
 tests:
-  - test_title: 932106-1
+  - test_title: 932232-1
     desc: "/?arg=;ps"
     stages:
       - stage:
@@ -21,8 +21,8 @@ tests:
             uri: /?arg=%3Bps
             version: HTTP/1.0
           output:
-            log_contains: id "932106"
-  - test_title: 932106-2
+            log_contains: id "932232"
+  - test_title: 932232-2
     desc: "/?arg=|vi (x"
     stages:
       - stage:
@@ -38,8 +38,8 @@ tests:
             uri: /?arg=%7Cvi%20%28x
             version: HTTP/1.0
           output:
-            log_contains: id "932106"
-  - test_title: 932106-3
+            log_contains: id "932232"
+  - test_title: 932232-3
     desc: "/?arg=&w (x"
     stages:
       - stage:
@@ -55,8 +55,8 @@ tests:
             uri: /?arg=%26w%20%28x
             version: HTTP/1.0
           output:
-            log_contains: id "932106"
-  - test_title: 932106-4
+            log_contains: id "932232"
+  - test_title: 932232-4
     desc: "/?arg=&aptitude"
     stages:
       - stage:
@@ -72,8 +72,8 @@ tests:
             uri: /?arg=%26aptitude
             version: HTTP/1.0
           output:
-            no_log_contains: id "932106"
-  - test_title: 932106-5
+            no_log_contains: id "932232"
+  - test_title: 932232-5
     desc: Remote Command Execution bypass with time
     stages:
       - stage:
@@ -90,8 +90,8 @@ tests:
             uri: "/?foo=time+who"
             version: HTTP/1.1
           output:
-            log_contains: "id \"932106\""
-  - test_title: 932106-6
+            log_contains: "id \"932232\""
+  - test_title: 932232-6
     desc: Remote Command Execution bypass with time negative test
     stages:
       - stage:
@@ -108,8 +108,8 @@ tests:
             uri: "/?foo=time+warner"
             version: HTTP/1.1
           output:
-            no_log_contains: "id \"932106\""
-  - test_title: 932106-7
+            no_log_contains: "id \"932232\""
+  - test_title: 932232-7
     desc: Remote Command Injection test for BB finding 935E1D91 - time evasion attempt
     stages:
       - stage:
@@ -126,4 +126,4 @@ tests:
             uri: "/get?foo=ti''me+who"
             version: HTTP/1.1
           output:
-            log_contains: "id \"932106\""
+            log_contains: "id \"932232\""

@@ -151,3 +151,116 @@ tests:
             version: HTTP/1.1
           output:
             no_log_contains: id "932240"
+  - test_title: 932240-9
+    desc: "Unix Command Injection - python version bypass test"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: "localhost"
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+            method: GET
+            port: 80
+            # "cmd=python3.10 cmd"
+            uri: '/get?cmd=""p""y""t""h""o""n""3"".""1""0""%20""c""m""d""'
+            version: HTTP/1.0
+          output:
+            log_contains: id "932240"
+  - test_title: 932240-10
+    desc: Backticks command subtition WAF evasion
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=ping``%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: id "932240"
+  - test_title: 932240-11
+    desc: Backticks command subtition WAF evasion (mid command)
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=pi``ng%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: id "932240"
+  - test_title: 932240-12
+    desc: Dollar sign command subtition WAF evasion
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=ping$()%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: id "932240"
+  - test_title: 932240-13
+    desc: Dollar sign command subtition WAF evasion (mid command)
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=pi$()ng%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: id "932240"
+  - test_title: 932240-14
+    desc: Process subtition '<()' WAF evasion (mid command)
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=pi<()ng%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: id "932240"
+  - test_title: 932240-15
+    desc: Process subtition '>()' WAF evasion (mid command)
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/?x=pi>()ng%20127.0.0.1"
+            protocol: "http"
+          output:
+            log_contains: id "932240"
