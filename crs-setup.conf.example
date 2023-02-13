@@ -525,6 +525,9 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #
 # Note: Blocking Proxy header prevents 'httpoxy' vulnerability: https://httpoxy.org
 #
+# Note: Blocking the x-http-method-override,x-http-method and x-method-override headers
+# prevents attacks as described here: https://www.sidechannel.blog/en/http-method-override-what-it-is-and-how-a-pentester-can-use-it
+#
 # Uncomment this rule to change the default.
 #SecAction \
 # "id:900250,\
@@ -532,7 +535,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  nolog,\
 #  pass,\
 #  t:none,\
-#  setvar:'tx.restricted_headers=/accept-charset/ /content-encoding/ /proxy/ /lock-token/ /content-range/ /if/'"
+#  setvar:'tx.restricted_headers=/accept-charset/ /content-encoding/ /proxy/ /lock-token/ /content-range/ /if/ /x-http-method-override/ /x-http-method/ /x-method-override/'"
 
 # Content-Types charsets that a client is allowed to send in a request.
 # The content-types are enclosed by |pipes| as delimiters to guarantee exact matches.
