@@ -13,85 +13,8 @@
 
 ##!$ \b
 
-##! starting tokens prefix
 ##!> assemble
-  ##! time ifconfig
-  ##!> cmdline unix
-    time
-  ##!<
-  ##! ;ifconfig
-  ;
-  ##! {ifconfig}
-  \{
-  ##! |ifconfig
-  \|
-  ##! ||ifconfig
-  \|\|
-  ##! &ifconfig
-  &
-  ##! & &ifconfig
-  &&
-  ##! ;\nifconfig
-  \n
-  ##! ;\rifconfig
-  \r
-  ##! $(ifconfig)
-  \$\(
-  ##! $((ifconfig))
-  \$\(\(
-  ##! `ifconfig`
-  `
-  ##! ${ifconfig}
-  \${
-  ##! <( ifconfig )
-  <\(
-  ##! >( ifconfig )
-  >\(
-  ##! a() ( ifconfig; ); a
-  \(\s*\)
-  ##!=>
-
-  ##! match possible white space between prefix expressions
-  \s*
-  ##!=>
-
-  ##! commands prefix
-  ##!> assemble
-    ##! { ifconfig }
-    \{
-    ##! ( ifconfig )
-    \s*\(\s*
-    ##! VARNAME=xyz ifconfig
-    \w+=(?:[^\s]*|\$.*|\$.*|<.*|>.*|\'.*\'|\".*\")\s+
-    ##! ! ifconfig
-    !\s*
-    ##! $ifconfig
-    \$
-  ##!<
-  ##!=>
-
-  *
-  ##!=>
-
-  ##! match possible white space between prefix expressions
-  \s*
-  ##!=>
-
-  ##! quoting prefix
-  ##!> assemble
-    ##! 'ifconfig'
-    '
-    ##! "ifconfig"
-    \"
-  ##!<
-  ##!=>
-
-  *
-  ##!=>
-
-  ##! paths prefix (+ evasion prevention suffix [\x5c'\"]*)
-  (?:[\?\*\[\]\(\)\-\|+\w'\"\./\x5c]+/)?[\x5c'\"]*
-  ##!=>
+  ##!> include unix-shell-evasion-prefix
 
   ##!> cmdline unix
     vi@
