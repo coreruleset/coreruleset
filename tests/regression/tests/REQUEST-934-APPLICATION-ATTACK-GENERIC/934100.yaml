@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "lifeforms"
+  author: "lifeforms, airween, Max Leske"
   enabled: true
   name: "934100.yaml"
   description: "Tests for rule 934100"
@@ -17,7 +17,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=_%24%24ND_FUNC%24%24_
+            uri: /get/?foo=_%24%24ND_FUNC%24%24_
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -33,7 +33,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=__js_function
+            uri: /get/?foo=__js_function
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -49,7 +49,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=eval%28String.fromCharCode
+            uri: /get/?foo=eval%28String.fromCharCode
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -65,7 +65,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=function%28%29+%7B
+            uri: /get/?foo=function%28%29+%7B
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -81,7 +81,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=new+Function+%28
+            uri: /get/?foo=new+Function+%28
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -97,7 +97,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=this.constructor.constructor
+            uri: /get/?foo=this.constructor.constructor
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -113,7 +113,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=module.exports%3D
+            uri: /get/?foo=module.exports%3D
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -129,7 +129,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=XyQkTkRfRlVOQyQkXwo=
+            uri: /get/?foo=XyQkTkRfRlVOQyQkXwo=
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -145,7 +145,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=XyQkTkRfRlVOQyQkXwo=
+            uri: /get/?foo=XyQkTkRfRlVOQyQkXwo=
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -161,7 +161,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=process.env
+            uri: /get/?foo=process.env
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -177,7 +177,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=console.info(1)
+            uri: /get/?foo=console.info(1)
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -193,7 +193,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=c%5Cu006fnsole.info(1)
+            uri: /get/?foo=c%5Cu006fnsole.info(1)
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -209,7 +209,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=process["env"]
+            uri: /get/?foo=process["env"]
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -225,7 +225,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=console["info"](1)
+            uri: /get/?foo=console["info"](1)
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -241,7 +241,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=console.info.call(this,1)
+            uri: /get/?foo=console.info.call(this,1)
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -257,7 +257,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=process.
+            uri: /get/?foo=process.
             version: HTTP/1.0
           output:
             no_log_contains: id "934100"
@@ -273,7 +273,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=console.
+            uri: /get/?foo=console.
             version: HTTP/1.0
           output:
             no_log_contains: id "934100"
@@ -289,7 +289,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=%23%7Bprocess.binding%28foo%29.spawn%28foo2%29%7D
+            uri: /get/?foo=%23%7Bprocess.binding%28foo%29.spawn%28foo2%29%7D
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -305,7 +305,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=%23%7Brequire.main.constructor._load%28foo%29.readdirSync%28foo2%29%7D
+            uri: /get/?foo=%23%7Brequire.main.constructor._load%28foo%29.readdirSync%28foo2%29%7D
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -321,7 +321,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=process%5Breq.query.a
+            uri: /get/?foo=process%5Breq.query.a
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -337,7 +337,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=require%5Breq.query.a
+            uri: /get/?foo=require%5Breq.query.a
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -353,7 +353,7 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=process%5BmainModule
+            uri: /get/?foo=process%5BmainModule
             version: HTTP/1.0
           output:
             log_contains: id "934100"
@@ -369,7 +369,58 @@ tests:
               User-Agent: OWASP ModSecurity Core Rule Set
             method: GET
             port: 80
-            uri: /?foo=require("child_process").exec('whoami')
+            uri: /get/?foo=require("child_process").exec('whoami')
             version: HTTP/1.0
           output:
+            log_contains: id "934100"
+  - test_title: 934100-24
+    desc: "5ZLKNU33"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            data: |
+              process.env
+            uri: /post
+          output:
+            log_contains: id "934100"
+  - test_title: 934100-25
+    desc: "5ZLKNU33"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: OWASP ModSecurity Core Rule Set
+            method: POST
+            port: 80
+            data: |
+              console.info(1)
+            uri: /post
+          output:
+            log_contains: id "934100"
+  - test_title: 934100-26
+    desc: "5ZLKNU33"
+    stages:
+    - stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: OWASP ModSecurity Core Rule Set
+          method: POST
+          port: 80
+          data: |
+            c\u006fnsole.info(1)
+          uri: /post
+        output:
             log_contains: id "934100"
