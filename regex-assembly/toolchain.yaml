@@ -7,7 +7,7 @@ patterns:
     # - [\x5c'\"\[)]: common evasion tokens and path expansion, e.g., `/bin/[c]''a""\t`
     # - (?:\|\||&&)\s*: hiding of empty variables through logial operators, e.g., `nc&&$u -p 777`
     # - \$[a-z0-9_@?!#{(*-]*: empty variable evasion, e.g., `n\$uc -p 777`
-    # - [\x5c'\"\[)], \$[a-z0-9_@?!#{(*-]*: arithmetic expansion evaision, e.g., `c$((9))9`
+    # - [\x5c'\"\[)], \$[a-z0-9_@?!#{(*-]*: arithmetic expansion evasion, e.g., `c$((9))9`
     unix: |
       [\x5c'\"\[)]*(?:(?:(?:\|\||&&)\s*)?\$[a-z0-9_@?!#{(*-]*)?\x5c?
     windows: |
@@ -15,8 +15,9 @@ patterns:
   anti_evasion_suffix:
     # - <>: redirection, e.g., `cat<foo`
     # - ,: brace expansion, e.g., `""{nc,-p,777}`
+    ## - &|: logical operators in headers, e.g., `a=nc&&$a -nlvp 555`
     unix: |
-      [\s<>,].*
+      [\s<>,&|].*
     # "more foo", "more,foo", "more;foo", "more.com", "more/e",
     # "more<foo", "more>foo"
     windows: |
@@ -33,7 +34,7 @@ patterns:
     # It will _not_ match:
     # python foo
     unix: |
-      (?:[<>,]|(?:[\w\d._-][\x5c'\"\[]*(?:(?:(?:\|\||&&)\s*)?\$[a-z0-9_@?!#{*-]*)?\x5c?)+[\s<>,]).*
+      (?:[<>,&|]|(?:[\w\d._-][\x5c'\"\[]*(?:(?:(?:\|\||&&)\s*)?\$[a-z0-9_@?!#{*-]*)?\x5c?)+[\s<>,&|]).*
     # This will match:
     #
     # python,foo
