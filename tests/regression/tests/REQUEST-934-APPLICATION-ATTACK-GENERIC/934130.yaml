@@ -132,7 +132,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "?__proto__%5Btest%5D%3D%7B%22json%22%3A%22value%22%7D"
+            uri: "/?__proto__%5Btest%5D%3D%7B%22json%22%3A%22value%22%7D"
             version: HTTP/1.0
           output:
             log_contains: id "934130"
@@ -148,7 +148,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "?constructor%5Bprototype%5D%5Btest%5D%3Dtest"
+            uri: "/?constructor%5Bprototype%5D%5Btest%5D%3Dtest"
             version: HTTP/1.0
           output:
             log_contains: id "934130"
@@ -164,7 +164,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "?__proto__[jquery]=x"
+            uri: "/?__proto__[jquery]=x"
             version: HTTP/1.0
           output:
             log_contains: id "934130"
@@ -180,7 +180,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "?__proto__%5Bv-bind%3Aclass%5D%3D%27%27.constructor.constructor%28%27alert%281%29%27%29%28%29"
+            uri: "/?__proto__%5Bv-bind%3Aclass%5D%3D%27%27.constructor.constructor%28%27alert%281%29%27%29%28%29"
             version: HTTP/1.0
           output:
             log_contains: id "934130"
