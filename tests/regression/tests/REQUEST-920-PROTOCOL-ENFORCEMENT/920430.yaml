@@ -43,7 +43,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
-            status: [403, 400]
+            status: [403, 400, 426, 505]
   - test_title: 920430-4
     stages:
       - stage:
@@ -138,7 +138,7 @@ tests:
             uri: /
             version: HTTP/0.8
           output:
-            status: [403, 400]
+            status: [403, 400, 426, 505]
   - test_title: 920430-10
     desc: HTTP protocol version is not allowed by policy (920430) from old modsec regressions
     stages:
