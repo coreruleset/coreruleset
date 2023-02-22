@@ -13,7 +13,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?932260-1=bash%20-c%20%22echo%20test%22"
@@ -28,7 +28,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Cookie: "931120-3=exec 5<>/dev/tcp/8.8.8.8/80"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
@@ -44,7 +44,7 @@ tests:
             method: "POST"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '932260-2=dont match commands that are not at start;tar -xzf /var/www/exfiltrate.tar.gz /etc'
@@ -59,7 +59,7 @@ tests:
             method: "POST"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'foo=ping pong tables'
@@ -74,7 +74,7 @@ tests:
             method: "POST"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'foo=time is of the essence'
@@ -89,7 +89,7 @@ tests:
             method: "POST"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'x=printf%20dwssap/cte/%20tac%20|%20rev%20|%20sh'
@@ -139,7 +139,7 @@ tests:
             method: "POST"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'cmd=gunzip -c /var/log/sensitive_log_file.gz'
@@ -155,7 +155,7 @@ tests:
             method: "POST"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'cmd=zstdcat /var/log/sensitive_log_file.zst'
@@ -221,7 +221,7 @@ tests:
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Accept-Encoding: gzip, deflate, br
               Accept-Language: en-us,en;q=0.5
@@ -239,7 +239,7 @@ tests:
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Accept-Encoding: gzip, deflate, br
               Accept-Language: en-us,en;q=0.5
@@ -257,7 +257,7 @@ tests:
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Accept-Encoding: gzip, deflate, br
               Accept-Language: en-us,en;q=0.5
@@ -275,7 +275,7 @@ tests:
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Accept-Encoding: gzip, deflate, br
               Accept-Language: en-us,en;q=0.5
@@ -293,7 +293,7 @@ tests:
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Accept-Encoding: gzip, deflate, br
               Accept-Language: en-us,en;q=0.5
@@ -312,7 +312,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/?x=find%20.%201%20-exec%20curl%20google.com%20\\;"
@@ -328,7 +328,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/?x=find%20x%20for%20y"
@@ -344,7 +344,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/?x=ping%20127.0.0.1"

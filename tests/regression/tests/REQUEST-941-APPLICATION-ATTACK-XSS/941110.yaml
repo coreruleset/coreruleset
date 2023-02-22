@@ -15,7 +15,7 @@ tests:
             port: 80
             uri: '/'
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: localhost
               Cookie: xyz=<script >alert(1);</script>
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
@@ -31,7 +31,7 @@ tests:
             port: 80
             uri: "/?x=<script+>alert(1);</script>"
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
@@ -61,7 +61,7 @@ tests:
             port: 80
             uri: '/'
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: localhost
               Referer: "<script >alert(1);</script>"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
@@ -79,7 +79,7 @@ tests:
             headers:
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
           output:
             log_contains: id "941110"
   - test_title: 941110-6
@@ -94,7 +94,7 @@ tests:
             headers:
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Content-Type: application/x-www-form-urlencoded
             data: |
               var=%uff1cscript%u0020%uff1ealert%281%29%uff1c/script%uff1e
@@ -112,7 +112,7 @@ tests:
             headers:
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Content-Type: application/x-www-form-urlencoded
             data: |
               var=%ef%bc%9cscript%20%ef%bc%9ealert%281%29%ef%bc%9c/script%ef%bc%9e
@@ -130,7 +130,7 @@ tests:
             headers:
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Cookie: ＜script ＞alert(1)＜/script＞=value
           output:
             log_contains: id "941110"
@@ -146,7 +146,7 @@ tests:
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Referer: "&lt;script+&gt;alert(1);&lt;/script&gt"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
           output:
             log_contains: id "941110"
   - test_title: 941110-10
@@ -159,7 +159,7 @@ tests:
             port: 80
             uri: "/?%9cscript+%bcalert(1);%bc/script%9e=value"
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
