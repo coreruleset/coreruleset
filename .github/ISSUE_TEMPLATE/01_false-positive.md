@@ -62,7 +62,7 @@ get access to the information we need to help you.
 * CRS version (e.g., v3.3.4):
 * Paranoia level setting (e.g. PL1) :
 * ModSecurity version (e.g., 2.9.6):
-* Web Server and version or cloud provider / CDN (e.g., apache 2.4.54):
+* Web Server and version or cloud provider / CDN (e.g., Apache httpd 2.4.54):
 * Operating System and version:
 
 ### Confirmation
