@@ -33,7 +33,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "?x=x&x[constructor][__parseStyleElement][innerHTML]=<img/src/onerror%3dalert(1)>"
+            uri: "/get?x=x&x[constructor][__parseStyleElement][innerHTML]=<img/src/onerror%3dalert(1)>"
             version: HTTP/1.0
           output:
             log_contains: id "934131"

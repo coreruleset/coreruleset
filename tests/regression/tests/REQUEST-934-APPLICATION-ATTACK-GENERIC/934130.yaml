@@ -17,7 +17,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: /?foo=proto
+            uri: "/get?foo=proto"
             version: HTTP/1.0
           output:
             no_log_contains: id "934130"
@@ -52,7 +52,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "/?__proto__[test]=test"
+            uri: "/get?__proto__[test]=test"
             version: HTTP/1.0
           output:
             log_contains: id "934130"
@@ -68,7 +68,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "/?__proto__.test=test"
+            uri: "/get?__proto__.test=test"
             version: HTTP/1.0
           output:
             log_contains: id "934130"
@@ -84,7 +84,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "/?constructor.prototype.test=test"
+            uri: "/get?constructor.prototype.test=test"
             version: HTTP/1.0
           output:
             log_contains: id "934130"
@@ -100,7 +100,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "/?constructor.prototype.%20test=test"
+            uri: "/get?constructor.prototype.%20test=test"
             version: HTTP/1.0
           output:
             log_contains: id "934130"
@@ -116,7 +116,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "/?__proto__[context]=<img/src/onerror%3dalert(1)>"
+            uri: "/get?__proto__[context]=<img/src/onerror%3dalert(1)>"
             version: HTTP/1.0
           output:
             log_contains: id "934130"
@@ -132,7 +132,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "?__proto__%5Btest%5D%3D%7B%22json%22%3A%22value%22%7D"
+            uri: "/get?__proto__%5Btest%5D%3D%7B%22json%22%3A%22value%22%7D"
             version: HTTP/1.0
           output:
             log_contains: id "934130"
@@ -148,7 +148,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "?constructor%5Bprototype%5D%5Btest%5D%3Dtest"
+            uri: "/get?constructor%5Bprototype%5D%5Btest%5D%3Dtest"
             version: HTTP/1.0
           output:
             log_contains: id "934130"
@@ -164,7 +164,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "?__proto__[jquery]=x"
+            uri: "/get?__proto__[jquery]=x"
             version: HTTP/1.0
           output:
             log_contains: id "934130"
@@ -180,7 +180,7 @@ tests:
               User-Agent: ModSecurity CRS 3 Tests
             method: GET
             port: 80
-            uri: "?__proto__%5Bv-bind%3Aclass%5D%3D%27%27.constructor.constructor%28%27alert%281%29%27%29%28%29"
+            uri: "/get?__proto__%5Bv-bind%3Aclass%5D%3D%27%27.constructor.constructor%28%27alert%281%29%27%29%28%29"
             version: HTTP/1.0
           output:
             log_contains: id "934130"
