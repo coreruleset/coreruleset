@@ -18,7 +18,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Content-Length: 22
               Content-Type: "application/x-www-form-urlencoded"
-              User-Agent: "OWASP ModSecurity Core Rule Set"
+              User-Agent: "OWASP CRS test agent"
             data: 'file=cat+/etc/\passw\d'
             stop_magic: true
           output:
@@ -31,7 +31,7 @@ tests:
             port: 80
             uri: "/?file=cat+/etc/pa\\ssw\\d"
             headers:
-              User-Agent: "OWASP ModSecurity Core Rule Set"
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
@@ -44,7 +44,7 @@ tests:
             port: 80
             uri: "/?file=\\c"
             headers:
-              User-Agent: "OWASP ModSecurity Core Rule Set"
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
@@ -57,7 +57,7 @@ tests:
             port: 80
             uri: "/?file=\\\\c"
             headers:
-              User-Agent: "OWASP ModSecurity Core Rule Set"
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
@@ -70,7 +70,7 @@ tests:
             port: 80
             uri: "/?file=\\\\\\c"
             headers:
-              User-Agent: "OWASP ModSecurity Core Rule Set"
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
