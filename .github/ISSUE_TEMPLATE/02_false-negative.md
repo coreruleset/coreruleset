@@ -48,11 +48,11 @@ can reproduce the behavior.
 
 Usually, you find the logs at a location like /var/log/modsec_audit.log.
 When using a CDN or cloud server, the naming of the logs and their location
-depends on the provider. Please refer to the documentation.
+depends on the provider. Please refer to their documentation.
 
-If you can not submit a curl call nor log files or a payload to reproduce
+If you cannot submit neither curl call nor log files nor a payload to reproduce
 the behavior, there is litterally nothing we can do for you. Please help us to
-the information we need to help you.
+get access to the information we need to help you.
 -->
 
 ### Your Environment
@@ -62,7 +62,7 @@ the information we need to help you.
 * CRS version (e.g., v3.3.4):
 * Paranoia level setting (e.g. PL1) :
 * ModSecurity version (e.g., 2.9.6):
-* Web Server and version or cloud provider / CDN (e.g., apache 2.4.54):
+* Web Server and version or cloud provider / CDN (e.g., Apache httpd 2.4.54):
 * Operating System and version:
 
 ### Confirmation
