@@ -48,7 +48,7 @@ can reproduce the behavior.
 
 Usually, you find the logs at a location like /var/log/modsec_audit.log.
 When using a CDN or cloud server, the naming of the logs and their location
-depends on the provider. Please refer to the documentation.
+depends on the provider. Please refer to their documentation.
 
 If you can not submit a curl call nor log files or a payload to reproduce
 the behavior, there is litterally nothing we can do for you. Please help us to
