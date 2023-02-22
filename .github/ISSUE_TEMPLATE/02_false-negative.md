@@ -43,7 +43,7 @@ https://coreruleset.org/docs/development/sandbox/
 Feel free to skip this section if you provided a curl call above.
 
 Ideally, you provide a full audit log of the request, relevant infos out of
-the Error log or at least a screenshot where we can see the payload so we
+the error log or at least a screenshot where we can see the payload so we
 can reproduce the behavior.
 
 Usually, you find the logs at a location like /var/log/modsec_audit.log.
