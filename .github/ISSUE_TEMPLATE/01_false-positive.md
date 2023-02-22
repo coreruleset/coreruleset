@@ -52,7 +52,7 @@ depends on the provider. Please refer to their documentation.
 
 If you cannot submit neither curl call nor log files nor a payload to reproduce
 the behavior, there is litterally nothing we can do for you. Please help us to
-the information we need to help you.
+get access to the information we need to help you.
 -->
 
 ### Your Environment
