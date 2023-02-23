@@ -16,7 +16,7 @@ tests:
             headers:
               Host: "localhost"
               FoobarHeader: "/../../../././..\\ ../../etc/master.passwd"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
           output:
@@ -32,7 +32,7 @@ tests:
             headers:
               Host: "localhost"
               X-FTW: "This should trip"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/?arg=../../../etc/passwd"
           output:
@@ -47,7 +47,7 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
             data: "arg=../../../etc/passwd&foo=var"
@@ -63,7 +63,7 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/foo../1234"
           output:
@@ -78,7 +78,7 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/foo.../1234"
           output:
@@ -93,7 +93,7 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/..foo"
           output:
@@ -108,7 +108,7 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: ".."
           output:
@@ -123,7 +123,7 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: '/?arg=..\pineapple'
           output:
@@ -138,7 +138,7 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: '/?foo=.../.../WINDOWS/win.ini'
           output:
@@ -153,7 +153,7 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             uri: /
@@ -176,7 +176,7 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             uri: /
@@ -200,7 +200,7 @@ tests:
             headers:
               Host: "localhost"
               X-FTW: "This should trip"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/?a=..;.\\.;\\."
           output:

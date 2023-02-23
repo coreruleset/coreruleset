@@ -16,7 +16,7 @@ tests:
             headers:
               Host: "localhost"
               FoobarHeader: "0x5c0x2e.%00/"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
           output:
@@ -31,7 +31,7 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/?foo=.../.../WINDOWS/win.ini"
           output:
@@ -46,7 +46,7 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/?foo=0x2e.%000x2f0x2e.%00/WINDOWS/win.ini"
           output:

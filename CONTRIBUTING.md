@@ -341,7 +341,7 @@ Example of a simple *positive test*:
             port: 80
             headers:
               Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: */*
             method: POST
             uri: "/"
@@ -371,7 +371,7 @@ Example of a simple *negative test*:
             port: 80
             headers:
               Host: localhost
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Accept: */*
             method: POST
             uri: "/"

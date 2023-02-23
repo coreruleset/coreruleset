@@ -13,7 +13,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/?932160-1=cat%20/etc/passwd"
@@ -28,7 +28,7 @@ tests:
             method: "POST"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: "932160-2=/usr/bin/perl -e 'print readline' some-file.txt"
@@ -43,7 +43,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Cookie: "931120-3=/usr/bin/python3 -m http.server"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
@@ -59,7 +59,7 @@ tests:
             method: "POST"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '932160-2=dont match commands that are not fully qualified like bash python and perl.'
@@ -75,7 +75,7 @@ tests:
             method: "POST"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'cmd=/bin/gunzip -c /var/log/something_sensitive.gz'
@@ -91,7 +91,7 @@ tests:
             method: "POST"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'cmd=/bin/unxz -c /var/log/something_sensitive.xz'
@@ -107,7 +107,7 @@ tests:
             method: "POST"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'sentence=The zip on my coat is stuck'
@@ -124,7 +124,7 @@ tests:
             uri: "/post"
             port: 80
             headers:
-              User-Agent: OWASP ModSecurity Core Rule Set
+              User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'cmd=/bin/ab'
