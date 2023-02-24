@@ -408,6 +408,25 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 
 #
+# -- [[ Initialize Default Collections ]] -----------------------------------
+#
+# CRS provides a centralized option to initialize and populate collections
+# meant to be used by plugins (E.g.DoS protection plugin).
+# By default, Global and IP collections (see rules 901318 and 901321),
+# being not used by core rules, are not initialized.
+#
+# Uncomment this rule to change the default:
+#
+#SecAction \
+# "id:900130,\
+#  phase:1,\
+#  nolog,\
+#  pass,\
+#  t:none,\
+#  setvar:tx.enable_default_collections=1"
+
+
+#
 # -- [[ HTTP Policy Settings ]] ------------------------------------------------
 #
 # This section defines your policies for the HTTP protocol, such as:
