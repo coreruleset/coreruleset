@@ -3,7 +3,7 @@ meta:
   author: "Paul Beckett"
   enabled: true
   name: "941181.yaml"
-  description: "Tests to trigger, or not trigger 941180"
+  description: "Tests to trigger, or not trigger 941181"
 tests:
   - test_title: 941181-1
     desc: Node-validator deny list keywords, ARGS
@@ -38,6 +38,22 @@ tests:
           output:
             log_contains: id "941181"
   - test_title: 941181-3
+    desc: Node-validator deny list keywords, ARGS
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            uri: '/foo'
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: '941181-4=-->'
+          output:
+            log_contains: id "941181"
+  - test_title: 941181-4
     desc: Node-validator deny list keywords, ARGS_NAMES
     stages:
       - stage:
@@ -53,7 +69,7 @@ tests:
             data: '-->=941181-3'
           output:
             log_contains: id "941181"
-  - test_title: 941181-4
+  - test_title: 941181-5
     desc: Node-validator deny list keywords, ARGS_NAMES
     stages:
       - stage:
@@ -66,6 +82,39 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Cookie: '-->=941181-4'
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          output:
+            log_contains: id "941181"
+  - test_title: 941181-6
+    desc: "XSS with embedded shell execution attempt (batch script)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: "/"
+            data: "var=\"-->'-->`--><!--#set var=\"qjr9\" value=\"kjkjg7sdk\"--><!--#set var=\"fqz7\" value=\"sql4xxaq\"--><!--#echo var=\"qjr9\"--><!--#echo var=\"fq4p\"-->"
+            version: HTTP/1.0
+          output:
+            log_contains: id "941181"
+  - test_title: 941181-7
+    desc: Node-validator deny list keywords, ARGS_NAMES
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: GET
+            port: 80
+            uri: '/baz'
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Cookie: '<![cdata[=941181-4'
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
             log_contains: id "941181"

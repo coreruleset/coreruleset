@@ -54,39 +54,6 @@ tests:
           output:
             log_contains: id "941180"
   - test_title: 941180-4
-    desc: Negative test for Node-validator deny list keyword -->, present in stricter sibling 941181, ARGS
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            method: POST
-            port: 80
-            uri: '/foo'
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            data: '941180-4=-->'
-          output:
-            no_log_contains: id "941180"
-  - test_title: 941180-5
-    desc: "XSS with embedded shell execution attempt (batch script)"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/"
-            data: "var=\"-->'-->`--><!--#set var=\"qjr9\" value=\"kjkjg7sdk\"--><!--#set var=\"fqz7\" value=\"sql4xxaq\"--><!--#echo var=\"qjr9\"--><!--#echo var=\"fq4p\"-->"
-            version: HTTP/1.0
-          output:
-            log_contains: id "941180"
-  - test_title: 941180-6
     desc: "Node-validator deny list keywords, ARGS, issue #2512"
     stages:
       - stage:
@@ -102,7 +69,7 @@ tests:
             data: 'arg=...(document.domain)...'
           output:
             log_contains: id "941180"
-  - test_title: 941180-7
+  - test_title: 941180-5
     desc: "We should not trigger on REQUEST_FILENAME without special characters"
     stages:
       - stage:
