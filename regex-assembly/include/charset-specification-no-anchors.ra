@@ -16,17 +16,20 @@
 ##! https://httpwg.org/specs/rfc7230.html
 
 ##! Helpers
-##!> define non-token-with-dquote-chars (),/:;<=>?![\x5c\]{}
+##!> define non-token-without-dquote-chars (),/:;<=>?![\x5c\]{}
 
-##!> define non-token-chars \"{{non-token-with-dquote-chars}}
+##!> define non-token-chars \"{{non-token-without-dquote-chars}}
 
 ##!> define token-chars [^{{non-token-chars}}]
 
-##!> define token-with-dquote-chars [^{{non-token-with-dquote-chars}}]
+##!> define token-with-dquote-chars [^{{non-token-without-dquote-chars}}]
 
 ##!> define type-subtype (?:\*|{{token-chars}}+)
 
-##!> define media-type {{type-subtype}}/{{type-subtype}}
+##! The specification does not allow `*` in place of `*/*` but
+##! enough clients use `*` for it to be an issue. Thus, it is
+##! explicitly allowed here.
+##!> define media-type (?:(?:{{type-subtype}}/{{type-subtype}})|\*)
 
 ##! list of allowed charsets
 ##!> assemble
