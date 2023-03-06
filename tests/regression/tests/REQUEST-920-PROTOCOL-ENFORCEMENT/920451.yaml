@@ -19,7 +19,7 @@ tests:
               Accept: text/html
               Accept-Charset: UTF-8
           output:
-            log_contains: id "920450"
+            log_contains: id "920451"
   - test_title: 920451-2
     desc: "Send a Content-Range header, which should be blocked but by this rule's sibling rule, not by this rule"
     stages:
@@ -34,4 +34,4 @@ tests:
               Accept: text/html
               Content-Range: bytes 4096-8192/8192
           output:
-            no_log_contains: id "920450"
+            no_log_contains: id "920451"
