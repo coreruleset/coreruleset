@@ -548,7 +548,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  nolog,\
 #  pass,\
 #  t:none,\
-#  setvar:'tx.restricted_headers=/accept-charset/ /content-encoding/ /proxy/ /lock-token/ /content-range/ /if/ /x-http-method-override/ /x-http-method/ /x-method-override/'"
+#  setvar:'tx.restricted_headers_basic=/accept-charset/ /content-encoding/ /proxy/ /lock-token/ /content-range/ /if/ /x-http-method-override/ /x-http-method/ /x-method-override/'"
 #
 # [ Extended ]
 # Includes deprecated headers that are still in use (so false positives are
@@ -572,7 +572,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  nolog,\
 #  pass,\
 #  t:none,\
-#  setvar:'tx.restricted_headers=/accept-charset/'"
+#  setvar:'tx.restricted_headers_extended=/accept-charset/'"
 
 # Content-Types charsets that a client is allowed to send in a request.
 # The content-types are enclosed by |pipes| as delimiters to guarantee exact matches.
