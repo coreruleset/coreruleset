@@ -513,7 +513,8 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # should be lowercase and enclosed by /slashes/ as delimiters.
 #
 # [ Basic ]
-# Deprecated headers and/or headers with known security risks: always forbidden.
+# Includes deprecated headers and headers with known security risks: always
+# forbidden.
 # Default: /content-encoding/ /proxy/ /lock-token/ /content-range/ /if/ /x-http-method-override/ /x-http-method/ /x-method-override/
 #
 # /content-encoding/
@@ -550,8 +551,9 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  setvar:'tx.restricted_headers=/accept-charset/ /content-encoding/ /proxy/ /lock-token/ /content-range/ /if/ /x-http-method-override/ /x-http-method/ /x-method-override/'"
 #
 # [ Extended ]
-# Deprecated headers still in use (so false positives are possible), possible
-# security risks: forbidden at a higher paranoia level.
+# Includes deprecated headers that are still in use (so false positives are
+# possible) and headers with possible security risks: forbidden at a higher
+# paranoia level.
 # Default: /accept-charset/
 #
 # /accept-charset/
