@@ -569,6 +569,29 @@ class Check(object):
                     severity  = None     # severity
                     has_nolog = False    # rule has nolog action
 
+def removecomments(data):
+    _data = []  # new structure by lines
+    lines = [l.strip("\n") for l in data.split("\n")] # split the old content
+    marks = re.compile("^#(| *)(SecRule|SecAction)", re.I) # regex what catches the rules
+    state = 0   # hold the state of the parser
+    for l in lines:
+        # if the line starts with #SecRule, #SecAction, # SecRule, # SecAction, set the marker
+        if marks.match(l):
+            state = 1
+        # if the marker is set and the line is empty or contains only a comment, unset it
+        if state == 1 and l.strip() in ["", "#"]:
+            state = 0
+
+        # if marker has set, remove the comment
+        if state == 1:
+            _data.append(re.sub("^#", "", l))
+        else:
+            _data.append(l)
+
+    data = "\n".join(_data)
+
+    return data
+
 def errmsg(msg):
     if oformat == "github":
         print("::error %s" % (msg))
@@ -630,6 +653,9 @@ if __name__ == "__main__":
         try:
             with open(f, 'r') as inputfile:
                 data = inputfile.read()
+                # modify the content of the file, it it is the "crs-setup.conf.example"
+                if f.startswith("crs-setup.conf.example"):
+                    data = removecomments(data)
         except:
             errmsg("Can't open file: %s" % f)
             sys.exit(1)
@@ -694,6 +720,9 @@ if __name__ == "__main__":
         try:
             with open(f, 'r') as fp:
                 fromlines = fp.readlines()
+                if f.startswith("crs-setup.conf.example"):
+                    fromlines = removecomments("".join(fromlines)).split("\n")
+                    fromlines = [l + "\n" for l in fromlines]
         except:
             errmsg("  Can't open file for indent check: %s" % (f))
             retval = 1
@@ -707,6 +736,11 @@ if __name__ == "__main__":
                 output.append("\n")
             else:
                 output += [l + "\n" for l in l.split("\n")]
+
+        if len(fromlines) < len(output):
+            fromlines.append("\n")
+        elif len(fromlines) > len(output):
+            output.append("\n")
 
         diff = difflib.unified_diff(fromlines, output)
         if fromlines == output:
