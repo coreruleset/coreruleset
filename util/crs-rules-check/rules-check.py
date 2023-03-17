@@ -569,7 +569,7 @@ class Check(object):
                     severity  = None     # severity
                     has_nolog = False    # rule has nolog action
 
-def removecomments(data):
+def remove_comments(data):
     """
     In some special cases, remove the comments from the beginning of the lines.
 
@@ -692,7 +692,7 @@ if __name__ == "__main__":
                 data = inputfile.read()
                 # modify the content of the file, it it is the "crs-setup.conf.example"
                 if f.startswith("crs-setup.conf.example"):
-                    data = removecomments(data)
+                    data = remove_comments(data)
         except:
             errmsg("Can't open file: %s" % f)
             sys.exit(1)
@@ -758,7 +758,7 @@ if __name__ == "__main__":
             with open(f, 'r') as fp:
                 fromlines = fp.readlines()
                 if f.startswith("crs-setup.conf.example"):
-                    fromlines = removecomments("".join(fromlines)).split("\n")
+                    fromlines = remove_comments("".join(fromlines)).split("\n")
                     fromlines = [l + "\n" for l in fromlines]
         except:
             errmsg("  Can't open file for indent check: %s" % (f))
