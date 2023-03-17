@@ -608,7 +608,7 @@ def remove_comments(data):
 
     """
     _data = []  # new structure by lines
-    lines = [l.strip("\n") for l in data.split("\n")] # split the old content
+    lines = data.split("\n")
     marks = re.compile("^#(| *)(SecRule|SecAction)", re.I) # regex what catches the rules
     state = 0   # hold the state of the parser
     for l in lines:
