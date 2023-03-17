@@ -570,6 +570,43 @@ class Check(object):
                     has_nolog = False    # rule has nolog action
 
 def removecomments(data):
+    """
+    In some special cases, remove the comments from the beginning of the lines.
+
+    A special case starts when the line has a "SecRule" or "SecAction" token at
+    the beginning and ends when the line - with or without a comment - is empty.
+
+    Eg.:
+    175	# Uncomment this rule to change the default:
+    176	#
+    177	#SecAction \
+    178	#    "id:900000,\
+    179	#    phase:1,\
+    180	#    pass,\
+    181	#    t:none,\
+    182	#    nolog,\
+    183	#    setvar:tx.blocking_paranoia_level=1"
+    184
+    185
+    186	# It is possible to execute rules from a higher paranoia level but not include
+
+    In this case, the comments from the beginning of lines 177 and 183 are deleted and
+    evaluated as follows:
+
+    175	# Uncomment this rule to change the default:
+    176	#
+    177	SecAction \
+    178	    "id:900000,\
+    179	    phase:1,\
+    180	    pass,\
+    181	    t:none,\
+    182	    nolog,\
+    183	    setvar:tx.blocking_paranoia_level=1"
+    184
+    185
+    186	# It is possible to execute rules from a higher paranoia level but not include
+
+    """
     _data = []  # new structure by lines
     lines = [l.strip("\n") for l in data.split("\n")] # split the old content
     marks = re.compile("^#(| *)(SecRule|SecAction)", re.I) # regex what catches the rules
