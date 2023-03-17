@@ -619,7 +619,7 @@ def remove_comments(data):
         if state == 1 and l.strip() in ["", "#"]:
             state = 0
 
-        # if marker has set, remove the comment
+        # if marker is set, remove the comment
         if state == 1:
             _data.append(re.sub("^#", "", l))
         else:
