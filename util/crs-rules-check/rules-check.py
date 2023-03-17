@@ -690,7 +690,7 @@ if __name__ == "__main__":
         try:
             with open(f, 'r') as inputfile:
                 data = inputfile.read()
-                # modify the content of the file, it it is the "crs-setup.conf.example"
+                # modify the content of the file, if it is the "crs-setup.conf.example"
                 if f.startswith("crs-setup.conf.example"):
                     data = remove_comments(data)
         except:
