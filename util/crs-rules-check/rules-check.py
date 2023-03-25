@@ -796,7 +796,7 @@ if __name__ == "__main__":
                     'title'  : "Indentation error",
                     'line'   : line1,
                     'endLine': line1+line2,
-                    'message': "an indetation error has found"
+                    'message': "an indentation error has found"
                 }
                 errmsgf(e)
             errmsg(d.strip("\n"))
