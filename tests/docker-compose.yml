@@ -72,4 +72,22 @@ services:
     # are not reflected as JSON Unicode escape sequences but as the data
     # actualy sent.
     image: mccutchen/go-httpbin
-    command: ["/bin/go-httpbin", "-port", "80"]
+
+  coraza-go:
+    container_name: coraza-go
+    image: ghcr.io/jcchavezs/coraza-httpbin:main
+    volumes:
+      # coraza-httpbin writes multipart data to disk
+      - coraza-data:/tmp
+      - ./logs/coraza:/var/log:rw
+      - ./coraza-directives.conf:/etc/directives.conf:ro
+      - ../rules:/etc/rules:ro
+      - ../plugins:/etc/plugins:ro
+      - ../crs-setup.conf.example:/etc/crs-setup.conf:ro
+    entrypoint: ["/usr/bin/coraza-httpbin", "-directives", "/etc/directives.conf", "-matched-rules-log", "/var/log/coraza.log"]
+    ports:
+      - "80:8080"
+    command: ["/bin/go-httpbin", "-port", "8080"]
+
+volumes:
+  coraza-data:
