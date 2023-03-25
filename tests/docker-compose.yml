@@ -1,5 +1,3 @@
-version: '3.2'
-
 # Only one of these will be up at a time for now.
 # Concurrency will be on the tests folder we have.
 
@@ -74,3 +72,33 @@ services:
   #
   backend:
     image: docker.io/kennethreitz/httpbin
+
+  coraza:
+    container_name: coraza-httpbin
+    image: ghcr.io/jcchavezs/coraza-httpbin:main
+    environment:
+      SERVERNAME: modsec2-apache
+      BACKEND: http://backend
+      PORT: "80"
+      MODSEC_RULE_ENGINE: DetectionOnly
+      BLOCKING_PARANOIA: 4
+      ERRORLOG: "/var/log/error.log"
+      ACCESSLOG: "/var/log/access.log"
+      MODSEC_AUDIT_LOG_FORMAT: Native
+      MODSEC_AUDIT_LOG_TYPE: Serial
+      MODSEC_AUDIT_LOG: "/var/log/modsec_audit.log"
+      MODSEC_TMP_DIR: "/tmp"
+      MODSEC_RESP_BODY_ACCESS: "On"
+      MODSEC_RESP_BODY_MIMETYPE: "text/plain text/html text/xml application/json"
+      MAX_FILE_SIZE: "64100"
+      COMBINED_FILE_SIZES: "65535"
+      CRS_ENABLE_TEST_MARKER: 1
+      VALIDATE_UTF8_ENCODING: 1
+    volumes:
+      - ./logs/coraza:/var/log:rw
+      - ../rules:/opt/owasp-crs/rules:ro
+      - ../plugins:/opt/owasp-crs/plugins:ro
+      - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
+    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh && apachectl -D FOREGROUND"]
+    ports:
+      - "80:80"
