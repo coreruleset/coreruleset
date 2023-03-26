@@ -1,6 +1,6 @@
 # This list comes from:
-# - https://github.com/danielmiessler/SecLists/tree/master/Fuzzing/LFI
-# - https://raw.githubusercontent.com/DragonJAR/Security-Wordlist/main/LFI-WordList-Linux
+# - https://github.com/lightos/Panoptic
+# - https://github.com/danielmiessler/SecLists
 # /proc and /sys entries should be kept in sync with restricted-files.data
 
 # Entries in this list generally use the shortest path that suffices for identifying them as dangerous.
@@ -10,6 +10,13 @@
 # For example, the two entries usr/local/mysql/data/mysql.err and xampp/mysql/data/mysql.err are
 # represented as mysal/data, as that is enough to identify the paths as being suspicious.
 
+
+# Most of the dotfile entries can be generated from the following three commands.
+# Unfortunately, the output contains many more entries, including some file
+# extensions. There are also some entries that probably added by hand.
+# curl -s https://raw.githubusercontent.com/lightos/Panoptic/master/home.txt | grep -E "^\." |  awk  '{ print tolower($0) }' | sort | uniq
+# curl -s https://raw.githubusercontent.com/lightos/Panoptic/master/cases.xml | grep "file value" | cut -d'"' -f2 | grep -E "^\." |  awk  '{ print tolower($0) }' | sort | uniq
+# curl -s https://raw.githubusercontent.com/danielmiessler/SecLists/master/Fuzzing/fuzz-Bo0oM.txt | grep -Ev '\\|\.\.|=\b|%' | grep -E "^\." |  awk  '{ print tolower($0) }' | sort | uniq
 .addressbook
 .aptitude/config
 .aws/
@@ -80,6 +87,9 @@
 .zshrc
 /php.ini
 /tmp/
+
+# Apache httpd entries can be generated with the following command:
+# curl -s https://raw.githubusercontent.com/lightos/Panoptic/master/cases.xml | grep "file value" | cut -d'"' -f2 | awk -F/ '{ { if (length($NF) > 0) {v1 = NF-1; v2 = NF} else {v1 = NF-2; v2 = NF-1} print tolower($v1"/"$v2) }) }' | grep apache | sort | uniq
 apache/access.conf
 apache/apache.conf
 apache/apache2.conf
@@ -492,6 +502,9 @@ php5/apache.conf
 php5/apache2.conf
 php5/httpd.conf
 postgresql/log/
+
+# proc entries should be the same as in lfi-os-files.data. To copy, run:
+# grep -E "^proc" lfi-os-files.data
 proc/0
 proc/1
 proc/2
@@ -590,6 +603,9 @@ sites/default/settings.local.php
 sites/default/settings.php
 squirrelmail/config/config.php
 squirrelmail/www
+
+# sys entries should be the same as in lfi-os-files.data. To copy, run:
+# grep -E "^sys" lfi-os-files.data
 sys/block
 sys/bus
 sys/class
