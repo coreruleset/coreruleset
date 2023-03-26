@@ -18,28 +18,38 @@
 # curl -s https://raw.githubusercontent.com/lightos/Panoptic/master/cases.xml | grep "file value" | cut -d'"' -f2 | grep -E "^\." |  awk  '{ print tolower($0) }' | sort | uniq
 # curl -s https://raw.githubusercontent.com/danielmiessler/SecLists/master/Fuzzing/fuzz-Bo0oM.txt | grep -Ev '\\|\.\.|=\b|%' | grep -E "^\." |  awk  '{ print tolower($0) }' | sort | uniq
 .addressbook
+.anydesk/
 .aptitude/config
+.atom/
 .aws/
 .azure/
 .bash_
 .bashrc
+.boto
 .cache/notify-osd.log
 .config/
 .cshrc
+.cups/
+.dbus/
 .docker
 .drush/
 .env
 .eslintignore
 .fbcindex
 .forward
+.gem/
 .gitattributes
 .gitconfig
+.gnonme/
 .gnupg/
+.gsutil/
 .hplip/hplip.conf
 .htaccess
 .htdigest
 .htpasswd
+.java/
 .ksh_history
+.kube/
 .lesshst
 .lftp/
 .lhistory
@@ -47,12 +57,16 @@
 .lldb-history
 .local/share/mc/
 .lynx_cookies
+.minikube/
 .my.cnf
 .mysql_history
 .nano_history
+.netrc
 .node_repl_history
+.npm/
 .nsconfig
 .nsr
+.nvm/
 .oh-my-
 .password-store
 .pearrc
@@ -74,17 +88,21 @@
 .subversion/
 .tconn/
 .tcshrc
+.thunderbird/
 .tor/
 .vidalia/
 .vim/
 .viminfo
 .vimrc
+.vmware/
 .www_acl
 .wwwacl
 .xauthority
 .zhistory
 .zsh_history
 .zshrc
+
+
 /php.ini
 /tmp/
 
@@ -502,9 +520,6 @@ php5/apache.conf
 php5/apache2.conf
 php5/httpd.conf
 postgresql/log/
-
-# proc entries should be the same as in lfi-os-files.data. To copy, run:
-# grep -E "^proc" lfi-os-files.data
 proc/0
 proc/1
 proc/2
@@ -603,9 +618,6 @@ sites/default/settings.local.php
 sites/default/settings.php
 squirrelmail/config/config.php
 squirrelmail/www
-
-# sys entries should be the same as in lfi-os-files.data. To copy, run:
-# grep -E "^sys" lfi-os-files.data
 sys/block
 sys/bus
 sys/class
