@@ -17,7 +17,7 @@ jobs:
       - name: "Remove nightly tag before creating new release (ensures that tag is updated)"
         uses: dev-drprasad/delete-tag-and-release@v0.2.1
         with:
-          delete_release: false
+          delete_release: true
           tag_name: nightly
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -30,8 +30,6 @@ jobs:
           commit: v4.0/dev
           allowUpdates: true
           prerelease: true
-          draft: false
-          omitDraftDuringUpdate: false
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
             Nightly releases are snapshots of the development activity on the Core Rule Set project that may include new features and bug fixes scheduled for upcoming releases. These releases are made available to make it easier for users to test their existing configurations against the Core Rule Set code base for potential issues or to experiment with new features, with a chance to provide feedback on ways to improve the changes before being released.
