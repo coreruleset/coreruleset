@@ -4,31 +4,34 @@
 .htdigest
 .htpasswd
 # home level dotfiles (keep in sync with lfi-os-files.data)
+# grep -E '^\.' lfi-os-files.data
 .addressbook
 .aptitude/config
-.aws/config
-.aws/credentials
-.bash_config
-.bash_history
-.bash_logout
-.bash_profile
+.aws/
+.azure/
+.bash_
 .bashrc
 .cache/notify-osd.log
-.config/odesk/odesk team.conf
+.config/
 .cshrc
-.dockerignore
+.docker
 .drush/
+.env
 .eslintignore
-.FBCIndex
+.fbcindex
 .forward
 .gitattributes
 .gitconfig
 .gnupg/
 .hplip/hplip.conf
+.htaccess
+.htdigest
+.htpasswd
 .ksh_history
 .lesshst
 .lftp/
 .lhistory
+.lighttpdpassword
 .lldb-history
 .local/share/mc/
 .lynx_cookies
@@ -36,7 +39,10 @@
 .mysql_history
 .nano_history
 .node_repl_history
+.nsconfig
 .nsr
+.oh-my-
+.password-store
 .pearrc
 .pgpass
 .php_history
@@ -48,34 +54,25 @@
 .psql_history
 .python_history
 .rediscli_history
-.Rhistory
+.rhistory
 .rhosts
 .sh_history
 .sqlite_history
-.ssh/authorized_keys
-.ssh/config
-.ssh/id_dsa
-.ssh/id_dsa.pub
-.ssh/id_rsa
-.ssh/id_rsa.pub
-.ssh/identity
-.ssh/identity.pub
-.ssh/known_hosts
-.subversion/auth
-.subversion/config
-.subversion/servers
-.tconn/tconn.conf
+.ssh/
+.subversion/
+.tconn/
 .tcshrc
-.vidalia/vidalia.conf
+.tor/
+.vidalia/
+.vim/
 .viminfo
 .vimrc
 .www_acl
 .wwwacl
 .xauthority
 .zhistory
-.zshrc
 .zsh_history
-.nsconfig
+.zshrc
 # Version control
 /.git/
 /.gitignore
@@ -130,27 +127,6 @@ wp-config.txt
 /.DS_Store
 # WS FTP
 /.ws_ftp.ini
-# common, old network config file
-.netrc
-# New Top Level dotfiles
-.thunderbird/
-.vmware/
-.kube/
-.java/
-.anydesk/
-.docker/
-.npm/
-.nvm/
-.minikube/
-.atom/
-.aws/config
-.aws/credentials
-.cups/
-.dbus/
-.boto
-.gem/
-.gnonme/
-.gsutil/
 # New Per-Project Files
 .idea
 nbproject/
@@ -186,7 +162,9 @@ php_errors.log
 WEB-INF/
 # Fortinet SSL VPN session file
 sslvpn_websession
+
 # /proc entries (keep in sync with lfi-os-files.data)
+# grep -E "^proc/" lfi-os-files.data
 proc/0
 proc/1
 proc/2
@@ -225,9 +203,8 @@ proc/ipmi
 proc/irq
 proc/kallsyms
 proc/kcore
-proc/keys
-proc/keys
 proc/key-users
+proc/keys
 proc/kmsg
 proc/kpagecgroup
 proc/kpagecount
@@ -244,8 +221,6 @@ proc/mpt
 proc/mtd
 proc/mtrr
 proc/net
-proc/net/tcp
-proc/net/udp
 proc/pagetypeinfo
 proc/partitions
 proc/pressure
@@ -253,27 +228,6 @@ proc/sched_debug
 proc/schedstat
 proc/scsi
 proc/self
-proc/self/cmdline
-proc/self/environ
-proc/self/fd/0
-proc/self/fd/1
-proc/self/fd/10
-proc/self/fd/11
-proc/self/fd/12
-proc/self/fd/13
-proc/self/fd/14
-proc/self/fd/15
-proc/self/fd/2
-proc/self/fd/3
-proc/self/fd/4
-proc/self/fd/5
-proc/self/fd/6
-proc/self/fd/7
-proc/self/fd/8
-proc/self/fd/9
-proc/self/mounts
-proc/self/stat
-proc/self/status
 proc/slabinfo
 proc/softirqs
 proc/stat
@@ -291,7 +245,9 @@ proc/version_signature
 proc/vmallocinfo
 proc/vmstat
 proc/zoneinfo
+
 # /sys entries (keep in sync with lfi-os-files.data)
+# grep -E "^sys/" lfi-os-files.data
 sys/block
 sys/bus
 sys/class

@@ -569,6 +569,66 @@ class Check(object):
                     severity  = None     # severity
                     has_nolog = False    # rule has nolog action
 
+def remove_comments(data):
+    """
+    In some special cases, remove the comments from the beginning of the lines.
+
+    A special case starts when the line has a "SecRule" or "SecAction" token at
+    the beginning and ends when the line - with or without a comment - is empty.
+
+    Eg.:
+    175	# Uncomment this rule to change the default:
+    176	#
+    177	#SecAction \
+    178	#    "id:900000,\
+    179	#    phase:1,\
+    180	#    pass,\
+    181	#    t:none,\
+    182	#    nolog,\
+    183	#    setvar:tx.blocking_paranoia_level=1"
+    184
+    185
+    186	# It is possible to execute rules from a higher paranoia level but not include
+
+    In this case, the comments from the beginning of lines 177 and 183 are deleted and
+    evaluated as follows:
+
+    175	# Uncomment this rule to change the default:
+    176	#
+    177	SecAction \
+    178	    "id:900000,\
+    179	    phase:1,\
+    180	    pass,\
+    181	    t:none,\
+    182	    nolog,\
+    183	    setvar:tx.blocking_paranoia_level=1"
+    184
+    185
+    186	# It is possible to execute rules from a higher paranoia level but not include
+
+    """
+    _data = []  # new structure by lines
+    lines = data.split("\n")
+    marks = re.compile("^#(| *)(SecRule|SecAction)", re.I) # regex what catches the rules
+    state = 0   # hold the state of the parser
+    for l in lines:
+        # if the line starts with #SecRule, #SecAction, # SecRule, # SecAction, set the marker
+        if marks.match(l):
+            state = 1
+        # if the marker is set and the line is empty or contains only a comment, unset it
+        if state == 1 and l.strip() in ["", "#"]:
+            state = 0
+
+        # if marker is set, remove the comment
+        if state == 1:
+            _data.append(re.sub("^#", "", l))
+        else:
+            _data.append(l)
+
+    data = "\n".join(_data)
+
+    return data
+
 def errmsg(msg):
     if oformat == "github":
         print("::error %s" % (msg))
@@ -630,6 +690,9 @@ if __name__ == "__main__":
         try:
             with open(f, 'r') as inputfile:
                 data = inputfile.read()
+                # modify the content of the file, if it is the "crs-setup.conf.example"
+                if f.startswith("crs-setup.conf.example"):
+                    data = remove_comments(data)
         except:
             errmsg("Can't open file: %s" % f)
             sys.exit(1)
@@ -694,6 +757,9 @@ if __name__ == "__main__":
         try:
             with open(f, 'r') as fp:
                 fromlines = fp.readlines()
+                if f.startswith("crs-setup.conf.example"):
+                    fromlines = remove_comments("".join(fromlines)).split("\n")
+                    fromlines = [l + "\n" for l in fromlines]
         except:
             errmsg("  Can't open file for indent check: %s" % (f))
             retval = 1
@@ -707,6 +773,11 @@ if __name__ == "__main__":
                 output.append("\n")
             else:
                 output += [l + "\n" for l in l.split("\n")]
+
+        if len(fromlines) < len(output):
+            fromlines.append("\n")
+        elif len(fromlines) > len(output):
+            output.append("\n")
 
         diff = difflib.unified_diff(fromlines, output)
         if fromlines == output:
@@ -725,7 +796,7 @@ if __name__ == "__main__":
                     'title'  : "Indentation error",
                     'line'   : line1,
                     'endLine': line1+line2,
-                    'message': "an indetation error has found"
+                    'message': "an indentation error has found"
                 }
                 errmsgf(e)
             errmsg(d.strip("\n"))
