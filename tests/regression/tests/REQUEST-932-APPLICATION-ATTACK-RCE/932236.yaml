@@ -518,3 +518,19 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "932236"
+  - test_title: 932236-29
+    desc: "FP agains 'fi' without word boundary"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: GET
+            port: 80
+            uri: /get?field_metatags[0][advanced][rights]=somevalue
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932236"
