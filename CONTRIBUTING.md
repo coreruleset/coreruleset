@@ -34,8 +34,9 @@
 * Files must end with a single newline character.
 * No trailing whitespace at EOL.
 * No trailing blank lines at EOF (only the required single EOF newline character is allowed).
-* Add comments where possible and clearly explain any new rules.
 * Adhere to an 80 character line length limit where possible.
+* Add comments where possible and clearly explain any new rules.
+* Comments must not appear between chained rules and should instead be placed before the start of a rule chain.
 * All [chained rules](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#chain) should be indented like so, for readability:
 ```
 SecRule .. .. \
