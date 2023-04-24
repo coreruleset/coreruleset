@@ -506,7 +506,7 @@ tests:
             uri: /post/print_r
           output:
             log_contains: id "933160"
-  - test_title: 933160-28
+  - test_title: 933160-27
     desc: |
       PHP function call in body.
       payload: strrev()
@@ -524,7 +524,7 @@ tests:
             uri: /post/strrev
           output:
             log_contains: id "933160"
-  - test_title: 933160-29
+  - test_title: 933160-28
     desc: |
       False Positive test, missing mandatory parenthesis
       payload: /strrev(
@@ -541,7 +541,7 @@ tests:
             uri: /get/strrev(
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-30
+  - test_title: 933160-29
     desc: |
       False Positive test, missing mandatory parenthesis
       payload: eval
@@ -558,7 +558,7 @@ tests:
             uri: /get?foo=eval
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-31
+  - test_title: 933160-30
     desc: |
       False Positive test
       payload: the files (yep)
@@ -575,7 +575,7 @@ tests:
             uri: /get?foo=the%20files%20%28yep%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-32
+  - test_title: 933160-31
     desc: |
       False Positive test, missing mandatory parenthesis
       payload: exec (
@@ -592,7 +592,7 @@ tests:
             uri: /get?foo=exec%20%28
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-33
+  - test_title: 933160-32
     desc: |
       False Positive test
       payload: executor()
@@ -609,7 +609,7 @@ tests:
             uri: /get?foo=executor%28%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-34
+  - test_title: 933160-33
     desc: |
       False Positive test
       payload: cheval($foo)
@@ -626,7 +626,7 @@ tests:
             uri: /get?foo=cheval%28%24foo%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-35
+  - test_title: 933160-34
     desc: |
       False Positive test
       payload: audiofile($foo)
@@ -643,7 +643,7 @@ tests:
             uri: /get?foo=audi%6ffile%28%24foo%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-36
+  - test_title: 933160-35
     desc: |
       False Positive test
       payload: the system is down()
@@ -660,7 +660,7 @@ tests:
             uri: /get?foo=the%20system%20is%20down%28%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-37
+  - test_title: 933160-36
     desc: |
       False Positive test
       payload: ecosystem()
@@ -677,7 +677,7 @@ tests:
             uri: /get?foo=ecosystem%28%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-38
+  - test_title: 933160-37
     desc: |
       False Positive test, function doesn't exist
       payload: systems()
@@ -694,7 +694,7 @@ tests:
             uri: /get?foo=systems%28%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-39
+  - test_title: 933160-38
     desc: |
       False Positive test, function doesn't exist
       payload: system something()
@@ -711,7 +711,7 @@ tests:
             uri: /get?foo=system%20something%28%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-40
+  - test_title: 933160-39
     desc: |
       PHP string function call
       payload: return"system"(xyz).s
@@ -728,7 +728,7 @@ tests:
             uri: /get?foo=return%22system%22%28xyz%29.s
           output:
             log_contains: id "933160"
-  - test_title: 933160-41
+  - test_title: 933160-40
     desc: |
       PHP function call
       payload: system(whoami)
@@ -746,7 +746,7 @@ tests:
             uri: /post
           output:
             log_contains: id "933160"
-  - test_title: 933160-42
+  - test_title: 933160-41
     desc: |
       PHP function call
       payload: (system)(whoami)
@@ -764,7 +764,7 @@ tests:
             uri: /post
           output:
             log_contains: id "933160"
-  - test_title: 933160-43
+  - test_title: 933160-42
     desc: |
       PHP function system call in single quotes and parentheses
       payload: ('system')('whoami')
@@ -782,7 +782,7 @@ tests:
             uri: /post
           output:
             log_contains: id "933160"
-  - test_title: 933160-44
+  - test_title: 933160-43
     desc: |
       PHP system call in double quotes and parentheses
       payload: ("system")("whoami")
