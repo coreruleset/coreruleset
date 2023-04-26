@@ -43,6 +43,7 @@ CURL_OPTIONS="--silent"
 		    -e "s/\^Ruby.*/Ruby/" \
 		    -e "s/\^VSE.*/VSE/"   \
 		    -e "s/\^XRL.*/XRL/"   \
+		    -e "s/^acebook.*/facebookexternalhit/"  \
 		    -e "s/^Aprc.*/Aprc/"  \
 		    -e "s/^Blackboard Safeassign/Blackboard/"  \
 		    -e "s/^CAAM.*/CAAM/"  \
@@ -50,8 +51,11 @@ CURL_OPTIONS="--silent"
 		    -e "s/^colly -/colly/" \
 		    -e "s/^Daum.*/Daum/"   \
 		    -e "s/^developers.*google.*/developers.google/" \
+		    -e "s/Dispatch\\\\\//Dispatch/" \
+		    -e "s/Disqus\\\\\//Disqus/" \
+		    -e "s/Domains Project\\\\\//Domains Project/" \
 		    -e "s/^Drupal.*/Drupal/"  \
-		    -e "s/^Fetch.*/Fetch/"    \
+		    -e "s/^Fetch\\\\\/.*/Fetch\//"    \
 		    -e "s/^Fever.*/Fever/"    \
 		    -e "s/^Fuzz Faster U Fool/Fuzz Faster/"    \
 		    -e "s/^Go .*/Go/"     \
@@ -59,15 +63,19 @@ CURL_OPTIONS="--silent"
 		    -e "s/^IPS.*/IPS/"    \
 		    -e "s/^IPWorks.*/IPWorks/"    \
 		    -e "s/^Java.*/Java/"    \
+		    -e "s/Jetty\\\\\//Jetty/" \
 		    -e "s/^Jobsearch.*/Jobsearch/"    \
 		    -e "s/Majestic.*/Majestic/" \
+		    -e "s/masscan\\\\\//masscan/" \
 		    -e "s/Mediapartners.*/Mediapartners/" \
 		    -e "s/Mojolicious.*/Mojolicious/" \
+		    -e "s/MuckRack\\\\\//MuckRack/" \
 		    -e "s/NING../NGIN\//"   \
 		    -e "s/newspaper../newspaper\//"   \
 		    -e "s/^NewsBlur.*/NewsBlur/"  \
 		    -e "s/Nmap.*/Nmap/" \
 		    -e "s/Perlu -/Perlu/" \
+		    -e "s/PhantomJS\\\\\//PhantomJS/" \
 		    -e "s/Ploetz.*/Ploetz/" \
 		    -e "s/PhantomJS Screenshoter/PhantomJS/" \
 		    -e "s/^PTST.*/PTST/"   \
@@ -83,7 +91,6 @@ CURL_OPTIONS="--silent"
 		    -e "s/Yandex(.*/Yandex/" \
 		    -e "s/Y!J-/Y!J/" \
 		    -e "s/\\\\\\\\\/$//" \
-		    -e "s/\/$//" \
 		    -e "s/\\\\$//" \
 		    -e "/\^NG.*0-9/d" \
 		    -e "/\^NGIN/d"
@@ -121,9 +128,9 @@ CURL_OPTIONS="--silent"
 		    -e "s/Yandex.*/Yandex/" \
 		    -e "s/\[wW\]get/wget/" \
 		    -e "s/\\\\\\\\\/$//" \
-		    -e "s/\/$//" \
 		    -e "s/\\\\$//" \
 		    -e "/^NING/d" \
+		    -e "/^Fetch/d" \
 
 		) \
 		| sed \
