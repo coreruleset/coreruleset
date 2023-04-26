@@ -1,0 +1,135 @@
+---
+meta:
+  author: "Christian Folini"
+  enabled: true
+  name: "913131.yaml"
+  description: "Tests to trigger or not trigger rule 913131"
+tests:
+  - test_title: 913131-1
+    desc: UA of security scanner Nikto; has to be detected
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "Mozilla/5.00 (Nikto/2.1.5) (Evasions:None) (Test:002942)"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            protocol: "http"
+          output:
+            log_contains: id "913131"
+  - test_title: 913131-2
+    desc: UA Goose; has to be detected; only on JayBizzle's list of bad UAs
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "Goose/3.1.6 X-SiteSpeedApp-1"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            protocol: "http"
+          output:
+            log_contains: id "913131"
+  - test_title: 913131-3
+    desc: UA SogouSpider; has to be detected; only on MichaelKrogza's list of bad UAs
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "Mozilla/5.0 ((Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36; 360Spider SogouSpider"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            protocol: "http"
+          output:
+            log_contains: id "913131"
+  - test_title: 913131-4
+    desc: UA RuxitSynthetic; has to be detected; only on MontPerrus's list of bad UAs
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81-1 Safari/537.36 RuxitSynthetic/1.0"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            protocol: "http"
+          output:
+            log_contains: id "913131"
+  - test_title: 913131-5
+    desc: UA YisouSpider; should not be detected; from separate CRS list of acceptable UAs
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 YisouSpider/5.0 Safari/537.36"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            protocol: "http"
+          output:
+            log_contains: id "913131"
+  - test_title: 913131-6
+    desc: UA archive.org; should not be detected; from MichaelKrogza's list of good bots
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "Mozilla/5.0 (compatible; archive.org_bot +http://www.archive.org/details/archive.org_bot)"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            protocol: "http"
+          output:
+            log_contains: id "913131"
+  - test_title: 913131-7
+    desc: UA SeznamBot; should not be detected; from Cloudflare list of good bots
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "Mozilla/5.0 (compatible; SeznamBot/3.2-test3; +http://fulltext.sb"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            protocol: "http"
+          output:
+            log_contains: id "913131"
+  - test_title: 913131-8
+    desc: UA OWASP CRS test agent; should not be detected
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            protocol: "http"
+          output:
+            log_contains: id "913131"
