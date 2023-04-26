@@ -38,7 +38,7 @@ tests:
           output:
             log_contains: id "913131"
   - test_title: 913131-3
-    desc: UA SogouSpider; has to be detected; only on MichaelKrogza's list of bad UAs
+    desc: UA WebBandit; has to be detected; only on MichaelKrogza's list of bad UAs
     stages:
       - stage:
           input:
@@ -46,7 +46,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: "Mozilla/5.0 ((Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36; 360Spider SogouSpider"
+              User-Agent: "webbandit/4.xx.0"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get"

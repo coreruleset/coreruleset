@@ -80,6 +80,7 @@ CURL_OPTIONS="--silent"
 		    -e "s/PhantomJS Screenshoter/PhantomJS/" \
 		    -e "s/^PTST.*/PTST/"   \
 		    -e "s/^Realplayer%20/Realplayer /"  \
+		    -e "s/Seznam/SeznamBot/"   \
 		    -e "s/^Sitemap.*/Sitemap/"   \
 		    -e "s/^Wallpapers.*/Wallpapers/"  \
 		    -e "s/^WhereGoes.*/WhereGoes/"  \
