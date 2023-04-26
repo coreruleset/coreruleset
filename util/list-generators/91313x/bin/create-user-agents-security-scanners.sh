@@ -2,7 +2,7 @@
 #
 # OWASP ModSecurity Core Rule Set helper script
 #
-# This script creates the data file user-agents-security-scanners.data
+# This script writes the list of security scanners. It's somewhat simple.
 #
 
-cat user-agents-security-scanners.src > user-agents-security-scanners.data
+cat user-agents-security-scanners.src

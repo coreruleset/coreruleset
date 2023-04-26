@@ -144,6 +144,6 @@ CURL_OPTIONS="--silent"
 			-e "s/\$$//" \
 		| tr "A-Z" "a-z" | \
 		sort | \
-		uniq > user-agents-automated-agents.src
+		uniq
 
 

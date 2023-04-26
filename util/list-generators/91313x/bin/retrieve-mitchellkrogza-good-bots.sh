@@ -20,6 +20,6 @@ curl $CURL_OPTIONS https://raw.githubusercontent.com/mitchellkrogza/apache-ultim
        		-e "s/kraken\/[0-9.]*/kraken/" \
         	-e "s/sffeedreader\/[0-9.]*/sffeedreader/" | \
 	sed -e "s/(?:.*//" -e "s/\\\ / /g" | \
-	sort > acceptable-bots-mitchellkrogza.src
+	sort
 
 
