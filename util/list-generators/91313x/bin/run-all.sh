@@ -12,7 +12,6 @@ DEST_FOLDER=../../../rules
 
 function break_on_error {
         if [ $1 -ne 0 ]; then
-                echo
                 echo "FAILED. This is fatal. Aborting"
                 exit 1
         fi
