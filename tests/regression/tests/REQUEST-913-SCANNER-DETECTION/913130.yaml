@@ -1,0 +1,22 @@
+---
+meta:
+  author: "Christian Folini"
+  enabled: true
+  name: "913130.yaml"
+  description: "Tests to trigger or not trigger rule 913130"
+tests:
+  - test_title: 913130-1
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "Mozilla/5.00 (Nikto/2.1.5) (Evasions:None) (Test:002942)"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            protocol: "http"
+          output:
+            log_contains: id "913130"
