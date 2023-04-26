@@ -116,7 +116,7 @@ tests:
             uri: "/get"
             protocol: "http"
           output:
-            log_contains: id "913131"
+            no_log_contains: id "913131"
   - test_title: 913131-8
     desc: UA OWASP CRS test agent; should not be detected
     stages:
@@ -132,4 +132,4 @@ tests:
             uri: "/get"
             protocol: "http"
           output:
-            log_contains: id "913131"
+            no_log_contains: id "913131"
