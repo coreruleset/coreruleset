@@ -2,10 +2,10 @@
 meta:
   author: "Christian Folini"
   enabled: true
-  name: "913131.yaml"
-  description: "Tests to trigger or not trigger rule 913131"
+  name: "913132.yaml"
+  description: "Tests to trigger or not trigger rule 913132"
 tests:
-  - test_title: 913131-1
+  - test_title: 913132-1
     desc: UA of security scanner Nikto; has to be detected
     stages:
       - stage:
@@ -20,8 +20,8 @@ tests:
             uri: "/get"
             protocol: "http"
           output:
-            log_contains: id "913131"
-  - test_title: 913131-2
+            log_contains: id "913132"
+  - test_title: 913132-2
     desc: UA Goose; has to be detected; only on JayBizzle's list of bad UAs
     stages:
       - stage:
@@ -36,8 +36,8 @@ tests:
             uri: "/get"
             protocol: "http"
           output:
-            log_contains: id "913131"
-  - test_title: 913131-3
+            log_contains: id "913132"
+  - test_title: 913132-3
     desc: UA WebBandit; has to be detected; only on MichaelKrogza's list of bad UAs
     stages:
       - stage:
@@ -52,8 +52,8 @@ tests:
             uri: "/get"
             protocol: "http"
           output:
-            log_contains: id "913131"
-  - test_title: 913131-4
+            log_contains: id "913132"
+  - test_title: 913132-4
     desc: UA RuxitSynthetic; has to be detected; only on MontPerrus's list of bad UAs
     stages:
       - stage:
@@ -68,9 +68,9 @@ tests:
             uri: "/get"
             protocol: "http"
           output:
-            log_contains: id "913131"
-  - test_title: 913131-5
-    desc: UA YisouSpider; should not be detected; from separate CRS list of acceptable UAs
+            log_contains: id "913132"
+  - test_title: 913132-5
+    desc: UA YisouSpider; has to be detected here; resides on separate CRS list of acceptable UAs
     stages:
       - stage:
           input:
@@ -84,9 +84,9 @@ tests:
             uri: "/get"
             protocol: "http"
           output:
-            no_log_contains: id "913131"
-  - test_title: 913131-6
-    desc: UA archive.org; should not be detected; from MichaelKrogza's list of good bots
+            no_log_contains: id "913132"
+  - test_title: 913132-6
+    desc: UA archive.org; has to be detected here; resides on MichaelKrogza's list of good bots
     stages:
       - stage:
           input:
@@ -100,9 +100,9 @@ tests:
             uri: "/get"
             protocol: "http"
           output:
-            no_log_contains: id "913131"
-  - test_title: 913131-7
-    desc: UA SeznamBot; should not be detected; from Cloudflare list of good bots
+            no_log_contains: id "913132"
+  - test_title: 913132-7
+    desc: UA SeznamBot; has to be detected here; resides on Cloudflare list of good bots
     stages:
       - stage:
           input:
@@ -116,9 +116,9 @@ tests:
             uri: "/get"
             protocol: "http"
           output:
-            log_contains: id "913131"
-  - test_title: 913131-8
-    desc: UA OWASP CRS test agent; should not be detected
+            log_contains: id "913132"
+  - test_title: 913132-8
+    desc: UA OWASP CRS test agent; should not be detected, not even here
     stages:
       - stage:
           input:
@@ -132,4 +132,4 @@ tests:
             uri: "/get"
             protocol: "http"
           output:
-            log_contains: id "913131"
+            no_log_contains: id "913132"
