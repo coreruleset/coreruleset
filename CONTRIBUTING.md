@@ -34,8 +34,9 @@
 * Files must end with a single newline character.
 * No trailing whitespace at EOL.
 * No trailing blank lines at EOF (only the required single EOF newline character is allowed).
-* Add comments where possible and clearly explain any new rules.
 * Adhere to an 80 character line length limit where possible.
+* Add comments where possible and clearly explain any new rules.
+* Comments must not appear between chained rules and should instead be placed before the start of a rule chain.
 * All [chained rules](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#chain) should be indented like so, for readability:
 ```
 SecRule .. .. \
@@ -332,26 +333,26 @@ Full documentation of the required formatting and available options of the YAML 
 Example of a simple *positive test*:
 
 ```yaml
-- test_title: 932100-21
+  - test_title: 932230-26
     desc: "Unix command injection"
     stages:
       - stage:
           input:
             dest_addr: 127.0.0.1
-            port: 80
             headers:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
-              Accept: */*
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
-            uri: "/"
+            port: 80
+            uri: "/post"
             data: "var=` /bin/cat /etc/passwd`"
-            version: HTTP/1.0
+            version: HTTP/1.1
           output:
-            log_contains: id "932100"
+            log_contains: id "932230"
 ```
 
-This test will succeed if the log output contains `id "932100"`, which would indicate that the rule in question matched and generated an alert.
+This test will succeed if the log output contains `id "932230"`, which would indicate that the rule in question matched and generated an alert.
 
 It's important that tests consistently include the HTTP header fields `Host`, `User-Agent`, and `Accept`. CRS includes rules that detect if these headers are missing or empty, so these headers should be included in each test to avoid unnecessarily causing those rules to match. Ideally, *each positive test should cause* **only** *the rule in question to match*.
 
@@ -362,26 +363,24 @@ The rule's description field, `desc`, is important. It should describe what is b
 Example of a simple *negative test*:
 
 ```yaml
-- test_title: 932150-5
-    desc: "Natural language 'ping pong tables' should not cause FPs"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            port: 80
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: */*
-            method: POST
-            uri: "/"
-            data: "foo=ping pong tables"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "932150"
+- test_title: 932260-4
+  stages:
+    - stage:
+        input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: 'foo=ping pong tables'
+          uri: '/post'
+        output:
+          no_log_contains: id "932260"
 ```
 
-This test will succeed if the log output does **not** contain `id "932150"`, which would indicate that the rule in question did **not** match and so did **not** generate an alert.
+This test will succeed if the log output does **not** contain `id "932260"`, which would indicate that the rule in question did **not** match and so did **not** generate an alert.
 
 ### Encoded and Raw Requests
 

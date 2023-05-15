@@ -22,6 +22,12 @@ tests:
               Host: "127.0.0.1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             protocol: "http"
+            # Will match rules
+            #  - 920273: restricted characters violation
+            #  - 920350: numeric IP in Host header
+            #  - 932160: Unix remote command execution
+            #  - 932236: Unix command injection
+            #  - 932260: Unix remote command execution
             uri: "/?a=/bin/bash"
           output:
             log_contains: "id \"980170\""
@@ -35,6 +41,7 @@ tests:
             port: 80
             headers:
               User-Agent: "OWASP CRS test agent"
+              # Will match rule 920350: numeric IP in Host header
               Host: "127.0.0.1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             protocol: "http"
