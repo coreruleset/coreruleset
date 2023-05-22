@@ -109,14 +109,22 @@ SecRule ARGS "foo" "id:1,phase:1,pass,t:none"
 CRS uses `\x5c` to represent the backslash `\` character in regular expressions. Some of the reasons for this are:
 
 * It's portable across web servers and WAF engines: it works with Apache, Nginx, and Coraza.
-* It works with the `regexp-assemble.py` script for building optimized regular expressions.
+* It works with the [crs-toolchain](https://coreruleset.org/docs/development/crs_toolchain/) for building optimized regular expressions.
 
 The older style of representing a backslash using the character class `[\\\\]` must _not_ be used. This was previously used in CRS to get consistent results between Apache and Nginx, owing to a quirk with how Apache would "double un-escape" character escapes. For future reference, the decision was made to stop using this older method because:
 
 * It can be confusing and difficult to understand how it works.
-* It doesn't work with the `regexp-assemble.py` script.
+* It doesn't work with [crs-toolchain](https://coreruleset.org/docs/development/crs_toolchain/).
 * It doesn't work with Coraza.
 * It isn't obvious how to use it in a character class, e.g., `[a-zA-Z<portable-backslash>]`.
+
+### Forward Slash Representation
+
+CRS uses literal, *unescaped* forward slash `/` characters in regular expressions.
+
+Regular expression engines and libraries based on PCRE use the forward slash `/` character as the default delimiter. As such, forward slashes are often escaped in regular expression patterns. In the interests of readability, CRS does *not* escape forward slashes in regular expression patterns, which may seem unusual at first to new contributors.
+
+If testing a CRS regular expression using a third party tool, it may be useful to change the delimiter to something other than `/` if a testing tool raises errors because a CRS pattern features unescaped forward slashes.
 
 ### When and Why to Anchor Regular Expressions
 
@@ -219,6 +227,12 @@ It matches some HTML attributes and then expects to see `=`. Using a somewhat co
 
 To summarize: **be very mindful about when and why you use lazy quantifiers in your regular expressions**.
 
+### Possessive Quantifiers and Atomic Groups
+
+Lazy and greedy matching change the order in which a regular expression engine processes a regular expression. However, the order of execution does not influence the backtracking behavior of backtracking engines.
+
+Possessive quantifiers (e.g., `x++`) and atomic groups (e.g., `(?>x)`) are tools that can be used to prevent a backtracking engine from backtracking. They _can_ be used for performance optimization but are only supported by backtracking engines and, therefore, are not permitted in CRS rules.
+
 ### Writing Regular Expressions for Non-Backtracking Compatibility
 
 Traditional regular expression engines use backtracking to solve some additional problems, such as finding a string that is preceded or followed by another string. While this functionality can certainly come in handy and has its place in certain applications, it can also lead to performance issues and, in uncontrolled environments, open up possibilities for attacks (the term "[ReDoS](https://en.wikipedia.org/wiki/ReDoS)" is often used to describe an attack that exhausts process or system resources due to excessive backtracking).
@@ -240,8 +254,30 @@ To ensure compatibility with non-backtracking regular expression engines, the fo
 - named backreferences (e.g., `(?P=name)`)
 - conditionals (e.g., `(?(regex)then|else)`)
 - recursive calls to capture groups (e.g., `(?1)`)
+- possessive quantifiers (e.g., `(?:regex)++`)
+- atomic (or possessive) groups (e.g., `(?>regex`))
 
 This list is not exhaustive but covers the most important points. The [RE2 documentation](https://github.com/google/re2/wiki/Syntax) includes a complete list of supported and unsupported features that various engines offer.
+
+### When and How to Optimize Regular Expressions
+
+Optimizing regular expressions is hard. Often, a change intended to improve the performance of a regular expression will change the original semantics by accident. In addition, optimizations usually make expressions harder to read. Consider the following example of URL schemes:
+
+```python
+mailto|mms|mumble|maven
+```
+
+An optimized version (produced by the [crs-toolchain]({{< ref "crs_toolchain" >}})) could look like this:
+
+```python
+m(?:a(?:ilto|ven)|umble|ms)
+```
+
+The above expression is an optimization because it reduces the number of backtracking steps when a branch fails. The regular expressions in the CRS are often comprised of lists of tens or even hundreds of words. Reading such an expression in an optimized form is difficult: even the _simple_ optimized example above is difficult to read.
+
+In general, contributors should not try to optimize contributed regular expressions and should instead strive for clarity. New regular expressions will usually be required to be submitted as a `.data` file for the [crs-toolchain]({{< ref "crs_toolchain" >}}) to process. In such a file, the regular expression is decomposed into individual parts, making manual optimizations much harder or even impossible (and unnecessary with the `crs-toolchain`). The `crs-toolchain` performs some common optimizations automatically, such as the one shown above.
+
+Whether optimizations make sense in a contribution is assessed for each case individually.
 
 ## Rules Compliance with Paranoia Levels
 
@@ -333,23 +369,23 @@ Full documentation of the required formatting and available options of the YAML 
 Example of a simple *positive test*:
 
 ```yaml
-  - test_title: 932230-26
-    desc: "Unix command injection"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=` /bin/cat /etc/passwd`"
-            version: HTTP/1.1
-          output:
-            log_contains: id "932230"
+- test_title: 932230-26
+  desc: "Unix command injection"
+  stages:
+    - stage:
+        input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=` /bin/cat /etc/passwd`"
+          version: HTTP/1.1
+        output:
+          log_contains: id "932230"
 ```
 
 This test will succeed if the log output contains `id "932230"`, which would indicate that the rule in question matched and generated an alert.
