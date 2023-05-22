@@ -25,7 +25,10 @@ array_flip
 array_intersect
 array_intersect_assoc
 array_intersect_key
+array_is_list
 array_key_exists
+array_key_first
+array_key_last
 array_keys
 array_merge
 array_merge_recursive
@@ -110,6 +113,7 @@ curl_escape
 curl_getinfo
 curl_multi_add_handle
 curl_multi_close
+curl_multi_errno
 curl_multi_exec
 curl_multi_getcontent
 curl_multi_info_read
@@ -123,10 +127,13 @@ curl_reset
 curl_setopt
 curl_setopt_array
 curl_share_close
+curl_share_errno
 curl_share_init
 curl_share_setopt
+curl_share_strerror
 curl_strerror
 curl_unescape
+curl_upkeep
 curl_version
 date_add
 date_create
@@ -181,6 +188,7 @@ expm1
 extension_loaded
 ezmlm_hash
 fastcgi_finish_request
+fdatasync
 fflush
 fgetc
 fgetcsv
@@ -193,6 +201,8 @@ filter_list
 filter_var
 filter_var_array
 finfo_close
+finfo_file
+finfo_set_flags
 fnmatch
 foreach
 forward_static_call
@@ -204,6 +214,8 @@ frenchtojd
 fribidi_log2vis
 fscanf
 fseek
+fsync
+ftp_append
 ftp_ssl_connect
 ftruncate
 func_get_arg
@@ -214,6 +226,7 @@ gc_disable
 gc_enable
 gc_enabled
 gc_mem_caches
+gc_status
 gd_info
 get_browser
 get_called_class
@@ -276,6 +289,7 @@ header_remove
 hebrevc
 hexdec
 highlight_string
+hrtime
 http_build_query
 http_response_code
 iconv_get_encoding
@@ -297,6 +311,7 @@ in_array
 inet_ntop
 inet_pton
 ini_alter
+ini_parse_quantity
 ini_restore
 interface_exists
 intl_error_name
@@ -332,6 +347,7 @@ lchgrp
 lchown
 libxml_clear_errors
 libxml_disable_entity_loader
+libxml_get_external_entity_loader
 libxml_get_errors
 libxml_get_last_error
 libxml_set_external_entity_loader
@@ -344,6 +360,7 @@ lzf_decompress
 lzf_optimized_for
 magic_quotes_runtime
 mb_check_encoding
+mb_chr
 mb_convert_case
 mb_convert_encoding
 mb_convert_kana
@@ -368,10 +385,12 @@ mb_http_output
 mb_internal_encoding
 mb_language
 mb_list_encodings
+mb_ord
 mb_output_handler
 mb_preferred_mime_name
 mb_regex_encoding
 mb_regex_set_options
+mb_scrub
 mb_send_mail
 mb_split
 mb_strcut
@@ -388,6 +407,7 @@ mb_strstr
 mb_strtolower
 mb_strtoupper
 mb_strwidth
+mb_str_split
 mb_substitute_character
 mb_substr
 mb_substr_count
@@ -443,6 +463,7 @@ mdecrypt_generic
 memcache_debug
 memory_get_peak_usage
 memory_get_usage
+memory_reset_peak_usage
 mhash_count
 mhash_get_block_size
 mhash_get_hash_name
@@ -562,6 +583,7 @@ mysqli_enable_reads_from_master
 mysqli_enable_rpl_parse
 mysqli_escape_string
 mysqli_execute
+mysqli_execute_query
 mysqli_fetch
 mysqli_get_cache_stats
 mysqli_get_client_stats
@@ -605,6 +627,7 @@ mysqlnd_uh_convert_to_mysqlnd
 mysqlnd_uh_set_connection_proxy
 mysqlnd_uh_set_statement_proxy
 natcasesort
+net_get_interfaces
 ngettext
 nl2br
 nl_langinfo
@@ -670,6 +693,7 @@ opcache_invalidate
 opcache_is_script_cached
 opcache_reset
 openssl_cipher_iv_length
+openssl_cipher_key_length
 openssl_csr_export
 openssl_csr_export_to_file
 openssl_csr_get_public_key
@@ -684,6 +708,7 @@ openssl_error_string
 openssl_free_key
 openssl_get_cert_locations
 openssl_get_cipher_methods
+openssl_get_curve_names
 openssl_get_md_methods
 openssl_get_privatekey
 openssl_get_publickey
@@ -702,6 +727,7 @@ openssl_pkey_free
 openssl_pkey_get_details
 openssl_pkey_get_private
 openssl_pkey_get_public
+openssl_pkey_derive
 openssl_pkey_new
 openssl_private_decrypt
 openssl_private_encrypt
@@ -723,6 +749,7 @@ openssl_x509_fingerprint
 openssl_x509_free
 openssl_x509_parse
 openssl_x509_read
+openssl_x509_verify
 output_add_rewrite_var
 output_reset_rewrite_vars
 override_function
@@ -731,21 +758,26 @@ parse_url
 parsekit_compile_file
 parsekit_compile_string
 parsekit_func_arginfo
+password_algos
 password_get_info
 password_hash
 password_needs_rehash
 password_verify
 pcntl_alarm
+pcntl_async_signals
 pcntl_errno
 pcntl_get_last_error
 pcntl_getpriority
+pcntl_rfork
 pcntl_setpriority
 pcntl_signal
 pcntl_signal_dispatch
+pcntl_signal_get_handler
 pcntl_sigprocmask
 pcntl_sigtimedwait
 pcntl_sigwaitinfo
 pcntl_strerror
+pcntl_unshare
 pcntl_wait
 pcntl_waitpid
 pcntl_wexitstatus
@@ -928,9 +960,11 @@ session_abort
 session_cache_expire
 session_cache_limiter
 session_commit
+session_create_id
 session_decode
 session_destroy
 session_encode
+session_gc
 session_get_cookie_params
 session_id
 session_is_registered
@@ -975,6 +1009,10 @@ shmop_size
 shmop_write
 simplexml_import_dom
 socket_accept
+socket_addrinfo_bind
+socket_addrinfo_connect
+socket_addrinfo_explain
+socket_addrinfo_lookup
 socket_bind
 socket_clear_error
 socket_close
@@ -1015,6 +1053,7 @@ spl_autoload_register
 spl_autoload_unregister
 spl_classes
 spl_object_hash
+spl_object_id
 sql_regcase
 sqlite_busy_timeout
 sqlite_changes
@@ -1113,6 +1152,7 @@ stream_get_line
 stream_get_meta_data
 stream_get_transports
 stream_get_wrappers
+stream_isatty
 stream_is_local
 stream_notification_callback
 stream_register_wrapper
