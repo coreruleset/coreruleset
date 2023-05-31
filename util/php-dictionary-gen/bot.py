@@ -31,6 +31,10 @@ def search(q):
 
 # open out.txt to write
 f = open("out.txt", "a")
+f.write("""# Extracted from ./utils/php-dictionary-gen
+# Filtered functions used 100+ times on Github
+# We also remove short function names using the following regexp: `^([a-z_]){3}$`
+""")
 for line in lines:
     q = line.strip()
     out = "%s: %d" % (q, search(q))
@@ -38,4 +42,5 @@ for line in lines:
     # write to f
     f.write(out + "\n")
     f.flush()
+    # GitHub API cannot be called more than 10 times per minute.
     time.sleep(6)
