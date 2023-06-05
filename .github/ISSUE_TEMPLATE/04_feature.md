@@ -10,7 +10,7 @@ For help and support please go here:
 - https://security.stackexchange.com/questions/tagged/owasp-crs
 
 Ask general usage questions and participate in discussions on the CRS:
-- https://groups.google.com/a/owasp.org/forum/#!forum/modsecurity-core-rule-set-project
+- https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 -->
 ### Motivation
 
