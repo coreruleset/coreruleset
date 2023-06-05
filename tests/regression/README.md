@@ -3,21 +3,29 @@ owasp-crs-regressions
 
 Introduction
 ============
-Welcome to the OWASP Core Rule Set regression testing suite. This suite is meant to test specific rules in OWASP CRS version 3. The suite is designed to uses preconfigured IDs that are specific to this version of CRS. The tests themselves can be run without CRS and one would expect the same elements to be blocked, however one must override the default Output parameter in the tests.
+Welcome to the OWASP Core Rule Set regression testing suite. This suite is meant to test specific rules in OWASP CRS version 3. The suite is designed to use pre-configured IDs that are specific to this version of CRS. The tests themselves can be run without CRS and one would expect the same elements to be blocked, however one must override the default Output parameter in the tests.
 
 Installation
 ============
-The OWASP Core Rule Set project was part of the effort to develop FTW, the Framework for Testing WAFs. As a result, we use this project in order to run our regression testing. FTW is designed to use existing Python testing frameworks to allow for easy to read web based testing, provided in YAML. You can install FTW by from the repository (at https://github.com/coreruleset/ftw) or by running pip.
+The OWASP Core Rule Set project was part of the effort to develop FTW, the Framework for Testing WAFs. As a result, we use this project to run our regression testing. FTW uses existing testing frameworks to perform human-friendly web-based testing, provided in YAML. You can install FTW with Go or Python:
+ 
+```sh
+# Go: https://github.com/coreruleset/go-ftw#install
+go install github.com/coreruleset/go-ftw@latest
 
-```pip install -r requirements.txt```
+# Python: https://github.com/coreruleset/ftw#installation
+git clone https://github.com/coreruleset/ftw.git
+cd ftw
+pip install -r requirements.txt 
+```
 
 This will install FTW as a library. It can also be run natively, see the FTW documentation for more detail.
 
 Requirements
 ============
-There are Three requirements for running the OWASP CRS regressions.
+There are three requirements for running the OWASP CRS regressions.
 
-1. You must have ModSecurity specify the location of your error.log, this is done in the config.ini file. If you are using nginx you can use the parameter --config=modsec3-nginx (as specified in config.ini)
+1. You must have ModSecurity specify the location of your error.log, this is done in the config.ini file. If you are using nginx you can use the parameter `--config=modsec3-nginx` (as specified in config.ini)
 2. ModSecurity must be in DetectionOnly (or anomaly scoring) mode
 3. You must disable IP blocking based on previous events
 
