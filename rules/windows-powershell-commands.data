@@ -1,6 +1,6 @@
 # Sources:
 # Microsoft PowerShell Docs: https://github.com/MicrosoftDocs/PowerShell-Docs
-# - curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/MicrosoftDocs/PowerShell-Docs/git/trees/main\?recursive\=1 | jq -r '.tree[] .path | capture("reference/\\d.\\d/(.*)/(?<fn>[A-Z]\\w+-\\w+).md") | .fn' | sort | uniq
+# - curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/MicrosoftDocs/PowerShell-Docs/git/trees/main | jq -r '.tree[] .path | capture("reference/\\d.\\d/(.*)/(?<fn>[A-Z]\\w+-\\w+).md") | .fn' | sort | uniq
 
 powershell
 Add-Computer
