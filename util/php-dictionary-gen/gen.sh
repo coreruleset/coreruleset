@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # check if GITHUB_TOKEN exists in env
-if [ -z "$GITHuB_TOKEN" ]; then
+if [ -z "$GITHUB_TOKEN" ]; then
     echo "This script needs the variable GITHUB_TOKEN exported with your token."
     exit 1
 fi
