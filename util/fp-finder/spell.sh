@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # This script finds common English words in .data files (if no argument provided).
-# Or it finds english words in the provided input file (one argument).
+#
+# Or it finds english words in the provided input file (one argument). Example:
+#  bash util/fp-finder/spell.sh regex-assembly/932380.ra
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 RULES_DIR="${SCRIPT_DIR}/../../rules/"
