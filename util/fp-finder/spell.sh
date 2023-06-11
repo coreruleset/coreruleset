@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if ! hash spell > /dev/null 2>&1; then
+if ! command -v spell > /dev/null 2>&1; then
     echo "This program requires spell to be installed. Aborting"
     exit 1
 fi
@@ -9,22 +9,21 @@ check() {
     local datafile="${1}"
     local datafile_name="${datafile##*/}"
 
-    if ! ${PARSEABLE}; then
-        echo "-> checking ${DATAFILE_NAME}"
+    if ! ${MACHINE_READABLE}; then
+        echo "-> checking ${datafile_name}"
     fi
 
     for word in $(grep -E '^[a-z]+$' "${datafile}" | uniq | sort); do
         IS_NOT_ENGLISH=$(echo "${word}" | spell | wc -l)
         if [ "${IS_NOT_ENGLISH}" -lt 1 ]; then
-        if true; then
-            if ! ${PARSEABLE}; then
+            if ! ${MACHINE_READABLE}; then
                 printf "   \`- found English word: "
             fi
         fi
         echo "${word}"
     done
 
-    if ! ${PARSEABLE}; then
+    if ! ${MACHINE_READABLE}; then
         echo ""
     fi
 }
@@ -38,7 +37,7 @@ usage: spell.sh [-ph] [file]
     all files with the .data suffix in the rules directory will be searched.
 
     -h, --help     \tShow this message and exit
-    -p, --parseable\tPrint machine readable output
+    -m, --machine\tPrint machine readable output
 EOF
 }
 
@@ -46,13 +45,14 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 RULES_DIR="${SCRIPT_DIR}/../../rules/"
 
-PARSEABLE=false
+MACHINE_READABLE=false
 
 POSITIONAL_ARGS=()
 while [[ $# -gt 0 ]]; do
+    # shellcheck disable=SC2221,SC2222
     case $1 in
-        -p|--parseable)
-        PARSEABLE=true
+        -m|--machine)
+        MACHINE_READABLE=true
         shift # past argument
         ;;
         -h|--help)
