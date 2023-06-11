@@ -10,60 +10,60 @@
 ##!> cmdline windows
   time
 ##!<
-  ##! ;cmd
-  ;
-  ##! {cmd
-  \{
-  ##! |cmd
-  \|
-  ##! ||cmd
-  \|\|
-  ##! &cmd
-  &
-  ##! &&cmd
-  &&
-  ##! \ncmd
-  \n
-  ##! \rcmd
-  \r
-  ##! `cmd
-  `
-  ##!=>
+##! ;cmd
+;
+##! {cmd
+\{
+##! |cmd
+\|
+##! ||cmd
+\|\|
+##! &cmd
+&
+##! &&cmd
+&&
+##! \ncmd
+\n
+##! \rcmd
+\r
+##! `cmd
+`
+##!=>
 
-  ##! match possible white space between prefix expressions
-  \s*
-  ##!=>
+##! match possible white space between prefix expressions
+\s*
+##!=>
 
-  ##! commands prefix
-  ##!> assemble
-    ##! (cmd)
-    \(
-    ##! ,cmd
-    ,
-    ##! @cmd
-    @
-    ##! 'cmd'
-    '
-    ##! "cmd"
-    \"
-    ##! spacing+cmd
-    \s
-  ##!<
-  ##!=>
+##! commands prefix
+##!> assemble
+  ##! (cmd)
+  \(
+  ##! ,cmd
+  ,
+  ##! @cmd
+  @
+  ##! 'cmd'
+  '
+  ##! "cmd"
+  \"
+  ##! spacing+cmd
+  \s
+##!<
+##!=>
 
-  *
-  ##!=>
+*
+##!=>
 
-  ##! paths prefix
-  ##!> assemble
-    ##! /path/cmd
-    [\w'\"\./]+/
-    ##! C:\Program Files\cmd
-    [\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c
-    ##! \\net\share\dir\cmd
-    [\^\.\w '\"/\x5c]*\x5c
-  ##!<
-  ##!=>
+##! paths prefix
+##!> assemble
+  ##! /path/cmd
+  [\w'\"\./]+/
+  ##! C:\Program Files\cmd
+  [\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c
+  ##! \\net\share\dir\cmd
+  [\^\.\w '\"/\x5c]*\x5c
+##!<
+##!=>
 
-  ?[\"\^]*
-  ##!=>
+?[\"\^]*
+##!=>
