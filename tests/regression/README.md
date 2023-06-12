@@ -7,20 +7,8 @@ Welcome to the OWASP Core Rule Set regression testing suite. This suite is meant
 
 Installation
 ============
-The OWASP Core Rule Set project was part of the effort to develop FTW, the Framework for Testing WAFs. As a result, we use this project to run our regression testing. FTW uses existing testing frameworks to perform human-friendly web-based testing, provided in YAML. You can install FTW with Go or Python:
+The OWASP Core Rule Set project was part of the effort to develop FTW, the Framework for Testing WAFs. As a result, we use this project to run our regression testing. FTW is not an executable that performs human-friendly web-based testing. Tests are written using YAML. You can get the tool from the [FTW releases page](https://github.com/coreruleset/go-ftw/releases).
  
-```sh
-# Go: https://github.com/coreruleset/go-ftw#install
-go install github.com/coreruleset/go-ftw@latest
-
-# Python: https://github.com/coreruleset/ftw#installation
-git clone https://github.com/coreruleset/ftw.git
-cd ftw
-pip install -r requirements.txt 
-```
-
-This will install FTW as a library. It can also be run natively, see the FTW documentation for more detail.
-
 Requirements
 ============
 There are three requirements for running the OWASP CRS regressions.
