@@ -30,14 +30,14 @@ check() {
 
 usage() {
     cat <<EOF
-usage: spell.sh [-ph] [file]
+usage: spell.sh [-mh] [file]
     Finds English words in files that contain word lists.
 
     The optional file argument is the path to a file you want to check. If omitted,
     all files with the .data suffix in the rules directory will be searched.
 
-    -h, --help     \tShow this message and exit
-    -m, --machine\tPrint machine readable output
+    -h, --help      Show this message and exit
+    -m, --machine   Print machine readable output
 EOF
 }
 
@@ -61,6 +61,7 @@ while [[ $# -gt 0 ]]; do
         ;;
         -*|--*)
         echo "Unknown option $1"
+        usage
         exit 1
         ;;
         *)
