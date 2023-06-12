@@ -19,8 +19,8 @@ check() {
             if ! ${MACHINE_READABLE}; then
                 printf "   \`- found English word: "
             fi
+            echo "${word}"
         fi
-        echo "${word}"
     done
 
     if ! ${MACHINE_READABLE}; then
