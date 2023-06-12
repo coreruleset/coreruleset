@@ -275,7 +275,7 @@ m(?:a(?:ilto|ven)|umble|ms)
 
 The above expression is an optimization because it reduces the number of backtracking steps when a branch fails. The regular expressions in the CRS are often comprised of lists of tens or even hundreds of words. Reading such an expression in an optimized form is difficult: even the _simple_ optimized example above is difficult to read.
 
-In general, contributors should not try to optimize contributed regular expressions and should instead strive for clarity. New regular expressions will usually be required to be submitted as a `.data` file for the [crs-toolchain]({{< ref "crs_toolchain" >}}) to process. In such a file, the regular expression is decomposed into individual parts, making manual optimizations much harder or even impossible (and unnecessary with the `crs-toolchain`). The `crs-toolchain` performs some common optimizations automatically, such as the one shown above.
+In general, contributors should not try to optimize contributed regular expressions and should instead strive for clarity. New regular expressions will usually be required to be submitted as a `.ra` file for the [crs-toolchain]({{< ref "crs_toolchain" >}}) to process. In such a file, the regular expression is decomposed into individual parts, making manual optimizations much harder or even impossible (and unnecessary with the `crs-toolchain`). The `crs-toolchain` performs some common optimizations automatically, such as the one shown above.
 
 Whether optimizations make sense in a contribution is assessed for each case individually.
 
