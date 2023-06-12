@@ -5,20 +5,13 @@ meta:
   name: "920620.yaml"
   description: "Tests for 920620"
 tests:
-  - test_title: 920620-1
+  - test_title: 920620-1 # this test is going to fail on Apache
     desc: Multiple Content-Type request headers
     stages:
       - stage:
           input:
             dest_addr: "127.0.0.1"
             port: 80
-            uri: "/"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: "text/html;q=0.9,*/*;q=0.8"
-              # since we can't have multiple keys with the same name in a YAML file,
-              # I'm trying to use a \n here
-              Content-Type: "application/json\nContent-Type: application/foo"
+            encoded_request: "R0VUIC8gSFRUUC8xLjENCkhvc3Q6IGxvY2FsaG9zdA0KVXNlci1BZ2VudDogVEVTVCBDUlMNCkFjY2VwdDogKi8qDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb24NCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veG1sDQoNCg=="
           output:
             log_contains: "id \"920620\""
