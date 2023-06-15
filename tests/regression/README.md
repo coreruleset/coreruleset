@@ -11,32 +11,11 @@ The OWASP Core Rule Set project was part of the effort to develop FTW, the Frame
  
 Requirements
 ============
-There are three requirements for running the OWASP CRS regressions.
+There are three requirements for running the OWASP CRS regressions:
 
-1. You must have ModSecurity specify the location of your error.log, this is done in the config.ini file. If you are using nginx you can use the parameter `--config=modsec3-nginx` (as specified in config.ini)
-2. ModSecurity must be in DetectionOnly (or anomaly scoring) mode
-3. You must disable IP blocking based on previous events
-
-Note: The test suite compares timezones -- if your test machine and your host machine are in different timezones this can cause bad results
-
-To accomplish 2. and 3. you may use the following rule in your setup.conf:
-
-```
-SecAction "id:900005,\
-  phase:1,\
-  nolog,\
-  pass,\
-  ctl:ruleEngine=DetectionOnly,\
-  ctl:ruleRemoveById=910000,\
-  setvar:tx.blocking_paranoia_level=4,\
-  setvar:tx.crs_validate_utf8_encoding=1,\
-  setvar:tx.arg_name_length=100,\
-  setvar:tx.arg_length=400,\
-  setvar:tx.max_file_size=64100,\
-  setvar:tx.combined_file_sizes=65535"
-```
-
-Once these requirements have been met the tests can be run by using pytest.
+1. Create `.ftw.yaml` for your environment. (see Section [Yaml Config File](https://github.com/coreruleset/go-ftw#yaml-config-file) in go-ftw for more details)
+2. Specify your error.log location from ModSecurity in `.ftw.yaml`.
+3. Make sure ModSecurity is in `DetectionOnly` mode.
 
 Running The Tests
 =================
