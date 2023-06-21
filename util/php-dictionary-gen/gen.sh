@@ -9,7 +9,7 @@ fi
 git clone --depth 1 https://github.com/php/php-src
 cd php-src
 # Find PHP functions
-grep -o --no-file -R 'ZEND_FUNCTION(.*)' | cut -f2 -d\( | cut -f1 -d\) | sort > input.txt
+grep -o --no-file -R 'ZEND_FUNCTION(.*)' | cut -f2 -d\( | cut -f1 -d\) | sort | uniq > input.txt
 # Filter english word functions
 ./filter_dict.py input.txt
 # Write the dictionary FUNCTION_NAME: count
