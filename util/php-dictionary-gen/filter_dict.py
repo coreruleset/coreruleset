@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
-import os
 import sys
+from spylls.hunspell import Dictionary
 
 if len(sys.argv) != 2:
     print("Usage: python3 filter_dict.py <input.txt>")
@@ -12,10 +12,11 @@ lines = f.readlines()
 f.close()
 
 def get_dict(word):
-    # run `dict word` and return True if it worked
-    # we ignore stderr
-    res = os.system("dict %s > /dev/null 2>&1" % word)
-    return res == 0
+    # en_US dictionary is distributed with spylls
+    # See docs to load other dictionaries
+    dictionary = Dictionary.from_files('en_US')
+
+    return dictionary.lookup(word)
 
 with open("out_filtered.txt", "a") as f:
     for l in lines:
