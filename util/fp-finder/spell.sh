@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This program uses WordNet to find English words. The WorNet license:
+# This program uses WordNet to find English words. The WordNet license:
 
 # WordNet Release 3.0 This software and database is being provided to you,
 # the LICENSEE, by Princeton University under the following license.
