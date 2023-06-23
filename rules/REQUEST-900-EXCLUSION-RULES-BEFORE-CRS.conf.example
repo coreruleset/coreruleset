@@ -176,7 +176,7 @@
 # conditions will not be matched against the following rules:
 #
 # - id: 911100 (allowed methods)
-# - id: 913100,913110 (scan detection)
+# - id: 913100 (scan detection)
 # - id: 920280 (missing/empty host header)
 # - id: 920350 (IP address in host header)
 # - tag: attack-disclosure (all RESPONSE-*-DATA-LEAKAGES rules)
@@ -191,7 +191,6 @@
 #       SecRule REQUEST_HEADERS:User-Agent "@pm ELB-HealthChecker" \
 #           "ctl:ruleRemoveById=911100,\
 #           ctl:ruleRemoveById=913100,\
-#           ctl:ruleRemoveById=913110,\
 #           ctl:ruleRemoveById=920280,\
 #           ctl:ruleRemoveById=920350,\
 #           ctl:ruleRemoveByTag=attack-disclosure"
