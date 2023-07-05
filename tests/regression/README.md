@@ -7,7 +7,33 @@ Welcome to the OWASP Core Rule Set regression testing suite. This suite is meant
 
 Installation
 ============
-The OWASP Core Rule Set project was part of the effort to develop FTW, the Framework for Testing WAFs. As a result, we use this project to run our regression testing. FTW is not an executable that performs human-friendly web-based testing. Tests are written using YAML. You can get the tool from the [FTW releases page](https://github.com/coreruleset/go-ftw/releases).
+The OWASP Core Rule Set project was part of the effort to develop the Web Application Firewall Testing Framework (FTW), a framework for Testing WAFs. We recommend using `go-ftw`: a modern, fast, and efficient way to test the WAF. By utilizing it, you can test your WAF effortlessly in two steps: define a test case in YAML and run it with go-ftw.
+
+```yaml
+# example of test case: /tests/regression/tests/REQUEST-911-METHOD-ENFORCEMENT
+# format can be found at: https://github.com/coreruleset/ftw/blob/master/docs/YAMLFormat.md
+---
+meta:
+  author: "csanders-git"
+  enabled: true
+  name: "911100.yaml"
+  description: "Description"
+tests:
+  - test_title: 911100-1
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          output:
+            no_log_contains: "id \"911100\""
+```
+
+For go-ftw, please check out from [go-ftw releases page](https://github.com/coreruleset/go-ftw/releases).
  
 Requirements
 ============
