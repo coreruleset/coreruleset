@@ -68,7 +68,7 @@ Optionally, you can add the option `--output=github` (default value is `native`)
 ./util/crs-rules-check/rules-check.py --output=github -r crs-setup.conf.example -r rules/*.conf
 ```
 
-In this case, each line will have a prefix, which could be `::debug` or `::error`. See [this](https://docs.github.com/en/actions/learn-github-actions/workflow-commands-for-github-actions#setting-an-error-message).
+In this case, each line will have a prefix, which could be `::debug` or `::error`. See [this](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-error-message).
 
 Examples
 ========
