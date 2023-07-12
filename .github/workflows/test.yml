@@ -32,14 +32,14 @@ jobs:
 
       - name: "Run tests for ${{ matrix.modsec_version }}"
         run: |
-          mkdir -p tests/logs/${{ matrix.modsec_version }}/{nginx,apache2}
+          mkdir -p tests/logs/${{ matrix.modsec_version }}
           docker-compose -f ./tests/docker-compose.yml up -d "${{ matrix.modsec_version }}"
           docker-compose -f ./tests/docker-compose.yml logs
           [ $(docker inspect ${{ matrix.modsec_version }} --format='{{.State.Running}}') = 'true' ]
           ./ftw check -d tests/regression/tests
           ./ftw run -d tests/regression/tests --show-failures-only
         env:
-          FTW_LOGFILE: './tests/logs/modsec2-apache/error.log'
+          FTW_LOGFILE: './tests/logs/${{ matrix.modsec_version }}/error.log'
 
       - name: "Change permissions if failed"
         if: failure()
