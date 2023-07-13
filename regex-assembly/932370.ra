@@ -15,9 +15,6 @@
 
 ##!+ i
 
-##! Note: the quoting prefixes are part of the command prefixes, except for ^
-##!       which, for unknown reasons, is not part of the expression
-
 ##! extension/switches suffix
 ##! cmd.com, cmd.exe, etc.
 ##!$ (?:\.[\"\^]*\w+)?
@@ -26,67 +23,7 @@
 
 ##! starting tokens prefix
 ##!> assemble
-  ##! time cmd
-  ##!> cmdline windows
-    time
-  ##!<
-  ##! ;cmd
-  ;
-  ##! {cmd
-  \{
-  ##! |cmd
-  \|
-  ##! ||cmd
-  \|\|
-  ##! &cmd
-  &
-  ##! &&cmd
-  &&
-  ##! \ncmd
-  \n
-  ##! \rcmd
-  \r
-  ##! `cmd
-  `
-  ##!=>
-
-  ##! match possible white space between prefix expressions
-  \s*
-  ##!=>
-
-  ##! commands prefix
-  ##!> assemble
-    ##! (cmd)
-    \(
-    ##! ,cmd
-    ,
-    ##! @cmd
-    @
-    ##! 'cmd'
-    '
-    ##! "cmd"
-    \"
-    ##! spacing+cmd
-    \s
-  ##!<
-  ##!=>
-
-  *
-  ##!=>
-
-  ##! paths prefix
-  ##!> assemble
-    ##! /path/cmd
-    [\w'\"\./]+/
-    ##! C:\Program Files\cmd
-    [\x5c'\"\^]*\w[\x5c'\"\^]*:.*\x5c
-    ##! \\net\share\dir\cmd
-    [\^\.\w '\"/\x5c]*\x5c
-  ##!<
-  ##!=>
-
-  ?[\"\^]*
-  ##!=>
+  ##!> include windows-commands-prefix
 
   ##!> cmdline windows
 
