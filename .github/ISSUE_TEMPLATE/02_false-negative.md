@@ -13,7 +13,7 @@ our project:
 
 * https://security.stackexchange.com/questions/tagged/owasp-crs
 * https://twitter.com/coreruleset
-* https://groups.google.com/a/owasp.org/forum/#!forum/modsecurity-core-rule-set-project
+* https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 * https://owasp.org/slack/invite (-> Channel #coreruleset)
 -->
 

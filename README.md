@@ -21,7 +21,7 @@ We strive to make the OWASP ModSecurity CRS accessible to a wide audience of beg
 
 [Create an issue on GitHub](https://github.com/coreruleset/coreruleset/issues) to report a false positive or false negative (evasion). Please include your installed version and the relevant portions of your ModSecurity audit log. We will try and address your issue and potentially ask for additional information to reproduce your problem. Please also note that stale issues will be flagged and closed after 120 days. You can search for stale issues with the following [search query](https://github.com/coreruleset/coreruleset/issues?q=label%3A%22Stale+issue%22).
 
-[Sign up for our Google Group](https://groups.google.com/a/owasp.org/forum/#!forum/modsecurity-core-rule-set-project) to ask general usage questions and participate in discussions on the CRS. Also [here](https://lists.owasp.org/pipermail/owasp-modsecurity-core-rule-set/index) you can find the archives for the previous mailing list.
+[Sign up for our Google Group](https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project) to ask general usage questions and participate in discussions on the CRS. Also [here](https://lists.owasp.org/pipermail/owasp-modsecurity-core-rule-set/index) you can find the archives for the previous mailing list.
 
 [Join the #coreruleset channel on OWASP Slack](https://owasp.slack.com/) to chat about the CRS. ([Click here](https://owasp.org/slack/invite) to get an invitation if you are not yet registered on the OWASP slack. It's open to non-members too.)
 
