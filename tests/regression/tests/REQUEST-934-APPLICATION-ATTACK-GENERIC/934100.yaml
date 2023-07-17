@@ -424,3 +424,88 @@ tests:
           uri: /post
         output:
             log_contains: id "934100"
+  - test_title: 934100-27
+    desc: "Detect example function _$$ND_FUNC$$_ submitted as plaintext"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: "*/*"
+              Cookie: 'test_cookie=_$$ND_FUNC$$_function()'
+            method: GET
+            uri: "/"
+            version: HTTP/1.0
+          output:
+            log_contains: id "934100"
+  - test_title: 934100-28
+    desc: "Detect example function _$$ND_FUNC$$_ submitted as plaintext with JavaScript escape sequence obfuscation"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: "*/*"
+              Cookie: 'test_cookie=_$$\u004e\u0044_FUNC$$_\u0066unction()'
+            method: GET
+            uri: "/"
+            version: HTTP/1.0
+          output:
+            log_contains: id "934100"
+  - test_title: 934100-29
+    desc: "Detect example function _$$ND_FUNC$$_ submitted as plaintext that has been Base64 encoded"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: "*/*"
+              Cookie: 'test_cookie=XyQkTkRfRlVOQyQkX2Z1bmN0aW9uKCkK'
+            method: GET
+            uri: "/"
+            version: HTTP/1.0
+          output:
+            log_contains: id "934100"
+  - test_title: 934100-30
+    desc: "Detect example function _$$ND_FUNC$$_ submitted as plaintext with JavaScript escape sequence obfuscation that has been Base64 encoded"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: "*/*"
+              Cookie: 'test_cookie=XyQkXHUwMDRlXHUwMDQ0X0ZVTkMkJF9cdTAwNjZ1bmN0aW9uKCkK'
+            method: GET
+            uri: "/"
+            version: HTTP/1.0
+          output:
+            log_contains: id "934100"
+  - test_title: 934100-31
+    desc: "Detect example function _$$ND_FUNC$$_ submitted as plaintext that has been Base64 encoded and then obfuscated with JavaScript escape sequences"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: "*/*"
+              Cookie: 'test_cookie=\u0058\u0079QkTkRfRlVOQyQkX2Z1bmN0aW9uKCkK'
+            method: GET
+            uri: "/"
+            version: HTTP/1.0
+          output:
+            log_contains: id "934100"
