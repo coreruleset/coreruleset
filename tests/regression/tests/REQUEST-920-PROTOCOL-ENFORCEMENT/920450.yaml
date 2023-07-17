@@ -109,20 +109,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html
-              Accept-Charset: UTF-8
-          output:
-            log_contains: "id \"920450\""
-  - test_title: 920450-8
-    stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            uri: "/"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/html
               Content-Encoding: deflate
           output:
             log_contains: "id \"920450\""

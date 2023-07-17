@@ -4,7 +4,7 @@
 
 * https://github.com/coreruleset/coreruleset/issues
 or the CRS Google Group at
-* https://groups.google.com/a/owasp.org/forum/#!forum/modsecurity-core-rule-set-project
+* https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
 * There are still false positives for standard web applications in
   the default install (paranoia level 1). Please report these when

@@ -46,7 +46,7 @@ tests:
           output:
             log_contains: id "913100"
   - test_title: 913100-3
-    desc: Request Indicates a Security Scanner Scanned the Site (913100) from old modsec regressions
+    desc: Request Indicates a Security Scanner Scanned the Site (913100)
     stages:
       - stage:
           input:
@@ -58,7 +58,7 @@ tests:
               Host: localhost
               Keep-Alive: '300'
               Proxy-Connection: keep-alive
-              User-Agent: w3af.sourceforge.net
+              User-Agent: nuclei
             method: GET
             port: 80
             uri: /
@@ -96,7 +96,7 @@ tests:
           output:
             no_log_contains: id "913100"
   - test_title: 913100-6
-    desc: "Evil grabber"
+    desc: "ZGrab"
     stages:
       - stage:
           input:
@@ -104,7 +104,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: "Grabber/0.1 (X11; U; Linux i686; en-US; rv:1.7)"
+              User-Agent: "Mozilla/5.0 zgrab/0.x"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"

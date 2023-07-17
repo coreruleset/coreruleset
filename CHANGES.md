@@ -3,7 +3,7 @@
 ## Report Bugs/Issues to GitHub Issues Tracker or the mailinglist
 * https://github.com/coreruleset/coreruleset/issues
   or the CRS Google Group at
-* https://groups.google.com/a/owasp.org/forum/#!forum/modsecurity-core-rule-set-project
+* https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
 ## Version 4.0.0 - 2022-06-??
 
@@ -974,7 +974,7 @@ Improvements:
 * Added new Application Defect checks (55 app defect file) from Watcher tool (Check Charset)
   http://websecuritytool.codeplex.com/wikipage?title=Checks#charset
 * Added new AppSensor rules to experimental_dir
-  https://www.owasp.org/index.php/AppSensor_DetectionPoints
+  https://owasp.org/www-project-appsensor/
 * Added new Generic Malicious JS checks in outbound content
 * Added experimental IP Forensic rules to gather Client hostname/whois info
   http://blog.spiderlabs.com/2010/11/detecting-malice-with-modsecurity-ip-forensics.html
