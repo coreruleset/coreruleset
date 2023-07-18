@@ -1,0 +1,183 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##!+ i
+
+##! This rule tries to match all the possible ways to write 'javascript' using
+##! unicode characters, html entities, and javascript escape sequences.
+
+##! Matched order is sequential: we first match 'j', then 'a', then 'v', etc.
+
+##!> define html_entity_prefix &#x?0*
+##!> define whitespaces \t|\n|\r
+
+##! html_encoded_whitespace is a list of all the possible ways to write an encoded whitespace
+##!> assemble
+  {{whitespaces}}
+  ##!> assemble
+    {{html_entity_prefix}}9;?
+    {{html_entity_prefix}}13;?
+    {{html_entity_prefix}}10;?
+    {{html_entity_prefix}}A;?
+    {{html_entity_prefix}}D;?
+    &tab;
+    &newline;
+    ##!=>
+  ##!<
+  ##!=>
+  *
+  ##!=< html_encoded_whitespace
+##!<
+
+##! all the possible ways to end the word 'javascript', plus whitespaces
+##!> assemble
+  :
+  ##!> assemble
+    {{html_entity_prefix}}58;?
+    {{html_entity_prefix}}3A;?
+    &colon;
+  ##!<
+  ##!=>
+  .
+  ##!=< end_javascript
+##!<
+
+##!> assemble
+  ##! all the possible ways to write 'j', plus whitespaces
+  j
+  ##!> assemble
+    {{html_entity_prefix}}74;
+    {{html_entity_prefix}}4A;
+    {{html_entity_prefix}}106;
+    {{html_entity_prefix}}6A;
+  ##!<
+  ##!=>
+  ##!=> html_encoded_whitespace
+##!<
+
+##!=>
+
+##! all the possible ways to write 'a', plus whitespaces
+##!> assemble
+  a
+  ##!> assemble
+    {{html_entity_prefix}}65;
+    {{html_entity_prefix}}41;
+    {{html_entity_prefix}}97;
+    {{html_entity_prefix}}61;
+  ##!<
+  ##!=>
+  ##!=> html_encoded_whitespace
+  ##!=< all_possible_ways_to_write_a
+##!<
+
+##!=> all_possible_ways_to_write_a
+
+##! all the possible ways to write 'v', plus whitespaces
+##!> assemble
+  v
+  ##!> assemble
+    {{html_entity_prefix}}86;
+    {{html_entity_prefix}}56;
+    {{html_entity_prefix}}118;
+    {{html_entity_prefix}}76;
+  ##!<
+  ##!=>
+  ##!=> html_encoded_whitespace
+##!<
+
+##!=>
+
+##!=> all_possible_ways_to_write_a
+
+##! all the possible ways to write 's', plus whitespaces
+##!> assemble
+  s
+  ##!> assemble
+    {{html_entity_prefix}}83;
+    {{html_entity_prefix}}53;
+    {{html_entity_prefix}}115;
+    {{html_entity_prefix}}73;
+  ##!<
+  ##!=>
+  ##!=> html_encoded_whitespace
+##!<
+
+##!=>
+
+##! all the possible ways to write 'c', plus whitespaces
+##!> assemble
+  c
+  ##!> assemble
+    {{html_entity_prefix}}67;
+    {{html_entity_prefix}}43;
+    {{html_entity_prefix}}99;
+    {{html_entity_prefix}}63;
+  ##!<
+  ##!=>
+  ##!=> html_encoded_whitespace
+##!<
+
+##!=>
+
+##! all the possible ways to write 'r', plus whitespaces
+##!> assemble
+  r
+  ##!> assemble
+    {{html_entity_prefix}}82;
+    {{html_entity_prefix}}52;
+    {{html_entity_prefix}}114;
+    {{html_entity_prefix}}72;
+  ##!<
+  ##!=>
+  ##!=> html_encoded_whitespace
+##!<
+
+##!=>
+
+##! all the possible ways to write 'i', plus whitespaces
+##!> assemble
+  i
+  ##!> assemble
+    {{html_entity_prefix}}73;
+    {{html_entity_prefix}}49;
+    {{html_entity_prefix}}105;
+    {{html_entity_prefix}}69;
+  ##!<
+  ##!=>
+  ##!=> html_encoded_whitespace
+##!<
+
+##!=>
+
+##! all the possible ways to write 'p', plus whitespaces
+##!> assemble
+  p
+  ##!> assemble
+    {{html_entity_prefix}}80;
+    {{html_entity_prefix}}50;
+    {{html_entity_prefix}}112;
+    {{html_entity_prefix}}70;
+  ##!<
+  ##!=>
+  ##!=> html_encoded_whitespace
+##!<
+
+##!=>
+
+##! all the possible ways to write 't', plus whitespaces
+##!> assemble
+  t
+  ##!> assemble
+    {{html_entity_prefix}}84;
+    {{html_entity_prefix}}54;
+    {{html_entity_prefix}}116;
+    {{html_entity_prefix}}74;
+  ##!<
+  ##!=>
+  ##!=> html_encoded_whitespace
+  ##!=>
+  ##!=> end_javascript
+##!<
+
+##!=>
