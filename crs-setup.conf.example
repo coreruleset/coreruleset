@@ -492,8 +492,8 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |multipart/related| |text/xml| |application/xml| |application/soap+xml| |application/json| |application/cloudevents+json| |application/cloudevents-batch+json|'"
 
 # Allowed HTTP versions.
-# Default: HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0
-# Example for legacy clients: HTTP/0.9 HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0
+# Default: HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0 HTTP/3 HTTP/3.0
+# Example for legacy clients: HTTP/0.9 HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0 HTTP/3 HTTP/3.0
 # Note that some web server versions use 'HTTP/2', some 'HTTP/2.0', so
 # we include both version strings by default.
 # Uncomment this rule to change the default.
@@ -503,7 +503,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    pass,\
 #    t:none,\
 #    nolog,\
-#    setvar:'tx.allowed_http_versions=HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0'"
+#    setvar:'tx.allowed_http_versions=HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0 HTTP/3 HTTP/3.0'"
 
 # Forbidden file extensions.
 # Guards against unintended exposure of development/configuration files.
