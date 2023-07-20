@@ -10,18 +10,18 @@
 
 Important changes:
 
-* Backport fix for CVE-2023-38199 in new rule 920620
+* Backport fix for CVE-2023-38199 from CRS v4 via new rule 920620 (Andrea Menin, Felipe Zipitría)
 
 Fixes:
 
-* PL related issues in rule 921422
-* Move auditLogPart if it is in a chained rules where needed
+* Fix paranoia level-related scoring issue in rule 921422 (Walter Hop)
+* Move auditLogParts actions to the end of chained rules where used (Ervin Hegedus)
 
 Chore:
 
-* Cleaning up PL1 tags
-* Move testing framework from ftw to go-ftw
-* Backport yaml test files fixes to support go-ftw
+* Clean up redundant paranoia level tags (Ervin Hegedus)
+* Clean up YAML test files to support go-ftw testing framework (Felipe Zipitría)
+* Move testing framework from ftw to go-ftw (Felipe Zipitría)
 
 ## Version 3.3.4 - 2022-09-20
 
