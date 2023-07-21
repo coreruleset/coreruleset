@@ -1,25 +1,34 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
-##!+ i
-
 ##! This rule tries to match all the possible ways to write 'javascript' using
-##! unicode characters, html entities, and javascript escape sequences.
+##! html entities, and javascript escape sequences.
+##! See https://www.w3schools.com/charsets/ref_html_entities_4.asp for examples.
+##! And https://www.w3schools.com/charsets/ref_html_ascii.asp for the list of
+##! all the possible html entities.
+
+##!+ i
 
 ##! Matched order is sequential: we first match 'j', then 'a', then 'v', etc.
 
-##!> define html_entity_prefix &#x?0*
-##!> define whitespaces \t|\n|\r
+##!> define html_entity_hex_prefix &#x0*
+##!> define html_entity_dec_prefix &#0*
+##!> define whitespaces [\t\n\r]
 
 ##! html_encoded_whitespace is a list of all the possible ways to write an encoded whitespace
 ##!> assemble
   {{whitespaces}}
   ##!> assemble
-    {{html_entity_prefix}}9;?
-    {{html_entity_prefix}}13;?
-    {{html_entity_prefix}}10;?
-    {{html_entity_prefix}}A;?
-    {{html_entity_prefix}}D;?
+    ##! 09 	horizontal tab
+    ##! 10 	line feed
+    ##! 13 	carriage return
+    ##! 0A 	line feed (hex)
+    ##! 0D 	carriage return (hex)
+    {{html_entity_dec_prefix}}9;?
+    {{html_entity_dec_prefix}}10;?
+    {{html_entity_dec_prefix}}13;?
+    {{html_entity_hex_prefix}}A;?
+    {{html_entity_hex_prefix}}D;?
     &tab;
     &newline;
     ##!=>
@@ -33,8 +42,10 @@
 ##!> assemble
   :
   ##!> assemble
-    {{html_entity_prefix}}58;?
-    {{html_entity_prefix}}3A;?
+    ##! 58 : (colon)
+    ##! 3A : (colon)
+    {{html_entity_dec_prefix}}58;?
+    {{html_entity_hex_prefix}}3A;?
     &colon;
   ##!<
   ##!=>
@@ -46,10 +57,14 @@
   ##! all the possible ways to write 'j', plus whitespaces
   j
   ##!> assemble
-    {{html_entity_prefix}}74;
-    {{html_entity_prefix}}4A;
-    {{html_entity_prefix}}106;
-    {{html_entity_prefix}}6A;
+    ##! J 	74 	uppercase J
+    ##! j 	106 	lowercase j
+    ##! J 	4A 	uppercase J (hex)
+    ##! j 	6A 	lowercase j (hex)
+    {{html_entity_dec_prefix}}74;
+    {{html_entity_dec_prefix}}106;
+    {{html_entity_hex_prefix}}4A;
+    {{html_entity_hex_prefix}}6A;
   ##!<
   ##!=>
   ##!=> html_encoded_whitespace
@@ -61,10 +76,14 @@
 ##!> assemble
   a
   ##!> assemble
-    {{html_entity_prefix}}65;
-    {{html_entity_prefix}}41;
-    {{html_entity_prefix}}97;
-    {{html_entity_prefix}}61;
+    ##! A 	65 	uppercase A
+    ##! a 	97 	lowercase a
+    ##! A 	41 	uppercase A (hex)
+    ##! a 	61 	lowercase a (hex)
+    {{html_entity_dec_prefix}}65;
+    {{html_entity_dec_prefix}}97;
+    {{html_entity_hex_prefix}}41;
+    {{html_entity_hex_prefix}}61;
   ##!<
   ##!=>
   ##!=> html_encoded_whitespace
@@ -77,10 +96,14 @@
 ##!> assemble
   v
   ##!> assemble
-    {{html_entity_prefix}}86;
-    {{html_entity_prefix}}56;
-    {{html_entity_prefix}}118;
-    {{html_entity_prefix}}76;
+    ##! V   86  uppercase V
+    ##! V 	56 	uppercase V (hex)
+    ##! v 	118 lowercase v
+    ##! v 	76 	lowercase v (hex)
+    {{html_entity_dec_prefix}}86;
+    {{html_entity_hex_prefix}}56;
+    {{html_entity_dec_prefix}}118;
+    {{html_entity_hex_prefix}}76;
   ##!<
   ##!=>
   ##!=> html_encoded_whitespace
@@ -94,10 +117,14 @@
 ##!> assemble
   s
   ##!> assemble
-    {{html_entity_prefix}}83;
-    {{html_entity_prefix}}53;
-    {{html_entity_prefix}}115;
-    {{html_entity_prefix}}73;
+    ##! s 	115 lowercase s
+    ##! s 	73 	lowercase s (hex)
+    ##! S 	83 	uppercase S
+    ##! S 	53 	uppercase S (hex)
+    {{html_entity_dec_prefix}}115;
+    {{html_entity_hex_prefix}}73;
+    {{html_entity_dec_prefix}}83;
+    {{html_entity_hex_prefix}}53;
   ##!<
   ##!=>
   ##!=> html_encoded_whitespace
@@ -109,10 +136,14 @@
 ##!> assemble
   c
   ##!> assemble
-    {{html_entity_prefix}}67;
-    {{html_entity_prefix}}43;
-    {{html_entity_prefix}}99;
-    {{html_entity_prefix}}63;
+    ##! c 	67  lowercase C (hex)
+    ##! c 	99 	lowercase c
+    ##! C 	43 	uppercase c (hex)
+    ##! C 	67 	uppercase C
+    {{html_entity_hex_prefix}}63;
+    {{html_entity_dec_prefix}}99;
+    {{html_entity_hex_prefix}}43;
+    {{html_entity_dec_prefix}}67;
   ##!<
   ##!=>
   ##!=> html_encoded_whitespace
@@ -124,10 +155,14 @@
 ##!> assemble
   r
   ##!> assemble
-    {{html_entity_prefix}}82;
-    {{html_entity_prefix}}52;
-    {{html_entity_prefix}}114;
-    {{html_entity_prefix}}72;
+    ##! r 	72 	lowercase R (hex)
+    ##! r 	114 lowercase r
+    ##! r 	52 	uppercase r (hex)
+    ##! R 	82 	uppercase R
+    {{html_entity_hex_prefix}}72;
+    {{html_entity_dec_prefix}}114;
+    {{html_entity_hex_prefix}}52;
+    {{html_entity_dec_prefix}}82;
   ##!<
   ##!=>
   ##!=> html_encoded_whitespace
@@ -139,10 +174,14 @@
 ##!> assemble
   i
   ##!> assemble
-    {{html_entity_prefix}}73;
-    {{html_entity_prefix}}49;
-    {{html_entity_prefix}}105;
-    {{html_entity_prefix}}69;
+    ##! i 	69 	lowercase i (hex)
+    ##! i 	105 lowercase i
+    ##! I 	49 	uppercase i (hex)
+    ##! I 	73 	uppercase I
+    {{html_entity_hex_prefix}}69;
+    {{html_entity_dec_prefix}}105;
+    {{html_entity_hex_prefix}}49;
+    {{html_entity_dec_prefix}}73;
   ##!<
   ##!=>
   ##!=> html_encoded_whitespace
@@ -154,10 +193,14 @@
 ##!> assemble
   p
   ##!> assemble
-    {{html_entity_prefix}}80;
-    {{html_entity_prefix}}50;
-    {{html_entity_prefix}}112;
-    {{html_entity_prefix}}70;
+    ##! p 	70 	lowercase p (hex)
+    ##! p 	112 lowercase p
+    ##! P 	50 	uppercase p (hex)
+    ##! P 	80 	uppercase P
+    {{html_entity_hex_prefix}}70;
+    {{html_entity_dec_prefix}}112;
+    {{html_entity_hex_prefix}}50;
+    {{html_entity_dec_prefix}}80;
   ##!<
   ##!=>
   ##!=> html_encoded_whitespace
@@ -169,15 +212,20 @@
 ##!> assemble
   t
   ##!> assemble
-    {{html_entity_prefix}}84;
-    {{html_entity_prefix}}54;
-    {{html_entity_prefix}}116;
-    {{html_entity_prefix}}74;
+    ##! t 	74 	lowercase t (hex)
+    ##! t 	116 lowercase t
+    ##! T 	54 	uppercase t (hex)
+    ##! T 	84 	uppercase T
+    {{html_entity_hex_prefix}}74;
+    {{html_entity_dec_prefix}}116;
+    {{html_entity_hex_prefix}}54;
+    {{html_entity_dec_prefix}}84;
   ##!<
   ##!=>
   ##!=> html_encoded_whitespace
   ##!=>
-  ##!=> end_javascript
 ##!<
+
+##!=> end_javascript
 
 ##!=>
