@@ -3,7 +3,7 @@
 
 ##! This rule tries to match all the possible ways to write 'javascript' using
 ##! html entities, and javascript escape sequences.
-##! See https://www.w3schools.com/charsets/ref_html_entities_4.asp for examples.
+##! See https://html.spec.whatwg.org/multipage/named-characters.html#named-character-references for examples.
 ##! And https://www.w3schools.com/charsets/ref_html_ascii.asp for the list of
 ##! all the possible html entities.
 
@@ -17,7 +17,9 @@
 
 ##! html_encoded_whitespace is a list of all the possible ways to write an encoded whitespace
 ##!> assemble
+  ##! canonical form
   {{whitespaces}}
+  ##! alternative forms
   ##!> assemble
     ##! 09 horizontal tab
     ##! 10 line feed
@@ -116,7 +118,7 @@ s
 ##!> assemble
   ##! s 115 lowercase s
   ##! s 73 lowercase s (hex)
-  ##! S83 uppercase S
+  ##! S 83 uppercase S
   ##! S 53 uppercase S (hex)
   {{html_entity_dec_prefix}}115;
   {{html_entity_hex_prefix}}73;
