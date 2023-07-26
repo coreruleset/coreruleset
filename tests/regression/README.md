@@ -43,6 +43,22 @@ There are three requirements for running the OWASP CRS regressions:
 2. Specify your error.log location from ModSecurity in `.ftw.yaml`.
 3. Make sure ModSecurity is in `DetectionOnly` mode.
 
+The following rule is provided to properly configure your engine for testing. Add it to crs-setup.conf:
+```
+SecAction "id:900005,\
+  phase:1,\
+  nolog,\
+  pass,\
+  ctl:ruleEngine=DetectionOnly,\
+  ctl:ruleRemoveById=910000,\
+  setvar:tx.blocking_paranoia_level=4,\
+  setvar:tx.crs_validate_utf8_encoding=1,\
+  setvar:tx.arg_name_length=100,\
+  setvar:tx.arg_length=400,\
+  setvar:tx.max_file_size=64100,\
+  setvar:tx.combined_file_sizes=65535"
+```
+
 Running The Tests
 =================
 
