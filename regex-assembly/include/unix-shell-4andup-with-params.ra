@@ -5,7 +5,8 @@
 ##! awk '/^([a-z0-9_-]+)/ { x = $0; gsub(/[@~]/, "", x); if (length(x) > 3) print }' 93210{0,5}.data
 
 ##! The heuristic for applying the `{{space-or-redirect}}` is to apply it to commands that
-##! are equal to plain English words.
+##! are equal to plain English words. 
+##! The script util/fp-finder/spell.sh can help here.
 
 ##! These patterns are approximations of the patterns used by the cmdline
 ##! processor for `@` and `~`.
@@ -217,7 +218,7 @@ lzgrep
 lzless
 lzma
 lzmore
-mail
+mail{{space-or-redirect}}
 mailq
 mailx{{space-or-redirect}}
 make{{space-or-redirect}}
@@ -360,7 +361,7 @@ systemctl
 systemd-resolve
 tail{{space-or-redirect}}
 tailf
-task
+task{{space-or-redirect}}
 taskset
 tclsh
 tcpdump
