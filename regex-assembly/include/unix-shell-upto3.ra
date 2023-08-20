@@ -1,12 +1,18 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
-##! This list was generated from the original lists with the following command:
-##! awk '/^([a-z0-9_-]+)/ { x = $0; gsub(/[@~]/, "", x); if (length(x) <= 3) print x }' 93210{0,5}.data
+##! To regenerate this list from unix-shell.data, run the following:
+##! sed -i -e '14,$d' regex-assembly/include/unix-shell-upto3.ra && \
+##!   awk '/^[^#$]/ {split($0,x,"/"); y=x[length(x)]} length(y) <= 3 {print y}' \
+##!   rules/unix-shell.data | \
+##!   sort | uniq \
+##!   >> regex-assembly/include/unix-shell-upto3.ra
 
 7z
 7za
 7zr
+7zx
+GET
 ab
 apt
 ar
@@ -27,15 +33,21 @@ cp
 csh
 cut
 dd
+df
 dig
+dir
 dnf
 du
 eb
 ed
 env
 eqn
+es
+esh
 ex
 fc
+fd
+fg
 fi
 fmt
 ftp
@@ -45,6 +57,7 @@ gem
 ghc
 git
 go
+gpg
 grc
 hd
 hup
@@ -61,6 +74,7 @@ lp
 ls
 lua
 lz
+lz4
 man
 mtr
 mv
@@ -85,6 +99,7 @@ ptx
 pwd
 pxz
 rar
+rc
 rcp
 red
 rev
@@ -102,10 +117,12 @@ svn
 tac
 tar
 tbl
+tcp
 tee
 tex
 tic
 top
+udp
 ul
 vi
 vim
@@ -115,6 +132,7 @@ wc
 who
 xxd
 xz
+yes
 yum
 zip
 zsh
