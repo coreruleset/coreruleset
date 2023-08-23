@@ -1,9 +1,8 @@
 # This list can be generated from restricted-files.data by running the following shell command:
-# sed -i -e '7,$d' rules/restricted-upload.data && \
-#  grep -v '^#' rules/restricted-files.data | \
-#  awk '{split($0, segments, "/")}{print segments[length(segments)]}' | \
-#  grep -v '^$' | \
+# sed -i '' -e '6,$d' rules/restricted-upload.data && \
+#  awk ' !/^#/ {split($0, segments, "/")} {word = segments[length(segments)]} length(word) > 3 {print word}' rules/restricted-files.data | \
 #  sort | uniq >> rules/restricted-upload.data
+
 .DS_Store
 .addressbook
 .bash_
@@ -70,16 +69,6 @@
 .zhistory
 .zsh_history
 .zshrc
-0
-1
-2
-3
-4
-5
-6
-7
-8
-9
 Desktop.ini
 Dockerfile
 Thumbs.db
@@ -91,7 +80,6 @@ block
 bootconfig
 bower.json
 buddyinfo
-bus
 cgroups
 class
 cmdline
@@ -109,18 +97,14 @@ cpuinfo
 crypto
 database.yml
 default.settings.php
-dev
 devices
 diskstats
-dma
 docker
 driver
 dynamic_debug
 execdomains
-fb
 filesystems
 firmware
-fs
 gruntfile.js
 hplip.conf
 hypervisor
@@ -128,7 +112,6 @@ interrupts
 iomem
 ioports
 ipmi
-irq
 kallsyms
 kcore
 kernel
@@ -148,10 +131,7 @@ misc
 module
 modules
 mounts
-mpt
-mtd
 mtrr
-net
 notify-osd.log
 npm-debug.log
 npm-shrinkwrap.json
@@ -187,14 +167,12 @@ softirqs
 sslvpn_websession
 stat
 swaps
-sys
 sysrq-trigger
 sysvipc
 thread-self
 timer_list
 timer_stats
 tsconfig.json
-tty
 uptime
 version
 version_signature
