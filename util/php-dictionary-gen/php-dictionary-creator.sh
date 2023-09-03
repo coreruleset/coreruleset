@@ -363,7 +363,7 @@ echo "done ($(wc -l "$TMP_ENGLISH_WORDS" | xargs echo | cut -d\  -f1 ) english w
 # Step 4 - Output 933161
 if [ "$DO_RULE_933161" == "1" ]; then
 	# Being 933161 a stricter sibling of 933160, 933160 entries are also added to 933161.
-	# We read the 933160 file skpping comments and empty lines. Entries are added to 933161 (if not already present).
+	# We read the 933160 file skipping comments and empty lines. Entries are added to 933161 (if not already present).
 	grep -v '^#' "$RA_FILE_PATH$R933160_FILENAME" | awk NF | while read -r R933160_ENTRY; do
 		
 		if [ $(grep -c -E "^$R933160_ENTRY$" "$TMP_ENGLISH_WORDS") -eq 0 ]; then
@@ -406,7 +406,7 @@ cat "$TMP_PHP_FUNCTIONS" | grep -v -E -f "$TMP_ENGLISH_WORDS" | while read -r FU
 	else
 		# function name found in frequency list
 		TIMESTAMP=$(grep -E "^$FUNCTION " "$PHP_FUNCTIONS_FREQUENCIES" | cut -d\  -f3)
-		TIMESTAMP_SECONDS=$(gdate -d "$TIMESTAMP" +%s 2>&1) # FIXME revert to date
+		TIMESTAMP_SECONDS=$(date -d "$TIMESTAMP" +%s 2>&1) # For MacOS users: gdate is needed instead of date
 		ERROR=$(($ERROR|$?))    # logical OR
 		break_on_error $ERROR "$TIMESTAMP_SECONDS\nError. Check that date is the GNU date binary from coreutils."
 		DIFF_SECONDS=$((MYDATE_SECONDS - TIMESTAMP_SECONDS))
