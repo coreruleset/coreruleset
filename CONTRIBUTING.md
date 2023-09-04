@@ -108,7 +108,7 @@ SecRule ARGS "foo" "id:1,phase:1,pass,t:none"
 
 CRS uses `\x5c` to represent the backslash `\` character in regular expressions. Some of the reasons for this are:
 
-* It's portable across web servers and WAF engines: it works with Apache, Nginx, and Coraza.
+* It's portable across web servers and WAF engines: it works with [Apache](https://httpd.apache.org/), [Nginx](https://www.nginx.com/), and [Coraza](https://coraza.io/).
 * It works with the [crs-toolchain](https://coreruleset.org/docs/development/crs_toolchain/) for building optimized regular expressions.
 
 The older style of representing a backslash using the character class `[\\\\]` must _not_ be used. This was previously used in CRS to get consistent results between Apache and Nginx, owing to a quirk with how Apache would "double un-escape" character escapes. For future reference, the decision was made to stop using this older method because:

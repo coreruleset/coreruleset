@@ -16,8 +16,21 @@ jobs:
     - name: checkout
       uses: actions/checkout@v3
 
-    - name: rename
-      run: cp CONTRIBUTING.md contribution_guidelines.md
+    - name: create file
+      run: |
+
+        echo "---" >> tmp.md
+        echo "title: Contribution Guidelines" >> tmp.md
+        echo "weight: 10" >> tmp.md
+        echo "disableToc: false" >> tmp.md
+        echo "chapter: false" >> tmp.md
+        echo "---" >> tmp.md
+        echo "" >> tmp.md
+
+        cat CONTRIBUTING.md >> tmp.md
+
+        # remove lines specifing web-version documentation
+        sed '7,10d' tmp.md >> contribution_guidelines.md
 
     - name: push CONTRIBUTING.md
       uses: dmnemec/copy_file_to_another_repo_action@main
@@ -27,6 +40,7 @@ jobs:
         source_file: 'contribution_guidelines.md'
         destination_repo: 'dextermallo/documentation'
         destination_folder: 'content/development'
+        # public GitHub Actions bot
         user_email: '41898282+github-actions[bot]@users.noreply.github.com'
         user_name: 'github-actions[bot]'
         commit_message: 'chore: auto-sync CONTRIBUTING.md from coreruleset/coreruleset'
