@@ -46,9 +46,18 @@ check() {
         # wordnet exit code is equal to number of search results
         if ! wn "${word}"> /dev/null 2>&1;  then
             if ! ${MACHINE_READABLE}; then
-                printf "   \`- found English word: "
+                printf "   \`- found English word via wn: "
             fi
             echo "${word}"
+        else
+            if ${USE_EXTENDED}; then
+                if [ $(grep -c -E "^$word$" "$EXTENDED_WORDS_LIST_PATH") -ne 0 ]; then
+                    if ! ${MACHINE_READABLE}; then
+                        printf "   \`- found English word via extended list: "
+                    fi
+                    echo "${word}"
+                fi
+            fi
         fi
     done
 
@@ -59,7 +68,7 @@ check() {
 
 usage() {
     cat <<EOF
-usage: spell.sh [-mh] [file]
+usage: spell.sh [-mhe] [file]
     Finds English words in files that contain word lists.
 
     The optional file argument is the path to a file you want to check. If omitted,
@@ -67,14 +76,16 @@ usage: spell.sh [-mh] [file]
 
     -h, --help      Show this message and exit
     -m, --machine   Print machine readable output
+    -e, --extended  English words are extended by a manual list
 EOF
 }
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-
+EXTENDED_WORDS_LIST_PATH="${SCRIPT_DIR}/english-extended.txt"
 RULES_DIR="${SCRIPT_DIR}/../../rules/"
 
 MACHINE_READABLE=false
+USE_EXTENDED=false
 
 POSITIONAL_ARGS=()
 while [[ $# -gt 0 ]]; do
@@ -82,6 +93,10 @@ while [[ $# -gt 0 ]]; do
     case $1 in
         -m|--machine)
         MACHINE_READABLE=true
+        shift # past argument
+        ;;
+        -e|--extended)
+        USE_EXTENDED=true
         shift # past argument
         ;;
         -h|--help)
