@@ -1,0 +1,27 @@
+name: sync coreruleset/documentation
+
+on:
+  push:
+    branches:
+      - v4.0/dev
+    tags-ignore:
+      - "**"
+
+jobs:
+  copy-file:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
+    - name: push CONTRIBUTING.md
+      uses: dmnemec/copy_file_to_another_repo_action@main
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      with:
+        source_file: 'CONTRIBUTING.md'
+        destination_repo: 'dextermallo/documentation'
+        destination_folder: 'content/development/contribution_guidelines.md'
+        user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+        user_name: 'github-actions[bot]'
+        commit_message: 'auto: sync Contributing.md'
