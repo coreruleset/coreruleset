@@ -4,6 +4,8 @@
 
 > The CRS project values third party contributions. To make the contribution process as easy as possible, a helpful set of contribution guidelines are in place which all contributors and developers are asked to adhere to.
 
+> **For Documentation Contributors**: The documentation is written in the style of a reference document and generally avoids  using pronouns (i.e., "The rule files need to be copied into place" instead of "You need to copy the rule files into place"). Similarly, avoid using unnecessary pleasantries like "please do this".
+
 ## Getting Started with a New Contribution
 
 1. Sign in to [GitHub](https://github.com/join).
@@ -18,7 +20,7 @@
 
 * Base any changes on the latest dev branch (e.g., `v4.0/dev`).
 * Create a topic branch for each new contribution.
-* Fix only one problem at a time. This helps to quickly test and merge submitted changes. If you intend to fix *multiple unrelated problems*, please use a separate branch for each problem.
+* Fix only one problem at a time. This helps to quickly test and merge submitted changes. If intending to fix *multiple unrelated problems* then use a separate branch for each problem.
 * Make commits of logical units.
 * Make sure commits adhere to the contribution guidelines presented in this document.
 * Make sure commit messages follow the [standard Git format](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
