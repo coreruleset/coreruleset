@@ -14,14 +14,17 @@ jobs:
     - name: checkout
       uses: actions/checkout@v3
 
+    - name: rename
+      run: cp CONTRIBUTING.md contribution_guidelines.md
+
     - name: push CONTRIBUTING.md
       uses: dmnemec/copy_file_to_another_repo_action@main
       env:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
       with:
-        source_file: 'CONTRIBUTING.md'
+        source_file: 'contribution_guidelines.md'
         destination_repo: 'dextermallo/documentation'
-        destination_folder: 'content/development/contribution_guidelines.md'
+        destination_folder: 'content/development'
         user_email: '41898282+github-actions[bot]@users.noreply.github.com'
         user_name: 'github-actions[bot]'
         commit_message: 'auto: sync Contributing.md'
