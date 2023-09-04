@@ -18,7 +18,7 @@
 
 * Base any changes on the latest dev branch (e.g., `v4.0/dev`).
 * Create a topic branch for each new contribution.
-* Fix only one problem at a time. This helps to quickly test and merge submitted changes. If intending to fix *multiple unrelated problems* then use a separate branch for each problem.
+* Fix only one problem at a time. This helps to quickly test and merge submitted changes. If you intend to fix *multiple unrelated problems*, please use a separate branch for each problem.
 * Make commits of logical units.
 * Make sure commits adhere to the contribution guidelines presented in this document.
 * Make sure commit messages follow the [standard Git format](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
