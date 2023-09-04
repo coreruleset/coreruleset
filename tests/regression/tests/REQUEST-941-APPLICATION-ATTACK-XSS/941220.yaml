@@ -14,8 +14,9 @@ tests:
             headers:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept: "*/*"
             method: POST
+            uri: "/post"
             port: 80
             data: "var=v%26newline;b%26tab;s%26newline;c%26newline;r%26tab;i%26tab;p%26newline;t%26colon;:&var2=whatever"
             version: HTTP/1.0
@@ -30,8 +31,9 @@ tests:
             headers:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept: "*/*"
             method: POST
+            uri: "/post"
             port: 80
             data: "payload=<a href=\"vbscript:MsgBox+1\">XSS</a>"
             version: HTTP/1.0
