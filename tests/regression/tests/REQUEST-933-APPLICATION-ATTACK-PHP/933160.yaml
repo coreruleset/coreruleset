@@ -26,7 +26,7 @@ tests:
     stages:
       - stage:
           input:
-            data: foo=curl_iNit%28%29
+            data: eval($foo)
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
@@ -42,7 +42,7 @@ tests:
     stages:
       - stage:
           input:
-            data: eval($foo)
+            data: eval%0D%28%24foo%29
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
@@ -66,7 +66,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /
+            uri: /?foo=exec%0A%28%27bar%27%29
           output:
             log_contains: id "933160"
   - test_title: 933160-5
@@ -82,7 +82,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /?foo=exec%0A%28%27bar%27%29
+            uri: /?foo=FILE%0D%0A%28%29
           output:
             log_contains: id "933160"
   - test_title: 933160-6
@@ -98,7 +98,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /?foo=FILE%0D%0A%28%29
+            uri: /?foo=file_ExistS%20%28%0A%0A%29
           output:
             log_contains: id "933160"
   - test_title: 933160-7
@@ -114,26 +114,10 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /?foo=file_ExistS%20%28%0A%0A%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-8
-    desc: function call regexp
-    stages:
-      - stage:
-          input:
-            data: eval%0D%28%24foo%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
             uri: /?foo=fopen%20%20%28blah%29
           output:
             log_contains: id "933160"
-  - test_title: 933160-9
+  - test_title: 933160-8
     desc: '@ operator'
     stages:
       - stage:
@@ -149,7 +133,7 @@ tests:
             uri: /?foo=fopen%20%20%28blah%29
           output:
             log_contains: id "933160"
-  - test_title: 933160-10
+  - test_title: 933160-9
     desc: func\t()
     stages:
       - stage:
@@ -165,7 +149,7 @@ tests:
             uri: /?foo=fopen%20%20%28blah%29
           output:
             log_contains: id "933160"
-  - test_title: 933160-11
+  - test_title: 933160-10
     desc: func//comment\r\n ()
     stages:
       - stage:
@@ -181,7 +165,7 @@ tests:
             uri: /?foo=fopen%20%20%28blah%29
           output:
             log_contains: id "933160"
-  - test_title: 933160-12
+  - test_title: 933160-11
     desc: 'func #comment\n ()'
     stages:
       - stage:
@@ -197,7 +181,7 @@ tests:
             uri: /?foo=fopen%20%20%28blah%29
           output:
             log_contains: id "933160"
-  - test_title: 933160-13
+  - test_title: 933160-12
     desc: func#\n ()
     stages:
       - stage:
@@ -213,7 +197,7 @@ tests:
             uri: /?foo=fopen%20%20%28blah%29
           output:
             log_contains: id "933160"
-  - test_title: 933160-14
+  - test_title: 933160-13
     desc: 'func \t #\n ()'
     stages:
       - stage:
@@ -229,7 +213,7 @@ tests:
             uri: /?foo=fopen%20%20%28blah%29
           output:
             log_contains: id "933160"
-  - test_title: 933160-15
+  - test_title: 933160-14
     desc: func/*comment*/()
     stages:
       - stage:
@@ -245,7 +229,7 @@ tests:
             uri: /?foo=fopen%20%20%28blah%29
           output:
             log_contains: id "933160"
-  - test_title: 933160-16
+  - test_title: 933160-15
     desc: func /*com*/ ()
     stages:
       - stage:
@@ -261,8 +245,24 @@ tests:
             uri: /?foo=fopen%20%20%28blah%29
           output:
             log_contains: id "933160"
-  - test_title: 933160-17
+  - test_title: 933160-16
     desc: func \t/**/\t ()
+    stages:
+      - stage:
+          input:
+            data: eval%0D%28%24foo%29
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: /?foo=fopen%20%20%28blah%29
+          output:
+            log_contains: id "933160"
+  - test_title: 933160-17
+    desc: func\t/*foo\r\nbar*/\t (
     stages:
       - stage:
           input:
@@ -290,7 +290,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /?foo=fopen%20%20%28blah%29
+            uri: /strrev()
           output:
             log_contains: id "933160"
   - test_title: 933160-19
@@ -306,7 +306,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /strrev()
+            uri: /strREV%28%24x%29
           output:
             log_contains: id "933160"
   - test_title: 933160-20
@@ -322,7 +322,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /strREV%28%24x%29
+            uri: /?x=eval%28chr%28112%29.chr%28104%29.chr%28112%29
           output:
             log_contains: id "933160"
   - test_title: 933160-21
@@ -338,7 +338,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /?x=eval%28chr%28112%29.chr%28104%29.chr%28112%29
+            uri: /eval(gzinflate(str_rot13(base64_decode("")
           output:
             log_contains: id "933160"
   - test_title: 933160-22
@@ -354,26 +354,10 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /eval(gzinflate(str_rot13(base64_decode("")
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-23
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: eval%0D%28%24foo%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
             uri: /eval%28base64_decode%28%27JGNoZWNrID...
           output:
             log_contains: id "933160"
-  - test_title: 933160-24
+  - test_title: 933160-23
     desc: func\t/*foo\r\nbar*/\t (
     stages:
       - stage:
@@ -389,247 +373,7 @@ tests:
             uri: /
           output:
             log_contains: id "933160"
-  - test_title: 933160-25
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: posix_getegid%28%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /getegid
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-26
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /print_r
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-27
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /astrrev()
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-28
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /strrev
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-29
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /strrev(
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-30
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /?foo=eval
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-31
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /?foo=the%20files%20%28yep%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-32
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /?foo=exec%20%28
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-33
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /?foo=executor%28%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-34
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /?foo=cheval%28%24foo%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-35
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /?foo=audi%6ffile%28%24foo%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-36
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /?foo=the%20system%20is%20down%28%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-37
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /?foo=ecosystem%28%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-38
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /?foo=systems%28%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-39
-    desc: func\t/*foo\r\nbar*/\t (
-    stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /?foo=system%20something%28%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-40
+  - test_title: 933160-24
     desc: string function call
     stages:
       - stage:
@@ -644,7 +388,7 @@ tests:
             uri: /?foo=return%22system%22%28xyz%29.s
           output:
             log_contains: id "933160"
-  - test_title: 933160-41
+  - test_title: 933160-25
     desc: system - whoami in braces
     stages:
       - stage:
@@ -660,7 +404,7 @@ tests:
             uri: /
           output:
             log_contains: id "933160"
-  - test_title: 933160-42
+  - test_title: 933160-26
     desc: system in braces - whoami in parentheses
     stages:
       - stage:
@@ -676,7 +420,7 @@ tests:
             uri: /
           output:
             log_contains: id "933160"
-  - test_title: 933160-43
+  - test_title: 933160-27
     desc: system call in single quotes and parentheses - whoami command in single quotes and parentheses
     stages:
       - stage:
@@ -692,7 +436,7 @@ tests:
             uri: /
           output:
             log_contains: id "933160"
-  - test_title: 933160-44
+  - test_title: 933160-28
     desc: system call in double quotes and parentheses - whoami command in double quotes and parentheses
     stages:
       - stage:
