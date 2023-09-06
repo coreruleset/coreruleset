@@ -4,12 +4,12 @@
 ##!+ i
 
 ##!> define required-spaces-plus-sql-function-call \s+\w+\(
-##!> define optional-spaces-plus-sql-function-call \s*\w+\(
 ##!> define quotes [\"'`]
 ##!> define start-comment \/\*!
 ##!> define lazy-optional-spaces \s*?
 ##!> define lazy-optional-spaces-with-numbers {{lazy-optional-spaces}}\d+{{lazy-optional-spaces}}
 ##!> define lazy-optional-spaces-numeric-function-call {{lazy-optional-spaces}}\({{lazy-optional-spaces}}\d
+##!> define lazy-optional-spaces-plus-sql-function-call {{lazy-optional-spaces}}\w+\(
 
 \){{lazy-optional-spaces}}when{{lazy-optional-spaces-with-numbers}}then
 
@@ -56,5 +56,5 @@
   \|\|
   &&
   ##!=> 
-  {{optional-spaces-plus-sql-function-call}}
+  {{lazy-optional-spaces-plus-sql-function-call}}
 ##!<
