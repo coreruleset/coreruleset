@@ -49,8 +49,21 @@ check() {
         datafile_name="${datafile##*/}"
     fi
 
+    local datafile="${1}"
+    local datafile_name
+
+    if [ "${1}" = "-" ]; then
+        datafile="/dev/stdin"
+        datafile_name="stdin"
+    else
+        datafile_name="${datafile##*/}"
+    fi
+
     for word in $(grep -E '^[a-z]+$' "${datafile}" | uniq | sort); do
         # wordnet exit code is equal to number of search results
+        if [ -n "${SUFFIX}" ]; then
+            word="$(sed -E "s/.*(${SUFFIX})?/${word}/" <<<"${word}")"
+        fi
         if ! wn "${word}" >/dev/null 2>&1; then
             if ! ${MACHINE_READABLE}; then
                 printf "   \`- found English word via wn: "
@@ -85,6 +98,7 @@ usage: spell.sh [-mhe] [file]
     -h, --help      Show this message and exit
     -m, --machine   Print machine readable output
     -e, --extended  English words are extended by a manual list
+    -s, --suffix    Regular expression for suffix to strip off words passed to wordnet
 EOF
 }
 
@@ -101,11 +115,16 @@ while [[ $# -gt 0 ]]; do
     case $1 in
         -m|--machine)
         MACHINE_READABLE=true
-        shift # past argument
+        shift
         ;;
         -e|--extended)
         USE_EXTENDED=true
-        shift # past argument
+        shift
+        ;;
+        -s|--suffix)
+        shift
+        SUFFIX="${1}"
+        shift
         ;;
         -h|--help)
         usage
@@ -123,7 +142,7 @@ while [[ $# -gt 0 ]]; do
         ;;
         *)
         POSITIONAL_ARGS+=("$1") # save positional arg
-        shift # past argument
+        shift
         ;;
     esac
 done
