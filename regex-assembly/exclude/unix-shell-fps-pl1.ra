@@ -7,9 +7,63 @@
 ##! - unix-shell-upto3-for-cmdline.ra
 ##! - unix-shell-4andup-with-params.ra
 
+##! To automatically add exclusions for English words from the sources, run the following:
+##! original="$(grep -vE '^(?:#|$)' regex-assembly/exclude/unix-shell-fps-pl1.ra)"
+##! upto3="$(grep -vE '^(?:#|$)' regex-assembly/include/unix-shell-upto3.ra)"
+##! rest="$(grep -vE '^(?:#|$)' regex-assembly/include/unix-shell-4andup-with-params.ra)"
+##! english_upto3="$(util/fp-finder/spell.sh -m -e regex-assembly/include/unix-shell-upto3.ra)"
+##! # strip suffixes from words so that spell.sh works
+##! english_rest="$(util/fp-finder/spell.sh -m -e -s '{{[^}]+}}' regex-assembly/include/unix-shell-4andup-with-params.ra)"
+##! result=""
+##! function update_existing {
+##!   if [ -z "${1}" ]; then
+##!     return
+##!   fi
+##!   while read -r oword; do
+##!     found=0
+##!     while read -r eword; do
+##!       if grep -qE "^${eword}(?:[@~]|\{\{.*|$)" <<<"${oword}"; then
+##!         result="${result}${eword}\n"
+##!         result="${result}${eword}@\n"
+##!         result="${result}${eword}~\n"
+##!         result="${result}${eword}{{space-or-redirect}}\n"
+##!         result="${result}${eword}{{no-space}}\n"
+##!         found=1
+##!         break
+##!       fi
+##!     done <<<"${1}"
+##!     if [ ${found} -eq 0 ]; then
+##!       result="${result}${oword}\n"
+##!     fi
+##!   done <<<"${original}"
+##! }
+##! function add_new {
+##!   if [ -z "${1}" ]; then
+##!     return
+##!   fi
+##!   while read -r eword; do
+##!     if ! grep -qE "^${eword}(?:[@~]|\{\{.*|$)" <<<"${original}"; then
+##!       result="${result}${eword}\n"
+##!       result="${result}${eword}@\n"
+##!       result="${result}${eword}~\n"
+##!       result="${result}${eword}{{space-or-redirect}}\n"
+##!       result="${result}${eword}{{no-space}}\n"
+##!     fi
+##!   done <<<"${1}"
+##! }
+##! update_existing "${english_upto3}"
+##! update_existing "${english_rest}"
+##! add_new "${english_upto3}"
+##! add_new "${english_rest}"
+
+##! sed -i '' -e '61,$d' regex-assembly/exclude/unix-shell-fps-pl1.ra
+##! echo ${result} | sort | uniq >> regex-assembly/exclude/unix-shell-fps-pl1.ra
+
 ab
 ab@
+ab{{no-space}}
 ab{{space-or-redirect}}
+ab~
 adduser
 agetty
 alias{{space-or-redirect}}
@@ -17,25 +71,43 @@ alpine{{space-or-redirect}}
 ansible-playbook
 apt
 apt-get
+apt@
 aptitude{{space-or-redirect}}
+apt{{no-space}}
+apt{{space-or-redirect}}
+apt~
 ar
 ar@
 arch{{space-or-redirect}}
 aria2c
 arj
 arp
+arp@
+arp{{no-space}}
+arp{{space-or-redirect}}
+arp~
+ar{{no-space}}
 ar{{space-or-redirect}}
+ar~
 as
 as@
 ascii-xfr
 ascii85
 ash
+ash@
+ash{{no-space}}
+ash{{space-or-redirect}}
+ash~
 aspell
+as{{no-space}}
 as{{space-or-redirect}}
+as~
 at
 at@
 atobm
+at{{no-space}}
 at{{space-or-redirect}}
+at~
 awk
 awk@
 awk{{space-or-redirect}}
@@ -55,7 +127,14 @@ cancel{{space-or-redirect}}
 capsh{{space-or-redirect}}
 cat
 cat@
+cat{{no-space}}
 cat{{space-or-redirect}}
+cat~
+cc
+cc@
+cc{{no-space}}
+cc{{space-or-redirect}}
+cc~
 certbot
 chattr
 chdir{{space-or-redirect}}
@@ -92,14 +171,27 @@ csvtool
 cupsfilter
 cut
 cut@
+cut{{no-space}}
 cut{{space-or-redirect}}
+cut~
 date{{space-or-redirect}}
 dd
 dd@
+dd{{no-space}}
 dd{{space-or-redirect}}
+dd~
 dhclient
 dialog{{space-or-redirect}}
 dig
+dig@
+dig{{no-space}}
+dig{{space-or-redirect}}
+dig~
+dir
+dir@
+dir{{no-space}}
+dir{{space-or-redirect}}
+dir~
 dmidecode
 dmsetup
 dnf
@@ -114,17 +206,26 @@ dvips
 easy_install
 eb
 eb@
+eb{{no-space}}
 eb{{space-or-redirect}}
+eb~
 ed
 ed@
+ed{{no-space}}
 ed{{space-or-redirect}}
+ed~
 efax
 emacs
 endif
 endsw
 env-update
 eqn
+es
+es@
 esac
+es{{no-space}}
+es{{space-or-redirect}}
+es~
 ex
 ex@
 exiftool
@@ -132,7 +233,9 @@ expand{{space-or-redirect}}
 expect{{space-or-redirect}}
 export{{space-or-redirect}}
 expr
+ex{{no-space}}
 ex{{space-or-redirect}}
+ex~
 facter
 fc
 fc@
@@ -149,14 +252,18 @@ foreach
 fping
 ftp
 ftp@
+ftp{{no-space}}
 ftp{{space-or-redirect}}
+ftp~
 function
 gawk
 gcore
 gdb
 gem
 gem@
+gem{{no-space}}
 gem{{space-or-redirect}}
+gem~
 genie{{space-or-redirect}}
 genisoimage
 getfacl{{space-or-redirect}}
@@ -166,10 +273,14 @@ gimp{{space-or-redirect}}
 ginsh
 git
 git@
+git{{no-space}}
 git{{space-or-redirect}}
+git~
 go
 go@
+go{{no-space}}
 go{{space-or-redirect}}
+go~
 grc
 gtester
 hd
@@ -185,14 +296,22 @@ htdigest
 htpasswd
 iconv
 id
+id@
+id{{no-space}}
+id{{space-or-redirect}}
+id~
 ifconfig
 iftop
 install{{space-or-redirect}}
 ionice
 ip
 ip6tables
+ip@
 ipconfig
 iptables
+ip{{no-space}}
+ip{{space-or-redirect}}
+ip~
 ispell
 jexec
 jjs
@@ -227,7 +346,9 @@ logsave
 look{{space-or-redirect}}
 lp
 lp@
+lp{{no-space}}
 lp{{space-or-redirect}}
+lp~
 lshw
 ltrace
 lua
@@ -243,7 +364,9 @@ mailx{{space-or-redirect}}
 make{{space-or-redirect}}
 man
 man@
+man{{no-space}}
 man{{space-or-redirect}}
+man~
 mawk
 mkdir{{space-or-redirect}}
 more{{space-or-redirect}}
@@ -259,15 +382,24 @@ mtr
 mutt{{space-or-redirect}}
 mv
 mv@
+mv{{no-space}}
 mv{{space-or-redirect}}
+mv~
 mysql
 nano{{space-or-redirect}}
 nasm
 nawk
+nc
+nc@
+nc{{no-space}}
+nc{{space-or-redirect}}
+nc~
 neofetch
 net
 net@
+net{{no-space}}
 net{{space-or-redirect}}
+net~
 nice{{space-or-redirect}}
 nl
 nl@
@@ -275,7 +407,9 @@ nl{{space-or-redirect}}
 nm
 nm@
 nmap
+nm{{no-space}}
 nm{{space-or-redirect}}
+nm~
 node{{space-or-redirect}}
 npm
 npm@
@@ -286,7 +420,9 @@ nslookup
 octave{{space-or-redirect}}
 od
 od@
+od{{no-space}}
 od{{space-or-redirect}}
+od~
 openssl
 openvpn
 openvt
@@ -297,7 +433,9 @@ paste{{space-or-redirect}}
 patch{{space-or-redirect}}
 pax
 pax@
+pax{{no-space}}
 pax{{space-or-redirect}}
+pax~
 pdb
 pdflatex
 pdftex
@@ -309,10 +447,17 @@ pf@
 pf{{space-or-redirect}}
 pg
 pic
+pic@
 pico{{space-or-redirect}}
+pic{{no-space}}
+pic{{space-or-redirect}}
+pic~
 pidstat
 ping{{space-or-redirect}}
 pip
+pip@
+pip{{no-space}}
+pip{{space-or-redirect}}
 pip~
 pkg
 pkg_info
@@ -321,11 +466,19 @@ pr
 pr@
 pry
 pry@
+pry{{no-space}}
 pry{{space-or-redirect}}
+pry~
+pr{{no-space}}
 pr{{space-or-redirect}}
+pr~
 ps
+ps@
 psftp
 psql
+ps{{no-space}}
+ps{{space-or-redirect}}
+ps~
 ptx
 puppet{{space-or-redirect}}
 pushd
@@ -338,9 +491,15 @@ readelf
 red
 red@
 redcarpet{{space-or-redirect}}
+red{{no-space}}
 red{{space-or-redirect}}
+red~
 restic
 rev
+rev@
+rev{{no-space}}
+rev{{space-or-redirect}}
+rev~
 rlogin
 rlwrap
 rm
@@ -352,7 +511,9 @@ rpm@
 rpmdb
 rpmquery
 rpmverify
+rpm{{no-space}}
 rpm{{space-or-redirect}}
+rpm~
 run-mailcap
 run-parts
 rview
@@ -362,9 +523,17 @@ screen{{space-or-redirect}}
 script{{space-or-redirect}}
 service{{space-or-redirect}}
 set
+set@
 setarch
 setfacl{{space-or-redirect}}
+set{{no-space}}
+set{{space-or-redirect}}
+set~
 sg
+sg@
+sg{{no-space}}
+sg{{space-or-redirect}}
+sg~
 shuf
 shutdown{{space-or-redirect}}
 sleep{{space-or-redirect}}
@@ -380,7 +549,9 @@ ss@
 ssh-keygen
 ssh-keyscan
 sshpass
+ss{{no-space}}
 ss{{space-or-redirect}}
+ss~
 start-stop-daemon
 stdbuf
 strace
@@ -392,22 +563,39 @@ systemd-resolve
 tac
 tar
 tar@
+tar{{no-space}}
 tar{{space-or-redirect}}
+tar~
 task
 taskset
 tbl
 tclsh
+tcp
+tcp@
 tcpdump
+tcp{{no-space}}
+tcp{{space-or-redirect}}
+tcp~
 tee
+tee@
+tee{{no-space}}
+tee{{space-or-redirect}}
+tee~
 tex
 tftp
 tic
 tic@
+tic{{no-space}}
 tic{{space-or-redirect}}
+tic~
 timedatectl
 time{{space-or-redirect}}
 tmux
 top
+top@
+top{{no-space}}
+top{{space-or-redirect}}
+top~
 touch{{space-or-redirect}}
 troff
 tshark
@@ -430,9 +618,13 @@ view{{space-or-redirect}}
 vim
 vim@
 vimdiff
+vim{{no-space}}
 vim{{space-or-redirect}}
+vim~
 virsh
+vi{{no-space}}
 vi{{space-or-redirect}}
+vi~
 volatility
 w
 w@
@@ -441,10 +633,16 @@ watch{{space-or-redirect}}
 wc
 whiptail
 who
+who@
 whois
+who{{no-space}}
+who{{space-or-redirect}}
+who~
 wireshark
 wish{{space-or-redirect}}
+w{{no-space}}
 w{{space-or-redirect}}
+w~
 xelatex
 xetex
 xmodmap
@@ -454,8 +652,17 @@ xterm
 xxd
 yarn
 yelp{{space-or-redirect}}
+yes
+yes@
+yes{{no-space}}
+yes{{space-or-redirect}}
+yes~
 yum
 zathura
 zip
+zip@
+zip{{no-space}}
+zip{{space-or-redirect}}
+zip~
 zsoelim
 zypper
