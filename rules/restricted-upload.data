@@ -1,7 +1,12 @@
 # This list can be generated from restricted-files.data by running the following shell command:
-# sed -i '' -e '6,$d' rules/restricted-upload.data && \
-#  awk ' !/^#/ {split($0, segments, "/")} {word = segments[length(segments)]} length(word) > 3 {print word}' rules/restricted-files.data | \
-#  sort | uniq >> rules/restricted-upload.data
+# sed -i '' -e '11,$d' rules/restricted-upload.data
+# words="$(awk ' !/^#/ {split($0, segments, "/")} {word = segments[length(segments)]} length(word) > 3 {print word}' rules/restricted-files.data | \
+#   sort | uniq)"
+# while read -r word; do
+#   if [ "$(util/fp-finder/spell.sh -m -e - <<<"${word}")" = "${word}" ]; then
+#     echo "${word}" >> rules/restricted-upload.data
+#   fi
+# done <<<"${words}"
 
 .DS_Store
 .addressbook
@@ -76,12 +81,10 @@ Web.config
 acpi
 asound
 auth.json
-block
 bootconfig
 bower.json
 buddyinfo
 cgroups
-class
 cmdline
 composer.json
 composer.lock
@@ -92,31 +95,23 @@ config.yml
 config_dev.yml
 config_prod.yml
 config_test.yml
-consoles
 cpuinfo
 crypto
 database.yml
 default.settings.php
-devices
 diskstats
-docker
-driver
 dynamic_debug
 execdomains
 filesystems
-firmware
 gruntfile.js
 hplip.conf
 hypervisor
-interrupts
 iomem
 ioports
 ipmi
 kallsyms
 kcore
-kernel
 key-users
-keys
 kmsg
 kpagecgroup
 kpagecount
@@ -124,13 +119,9 @@ kpageflags
 latency_stats
 loadavg
 local.xml
-locks
 mdstat
 meminfo
 misc
-module
-modules
-mounts
 mtrr
 notify-osd.log
 npm-debug.log
@@ -142,20 +133,15 @@ packages.json
 pagetypeinfo
 parameters.php
 parameters.yml
-partitions
 php.ini
 php_error.log
 php_errors.log
 phpcs.xml
 phpcs.xml.dist
-power
-pressure
 routing.yml
 sched_debug
 schedstat
-scsi
 security.yml
-self
 services.yml
 settings.inc.php
 settings.local.php
@@ -165,16 +151,12 @@ slabinfo
 soapConfig.xml
 softirqs
 sslvpn_websession
-stat
-swaps
 sysrq-trigger
 sysvipc
 thread-self
 timer_list
 timer_stats
 tsconfig.json
-uptime
-version
 version_signature
 vmallocinfo
 vmstat
