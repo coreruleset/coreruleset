@@ -34,7 +34,25 @@
 ##!   fi
 ##! done <<<${source}
 
-##! sed -i '' -e '39,$d' regex-assembly/include/unix-shell-upto3-for-cmdline.ra
+##! # check entries for English words and suffix those
+##! original="$(grep -vE '^(?:#|$)' regex-assembly/include/unix-shell-upto3-for-cmdline.ra)"
+##! english="$(util/fp-finder/spell.sh -m -e regex-assembly/include/unix-shell-upto3-for-cmdline.ra)"
+##! result=""
+##! while read -r oword; do
+##!   found=0
+##!   while read -r eword; do
+##!     if [ "${oword}" = "${eword}" ]; then
+##!       result="${result}${oword}@\n"
+##!       found=1
+##!       break
+##!     fi
+##!   done <<<${english}
+##!   if [ ${found} -eq 0 ]; then
+##!     result="${result}${oword}\n"
+##!   fi
+##! done <<<${original}
+
+##! sed -i '' -e '57,$d' regex-assembly/include/unix-shell-upto3-for-cmdline.ra
 ##! echo ${result} | sort | uniq >> regex-assembly/include/unix-shell-upto3-for-cmdline.ra
 
 7z
@@ -43,12 +61,12 @@
 7zx
 GET@
 ab@
-apt
+apt@
 ar@
 arj
-arp
+arp@
 as@
-ash
+ash@
 at@
 awk@
 aws@
@@ -63,7 +81,7 @@ csh
 cut@
 dd@
 df
-dig
+dig@
 dir@
 dnf
 du@
@@ -90,8 +108,8 @@ gpg
 grc
 hd@
 hup@
-id
-ip
+id@
+ip@
 irb
 jjs
 jq
@@ -118,12 +136,12 @@ pdb
 pf@
 pg
 php@
-pic
+pic@
 pip~
 pkg
 pr@
 pry@
-ps
+ps@
 ptx
 pwd
 pxz
@@ -131,13 +149,13 @@ rar@
 rc
 rcp@
 red@
-rev
+rev@
 rm@
 rpm@
 scp
 sed@
-set
-sg
+set@
+sg@
 sh@
 ss@
 ssh@
@@ -146,11 +164,11 @@ svn
 tac
 tar@
 tbl
-tcp
-tee
+tcp@
+tee@
 tex
 tic@
-top
+top@
 udp
 ul@
 vi@
@@ -158,10 +176,10 @@ vim@
 w3m
 w@
 wc
-who
+who@
 xxd
 xz@
 yes@
 yum
-zip
+zip@
 zsh
