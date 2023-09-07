@@ -1,10 +1,41 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
-##! This list was generated from the original lists with the following command:
-##! awk '/^([a-z0-9_-]+)/ { x = $0; gsub(/[@~]/, "", x); if (length(x) <= 3) print }' 93210{0,5}.data
-
 ##! This list must be in sync with unix-shell-upto3.ra
+
+##! Note that the suffixes must be added manually to new entries.
+##! To regenerate this list from unix-shell-upto3.ra, run the following:
+##! original="$(grep -vE '^(?:#|$)' regex-assembly/include/unix-shell-upto3-with-params.ra)"
+##! source="${all}\n$(grep -vE '^(?:#|$)' regex-assembly/include/unix-shell-upto3.ra)"
+##! result=""
+##! # retain all unmodified entries in this list and skip removed ones; ignore the manually added suffixes
+##! while read -r oword; do
+##!   while read -r sword; do
+##!     # strip suffixes from end of words
+##!     if [ "${${oword/%\{\{space-or-redirect\}\}/}/\{\{no-space\}\}/}" = "${sword}" ]; then
+##!       result="${result}${oword}\n"
+##!       break
+##!     fi
+##!   done <<<${source}
+##! done <<<${original}
+##!
+##! # add new entries to this list
+##! while read -r sword; do
+##!   found=0
+##!   while read -r oword; do
+##!     # strip suffixes from end of words
+##!     if [ "${${oword/%\{\{space-or-redirect\}\}/}/\{\{no-space\}\}/}" = "${sword}" ]; then
+##!       found=1
+##!       break
+##!     fi
+##!   done <<<${original}
+##!   if [ ${found} -eq 0 ]; then
+##!     result="${result}${sword}\n"
+##!   fi
+##! done <<<${source}
+##!
+##! sed -i '' -e '44,$d' regex-assembly/include/unix-shell-upto3-with-params.ra
+##! echo ${result} | sort | uniq >> regex-assembly/include/unix-shell-upto3-with-params.ra
 
 ##! These patterns are approximations of the patterns used by the cmdline
 ##! processor for `@` and `~`.
@@ -14,13 +45,15 @@
 7z
 7za
 7zr
+7zx
+GET{{space-or-redirect}}
 ab{{space-or-redirect}}
 apt
-ar{{space-or-redirect}}
 arj
 arp
-as{{space-or-redirect}}
+ar{{space-or-redirect}}
 ash
+as{{space-or-redirect}}
 at{{space-or-redirect}}
 awk{{space-or-redirect}}
 aws{{space-or-redirect}}
@@ -34,15 +67,21 @@ cp{{space-or-redirect}}
 csh
 cut{{space-or-redirect}}
 dd{{space-or-redirect}}
+df
 dig
+dir{{space-or-redirect}}
 dnf
 du{{space-or-redirect}}
 eb{{space-or-redirect}}
 ed{{space-or-redirect}}
 env
 eqn
+es{{space-or-recirect}}
+esh
 ex{{space-or-redirect}}
 fc{{space-or-redirect}}
+fd
+fg
 fi{{space-or-redirect}}
 fmt
 ftp{{space-or-redirect}}
@@ -52,6 +91,7 @@ gem{{space-or-redirect}}
 ghc
 git{{space-or-redirect}}
 go{{space-or-redirect}}
+gpg
 grc
 hd{{space-or-redirect}}
 hup{{space-or-redirect}}
@@ -61,12 +101,13 @@ irb
 jjs
 jq
 ksh
-ld{{space-or-redirect}}
 ldd{{space-or-redirect}}
+ld{{space-or-redirect}}
 ln{{space-or-redirect}}
 lp{{space-or-redirect}}
 ls
 lua{{space-or-redirect}}
+lz4
 lz{{space-or-redirect}}
 man{{space-or-redirect}}
 mtr
@@ -85,13 +126,14 @@ php{{space-or-redirect}}
 pic
 pip{{no-space}}
 pkg
-pr{{space-or-redirect}}
 pry{{space-or-redirect}}
+pr{{space-or-redirect}}
 ps
 ptx
 pwd
 pxz
 rar{{space-or-redirect}}
+rc
 rcp{{space-or-redirect}}
 red{{space-or-redirect}}
 rev
@@ -102,26 +144,29 @@ sed{{space-or-redirect}}
 set
 sg
 sh{{space-or-redirect}}
-ss{{space-or-redirect}}
 ssh{{space-or-redirect}}
+ss{{space-or-redirect}}
 su{{space-or-redirect}}
 svn
 tac
 tar{{space-or-redirect}}
 tbl
+tcp
 tee
 tex{{space-or-redirect}}
 tic{{space-or-redirect}}
 top
+udp
 ul{{space-or-redirect}}
-vi{{space-or-redirect}}
 vim{{space-or-redirect}}
-w{{space-or-redirect}}
+vi{{space-or-redirect}}
 w3m
 wc
 who
+w{{space-or-redirect}}
 xxd
 xz{{space-or-redirect}}
+yes{{space-or-redirect}}
 yum
 zip
 zsh
