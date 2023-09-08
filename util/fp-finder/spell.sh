@@ -35,22 +35,30 @@ EOF
 fi
 
 check() {
-    local datafile="${1}"
-    local datafile_name="${datafile##*/}"
-
     if ! ${MACHINE_READABLE}; then
         echo "-> checking ${datafile_name}"
     fi
 
+    local datafile="${1}"
+    local datafile_name
+
+    if [ "${1}" = "-" ]; then
+        datafile="/dev/stdin"
+        datafile_name="stdin"
+    else
+        datafile_name="${datafile##*/}"
+    fi
+
     for word in $(grep -E '^[a-z]+$' "${datafile}" | uniq | sort); do
         # wordnet exit code is equal to number of search results
-        if ! wn "${word}"> /dev/null 2>&1;  then
+        if ! wn "${word}" >/dev/null 2>&1; then
             if ! ${MACHINE_READABLE}; then
                 printf "   \`- found English word via wn: "
             fi
             echo "${word}"
         else
             if ${USE_EXTENDED}; then
+                # shellcheck disable=SC2046
                 if [ $(grep -c -E "^$word$" "$EXTENDED_WORDS_LIST_PATH") -ne 0 ]; then
                     if ! ${MACHINE_READABLE}; then
                         printf "   \`- found English word via extended list: "
@@ -104,9 +112,14 @@ while [[ $# -gt 0 ]]; do
         exit 1
         ;;
         -*|--*)
-        echo "Unknown option $1"
-        usage
-        exit 1
+        if [ $# -eq 1 ]; then
+            POSITIONAL_ARGS+=("$1") # save positional arg
+            shift # past argument
+        else
+            echo "Unknown option $1"
+            usage
+            exit 1
+        fi
         ;;
         *)
         POSITIONAL_ARGS+=("$1") # save positional arg
