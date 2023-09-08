@@ -3,7 +3,7 @@
 # words="$(awk ' !/^#/ {split($0, segments, "/")} {word = segments[length(segments)]} length(word) > 3 {print word}' rules/restricted-files.data | \
 #   sort | uniq)"
 # while read -r word; do
-#   if [ "$(util/fp-finder/spell.sh -m -e - <<<"${word}")" = "${word}" ]; then
+#   if [ "$(util/fp-finder/spell.sh -m -e - <<<"${word}")" != "${word}" ]; then
 #     echo "${word}" >> rules/restricted-upload.data
 #   fi
 # done <<<"${words}"
