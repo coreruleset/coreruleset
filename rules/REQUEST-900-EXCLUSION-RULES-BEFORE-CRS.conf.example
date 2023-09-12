@@ -150,6 +150,10 @@
 # This rule illustrates that we can remove a rule range via a ctl action.
 # This uses the fact, that rules are grouped by topic in rule files covering
 # a certain id range.
+# IMPORTANT: ModSecurity v3, aka libModSecurity, does not currently support the
+# use of rule ranges in a ruleRemoveById ctl action (this feature has been
+# planned for v3.1). Consider using ruleRemoveByTag as a workaround, if
+# appropriate.
 #
 # ModSecurity Rule Exclusion: Disable all SQLi and XSS rules
 # SecRule REQUEST_FILENAME "@beginsWith /admin" \
