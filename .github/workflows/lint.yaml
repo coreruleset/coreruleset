@@ -6,9 +6,6 @@ on: [push, pull_request]
 jobs:
   check-syntax:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-    # check why is failing and change afterwards
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
