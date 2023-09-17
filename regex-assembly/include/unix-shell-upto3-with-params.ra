@@ -34,7 +34,8 @@
 ##!   fi
 ##! done <<<${source}
 ##!
-##! sed -i '' -e '44,$d' regex-assembly/include/unix-shell-upto3-with-params.ra
+##! body_start=$(grep -n -E -m 1 '^[^#$]' regex-assembly/include/unix-shell-upto3-with-params.ra | cut -d: -f1)
+##! sed -i '' -e "$((body_start - 1)),\$d" regex-assembly/include/unix-shell-upto3-with-params.ra
 ##! echo ${result} | sort | uniq >> regex-assembly/include/unix-shell-upto3-with-params.ra
 
 ##! These patterns are approximations of the patterns used by the cmdline
@@ -76,7 +77,7 @@ eb{{space-or-redirect}}
 ed{{space-or-redirect}}
 env
 eqn
-es{{space-or-recirect}}
+es{{space-or-redirect}}
 esh
 ex{{space-or-redirect}}
 fc{{space-or-redirect}}

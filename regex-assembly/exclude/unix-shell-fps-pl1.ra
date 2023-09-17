@@ -56,7 +56,8 @@
 ##! add_new "${english_upto3}"
 ##! add_new "${english_rest}"
 
-##! sed -i '' -e '61,$d' regex-assembly/exclude/unix-shell-fps-pl1.ra
+##! body_start=$(grep -n -E -m 1 '^[^#$]' regex-assembly/exclude/unix-shell-fps-pl1.ra | cut -d: -f1)
+##! sed -i '' -e "$((body_start - 1)),\$d" regex-assembly/exclude/unix-shell-fps-pl1.ra
 ##! echo ${result} | sort | uniq >> regex-assembly/exclude/unix-shell-fps-pl1.ra
 
 ab
