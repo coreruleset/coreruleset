@@ -157,3 +157,39 @@ tests:
             protocol: "http"
           output:
             no_log_contains: "id \"932237\""
+  - test_title: 932237-11
+    desc: "9323HNQU - should not be detected at PL 2"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=;vi dddd +silent\\ \!whoami +wq
+            version: HTTP/1.0
+          output:
+            no_log_contains: "id \"932237\""
+  - test_title: 932237-12
+    desc: "9323HNQU - should not be detected at PL 2"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            data: |
+              code=;vi -c:\!pwd
+            version: HTTP/1.0
+          output:
+            no_log_contains: "id \"932237\""
