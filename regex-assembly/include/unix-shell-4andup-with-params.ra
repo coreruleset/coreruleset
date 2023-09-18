@@ -18,6 +18,8 @@
 ##!     # strip suffixes from end of words
 ##!     oword_raw="${oword/%\{\{space-or-redirect\}\}/}"
 ##!     oword_raw="${oword_raw/%\{\{no-space\}\}/}"
+##!     # handle "clang++"
+##!     sword="${sword/%++/\+\+}"
 ##!     if [ "${oword_raw}" = "${sword}" ]; then
 ##!       result="${result}${oword}${NL}"
 ##!       break
@@ -32,6 +34,8 @@
 ##!     # strip suffixes from end of words
 ##!     oword_raw="${oword/%\{\{space-or-redirect\}\}/}"
 ##!     oword_raw="${oword_raw/%\{\{no-space\}\}/}"
+##!     # handle "clang++"
+##!     sword="${sword/%++/\+\+}"
 ##!     if [ "${oword_raw}" = "${sword}" ]; then
 ##!       found=1
 ##!       break
@@ -144,7 +148,7 @@ chown
 chpass
 chroot{{space-or-redirect}}
 chsh
-clang++
+clang\+\+
 clang{{space-or-redirect}}
 cobc
 column{{space-or-redirect}}
