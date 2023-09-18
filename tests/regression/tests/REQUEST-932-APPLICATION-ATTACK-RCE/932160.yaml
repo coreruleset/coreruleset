@@ -131,3 +131,37 @@ tests:
             protocol: "http"
           output:
             log_contains: "id \"932160\""
+  - test_title: 932160-9
+    desc: "Positive test: Unix Command Injection - $SHELL test"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: "localhost"
+              User-Agent: "OWASP CRS test agent"
+            method: GET
+            port: 80
+            # code=$SHELL -c "echo hi"
+            uri: "/get?code=%24SHELL%20-c%20%22echo%20hi%22"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932160"
+  - test_title: 932160-10
+    desc: "Positive test: Unix Command Injection - ${SHELL} test"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: "localhost"
+              User-Agent: "OWASP CRS test agent"
+            method: GET
+            port: 80
+            # code=${SHELL} -c "echo hi"
+            uri: /get?code=%24%7BSHELL%7D%20-c%20%22echo%20hi%22
+            version: HTTP/1.0
+          output:
+            log_contains: id "932160"
