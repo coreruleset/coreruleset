@@ -57,7 +57,11 @@
 ##! add_new "${english_rest}"
 
 ##! body_start=$(grep -n -E -m 1 '^[^#$]' regex-assembly/exclude/unix-shell-fps-pl1.ra | cut -d: -f1)
-##! sed -i '' -e "$((body_start - 1)),\$d" regex-assembly/exclude/unix-shell-fps-pl1.ra
+##! ed -s regex-assembly/exclude/unix-shell-fps-pl1.ra <<EOF
+##! $((body_start - 1)),\$d
+##! w
+##! q
+##! EOF
 ##! echo ${result} | sort | uniq >> regex-assembly/exclude/unix-shell-fps-pl1.ra
 
 ab

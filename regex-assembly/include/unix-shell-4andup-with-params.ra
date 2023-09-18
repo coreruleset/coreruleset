@@ -22,7 +22,12 @@
 ##!   fi
 ##! done <<<${original}
 
-##! sed -i '' -e '36,$d' regex-assembly/include/unix-shell-4andup-with-params.ra
+##! body_start=$(grep -n -E -m 1 '^[^#$]' regex-assembly/include/unix-shell-4andup-with-params.ra | cut -d: -f1)
+##! ed -s regex-assembly/include/unix-shell-4andup-with-params.ra <<EOF
+##! $((body_start - 1)),\$d
+##! w
+##! q
+##! EOF
 ##! echo ${result} | sort | uniq >> regex-assembly/include/unix-shell-4andup-with-params.ra
 
 ##! The two `shell` entries match `$SHELL` and `${SHELL}`.

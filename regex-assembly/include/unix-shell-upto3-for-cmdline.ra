@@ -53,7 +53,11 @@
 ##! done <<<${original}
 
 ##! body_start=$(grep -n -E -m 1 '^[^#$]' regex-assembly/include/unix-shell-upto3-for-cmdline.ra | cut -d: -f1)
-##! sed -i '' -e "$((body_start - 1)),\$d" regex-assembly/include/unix-shell-upto3-for-cmdline.ra
+##! ed -s regex-assembly/include/unix-shell-upto3-for-cmdline.ra <<EOF
+##! $((body_start - 1)),\$d
+##! w
+##! q
+##! EOF
 ##! echo ${result} | sort | uniq >> regex-assembly/include/unix-shell-upto3-for-cmdline.ra
 
 7z
