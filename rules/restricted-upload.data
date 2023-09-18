@@ -1,5 +1,10 @@
 # This list can be generated from restricted-files.data by running the following shell command:
-# sed -i '' -e '11,$d' rules/restricted-upload.data
+# body_start=$(grep -n -E -m 1 '^[^#$]' rules/restricted-upload.data | cut -d: -f1)
+# ed -s rules/restricted-upload.data <<EOF
+# $((body_start - 1)),\$d
+# w
+# q
+# EOF
 # words="$(awk ' !/^#/ {split($0, segments, "/")} {word = segments[length(segments)]} length(word) > 3 {print word}' rules/restricted-files.data | \
 #   sort | uniq)"
 # while read -r word; do
