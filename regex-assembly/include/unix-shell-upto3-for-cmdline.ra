@@ -11,10 +11,10 @@
 ##! result=""
 ##! # retain all unmodified entries in this list and skip removed ones; ignore the manually added suffixes
 ##! while read -r oword; do
+##!   # strip @ and ~ from end of words
+##!   oword_raw="${oword/%@/}"
+##!   oword_raw="${oword_raw/%\~/}"
 ##!   while read -r sword; do
-##!     # strip @ and ~ from end of words
-##!     oword_raw="${oword/%@/}"
-##!     oword_raw="${oword_raw/%\~/}"
 ##!     if [ "${oword_raw}" = "${sword}" ]; then
 ##!       result="${result}${oword}${NL}"
 ##!       break
