@@ -12,9 +12,10 @@
 ##! `awk@` to `awk~`, this list would not have to be updated.
 
 ##! To automatically add exclusions for English words from the sources, run the following:
-##! original="$(grep -vE '^(?:#|$)' regex-assembly/exclude/unix-shell-fps-pl1.ra)"
-##! upto3="$(grep -vE '^(?:#|$)' regex-assembly/include/unix-shell-upto3.ra)"
-##! rest="$(grep -vE '^(?:#|$)' regex-assembly/include/unix-shell-4andup-with-params.ra)"
+##! NL=$'\n'
+##! original="$(grep -vE '^[#$]' regex-assembly/exclude/unix-shell-fps-pl1.ra)"
+##! upto3="$(grep -vE '^[#$]' regex-assembly/include/unix-shell-upto3.ra)"
+##! rest="$(grep -vE '^[#$]' regex-assembly/include/unix-shell-4andup-with-params.ra)"
 ##! english_upto3="$(util/fp-finder/spell.sh -m -e regex-assembly/include/unix-shell-upto3.ra)"
 ##! # strip suffixes from words so that spell.sh works
 ##! english_rest="$(util/fp-finder/spell.sh -m -e -s '{{[^}]+}}' regex-assembly/include/unix-shell-4andup-with-params.ra)"
@@ -27,17 +28,17 @@
 ##!     found=0
 ##!     while read -r eword; do
 ##!       if grep -qE "^${eword}(?:[@~]|\{\{.*|$)" <<<"${oword}"; then
-##!         result="${result}${eword}\n"
-##!         result="${result}${eword}@\n"
-##!         result="${result}${eword}~\n"
-##!         result="${result}${eword}{{space-or-redirect}}\n"
-##!         result="${result}${eword}{{no-space}}\n"
+##!         result="${result}${eword}${NL}"
+##!         result="${result}${eword}@${NL}"
+##!         result="${result}${eword}~${NL}"
+##!         result="${result}${eword}{{space-or-redirect}}${NL}"
+##!         result="${result}${eword}{{no-space}}${NL}"
 ##!         found=1
 ##!         break
 ##!       fi
 ##!     done <<<"${1}"
 ##!     if [ ${found} -eq 0 ]; then
-##!       result="${result}${oword}\n"
+##!       result="${result}${oword}${NL}"
 ##!     fi
 ##!   done <<<"${original}"
 ##! }
@@ -47,11 +48,11 @@
 ##!   fi
 ##!   while read -r eword; do
 ##!     if ! grep -qE "^${eword}(?:[@~]|\{\{.*|$)" <<<"${original}"; then
-##!       result="${result}${eword}\n"
-##!       result="${result}${eword}@\n"
-##!       result="${result}${eword}~\n"
-##!       result="${result}${eword}{{space-or-redirect}}\n"
-##!       result="${result}${eword}{{no-space}}\n"
+##!       result="${result}${eword}${NL}"
+##!       result="${result}${eword}@${NL}"
+##!       result="${result}${eword}~${NL}"
+##!       result="${result}${eword}{{space-or-redirect}}${NL}"
+##!       result="${result}${eword}{{no-space}}${NL}"
 ##!     fi
 ##!   done <<<"${1}"
 ##! }

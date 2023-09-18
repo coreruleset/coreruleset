@@ -4,23 +4,61 @@
 ##! This list was generated from the original lists with the following command:
 ##! awk '/^([a-z0-9_-]+)/ { x = $0; gsub(/[@~]/, "", x); if (length(x) > 3) print }' 93210{0,5}.data
 
+##! Note that the suffixes must be added manually to new entries.
+##! To regenerate this list from unix-shell.data, run the following:
+##! NL=$'\n'
+##! original="$(grep -vE '^[#$]' regex-assembly/include/unix-shell-4andup-with-params.ra)"
+##! source="$(awk '/^[^#$]/ {split($0,x,"/"); y=x[length(x)]} length(y) > 3 {print y}' \
+##!   rules/unix-shell.data | \
+##!   sort | uniq)"
+##! result=""
+##! # retain all unmodified entries in this list and skip removed ones; ignore the manually added suffixes
+##! while read -r oword; do
+##!   while read -r sword; do
+##!     # strip suffixes from end of words
+##!     oword_raw="${oword/%\{\{space-or-redirect\}\}/}"
+##!     oword_raw="${oword_raw/%\{\{no-space\}\}/}"
+##!     if [ "${oword_raw}" = "${sword}" ]; then
+##!       result="${result}${oword}${NL}"
+##!       break
+##!     fi
+##!   done <<<"${source}"
+##! done <<<"${original}"
+
+##! # add new entries to this list
+##! while read -r sword; do
+##!   found=0
+##!   while read -r oword; do
+##!     # strip suffixes from end of words
+##!     oword_raw="${oword/%\{\{space-or-redirect\}\}/}"
+##!     oword_raw="${oword_raw/%\{\{no-space\}\}/}"
+##!     if [ "${oword_raw}" = "${sword}" ]; then
+##!       found=1
+##!       break
+##!     fi
+##!   done <<<"${original}"
+##!   if [ ${found} -eq 0 ]; then
+##!     result="${result}${sword}${NL}"
+##!   fi
+##! done <<<"${source}"
+
 ##! # check entries for English words and suffix those
-##! original="$(grep -vE '^(?:#|$)' regex-assembly/include/unix-shell-4andup-with-params.ra)"
-##! english="$(util/fp-finder/spell.sh -m -e regex-assembly/include/unix-shell-4andup-with-params.ra)"
+##! original="${result}"
+##! english="$(util/fp-finder/spell.sh -m -e - <<<"${result}")"
 ##! result=""
 ##! while read -r oword; do
 ##!   found=0
 ##!   while read -r eword; do
-##!     if [ "${oword}" = "${eword}" ]; then
-##!       result="${result}${oword}{{space-or-redirect}}\n"
+##!     if [ "${oword}" = "${eword}" ] && [ -n "${oword}" ]; then
+##!       result="${result}${oword}{{space-or-redirect}}${NL}"
 ##!       found=1
 ##!       break
 ##!     fi
-##!   done <<<${english}
+##!   done <<<"${english}"
 ##!   if [ ${found} -eq 0 ]; then
-##!     result="${result}${oword}\n"
+##!     result="${result}${oword}${NL}"
 ##!   fi
-##! done <<<${original}
+##! done <<<"${original}"
 
 ##! body_start=$(grep -n -E -m 1 '^[^#$]' regex-assembly/include/unix-shell-4andup-with-params.ra | cut -d: -f1)
 ##! ed -s regex-assembly/include/unix-shell-4andup-with-params.ra <<EOF
@@ -28,7 +66,7 @@
 ##! w
 ##! q
 ##! EOF
-##! echo ${result} | sort | uniq >> regex-assembly/include/unix-shell-4andup-with-params.ra
+##! echo "${result}" | sort | uniq >> regex-assembly/include/unix-shell-4andup-with-params.ra
 
 ##! The two `shell` entries match `$SHELL` and `${SHELL}`.
 
@@ -39,6 +77,7 @@
 
 HEAD{{space-or-redirect}}
 POST{{space-or-redirect}}
+addgroup
 adduser
 agetty
 alias{{space-or-redirect}}
@@ -52,11 +91,14 @@ ascii-xfr
 ascii85
 aspell
 atobm
+axel
 base32
 base64
+basename{{space-or-redirect}}
 basenc
 bash{{space-or-redirect}}
 batch{{space-or-redirect}}
+blkid
 bpftrace
 breaksw
 bridge{{space-or-redirect}}
@@ -69,6 +111,7 @@ bunzip2
 busctl
 busybox
 byebug
+byobu
 bzcat
 bzcmp
 bzdiff
@@ -77,6 +120,7 @@ bzexe
 bzfgrep
 bzgrep
 bzip2
+bzip2recover
 bzless
 bzmore
 cancel{{space-or-redirect}}
@@ -92,10 +136,16 @@ check_raid
 check_ssl_cert
 check_statusfile
 chflags
+chgpasswd
+chgrp
 chmod
 choom
 chown
+chpass
 chroot{{space-or-redirect}}
+chsh
+clang++
+clang{{space-or-redirect}}
 cobc
 column{{space-or-redirect}}
 comm
@@ -109,6 +159,7 @@ cpan
 cpio
 cpulimit
 crash{{space-or-redirect}}
+cron
 crontab
 csplit
 csvtool
@@ -128,6 +179,7 @@ done{{space-or-redirect}}
 dosbox
 dpkg
 dvips
+e2fsck
 easy_install
 echo{{space-or-redirect}}
 efax
@@ -168,11 +220,14 @@ ghci
 gimp{{space-or-redirect}}
 ginsh
 grep{{space-or-redirect}}
+groupmod
+group{{space-or-redirect}}
 gtester
 gunzip
 gzcat
 gzexe
 gzip
+hash{{space-or-redirect}}
 head{{space-or-redirect}}
 hexdump
 highlight{{space-or-redirect}}
@@ -181,6 +236,7 @@ hostid
 hostname
 hping3
 htdigest
+htop
 htpasswd
 iconv
 ifconfig
@@ -220,6 +276,7 @@ loginctl
 logname
 logsave
 look{{space-or-redirect}}
+losetup
 ls-F
 lsb_release
 lscpu
@@ -236,6 +293,8 @@ lwp-dump
 lwp-mirror
 lwp-request
 lynx{{space-or-redirect}}
+lz4c
+lz4cat
 lzcat
 lzcmp
 lzdiff
@@ -244,13 +303,19 @@ lzfgrep
 lzgrep
 lzless
 lzma
+lzmadec
+lzmainfo
 lzmore
 mailq
 mailx{{space-or-redirect}}
 mail{{space-or-redirect}}
 make{{space-or-redirect}}
+master.passwd
 mawk
 mkdir{{space-or-redirect}}
+mkfifo
+mknod
+mktemp
 mlocate
 more{{space-or-redirect}}
 mosquitto
@@ -271,12 +336,13 @@ mysqlshow
 nano{{space-or-redirect}}
 nasm
 nawk
-nc\.openbsd
-nc\.traditional
+nc.openbsd
+nc.traditional
 ncat
 neofetch
 netcat
 netkit-ftp
+netplan
 netstat
 nice{{space-or-redirect}}
 nmap
@@ -287,6 +353,7 @@ nroff
 nsenter
 nslookup
 nstat
+null{{space-or-redirect}}
 octave{{space-or-redirect}}
 onintr
 openssl
@@ -294,11 +361,13 @@ openvpn
 openvt
 opkg
 pacman{{space-or-redirect}}
+parted{{space-or-redirect}}
 passwd
 paste{{space-or-redirect}}
 patch{{space-or-redirect}}
 pdflatex
 pdftex
+pdksh
 perf
 perl
 perl5
@@ -306,6 +375,9 @@ perlsh
 perms{{space-or-redirect}}
 pftp
 pgrep
+php-cgi
+php5
+php7
 pico{{space-or-redirect}}
 pidstat
 pigz
@@ -317,6 +389,7 @@ pkill
 popd
 printenv
 printf{{space-or-redirect}}
+psed
 psftp
 psql
 ptar
@@ -324,9 +397,13 @@ ptardiff
 ptargrep
 puppet{{space-or-redirect}}
 pushd
+pwd.db
+python2
+python3
 python{{no-space}}
 rake{{space-or-redirect}}
 raku
+rbash
 readelf
 realpath
 redcarpet{{space-or-redirect}}
@@ -354,6 +431,7 @@ sched
 screen{{space-or-redirect}}
 script{{space-or-redirect}}
 sdiff
+self{{space-or-redirect}}
 sendmail
 service{{space-or-redirect}}
 setarch
@@ -361,9 +439,9 @@ setenv
 setfacl{{space-or-redirect}}
 setsid
 sftp
-sh\.distrib
-shell{{space-or-redirect}}
-shell}
+sh.distrib
+shadow{{space-or-redirect}}
+shells{{space-or-redirect}}
 shuf
 shutdown{{space-or-redirect}}
 sleep{{space-or-redirect}}
@@ -375,12 +453,16 @@ soelim
 sort{{space-or-redirect}}
 source{{space-or-redirect}}
 split{{space-or-redirect}}
+spwd.db
 sqlite3
 ssh-keygen
 ssh-keyscan
 sshpass
 start-stop-daemon
 stdbuf
+stderr
+stdin
+stdout
 strace
 strings{{space-or-redirect}}
 sudo
@@ -467,12 +549,25 @@ zcat
 zcmp
 zdiff
 zegrep
+zero{{space-or-redirect}}
 zfgrep
 zgrep
+zipcloak
+zipcmp
 zipdetails
+zipgrep
+zipinfo
+zipmerge
+zipnote
+zipsplit
+ziptool
 zless
 zmore
 zrun
 zsoelim
 zstd
+zstdcat
+zstdgrep
+zstdless
+zstdmt
 zypper
