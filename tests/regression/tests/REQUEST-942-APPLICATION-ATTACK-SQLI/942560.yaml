@@ -3,9 +3,9 @@ meta:
   author: "Xhoenix"
   description: MySQL Scientific Notation bypass payloads Detection
   enabled: true
-  name: 942541.yaml
+  name: 942560.yaml
 tests:
-  - test_title: 942541
+  - test_title: 942560-1
     desc: "Positive test for Scientific Notation in MySQL, e.g 1.e("
     stages:
       - stage:
@@ -21,4 +21,4 @@ tests:
             data: "email=1.e(ascii+1.e(substring(1.e(select+password+from+users+limit+1+1.e,1+1.e)+1.e,1+1.e,1+1.e)1.e)1.e)+=+70+or'1'='2"
             version: HTTP/1.0
           output:
-            log_contains: id "942541"
+            log_contains: id "942560"
