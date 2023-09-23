@@ -1,0 +1,62 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##! This list excludes command words that are prone to cause false
+##! positives from the following include files:
+##! - unix-shell-upto3-with-params.ra
+##! - unix-shell-4andup-with-params.ra
+
+##! This exclusion list is a combination of the following files:
+##! unix-shell-fps-pl2.ra
+##! unix-shell-fps-useragents.ra
+##!
+##! The list has to be generated with:
+##! cat regex-assembly/exclude/unix-shell-fps-pl2.ra regex-assembly/exclude/unix-shell-fps-useragents.ra \
+##! | grep -v ^# | sort
+
+aptitude
+aptitude@
+aptitude~
+aptitude{{no-space}}
+aptitude{{space-or-redirect}}
+cpan
+curl{{space-or-redirect}}
+dnf
+dnf@
+dnf~
+dnf{{no-space}}
+dnf{{space-or-redirect}}
+links{{space-or-redirect}}
+pacman
+pacman@
+pacman~
+pacman{{no-space}}
+pacman{{space-or-redirect}}
+ps
+ps@
+ps~
+ps{{no-space}}
+ps{{space-or-redirect}}
+python{{no-space}}
+snap{{space-or-redirect}}
+up2date
+up2date@
+up2date~
+up2date{{no-space}}
+up2date{{space-or-redirect}}
+vi
+vi@
+vi~
+vi{{space-or-redirect}}
+w
+w@
+w~
+w3m
+wget
+who
+who@
+who~
+who{{no-space}}
+who{{space-or-redirect}}
+w{{space-or-redirect}}
+
