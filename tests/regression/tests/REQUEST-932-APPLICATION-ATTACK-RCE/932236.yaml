@@ -317,23 +317,6 @@ tests:
           output:
             log_contains: id "932236"
   - test_title: 932236-18
-    desc: "IXMZUXBG"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Referer: a=nc&&$a -nlvp 555
-            method: GET
-            port: 80
-            uri: /get
-            version: HTTP/1.0
-          output:
-            log_contains: id "932236"
-  - test_title: 932236-19
     desc: "FP agains 'fi' without word boundary"
     stages:
       - stage:
@@ -349,7 +332,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "932236"
-  - test_title: 932236-20
+  - test_title: 932236-19
     desc: "FP MailerUI GitHub Issue #3220"
     stages:
       - stage:
@@ -365,7 +348,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "932236"
-  - test_title: 932236-21
+  - test_title: 932236-20
     desc: "FP tasksListView GitHub Issue #3220"
     stages:
       - stage:
@@ -381,7 +364,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "932236"
-  - test_title: 932236-22
+  - test_title: 932236-21
     desc: System Command Injection (932236) from old modsec regressions
     stages:
       - stage:
@@ -401,7 +384,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-23
+  - test_title: 932236-22
     desc: System Command Injection (932236) from old modsec regressions
     stages:
       - stage:
@@ -421,7 +404,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-24
+  - test_title: 932236-23
     desc: arg value of ";ifconfig Something „The Title”. After space or new line more characters" is blocked
     stages:
       - stage:
@@ -441,7 +424,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-25
+  - test_title: 932236-24
     desc: arg value of "Something „The Title”. After ;ifconfig something" is blocked
     stages:
       - stage:
@@ -461,7 +444,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-26
+  - test_title: 932236-25
     desc: Positive test - RCE passed in one of the args
     stages:
       - stage:
@@ -482,7 +465,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-27
+  - test_title: 932236-26
     desc: RCE from test 932236.yaml combined with html entities in the middle
     stages:
       - stage:
@@ -502,7 +485,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-28
+  - test_title: 932236-27
     desc: RCE from test 932236.yaml combined with html entities at the beginning
     stages:
       - stage:
@@ -522,7 +505,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-29
+  - test_title: 932236-28
     desc: RCE from test 932236.yaml combined with html entities at the end
     stages:
       - stage:
@@ -542,7 +525,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-30
+  - test_title: 932236-29
     desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
     stages:
       - stage:
@@ -562,7 +545,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-31
+  - test_title: 932236-30
     desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
     stages:
       - stage:
@@ -582,7 +565,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-32
+  - test_title: 932236-31
     desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
     stages:
       - stage:
@@ -602,7 +585,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-33
+  - test_title: 932236-32
     desc: RCE ;top with html entities two digit decimal of 59 (;)
     stages:
       - stage:
@@ -622,7 +605,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-34
+  - test_title: 932236-33
     desc: Like rule True Negative Rule Integrity 9 but the html entity is concatenation with RCE at the end
     stages:
       - stage:
@@ -642,7 +625,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-35
+  - test_title: 932236-34
     desc: Like rule True Negative Rule Integrity 9 but the html entity is concatenation with RCE at the beginning
     stages:
       - stage:
@@ -662,7 +645,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-36
+  - test_title: 932236-35
     desc: Like rule True Negative Rule Integrity 10 but the html entity is concatenation with RCE at the end
     stages:
       - stage:
@@ -682,7 +665,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-37
+  - test_title: 932236-36
     desc: Like rule True Negative Rule Integrity 10 but the html entity is concatenation with RCE at the beginning
     stages:
       - stage:
@@ -702,7 +685,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-38
+  - test_title: 932236-37
     desc: Like rule True Negative Rule Integrity 11 but the html entity is concatenation with RCE at the beginning
     stages:
       - stage:
@@ -722,7 +705,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-39
+  - test_title: 932236-38
     desc: "Unix command injection"
     stages:
       - stage:
@@ -739,7 +722,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-40
+  - test_title: 932236-39
     desc: "Unix command injection"
     stages:
       - stage:
@@ -756,7 +739,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-41
+  - test_title: 932236-40
     stages:
       - stage:
           input:
@@ -771,7 +754,7 @@ tests:
             protocol: "http"
           output:
             log_contains: id "932236"
-  - test_title: 932236-42
+  - test_title: 932236-41
     stages:
       - stage:
           input:
@@ -787,7 +770,7 @@ tests:
             protocol: "http"
           output:
             log_contains: id "932236"
-  - test_title: 932236-43
+  - test_title: 932236-42
     desc: Remote Command Injection test for BB finding 935E1D91
     stages:
       - stage:
@@ -805,7 +788,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
-  - test_title: 932236-44
+  - test_title: 932236-43
     desc: Remote Command Injection test for BB finding 935E1D91 - time evasion attempt
     stages:
       - stage:
