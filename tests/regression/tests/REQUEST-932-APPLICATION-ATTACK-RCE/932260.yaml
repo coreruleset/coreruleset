@@ -19,7 +19,7 @@ tests:
             uri: "/get?932260-1=bash%20-c%20%22echo%20test%22"
             protocol: "http"
           output:
-            log_contains: id "932260"
+            no_log_contains: id "932260"
   - test_title: 932260-2
     stages:
       - stage:
@@ -35,7 +35,7 @@ tests:
             uri: '/post'
             protocol: "http"
           output:
-            log_contains: id "932260"
+            no_log_contains: id "932260"
   - test_title: 932260-3
     stages:
       - stage:
@@ -193,7 +193,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/get?foo=time+unzip+"
+            uri: "/get?foo=time+bsdtar+"
             version: HTTP/1.1
           output:
             log_contains: id "932260"
@@ -232,7 +232,7 @@ tests:
             uri: "/get?foo=time+curl+coreruleset.org"
             version: HTTP/1.1
           output:
-            log_contains: id "932260"
+            no_log_contains: id "932260"
   - test_title: 932260-15
     desc: Remote Command Injection test for BB finding 935E1D91 - time evasion attempt
     stages:
@@ -250,7 +250,7 @@ tests:
             uri: "/get?foo=ti''me+curl+coreruleset.org"
             version: HTTP/1.1
           output:
-            log_contains: id "932260"
+            no_log_contains: id "932260"
   - test_title: 932260-16
     desc: System Command Injection test for BB finding AV6ZO3ZS - mixed case
     stages:
@@ -315,5 +315,52 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/?x=ping%20127.0.0.1"
             protocol: "http"
+          output:
+            no_log_contains: id "932260"
+  - test_title: 932260-20
+    desc: "FP for 'head of'"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/post"
+            protocol: "http"
+            data: "job_title=head%20of"
+          output:
+            no_log_contains: id "932260"
+  - test_title: 932260-21
+    desc: "False positive test: 'evaluation' (FP while rule looks for 'eval')"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: '/get?word=evaluation'
+          output:
+            no_log_contains: id "932260"
+  - test_title: 932260-22
+    desc: "False positive test: 'schedule' (FP while rule looks for 'sched')"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: '/get?word=schedule'
           output:
             no_log_contains: id "932260"

@@ -59,11 +59,15 @@ check() {
         datafile_name="${datafile##*/}"
     fi
 
-    for word in $(grep -E '^[a-z]+$' "${datafile}" | uniq | sort); do
+    while read -r word; do
         # wordnet exit code is equal to number of search results
         if [ -n "${SUFFIX}" ]; then
-            word="$(sed -E "s/.*(${SUFFIX})?/${word}/" <<<"${word}")"
+            word="$(sed -E "s/(.*)${SUFFIX}/\1/" <<<"${word}")"
         fi
+        if ! grep -qE '^[A-Za-z]+$' <<<"${word}"; then
+            continue
+        fi
+
         if ! wn "${word}" >/dev/null 2>&1; then
             if ! ${MACHINE_READABLE}; then
                 printf "   \`- found English word via wn: "
@@ -80,7 +84,7 @@ check() {
                 fi
             fi
         fi
-    done
+    done <<<"$(sort "${datafile}" | uniq)"
 
     if ! ${MACHINE_READABLE}; then
         echo ""
