@@ -9,13 +9,19 @@
 ##! - unix-shell-pl3-with-params.ra
 
 ##! This list is managed manually and contains known user-agents causing false positives
-##! in rules checking for RCE in user-agent and referer request header.
-##! If this list is changed, please also update the list unix-shell-fps-pl2-useragents.ra.
+##! in rules checking for RCE in User-Agent and Referer request header.
 
+# User-Agent Cpanel-HTTP-Client/1.0
 cpan
+# User-Agent curl
 curl{{space-or-redirect}}
+# User-Agent Links (2.3pre1; Linux 2.6.38-8-generic x86_64; 170x48)
 links{{space-or-redirect}}
+# User-Agent python-requests/2.31.0 and Python-urllib/3.9
 python{{no-space}}
+# User-Agent Snap URL Preview Service; bot; snapchat; https://developers.snap.com/robots
 snap{{space-or-redirect}}
+# User-Agent w3m/0.5.1
 w3m
+# User-Agent wget
 wget
