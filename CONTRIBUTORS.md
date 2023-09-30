@@ -17,6 +17,7 @@
 - [Max Leske](https://github.com/theseion)
 - [Andrea Menin](https://github.com/theMiddleBlue)
 - [Matteo Pace](https://github.com/M4tteoP)
+- [Jitendra Patro](https://github.com/Xhoenix)
 - [Chaim Sanders](https://github.com/csanders-git)
 - [Federico G. Schwindt](https://github.com/fgsch)
 - [Manuel Leos Rivas](https://github.com/spartantri)
