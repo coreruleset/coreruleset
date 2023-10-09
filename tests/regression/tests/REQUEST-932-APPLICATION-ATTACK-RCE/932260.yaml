@@ -334,3 +334,33 @@ tests:
             data: "job_title=head%20of"
           output:
             no_log_contains: id "932260"
+  - test_title: 932260-21
+    desc: "False positive test: 'evaluation' (FP while rule looks for 'eval')"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: '/get?word=evaluation'
+          output:
+            no_log_contains: id "932260"
+  - test_title: 932260-22
+    desc: "False positive test: 'schedule' (FP while rule looks for 'sched')"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: '/get?word=schedule'
+          output:
+            no_log_contains: id "932260"
