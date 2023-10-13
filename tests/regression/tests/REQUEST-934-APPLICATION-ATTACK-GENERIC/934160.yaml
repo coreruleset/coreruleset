@@ -453,3 +453,83 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934160"
+  - test_title: 934160-29
+    desc: "Detect example DoS loop while(true) submitted as plaintext"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/get?eval=while(true);"
+            version: HTTP/1.1
+          output:
+            log_contains: id "934160"
+  - test_title: 934160-30
+    desc: "Detect example DoS loop while(true) submitted as plaintext with JavaScript escape sequence obfuscation"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/get?eval=\u0077\u0068ile(true);"
+            version: HTTP/1.1
+          output:
+            log_contains: id "934160"
+  - test_title: 934160-31
+    desc: "Detect example DoS loop while(true) submitted as plaintext that has been Base64 encoded"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/get?eval=d2hpbGUodHJ1ZSk7Cg%3D%3D"
+            version: HTTP/1.1
+          output:
+            log_contains: id "934160"
+  - test_title: 934160-32
+    desc: "Detect example DoS loop while(true) submitted as plaintext with JavaScript escape sequence obfuscation that has been Base64 encoded"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/get?eval=XHUwMDc3XHUwMDY4aWxlKHRydWUpOwo%3D"
+            version: HTTP/1.1
+          output:
+            log_contains: id "934160"
+  - test_title: 934160-33
+    desc: "Detect example DoS loop while(true) submitted as plaintext that has been Base64 encoded and then obfuscated with JavaScript escape sequences"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: "/get?eval=\u0064\u0032hpbGUodHJ1ZSk7Cg%3D%3D"
+            version: HTTP/1.1
+          output:
+            log_contains: id "934160"
