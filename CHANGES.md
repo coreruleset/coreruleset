@@ -191,7 +191,7 @@ Changes after RC1:
  * fix: update scoring variable (942540 PL2) (Walter Hop) [#2970]
  * feat: new rule to detect MySQL scientific notation attacks (942560 PL1) (Jitendra Patro) [#3316]
  * feat: extend rule to detect JAVA exploits better via java-classes.data file (944130 PL1) (Dennis Brown) [#3048]
- * fix: update administrative rule ids for consistent operation (950011, 950012, 950018) (Erwin Hegedüs) [#3339]
+ * fix: update administrative rule ids for consistent operation (950011, 950012, 950018) (Ervin Hegedüs) [#3339]
  * feat: extend data file to include additional sql error messages (sql-errors.data, 951100 PL1) (Jitendra Patro) [#3214]
  * fix: handle false positive in SQL error leakage detection (951240 PL1) (Jozef Sudolský) [#3169]
  * feat: extend rule to detect PHP errors better via new automation (953100 PL1) (Felipe Zipitría) [#2663]
@@ -408,7 +408,7 @@ Changes before RC1:
 
 Changes limited to documentation and tests:
  * docs: update SPONSORS.md for new release (Christian Folini) [#3341]
- * docs: update CONTRIBUTORS.md for new release (Erwin Hegedüs) [#3340]
+ * docs: update CONTRIBUTORS.md for new release (Ervin Hegedüs) [#3340]
  * docs: Transferred CHANGES to CHANGES.md (Felipe Zipitría) [#2606]
  * docs: Bring CONTRIBUTING.MD in line with documentation (Andrew Howe) [#2558]
  * docs: Add to CONTRIBUTING.MD chain rule commenting guidance (Ervin Hegedus) [#3196]
