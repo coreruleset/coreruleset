@@ -5,6 +5,31 @@
   or the CRS mailinglist at
 * https://lists.owasp.org/mailman/listinfo/owasp-modsecurity-core-rule-set
 
+== Version 3.2.4 - 2023-10-27 ==
+
+Important changes:
+ * Backported important Fixes from v3.3
+
+Fixes and improvements:
+ * Fix bypass in 931130 #1525
+ - https://github.com/coreruleset/coreruleset/issues/1404
+ - https://github.com/SpiderLabs/owasp-modsecurity-crs/pull/1525
+
+ * New Rule 921190: HTTP Splitting #1610 
+ - Fix CVE-2019-11043, this new rule aims to block any CR/LF in the REQUEST_FILENAME variable.
+ 
+ * Update Repo link
+ - https://github.com/coreruleset/coreruleset/commit/708beee9d0ec9212cfccd75986f284d4145fffbb
+ 
+ * fix(docs): update badges and links in readme 
+ - https://github.com/coreruleset/coreruleset/commit/9dc288f13b0cf7d8d0862def587c08fce07b1dae
+ 
+ * Prevent 2 bypasses of rule 921110
+ - https://github.com/coreruleset/coreruleset/commit/8f538256366340bb45aff370b058739bf70e04a0
+ 
+ * Prevent Bypass of 921130 
+ - https://github.com/coreruleset/coreruleset/commit/2f5a87e6a28ffd0b4a8fc8d4734f5a10bf3e7097
+
 == Version 3.2.3 - 2022-09-20 ==
 
 Fixes and improvements:

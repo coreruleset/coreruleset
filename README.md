@@ -1,7 +1,7 @@
-![Travis build v3.2/dev](https://img.shields.io/travis/spiderlabs/owasp-modsecurity-crs/v3.2/dev?label=v3.2%2Fdev)
-![Travis build v3.1/dev](https://img.shields.io/travis/spiderlabs/owasp-modsecurity-crs/v3.1/dev?label=v3.1%2Fdev)
-![Travis build v3.0/dev](https://img.shields.io/travis/spiderlabs/owasp-modsecurity-crs/v3.0/dev?label=v3.0%2Fdev)
-[![OWASP Flagship](https://img.shields.io/badge/owasp-flagship%20project-38a047.svg)](https://www.owasp.org/index.php/OWASP_Project_Inventory#tab=Flagship_Projects)
+![GHA build v3.3/dev](https://github.com/coreruleset/coreruleset/workflows/Test%20Ruleset%20against%20matrix/badge.svg?branch=v3.3%2Fdev)
+![GHA build v3.2/dev](https://github.com/coreruleset/coreruleset/workflows/Test%20Ruleset%20against%20matrix/badge.svg?branch=v3.2%2Fdev)
+![GHA build v3.1/dev](https://github.com/coreruleset/coreruleset/workflows/Test%20Ruleset%20against%20matrix/badge.svg?branch=v3.1%2Fdev)
+[![OWASP Flagship](https://img.shields.io/badge/owasp-flagship%20project-38a047.svg)](https://owasp.org/projects/)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1390/badge)](https://bestpractices.coreinfrastructure.org/projects/1390)
 
 # OWASP ModSecurity Core Rule Set (CRS)
@@ -16,7 +16,7 @@ Please see the [OWASP ModSecurity Core Rule Set page](https://coreruleset.org/) 
 
 We strive to make the OWASP ModSecurity CRS accessible to a wide audience of beginner and experienced users. We are interested in hearing any bug reports, false positive alert reports, evasions, usability issues, and suggestions for new detections.
 
-[Create an issue on GitHub](https://github.com/SpiderLabs/owasp-modsecurity-crs/issues) to report a false positive or false negative (evasion). Please include your installed version and the relevant portions of your ModSecurity audit log.
+[Create an issue on GitHub](https://github.com/coreruleset/coreruleset/issues) to report a false positive or false negative (evasion). Please include your installed version and the relevant portions of your ModSecurity audit log.
 
 [Sign up for the mailing list](https://lists.owasp.org/mailman/listinfo/owasp-modsecurity-core-rule-set) to ask general usage questions and participate in discussions on the CRS.
 
