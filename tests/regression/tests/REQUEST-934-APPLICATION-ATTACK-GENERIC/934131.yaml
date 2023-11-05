@@ -37,3 +37,88 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934131"
+  - test_title: 934131-3
+    desc: "Detect example payload [constructor]... submitted as plaintext"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Cookie: test_cookie=x[constructor][__parseStyleElement][innerHTML]=<img/src/onerror%3dalert(1)>
+            method: GET
+            port: 80
+            uri: "/get"
+            version: HTTP/1.1
+          output:
+            log_contains: id "934131"
+  - test_title: 934131-4
+    desc: "Detect example payload [constructor]... submitted as plaintext with JavaScript escape sequence obfuscation"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Cookie: test_cookie=x[\u0063\u006Fnstructor][__parseStyleElement][innerHTML]=<img/src/onerror%3dalert(1)>
+            method: GET
+            port: 80
+            uri: "/get"
+            version: HTTP/1.1
+          output:
+            log_contains: id "934131"
+  - test_title: 934131-5
+    desc: "Detect example payload [constructor]... submitted as plaintext that has been Base64 encoded"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Cookie: test_cookie=eFtjb25zdHJ1Y3Rvcl1bX19wYXJzZVN0eWxlRWxlbWVudF1baW5uZXJIVE1MXT08aW1nL3NyYy9vbmVycm9yJTNkYWxlcnQoMSk+Cg==
+            method: GET
+            port: 80
+            uri: "/get"
+            version: HTTP/1.1
+          output:
+            log_contains: id "934131"
+  - test_title: 934131-6
+    desc: "Detect example payload [constructor]... submitted as plaintext with JavaScript escape sequence obfuscation that has been Base64 encoded"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Cookie: test_cookie=eFtcdTAwNjNcdTAwNkZuc3RydWN0b3JdW19fcGFyc2VTdHlsZUVsZW1lbnRdW2lubmVySFRNTF09PGltZy9zcmMvb25lcnJvciUzZGFsZXJ0KDEpPgo=
+            method: GET
+            port: 80
+            uri: "/get"
+            version: HTTP/1.1
+          output:
+            log_contains: id "934131"
+  - test_title: 934131-7
+    desc: "Detect example payload [constructor]... submitted as plaintext that has been Base64 encoded and then obfuscated with JavaScript escape sequences"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Cookie: test_cookie=\u0065\u0046tjb25zdHJ1Y3Rvcl1bX19wYXJzZVN0eWxlRWxlbWVudF1baW5uZXJIVE1MXT08aW1nL3NyYy9vbmVycm9yJTNkYWxlcnQoMSk+Cg==
+            method: GET
+            port: 80
+            uri: "/get"
+            version: HTTP/1.1
+          output:
+            log_contains: id "934131"
