@@ -147,3 +147,19 @@ tests:
             version: HTTP/1.1
           output:
             no_log_contains: id "932175"
+  - test_title: 932175-9
+    desc: "Status Page Test - Test for simple alias example"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: GET
+            port: 80
+            uri: /get?rce=alias%20a=b
+            version: HTTP/1.1
+          output:
+            log_contains: id "932175"
