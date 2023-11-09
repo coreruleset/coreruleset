@@ -27,8 +27,10 @@ test_overrides:
     reason: "IIS related vulnerability (2007)"
     expect_failure: true
   - name: "920270-4"
-    reason:
-    expect_failure: true
+    reason: "Header host with null byte causes Apache to error before it gets to CRS. Nginx allow this and libModSecurity correctly matches the rule"
+    expect_failure: false
+    status: 200
+    log_contains: "id \"920270\""
   - name: "920290-4"
     reason: "Nginx returns 400 if Host header is missing"
     log_contains: ""
