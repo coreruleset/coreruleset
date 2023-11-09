@@ -29,6 +29,10 @@ test_overrides:
   - name: "920270-4"
     reason:
     expect_failure: true
+  - name: "920290-4"
+    reason: "Nginx returns 400 if Host header is missing"
+    log_contains: ""
+    status: 400
   - name: "920430-8"
     reason:
     expect_failure: true
