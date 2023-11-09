@@ -18,7 +18,7 @@ test_overrides:
     reason: "Invalid request line produces a 400 Bad Request on Nginx. This prevents matching any rules."
     expect_failure: true
   - name: "920100-16"
-    reason:
+    reason: "Seems like Nginx does a normalization of the request line, and if <schema>://<hostname> is sent (without a path) the request path becomes / by default"
     expect_failure: true
   - name: "920181-1"
     reason: "Nginx returns 400 if both Content-length and Transfer-Encoding chunked are present"
