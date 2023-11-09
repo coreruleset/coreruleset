@@ -80,3 +80,18 @@ tests:
             uri: "/script_rule921160.jsp?variableX=bar&%0d%0aRemote-addr:%20foo.bar.com=Y"
           output:
             log_contains: id "921160"
+  - test_title: 921160-6
+    desc: "Status Page Test - simple HTTP header Injection Attack via payload in value"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              Host: "localhost"
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get?foo=%0d%0arefresh:%20www.bar.com"
+          output:
+            log_contains: id "921160"
