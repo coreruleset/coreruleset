@@ -1,0 +1,205 @@
+version: "v0.0.0"
+meta:
+  engine: "libmodsecurity3"
+  platform: "nginx"
+  annotations:
+    - os: "Debian Bullseye"
+    - purpose: "CRS test suite"
+test_overrides:
+  - name: "920100-4"
+    reason: "Nginx returns a 400 bad request"
+    status: 400
+    expect_failure: false
+  - name: "920100-8"
+    reason: "On Apache is not allowed to put a colon in the path. Nginx, on the other hand, allows it and, in this case, returns a 404. /index.html:80?I=Like&Apples=Today#tag"
+    status: 404
+    expect_failure: false
+  - name: "920100-14"
+    reason: "Invalid request line produces a 400 Bad Request on Nginx. This prevents matching any rules."
+    expect_failure: true
+  - name: "920100-16"
+    reason: "Seems like Nginx does a normalization of the request line, and if <schema>://<hostname> is sent (without a path) the request path becomes / by default"
+    expect_failure: true
+  - name: "920181-1"
+    reason: "Nginx returns 400 if both Content-length and Transfer-Encoding chunked are present"
+    status: 400
+  - name: "920260-3"
+    reason: "IIS related vulnerability (2007)"
+    expect_failure: true
+  - name: "920270-4"
+    reason: "Header host with null byte causes Apache to error before it gets to CRS. Nginx allow this and libModSecurity correctly matches the rule"
+    expect_failure: false
+    status: 200
+    log_contains: "id \"920270\""
+  - name: "920290-4"
+    reason: "Nginx returns 400 if Host header is missing"
+    log_contains: ""
+    status: 400
+  - name: "920430-8"
+    reason:
+    expect_failure: true
+  - name: "932200-13"
+    reason:
+    expect_failure: true
+  - name: "933110-3"
+    reason:
+    expect_failure: true
+  - name: "933110-13"
+    reason:
+    expect_failure: true
+  - name: "933110-14"
+    reason:
+    expect_failure: true
+  - name: "933110-20"
+    reason:
+    expect_failure: true
+  - name: "933110-21"
+    reason:
+    expect_failure: true
+  - name: "933110-22"
+    reason:
+    expect_failure: true
+  - name: "933110-24"
+    reason:
+    expect_failure: true
+  - name: "933110-25"
+    reason:
+    expect_failure: true
+  - name: "933110-26"
+    reason:
+    expect_failure: true
+  - name: "933110-27"
+    reason:
+    expect_failure: true
+  - name: "934131-5"
+    reason:
+    expect_failure: true
+  - name: "934131-7"
+    reason:
+    expect_failure: true
+  - name: "941180-7"
+    reason:
+    expect_failure: true
+  - name: "942131-3"
+    reason:
+    expect_failure: true
+  - name: "942131-5"
+    reason:
+    expect_failure: true
+  - name: "942131-7"
+    reason:
+    expect_failure: true
+  - name: "942550-26"
+    reason:
+    expect_failure: true
+  - name: "942550-28"
+    reason:
+    expect_failure: true
+  - name: "942550-30"
+    reason:
+    expect_failure: true
+  - name: "942550-32"
+    reason:
+    expect_failure: true
+  - name: "944100-11"
+    reason:
+    expect_failure: true
+  - name: "944100-12"
+    reason:
+    expect_failure: true
+  - name: "944100-15"
+    reason:
+    expect_failure: true
+  - name: "944100-16"
+    reason:
+    expect_failure: true
+  - name: "944110-11"
+    reason:
+    expect_failure: true
+  - name: "944110-12"
+    reason:
+    expect_failure: true
+  - name: "944110-15"
+    reason:
+    expect_failure: true
+  - name: "944110-16"
+    reason:
+    expect_failure: true
+  - name: "944120-6"
+    reason:
+    expect_failure: true
+  - name: "944120-7"
+    reason:
+    expect_failure: true
+  - name: "944120-23"
+    reason:
+    expect_failure: true
+  - name: "944120-24"
+    reason:
+    expect_failure: true
+  - name: "944120-40"
+    reason:
+    expect_failure: true
+  - name: "944120-41"
+    reason:
+    expect_failure: true
+  - name: "944120-57"
+    reason:
+    expect_failure: true
+  - name: "944120-58"
+    reason:
+    expect_failure: true
+  - name: "944120-74"
+    reason:
+    expect_failure: true
+  - name: "944120-75"
+    reason:
+    expect_failure: true
+  - name: "944120-91"
+    reason:
+    expect_failure: true
+  - name: "944120-92"
+    reason:
+    expect_failure: true
+  - name: "944120-108"
+    reason:
+    expect_failure: true
+  - name: "944120-109"
+    reason:
+    expect_failure: true
+  - name: "944120-125"
+    reason:
+    expect_failure: true
+  - name: "944120-126"
+    reason:
+    expect_failure: true
+  - name: "944140-3"
+    reason:
+    expect_failure: true
+  - name: "944140-8"
+    reason:
+    expect_failure: true
+  - name: "944210-6"
+    reason:
+    expect_failure: true
+  - name: "944210-7"
+    reason:
+    expect_failure: true
+  - name: "944210-23"
+    reason:
+    expect_failure: true
+  - name: "944210-24"
+    reason:
+    expect_failure: true
+  - name: "944210-40"
+    reason:
+    expect_failure: true
+  - name: "944210-41"
+    reason:
+    expect_failure: true
+  - name: "980170-1"
+    reason:
+    expect_failure: true
+  - name: "980170-2"
+    reason:
+    expect_failure: true
