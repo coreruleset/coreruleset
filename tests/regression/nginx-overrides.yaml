@@ -6,200 +6,269 @@ meta:
     - os: "Debian Bullseye"
     - purpose: "CRS test suite"
 test_overrides:
-  - name: "920100-4"
+  - rule_id: 920100
+    test_id: 4
     reason: "Nginx returns a 400 bad request"
-    status: 400
+    output:
+      status: 400
     expect_failure: false
-  - name: "920100-8"
+  - rule_id: 920100
+    test_id: 8
     reason: "On Apache is not allowed to put a colon in the path. Nginx, on the other hand, allows it and, in this case, returns a 404. /index.html:80?I=Like&Apples=Today#tag"
-    status: 404
+    output:
+      status: 404
     expect_failure: false
-  - name: "920100-14"
+  - rule_id: 920100
+    test_id: 14
     reason: "Invalid request line produces a 400 Bad Request on Nginx. This prevents matching any rules."
     expect_failure: true
-  - name: "920100-16"
+  - rule_id: 920100
+    test_id: 16
     reason: "Seems like Nginx does a normalization of the request line, and if <schema>://<hostname> is sent (without a path) the request path becomes / by default"
     expect_failure: true
-  - name: "920181-1"
+  - rule_id: 920181
+    test_id: 1
     reason: "Nginx returns 400 if both Content-length and Transfer-Encoding chunked are present"
-    status: 400
-  - name: "920260-3"
+    output:
+      status: 400
+  - rule_id: 920260
+    test_id: 3
     reason: "IIS related vulnerability (2007)"
     expect_failure: true
-  - name: "920270-4"
+  - rule_id: 920270
+    test_id: 4
     reason: "Header host with null byte causes Apache to error before it gets to CRS. Nginx allow this and libModSecurity correctly matches the rule"
     expect_failure: false
-    status: 200
-    log_contains: "id \"920270\""
-  - name: "920290-4"
+    output:
+      status: 200
+      log_contains: "id \"920270\""
+  - rule_id: 920290
+    test_id: 4
     reason: "Nginx returns 400 if Host header is missing"
-    log_contains: ""
-    status: 400
-  - name: "920430-8"
+    output:
+      log_contains: ""
+      status: 400
+  - rule_id: 920430
+    test_id: 8
     reason:
     expect_failure: true
-  - name: "932200-13"
+  - rule_id: 932200
+    test_id: 13
     reason:
     expect_failure: true
-  - name: "933110-3"
+  - rule_id: 933110
+    test_id: 3
     reason:
     expect_failure: true
-  - name: "933110-13"
+  - rule_id: 933110
+    test_id: 13
     reason:
     expect_failure: true
-  - name: "933110-14"
+  - rule_id: 933110
+    test_id: 14
     reason:
     expect_failure: true
-  - name: "933110-20"
+  - rule_id: 933110
+    test_id: 20
     reason:
     expect_failure: true
-  - name: "933110-21"
+  - rule_id: 933110
+    test_id: 21
     reason:
     expect_failure: true
-  - name: "933110-22"
+  - rule_id: 933110
+    test_id: 22
     reason:
     expect_failure: true
-  - name: "933110-24"
+  - rule_id: 933110
+    test_id: 24
     reason:
     expect_failure: true
-  - name: "933110-25"
+  - rule_id: 933110
+    test_id: 25
     reason:
     expect_failure: true
-  - name: "933110-26"
+  - rule_id: 933110
+    test_id: 26
     reason:
     expect_failure: true
-  - name: "933110-27"
+  - rule_id: 933110
+    test_id: 27
     reason:
     expect_failure: true
-  - name: "934131-5"
+  - rule_id: 934131
+    test_id: 5
     reason:
     expect_failure: true
-  - name: "934131-7"
+  - rule_id: 934131
+    test_id: 7
     reason:
     expect_failure: true
-  - name: "941180-7"
+  - rule_id: 941180
+    test_id: 7
     reason:
     expect_failure: true
-  - name: "942131-3"
+  - rule_id: 942131
+    test_id: 3
     reason:
     expect_failure: true
-  - name: "942131-5"
+  - rule_id: 942131
+    test_id: 5
     reason:
     expect_failure: true
-  - name: "942131-7"
+  - rule_id: 942131
+    test_id: 7
     reason:
     expect_failure: true
-  - name: "942550-26"
+  - rule_id: 942550
+    test_id: 26
     reason:
     expect_failure: true
-  - name: "942550-28"
+  - rule_id: 942550
+    test_id: 28
     reason:
     expect_failure: true
-  - name: "942550-30"
+  - rule_id: 942550
+    test_id: 30
     reason:
     expect_failure: true
-  - name: "942550-32"
+  - rule_id: 942550
+    test_id: 32
     reason:
     expect_failure: true
-  - name: "944100-11"
+  - rule_id: 944100
+    test_id: 11
     reason:
     expect_failure: true
-  - name: "944100-12"
+  - rule_id: 944100
+    test_id: 12
     reason:
     expect_failure: true
-  - name: "944100-15"
+  - rule_id: 944100
+    test_id: 15
     reason:
     expect_failure: true
-  - name: "944100-16"
+  - rule_id: 944100
+    test_id: 16
     reason:
     expect_failure: true
-  - name: "944110-11"
+  - rule_id: 944110
+    test_id: 11
     reason:
     expect_failure: true
-  - name: "944110-12"
+  - rule_id: 944110
+    test_id: 12
     reason:
     expect_failure: true
-  - name: "944110-15"
+  - rule_id: 944110
+    test_id: 15
     reason:
     expect_failure: true
-  - name: "944110-16"
+  - rule_id: 944110
+    test_id: 16
     reason:
     expect_failure: true
-  - name: "944120-6"
+  - rule_id: 944120
+    test_id: 6
     reason:
     expect_failure: true
-  - name: "944120-7"
+  - rule_id: 944120
+    test_id: 7
     reason:
     expect_failure: true
-  - name: "944120-23"
+  - rule_id: 944120
+    test_id: 23
     reason:
     expect_failure: true
-  - name: "944120-24"
+  - rule_id: 944120
+    test_id: 24
     reason:
     expect_failure: true
-  - name: "944120-40"
+  - rule_id: 944120
+    test_id: 40
     reason:
     expect_failure: true
-  - name: "944120-41"
+  - rule_id: 944120
+    test_id: 41
     reason:
     expect_failure: true
-  - name: "944120-57"
+  - rule_id: 944120
+    test_id: 57
     reason:
     expect_failure: true
-  - name: "944120-58"
+  - rule_id: 944120
+    test_id: 58
     reason:
     expect_failure: true
-  - name: "944120-74"
+  - rule_id: 944120
+    test_id: 74
     reason:
     expect_failure: true
-  - name: "944120-75"
+  - rule_id: 944120
+    test_id: 75
     reason:
     expect_failure: true
-  - name: "944120-91"
+  - rule_id: 944120
+    test_id: 91
     reason:
     expect_failure: true
-  - name: "944120-92"
+  - rule_id: 944120
+    test_id: 92
     reason:
     expect_failure: true
-  - name: "944120-108"
+  - rule_id: 944120
+    test_id: 108
     reason:
     expect_failure: true
-  - name: "944120-109"
+  - rule_id: 944120
+    test_id: 109
     reason:
     expect_failure: true
-  - name: "944120-125"
+  - rule_id: 944120
+    test_id: 125
     reason:
     expect_failure: true
-  - name: "944120-126"
+  - rule_id: 944120
+    test_id: 126
     reason:
     expect_failure: true
-  - name: "944140-3"
+  - rule_id: 944140
+    test_id: 3
     reason:
     expect_failure: true
-  - name: "944140-8"
+  - rule_id: 944140
+    test_id: 8
     reason:
     expect_failure: true
-  - name: "944210-6"
+  - rule_id: 944210
+    test_id: 6
     reason:
     expect_failure: true
-  - name: "944210-7"
+  - rule_id: 944210
+    test_id: 7
     reason:
     expect_failure: true
-  - name: "944210-23"
+  - rule_id: 944210
+    test_id: 23
     reason:
     expect_failure: true
-  - name: "944210-24"
+  - rule_id: 944210
+    test_id: 24
     reason:
     expect_failure: true
-  - name: "944210-40"
+  - rule_id: 944210
+    test_id: 40
     reason:
     expect_failure: true
-  - name: "944210-41"
+  - rule_id: 944210
+    test_id: 41
     reason:
     expect_failure: true
-  - name: "980170-1"
+  - rule_id: 980170
+    test_id: 1
     reason:
     expect_failure: true
-  - name: "980170-2"
+  - rule_id: 980170
+    test_id: 2
     reason:
     expect_failure: true
