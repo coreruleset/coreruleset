@@ -31,10 +31,6 @@ test_overrides:
     reason: "Nginx returns 400 if both Content-length and Transfer-Encoding chunked are present"
     output:
       status: 400
-  - rule_id: 920260
-    test_id: 3
-    reason: "IIS related vulnerability (2007)"
-    expect_failure: true
   - rule_id: 920270
     test_id: 4
     reason: "Header host with null byte causes Apache to error before it gets to CRS. Nginx allow this and libModSecurity correctly matches the rule"
