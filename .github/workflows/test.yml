@@ -26,7 +26,7 @@ jobs:
       - name: "Install dependencies"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GO_FTW_VERSION: '0.4.8'
+          GO_FTW_VERSION: '0.6.3'
         run: |
           gh release download -R coreruleset/go-ftw v${GO_FTW_VERSION} -p "ftw_${GO_FTW_VERSION}_linux_amd64.tar.gz" -O - | tar -xzvf - ftw
 
