@@ -46,8 +46,11 @@ test_overrides:
       status: 400
   - rule_id: 920430
     test_id: 8
-    reason:
-    expect_failure: true
+    reason: "If the HTTP Protocol Version is invalid, Nginx take action before modsecurity sending a 505 response code."
+    output:
+      log_contains: ""
+      status: 505
+    expect_failure: false
   - rule_id: 932200
     test_id: 13
     reason:
