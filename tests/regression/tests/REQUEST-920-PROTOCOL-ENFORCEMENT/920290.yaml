@@ -45,3 +45,20 @@ tests:
               Host: "localhost"
           output:
             no_log_contains: "id \"920290\""
+  - test_title: 920290-4
+    desc: Status Page Test - test for empty host header
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            encoded_request: "R0VUIC8gSFRUUC8xLjANCkhvc3Q6DQoNCg=="
+            # Request:
+            #
+            # GET / HTTP/1.0
+            # Host:
+            #
+            # CRS prefers the use of encoded_request over raw_request.
+            # Known reason is encoding issues with raw_request.
+          output:
+            log_contains: "id \"920290\""
