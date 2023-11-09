@@ -20,13 +20,9 @@ tests:
               Content-Type: "application/x-www-form-urlencoded"
               Transfer-Encoding: "chunked"
               User-Agent: "OWASP CRS test agent"
-            data: |
-              7
-              foo=bar
-              0
+            data: "7\x0D\x0Afoo=bar\x0D\x0A0\x0D\x0A\x0D\x0A"
             stop_magic: true
           output:
-            # Apache unsets the Content-Length header if
-            # Transfer-Encoding is found!
-            # status: 200 # TODO: currently Apache returns 400, we need to fix raw body handling in go-ftw
+            # Apache unsets the Content-Length header if Transfer-Encoding is found!
+            status: [200]
             no_log_contains: id "920181"
