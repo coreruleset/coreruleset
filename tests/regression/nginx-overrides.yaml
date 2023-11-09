@@ -9,10 +9,11 @@ test_overrides:
   - name: "920100-4"
     reason: "Nginx returns a 400 bad request"
     status: 400
-    expect_failure: true
+    expect_failure: false
   - name: "920100-8"
-    reason:
-    expect_failure: true
+    reason: "On Apache is not allowed to put a colon in the path. Nginx, on the other hand, allows it and, in this case, returns a 404. /index.html:80?I=Like&Apples=Today#tag"
+    status: 400
+    expect_failure: false
   - name: "920100-14"
     reason:
     expect_failure: true
