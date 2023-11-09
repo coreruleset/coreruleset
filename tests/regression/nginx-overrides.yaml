@@ -57,8 +57,10 @@ test_overrides:
     expect_failure: true
   - rule_id: 933110
     test_id: 3
-    reason:
-    expect_failure: true
+    reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"
+    output:
+      log_contains: ""
+    expect_failure: false
   - rule_id: 933110
     test_id: 13
     reason:
