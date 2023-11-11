@@ -73,12 +73,11 @@ services:
   backend:
     image: docker.io/kennethreitz/httpbin
 
-  coraza:
-    container_name: coraza-httpbin
-    # image: ghcr.io/jcchavezs/coraza-httpbin:main
-    image: coraza-httpbin-debug
+  coraza-go:
+    container_name: coraza-go
+    image: ghcr.io/jcchavezs/coraza-httpbin:main
     volumes:
-      # Coraza-httpbin writes multipart data to disk
+      # coraza-httpbin writes multipart data to disk
       - coraza-data:/tmp
       - ./logs/coraza:/var/log:rw
       - ./coraza-directives.conf:/etc/directives.conf:ro
