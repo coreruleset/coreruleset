@@ -23,7 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        modsec_version: [modsec2-apache, modsec3-nginx, coraza-go]
+        test_target: [modsec2-apache, modsec3-nginx, coraza-go]
+      fail-fast: false # Continues to run other targets even if one fails
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.2
@@ -35,31 +36,29 @@ jobs:
           gh release download -R coreruleset/go-ftw "v${{ env.GO_FTW_VERSION }}" \
             -p "ftw_${{ env.GO_FTW_VERSION }}_linux_amd64.tar.gz" -O - | tar -xzvf - ftw
 
-      - name: "Run tests for ${{ matrix.modsec_version }}"
-        env:
-          FTW_LOGFILE: './tests/logs/${{ matrix.modsec_version }}/error.log'
+      - name: "Run tests for ${{ matrix.test_target }}"
         run: |
-          mkdir -p "tests/logs/${{ matrix.modsec_version }}/{nginx,apache2,coraza}"
+          mkdir -p "tests/logs/${{ matrix.test_target }}/{nginx,apache2,coraza}"
           chmod -R o+rw "tests/logs"
-          docker-compose -f ./tests/docker-compose.yml up -d "${{ matrix.modsec_version }}"
+          docker-compose -f ./tests/docker-compose.yml up -d "${{ matrix.test_target }}"
           docker-compose -f ./tests/docker-compose.yml logs
-          [ "$(docker inspect ${{ matrix.modsec_version }} --format='{{.State.Running}}')" = "true" ]
+          if ! [ "$(docker inspect ${{ matrix.test_target }} --format='{{.State.Running}}')" = "true" ]; then
+            echo "Web server failed to start"
+            docker logs ${{ matrix.test_target }}
+            exit 1
+          fi
           ./ftw check -d tests/regression/tests
-          ./ftw run -d tests/regression/tests --show-failures-only
-
-      - name: "Change permissions if failed"
-        if: failure()
-        run: |
-            # we want to get the audit log, so change permissions (file is only for root on docker)
-            sudo chmod 644 tests/logs/${{ matrix.modsec_version }}/modsec_audit.log
+          ./ftw run -d tests/regression/tests \
+            --show-failures-only \
+            --log-file "./tests/logs/${{ matrix.test_target }}/error.log"
 
       - uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         if: failure()
         with:
           name: waf-logs
-          path: tests/logs/${{ matrix.modsec_version }}
+          path: tests/logs/${{ matrix.test_target }}
 
       - name: Clean docker-compose
         run: |
-          docker-compose -f ./tests/docker-compose.yml stop "${{ matrix.modsec_version }}"
+          docker-compose -f ./tests/docker-compose.yml stop "${{ matrix.test_target }}"
           docker-compose -f ./tests/docker-compose.yml down
