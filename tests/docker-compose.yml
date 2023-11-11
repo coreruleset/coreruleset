@@ -75,13 +75,19 @@ services:
 
   coraza:
     container_name: coraza-httpbin
-    image: ghcr.io/jcchavezs/coraza-httpbin:main
+    # image: ghcr.io/jcchavezs/coraza-httpbin:main
+    image: coraza-httpbin-debug
     volumes:
+      # Coraza-httpbin writes multipart data to disk
+      - coraza-data:/tmp
       - ./logs/coraza:/var/log:rw
       - ./coraza-directives.conf:/etc/directives.conf:ro
       - ../rules:/etc/rules:ro
       - ../plugins:/etc/plugins:ro
       - ../crs-setup.conf.example:/etc/crs-setup.conf:ro
-    entrypoint: ["/usr/bin/coraza-httpbin", "-directives", "/etc/directives.conf", "-log-file", "/var/log/coraza.log"]
+    entrypoint: ["/usr/bin/coraza-httpbin", "-directives", "/etc/directives.conf", "-matched-rules-log", "/var/log/coraza.log"]
     ports:
-      - "80:80"
+      - "80:8080"
+
+volumes:
+  coraza-data:
