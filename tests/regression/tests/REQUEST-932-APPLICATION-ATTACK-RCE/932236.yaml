@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler, Max Leske"
+  author: "Franziska Bühler, Max Leske, Esad Cetiner"
   description: |
     Unix shell RCE
       - with / without prefix
@@ -806,3 +806,19 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932236"
+  - test_title: 932236-44
+    desc: "FP with word comment Github Issue #3387"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: GET
+            port: 80
+            uri: /?args=comment
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932236"
