@@ -104,14 +104,17 @@ def create_commit(changelog_lines: str):
 def generate_content(prs: list, merged_by: str) -> (str, str):
 	changelog_lines = f"Entries for PRs merged by {merged_by}:\n"
 	pr_body = f"This PR was auto-generated to update the changelog with the following entries, merged by @{merged_by}:\n```\n"
+	pr_links = ""
 	for pr in prs:
 		pr_number = pr["number"]
 		pr_title = pr["title"]
 		pr_author = pr["author"]["login"]
 		new_line = f"* {pr_title} (@{pr_author}) [#{pr_number}]\n"
 		pr_body += new_line
+		pr_links += f"- #{pr_number}\n"
+
 		changelog_lines += new_line
-	pr_body += "```"
+	pr_body += "```\n\n" + pr_links
 	changelog_lines += "\n\n"
 
 	return pr_body, changelog_lines
