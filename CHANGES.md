@@ -1,3 +1,7 @@
+Entries for PRs merged by fzipi:
+* chore: fix changelog-pr workflow (@theseion) [#3403]
+
+
 
 # OWASP ModSecurity Core Rule Set (CRS) CHANGES
 
