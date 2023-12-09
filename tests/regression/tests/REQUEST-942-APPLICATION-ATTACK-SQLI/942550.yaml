@@ -26,7 +26,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-2
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb
     stages:
       - stage:
@@ -63,7 +63,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-4
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"b":2}'::jsonb <@ '{"a":1, "b":2}'
     stages:
       - stage:
@@ -100,7 +100,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-6
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"b":2}' <@ '{"a":1, "b":2}'::jsonb
     stages:
       - stage:
@@ -137,7 +137,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-8
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"b":2}'::json <@ '{"a":1, "b":2}'
     stages:
       - stage:
@@ -174,7 +174,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-10
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"b":2}' <@ '{"a":1, "b":2}'::json
     stages:
       - stage:
@@ -211,7 +211,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-12
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"b":2}'::jsonb @> '{"a":1, "b":2}'::jsonb
     stages:
       - stage:
@@ -248,7 +248,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-14
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"b":2}'::jsonb < '{"a":1, "b":2}'::jsonb
     stages:
       - stage:
@@ -285,7 +285,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-16
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"b":2}'::jsonb > '{"a":1, "b":2}'::jsonb
     stages:
       - stage:
@@ -322,7 +322,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-18
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"a":2,"c":[4,5,{"f":7}]}' -> '$.c[2].f' = 7
     stages:
       - stage:
@@ -359,7 +359,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-20
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"a":2,"c":[4,5,{"f":7}]}' <- '$.c[2].f' = 7
     stages:
       - stage:
@@ -396,7 +396,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-22
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR json_extract('{"id": 14, "name": "Aztalan"}', '$.name') = 'Aztalan'
     stages:
       - stage:
@@ -433,7 +433,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-24
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: blah/"}' and data @> '{"a":"a"}' union select ASCII(s.token) from unnset(string_to_array((select cookie from cookie limit 1 ),NULL)) s(token)--/state
     stages:
       - stage:
@@ -470,7 +470,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-26
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"a":"b"}' ? 'a'
     stages:
       - stage:
@@ -507,7 +507,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-28
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '[1,2]' ? '1'
     stages:
       - stage:
@@ -544,7 +544,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-30
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"name":"asd"}' ?| array['a','name']
     stages:
       - stage:
@@ -581,7 +581,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-32
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"name":"asd"}' ?& array['a','name']
     stages:
       - stage:
@@ -618,7 +618,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-34
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '[1,2,3]'::json ->> 2='3'
     stages:
       - stage:
@@ -655,7 +655,7 @@ tests:
             log_contains: id "942550"
   - test_title: 942550-36
     desc: |
-      JSON in SQL (REQUEST_FILENAME)
+      JSON in SQL (TX:request_filename_raw)
       decoded payload: OR '{"a":1}'::jsonb #> '{a,b}' ? 'c'
     stages:
       - stage:

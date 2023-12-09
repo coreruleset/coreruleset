@@ -152,7 +152,7 @@ It will also be useful to ignore case sensitivity in this scenario:
 
 #### End of String Anchor ($)
 
-Consider, for example, needing to find the string `/admin/content/assets/add/evil` in the `REQUEST_FILENAME`. This could be achieved with the following regular expression:
+Consider, for example, needing to find the string `/admin/content/assets/add/evil` in the `TX:request_filename_raw`. This could be achieved with the following regular expression:
 
 ```python
 "@rx /admin/content/assets/add/evil"
