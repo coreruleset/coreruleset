@@ -7,6 +7,9 @@ import tempfile
 import sys
 import os
 import shutil
+import re
+
+DEVELOPERS = dict()
 
 def get_pr(repository: str, number: int) -> dict:
 	command = f"""gh pr view \
@@ -108,7 +111,7 @@ def generate_content(prs: list, merged_by: str) -> (str, str):
 	for pr in prs:
 		pr_number = pr["number"]
 		pr_title = pr["title"]
-		pr_author = pr["author"]["login"]
+		pr_author = get_pr_author_name(pr["author"]["login"])
 		new_line = f"* {pr_title} (@{pr_author}) [#{pr_number}]\n"
 		pr_body += new_line
 		pr_links += f"- #{pr_number}\n"
@@ -118,6 +121,22 @@ def generate_content(prs: list, merged_by: str) -> (str, str):
 	changelog_lines += "\n\n"
 
 	return pr_body, changelog_lines
+
+def get_pr_author_name(login: str) -> str:
+	if len(DEVELOPERS) == 0:
+		parse_contributors()
+
+	return DEVELOPERS[login] if login in DEVELOPERS else login
+
+def parse_contributors():
+	regex = re.compile(r'^\s*?-\s*?\[([^]]+)\]\s*?\(http.*/([^/]+)\s*?\)')
+	with open('CONTRIBUTORS.md', 'rt') as handle:
+		line = handle.readline()
+		while not ('##' in line and 'Contributors' in line):
+			match = regex.match(line)
+			if match:
+				DEVELOPERS[match.group(2)] = match.group(1)
+			line = handle.readline()
 
 def create_pr_branch(day: datetime.date, author: str, base_branch: str) -> str:
 	branch_name = f"changelog-updates-for-{day}-{author} {base_branch}"
