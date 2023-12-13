@@ -1,3 +1,7 @@
+Entries for PRs merged by airween:
+* fix: Added missing target name to logdata (@Ervin Hegedus) [#3409]
+
+
 
 # OWASP ModSecurity Core Rule Set (CRS) CHANGES
 
