@@ -1,3 +1,7 @@
+Entries for PRs merged by dune73:
+* chore: parse changelog PR author names from contributors (@Max Leske) [#3408]
+
+
 
 # OWASP ModSecurity Core Rule Set (CRS) CHANGES
 
