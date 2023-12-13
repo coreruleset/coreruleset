@@ -1,6 +1,3 @@
-* chore: parse changelog PR author names from contributors (Max Leske) [#3408]
-* fix: Added missing target name to logdata (932260 PL1, 932240 PL2) (Ervin Hegedus) [#3409]
-
 # OWASP ModSecurity Core Rule Set (CRS) CHANGES
 
 ## Report Bugs/Issues to GitHub Issues Tracker or the mailinglist
@@ -8,6 +5,8 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
+## Nightly builds
+New changelog entries are written to `.changes-pending.md`. They will be moved to the main changelog before a release.
 
 ## Version 4.0.0 - 2022-06-??
 
