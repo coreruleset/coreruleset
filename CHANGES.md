@@ -1,7 +1,5 @@
-Entries for PRs merged by dune73:
 * chore: parse changelog PR author names from contributors (Max Leske) [#3408]
-
-
+* fix: Added missing target name to logdata (932260 PL1, 932240 PL2) (Ervin Hegedus) [#3409]
 
 # OWASP ModSecurity Core Rule Set (CRS) CHANGES
 
