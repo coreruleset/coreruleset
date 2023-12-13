@@ -6,7 +6,6 @@ import datetime
 import tempfile
 import sys
 import os
-import shutil
 import re
 
 DEVELOPERS = dict()
@@ -76,7 +75,7 @@ def create_pr(repository: str, merged_by: str, prs: list, day: datetime.date):
 		--assignee "{merged_by}" \
 		--base "{base_branch}" \
 		--label "changelog-pr" \
-		--title "Changelog updates for {day}, merged by @{merged_by}" \
+		--title "chore: changelog updates for {day}, merged by @{merged_by}" \
 		--body '{pr_body}'
 	"""
 
@@ -88,16 +87,10 @@ def create_pr(repository: str, merged_by: str, prs: list, day: datetime.date):
 	print(f"Created PR: {outs.decode()}")
 
 def create_commit(changelog_lines: str):
-	new_changelog = tempfile.NamedTemporaryFile(delete=False, delete_on_close=False)
-	new_changelog.write(changelog_lines.encode())
-	with open('CHANGES.md', 'rt') as changelog:
-		new_changelog.write(changelog.read().encode())
+	with open('.changes-pending.md', 'at') as changelog:
+		changelog.write(changelog_lines.encode())
 
-	new_changelog.close()
-	os.remove('CHANGES.md')
-	shutil.move(new_changelog.name, 'CHANGES.md')
-
-	command = "git commit CHANGES.md -m 'Add pending changelog entries to changelog'"
+	command = "git commit .changes-pending.md -m 'Add pending changelog entries'"
 	proc = subprocess.Popen(command, shell=True, stderr=subprocess.PIPE)
 	_, errors = proc.communicate()
 	if proc.returncode != 0:
@@ -112,7 +105,7 @@ def generate_content(prs: list, merged_by: str) -> (str, str):
 		pr_number = pr["number"]
 		pr_title = pr["title"]
 		pr_author = get_pr_author_name(pr["author"]["login"])
-		new_line = f"* {pr_title} (@{pr_author}) [#{pr_number}]\n"
+		new_line = f"* {pr_title} ({pr_author}) [#{pr_number}]\n"
 		pr_body += new_line
 		pr_links += f"- #{pr_number}\n"
 
@@ -126,7 +119,7 @@ def get_pr_author_name(login: str) -> str:
 	if len(DEVELOPERS) == 0:
 		parse_contributors()
 
-	return DEVELOPERS[login] if login in DEVELOPERS else login
+	return DEVELOPERS[login] if login in DEVELOPERS else f"@{login}"
 
 def parse_contributors():
 	regex = re.compile(r'^\s*?-\s*?\[([^]]+)\]\s*?\(http.*/([^/]+)\s*?\)')
