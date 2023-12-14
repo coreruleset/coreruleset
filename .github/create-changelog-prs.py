@@ -27,7 +27,9 @@ def get_prs(repository: str, day: datetime.date) -> list:
 	command = f"""gh search prs \
 		--repo "{repository}" \
 		--merged-at "{day}" \
-		--json number
+		--json number \
+		-- \
+		-label:changelog-pr # ignore changelog prs
 	"""
 	proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	prs_json, errors = proc.communicate()
@@ -44,7 +46,7 @@ def parse_prs(prs: list) -> dict:
 	pr_map = dict()
 	for pr in prs:
 		merged_by = pr["mergedBy"]["login"]
-		if merged_by not in pr:
+		if merged_by not in pr_map:
 			pr_list = list()
 			pr_map[merged_by] = pr_list
 		else:
