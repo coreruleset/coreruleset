@@ -3,7 +3,6 @@
 import subprocess
 import json
 import datetime
-import tempfile
 import sys
 import os
 import re
@@ -87,7 +86,7 @@ def create_pr(repository: str, merged_by: str, prs: list, day: datetime.date):
 	print(f"Created PR: {outs.decode()}")
 
 def create_commit(changelog_lines: str):
-	with open('.changes-pending.md', 'at') as changelog:
+	with open('.changes-pending.md', 'a') as changelog:
 		changelog.write(changelog_lines.encode())
 
 	command = "git commit .changes-pending.md -m 'Add pending changelog entries'"
