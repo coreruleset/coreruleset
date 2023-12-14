@@ -619,6 +619,8 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # Block request if number of arguments is too high
 # Default: unlimited
 # Example: 255
+# Note that a hard limit by the engine may also apply here (SecArgumentsLimit).
+# This would override this soft limit.
 # Uncomment this rule to set a limit.
 #SecAction \
 #    "id:900300,\
