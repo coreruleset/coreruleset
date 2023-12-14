@@ -97,7 +97,7 @@ def create_commit(changelog_lines: str):
 		exit(1)
 
 def generate_content(prs: list, merged_by: str) -> (str, str):
-	changelog_lines = f"Entries for PRs merged by {merged_by}:\n"
+	changelog_lines = ""
 	pr_body = f"This PR was auto-generated to update the changelog with the following entries, merged by @{merged_by}:\n```\n"
 	pr_links = ""
 	for pr in prs:
@@ -110,7 +110,6 @@ def generate_content(prs: list, merged_by: str) -> (str, str):
 
 		changelog_lines += new_line
 	pr_body += "```\n\n" + pr_links
-	changelog_lines += "\n\n"
 
 	return pr_body, changelog_lines
 
@@ -142,7 +141,7 @@ def create_pr_branch(day: datetime.date, author: str, base_branch: str) -> str:
 	return branch_name
 
 def push_pr_branch(branch_name: str):
-	command = f"git push origin {branch_name}"
+	command = f"git push -u origin {branch_name}"
 	proc = subprocess.Popen(command, shell=True, stderr=subprocess.PIPE)
 	_, errors = proc.communicate()
 	if proc.returncode != 0:
