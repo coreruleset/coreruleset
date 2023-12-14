@@ -1,4 +1,3 @@
-
 # OWASP ModSecurity Core Rule Set (CRS) CHANGES
 
 ## Report Bugs/Issues to GitHub Issues Tracker or the mailinglist
@@ -6,6 +5,8 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
+## Nightly builds
+New changelog entries are written to `.changes-pending.md`. They will be moved to the main changelog before a release.
 
 ## Version 4.0.0 - 2022-06-??
 
