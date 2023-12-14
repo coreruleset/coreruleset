@@ -35,22 +35,47 @@ EOF
 fi
 
 check() {
-    local datafile="${1}"
-    local datafile_name="${datafile##*/}"
-
     if ! ${MACHINE_READABLE}; then
         echo "-> checking ${datafile_name}"
     fi
 
-    for word in $(grep -E '^[a-z]+$' "${datafile}" | uniq | sort); do
+    local datafile="${1}"
+    local datafile_name
+
+    if [ "${1}" = "-" ]; then
+        datafile="/dev/stdin"
+        datafile_name="stdin"
+    else
+        datafile_name="${datafile##*/}"
+    fi
+
+    local datafile="${1}"
+    local datafile_name
+
+    if [ "${1}" = "-" ]; then
+        datafile="/dev/stdin"
+        datafile_name="stdin"
+    else
+        datafile_name="${datafile##*/}"
+    fi
+
+    while read -r word; do
         # wordnet exit code is equal to number of search results
-        if ! wn "${word}"> /dev/null 2>&1;  then
+        if [ -n "${SUFFIX}" ]; then
+            word="$(sed -E "s/(.*)${SUFFIX}/\1/" <<<"${word}")"
+        fi
+        if ! grep -qE '^[A-Za-z]+$' <<<"${word}"; then
+            continue
+        fi
+
+        if ! wn "${word}" >/dev/null 2>&1; then
             if ! ${MACHINE_READABLE}; then
                 printf "   \`- found English word via wn: "
             fi
             echo "${word}"
         else
             if ${USE_EXTENDED}; then
+                # shellcheck disable=SC2046
                 if [ $(grep -c -E "^$word$" "$EXTENDED_WORDS_LIST_PATH") -ne 0 ]; then
                     if ! ${MACHINE_READABLE}; then
                         printf "   \`- found English word via extended list: "
@@ -59,7 +84,7 @@ check() {
                 fi
             fi
         fi
-    done
+    done <<<"$(sort "${datafile}" | uniq)"
 
     if ! ${MACHINE_READABLE}; then
         echo ""
@@ -77,6 +102,7 @@ usage: spell.sh [-mhe] [file]
     -h, --help      Show this message and exit
     -m, --machine   Print machine readable output
     -e, --extended  English words are extended by a manual list
+    -s, --suffix    Regular expression for suffix to strip off words passed to wordnet
 EOF
 }
 
@@ -93,24 +119,34 @@ while [[ $# -gt 0 ]]; do
     case $1 in
         -m|--machine)
         MACHINE_READABLE=true
-        shift # past argument
+        shift
         ;;
         -e|--extended)
         USE_EXTENDED=true
-        shift # past argument
+        shift
+        ;;
+        -s|--suffix)
+        shift
+        SUFFIX="${1}"
+        shift
         ;;
         -h|--help)
         usage
         exit 1
         ;;
         -*|--*)
-        echo "Unknown option $1"
-        usage
-        exit 1
+        if [ $# -eq 1 ]; then
+            POSITIONAL_ARGS+=("$1") # save positional arg
+            shift # past argument
+        else
+            echo "Unknown option $1"
+            usage
+            exit 1
+        fi
         ;;
         *)
         POSITIONAL_ARGS+=("$1") # save positional arg
-        shift # past argument
+        shift
         ;;
     esac
 done

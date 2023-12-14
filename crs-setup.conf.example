@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------
-# OWASP ModSecurity Core Rule Set ver.4.0.0-rc1
+# OWASP ModSecurity Core Rule Set ver.4.0.0-rc2
 # Copyright (c) 2006-2020 Trustwave and contributors. All rights reserved.
-# Copyright (c) 2021-2022 Core Rule Set project. All rights reserved.
+# Copyright (c) 2021-2023 Core Rule Set project. All rights reserved.
 #
 # The OWASP ModSecurity Core Rule Set is distributed under
 # Apache Software License (ASL) version 2
@@ -619,6 +619,8 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # Block request if number of arguments is too high
 # Default: unlimited
 # Example: 255
+# Note that a hard limit by the engine may also apply here (SecArgumentsLimit).
+# This would override this soft limit.
 # Uncomment this rule to set a limit.
 #SecAction \
 #    "id:900300,\

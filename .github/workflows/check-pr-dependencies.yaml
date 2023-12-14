@@ -1,4 +1,4 @@
-name: Check PR title
+name: Check PR dependencies
 on:
   pull_request_target:
     types:
@@ -8,9 +8,12 @@ on:
       - synchronize
 
 jobs:
-  lint:
+  check_dependencies:
     runs-on: ubuntu-latest
+    name: Check Dependencies
+    permissions:
+      pull-requests: read # Reason: To check PRs for dependencies.
     steps:
-      - uses: aslafy-z/conventional-pr-title-action@v3
+      - uses: gregsdennis/dependencies-action@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,7 +1,7 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
-##! Word list for rule 932120 (RCE for commands of two and three character words)
+##! Word list for rule 932230 (RCE for commands of two and three character words)
 ##!
 ##! Per discussion in https://github.com/coreruleset/coreruleset/issues/2632, we decided
 ##! to extend the cmdline evasion regex, so we are applying the evasion to a subset of the
@@ -16,6 +16,6 @@
   ##!> include unix-shell-evasion-prefix
 
   ##!> cmdline unix
-    ##!> include unix-shell-upto3-for-cmdline
+    ##!> include-except unix-shell-upto3 unix-shell-fps-pl1
   ##!<
 ##!<

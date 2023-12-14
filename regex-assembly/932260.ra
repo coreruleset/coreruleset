@@ -8,5 +8,8 @@
 ##!> assemble
   ##!> include unix-shell-evasion-prefix-start-of-string
 
-  ##!> include-except unix-shell-4andup-with-params unix-shell-fps
+  ##! These patterns are approximations of the patterns used by the cmdline
+  ##! processor for `@` and `~`.
+  ##! These patterns are used across multiple files, change with care.
+  ##!> include-except unix-shell-4andup unix-shell-fps-pl1 -- @ [\s<>&|)] ~ \S
 ##!<

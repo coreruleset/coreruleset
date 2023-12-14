@@ -308,3 +308,19 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "941130"
+  - test_title: 941130-19
+    desc: "Status Test Page - simple test for 941130"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: GET
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: "foo!ENTITY % bar SYSTEM"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            version: HTTP/1.0
+          output:
+            log_contains: id "941130"

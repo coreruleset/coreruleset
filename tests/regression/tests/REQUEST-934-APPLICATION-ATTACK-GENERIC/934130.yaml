@@ -184,3 +184,37 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "934130"
+  - test_title: 934130-12
+    desc: "Detect example payload __proto__... submitted as plaintext"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Cookie: test_cookie=__proto__.foo=bar
+            method: GET
+            port: 80
+            uri: "/get"
+            version: HTTP/1.1
+          output:
+            log_contains: id "934130"
+  - test_title: 934130-13
+    desc: "Detect example payload __proto__... submitted as plaintext with JavaScript escape sequence obfuscation"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Cookie: test_cookie=__\u0070\u0072oto__.foo=bar
+            method: GET
+            port: 80
+            uri: "/get"
+            version: HTTP/1.1
+          output:
+            log_contains: id "934130"

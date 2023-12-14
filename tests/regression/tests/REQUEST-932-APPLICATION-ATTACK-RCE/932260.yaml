@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Paul Beckett, Franziska Bühler, karelorigin"
+  author: "Paul Beckett, Franziska Bühler, karelorigin, Esad Cetiner"
   enabled: true
   name: "932260.yaml"
   description: "Tests to trigger or not trigger rule 932260"
@@ -19,7 +19,7 @@ tests:
             uri: "/get?932260-1=bash%20-c%20%22echo%20test%22"
             protocol: "http"
           output:
-            log_contains: id "932260"
+            no_log_contains: id "932260"
   - test_title: 932260-2
     stages:
       - stage:
@@ -35,7 +35,7 @@ tests:
             uri: '/post'
             protocol: "http"
           output:
-            log_contains: id "932260"
+            no_log_contains: id "932260"
   - test_title: 932260-3
     stages:
       - stage:
@@ -163,40 +163,6 @@ tests:
           output:
             log_contains: id "932260"
   - test_title: 932260-11
-    desc: "Positive test: Unix Command Injection - $SHELL test"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            # code=$SHELL -c "echo hi"
-            uri: "/get?code=%24SHELL%20-c%20%22echo%20hi%22"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932260"
-  - test_title: 932260-12
-    desc: "Positive test: Unix Command Injection - ${SHELL} test"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            # code=${SHELL} -c "echo hi"
-            uri: /get?code=%24%7BSHELL%7D%20-c%20%22echo%20hi%22
-            version: HTTP/1.0
-          output:
-            log_contains: id "932260"
-  - test_title: 932260-13
     desc: "Positive test: Unix Command Injection - busybox test"
     stages:
       - stage:
@@ -213,7 +179,7 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "932260"
-  - test_title: 932260-14
+  - test_title: 932260-12
     desc: Remote Command Execution bypass with time
     stages:
       - stage:
@@ -227,11 +193,11 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/get?foo=time+unzip+"
+            uri: "/get?foo=time+bsdtar+"
             version: HTTP/1.1
           output:
             log_contains: id "932260"
-  - test_title: 932260-15
+  - test_title: 932260-13
     desc: Remote Command Execution bypass with time negative test
     stages:
       - stage:
@@ -249,7 +215,7 @@ tests:
             version: HTTP/1.1
           output:
             no_log_contains: id "932260"
-  - test_title: 932260-16
+  - test_title: 932260-14
     desc: Remote Command Injection test for BB finding 935E1D91
     stages:
       - stage:
@@ -266,8 +232,8 @@ tests:
             uri: "/get?foo=time+curl+coreruleset.org"
             version: HTTP/1.1
           output:
-            log_contains: id "932260"
-  - test_title: 932260-17
+            no_log_contains: id "932260"
+  - test_title: 932260-15
     desc: Remote Command Injection test for BB finding 935E1D91 - time evasion attempt
     stages:
       - stage:
@@ -284,8 +250,8 @@ tests:
             uri: "/get?foo=ti''me+curl+coreruleset.org"
             version: HTTP/1.1
           output:
-            log_contains: id "932260"
-  - test_title: 932260-18
+            no_log_contains: id "932260"
+  - test_title: 932260-16
     desc: System Command Injection test for BB finding AV6ZO3ZS - mixed case
     stages:
       - stage:
@@ -303,7 +269,7 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932260"
-  - test_title: 932260-19
+  - test_title: 932260-17
     desc: "'find' direct command injection FP test"
     stages:
       - stage:
@@ -319,7 +285,7 @@ tests:
             protocol: "http"
           output:
             no_log_contains: id "932260"
-  - test_title: 932260-20
+  - test_title: 932260-18
     desc: "'find' direct command injection FP test"
     stages:
       - stage:
@@ -335,7 +301,7 @@ tests:
             protocol: "http"
           output:
             no_log_contains: id "932260"
-  - test_title: 932260-21
+  - test_title: 932260-19
     desc: "'ping' direct command injection FP test"
     stages:
       - stage:
@@ -349,5 +315,68 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/?x=ping%20127.0.0.1"
             protocol: "http"
+          output:
+            no_log_contains: id "932260"
+  - test_title: 932260-20
+    desc: "FP for 'head of'"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/post"
+            protocol: "http"
+            data: "job_title=head%20of"
+          output:
+            no_log_contains: id "932260"
+  - test_title: 932260-21
+    desc: "False positive test: 'evaluation' (FP while rule looks for 'eval')"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: '/get?word=evaluation'
+          output:
+            no_log_contains: id "932260"
+  - test_title: 932260-22
+    desc: "False positive test: 'schedule' (FP while rule looks for 'sched')"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: '/get?word=schedule'
+          output:
+            no_log_contains: id "932260"
+  - test_title: 932260-23
+    desc: "FP with word comment Github Issue #3387"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: GET
+            port: 80
+            uri: /?args=comment
+            version: HTTP/1.0
           output:
             no_log_contains: id "932260"
