@@ -87,7 +87,7 @@ def create_pr(repository: str, merged_by: str, prs: list, day: datetime.date):
 
 def create_commit(changelog_lines: str):
 	with open('.changes-pending.md', 'a') as changelog:
-		changelog.write(changelog_lines.encode())
+		changelog.write(changelog_lines)
 
 	command = "git commit .changes-pending.md -m 'Add pending changelog entries'"
 	proc = subprocess.Popen(command, shell=True, stderr=subprocess.PIPE)
