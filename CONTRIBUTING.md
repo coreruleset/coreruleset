@@ -92,6 +92,7 @@ instead of
 ```
 SecRule ARGS "foo" "id:1,phase:1,pass,t:none"
 ```
+ * Only the tags listed in the [TAGS_USED](TAGS_USED) file can be added to a rule. If you want to add a new tag, you **must** add it to this file.
 
 ## Variable Naming Conventions
 
