@@ -597,7 +597,7 @@ class Check(object):
                                 'ruleid' : ruleid,
                                 'line'   : a['lineno'],
                                 'endLine': a['lineno'],
-                                'message': "rule has a new tag: '%s' which does not listed in TAGS_USED file, rule id: %d" % (a['act_arg'], ruleid)
+                                'message': "rule uses unknown tag: '%s'; only tags registered in the TAGS_USED file may be used; rule id: %d" % (a['act_arg'], ruleid)
                             })
                     aidx += 1
 
