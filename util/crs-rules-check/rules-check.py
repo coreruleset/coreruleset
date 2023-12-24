@@ -709,7 +709,7 @@ if __name__ == "__main__":
     try:
         with open(args.tagslist, "r") as fp:
             tags = [l.strip() for l in fp.readlines()]
-            # remove empty items, if there is
+            # remove empty items, if any
             tags = list(filter(lambda x: len(x) > 0, tags))
     except:
         errmsg("Can't open tags list: %s" % args.tagslist)
