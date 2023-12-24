@@ -572,7 +572,7 @@ class Check(object):
 
     def check_tags(self, fname, tagslist):
         """
-        check tags at rules are exists in TAGS_USED list
+        check that only tags from the TAGS_USED file are used
         """
         chained = False
         ruleid = 0
