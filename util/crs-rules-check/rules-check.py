@@ -692,7 +692,7 @@ if __name__ == "__main__":
     parser.add_argument("-r", "--rules", metavar='/path/to/coreruleset/*.conf', type=str,
                             nargs='*', help='Directory path to CRS rules', required=True,
                             action="append")
-    parser.add_argument("-t", "--tags-list", dest="tagslist", help="Path to available tags", required=True)
+    parser.add_argument("-t", "--tags-list", dest="tagslist", help="Path to file with permitted tags", required=True)
     args = parser.parse_args()
 
     crspath = []
