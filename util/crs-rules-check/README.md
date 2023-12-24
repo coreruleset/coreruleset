@@ -49,7 +49,7 @@ Second, the script loops over each of the parsed structures. Each iteration cons
     * the variable is a right hand side operand in a `setvar` action, eg `setvar:tx.bar=%{tx.foo}`
     * the variable is in an expansion, e.g., as part of the value of a `msg` action: `msg:'Current value of variable: %{tx.foo}`
 * **Check rule tags** - only tags listed in `TAGS_USED` may be used as tags in rules
-    * before you want to add a new tag to a rule, you **must** add it to TAGS_USED file
+    * to use a new tag on a rule, it **must** first be registered in the TAGS_USED file
 
 Finally, the script prints a report of all unused TX variables. Usually, unused TX variables occur when a rule creates a TX variable (e.g., `setvar:tx.foo=1`) but the value of the variable is never used anywhere else. This will only be revealed after the script has checked all rules.
 
