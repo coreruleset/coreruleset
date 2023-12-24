@@ -364,7 +364,7 @@ The rule tests are located under `tests/regression/tests`. Each CRS rule *file* 
 
 Full documentation of the required formatting and available options of the YAML tests can be found at https://github.com/coreruleset/ftw/blob/main/docs/YAMLFormat.md.
 
-Documentation about how to run tests is on Coreruleset's [page](https://coreruleset.org/docs/development/testing/).
+Documentation on how to run the CRS test suite can be found in the [online documentation](https://coreruleset.org/docs/development/testing/).
 
 ### Positive Tests
 
