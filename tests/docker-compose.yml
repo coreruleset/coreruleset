@@ -1,5 +1,3 @@
-version: '3.2'
-
 # Only one of these will be up at a time for now.
 # Concurrency will be on the tests folder we have.
 
@@ -74,3 +72,21 @@ services:
   #
   backend:
     image: docker.io/kennethreitz/httpbin
+
+  coraza-go:
+    container_name: coraza-go
+    image: ghcr.io/jcchavezs/coraza-httpbin:main
+    volumes:
+      # coraza-httpbin writes multipart data to disk
+      - coraza-data:/tmp
+      - ./logs/coraza:/var/log:rw
+      - ./coraza-directives.conf:/etc/directives.conf:ro
+      - ../rules:/etc/rules:ro
+      - ../plugins:/etc/plugins:ro
+      - ../crs-setup.conf.example:/etc/crs-setup.conf:ro
+    entrypoint: ["/usr/bin/coraza-httpbin", "-directives", "/etc/directives.conf", "-matched-rules-log", "/var/log/coraza.log"]
+    ports:
+      - "80:8080"
+
+volumes:
+  coraza-data:
