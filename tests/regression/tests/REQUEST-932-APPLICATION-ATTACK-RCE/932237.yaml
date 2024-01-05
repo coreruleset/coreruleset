@@ -42,7 +42,7 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: "set -o history"
+              User-Agent: set -o history
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             protocol: "http"
@@ -119,7 +119,7 @@ tests:
             port: 80
             headers:
               User-Agent: OWASP CRS test agent
-              Referer: "set -o history"
+              Referer: set -o history
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             protocol: "http"
@@ -225,3 +225,32 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "932237"
+  - test_title: 932237-14
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP CRS test agent
+              Referer: set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            protocol: "http"
+          output:
+            log_contains: "id \"932237\""
+  - test_title: 932237-15
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: set
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            protocol: "http"
+          output:
+            log_contains: "id \"932237\""
