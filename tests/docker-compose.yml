@@ -69,8 +69,9 @@ services:
     depends_on:
       - backend
 
-  # our test originally targeted www.example.com as backend
-  # and that would do real traffic, to a real site
-  #
   backend:
-    image: docker.io/kennethreitz/httpbin
+    # Use go-httpbin instead of httpbin to ensure that Unicode bytes in JSON
+    # are not reflected as JSON Unicode escape sequences but as the data
+    # actualy sent.
+    image: mccutchen/go-httpbin
+    command: ["/bin/go-httpbin", "-port", "80"]
