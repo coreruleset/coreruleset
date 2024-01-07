@@ -572,7 +572,7 @@ class Check(object):
 
     def check_tags(self, fname, tagslist):
         """
-        check tags at rules are exists in TAGS_USED list
+        check that only tags from the TAGS_USED file are used
         """
         chained = False
         ruleid = 0
@@ -597,7 +597,7 @@ class Check(object):
                                 'ruleid' : ruleid,
                                 'line'   : a['lineno'],
                                 'endLine': a['lineno'],
-                                'message': "rule has a new tag: '%s' which does not listed in TAGS_USED file, rule id: %d" % (a['act_arg'], ruleid)
+                                'message': "rule uses unknown tag: '%s'; only tags registered in the TAGS_USED file may be used; rule id: %d" % (a['act_arg'], ruleid)
                             })
                     aidx += 1
 
@@ -692,7 +692,7 @@ if __name__ == "__main__":
     parser.add_argument("-r", "--rules", metavar='/path/to/coreruleset/*.conf', type=str,
                             nargs='*', help='Directory path to CRS rules', required=True,
                             action="append")
-    parser.add_argument("-t", "--tags-list", dest="tagslist", help="Path to available tags", required=True)
+    parser.add_argument("-t", "--tags-list", dest="tagslist", help="Path to file with permitted tags", required=True)
     args = parser.parse_args()
 
     crspath = []
@@ -709,7 +709,7 @@ if __name__ == "__main__":
     try:
         with open(args.tagslist, "r") as fp:
             tags = [l.strip() for l in fp.readlines()]
-            # remove empty items, if there is
+            # remove empty items, if any
             tags = list(filter(lambda x: len(x) > 0, tags))
     except:
         errmsg("Can't open tags list: %s" % args.tagslist)
