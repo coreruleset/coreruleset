@@ -572,7 +572,7 @@ class Check(object):
 
     def check_tags(self, fname, tagslist):
         """
-        check that only tags from the TAGS_USED file are used
+        check that only tags from the util/APPROVED_TAGS file are used
         """
         chained = False
         ruleid = 0
@@ -597,7 +597,7 @@ class Check(object):
                                 'ruleid' : ruleid,
                                 'line'   : a['lineno'],
                                 'endLine': a['lineno'],
-                                'message': "rule uses unknown tag: '%s'; only tags registered in the TAGS_USED file may be used; rule id: %d" % (a['act_arg'], ruleid)
+                                'message': "rule uses unknown tag: '%s'; only tags registered in the util/APPROVED_TAGS file may be used; rule id: %d" % (a['act_arg'], ruleid)
                             })
                     aidx += 1
 
