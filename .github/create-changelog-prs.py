@@ -77,11 +77,11 @@ def create_pr(repository: str, merged_by: str, prs: list, day: datetime.date):
 		--base "{base_branch}" \
 		--label "changelog-pr" \
 		--title "chore: changelog updates for {day}, merged by @{merged_by}" \
-		--body '{pr_body}'
+		--body-file -
 	"""
 
-	proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-	outs, errors = proc.communicate()
+	proc = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	outs, errors = proc.communicate(input=pr_body.encode())
 	if proc.returncode != 0:
 		print(errors)
 		exit(1)
