@@ -539,7 +539,7 @@ tests:
             port: 80
             uri: /get/eval(
           output:
-            no_log_contains: id "933150"
+            no_log_contains: id "933160"
   - test_title: 933160-32
     desc: |
       False Positive test, missing mandatory parenthesis
@@ -556,4 +556,39 @@ tests:
             port: 80
             uri: /get?foo=eval
           output:
-            no_log_contains: id "933150"
+            no_log_contains: id "933160"
+  - test_title: 933160-33
+    desc: |
+      False Positive test
+      payload: the files (yep)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /get?foo=the%20files%20%28yep%29
+          output:
+            no_log_contains: id "933160"
+  - test_title: 933160-23
+    desc: |
+      PHP function call in body, mixed case
+      payload: eVAl("echo 10000000000-245205634;")
+    stages:
+      - stage:
+          input:
+            data: yt=eVAl%28%22echo+10000000000%2d245205634%3b%22%29%3b
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: /post
+          output:
+            log_contains: id "933160"
