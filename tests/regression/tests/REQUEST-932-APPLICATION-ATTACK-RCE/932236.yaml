@@ -333,7 +333,7 @@ tests:
           output:
             no_log_contains: id "932236"
   - test_title: 932236-19
-    desc: "FP MailerUI GitHub Issue #3220"
+    desc: "FP MailerUI"
     stages:
       - stage:
           input:
@@ -349,7 +349,7 @@ tests:
           output:
             no_log_contains: id "932236"
   - test_title: 932236-20
-    desc: "FP tasksListView GitHub Issue #3220"
+    desc: "FP tasksListView"
     stages:
       - stage:
           input:
@@ -807,7 +807,7 @@ tests:
           output:
             log_contains: id "932236"
   - test_title: 932236-44
-    desc: "FP with word comment Github Issue #3387"
+    desc: "FP with word comment"
     stages:
       - stage:
           input:
@@ -818,7 +818,23 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /?args=comment
+            uri: /get?args=comment
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-45
+    desc: "FP with word settings"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: GET
+            port: 80
+            uri: /get?args=settings
             version: HTTP/1.0
           output:
             no_log_contains: id "932236"
