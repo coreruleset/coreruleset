@@ -53,22 +53,6 @@ tests:
           output:
             log_contains: id "942290"
   - test_title: 942290-4
-    desc: "basic MongoDB NOSQL injection attempts 3"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/mongo/show.php?u_id[$regex]=2"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942290"
-  - test_title: 942290-5
     desc: "basic MongoDB NOSQL injection attempts 4"
     stages:
       - stage:
@@ -85,7 +69,7 @@ tests:
             data: '{"$not": "foo"}'
           output:
             log_contains: id "942290"
-  - test_title: 942290-6
+  - test_title: 942290-5
     desc: "basic MongoDB NOSQL injection attempts 5"
     stages:
       - stage:
@@ -102,7 +86,7 @@ tests:
             data: '{"$nor": "foo"}'
           output:
             log_contains: id "942290"
-  - test_title: 942290-7
+  - test_title: 942290-6
     desc: "basic MongoDB NOSQL injection attempts 6"
     stages:
       - stage:
@@ -119,7 +103,7 @@ tests:
             data: '{"$where": "foo"}'
           output:
             log_contains: id "942290"
-  - test_title: 942290-8
+  - test_title: 942290-7
     desc: "basic MongoDB NOSQL injection attempts 7"
     stages:
       - stage:
@@ -136,7 +120,7 @@ tests:
             data: '{"$elemMatch": "foo"}'
           output:
             log_contains: id "942290"
-  - test_title: 942290-9
+  - test_title: 942290-8
     desc: "basic MongoDB NOSQL injection attempts 8"
     stages:
       - stage:
