@@ -18,7 +18,7 @@ tests:
             uri: "/get"
             protocol: "http"
           output:
-            log_contains: "id \"932237\""
+            no_log_contains: "id \"932237\""
   - test_title: 932237-2
     stages:
       - stage:
@@ -93,7 +93,7 @@ tests:
             uri: "/get"
             protocol: "http"
           output:
-            log_contains: "id \"932237\""
+            no_log_contains: "id \"932237\""
   - test_title: 932237-7
     stages:
       - stage:
@@ -254,3 +254,34 @@ tests:
             protocol: "http"
           output:
             no_log_contains: "id \"932237\""
+  - test_title: 932237-17
+    desc: "Block env command with arguments"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: env --version
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            protocol: "http"
+          output:
+            log_contains: "id \"932237\""
+  - test_title: 932237-18
+    desc: "Block env command with arguments"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: OWASP CRS test agent
+              Referer: env --version
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            protocol: "http"
+          output:
+            log_contains: "id \"932237\""
