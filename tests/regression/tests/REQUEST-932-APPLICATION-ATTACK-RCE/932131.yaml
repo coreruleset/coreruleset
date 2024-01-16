@@ -17,7 +17,23 @@ tests:
               Host: "localhost"
             method: "GET"
             port: 80
-            uri: "/"
+            uri: "/get"
             protocol: "http"
           output:
             log_contains: id "932131"
+  - test_title: 932131-2
+    desc: False positive against Facebook for Android user agent
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            headers:
+              Accept: "*/*"
+              User-Agent: "mozilla/5.0(linux android 12 sm-a528b build/sp1a.210812.016 wv) applewebkit/537.36(khtml like gecko) version/4.0 chrome/110.0.5481.154 mobile safari/537.36 [fb_iab/fb4a fbav/403.0.0.27.81 ]"
+              Host: "localhost"
+            method: "GET"
+            port: 80
+            uri: "/get"
+            protocol: "http"
+          output:
+            no_log_contains: id "932131"
