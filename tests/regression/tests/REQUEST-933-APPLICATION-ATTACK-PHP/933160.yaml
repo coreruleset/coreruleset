@@ -73,13 +73,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-<<<<<<< HEAD
-            uri: /?foo=exec%0A%28%27bar%27%29
-||||||| parent of c474cd17 (fix: fix test 933160)
-            uri: /
-=======
             uri: /post
->>>>>>> c474cd17 (fix: fix test 933160)
           output:
             log_contains: id "933160"
   - test_title: 933160-5
@@ -96,13 +90,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-<<<<<<< HEAD
-            uri: /?foo=FILE%0D%0A%28%29
-||||||| parent of c474cd17 (fix: fix test 933160)
-            uri: /?foo=exec%0A%28%27bar%27%29
-=======
             uri: /get?foo=exec%0A%28%27bar%27%29
->>>>>>> c474cd17 (fix: fix test 933160)
           output:
             log_contains: id "933160"
   - test_title: 933160-6
@@ -119,19 +107,13 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-<<<<<<< HEAD
-            uri: /?foo=file_ExistS%20%28%0A%0A%29
-||||||| parent of c474cd17 (fix: fix test 933160)
-            uri: /?foo=FILE%0D%0A%28%29
-=======
             uri: /get?foo=FILE%0D%0A%28%29
->>>>>>> c474cd17 (fix: fix test 933160)
           output:
             log_contains: id "933160"
   - test_title: 933160-7
     desc: |
       PHP mixed case function call with space, LF between ().
-      payload: file_ExistS (\n\n)
+      payload: assert_OptionS (\n\n)
     stages:
       - stage:
           input:
@@ -142,13 +124,13 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=file_ExistS%20%28%0A%0A%29
+            uri: /get?foo=assert_OptionS%20%28%0A%0A%29
           output:
             log_contains: id "933160"
   - test_title: 933160-8
     desc: |
       PHP function call with multiple whitespaces.
-      payload: fopen  (blah)
+      payload: filegroup  (blah)
     stages:
       - stage:
           input:
@@ -159,13 +141,13 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=fopen%20%20%28blah%29
+            uri: /get?foo=filegroup%20%20%28blah%29
           output:
             log_contains: id "933160"
   - test_title: 933160-9
     desc: |
       PHP function call using Error Control Operator.
-      payload: @fopen('test')
+      payload: @filegroup('test')
     stages:
       - stage:
           input:
@@ -176,13 +158,13 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=%40fopen%28%27test%27%29
+            uri: /get?foo=%40filegroup%28%27test%27%29
           output:
             log_contains: id "933160"
   - test_title: 933160-10
     desc: |
       PHP function call with vertical tab.
-      payload: fopen  (blah)
+      payload: filegroup  (blah)
     stages:
       - stage:
           input:
@@ -193,13 +175,13 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=fopen%09%28blah%29
+            uri: /get?foo=filegroup%09%28blah%29
           output:
             log_contains: id "933160"
   - test_title: 933160-11
     desc: |
       PHP function call with comment and newline.
-      payload: fopen //comment\r\n (blah)
+      payload: filegroup //comment\r\n (blah)
     stages:
       - stage:
           input:
@@ -210,13 +192,13 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=fopen%20%2f%2fcomment%0d%0a%20%28blah%29
+            uri: /get?foo=filegroup%20%2f%2fcomment%0d%0a%20%28blah%29
           output:
             log_contains: id "933160"
   - test_title: 933160-12
     desc: |
       PHP function call with comment and newline.
-      payload: fopen #comment\r\n (blah)
+      payload: filegroup #comment\r\n (blah)
     stages:
       - stage:
           input:
@@ -227,13 +209,13 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=fopen%20%23comment%0d%0a%20%28blah%29
+            uri: /get?foo=filegroup%20%23comment%0d%0a%20%28blah%29
           output:
             log_contains: id "933160"
   - test_title: 933160-13
     desc: |
       PHP function call with comment and newline.
-      payload: fopen#\n ()
+      payload: filegroup#\n ()
     stages:
       - stage:
           input:
@@ -244,13 +226,13 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=fopen%23%0a%20%28blah%29
+            uri: /get?foo=filegroup%23%0a%20%28blah%29
           output:
             log_contains: id "933160"
   - test_title: 933160-14
     desc: |
       PHP function call with comment, newline, and vertical tab.
-      payload: fopen \t #\n ()
+      payload: filegroup \t #\n ()
     stages:
       - stage:
           input:
@@ -261,13 +243,13 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=fopen%20%09%20%23%0a%20%28%29
+            uri: /get?foo=filegroup%20%09%20%23%0a%20%28%29
           output:
             log_contains: id "933160"
   - test_title: 933160-15
     desc: |
       PHP function call with c-style comment syntax.
-      payload: fopen/*comment*/()
+      payload: filegroup/*comment*/()
     stages:
       - stage:
           input:
@@ -278,13 +260,13 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=fopen%2f%2acomment%2a%2f%28%29
+            uri: /get?foo=filegroup%2f%2acomment%2a%2f%28%29
           output:
             log_contains: id "933160"
   - test_title: 933160-16
     desc: |
       PHP function call with c-style comment syntax and whitespaces.
-      payload: fopen /*comment*/ ()
+      payload: filegroup /*comment*/ ()
     stages:
       - stage:
           input:
@@ -296,13 +278,13 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /get?foo=fopen%20%2f%2acomment%2a%2f%20%28%29
+            uri: /get?foo=filegroup%20%2f%2acomment%2a%2f%20%28%29
           output:
             log_contains: id "933160"
   - test_title: 933160-17
     desc: |
       PHP function call with empry c-style comment syntax, whitespaces, and vertical tab.
-      payload: fopen \t/**/\t ()
+      payload: filegroup \t/**/\t ()
     stages:
       - stage:
           input:
@@ -313,10 +295,10 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=fopen%20%09%2f%2a%2a%2f%09%20%28%29
+            uri: /get?foo=filegroup%20%09%2f%2a%2a%2f%09%20%28%29
           output:
             log_contains: id "933160"
-  - test_title: 933160-17
+  - test_title: 933160-18
     desc: func\t/*foo\r\nbar*/\t (
     stages:
       - stage:
@@ -329,30 +311,13 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /?foo=fopen%20%20%28blah%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-18
-    desc: |
-      PHP function call with c-style comment syntax containing newline, whitespaces and vertical tab.
-      payload: fopen\t/*foo\r\nbar*/\t ()
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: /get?foo=fopen%09%2f%2afoo%0d%0abar%2a%2f%09%20%28%29
+            uri: /?foo=filegroup%20%20%28blah%29
           output:
             log_contains: id "933160"
   - test_title: 933160-19
     desc: |
-      PHP function call in URI
-      payload: strrev()
+      PHP function call with c-style comment syntax containing newline, whitespaces and vertical tab.
+      payload: filegroup\t/*foo\r\nbar*/\t ()
     stages:
       - stage:
           input:
@@ -363,19 +328,30 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-<<<<<<< HEAD
-            uri: /strREV%28%24x%29
-||||||| parent of c474cd17 (fix: fix test 933160)
-            uri: /strrev()
-=======
-            uri: /get/strrev()
->>>>>>> c474cd17 (fix: fix test 933160)
+            uri: /get?foo=filegroup%09%2f%2afoo%0d%0abar%2a%2f%09%20%28%29
           output:
             log_contains: id "933160"
   - test_title: 933160-20
     desc: |
+      PHP function call in URI
+      payload: unpack()
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /get/unpack()
+          output:
+            log_contains: id "933160"
+  - test_title: 933160-21
+    desc: |
       PHP function call in URI, using mixed case
-      payload: strREV($x)
+      payload: unPACK($x)
     stages:
       - stage:
           input:
@@ -386,16 +362,10 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-<<<<<<< HEAD
-            uri: /?x=eval%28chr%28112%29.chr%28104%29.chr%28112%29
-||||||| parent of c474cd17 (fix: fix test 933160)
-            uri: /strREV%28%24x%29
-=======
-            uri: /get/strREV%28%24x%29
->>>>>>> c474cd17 (fix: fix test 933160)
+            uri: /get/unPACK%28%24x%29
           output:
             log_contains: id "933160"
-  - test_title: 933160-21
+  - test_title: 933160-22
     desc: |
       PHP function call in URI with concatenated string/functions
       payload: eval(chr(112).chr(104).chr(112))
@@ -409,16 +379,10 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-<<<<<<< HEAD
-            uri: /eval(gzinflate(str_rot13(base64_decode("")
-||||||| parent of c474cd17 (fix: fix test 933160)
-            uri: /?x=eval%28chr%28112%29.chr%28104%29.chr%28112%29
-=======
             uri: /get?x=eval%28chr%28112%29.chr%28104%29.chr%28112%29
->>>>>>> c474cd17 (fix: fix test 933160)
           output:
             log_contains: id "933160"
-  - test_title: 933160-22
+  - test_title: 933160-23
     desc: |
       PHP function call in URI
       payload: eval(gzinflate(str_rot13(base64_decode("")
@@ -435,7 +399,7 @@ tests:
             uri: /get/eval(gzinflate(str_rot13(base64_decode("")
           output:
             log_contains: id "933160"
-  - test_title: 933160-23
+  - test_title: 933160-24
     desc: |
       PHP function call in URI, base64 encoded payload:
       payload: /eval(base64_decode('JGNoZWNrID...
@@ -452,7 +416,7 @@ tests:
             uri: /get/eval%28base64_decode%28%27cGFwYWRhcHVwaSwK%27%29
           output:
             log_contains: id "933160"
-  - test_title: 933160-24
+  - test_title: 933160-25
     desc: |
       PHP function call in body
       payload: eval("echo 10000000000-245205634;")
@@ -470,32 +434,14 @@ tests:
             uri: /post
           output:
             log_contains: id "933160"
-  - test_title: 933160-25
-    desc: |
-      PHP function call in body
-      payload: posix_getegid()
-    stages:
-      - stage:
-          input:
-            data: posix_getegid%28%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /post/getegid
-          output:
-            log_contains: id "933160"
   - test_title: 933160-26
     desc: |
-      PHP function call in body, mixed case
-      payload: Print_r()
+      PHP function call in body
+      payload: imagexbm()
     stages:
       - stage:
           input:
-            data: x=Print_r%28%20%29
+            data: imagexbm%28%29
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
@@ -503,17 +449,17 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /post/print_r
+            uri: /post
           output:
             log_contains: id "933160"
   - test_title: 933160-27
     desc: |
-      PHP function call in body.
-      payload: strrev()
+      PHP function call in body, mixed case
+      payload: ImaGeXbM()
     stages:
       - stage:
           input:
-            data: x=strrev%28%20%29
+            data: x=ImaGeXbM%28%20%29
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
@@ -521,10 +467,28 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /post/strrev
+            uri: /post
           output:
             log_contains: id "933160"
   - test_title: 933160-28
+    desc: |
+      PHP function call in body.
+      payload: unpack()
+    stages:
+      - stage:
+          input:
+            data: x=unpack%28%20%29
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: POST
+            port: 80
+            uri: /post
+          output:
+            log_contains: id "933160"
+  - test_title: 933160-29
     desc: |
       False Positive test, missing mandatory parenthesis
       payload: /strrev(
@@ -541,7 +505,7 @@ tests:
             uri: /get/strrev(
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-29
+  - test_title: 933160-30
     desc: |
       False Positive test, missing mandatory parenthesis
       payload: eval
@@ -558,7 +522,7 @@ tests:
             uri: /get?foo=eval
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-30
+  - test_title: 933160-31
     desc: |
       False Positive test
       payload: the files (yep)
@@ -575,7 +539,7 @@ tests:
             uri: /get?foo=the%20files%20%28yep%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-31
+  - test_title: 933160-32
     desc: |
       False Positive test, missing mandatory parenthesis
       payload: exec (
@@ -592,7 +556,7 @@ tests:
             uri: /get?foo=exec%20%28
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-32
+  - test_title: 933160-33
     desc: |
       False Positive test
       payload: executor()
@@ -609,7 +573,7 @@ tests:
             uri: /get?foo=executor%28%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-33
+  - test_title: 933160-34
     desc: |
       False Positive test
       payload: cheval($foo)
@@ -626,7 +590,7 @@ tests:
             uri: /get?foo=cheval%28%24foo%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-34
+  - test_title: 933160-35
     desc: |
       False Positive test
       payload: audiofile($foo)
@@ -643,7 +607,7 @@ tests:
             uri: /get?foo=audi%6ffile%28%24foo%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-35
+  - test_title: 933160-36
     desc: |
       False Positive test
       payload: the system is down()
@@ -660,7 +624,7 @@ tests:
             uri: /get?foo=the%20system%20is%20down%28%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-36
+  - test_title: 933160-37
     desc: |
       False Positive test
       payload: ecosystem()
@@ -677,7 +641,7 @@ tests:
             uri: /get?foo=ecosystem%28%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-37
+  - test_title: 933160-38
     desc: |
       False Positive test, function doesn't exist
       payload: systems()
@@ -694,7 +658,7 @@ tests:
             uri: /get?foo=systems%28%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-38
+  - test_title: 933160-39
     desc: |
       False Positive test, function doesn't exist
       payload: system something()
@@ -711,7 +675,7 @@ tests:
             uri: /get?foo=system%20something%28%29
           output:
             no_log_contains: id "933160"
-  - test_title: 933160-39
+  - test_title: 933160-40
     desc: |
       PHP string function call
       payload: return"system"(xyz).s
@@ -728,7 +692,7 @@ tests:
             uri: /get?foo=return%22system%22%28xyz%29.s
           output:
             log_contains: id "933160"
-  - test_title: 933160-40
+  - test_title: 933160-41
     desc: |
       PHP function call
       payload: system(whoami)
@@ -746,7 +710,7 @@ tests:
             uri: /post
           output:
             log_contains: id "933160"
-  - test_title: 933160-41
+  - test_title: 933160-42
     desc: |
       PHP function call
       payload: (system)(whoami)
@@ -764,7 +728,7 @@ tests:
             uri: /post
           output:
             log_contains: id "933160"
-  - test_title: 933160-42
+  - test_title: 933160-43
     desc: |
       PHP function system call in single quotes and parentheses
       payload: ('system')('whoami')
@@ -782,7 +746,7 @@ tests:
             uri: /post
           output:
             log_contains: id "933160"
-  - test_title: 933160-43
+  - test_title: 933160-44
     desc: |
       PHP system call in double quotes and parentheses
       payload: ("system")("whoami")
@@ -800,7 +764,7 @@ tests:
             uri: /post
           output:
             log_contains: id "933160"
-  - test_title: 933160-29
+  - test_title: 933160-45
     desc: system call in double quotes and parentheses, multiple spaces after command
     stages:
       - stage:

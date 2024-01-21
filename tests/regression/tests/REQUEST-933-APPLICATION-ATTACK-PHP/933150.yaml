@@ -525,3 +525,37 @@ tests:
             uri: /?a=exploration
           output:
             no_log_contains: id "933150"
+  - test_title: 933150-35
+    desc: |
+      PHP mixed case function call with space, LF between ().
+      payload: file_ExistS (\n\n)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /get?foo=file_ExistS%20%28%0A%0A%29
+          output:
+            log_contains: id "933150"
+  - test_title: 933150-36
+    desc: |
+      PHP function call with multiple whitespaces.
+      payload: fopen  (blah)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: GET
+            port: 80
+            uri: /get?foo=fopen%20%20%28blah%29
+          output:
+            log_contains: id "933150"
