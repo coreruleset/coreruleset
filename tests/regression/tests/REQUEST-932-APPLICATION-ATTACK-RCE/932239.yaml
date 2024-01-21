@@ -394,17 +394,17 @@ tests:
           input:
             dest_addr: 127.0.0.1
             headers:
-              User-Agent: "OWASP CRS test agent"
+              User-Agent: "environment"
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get?args=environment
+            uri: /get
             version: HTTP/1.0
           output:
             no_log_contains: id "932239"
   - test_title: 932239-23
-    desc: "FP with word performance"
+    desc: "FP with word environment"
     stages:
       - stage:
           input:
@@ -413,13 +413,63 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Referer: "https://example.com/?args=environment"
             method: GET
             port: 80
-            uri: /get?args=performance
+            uri: /get
             version: HTTP/1.0
           output:
-            no_log_contains: id "932236"
+            no_log_contains: id "932239"
   - test_title: 932239-24
+    desc: "FP with word performance"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "performance"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932239"
+  - test_title: 932239-25
+    desc: "FP with word performance"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"\
+              Referer: "https://example.com/?args=performance"
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932239"
+  - test_title: 932239-26
+    desc: "Block execution of env command with arguments"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "env --version"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.1
+          output:
+            log_contains: id "932239"
+  - test_title: 932239-27
     desc: "Block execution of env command with arguments"
     stages:
       - stage:
@@ -429,14 +479,30 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            method: POST
+              referer: "https://example.com/?args=env --version"
+            method: GET
             port: 80
-            uri: /post
-            data: "args=env --version"
+            uri: /get
             version: HTTP/1.1
           output:
-            log_contains: id "932236"
-  - test_title: 932239-25
+            log_contains: id "932239"
+  - test_title: 932239-28
+    desc: "Block execution of perf command with arguments"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "perf --version"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.1
+          output:
+            log_contains: id "932239"
+  - test_title: 932239-29
     desc: "Block execution of perf command with arguments"
     stages:
       - stage:
@@ -446,10 +512,10 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            method: POST
+              referer: "https://example.com/?args=perf --version"
+            method: GET
             port: 80
-            uri: /post
-            data: "args=perf --version"
+            uri: /get
             version: HTTP/1.1
           output:
-            log_contains: id "932236"
+            log_contains: id "932239"
