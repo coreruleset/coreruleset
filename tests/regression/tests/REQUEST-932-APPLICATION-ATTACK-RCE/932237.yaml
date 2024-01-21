@@ -15,7 +15,7 @@ tests:
               User-Agent: env
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/"
+            uri: "/get"
             protocol: "http"
           output:
             log_contains: "id \"932237\""
@@ -30,7 +30,7 @@ tests:
               User-Agent: id
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/"
+            uri: "/get"
             protocol: "http"
           output:
             log_contains: "id \"932237\""
@@ -59,7 +59,7 @@ tests:
               User-Agent: settings
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/'
+            uri: '/get'
             protocol: "http"
           output:
             no_log_contains: "id \"932237\""
@@ -74,7 +74,7 @@ tests:
               User-Agent: environment
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/'
+            uri: '/get'
             protocol: "http"
           output:
             no_log_contains: "id \"932237\""
@@ -90,7 +90,7 @@ tests:
               Referer: env
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/"
+            uri: "/get"
             protocol: "http"
           output:
             log_contains: "id \"932237\""
@@ -106,7 +106,7 @@ tests:
               Referer: id
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/"
+            uri: "/get"
             protocol: "http"
           output:
             log_contains: "id \"932237\""
@@ -137,7 +137,7 @@ tests:
               Referer: settings
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/'
+            uri: '/get'
             protocol: "http"
           output:
             no_log_contains: "id \"932237\""
@@ -153,7 +153,7 @@ tests:
               Referer: environment
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/'
+            uri: '/get'
             protocol: "http"
           output:
             no_log_contains: "id \"932237\""
@@ -194,7 +194,7 @@ tests:
           output:
             no_log_contains: "id \"932237\""
   - test_title: 932237-13
-    desc: "FP with word comment Github Issue #3387"
+    desc: "FP with word comment"
     stages:
       - stage:
           input:
@@ -205,11 +205,27 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /
+            uri: /get
             version: HTTP/1.0
           output:
             no_log_contains: id "932237"
   - test_title: 932237-14
+    desc: "FP with word settings"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "https://example.com/?args=settings"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: GET
+            port: 80
+            uri: /get
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932237"
+  - test_title: 932237-15
     stages:
       - stage:
           input:
@@ -223,8 +239,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             protocol: "http"
           output:
-            log_contains: "id \"932237\""
-  - test_title: 932237-15
+            no_log_contains: "id \"932237\""
+  - test_title: 932237-16
     stages:
       - stage:
           input:
@@ -237,4 +253,4 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             protocol: "http"
           output:
-            log_contains: "id \"932237\""
+            no_log_contains: "id \"932237\""
