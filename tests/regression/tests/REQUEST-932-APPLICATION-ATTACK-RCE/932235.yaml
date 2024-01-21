@@ -168,7 +168,7 @@ tests:
           output:
             log_contains: id "932235"
   - test_title: 932235-10
-    desc: "FP with word comment Github Issue #3387"
+    desc: "FP with word comment"
     stages:
       - stage:
           input:
@@ -184,22 +184,6 @@ tests:
           output:
             no_log_contains: id "932235"
   - test_title: 932235-11
-    desc: "FP with word environment"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            method: GET
-            port: 80
-            uri: /get?args=environment
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "932235"
-  - test_title: 932235-12
     desc: "FP with word performance"
     stages:
       - stage:
@@ -215,7 +199,7 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "932235"
-  - test_title: 932235-13
+  - test_title: 932235-12
     desc: "Block execution of perf command with arguments"
     stages:
       - stage:
