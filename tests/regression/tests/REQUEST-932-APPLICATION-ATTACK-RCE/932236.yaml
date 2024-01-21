@@ -885,7 +885,7 @@ tests:
             uri: /get?args=env --version
             version: HTTP/1.0
           output:
-            no_log_contains: id "932236"
+            log_contains: id "932236"
   - test_title: 932236-49
     desc: "Block execution of perf command with arguments"
     stages:
@@ -901,4 +901,4 @@ tests:
             uri: /get?args=perf --version
             version: HTTP/1.0
           output:
-            no_log_contains: id "932236"
+            log_contains: id "932236"
