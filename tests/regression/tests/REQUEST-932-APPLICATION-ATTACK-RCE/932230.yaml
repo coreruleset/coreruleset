@@ -902,7 +902,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get?args=environment
+            uri: /get?args=;environment
             version: HTTP/1.0
           output:
             no_log_contains: id "932230"
@@ -918,7 +918,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get?args=performance
+            uri: /get?args=;performance
             version: HTTP/1.0
           output:
             no_log_contains: id "932230"
@@ -935,7 +935,7 @@ tests:
             method: POST
             port: 80
             uri: /post
-            data: "args=env --version"
+            data: "args=;env --version"
             version: HTTP/1.1
           output:
             log_contains: id "932230"
