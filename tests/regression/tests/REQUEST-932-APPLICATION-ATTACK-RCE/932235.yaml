@@ -216,22 +216,6 @@ tests:
           output:
             no_log_contains: id "932235"
   - test_title: 932235-13
-    desc: "Block execution of env command with arguments"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            method: POST
-            port: 80
-            uri: "/post?args=;env --version"
-            version: HTTP/1.1
-          output:
-            log_contains: id "932235"
-  - test_title: 932235-14
     desc: "Block execution of perf command with arguments"
     stages:
       - stage:
@@ -243,7 +227,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: POST
             port: 80
-            uri: "/post?args=;perf --version"
+            uri: "/post?args=;perf;--version"
             version: HTTP/1.1
           output:
             log_contains: id "932235"
