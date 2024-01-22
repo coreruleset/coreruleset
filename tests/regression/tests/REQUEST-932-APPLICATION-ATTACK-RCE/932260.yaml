@@ -412,3 +412,36 @@ tests:
             version: HTTP/1.0
           output:
             no_log_contains: id "932260"
+  - test_title: 932260-26
+    desc: "FP with word performance"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: GET
+            port: 80
+            uri: /get?args=performance
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932260"
+  - test_title: 932260-27
+    desc: "Block execution of perf command with arguments"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: POST
+            port: 80
+            uri: /post
+            data: "args=perf --version"
+            version: HTTP/1.1
+          output:
+            log_contains: id "932260"
