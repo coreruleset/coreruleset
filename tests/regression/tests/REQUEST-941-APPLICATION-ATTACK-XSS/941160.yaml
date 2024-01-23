@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, Franziska Bühler, Walter Hop"
+  author: "csanders-git, Franziska Bühler, Walter Hop, Xhoenix"
   enabled: true
   name: "941160.yaml"
   description: "Tests to trigger, or not trigger 941160"
@@ -234,5 +234,20 @@ tests:
             port: 80
             uri: "/index.php/%3Csvg/onload=alert()"
             version: HTTP/1.0
+          output:
+            log_contains: id "941160"
+  - test_title: 941160-16
+    desc: "Detect XSS injection of 'dialog' tag ('<d i a l o g')"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: GET
+            port: 80
+            uri: '/get?mime=text/xml&body=$%3Cd%20i%20a%20l%20o%20g'
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           output:
             log_contains: id "941160"
