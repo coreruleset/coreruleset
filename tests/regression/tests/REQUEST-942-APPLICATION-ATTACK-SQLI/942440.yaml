@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
+  author: "Christian S.J. Peron, Max Leske"
   description: None
   enabled: true
   name: 942440.yaml
@@ -305,5 +305,35 @@ tests:
             port: 80
             version: "HTTP/1.1"
             uri: "/callback?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c"
+          output:
+            no_log_contains: id "942440"
+  - test_title: 942440-19
+    desc: "False positive against Facebook click identifier"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: "GET"
+            port: 80
+            version: "HTTP/1.1"
+            uri: "/get/?fbclid=IwAR1dug0BYxe0ukhZ2vKrdQwLAxVFRJ--Q2Y7OBJE_0uId9-Eh-sJWLdVk2E"
+          output:
+            no_log_contains: id "942440"
+  - test_title: 942440-20
+    desc: "False positive against Google click identifier"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: "GET"
+            port: 80
+            version: "HTTP/1.1"
+            uri: "/get/?gclid=j0KCQiA1NebBhDDARIsAANiDD3_RJeMv8zScF--mC1jf8fO8PDYJCxD9xdwT7iQ59QIIwL-86ncQtMaAh0lEALw_wcB"
           output:
             no_log_contains: id "942440"
