@@ -253,6 +253,60 @@ tests:
           output:
             log_contains: id "932235"
   - test_title: 932235-15
+    desc: "Block evasion using here string with single quotes"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=;%60cat<<<'ifconfig'%60
+          output:
+            log_contains: id "932235"
+  - test_title: 932235-16
+    desc: "Block evasion using here string with double quotes"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=;%60cat<<<"ifconfig"%60
+          output:
+            log_contains: id "932235"
+  - test_title: 932235-17
+    desc: "Block evasion using here string with command substitution"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=;%60cat<<<$(ifconfig)%60
+          output:
+            log_contains: id "932235"
+  - test_title: 932235-18
     desc: False positive against "time"
     stages:
       - stage:
@@ -271,7 +325,7 @@ tests:
             version: HTTP/1.1
           output:
             no_log_contains: id "932235"
-  - test_title: 932235-16
+  - test_title: 932235-19
     desc: False positive against "more"
     stages:
       - stage:
