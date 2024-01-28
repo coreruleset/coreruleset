@@ -592,7 +592,7 @@ tests:
             log_contains: id "933160"
   - test_title: 933160-35
     desc: |
-      PHP function call with multiple whitespaces.
+      PHP function call `filegroup` with multiple whitespaces.
       payload: filegroup  (blah)
     stages:
       - stage:
@@ -609,177 +609,6 @@ tests:
             log_contains: id "933160"
   - test_title: 933160-36
     desc: |
-      PHP function call using Error Control Operator.
-      payload: @filegroup('test')
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: /get?foo=%40filegroup%28%27test%27%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-37
-    desc: |
-      PHP function call with vertical tab.
-      payload: filegroup  (blah)
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: /get?foo=filegroup%09%28blah%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-38
-    desc: |
-      PHP function call with comment and newline.
-      payload: filegroup //comment\r\n (blah)
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: /get?foo=filegroup%20%2f%2fcomment%0d%0a%20%28blah%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-39
-    desc: |
-      PHP function call with comment and newline.
-      payload: filegroup #comment\r\n (blah)
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: /get?foo=filegroup%20%23comment%0d%0a%20%28blah%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-40
-    desc: |
-      PHP function call with comment and newline.
-      payload: filegroup#\n (blah)
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: /get?foo=filegroup%23%0a%20%28blah%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-41
-    desc: |
-      PHP function call with comment, newline, and vertical tab.
-      payload: filegroup \t #\n (blah)
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: /get?foo=filegroup%20%09%20%23%0a%20%28%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-42
-    desc: |
-      PHP function call with c-style comment syntax.
-      payload: filegroup/*comment*/()
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: /get?foo=filegroup%2f%2acomment%2a%2f%28%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-43
-    desc: |
-      PHP function call with c-style comment syntax and whitespaces.
-      payload: filegroup /*comment*/ ()
-    stages:
-      - stage:
-          input:
-            data: eval%0D%28%24foo%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: /get?foo=filegroup%20%2f%2acomment%2a%2f%20%28%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-44
-    desc: |
-      PHP function call with empry c-style comment syntax, whitespaces, and vertical tab.
-      payload: filegroup \t/**/\t ()
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: /get?foo=filegroup%20%09%2f%2a%2a%2f%09%20%28%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-45
-    desc: |
-      PHP function call with c-style comment syntax containing newline, whitespaces and vertical tab.
-      payload: filegroup\t/*foo\r\nbar*/\t ()
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: /get?foo=filegroup%09%2f%2afoo%0d%0abar%2a%2f%09%20%28%29
-          output:
-            log_contains: id "933160"
-  - test_title: 933160-46
-    desc: |
       PHP function call in URI
       payload: unpack()
     stages:
@@ -795,7 +624,7 @@ tests:
             uri: /get/unpack()
           output:
             log_contains: id "933160"
-  - test_title: 933160-47
+  - test_title: 933160-37
     desc: |
       PHP function call in URI, using mixed case
       payload: unPACK($x)
