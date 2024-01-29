@@ -519,3 +519,115 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932239"
+  - test_title: 932239-30
+    desc: "Block evasion using here string"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: ";`cat<<<ifconfig`"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+          output:
+            log_contains: id "932239"
+  - test_title: 932239-31
+    desc: "Block evasion using here string with space"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: ";`cat<<< ifconfig`"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+          output:
+            log_contains: id "932239"
+  - test_title: 932239-32
+    desc: "Block evasion using here string with single quotes"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: ";`cat<<<'ifconfig'`"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+          output:
+            log_contains: id "932239"
+  - test_title: 932239-33
+    desc: "Block evasion using here string with double quotes"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: ';`cat<<<"ifconfig"`'
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+          output:
+            log_contains: id "932239"
+  - test_title: 932239-34
+    desc: "Block evasion using here string with command substitution"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: ";`cat<<<$(ifconfig)`"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+          output:
+            log_contains: id "932239"
+  - test_title: 932239-35
+    desc: "Block `time` prefix"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "time ifconfig"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+          output:
+            log_contains: id "932239"
+  - test_title: 932239-36
+    desc: "Block `strace` prefix"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "strace ifconfig"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+          output:
+            log_contains: id "932239"
