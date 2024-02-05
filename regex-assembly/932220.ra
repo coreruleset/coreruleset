@@ -5,7 +5,6 @@
 ##!
 ##! This list comes from (and should be in sync) the `unix-shell.data` file.
 
-##! Not all of the prefixes for the command words will be legal.
 ##! We've decided to use the same prefix as in 932100 and 932105 here,
 ##! because we don't know exactly what things are possible after a pipe and
 ##! we don't want to overcomplicate things by introducing another prefix variation.
@@ -15,11 +14,10 @@
 
 ##!^ .\|
 
-##!> assemble
-  \s*
-  ##!> include unix-shell-evasion-prefix
+\s*
+##!> include unix-shell-evasion-prefix
+##!=>
 
-  ##!> cmdline unix
-    ##!> include-except unix-shell-upto3 unix-shell-fps-pl2 -- @ "" ~ ""
-  ##!<
+##!> cmdline unix
+  ##!> include-except unix-shell-upto3 unix-shell-fps-pl2 -- @ "" ~ ""
 ##!<
