@@ -27,7 +27,7 @@ Important changes:
  * update: nodejs to generic category (Felipe Zipitría) [#2340]
  * tests: 100% test coverage for rules (Entire team, Juan-Pablo Tosso, NiceYouKnow)
 
-Tool and container changes:
+Tool changes:
  * feat: extend spell.sh script with an opt-in manual list of common and partial words. (Matteo Pace) [#3273]
  * feat: rework spell.sh utility to help with detection of false positives English words (Andrea Menin) [#3029]
  * feat: improve usability of spell.sh utility (Max Leske) [#3238]
@@ -42,8 +42,6 @@ Tool and container changes:
  * feat: improve rule-ctl script to modify rules (Max Leske) [#2193]
  * update: improve send-payload-pls.sh (Manuel Spartan) [#2288]
  * update: unify regexp utils to automate error-prone actions and automatically update rules from regexp sources (Max Leske) [#2149, #2223, #2423, #2495, #2489, #2473]
- * update: add timezone variable to docker-compose (Felipe Zipitría) [#1995]
- * fix: Nginx logging in docker-compose (Felipe Zipitría) [#2036]
  * fix: adjust log directories needed for volume mounts to Git (Max Leske) [#2103]
 
 Changes with direct rule impact:
@@ -382,6 +380,8 @@ Changes without direct rule impact:
  * fix: indentations (Ervin Hegedus) [#1851]
  * fix: remove all whitespace at EOL (Felipe Zipitría) [#2405, #2406]
  * update: move regexp-assembly to separate directory (Felipe Zipitría) [#2327]
+ * fix: Nginx logging in docker-compose (Felipe Zipitría) [#2036]
+ * update: add timezone variable to docker-compose (Felipe Zipitría) [#1995]
  * tests: fix duplicated tests for rule 934130 PL1 (Walter Hop) [#2918]
  * tests: add test for rule 941130 PL1 (Paul Beckett) [#2923]
  * tests: increase tests (920280-3, 920430-3, 920430-9) compatibility with other proxies (Matteo Pace) [#3134]
