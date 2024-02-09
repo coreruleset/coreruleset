@@ -49,7 +49,7 @@ Changes with direct rule impact:
  * feat: add placeholder files for new plugin architecture (Walter Hop) [#2515]
  * feat: check initialization and use for all TX variables (Ervin Hegedus) [#3043]
  * feat: disassemble complex regexes for 932xxx rules that were subsequently replaced by other rules (Max Leske) [#2566]
- * feat: extend rules to detect keyword `time` as prefix of *nix and Windows RCE rules (rules later replaced) (Franziska Bühler) [#2819]
+ * feat: extend rules to detect keyword `time` as prefix of \*nix and Windows RCE rules (rules later replaced) (Franziska Bühler) [#2819]
  * feat: extend rules to detect path based XSS via new target REQUEST_FILENAME in 941xxx rules (Walter Hop) [#2894]
  * feat: extend rule to detect restricted `method override` headers (Mark Zeman / KramNamez) [#3056]
  * feat: improve rule file 951xxx via the use of `skipAfter` instead of variable `TX:sql_error_match` (Jozef Sudolský) [#2754]
@@ -76,8 +76,8 @@ Changes with direct rule impact:
  * fix: remove possessive quantifiers (922110 PL1) (Felipe Zipitría) [#2989]
  * feat: extended rule to detect Tomcat specific path traversal attack (930110 PL1) (Christoph Hansen) [#2915]
  * feat: extend rule to detect access attempts to /tmp/ (930120 PL1, 930121 PL2) (Max Leske) [#3131]
- * feat: extend rule to detect ECDSA type SSH identity files via list of sensitive *nix files (930120 PL1) (Pinaki Mondal / 0xInfection) [#2586]
- * feat: extend rule to detect additional sensitive files on *nix systems (930121 PL2, 930130 PL1) (Gwendal Le Coguic / gwen001) [#2560]
+ * feat: extend rule to detect ECDSA type SSH identity files via list of sensitive \*nix files (930120 PL1) (Pinaki Mondal / 0xInfection) [#2586]
+ * feat: extend rule to detect additional sensitive files on \*nix systems (930121 PL2, 930130 PL1) (Gwendal Le Coguic / gwen001) [#2560]
  * feat: new rules to detect lfi and sqli in user-agent and referer request headers (930121 PL2, 942152 PL2, 942321 PL2) (Franziska Bühler, Max Leske, Shivam Bathla) [#3102]
  * fix: extend rule to detect more LFI (930121 PL2) (Felipe Zipitría) [#2791]
  * feat: extend data file to include additional restricted file names (restricted-files.data, 930130 PL1) (Jitendra Patro) [#3219]
@@ -86,26 +86,26 @@ Changes with direct rule impact:
  * feat: extend rules to detect additional protocols in RFI attacks (931130 PL2, 934120 PL2) (Karel Knibbe) [#2572]
  * feat: extend rule to detect `url:file:` schema in Java RFI attacks (931130 PL2) (Andrew Howe) [#2727]
  * feat: new rule to detect  path traversal attacks using URL encoded URL schemes in Java applications (931131 PL2) (Christoph Hansen) [#2902]
- * feat: extend rule to detect additional *nix shell commands (931160 PL1) (Gwendal Le Coguic / gwen001) [#2563]
- * feat: extend rule to detect additional entries to *nix command lists (932100 PL1, 932105 PL1) (Finn Westendorf / wfinn) [#2552]
- * feat: extend rule to detect additional *nix commands (932100 PL1) (Felipe Zipitría) [#2676]
- * feat: extend rule to detect additional *nix commands (932105 PL1) (Felipe Zipitría) [#2677]
+ * feat: extend rule to detect additional \*nix shell commands (931160 PL1) (Gwendal Le Coguic / gwen001) [#2563]
+ * feat: extend rule to detect additional entries to \*nix command lists (932100 PL1, 932105 PL1) (Finn Westendorf / wfinn) [#2552]
+ * feat: extend rule to detect additional \*nix commands (932100 PL1) (Felipe Zipitría) [#2676]
+ * feat: extend rule to detect additional \*nix commands (932105 PL1) (Felipe Zipitría) [#2677]
  * feat: extend rule to detect `mshta` in Windows shell commands (932110 PL1) (Somdev Sangwan / s0md3v) [#2588]
  * feat: extend rule to detect additional powershell cmdlet on Windows (932120 PL1) (Pinaki Mondal / 0xInfection) [#2589]
  * feat: extend rule to detect Powershell RCEs better via new automation (932120 PL1) (Felipe Zipitría) [#2669]
  * feat: new rule to detect Windows cmdlet aliases (932125 PL1) (Pinaki Mondal / 0xInfection) [#2589]
- * fix: extend rule to detect character class *nix expressions (932130 PL1) (Somdev Sangwan / s0md3v, Walter Hop) [#2594]
- * feat: extend rule to detect `busybox`, `$SHELL`, and `${SHELL}` in *nix RCE attacks (932150 PL1) (Walter Hop) [#2728]
+ * fix: extend rule to detect character class \*nix expressions (932130 PL1) (Somdev Sangwan / s0md3v, Walter Hop) [#2594]
+ * feat: extend rule to detect `busybox`, `$SHELL`, and `${SHELL}` in \*nix RCE attacks (932150 PL1) (Walter Hop) [#2728]
  * feat: extend rule to detect c99 and printf utilities (932150 PL1) (Karel Knibbe) [#2569]
- * feat: extend rule to detect `ksh` in *unix RCE attacks (932150 PL1) (Andrew Howe) [#2721]
+ * feat: extend rule to detect `ksh` in \*nix RCE attacks (932150 PL1) (Andrew Howe) [#2721]
  * feat: extend rule to detect  RCE attacks using compression utilities (932150 PL1) (Andrew Howe) [#2712]
  * feat: extend rule to detect RCEs using base64 evasions (932150 PL1) (Somdev Sangwan / s0md3v, Andrew Howe) [#2590]
  * feat: extend rule to detect RCEs using evasions quotes with `python...` commands (932150 PL1) (Somdev Sangwan / s0md3v, Andrew Howe) [#2590]
- * feat: new rule to detect generalised *nix RCE (932150 PL2) (Karel Knibbe) [#2583]
+ * feat: new rule to detect generalised \*nix RCE (932150 PL2) (Karel Knibbe) [#2583]
  * feat: extend rule to detect RCE better via automation (932160 PL1) (Felipe Zipitría) [#2662]
  * fix: remove unnecessary prefixes from paths in `unix-shell.data` (932160 PL1) (Felipe Zipitría) [#2662]
  * feat: extend rule to detect `expre` in unix-shell list (932161 PL2) (Felipe Zipitría) [#2667]
- * feat: new rules to detect *nix commands in user-agent and referer request headers (932161 PL2, 932237 PL3) (Franziska Bühler, Max Leske, Shivam Bathla) [#3132]
+ * feat: new rules to detect \*nix commands in user-agent and referer request headers (932161 PL2, 932237 PL3) (Franziska Bühler, Max Leske, Shivam Bathla) [#3132]
  * feat: use new automation to generate `restricted-uploads.data` from `restricted-files.data` (932180 PL1) (Max Leske) [#3282]
  * feat: extend rule to detect RCE in user-agent request header (932200 PL2) (Franziska Bühler, Shivam Bathla) [#3108]
  * fix: new rules to handle referer header and fix false positive (932205 PL2, 932206 PL2) (Max Leske) [#3300]
@@ -113,19 +113,19 @@ Changes with direct rule impact:
  * feat: extend rule to detect `sh` (932210 PL2) (Franziska Bühler) [#2816]
  * feat: extend rule to detect SQLi via automation of keyword list updates (932210 PL2) (Felipe Zipitría) [#2801]
  * fix: add word boundaries for sh in RCE rules (932230 PL1, 932250 PL1) (Max Leske) [#3186]
- * fix: handle false positive against `sh` in *nix command injection attacks (932230 PL1, 932250 PL1, 932236 PL2) (Max Leske) [#3186]
- * feat: move *nix command injection rule 932101, 932106 into the same range as the other *nix command injection rules (932231 PL2, 932232 PL3) (Felipe Zipitría, Max leske) [#3092]
- * feat: replace *-with-params.ra files with suffix replacements (932235 PL1, 932236 PL2, 932239 PL2, 932237 PL3) (Max Leske) [#3331]
+ * fix: handle false positive against `sh` in \*nix command injection attacks (932230 PL1, 932250 PL1, 932236 PL2) (Max Leske) [#3186]
+ * feat: move \*nix command injection rule 932101, 932106 into the same range as the other \*nix command injection rules (932231 PL2, 932232 PL3) (Felipe Zipitría, Max leske) [#3092]
+ * feat: replace \*-with-params.ra files with suffix replacements (932235 PL1, 932236 PL2, 932239 PL2, 932237 PL3) (Max Leske) [#3331]
  * fix: add whitespace after keywords `mail` and `task` to solve false positives (932236 PL2) (Franziska Bühler) [#3274]
  * fix: align unix-shell-upto3* files (932236 PL2) (Max Leske) [#3128]
- * fix: solved false positives with creation of word boundaries for commonly used words used in *nix RCE rules (932236 PL2)  (Max Leske) [#3187]
+ * fix: solved false positives with creation of word boundaries for commonly used words used in \*nix RCE rules (932236 PL2)  (Max Leske) [#3187]
  * fix: use correct anomaly scoring variable (932236 PL2) (Ervin Hegedus) [#3112]
- * feat: new rule to detect *nix commands in user-agent and referer request headers (932239 PL2) (Franziska Bühler, Shivam Bathla) [#3104, #3318]
+ * feat: new rule to detect \*nix commands in user-agent and referer request headers (932239 PL2) (Franziska Bühler, Shivam Bathla) [#3104, #3318]
  * fix: remove ARGS_NAME from target variables in (932240 PL2) (Andrea Menin) [#2960]
  * fix: use correct anomaly scoring variables and panaoia level tags across for rule (932240 PL2) (Ervin Hegedus) [#2963]
- * feat: replace *nix command injection rules 932150 PL1, 932151 PL1 with new rules for commands of less than 4 characters and commands of more than 4 characters in length respetively (932250 PL1, 932260 PL1) (Felipe Zipitría, Max leske) [#3092]
+ * feat: replace \*nix command injection rules 932150 PL1, 932151 PL1 with new rules for commands of less than 4 characters and commands of more than 4 characters in length respetively (932250 PL1, 932260 PL1) (Felipe Zipitría, Max leske) [#3092]
  * fix: false positives by requiring specific tokens to follow commands (932250 PL1) (Max Leske) [#3186]
- * feat: new rules to detect detecting *nix shell history invocations (932330 PL1, 932331 PL3) (Karel Knibbe) [#2577]
+ * feat: new rules to detect detecting \*nix shell history invocations (932330 PL1, 932331 PL3) (Karel Knibbe) [#2577]
  * feat: new Windows commands rules based on lolbas-project replacing 932110, 932115 (932370 PL1, 932380 PL1) (Felipe Zipitría, Franziska Bühler, Max Leske) [#3059, 3170]
  * feat: extend rule to detect additional file extensions via list of executable PHP files (933110) (Jan Gora / terjanq) [#2585]
  * feat: extend data file to add missing PHP config directives (php-config-directives.data, 933120 PL1) (Max Leske) [#3028]
@@ -139,7 +139,7 @@ Changes with direct rule impact:
  * feat: rearrange keywords (933160 PL1, 941390 PL1) (Karel Knibbe) [#2905]
  * fix: solve ReDoS issue in rule (933161 PL3) (Andrea Menin) [#2302]
  * feat: extend rule to detect `bzip2` wrapper in PHP injection attacks (933200 PL1) (Andrew Howe) [#2723]
- * feat: extend rule to detect `ssh2.*` wrappers in PHP injection attacks (933200 PL1) (Andrew Howe) [#2731]
+ * feat: extend rule to detect `ssh2.\*` wrappers in PHP injection attacks (933200 PL1) (Andrew Howe) [#2731]
  * feat: new rule to detct PHP injection attacks without terminating semi-colon (933211 PL3) (Karel Knibbe) [#2581]
  * feat: extended rule to detect Node.js injection attacks using `require` and `child_process` (934100 PL1, 932101 PL2) (Andrea Menin) [#2893]
  * feat: extend rule to detect Node.js RCE better (934100 PL1) (rektor0) [#2578]
@@ -294,7 +294,7 @@ Changes with direct rule impact (FIXME: Changes before RC1; to be joined with se
  * fix: avoid FP in 'having' SQLi (942251 PL3) (Felipe Zipitría) [#2248]
  * fix: avoid FP in JWT tokens (942440 PL2) (Andrea Menin) [#2460]
  * fix: avoid FP on 'time' and 'ping' keywords (932150 PL1) (Walter Hop) [#2457]
- * fix: avoid FP in 'application/*+json' Content-Type (920470 PL1) (Mirko Dziadzka, Walter Hop) [#2455]
+ * fix: avoid FP in 'application/\*+json' Content-Type (920470 PL1) (Mirko Dziadzka, Walter Hop) [#2455]
  * fix: avoid FP in PostgreSQL error messages (951240 PL1) (Jozef Sudolský, Franziska Bühler) [#1870, #2313]
  * fix: avoid FP in Sybase error message (951260 PL1) (Jozef Sudolský) [#2307]
  * fix: avoid FP in base64 content (941120 PL1) (Jozef Sudolský) [#2226]
@@ -385,7 +385,7 @@ Changes without direct rule impact:
  * tests: fix duplicated tests for rule 934130 PL1 (Walter Hop) [#2918]
  * tests: add test for rule 941130 PL1 (Paul Beckett) [#2923]
  * tests: increase tests (920280-3, 920430-3, 920430-9) compatibility with other proxies (Matteo Pace) [#3134]
- * tests: detection of *nix RCE using multiple variable assignments (932200 PL2) (Christian Folini) [#2899]
+ * tests: detection of \*nix RCE using multiple variable assignments (932200 PL2) (Christian Folini) [#2899]
  * tests: additional tests for use in PHP wrappers in PHP injection attacks (rule 933200 PL1) (Andrew Howe) [#2723]
  * tests: Add positive test 920100-16 for rule 920100 PL1 (Andrew Howe) [#2952]
  * tests: Add positive test 920190-3 for rule 920190 PL1 (Andrew Howe) [#2956]
@@ -551,7 +551,7 @@ Fixes and improvements:
  * Fix FPs for 942350 (#1706) (Franziska Bühler)
  * Fix typos found by codespell / Fossies project (#1702) (Simon Studer)
  * Ignore check of CT header in POST request if protocol is HTTP/2 (Ervin Hegedus)
- * Narrowing down the subpattern .*? in 941130 (Christian Folini)
+ * Narrowing down the subpattern .\*? in 941130 (Christian Folini)
  * Restricting a wide regex a bit (Christian Folini)
  * Drop escapes (Christian Folini)
  * Fix FP in 941130 and rearrange regex with new regex-assemble file (Christian Folini)
@@ -1450,7 +1450,7 @@ Improvements:
 * Updated HTTP Parameter Pollution (HPP) rule logic to concat data into a TX variable for inspection
 * Removed TX inspections for generic attacks and reverted to standard ARGS inspection
   https://www.modsecurity.org/tracker/browse/MODSEC-120
-* Updated the variable list for standard inspections (ARGS|ARGS_NAMES|XML:/*) and moved the other
+* Updated the variable list for standard inspections (ARGS|ARGS_NAMES|XML:/\*) and moved the other
   variables to the PARANOID list (REQUEST_URI|REQUEST_BODY|REQUEST_HEADERS|TX:HPP_DATA)
 * Moved converted ET Snort rules to the /optional_rules directory
 * Created a new Header Tagging ruleset (optional_rules) that will add matched rule data to the
