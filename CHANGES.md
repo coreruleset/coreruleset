@@ -24,7 +24,7 @@ Important changes:
  * feat: switch to using WordNet instead of spell for finding English words in spell.sh (Max Leske) [#3242]
  * fix: refactor and rename anomaly scoring variables and paranoia level definition (Simon Studer) [#2417]
  * update: drop HTTP/0.9 support to resolve FP (Federico G. Schwindt) [#1966]
- * update: nodejs to generic category (Felipe Zipitría) [#2340]
+ * update: Node.js to generic category (Felipe Zipitría) [#2340]
  * tests: 100% test coverage for rules (Entire team, Juan-Pablo Tosso, NiceYouKnow)
 
 Tool changes:
