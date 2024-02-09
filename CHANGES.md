@@ -21,7 +21,7 @@ Important changes:
  * feat: nightly packages published regularly (Felipe Zipitría) [#2207]
  * feat: add enable_default_collections flag to not initialize collections by default (Matteo Pace) [#3141]
  * feat: extend definition of restricted headers to include `Content-Encoding` and `Accept-Charset` by default (920450 PL1, 920451 PL2) (Walter Hop) [#2780, #2782]
- * feat: switch to using wordnet instead of spell for finding English words in spell.sh (Max Leske) [#3242]
+ * feat: switch to using WordNet instead of spell for finding English words in spell.sh (Max Leske) [#3242]
  * fix: refactor and rename anomaly scoring variables and paranoia level definition (Simon Studer) [#2417]
  * update: drop HTTP/0.9 support to resolve FP (Federico G. Schwindt) [#1966]
  * update: nodejs to generic category (Felipe Zipitría) [#2340]
