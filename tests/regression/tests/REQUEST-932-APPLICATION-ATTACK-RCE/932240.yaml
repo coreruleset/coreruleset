@@ -264,3 +264,75 @@ tests:
             protocol: "http"
           output:
             log_contains: id "932240"
+  - test_title: 932240-16
+    desc: FP against single quote inside string
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            data: |
+              payload=All told, people were taken with the concept of Stadia, but the execution just didn't work.
+            protocol: "http"
+          output:
+            no_log_contains: id "932240"
+  - test_title: 932240-17
+    desc: "Detect quote evasion: kill '-'9"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            data: |
+              payload=kill '-'9
+            protocol: "http"
+          output:
+            log_contains: id "932240"
+  - test_title: 932240-18
+    desc: "False positive against quote evasion with two quotes"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            data: |
+              payload=An affordable housing advocate says the city's rewrite of the land development code would boost affordable housing, but there's room to do more.
+            protocol: "http"
+          output:
+            no_log_contains: id "932240"
+  - test_title: 932240-19
+    desc: "Detect quote evasion: py''thon"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            method: "GET"
+            port: 80
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            data: |
+              payload=py''thon -c "print('attack')"
+            protocol: "http"
+          output:
+            log_contains: id "932240"
