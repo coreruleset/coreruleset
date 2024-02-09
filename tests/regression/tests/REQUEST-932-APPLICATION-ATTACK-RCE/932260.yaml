@@ -445,3 +445,22 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932260"
+  - test_title: 932260-28
+    desc: |
+      Match despite quote evasion attempt.
+      932260 accidentally contained a chain rule for some time that enabled
+      trivial bypasses, by excluding matches against number separators (see 932240).
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: get
+            port: 80
+            uri: /get/?a=whoami;0'0'"
+            version: HTTP/1.1
+          output:
+            log_contains: id "932260"

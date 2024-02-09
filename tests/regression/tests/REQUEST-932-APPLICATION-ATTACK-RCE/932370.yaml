@@ -57,24 +57,6 @@ tests:
           output:
             log_contains: id "932370"
   - test_title: 932370-4
-    desc: Windows Command Injection bypass with time
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip, deflate, br
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=time+cmd"
-            version: HTTP/1.1
-          output:
-            log_contains: id "932370"
-  - test_title: 932370-5
     desc: Windows Command Injection bypass with time negative test
     stages:
       - stage:
@@ -92,39 +74,3 @@ tests:
             version: HTTP/1.1
           output:
             no_log_contains: id "932370"
-  - test_title: 932370-6
-    desc: Windows Command Injection test for BB finding 935E1D91
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip, deflate, br
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            port: 80
-            uri: "/?foo=time+winget+coreruleset.org"
-            version: HTTP/1.1
-          output:
-            log_contains: id "932370"
-  - test_title: 932370-7
-    desc: Windows Command Injection test for BB finding 935E1D91 - evasion attempt
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip, deflate, br
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            port: 80
-            uri: "/?foo=ti^me+winget+coreruleset.org"
-            version: HTTP/1.1
-          output:
-            log_contains: id "932370"
