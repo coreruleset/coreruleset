@@ -211,8 +211,6 @@ Changes with direct rule impact:
  * feat: extend rule to detect IIS errors via automation of pattern updates (954120 PL1) (Felipe Zipitría) [#2810]
  * feat: extend data file to include additional web shells (web-shells-php.data, 955100 PL1) (Jitendra Patro) [#3215]
  * feat: extend data file to include additional web shells (web-shells-php.data, 955100 PL1) (Jozef Sudolský) [#2687]
-
-Changes with direct rule impact (FIXME: Changes before RC1; to be joined with section above):
  * fix: extend blind SQLi detection (942160 PL1) (Franziska Bühler, Christian Folini) [#1956]
  * feat: new rule for PHP supporting `data:` scheme without using `//` before the content-type (934170 PL1) (Felipe Zipitría) [#3018]
  * fix: add local_file scheme from Python 2 (931130 PL2, 934120 PL2) (Felipe Zipitría) [#2809]
@@ -272,6 +270,8 @@ Changes with direct rule impact (FIXME: Changes before RC1; to be joined with se
  * feat: Improve SQLi detection with spaces (942190 PL1, 942390 PL2) (Manuel Spartan, Max Leske) [#2436]
  * fix: Resolve issue with regular expression and improve SQLi detection by detecting 'not between' (942120 PL2) (NiceYouKnow, Max Leske, Franziska Bühler) [#2115]
  * fix: New rule at PL2 to move the detection of '-->' out of PL1 due to false positives (941181 PL2) (Paul Beckett) [#2082]
+
+Changes with direct rule impact (FIXME: Changes before RC1; to be joined with section above):
  * Run libinjection XSS detector on request filename in PL2 (941101 PL2) (Andrew Howe) [#2208]
  * Validate Sec-Fetch-User header (920275 PL4) (somechris) [#2020]
  * Detect Krzana bot (913102 PL2) (Deepshikha Sinha) [#2432]
