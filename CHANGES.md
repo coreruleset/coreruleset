@@ -16,7 +16,7 @@ Important changes:
  * feat: support for HTTP/3 (Jozef Sudolský) [#3218]
  * feat: application exclusions and less-used functionality have been migrated to plugins. (Christian Folini, Max Leske, Jozef Sudolský, Andrew Howe)
  * feat: granular control over reporting levels in 9801xx rules (Simon Studer, Andrew Howe, Christian Folini) [#2482, #2488]
- * feat: all formerly PCRE-only regular expressions are now compatible with Re2/Hyperscan WAF engines (Max Leske, Felipe Zipitría, Allan Boll, Franziska Bühler) [#1868, #2356, #2425, #2426, #2371, #2372]
+ * feat: all formerly PCRE-only regular expressions are now compatible with RE2/Hyperscan WAF engines (Max Leske, Felipe Zipitría, Allan Boll, Franziska Bühler) [#1868, #2356, #2425, #2426, #2371, #2372]
  * feat: new rule 920620 PL1 to explicitly detect multiple Content-Type abuse (CVE-2023-38199) (Andrea Menin) [#3237]
  * feat: nightly packages published regularly (Felipe Zipitría) [#2207]
  * feat: add enable_default_collections flag to not initialize collections by default (Matteo Pace) [#3141]
@@ -736,7 +736,7 @@ Fixes and improvements:
  * INSTALL: advise to use release zips, remove upgrade.py, update Nginx (Walter Hop)
  * Java: change tag from COMMAND_INJECTION to JAVA_INJECTION (Manuel Spartan)
  * Jwall auditconsole outbound anomaly scoring requirements (Christoph Hansen)
- * Mark patterns not supported by re2 (Federico G. Schwindt)
+ * Mark patterns not supported by RE2 (Federico G. Schwindt)
  * Move duplicated 900270 to 900280 Fixes #1236. (Federico G. Schwindt)
  * Move PROXYLOCATION var (Franziska Bühler)
  * PHP: move get_defined_functions() and friends into PL1 (Walter Hop)
