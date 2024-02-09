@@ -297,13 +297,13 @@ Changes with direct rule impact (FIXME: Changes before RC1; to be joined with se
  * fix: avoid FP in 'application/\*+json' Content-Type (920470 PL1) (Mirko Dziadzka, Walter Hop) [#2455]
  * fix: avoid FP in PostgreSQL error messages (951240 PL1) (Jozef Sudolský, Franziska Bühler) [#1870, #2313]
  * fix: avoid FP in Sybase error message (951260 PL1) (Jozef Sudolský) [#2307]
- * fix: avoid FP in base64 content (941120 PL1) (Jozef Sudolský) [#2226]
+ * fix: avoid FP in Base64 content (941120 PL1) (Jozef Sudolský) [#2226]
  * fix: avoid FP in XMLNLS (941130 PL1) (Walter Hop) [#2192]
  * fix: avoid FP in SQLi by adding word boundary checks (942190 PL1) (Jozef Sudolský) [#2078]
  * fix: avoid FP in SQLi with keyword 'union' (942190 PL1) (Franziska Bühler) [#2058]
  * fix: avoid FP for YAM package manager (913100 PL1) (Jozef Sudolský) [#2022]
  * fix: avoid FP for '..' without slashes (930110 PL1) (Tetrik, Walter Hop) [#2016]
- * fix: avoid FP in Google OAuth2 (930120 PL1, 930121 PL1) (Jozef Sudolský, Christian Folini) [#1958]
+ * fix: avoid FP in Google OAuth 2 (930120 PL1, 930121 PL1) (Jozef Sudolský, Christian Folini) [#1958]
  * fix: avoid FP on .axd in restricted extensions, these are public (920440 PL1) (Jozef Sudolský) [#1925]
  * fix: avoid FP on 'version' string in Content-Type header (920470 PL1) (Jozef Sudolský) [#1901]
  * fix: avoid FP in Content-Type with '#' character (920470 PL1) (Jozef Sudolský) [#1856]
@@ -358,7 +358,7 @@ Changes without direct rule impact:
  * docs: Fix changed Trustwave URLs (Elia Pinto, henkworks, Felipe Zipitría) [#2213, #2364, #2204]
  * docs: fix typos in README (Priyam Patel) [#2494]
  * docs: fix typo in initialization(Elia Pinto) [#2366]
- * docs: update OWASP vulnerability urls (Walter Hop) [#2467]
+ * docs: update OWASP vulnerability URLs (Walter Hop) [#2467]
  * docs: update policy to include signed releases (Felipe Zipitría) [#2465]
  * docs: change documentation git module link to https (İlteriş Eroğlu) [#2461]
  * docs: change-version: fix typo (Deepshikha Sinha) [#2430]
@@ -416,7 +416,7 @@ Changes without direct rule impact:
  * tests: fix tests on rule 932200 to detect FPs (Max Leske) [#3309]
  * tests: deprecate ftw in favor of go-ftw (Felipe Zipitría) [#3076]
  * tests: remove Accept-Charset from test files (Felipe Zipitría) [#2781]
- * tests: enable utf8 encoding validation (Felipe Zipitría) [#2992]
+ * tests: enable UTF8 encoding validation (Felipe Zipitría) [#2992]
  * tests: fix test using old syntax and add go-ftw check (Felipe Zipitría) [#2715]
  * tests: extend coverage for rule 932220 (Felipe Zipitría) [#3063]
  * tests: extend coverage for rule 932120 (Felipe Zipitría) [#2996]
@@ -457,10 +457,10 @@ Functionality that has been moved to plugins for this release:
  * fix: WordPress: fix FPs and improve performance (now a plugin) (Walter Hop) [#1997, #2311]
  * fix: XenForo: fix FPs (now a plugin) (Walter Hop, ThanhPT) [#1844, #1865, #1894, #1998, #2421]
  * fix: phpBB: Fix FPs (now a plugin) (Jozef Sudolský) [#2057, #2180, #2299, #2343]
- * feat: add Google OAuth2 exclusion plugin (Jozef Sudolský) [#2388]
+ * feat: add Google OAuth 2 exclusion plugin (Jozef Sudolský) [#2388]
  * feat: add phpMyAdmin exclusion rules (now a plugin) (Jozef Sudolský) [#1951]
  * feat: add phpBB exclusion rules (now a plugin) (Jozef Sudolský) [#1893]
- * feat: Owncloud: Fix rule 9003001 to match both dav and webdav (now a plugin) (Abu Dawud) [#2130]
+ * feat: ownCloud: Fix rule 9003001 to match both DAV and WebDAV (now a plugin) (Abu Dawud) [#2130]
  * fix: replace ARGS by ARGS_GET in rules in phase:1 (various rule exclusion rules) (Ervin Hegedus) [#2063]
 
 
@@ -525,7 +525,7 @@ Fixes and improvements:
  * Remove outdated Travis status after migration (Christian Folini)
  * feat(ci): adds github actions testing (Felipe Zipitria)
  * fix(migration): post migration tasks (Felipe Zipitria)
- * feat(templates): add text to gihub templates about migration. To be reverted after migation is done. (Felipe Zipitria)
+ * feat(templates): add text to github templates about migration. To be reverted after migration is done. (Felipe Zipitria)
  * Added more explanations to comment of 920300 (Christian Folini)
  * Added 'ver' action with current version to all necessary rules (Ervin Hegedus)
  * Update nextcloud excl rules and shorten var (Franziska Bühler)
@@ -630,7 +630,7 @@ Fixes and improvements:
  * Fix typo and add 2 new entries to 941160 (Franziska Bühler)
  * Switch to dates in YYYY-MM-DD format IOW iso 8601. While here add newlines and drop empty categories. (Federico G. Schwindt)
  * Update badges, add v3.3 and remove v3.0 (#1557) (Federico G. Schwindt)
- * Rearange characters and add positive and negative test cases. Moved the dash to the end of the character set to avoid escaping it. Added test with all the new characters and a test for multiple whitespaces. Allowed a previously blocked charset. (Tim Herren)
+ * Rearrange characters and add positive and negative test cases. Moved the dash to the end of the character set to avoid escaping it. Added test with all the new characters and a test for multiple whitespaces. Allowed a previously blocked charset. (Tim Herren)
  * 920470: include chars from rfc 2046 RFC 2046 allows additional chars for the boundary. \d removed as it is covered by \w in the regex. Removed unnecessary escapes. (Tim Herren)
  * Fix bypass in 931130 Don't rely on beginsWith as it might allow attackers to create subdomains matching the prefix. Add tests to cover this and other cases. The latter fixes #1404. (Federico G. Schwindt)
  * fix rule regex due to remove t:removeComments (Andrea Menin)
@@ -840,7 +840,7 @@ Documentation:
  * Fix bypass caused by multiple spaces in RCE rules (Walter Hop)
  * Remove unneeded regex capture groups (Federico G. Schwindt)
  * Add built-in exceptions for CPanel (Christoph Hansen)
- * Add additional file restrictios for ws_ftp, DS_Store... (Jose Nazario)
+ * Add additional file restrictions for ws_ftp, DS_Store... (Jose Nazario)
  * Fix missing strings in 942410 (Franziska Bühler)
  * Add 2 missing PDO errors (Christoph Hansen)
  * Fix issues with FPs in regression tests (Chaim Sanders)
@@ -1047,7 +1047,7 @@ Bug Fixes:
 ## Version 2.2.8 - 2013-06-30
 
 Improvements:
-* Updatd the /util directory structure
+* Updated the /util directory structure
 * Added scripts to check Rule ID duplicates
 * Added script to remove v2.7 actions so older ModSecurity rules will work
   - https://github.com/SpiderLabs/owasp-modsecurity-crs/pull/43
@@ -1146,7 +1146,7 @@ Improvements:
 
 Bug Fixes:
 * Fixed missing comma before severity action in rules 958291, 958230 and 958231
-* Fixed duplidate rule IDs
+* Fixed duplicate rule IDs
 
 
 ## Version 2.2.3 - 2011-12-19
@@ -1560,7 +1560,7 @@ New Rules & Features:
     logging and disruptive actions to take based on the score.
 * Correlated Events
     There are rules in phase:5 that will provide some correlation between inbound
-    events and outbound events and will provide a result of successful atttack or
+    events and outbound events and will provide a result of successful attack or
     attempted attack.
 * Updated Severity Ratings
     The severity ratings in the rules have been updated to the following:
@@ -1774,7 +1774,7 @@ version 1.4 build 2 - 2007-05-17
 
 New Feature:
 * Search for signatures in XML content
-    XML Content will be parsed and ispected for signatures
+    XML Content will be parsed and inspected for signatures
 
 New Events:
 * 950116 - Unicode Full/Half Width Abuse Attack Attempt
