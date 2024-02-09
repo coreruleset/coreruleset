@@ -55,7 +55,7 @@ Changes with direct rule impact:
  * feat: improve rule file 951xxx via the use of `skipAfter` instead of variable `TX:sql_error_match` (Jozef Sudolský) [#2754]
  * feat: move regexp-assemble data files to root directory (Felipe Zipitría) [#3002]
  * fix: reformat several initialization rules to follow project guidelines (Ervin Hegedus) [#3157]
- * fix: remove auditLogParts actions from all rules where present (Andrea Menin, Ervin Hegedüs) [#3034, #3081]
+ * fix: remove auditLogParts actions from all rules where present (Andrea Menin, Ervin Hegedus) [#3034, #3081]
  * fix: remove uncommon Content Types from default in `crs-setup.conf.example` (Andrea Menin) [#2768]
  * fix: update diverse rules to follow new naming convention with paranoia level TX variables (Christoph Hansen) [#2937]
  * fix: remove initialization rules for redundant IP reputation variables (901150, 901152) (Andrew Howe) [#2833]
@@ -202,7 +202,7 @@ Changes with direct rule impact:
  * fix: update scoring variable (942540 PL2) (Walter Hop) [#2970]
  * feat: new rule to detect MySQL scientific notation attacks (942560 PL1) (Jitendra Patro) [#3316]
  * feat: extend rule to detect JAVA exploits better via java-classes.data file (944130 PL1) (Dennis Brown) [#3048]
- * fix: update administrative rule ids for consistent operation (950011, 950012, 950018) (Ervin Hegedüs) [#3339]
+ * fix: update administrative rule ids for consistent operation (950011, 950012, 950018) (Ervin Hegedus) [#3339]
  * feat: extend data file to include additional sql error messages (sql-errors.data, 951100 PL1) (Jitendra Patro) [#3214]
  * fix: handle false positive in SQL error leakage detection (951240 PL1) (Jozef Sudolský) [#3169]
  * feat: extend rule to detect PHP errors better via new automation (953100 PL1) (Felipe Zipitría) [#2663]
@@ -332,7 +332,7 @@ Changes with direct rule impact (FIXME: Changes before RC1; to be joined with se
 
 Changes without direct rule impact:
  * docs: update SPONSORS.md for new release (Christian Folini) [#3341]
- * docs: update CONTRIBUTORS.md for new release (Ervin Hegedüs) [#3340]
+ * docs: update CONTRIBUTORS.md for new release (Ervin Hegedus) [#3340]
  * docs: Transferred CHANGES to CHANGES.md (Felipe Zipitría) [#2606]
  * docs: Bring CONTRIBUTING.MD in line with documentation (Andrew Howe) [#2558]
  * docs: Add to CONTRIBUTING.MD chain rule commenting guidance (Ervin Hegedus) [#3196]
@@ -508,7 +508,7 @@ Fixes and improvements:
  * Fix GHA badges (Federico G. Schwindt)
  * feat(badge): add apache license badge
  * fix typos found by fossies codespell (Tim Herren)
- * Decrease processing time of rules (Ervin Hegedüs)
+ * Decrease processing time of rules (Ervin Hegedus)
  * handle multiple directives in 920510 (Andrea Menin)
  * handle multiple directives in 920510 (Andrea Menin)
  * fix(ci): use log_contains instead (Felipe Zipitria)
