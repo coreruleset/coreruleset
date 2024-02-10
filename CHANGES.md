@@ -270,8 +270,6 @@ Changes with direct rule impact:
  * feat: improve SQLi detection with spaces (942190 PL1, 942390 PL2) (Manuel Spartan, Max Leske) [#2436]
  * fix: resolve issue with regular expression and improve SQLi detection by detecting 'not between' (942120 PL2) (NiceYouKnow, Max Leske, Franziska Bühler) [#2115]
  * fix: new rule at PL2 to move the detection of '-->' out of PL1 due to false positives (941181 PL2) (Paul Beckett) [#2082]
-
-Changes with direct rule impact (FIXME: Changes before RC1; to be joined with section above):
  * feat: run libinjection XSS detector on request filename in PL2 (941101 PL2) (Andrew Howe) [#2208]
  * fix: make validatioin of 'Sec-Fetch-User' header more strict (920275 PL4) (somechris) [#2020]
  * feat: detect 'Krzana' bot (913102 PL2) (Deepshikha Sinha) [#2432]
@@ -311,6 +309,8 @@ Changes with direct rule impact (FIXME: Changes before RC1; to be joined with se
  * fix: move 'ecairn' from scanners to crawlers (913100 PL1) (Felipe Zipitría) [#2408]
  * feat: simplify regular expressions by replacing upper-case with lower-case matches if the expression is case-insensitive (various rules) (Felipe Zipitría) [#2485]
  * fix: remove additional range expression that cause parsing errors for RE2 (932311 PL3) (Felipe Zipitría) [#2484]
+
+Changes with direct rule impact (FIXME: Changes before RC1; to be joined with section above):
  * Improve performance by removing unnecessary lowercase transformations (various rules) (Jozef Sudolský) [#2106]
  * Renaming tx.blocking_early to tx.early_blocking (various rules) (Christian Folini) [#2414]
  * Improve logging in some special cases (932200 PL2, 933120 PL1, 933151 PL2) (Jozef Sudolský) [#2347]
