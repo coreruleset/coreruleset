@@ -23,8 +23,8 @@ Important changes:
  * feat: extend definition of restricted headers to include `Content-Encoding` and `Accept-Charset` by default (920450 PL1, 920451 PL2) (Walter Hop) [#2780, #2782]
  * feat: switch to using WordNet instead of spell for finding English words in spell.sh (Max Leske) [#3242]
  * fix: refactor and rename anomaly scoring variables and paranoia level definition (Simon Studer) [#2417]
- * update: drop HTTP/0.9 support to resolve FP (Federico G. Schwindt) [#1966]
- * update: node.js to generic category (Felipe Zipitría) [#2340]
+ * feat: drop HTTP/0.9 support to resolve FP (Federico G. Schwindt) [#1966]
+ * feat: rename 'Node.js' category to 'generic' (Felipe Zipitría) [#2340]
  * tests: 100% test coverage for rules (Entire team, Juan-Pablo Tosso, NiceYouKnow)
 
 Tool changes:
@@ -40,8 +40,8 @@ Tool changes:
  * feat: add crs-rules-check tool that runs sanity checks against rules (Ervin Hegedus) [#2236]
  * feat: add utility to find longest data lengths (Ervin Hegedus) [#2277]
  * feat: improve rule-ctl script to modify rules (Max Leske) [#2193]
- * update: improve send-payload-pls.sh (Manuel Spartan) [#2288]
- * update: unify regexp utils to automate error-prone actions and automatically update rules from regexp sources (Max Leske) [#2149, #2223, #2423, #2495, #2489, #2473]
+ * feat: improve unique ID matching and documentation in send-payload-pls.sh (Manuel Spartan) [#2288]
+ * feat: unify regexp utils to automate error-prone actions and automatically update rules from regular expression sources (Max Leske) [#2149, #2223, #2423, #2495, #2489, #2473]
  * fix: adjust log directories needed for volume mounts to Git (Max Leske) [#2103]
 
 Changes with direct rule impact:
@@ -375,9 +375,9 @@ Changes without direct rule impact:
  * fix: link for docs/OWASP-CRS-Documentation submodule (Ervin Hegedus) [#1885]
  * fix: indentations (Ervin Hegedus) [#1851]
  * fix: remove all whitespace at EOL (Felipe Zipitría) [#2405, #2406]
- * update: move regexp-assembly to separate directory (Felipe Zipitría) [#2327]
+ * chore: move regexp-assembly to separate directory (Felipe Zipitría) [#2327]
  * fix: nginx logging in docker-compose (Felipe Zipitría) [#2036]
- * update: add timezone variable to docker-compose (Felipe Zipitría) [#1995]
+ * feat: add timezone variable to docker-compose (Felipe Zipitría) [#1995]
  * tests: fix duplicated tests for rule 934130 PL1 (Walter Hop) [#2918]
  * tests: add test for rule 941130 PL1 (Paul Beckett) [#2923]
  * tests: increase tests (920280-3, 920430-3, 920430-9) compatibility with other proxies (Matteo Pace) [#3134]
@@ -444,8 +444,8 @@ Changes without direct rule impact:
  * tests: fix tests lacking charset (Felipe Zipitría) [#1932]
 
 Functionality that has been moved to plugins for this release:
- * update: move exclusion profiles and DOS rules have to plugins (Andrew Howe) [#2469]
- * update: move IP reputation rules to plugins (Simon Studer) [#2482]
+ * feat: move exclusion profiles and DOS rules to plugins (Andrew Howe) [#2469]
+ * feat: move IP reputation rules to plugins (Simon Studer) [#2482]
  * fix: nextcloud: fix FPs (now a plugin) (kam821, Jozef Sudolský, ntimo, Felipe Zipitría, pyllyukko) [#1840, #1843, #1847, #1946]
  * fix: phpMyAdmin: Fix FPs (now a plugin) (Jozef Sudolský) [#2172, #2249, #2321, #2351]
  * fix: wordPress: fix FPs (now a plugin) (Jozef Sudolský) [#1899, #1971, #2320]
