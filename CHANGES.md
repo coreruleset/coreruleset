@@ -309,8 +309,6 @@ Changes with direct rule impact:
  * fix: move 'ecairn' from scanners to crawlers (913100 PL1) (Felipe Zipitría) [#2408]
  * feat: simplify regular expressions by replacing upper-case with lower-case matches if the expression is case-insensitive (various rules) (Felipe Zipitría) [#2485]
  * fix: remove additional range expression that cause parsing errors for RE2 (932311 PL3) (Felipe Zipitría) [#2484]
-
-Changes with direct rule impact (FIXME: Changes before RC1; to be joined with section above):
  * feat: improve performance by removing unnecessary lowercase transformations (various rules) (Jozef Sudolský) [#2106]
  * feat: rename 'tx.blocking_early' to 'tx.early_blocking' (various rules) (Christian Folini) [#2414]
  * fix: generate correct log entries when using 'MATCHED_VAR_NAME' in conjunction with chain rules (932200 PL2, 933120 PL1, 933151 PL2) (Jozef Sudolský) [#2347]
