@@ -12,20 +12,21 @@ New changelog entries are written to `.changes-pending.md`. They will be moved t
 
 Important changes:
  * feat: introduce plugin architecture for extending CRS and minimizing attack surface. (Christian Folini, Max Leske, Jozef Sudolský, Andrew Howe) [#2038, #2448, #2404]
- * feat: early blocking option (Christian Folini) [#1955]
- * feat: support for HTTP/3 (Jozef Sudolský) [#3218]
- * feat: application exclusions and less-used functionality have been migrated to plugins. (Christian Folini, Max Leske, Jozef Sudolský, Andrew Howe)
- * feat: granular control over reporting levels in 9801xx rules (Simon Studer, Andrew Howe, Christian Folini) [#2482, #2488]
- * feat: all formerly PCRE-only regular expressions are now compatible with RE2/Hyperscan WAF engines (Max Leske, Felipe Zipitría, Allan Boll, Franziska Bühler) [#1868, #2356, #2425, #2426, #2371, #2372]
- * feat: new rule 920620 PL1 to explicitly detect multiple Content-Type abuse (CVE-2023-38199) (Andrea Menin) [#3237]
- * feat: nightly packages published regularly (Felipe Zipitría) [#2207]
+ * feat: migrate application exclusions and less-used functionality to plugins (Christian Folini, Max Leske, Jozef Sudolský, Andrew Howe)
+ * feat: introduce early blocking option (Christian Folini) [#1955]
+ * feat: introduce new rule file/category to detect use of common web shells in responses (955100-955340 PL1, 955350 PL2) (Jozef Sudolský, Andrea Menin) [#1962, #2039, #2116]
+ * feat: rename 'Node.js' category to 'generic' (Felipe Zipitría) [#2340]
+ * feat: make all formerly PCRE-only regular expressions are now compatible with RE2/Hyperscan WAF engines (Max Leske, Felipe Zipitría, Allan Boll, Franziska Bühler) [#1868, #2356, #2425, #2426, #2371, #2372]
+ * feat: add support for HTTP/3 (Jozef Sudolský) [#3218]
+ * feat: add granular control over reporting levels in 9801xx rules (Simon Studer, Andrew Howe, Christian Folini) [#2482, #2488]
+ * feat: add new rule to explicitly detect multiple Content-Type abuse (CVE-2023-38199) (920620 PL1) (Andrea Menin) [#3237]
  * feat: add enable_default_collections flag to not initialize collections by default (Matteo Pace) [#3141]
  * feat: extend definition of restricted headers to include `Content-Encoding` and `Accept-Charset` by default (920450 PL1, 920451 PL2) (Walter Hop) [#2780, #2782]
- * feat: switch to using WordNet instead of spell for finding English words in spell.sh (Max Leske) [#3242]
- * fix: refactor and rename anomaly scoring variables and paranoia level definition (Simon Studer) [#2417]
  * feat: drop HTTP/0.9 support to resolve FP (Federico G. Schwindt) [#1966]
- * feat: rename 'Node.js' category to 'generic' (Felipe Zipitría) [#2340]
- * tests: 100% test coverage for rules (Entire team, Juan-Pablo Tosso, NiceYouKnow)
+ * fix: refactor and rename anomaly scoring variables and paranoia level definition (Simon Studer) [#2417]
+ * tests: complete goal of 100% test coverage for rules (entire team, Juan-Pablo Tosso, NiceYouKnow)
+ * feat: switch to using WordNet instead of spell for finding English words in spell.sh (Max Leske) [#3242]
+ * feat: publish nightly packages regularly (Felipe Zipitría) [#2207]
 
 Tool changes:
  * feat: extend spell.sh script with an opt-in manual list of common and partial words. (Matteo Pace) [#3273]
@@ -251,7 +252,6 @@ Changes with direct rule impact:
  * feat: new rules to detect Log4j / Log4Shell attacks (932131 PL2, 944150 PL1, 944151 PL2, 944152 PL4) (Christian Folini, Max Leske) [#2349]
  * feat: new rule to detect Spring4Shell (944260 PL2) (Christian Folini, Andrea Menin) [#2464]
  * feat: new rules to detect JavaScript prototype pollution (934130 PL1, 934131 PL2)  (Walter Hop) [#2411]
- * feat: new rule file/category to detect use of common web shells in responses (955100-955340 PL1, 955350 PL2) (Jozef Sudolský, Andrea Menin) [#1962, #2039, #2116]
  * feat: new rule to deny uploading .jsp and .jspx files (944140 PL1) (Walter Hop) [#2456]
  * fix: detect path traversal in uploaded file names (930100 PL1, 930110 PL1) (k4n5ha0, Franziska Bühler, Felipe Zipitría) [#2451]
  * feat: block access to AWS CLI files (930120 PL1, 930121 PL2) (Jozef Sudolský) [#2439]
