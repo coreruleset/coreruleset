@@ -489,20 +489,20 @@ Changes without direct rule impact:
  * tests: use same user-agent (Felipe Zipitría) [#2393]
 
 Functionality that has been moved to plugins for this release:
- * feat: move exclusion profiles and DOS rules to plugins (Andrew Howe) [#2469]
- * feat: move IP reputation rules to plugins (Simon Studer) [#2482]
- * fix: nextcloud: fix FPs (now a plugin) (kam821, Jozef Sudolský, ntimo, Felipe Zipitría, pyllyukko) [#1840, #1843, #1847, #1946]
- * fix: phpMyAdmin: Fix FPs (now a plugin) (Jozef Sudolský) [#2172, #2249, #2321, #2351]
- * fix: wordPress: fix FPs (now a plugin) (Jozef Sudolský) [#1899, #1971, #2320]
- * fix: wordPress: fix FPs in Site Health page (now a plugin) (Robert de Boer, Fregf, Walter Hop) [#1895, #1920]
- * fix: wordPress: fix FPs and improve performance (now a plugin) (Walter Hop) [#1997, #2311]
- * fix: xenForo: fix FPs (now a plugin) (Walter Hop, ThanhPT) [#1844, #1865, #1894, #1998, #2421]
- * fix: phpBB: Fix FPs (now a plugin) (Jozef Sudolský) [#2057, #2180, #2299, #2343]
  * feat: add Google OAuth 2 exclusion plugin (Jozef Sudolský) [#2388]
- * feat: add phpMyAdmin exclusion rules (now a plugin) (Jozef Sudolský) [#1951]
  * feat: add phpBB exclusion rules (now a plugin) (Jozef Sudolský) [#1893]
+ * feat: add phpMyAdmin exclusion rules (now a plugin) (Jozef Sudolský) [#1951]
+ * feat: move IP reputation rules to plugins (Simon Studer) [#2482]
+ * feat: move exclusion profiles and DOS rules to plugins (Andrew Howe) [#2469]
  * feat: ownCloud: Fix rule 9003001 to match both DAV and WebDAV (now a plugin) (Abu Dawud) [#2130]
+ * fix: nextcloud: fix FPs (now a plugin) (kam821, Jozef Sudolský, ntimo, Felipe Zipitría, pyllyukko) [#1840, #1843, #1847, #1946]
+ * fix: phpBB: Fix FPs (now a plugin) (Jozef Sudolský) [#2057, #2180, #2299, #2343]
+ * fix: phpMyAdmin: Fix FPs (now a plugin) (Jozef Sudolský) [#2172, #2249, #2321, #2351]
  * fix: replace ARGS by ARGS_GET in rules in phase:1 (various rule exclusion rules) (Ervin Hegedus) [#2063]
+ * fix: wordPress: fix FPs (now a plugin) (Jozef Sudolský) [#1899, #1971, #2320]
+ * fix: wordPress: fix FPs and improve performance (now a plugin) (Walter Hop) [#1997, #2311]
+ * fix: wordPress: fix FPs in Site Health page (now a plugin) (Robert de Boer, Fregf, Walter Hop) [#1895, #1920]
+ * fix: xenForo: fix FPs (now a plugin) (Walter Hop, ThanhPT) [#1844, #1865, #1894, #1998, #2421]
 
 ## Version 3.3.5 - 2023-07-18
 
