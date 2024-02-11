@@ -106,7 +106,7 @@ def generate_content(prs: list, merged_by: str) -> (str, str):
 		pr_number = pr["number"]
 		pr_title = pr["title"]
 		pr_author = get_pr_author_name(pr["author"]["login"])
-		new_line = f"* {pr_title} ({pr_author}) [#{pr_number}]\n"
+		new_line = f" * {pr_title} ({pr_author}) [#{pr_number}]\n"
 		pr_body += new_line
 		pr_links += f"- #{pr_number}\n"
 
