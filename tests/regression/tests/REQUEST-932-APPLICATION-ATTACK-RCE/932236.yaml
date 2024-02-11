@@ -1085,7 +1085,7 @@ tests:
             data: |
               sentence=Cut orange quarters into crosswise slices about 1/8-inch thick.
           output:
-            no_log_contains: id "932236"
+            log_contains: id "932236"
   - test_title: 932236-60
     desc: "Known false positive with `Wall` at start of string (expected failure)"
     stages:
@@ -1103,7 +1103,7 @@ tests:
             data: |
               sentence=Wall Street\\xe2\\x80\\x99s benchmark stock index struck an all-time high on Tuesday.
           output:
-            no_log_contains: id "932236"
+            log_contains: id "932236"
   - test_title: 932236-61
     desc: "Known false positive with `Mount` at start of string (expected failure)"
     stages:
@@ -1121,7 +1121,7 @@ tests:
             data: |
               sentence=Mount Airy basketball coach Bryan Hayes lectures his team during a third-quarter timeout.
           output:
-            no_log_contains: id "932236"
+            log_contains: id "932236"
   - test_title: 932236-62
     desc: "Fixed false positive with `As` at start of string"
     stages:
