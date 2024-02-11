@@ -459,7 +459,47 @@ Functionality that has been moved to plugins for this release:
  * feat: ownCloud: Fix rule 9003001 to match both DAV and WebDAV (now a plugin) (Abu Dawud) [#2130]
  * fix: replace ARGS by ARGS_GET in rules in phase:1 (various rule exclusion rules) (Ervin Hegedus) [#2063]
 
+## Version 3.3.5 - 2023-07-18
 
+Important changes:
+
+* Backport fix for CVE-2023-38199 from CRS v4 via new rule 920620 (Andrea Menin, Felipe Zipitría)
+
+Fixes:
+
+* Fix paranoia level-related scoring issue in rule 921422 (Walter Hop)
+* Move auditLogParts actions to the end of chained rules where used (Ervin Hegedus)
+
+Chore:
+
+* Clean up redundant paranoia level tags (Ervin Hegedus)
+* Clean up YAML test files to support go-ftw testing framework (Felipe Zipitría)
+* Move testing framework from ftw to go-ftw (Felipe Zipitría)
+
+## Version 3.3.4 - 2022-09-20
+
+Fixes and improvements:
+
+* Fix a regression in our former release, with the impact that some Paranoia Level 2 rules would activate even when running in Paranoia Level 1. (Simon Studer, Walter Hop)
+
+## Version 3.3.3 - 2022-09-19
+
+Important changes:
+
+* This update requires ModSecurity version 2.9.6 or 3.0.8 (or an updated version with backports of the security fixes in these versions) or a compatible engine supporting these changes. If you do not upgrade ModSecurity, the file REQUEST-922-MULTIPART-ATTACK.conf will cause ModSecurity to fail to start. In that case, you can temporarily delete that file. However, you will be missing protection from these rules. Therefore, we recommend upgrading your ModSecurity or other engine instead.
+* By default, the request headers "Accept-Charset" and "Content-Encoding" are now blocked to prevent a WAF bypass. Especially the "Accept-Charset" header may be in use by clients. If you need to serve clients that send this header, uncomment and edit rule 900250 in crs-setup.conf.
+
+Fixes and improvements:
+
+* Fix CVE-2022-39955 Multiple charsets defined in Content-Type header (Jan Gora)
+* Fix CVE-2022-39956 Content-Type or Content-Transfer-Encoding MIME header fields abuse (Jan Gora, Felipe Zipitria)
+* Fix CVE-2022-39957 Charset accept header field resulting in response rule set bypass (Karel Knibbe, Max Leske)
+* Fix CVE-2022-39958 Small range header leading to response rule set bypass (Hussein Daher, Christian Folini)
+* Fix MIME header abuse via _charset_ field (Jan Gora, Felipe Zipitria)
+* Fix bypass using deflated request body (Karel Knibbe)
+* Fix request body partial rule set bypass via Content-Type "text/plain" (Pinaki Mondal, Andrea Menin)
+* Fix XML Body Parser abuse for non-XML request bodies (Jan Gora)
+* Fix body processor bypass by content-type outside the mime type declaration (Jan Gora, Simon Studer, Ervin Hegedus)
 
 ## Version 3.3.2 - 2021-06-30
 
