@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler, Max Leske, Esad Cetiner"
+  author: "Franziska Bühler, Max Leske, Esad Cetiner, Andrew Howe"
   description: |
     Unix shell RCE
       - with / without prefix
@@ -1120,5 +1120,41 @@ tests:
             version: HTTP/1.0
             data: |
               sentence=Mount Airy basketball coach Bryan Hayes lectures his team during a third-quarter timeout.
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-62
+    desc: "Fixed false positive with `As` at start of string"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              sentence=As you near your last year of trick or treating, though, sometimes jokes aren't enough.
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-63
+    desc: "Fixed false positive with `At` at start of string"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              sentence=At any moment we can make a decision to change.
           output:
             no_log_contains: id "932236"
