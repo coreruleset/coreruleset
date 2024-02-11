@@ -8,7 +8,7 @@
 ## Nightly builds
 New changelog entries are written to `.changes-pending.md`. They will be moved to the main changelog before a release.
 
-## Version 4.0.0 - 2022-06-??
+## Version 4.0.0 - 2024-02-14
 
 Important changes:
  * feat: introduce plugin architecture for extending CRS and minimizing attack surface. (Christian Folini, Max Leske, Jozef Sudolský, Andrew Howe) [#2038, #2448, #2404]
