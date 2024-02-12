@@ -16,7 +16,7 @@ Important changes:
  * feat: introduce early blocking option (Christian Folini) [#1955]
  * feat: introduce new rule file/category to detect use of common web shells in responses (955100-955340 PL1, 955350 PL2) (Jozef Sudolský, Andrea Menin) [#1962, #2039, #2116]
  * feat: rename 'Node.js' category to 'generic' (Felipe Zipitría) [#2340]
- * feat: make all formerly PCRE-only regular expressions are now compatible with RE2/Hyperscan WAF engines (Max Leske, Felipe Zipitría, Allan Boll, Franziska Bühler) [#1868, #2356, #2425, #2426, #2371, #2372]
+ * feat: make all formerly PCRE-only regular expressions compatible with RE2/Hyperscan regular expression engines (Max Leske, Felipe Zipitría, Allan Boll, Franziska Bühler) [#1868, #2356, #2425, #2426, #2371, #2372]
  * feat: add support for HTTP/3 (Jozef Sudolský) [#3218]
  * feat: add granular control over reporting levels in 9801xx rules (Simon Studer, Andrew Howe, Christian Folini) [#2482, #2488]
  * feat: add new rule to explicitly detect multiple Content-Type abuse (CVE-2023-38199) (920620 PL1) (Andrea Menin) [#3237]
