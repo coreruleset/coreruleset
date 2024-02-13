@@ -333,6 +333,7 @@ Changes with direct rule impact (sorted by lowest rule ID per change where avail
  * feat: extend rules to detect `current_user` and `overlay` (942470 PL1, 942480 PL2) (Franziska Bühler) [#2875]
  * feat: extended rule to detect detect SQL injection attacks using headers (942480 PL2) (Paul Beckett) [#2911]
  * feat: extend rule to detect newlines in overlay (942480 PL2) (Franziska Bühler, Shivam Bathla) [#3040]
+ * fix: detect MySQL optimizer hints (942500 PL1) (Max Leske) [#3431]
  * feat: new rules to detect SQL authentication bypasses (942520 PL2, 942521 PL2, 942522 PL2) (Jan Gora / terjanq) [#2603]
  * feat: extend rule to detect SQLi in user-agent and referer request headers (942521 PL2) (Franziska Bühler, Shivam Bathla) [#3107]
  * feat: new rule to detect `';` in SQLi (942530 PL3) (Franziska Bühler) [#2808]
