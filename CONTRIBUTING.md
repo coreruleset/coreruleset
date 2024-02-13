@@ -16,7 +16,7 @@
 
 ## Making Changes
 
-* Base any changes on the main dev branch (i.e., `main`).
+* Base any changes on branch `main`.
 * Create a topic branch for each new contribution.
 * Fix only one problem at a time. This helps to quickly test and merge submitted changes. If intending to fix *multiple unrelated problems* then use a separate branch for each problem.
 * Make commits of logical units.
