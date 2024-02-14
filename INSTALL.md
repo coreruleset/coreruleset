@@ -4,7 +4,7 @@ This guide aims to get a CRS installation up and running. This guide assumes tha
 
 ## Downloading the Rule Set
 
-The first step is to download the Core Rule Set itself. The CRS project strongly recommends using a [supported version](https://github.com/coreruleset/coreruleset/security/policy).
+The first step is to download the CRS itself. The CRS project strongly recommends using a [supported version](https://github.com/coreruleset/coreruleset/security/policy).
 
 Official CRS releases can be found at the following URL: https://github.com/coreruleset/coreruleset/releases.
 
@@ -81,7 +81,7 @@ Now all the CRS files will be located below the `/etc/crs4` directory.
 
 ### Setting Up the Main Configuration File
 
-After extracting the rule set files, the next step is to set up the main OWASP Core Rule Set configuration file. An example configuration file is provided as part of the release package, located in the main directory: `crs-setup.conf.example`.
+After extracting the rule set files, the next step is to set up the main OWASP CRS configuration file. An example configuration file is provided as part of the release package, located in the main directory: `crs-setup.conf.example`.
 
 {{% notice note %}}
 Other aspects of ModSecurity, particularly engine-specific parameters, are controlled by the ModSecurity "recommended" configuration rules, `modsecurity.conf-recommended`. This file comes packaged with ModSecurity itself.

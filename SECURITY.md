@@ -68,7 +68,7 @@ gpg: Good signature from "OWASP Core Rule Set <security@coreruleset.org>" [ultim
 
 ## Reporting a Vulnerability
 
-We strive to make the OWASP ModSecurity CRS accessible to a wide audience of beginner and experienced users.
+We strive to make the OWASP CRS accessible to a wide audience of beginner and experienced users.
 We welcome bug reports, false positive alert reports, evasions, usability issues, and suggestions for new detections.
 Submit these types of non-vulnerability related issues via Github.
 Please include your installed version and the relevant portions of your audit log.
@@ -87,4 +87,4 @@ We are happy to work with the community to provide CVE identifiers for any disco
 
 If in doubt, feel free to reach out to us!
 
-The OWASP ModSecurity CRS Team.
+The OWASP CRS Team.
