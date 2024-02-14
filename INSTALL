@@ -1,17 +1,17 @@
-                           _____ _____   _____   ____
-                          / ____|  __ \ / ____| |___ \
-                         | |    | |__) | (___     __) |
-                         | |    |  _  / \___ \   |__ <
-                         | |____| | \ \ ____) |  ___) |
-                          \_____|_|  \_\_____/  |____/
+                           _____ _____   _____    ____
+                          / ____|  __ \ / ____|  / _  |
+                         | |    | |__) | (___   / / | |
+                         | |    |  _  / \___ \ / /__| |_
+                         | |____| | \ \ ____) ||____   _|
+                          \_____|_|  \_\_____/      |_|
 
-                            OWASP Core Rule Set 3.x
+                            OWASP Core Rule Set 4.x
 
 Installing ModSecurity
 =====================
 
     This document does NOT detail how to install ModSecurity. Rather,
-    only information pertaining to the installation of the OWASP Core
+    only information pertaining to the installation of the OWASP CRS
     Rule Set (CRS) is provided. However, ModSecurity is a prerequisite
     for the CRS installation. Information on installing ModSecurity
     can be found within the ModSecurity project at
@@ -23,164 +23,63 @@ Installing From a Package Manager
     The OWASP Core Rule Set (CRS) is available from many sources. On
     multiple platforms this includes package managers. These packages are
     maintained by independent packagers who package CRS in their own time.
-    Historically, many of these packages have been out of date. As such,
-    it is recommended that you install, where possible, from our GitHub
-    repository. The following CRS 3.x packages are known to exist:
+    Chances are it will be a moment until CRS4 will hit the distros.
+    It is therefore recommended that you install, where possible, from
+    our GitHub repository.
 
-    modsecurity-crs  - Debian
-    mod_security_crs - Fedora
-    modsecurity-crs  - Gentoo
-
-    Packages of CRS 2.x are incompatible with CRS 3.x.
+    Packages of CRS 3.x are incompatible with CRS 4.x and will receive
+    new names.
 
 Installing
 ==========
 
     You can download a copy of the CRS from the following URL:
-    https://coreruleset.org/installation/
+    https://coreruleset.org/docs
 
     Our release zip/tar.gz files are the preferred way to install CRS.
+    This includes a nightly option with bleeding edge changes.
 
-    However, if you want to follow rule development closely and get
-    the newest protections quickly, you can also clone our GitHub
-    repository to get the current work-in-progress for the next release.
+    However, you can also clone our GitHub repository to get the
+    current work-in-progress for the next release.
 
 Prerequisites
 -------------
 
     CRS is designed to be used with ModSecurity (although many other
-    projects also use the provided rules). CRS version 3.x is designed for
-    ModSecurity 2.8 or above. CRS version 3.x makes use of libinjection
-    and libXML2. Failure to provide these prerequisites may result in
-    serious false negatives and CRS version 3.x should NOT be run without
-    these. Note, however, that libinjection is bundled with ModSecurity
-    since version 2.8. Additionally, if you are downloading from the
-    GitHub repo you will need to install 'git' on your system.
+    projects also use the provided rules). CRS version 4.x is designed for
+    ModSecurity 2.8 or above. Failure to provide this prerequiste may result in
+    serious false negatives and CRS version 4.x should NOT be run without
+    these.
 
-Upgrading from CRS 2.x
+Upgrading from CRS 3.x
 ----------------------
-    CRS 3.x is a major release incompatible with CRS 2.x.
-    The rule IDs have changed. The file id_renumbering/IdNumbering.csv
-    contains a list with old and new rule IDs. However, a key feature
-    of the release 3.x is the reduction of false positives in the
-    default installation and we recommend you start with a fresh
-    install from scratch.
-    Key parameter variables have changed their name and new features
-    have been introduced. Your former modsecurity_crs_10_setup.conf
-    file is thus no longer usable.
-    We recommend you to start with a fresh install from scratch.
+    CRS 4.x is a major release incompatible with CRS 3.x.
+    The rule IDs have large been left untouched. But many rules have been
+    reorganized, split or in individual cases also shifted to different
+    ids or paranoia levels
+    This means that existing rule exclusions will have to be adopted to
+    CRS v4.x. Starting over from scratch is a viable alternative,
+    namely if you do not have too many rule exclusions.
 
-Installing on Apache
+Installing on Apache/ModSecurity2
+---------------------------------
+
+    Please check out our documentation at https://coreruleset.org/docs.
+
+Installing on Nginx/ModSecurity3
+--------------------------------
+
+    Please check out our documentation at https://coreruleset.org/docs.
+
+Installing on IIS/ModSecurity2
+------------------------------
+
+    Please check out our documentation at https://coreruleset.org/docs.
+
+Installing on Coraza
 --------------------
-    1. Install ModSecurity for Apache
-    2. Ensure that ModSecurity is loading correctly by checking error.log
-    at start up for lines indicating ModSecurity is installed. An example
-    might appear as follows:
-    ```ModSecurity for Apache/2.9.1 (http://www.modsecurity.org/) configured.```
-    3. The most common method of deploying ModSecurity we have seen is
-    to create a new folder underneath the Apache directory (typically
-    /usr/local/apache/, /etc/httpd/, or /etc/apache2). Often this folder
-    is called 'modsecurity.d'. Create this folder and cd into it.
-    4. Download our release from https://coreruleset.org/installation/
-    and unpack it into a new owasp-modsecurity-crs folder.
-    5. Move the crs-setup.conf.example file to crs-setup.conf.
-    Please take the time to go through this file and customize the settings
-    for your local environment. Failure to do so may result in false
-    negatives and false positives. See the section entitled OWASP CRS
-    Configuration for more detail.
-    6. Rename rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf.example and
-    rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf.example to remove the
-    '.example' extension. This will allow you to add exclusions without updates
-    overwriting them in the future.
-    7. Add the following lines to your httpd.conf/apache2.conf (the following
-    assumes you've put CRS into modsecurity.d/owasp-modsecurity-crs). You
-    can alternatively place these in any config file included by Apache:
-    ```
-    <IfModule security2_module>
-          Include modsecurity.d/owasp-modsecurity-crs/crs-setup.conf
-          IncludeOptional modsecurity.d/owasp-modsecurity-crs/plugins/*-config.conf
-          IncludeOptional modsecurity.d/owasp-modsecurity-crs/plugins/*-before.conf
-          Include modsecurity.d/owasp-modsecurity-crs/rules/*.conf
-          IncludeOptional modsecurity.d/owasp-modsecurity-crs/plugins/*-after.conf
-    </IfModule>
-    ```
-    8. Restart web server and ensure it starts without errors
-    9. Make sure your web sites are still running fine.
-    10. Proceed to the section "Testing the Installation" below.
 
-Installing on Nginx
--------------------
-    1. Compile ModSecurity into Nginx
-    2. Ensure that ModSecurity is loading correctly by checking error.log
-    at start up for lines indicating ModSecurity is installed. An example
-    might appear as follows:
-    ```ModSecurity for nginx (STABLE)/2.9.1 (http://www.modsecurity.org/) configured.```
-    3. The most common method of deploying ModSecurity we have seen is
-    to create a new folder underneath the Nginx directory (typically
-    /usr/local/nginx/conf/). Often this folder
-    is called 'owasp-modsecurity-crs'. Create this folder and cd into it.
-    4. Download our release from https://coreruleset.org/installation/
-    and unpack it into a new owasp-modsecurity-crs folder.
-    5. Move the crs-setup.conf.example file to crs-setup.conf.
-    Please take this time to go through this
-    file and customize the settings for your local environment. Failure to
-    do so may result in false negatives and false positives. See the
-    section entitled OWASP CRS Configuration for more detail.
-    6. Rename rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf.example and
-    rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf.example to remove the
-    '.example' extension. This will allow you to add exceptions without updates
-    overwriting them in the future.
-    7. Nginx requires the configuration of a single ModSecurity
-    configuration file within the nginx.conf file using the
-    'ModSecurityConfig' directive (when using ModSecurity 2.x).
-    Best practice is to set 'ModSecurityConfig' to a file from
-    which you will include your other ModSecurity configuration
-    files. In this example we will use:
-    ```ModSecurityConfig modsec_includes.conf;```
-    7. Within modsec_includes.conf create your includes to the
-    CRS folder similar to as follows (The modsecurity.conf file from the
-    ModSecurity installation is included in this example):
-    ```
-    Include modsecurity.conf
-    Include owasp-modsecurity-crs/crs-setup.conf
-    Include owasp-modsecurity-crs/plugins/*-config.conf
-    Include owasp-modsecurity-crs/plugins/*-before.conf
-    Include owasp-modsecurity-crs/rules/*.conf
-    Include owasp-modsecurity-crs/plugins/*-after.conf
-    ```
-    8. Restart web server and ensure it starts without errors
-    9. Make sure your web sites are still running fine.
-    10. Proceed to the section "Testing the Installation" below.
-
-Installing on IIS
------------------
-    The IIS installer comes with an optional version of CRS built in.
-    To upgrade or install this after the fact follow the following
-    steps.
-    1. Navigate to "[drive_letters]:\Program Files\ModSecurity IIS\"
-    2. Download our release from https://coreruleset.org/installation/
-    and unpack it into the current folder.
-    3. Move the crs-setup.conf.example file to crs-setup.conf.
-    Please take this time to go through this
-    file and customize the settings for your local environment. Failure to
-    do so may result in false negatives and false positives. See the
-    section entitled OWASP CRS Configuration for more detail.
-    4. Rename rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf.example and
-    rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf.example to remove the
-    '.example' extension. This will allow you to add exceptions without updates
-    overwriting them in the future.
-    5. Navigate back to the 'ModSecurity IIS' folder and modify the
-    'modsecurity_iis' to include the following:
-    ```
-    Include owasp-modsecurity-crs/crs-setup.conf
-    Include owasp-modsecurity-crs/plugins/*-config.conf
-    Include owasp-modsecurity-crs/plugins/*-before.conf
-    Include owasp-modsecurity-crs/rules/*.conf
-    Include owasp-modsecurity-crs/plugins/*-after.conf
-    ```
-    6. Restart web server and ensure it starts without errors
-    7. Make sure your web sites are still running fine.
-    8. Proceed to the section "Testing the Installation" below.
+    Please check out our documentation at https://coreruleset.org/docs.
 
 Testing the Installation
 ========================
@@ -208,7 +107,7 @@ OWASP CRS Configuration
     settings are set during the installation of ModSecurity proper.
     An example for such such a
     configuration file is available via the ModSecurity project
-    (https://github.com/SpiderLabs/ModSecurity/blob/master/modsecurity.conf-recommended).
+    (https://github.com/owasp-modsecurity/ModSecurity/blob/master/modsecurity.conf-recommended).
     Be aware the crs-setup.conf file DOES specify
     configuration directives such as SecDefaultAction. The default
     is the anomaly scoring mode with the appropriate
@@ -242,15 +141,6 @@ OWASP CRS Configuration
     Update the TX policy settings for allowed Request Methods, File
     Extensions, maximum numbers of arguments, etc to better reflect
     your environment that is being protected.
-
-    Make sure your GeoIP and Project Honeypot settings are specified
-    if you are using them.
-    The GeoIP database is no longer included with the CRS. Instead
-    you are advised to download it regularly.
-
-    The use of Project Honeypot requires a
-    free API key. These require an account but can be obtained at
-    https://www.projecthoneypot.org/httpbl_configure.php.
 
     Be sure to check out the other settings present within the
     crs-setup.conf file. There are many other options that have to
