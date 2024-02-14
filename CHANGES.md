@@ -1,4 +1,4 @@
-# OWASP ModSecurity Core Rule Set (CRS) CHANGES
+# OWASP CRS CHANGES
 
 ## Report Bugs/Issues to GitHub Issues Tracker or the mailinglist
 * https://github.com/coreruleset/coreruleset/issues

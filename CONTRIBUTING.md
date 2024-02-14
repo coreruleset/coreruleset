@@ -37,7 +37,7 @@
 * Adhere to an 80 character line length limit where possible.
 * Add comments where possible and clearly explain any new rules.
 * Comments must not appear between chained rules and should instead be placed before the start of a rule chain.
-* All [chained rules](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-(v2.x)#chain) should be indented like so, for readability:
+* All [chained rules](https://github.com/owasp-modsecurity/ModSecurity/wiki/Reference-Manual-(v2.x)#chain) should be indented like so, for readability:
 ```
 SecRule .. .. \
     "..."
@@ -129,7 +129,7 @@ If testing a CRS regular expression using a third party tool, it may be useful t
 
 ### When and Why to Anchor Regular Expressions
 
-Engines running the OWASP Core Rule Set will use regular expressions to _search_ the input string, i.e., the regular expression engine is asked to find the first match in the input string. If an expression needs to match the entire input then the expression must be anchored appropriately.
+Engines running the OWASP CRS will use regular expressions to _search_ the input string, i.e., the regular expression engine is asked to find the first match in the input string. If an expression needs to match the entire input then the expression must be anchored appropriately.
 
 #### Beginning of String Anchor (^)
 
@@ -183,7 +183,7 @@ It is sometimes necessary to match the entire input string to ensure that it _ex
 
 Other anchors apart from `^` caret and `$` dollar exist, such as `\A`, `\G`, and `\Z` in PCRE. CRS **strongly discourages** the use of other anchors for the following reasons:
 
-- Not all regular expression engines support all anchors and the OWASP Core Rule Set should be compatible with as many regular expression engines as possible.
+- Not all regular expression engines support all anchors and the OWASP CRS should be compatible with as many regular expression engines as possible.
 - Their function is sometimes not trivial.
 - They aren't well known and would require additional documentation.
 - In most cases that would justify their use the regular expression can be transformed into a form that doesn't require them, or the rule can be transformed (e.g., with an additional chain rule).
@@ -238,7 +238,7 @@ Possessive quantifiers (e.g., `x++`) and atomic groups (e.g., `(?>x)`) are tools
 
 Traditional regular expression engines use backtracking to solve some additional problems, such as finding a string that is preceded or followed by another string. While this functionality can certainly come in handy and has its place in certain applications, it can also lead to performance issues and, in uncontrolled environments, open up possibilities for attacks (the term "[ReDoS](https://en.wikipedia.org/wiki/ReDoS)" is often used to describe an attack that exhausts process or system resources due to excessive backtracking).
 
-The OWASP Core Rule Set tries to be compatible with non-backtracking regular expression engines, such as RE2, because:
+The OWASP CRS tries to be compatible with non-backtracking regular expression engines, such as RE2, because:
 
 - Non-backtracking engines are less vulnerable to ReDoS attacks.
 - Non-backtracking engines can often outperform backtracking engines.
@@ -303,7 +303,7 @@ The types of rules that are allowed at each paranoia level are as follows:
 
 **PL 2:**
 
-* [Chain](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#chain) usage is allowed
+* [Chain](https://github.com/owasp-modsecurity/ModSecurity/wiki/Reference-Manual-%28v2.x%29#chain) usage is allowed
 * Confirmed matches use score critical
 * Matches that cause false positives are limited to using scores notice or warning
 * Low false positive rates

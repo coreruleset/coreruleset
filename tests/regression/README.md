@@ -3,11 +3,11 @@ owasp-crs-regressions
 
 Introduction
 ============
-Welcome to the OWASP Core Rule Set regression testing suite. This suite is meant to test specific rules in OWASP CRS version 3. The suite is designed to use pre-configured IDs that are specific to this version of CRS. The tests themselves can be run without CRS and one would expect the same elements to be blocked, however one must override the default Output parameter in the tests.
+Welcome to the OWASP CRS regression testing suite. This suite is meant to test specific rules in OWASP CRS version 3. The suite is designed to use pre-configured IDs that are specific to this version of CRS. The tests themselves can be run without CRS and one would expect the same elements to be blocked, however one must override the default Output parameter in the tests.
 
 Installation
 ============
-The OWASP Core Rule Set project was part of the effort to develop the Web Application Firewall Testing Framework (FTW), a framework for Testing WAFs. We recommend using `go-ftw`: a modern, fast, and efficient way to test the WAF. By utilizing it, you can test your WAF effortlessly in two steps: define a test case in YAML and run it with go-ftw.
+The OWASP CRS project was part of the effort to develop the Web Application Firewall Testing Framework (FTW), a framework for Testing WAFs. We recommend using `go-ftw`: a modern, fast, and efficient way to test the WAF. By utilizing it, you can test your WAF effortlessly in two steps: define a test case in YAML and run it with go-ftw.
 
 ```yaml
 # example of test case: /tests/regression/tests/REQUEST-911-METHOD-ENFORCEMENT
@@ -34,7 +34,7 @@ tests:
 ```
 
 For go-ftw, please check out from [go-ftw releases page](https://github.com/coreruleset/go-ftw/releases).
- 
+
 Requirements
 ============
 There are three requirements for running the OWASP CRS regressions:
