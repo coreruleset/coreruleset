@@ -1,6 +1,5 @@
 ## GOLD SPONSORS
 
-* F5 / NGINX
 * Google
 * United Security Providers
 
