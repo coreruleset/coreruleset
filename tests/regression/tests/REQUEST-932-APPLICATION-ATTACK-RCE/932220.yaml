@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Max Leske"
+  author: "Max Leske, Xhoenix"
   description: Unix shell RCE using pipe for less than 4 chars
   enabled: true
   name: 932220.yaml
@@ -231,5 +231,23 @@ tests:
             version: HTTP/1.0
             data: |
               code=strace whoami | sh
+          output:
+            log_contains: id "932220"
+  - test_title: 932220-14
+    desc: "Block `nohup` prefix"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=nohup whoami | sh
           output:
             log_contains: id "932220"

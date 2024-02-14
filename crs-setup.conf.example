@@ -749,24 +749,6 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 
 #
-# -- [[ Collection timeout ]] --------------------------------------------------
-#
-# Set the SecCollectionTimeout directive from the ModSecurity default (1 hour)
-# to a lower setting which is appropriate to most sites.
-# This increases performance by cleaning out stale collection (block) entries.
-#
-# This value should be greater than or equal to any block durations or timeouts
-# set by plugins that make use of ModSecurity's persistent collections (e.g. the
-# DoS protection and IP reputation plugins).
-#
-# Ref: https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-(v2.x)#SecCollectionTimeout
-
-# Please keep this directive uncommented.
-# Default: 600 (10 minutes)
-SecCollectionTimeout 600
-
-
-#
 # -- [[ End of setup ]] --------------------------------------------------------
 #
 # The CRS checks the tx.crs_setup_version variable to ensure that the setup
