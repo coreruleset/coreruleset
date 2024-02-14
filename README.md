@@ -1,4 +1,4 @@
-![GHA build v4.1/dev](https://github.com/coreruleset/coreruleset/workflows/Regression%20Tests/badge.svg?branch=v4.1%2Fdev)</br>
+![GHA build main](https://github.com/coreruleset/coreruleset/workflows/Regression%20Tests/badge.svg?branch=main)</br>
 ![GHA build v4.0/dev](https://github.com/coreruleset/coreruleset/workflows/Regression%20Tests/badge.svg?branch=v4.0%2Fdev)
 ![GHA build v3.3/dev](https://github.com/coreruleset/coreruleset/workflows/Regression%20Tests/badge.svg?branch=v3.3%2Fdev)
 [![OWASP Flagship](https://img.shields.io/badge/owasp-flagship%20project-38a047.svg)](https://owasp.org/projects/)
