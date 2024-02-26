@@ -10,7 +10,7 @@
 
 - [Paul Beckett](https://github.com/53cur3M3)
 - [Franziska Bühler](https://github.com/franbuehler)
-- [Esad Cetiner](https://github.com/esadcetiner/)
+- [Esad Cetiner](https://github.com/esadcetiner)
 - [Christoph Hansen](https://github.com/emphazer)
 - [Ervin Hegedus](https://github.com/airween)
 - [Andrew Howe](https://github.com/RedXanadu)
