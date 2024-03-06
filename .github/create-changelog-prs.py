@@ -13,7 +13,7 @@ def get_pr(repository: str, number: int) -> dict:
 	command = f"""gh pr view \
 		--repo "{repository}" \
 		"{number}" \
-		--json mergeCommit,mergedBy,title,author,baseRefName,number
+		--json mergeCommit,mergedBy,title,author,headRefName,baseRefName,number
 	"""
 	proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	pr_json, errors = proc.communicate()
@@ -56,16 +56,40 @@ def parse_prs(prs: list) -> dict:
 
 
 def create_prs(repository: str, merged_by_prs_map: dict, day: datetime.date):
+	base_pr = find_latest_open_changelog_pr(repository)
+	base_ref = base_pr["headRefName"] if base_pr else None
 	for author in merged_by_prs_map.keys():
-		create_pr(repository, author, merged_by_prs_map[author], day)
+		base_ref = create_pr(repository, base_ref, author, merged_by_prs_map[author], day)
 
-def create_pr(repository: str, merged_by: str, prs: list, day: datetime.date):
+def find_latest_open_changelog_pr(repository: str) -> dict | None:
+	command = f"""gh search prs \
+		--repo "{repository}" \
+		--label "changelog-pr" \
+		--state open \
+		--sort created \
+		--json number
+	"""
+	proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	pr_json, errors = proc.communicate()
+	if proc.returncode != 0:
+		print(errors)
+		exit(1)
+	ids = json.loads(pr_json)
+	base_pr_id = ids[0]["number"] if ids else None
+	if not base_pr_id:
+		print(f"No open changelog PR found to use as base")
+		return None
+
+	base_pr = get_pr(repository, base_pr_id)
+	print(f"Found existing changelog PR to use as base: {base_pr_id}")
+	return base_pr
+
+def create_pr(repository: str, base_ref: str | None, merged_by: str, prs: list, day: datetime.date) -> str:
 	if len(prs) == 0:
 		return
 	print(f"Creating changelog PR for @{merged_by}")
 
-	sample_pr = prs[0]
-	base_branch = sample_pr["baseRefName"]
+	base_branch = base_ref if base_ref else prs[0]["baseRefName"]
 	pr_branch_name = create_pr_branch(day, merged_by, base_branch)
 	pr_body, changelog_lines = generate_content(prs, merged_by)
 	create_commit(changelog_lines)
@@ -86,6 +110,7 @@ def create_pr(repository: str, merged_by: str, prs: list, day: datetime.date):
 		print(errors)
 		exit(1)
 	print(f"Created PR: {outs.decode()}")
+	return pr_branch_name
 
 def create_commit(changelog_lines: str):
 	with open('.changes-pending.md', 'a') as changelog:
