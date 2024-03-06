@@ -1,4 +1,8 @@
 name: Check PR title
+
+# default token permissions: none
+permissions: {}
+
 on:
   pull_request_target:
     types:
@@ -9,6 +13,8 @@ on:
 
 jobs:
   check-pr-title:
+    permissions:
+      pull-requests: read
     runs-on: ubuntu-latest
     steps:
       - uses: aslafy-z/conventional-pr-title-action@v3
