@@ -1,11 +1,17 @@
 name: Create changelog PRs
+
+# default token permissions: none
+permissions: {}
+
 on:
   schedule:
     - cron: '0 2 * * *' # run at 2 AM UTC
 
 jobs:
   create-changelog-prs:
-    name:
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout repo"
