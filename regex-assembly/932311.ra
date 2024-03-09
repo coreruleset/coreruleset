@@ -10,35 +10,35 @@
 ##! - IMAP4 Commands - PL3
 
 ##! - IMAP4Rev1 Commands - with params
-CREATE [\w\"\.\-\x5c\/%\*&#]+
-COPY [0-9,:\*]+ [\w\"\.\-\x5c\/%\*&#]+
-DELETE [\w\"\.\-\x5c%\*&#]+
-EXAMINE [\w\"\.\-\x5c%\*&#]+
-FETCH [0-9,:\*]+
-LIST [\w\"~\-\x5c\/\*#\.]+? [\w\"\.\-\x5c\/%\*&#]+
-LOGIN [a-z0-9-_\.\@]{1,40} .*?
-RENAME [\w\"\.\-\x5c\/%\*&#]+? [\w\"\.\-\x5c\/%\*&#]+
-SELECT [\w\"\.\-\x5c\/%\*&#]+
-STORE [0-9,:\*]+? [+-]?FLAGS(?:\.SILENT)? (?:\(\x5c[a-z]{1,20}\))?
-SUBSCRIBE [\w\"\.\-\x5c\/%\*&#]+
-UNSUBSCRIBE [\w\"\.\-\x5c\/%\*&#]+
+create [\w\"\.\-\x5c\/%\*&#]+
+copy [0-9,:\*]+ [\w\"\.\-\x5c\/%\*&#]+
+delete [\w\"\.\-\x5c%\*&#]+
+examine [\w\"\.\-\x5c%\*&#]+
+fetch [0-9,:\*]+
+list [\w\"~\-\x5c\/\*#\.]+? [\w\"\.\-\x5c\/%\*&#]+
+login [a-z0-9-_\.\@]{1,40} .*?
+rename [\w\"\.\-\x5c\/%\*&#]+? [\w\"\.\-\x5c\/%\*&#]+
+select [\w\"\.\-\x5c\/%\*&#]+
+store [0-9,:\*]+? [+-]?flags(?:\.silent)? (?:\(\x5c[a-z]{1,20}\))?
+subscribe [\w\"\.\-\x5c\/%\*&#]+
+unsubscribe [\w\"\.\-\x5c\/%\*&#]+
 ##! Search has plenty of variants
-SEARCH(?: CHARSET [\w\-_\.]{1,40})? (KEYWORD \x5c)?(?:ALL|ANSWERED|BCC|DELETED|DRAFT|FLAGGED|RECENT|SEEN|UNANSWERED|UNDELETED|UNDRAFT|UNFLAGGED|UNSEEN|NEW|OLD)
-SEARCH(?: CHARSET [\w\-_\.]{1,40})? (?:BODY|CC|FROM) .{1,255}
-SEARCH(?: CHARSET [\w\-_\.]{1,40})? HEADER .{1,100} .{1,255}
-SEARCH(?: CHARSET [\w\-_\.]{1,40})? (?:LARGER \d{1,20}|NOT .{1,255}|[0-9,:\*]+)
-SEARCH(?: CHARSET [\w\-_\.]{1,40})? (?:BEFORE|ON|SENTBEFORE|SENTON|SENTSINCE|SINCE) \"?\d{1,2}-\w{3}-\d{4}\"?
-SEARCH(?: CHARSET [\w\-_\.]{1,40})? (?:OR .{1,255} .{1,255}|SMALLER \d{1,20}|SUBJECT .{1,255})
-SEARCH(?: CHARSET [\w\-_\.]{1,40})? (?:TEXT .{1,255}|TO .{1,255}|UID [0-9,:\*]+?|UNKEYWORD (?:\x5c(Seen|Answered|Flagged|Deleted|Draft|Recent)))
+search(?: charset [\w\-_\.]{1,40})? (keyword \x5c)?(?:all|answered|bcc|deleted|draft|flagged|recent|seen|unanswered|undeleted|undraft|unflagged|unseen|new|old)
+search(?: charset [\w\-_\.]{1,40})? (?:body|cc|from) .{1,255}
+search(?: charset [\w\-_\.]{1,40})? header .{1,100} .{1,255}
+search(?: charset [\w\-_\.]{1,40})? (?:larger \d{1,20}|not .{1,255}|[0-9,:\*]+)
+search(?: charset [\w\-_\.]{1,40})? (?:before|on|sentbefore|senton|sentsince|since) \"?\d{1,2}-\w{3}-\d{4}\"?
+search(?: charset [\w\-_\.]{1,40})? (?:or .{1,255} .{1,255}|smaller \d{1,20}|subject .{1,255})
+search(?: charset [\w\-_\.]{1,40})? (?:text .{1,255}|to .{1,255}|uid [0-9,:\*]+?|unkeyword (?:\x5c(seen|answered|flagged|deleted|draft|recent)))
 
 ##! - IMAP4rev1 Commands - without params
-CAPABILITY
-CHECK
-CLOSE
-EXPUNGE
-LOGOUT
-NOOP
-STARTTLS
-UNAUTHENTICATE
+capability
+check
+close
+expunge
+logout
+noop
+starttls
+unauthenticate
 
 ##! Not covered -  X<atom> Command (client extensions)
