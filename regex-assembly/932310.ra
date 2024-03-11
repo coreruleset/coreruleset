@@ -9,14 +9,14 @@
 ##! IMAP4 Commands - PL2
 
 ##! - IMAP4Rev1 Commands - with params
-APPEND (?:[\w\"\.\-\x5c\/%\*&#]+)?(?: \((?:[a-z\x5c\ ])+\))?(?: \"?\d{1,2}-\w{3}-\d{4} \d{2}:\d{2}:\d{2} [+-]\d{4}\"?)? \{\d{1,20}\+?\}
-AUTHENTICATE [a-z0-9-_]{1,20}\r\n
-LSUB (?:[\w\"~\/\*#\.]+)? (?:[\w\"\.\x5c\/%\*&]+)?
-STATUS (?:[\w\"\.\-\x5c\/%\*&]+)? \((?:UNSEEN|UIDNEXT|MESSAGES|UIDVALIDITY|RECENT| )+\)
-UID (?:COPY|FETCH|STORE) (?:[0-9,:\*]+)?
+append (?:[\w\"\.\-\x5c\/%\*&#]+)?(?: \((?:[a-z\x5c\ ])+\))?(?: \"?\d{1,2}-\w{3}-\d{4} \d{2}:\d{2}:\d{2} [+-]\d{4}\"?)? \{\d{1,20}\+?\}
+authenticate [a-z0-9-_]{1,20}\r\n
+lsub (?:[\w\"~\/\*#\.]+)? (?:[\w\"\.\x5c\/%\*&]+)?
+status (?:[\w\"\.\-\x5c\/%\*&]+)? \((?:unseen|uidnext|messages|uidvalidity|recent| )+\)
+uid (?:copy|fetch|store) (?:[0-9,:\*]+)?
 ##! - IMAP4Rev1 Commands Extensions - with params
-DELETEACL (?:[\w\"\.\-\x5c\/%\*&]+)?
-GETACL (?:[\w\"\.\-\x5c\/%\*&]+)?
-MYRIGHTS (?:[\w\"\.\-\x5c\/%\*&]+)?
-LISTRIGHTS (?:[\w\"\.\-\x5c\/%\*&]+)?
-SETACL (?:[\w\"\.\-\x5c\/%\*&]+)? [+-][lrswipckdxtea]+?
+deleteacl (?:[\w\"\.\-\x5c\/%\*&]+)?
+getacl (?:[\w\"\.\-\x5c\/%\*&]+)?
+myrights (?:[\w\"\.\-\x5c\/%\*&]+)?
+listrights (?:[\w\"\.\-\x5c\/%\*&]+)?
+setacl (?:[\w\"\.\-\x5c\/%\*&]+)? [+-][lrswipckdxtea]+?
