@@ -17,7 +17,7 @@
 - [Jitendra Patro](https://github.com/Xhoenix)
 - [Jozef Sudolský](https://github.com/azurit)
 
-## Former and Inactive Developers
+## Former and Inactive Developers:
 
 - [Paul Beckett](https://github.com/53cur3M3)
 - [Christoph Hansen](https://github.com/emphazer)
