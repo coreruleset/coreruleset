@@ -6,6 +6,7 @@ import datetime
 import sys
 import os
 import re
+from inspect import getframeinfo, currentframe
 
 DEVELOPERS = dict()
 
@@ -18,15 +19,15 @@ def get_pr(repository: str, number: int) -> dict:
 	proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	pr_json, errors = proc.communicate()
 	if proc.returncode != 0:
-		print(errors)
+		print_errors(errors)
 		exit(1)
 	return json.loads(pr_json)
 
-def get_prs(repository: str, day: datetime.date) -> list:
-	print(f"Fetching PRs for {day}")
+def get_prs(repository: str, start_date: datetime.date, end_date: datetime.date) -> list:
+	print(f"Fetching PR for start_date")
 	command = f"""gh search prs \
 		--repo "{repository}" \
-		--merged-at "{day}" \
+		--merged-at "{end_date}..{start_date}" \
 		--json number \
 		-- \
 		-label:changelog-pr # ignore changelog prs
@@ -34,7 +35,7 @@ def get_prs(repository: str, day: datetime.date) -> list:
 	proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	prs_json, errors = proc.communicate()
 	if proc.returncode != 0:
-		print(errors)
+		print_errors(errors)
 		exit(1)
 	prs = list()
 	for result in json.loads(prs_json):
@@ -55,6 +56,8 @@ def parse_prs(prs: list) -> dict:
 	return pr_map
 
 
+# Accepts a single date on purpose. Gathering PRs over more than a single day
+# is for debugging only.
 def create_prs(repository: str, merged_by_prs_map: dict, day: datetime.date):
 	base_pr = find_latest_open_changelog_pr(repository)
 	base_ref = base_pr["headRefName"] if base_pr else None
@@ -72,7 +75,7 @@ def find_latest_open_changelog_pr(repository: str) -> dict | None:
 	proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	pr_json, errors = proc.communicate()
 	if proc.returncode != 0:
-		print(errors)
+		print_errors(errors)
 		exit(1)
 	ids = json.loads(pr_json)
 	base_pr_id = ids[0]["number"] if ids else None
@@ -95,6 +98,7 @@ def create_pr(repository: str, base_ref: str | None, merged_by: str, prs: list, 
 	create_commit(changelog_lines)
 	push_pr_branch(pr_branch_name)
 
+	print("\tCreating PR...")
 	command = f"""gh pr create \
 		--repo "{repository}" \
 		--assignee "{merged_by}" \
@@ -107,12 +111,13 @@ def create_pr(repository: str, base_ref: str | None, merged_by: str, prs: list, 
 	proc = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	outs, errors = proc.communicate(input=pr_body.encode())
 	if proc.returncode != 0:
-		print(errors)
+		print_errors(errors)
 		exit(1)
 	print(f"Created PR: {outs.decode()}")
 	return pr_branch_name
 
 def create_commit(changelog_lines: str):
+	print("\tCreating commit...")
 	with open('.changes-pending.md', 'a') as changelog:
 		changelog.write(changelog_lines)
 
@@ -120,10 +125,11 @@ def create_commit(changelog_lines: str):
 	proc = subprocess.Popen(command, shell=True, stderr=subprocess.PIPE)
 	_, errors = proc.communicate()
 	if proc.returncode != 0:
-		print(errors)
+		print_errors(errors)
 		exit(1)
 
 def generate_content(prs: list, merged_by: str) -> (str, str):
+	print("\tGenerating PR content...")
 	changelog_lines = ""
 	pr_body = f"This PR was auto-generated to update the changelog with the following entries, merged by @{merged_by}:\n```\n"
 	pr_links = ""
@@ -157,34 +163,39 @@ def parse_contributors():
 			line = handle.readline()
 
 def create_pr_branch(day: datetime.date, author: str, base_branch: str) -> str:
-	branch_name = f"changelog-updates-for-{day}-{author} {base_branch}"
-	command = f"git checkout -b {branch_name}"
+	print("\tCreating branch...")
+	branch_name = f"changelog-updates-for-{day}-{author}"
+	command = f"git checkout {base_branch}; git checkout -b {branch_name}"
 	proc = subprocess.Popen(command, shell=True, stderr=subprocess.PIPE)
 	_, errors = proc.communicate()
 	if proc.returncode != 0:
-		print(errors)
+		print_errors(errors)
 		exit(1)
 
 	return branch_name
 
 def push_pr_branch(branch_name: str):
+	print("\tPushing branch...")
 	command = f"git push -u origin {branch_name}"
 	proc = subprocess.Popen(command, shell=True, stderr=subprocess.PIPE)
 	_, errors = proc.communicate()
 	if proc.returncode != 0:
-		print(errors)
+		print_errors(errors)
 		exit(1)
 
-def run(source_repository: str, target_repository: str, today: datetime.date):
-	day = today - datetime.timedelta(days=1)
-	prs = get_prs(source_repository, day)
+def run(source_repository: str, target_repository: str, start_date: datetime.date, days: int):
+	end_date = start_date - datetime.timedelta(days=days)
+	prs = get_prs(source_repository, start_date, end_date)
 	prs_length = len(prs)
 	print(f"Found {prs_length} PRs")
 	if prs_length == 0:
 		return
 
 	merged_by_prs_map = parse_prs(prs)
-	create_prs(target_repository, merged_by_prs_map, day)
+	create_prs(target_repository, merged_by_prs_map, start_date)
+
+def print_errors(errors: str):
+	print(f"{getframeinfo(currentframe().f_back).lineno}:", errors)
 
 if __name__ == "__main__":
 	# disable pager
@@ -198,12 +209,14 @@ if __name__ == "__main__":
 	source_repository = 'coreruleset/coreruleset'
 	target_repository = source_repository
 	# the cron schedule for the workflow uses UTC
-	today = datetime.datetime.now(datetime.timezone.utc).date()
+	start_date = datetime.datetime.now(datetime.timezone.utc).date()
 
-	if len(sys.argv) > 1:
+	if len(sys.argv) > 1 and len(sys.argv[1]) > 0:
 		source_repository = sys.argv[1]
-	if len(sys.argv) > 2:
+	if len(sys.argv) > 2 and len(sys.argv[2]) > 0:
 		target_repository = sys.argv[2]
-	if len(sys.argv) > 3:
-		today = datetime.date.fromisoformat(sys.argv[3])
-	run(source_repository, target_repository, today)
+	if len(sys.argv) > 3 and len(sys.argv[3]) > 0:
+		start_date = datetime.date.fromisoformat(sys.argv[3])
+	if len(sys.argv) > 4 and len(sys.argv[4]) > 0:
+		days = int(sys.argv[4])
+	run(source_repository, target_repository, start_date, days)
