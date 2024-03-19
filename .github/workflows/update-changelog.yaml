@@ -1,7 +1,7 @@
 name: Create changelog PRs
 
 # default token permissions: none
-permissions: write-all
+permissions: {}
 
 on:
   schedule:
@@ -9,9 +9,9 @@ on:
 
 jobs:
   create-changelog-prs:
-    # permissions:
-      # contents: write
-      # pull-requests: write
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout repo"
