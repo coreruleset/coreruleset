@@ -1,0 +1,38 @@
+name: ReDOS Check
+
+on: [push]
+
+jobs:
+  check-redos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: "Install crs-toolchain"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download -R coreruleset/crs-toolchain -p '*_linux_amd64.tar.gz'
+          ls crs-toolchain*
+          tar xzf crs-toolchain*_linux_amd64.tar.gz
+          rm crs-toolchain*_linux_amd64.tar.gz
+
+      - name: "Generate compiled regex list"
+        run: |
+          mkdir compiled
+          for ra in regex-assembly/*.ra
+          do
+            name=$(basename $ra .ra)
+            ./crs-toolchain regex generate $name > compiled/$name
+          done
+
+      - name: "Check that files are free from ReDOS"
+        id: redos-action
+        uses: fzipi/redos-action@v0.1.0
+        with:
+          files: compiled/*
+
+      - name: Print Output
+        id: output
+        run: echo "${{ steps.redos-action.outputs.status }}"
