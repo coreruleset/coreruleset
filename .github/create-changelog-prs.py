@@ -119,7 +119,7 @@ def create_pr(repository: str, base_ref: str | None, merged_by: str, prs: list, 
 
 def create_commit(changelog_lines: str):
     print("\tCreating commit...")
-    with open('.changes-pending.md', 'a', encoding='utf-8s') as changelog:
+    with open('.changes-pending.md', 'a', encoding='utf-8') as changelog:
         changelog.write(changelog_lines)
 
     command = "git commit .changes-pending.md -m 'Add pending changelog entries'"
