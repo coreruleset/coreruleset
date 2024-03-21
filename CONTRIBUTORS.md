@@ -144,3 +144,5 @@
 - [ThanhPT](https://github.com/thanhpt1708)
 - [Vandan Rohatgi](https://github.com/vandanrohatgi)
 - [NiceYouKnow](https://github.com/NiceYouKnow)
+- [floyd](https://github.com/floyd)
+- [superlgn](https://github.com/superlgn)
