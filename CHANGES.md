@@ -8,6 +8,25 @@
 ## Nightly builds
 New changelog entries are written to `.changes-pending.md`. They will be moved to the main changelog before a release.
 
+## Version 4.1.0 - 2024-03-21
+
+Changes with direct rule impact (sorted by lowest rule ID per change where available):
+
+ * feat: move HTTP header rules to phase 1 (932161 PL2, 932205 PL2, 932206 PL2, 932237 PL3) (Esad Cetiner) [#3570]
+ * fix: remove t:lowercase from rules that use '(?i)' modifier in their regex (942150 PL2, 942151 PL1, 942152 PL2) (Ervin Hegedus) [#3585]
+ * fix: prevent FPs against names due to "cron" (932260 PL1, 932236 PL2, 932237 PL3, 932239 PL2) (@superlgn) [#3578]
+ * fix: add missing tags and ver action (various rules) (Jozef Sudolský) [#3571]
+ * fix: adding more missing tags and ver actions (Jozef Sudolský) [#3593]
+ * fix: do not check URL fragments in referer headers as part of the existing rule to prevent FPs (932205 PL2) (Max Leske) [#3485]
+ * fix: range expressions must not start with `\v` (various rules) (Max Leske) [#3615]
+
+Changes without direct rule impact:
+
+ * feat: add check for combinations of t:lowercase and (?i) to lint (Franziska Bühler) [#3584]
+ * chore: add Esad Cetiner to list of developers (@EsadCetiner) [#3589]
+ * chore(deps): update workflow actions (Max Leske) [#3613]
+ * test: change HTTP method to uppercase for test 932260-28 (Matteo Pace) [#3580]
+
 ## Version 4.0.0 - 2024-02-14
 
 Important changes:
