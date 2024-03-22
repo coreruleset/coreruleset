@@ -29,10 +29,6 @@ jobs:
 
       - name: "Check that files are free from ReDOS"
         id: redos-action
-        uses: fzipi/redos-action@v0.1.0
+        uses: fzipi/redos-action@v1.0.2
         with:
           files: compiled/*
-
-      - name: Print Output
-        id: output
-        run: echo "${{ steps.redos-action.outputs.status }}"
