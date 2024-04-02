@@ -78,6 +78,7 @@ class Check(object):
         self.plscores       = []    # list of incosistent PL scores
         self.dupes          = []    # list of duplicated id's
         self.ids            = {}    # list of rule id's
+        self.newtags        = []    # list of new, unlisted tags
 
         self.re_tx_var      = re.compile("%\{\}")
 
@@ -569,6 +570,38 @@ class Check(object):
                     severity  = None     # severity
                     has_nolog = False    # rule has nolog action
 
+    def check_tags(self, fname, tagslist):
+        """
+        check that only tags from the util/APPROVED_TAGS file are used
+        """
+        chained = False
+        ruleid = 0
+        for d in self.data:
+            if "actions" in d:
+                aidx = 0        # stores the index of current action
+                if chained == False:
+                    ruleid  = 0
+                else:
+                    chained = False
+                while aidx < len(d['actions']):
+                    # read the action into 'a'
+                    a = d['actions'][aidx]
+                    if a['act_name'] == "id":
+                        ruleid = int(a['act_arg'])
+                    if a['act_name'] == "chain":
+                        chained = True
+                    if a['act_name'] == "tag":
+                        # check wheter tag is in tagslist
+                        if tagslist.count(a['act_arg']) == 0:
+                            self.newtags.append({
+                                'ruleid' : ruleid,
+                                'line'   : a['lineno'],
+                                'endLine': a['lineno'],
+                                'message': "rule uses unknown tag: '%s'; only tags registered in the util/APPROVED_TAGS file may be used; rule id: %d" % (a['act_arg'], ruleid)
+                            })
+                    aidx += 1
+
+
 def remove_comments(data):
     """
     In some special cases, remove the comments from the beginning of the lines.
@@ -659,6 +692,7 @@ if __name__ == "__main__":
     parser.add_argument("-r", "--rules", metavar='/path/to/coreruleset/*.conf', type=str,
                             nargs='*', help='Directory path to CRS rules', required=True,
                             action="append")
+    parser.add_argument("-t", "--tags-list", dest="tagslist", help="Path to file with permitted tags", required=True)
     args = parser.parse_args()
 
     crspath = []
@@ -670,6 +704,16 @@ if __name__ == "__main__":
             print("--output can be one of the 'native' or 'github'. Default value is 'native'")
             sys.exit(1)
     oformat = args.output
+
+    tags = []
+    try:
+        with open(args.tagslist, "r") as fp:
+            tags = [l.strip() for l in fp.readlines()]
+            # remove empty items, if any
+            tags = list(filter(lambda x: len(x) > 0, tags))
+    except:
+        errmsg("Can't open tags list: %s" % args.tagslist)
+        sys.exit(1)
 
     retval = 0
     try:
@@ -859,13 +903,25 @@ if __name__ == "__main__":
         ### check existence of used TX variables
         c.check_tx_variable(f)
         if len(c.undef_txvars) == 0:
-            msg(" All TX variables are set")
+            msg(" All TX variables are set.")
         else:
             errmsg(" There are one or more unset TX variables.")
             for a in c.undef_txvars:
                 a['indent'] = 2
                 a['file']   = f
                 a['title']  = "unset TX variable"
+                errmsgf(a)
+                retval = 1
+        ### check new unlisted tags
+        c.check_tags(f, tags)
+        if len(c.newtags) == 0:
+            msg(" No new tags added.")
+        else:
+            errmsg(" There are one or more new tag(s).")
+            for a in c.newtags:
+                a['indent'] = 2
+                a['file']   = f
+                a['title']  = "new unlisted tag"
                 errmsgf(a)
                 retval = 1
     msg("End of checking parsed rules")

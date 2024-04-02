@@ -6,12 +6,23 @@
 ##! Separate rules target commands that do not follow this prefix,
 ##! as the chance of false positives is higher without a prefix match.
 
-##! time ifconfig
+##! <some command> ifconfig
 ##!> cmdline unix
+  busybox
+  command
+  env
+  eval
+  ltrace
+  nohup
+  strace
   time
+  timeout
+  watch
 ##!<
 ##! ;ifconfig
 ;
+##! =ifconfig
+=
 ##! {ifconfig}
 \{
 ##! |ifconfig
@@ -40,6 +51,8 @@
 >\(
 ##! a() ( ifconfig; ); a
 \(\s*\)
+##! `cat<<<ifconfig` or `cat<<< ifconfig`
+<<<
 ##!=>
 
 ##! match possible white space between prefix expressions

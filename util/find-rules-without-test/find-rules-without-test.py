@@ -23,7 +23,7 @@ import glob
 import msc_pyparser
 import argparse
 
-EXCLUSION_LIST = ["900", "901", "905", "910", "912", "949", "921170"]
+EXCLUSION_LIST = ["900", "901", "905", "910", "912", "949", "921170", "942441", "942442"]
 oformat = "native"
 
 def find_ids(s, test_cases):

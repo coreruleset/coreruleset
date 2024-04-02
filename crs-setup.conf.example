@@ -1,9 +1,9 @@
 # ------------------------------------------------------------------------
-# OWASP ModSecurity Core Rule Set ver.4.0.0-rc2
+# OWASP CRS ver.4.0.0
 # Copyright (c) 2006-2020 Trustwave and contributors. All rights reserved.
-# Copyright (c) 2021-2023 Core Rule Set project. All rights reserved.
+# Copyright (c) 2021-2024 CRS project. All rights reserved.
 #
-# The OWASP ModSecurity Core Rule Set is distributed under
+# The OWASP CRS is distributed under
 # Apache Software License (ASL) version 2
 # Please see the enclosed LICENSE file for full details.
 # ------------------------------------------------------------------------
@@ -12,7 +12,7 @@
 #
 # -- [[ Introduction ]] --------------------------------------------------------
 #
-# The OWASP ModSecurity Core Rule Set (CRS) is a set of generic attack
+# The OWASP CRS is a set of generic attack
 # detection rules that provide a base level of protection for any web
 # application. They are written for the open source, cross-platform
 # ModSecurity Web Application Firewall.
@@ -694,7 +694,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #
 # -- [[ Easing In / Sampling Percentage ]] -------------------------------------
 #
-# Adding the Core Rule Set to an existing productive site can lead to false
+# Adding the CRS to an existing productive site can lead to false
 # positives, unexpected performance issues and other undesired side effects.
 #
 # It can be beneficial to test the water first by enabling the CRS for a
@@ -746,24 +746,6 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    setvar:tx.crs_validate_utf8_encoding=1"
-
-
-#
-# -- [[ Collection timeout ]] --------------------------------------------------
-#
-# Set the SecCollectionTimeout directive from the ModSecurity default (1 hour)
-# to a lower setting which is appropriate to most sites.
-# This increases performance by cleaning out stale collection (block) entries.
-#
-# This value should be greater than or equal to any block durations or timeouts
-# set by plugins that make use of ModSecurity's persistent collections (e.g. the
-# DoS protection and IP reputation plugins).
-#
-# Ref: https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-(v2.x)#SecCollectionTimeout
-
-# Please keep this directive uncommented.
-# Default: 600 (10 minutes)
-SecCollectionTimeout 600
 
 
 #
