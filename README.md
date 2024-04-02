@@ -1,19 +1,19 @@
+![GHA build main](https://github.com/coreruleset/coreruleset/workflows/Regression%20Tests/badge.svg?branch=main)</br>
 ![GHA build v4.0/dev](https://github.com/coreruleset/coreruleset/workflows/Regression%20Tests/badge.svg?branch=v4.0%2Fdev)
 ![GHA build v3.3/dev](https://github.com/coreruleset/coreruleset/workflows/Regression%20Tests/badge.svg?branch=v3.3%2Fdev)
-![GHA build v3.2/dev](https://github.com/coreruleset/coreruleset/workflows/Regression%20Tests/badge.svg?branch=v3.2%2Fdev)</br>
 [![OWASP Flagship](https://img.shields.io/badge/owasp-flagship%20project-38a047.svg)](https://owasp.org/projects/)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1390/badge)](https://bestpractices.coreinfrastructure.org/projects/1390)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
 
-# OWASP ModSecurity Core Rule Set (CRS)
+# OWASP CRS
 
-The OWASP ModSecurity Core Rule Set (CRS) is a set of generic attack detection rules for use with ModSecurity or compatible web application firewalls. The CRS aims to protect web applications from a wide range of attacks, including the OWASP Top Ten, with a minimum of false alerts.
+The OWASP CRS is a set of generic attack detection rules for use with ModSecurity or compatible web application firewalls. The CRS aims to protect web applications from a wide range of attacks, including the OWASP Top Ten, with a minimum of false alerts.
 
 ## CRS Resources
 
-Please see the [OWASP ModSecurity Core Rule Set page](https://coreruleset.org/) to get introduced to the CRS and view resources on installation, configuration, and working with the CRS.
+Please see the [OWASP CRS page](https://coreruleset.org/) to get introduced to the CRS and view resources on installation, configuration, and working with the CRS.
 
 ## Contributing to the CRS
 
@@ -28,6 +28,6 @@ We strive to make the OWASP ModSecurity CRS accessible to a wide audience of beg
 ## License
 
 Copyright (c) 2006-2020 Trustwave and contributors. All rights reserved.</br>
-Copyright (c) 2021-2023 Core Rule Set project. All rights reserved.
+Copyright (c) 2021-2024 CRS project. All rights reserved.
 
-The OWASP ModSecurity Core Rule Set is distributed under Apache Software License (ASL) version 2. Please see the enclosed LICENSE file for full details.
+The OWASP CRS is distributed under Apache Software License (ASL) version 2. Please see the enclosed LICENSE file for full details.

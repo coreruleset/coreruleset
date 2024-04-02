@@ -31,14 +31,19 @@ jobs:
             --repo coreruleset/coreruleset \
             --latest \
             --prerelease \
+            --draft=false \
             --title "Latest Nightly" \
             --notes "${notes}" \
             nightly
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Verify release state
+      - name: Publish draft if necessary
         run: |
+          echo "A race condition in the GH API can cause a release published for a previously existing tag to be published as draft."
+          echo "Wait for 30 seconds for the API to catch up to the actual state, then check that the release has been properly published."
+          echo "If the release is still a draft, publish it."
+          sleep 30
           if gh release list --repo coreruleset/coreruleset --exclude-drafts | grep --quiet nightly; then
             echo "Nightly release was created properly"
             exit 0
@@ -50,5 +55,7 @@ jobs:
             --repo coreruleset/coreruleset \
             --latest \
             --prerelease \
-            --draft false \
+            --draft=false \
             nightly
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

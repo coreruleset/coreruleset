@@ -4,15 +4,16 @@
 
 OWASP CRS has two types of releases, Major releases (3.0.0, 3.1.0, 3.2.0 etc.) and point releases (3.0.1, 3.0.2 etc.).
 For more information see our [wiki](https://github.com/coreruleset/coreruleset/wiki/Release-Policy).
+
 The OWASP CRS officially supports the two latest point releases with severe security patches.
 We are happy to receive and merge PR's that address security issues in older versions of the project, but the team itself may choose not to fix these.
 Along those lines, OWASP CRS team may not issue security notifications for unsupported software.
 
 | Version   | Supported          |
 | --------- | ------------------ |
-| 4.0.0-RC1 | :x:                |
+| 4.0.0     | :white_check_mark: |
 | 3.3.x     | :white_check_mark: |
-| 3.2.x     | :white_check_mark: |
+| 3.2.x     | :x:                |
 | 3.1.x     | :x:                |
 | 3.0.x     | :x:                |
 | 2.x       | :x:                |
@@ -28,17 +29,17 @@ You can also use `gpg --fetch-key https://coreruleset.org/security.asc` directly
 
 ### Verifying the CRS Release
 
-Download the release file and the corresponding signature. The following example shows how to do it for `v3.3.2` release:
+Download the release file and the corresponding signature. The following example shows how to do it for `v4.0.0` release:
 
 ```bash
-$ wget https://github.com/coreruleset/coreruleset/archive/refs/tags/v3.3.2.tar.gz
-$ wget https://github.com/coreruleset/coreruleset/releases/download/v3.3.2/coreruleset-3.3.2.tar.gz.asc
+$ wget https://github.com/coreruleset/coreruleset/archive/refs/tags/v4.0.0.tar.gz
+$ wget https://github.com/coreruleset/coreruleset/releases/download/v4.0.0/coreruleset-4.0.0.tar.gz.asc
 ```
 
 **Verification**:
 
 ```bash
-❯ gpg --verify coreruleset-3.3.2.tar.gz.asc v3.3.2.tar.gz
+❯ gpg --verify coreruleset-4.0.0.tar.gz.asc v4.0.0.tar.gz
 gpg: Signature made Wed Jun 30 10:05:48 2021 -03
 gpg:                using RSA key 36006F0E0BA167832158821138EEACA1AB8A6E72
 gpg: Good signature from "OWASP Core Rule Set <security@coreruleset.org>" [unknown]
@@ -59,7 +60,7 @@ gpg> quit
 
 Then you will see this result when verifying:
 ```bash
-gpg --verify coreruleset-3.3.2.tar.gz.asc v3.3.2.tar.gz
+gpg --verify coreruleset-4.0.0.tar.gz.asc v4.0.0.tar.gz
 gpg: Signature made Wed Jun 30 15:05:48 2021 CEST
 gpg:                using RSA key 36006F0E0BA167832158821138EEACA1AB8A6E72
 gpg: Good signature from "OWASP Core Rule Set <security@coreruleset.org>" [ultimate]
@@ -67,7 +68,7 @@ gpg: Good signature from "OWASP Core Rule Set <security@coreruleset.org>" [ultim
 
 ## Reporting a Vulnerability
 
-We strive to make the OWASP ModSecurity CRS accessible to a wide audience of beginner and experienced users.
+We strive to make the OWASP CRS accessible to a wide audience of beginner and experienced users.
 We welcome bug reports, false positive alert reports, evasions, usability issues, and suggestions for new detections.
 Submit these types of non-vulnerability related issues via Github.
 Please include your installed version and the relevant portions of your audit log.
@@ -86,4 +87,4 @@ We are happy to work with the community to provide CVE identifiers for any disco
 
 If in doubt, feel free to reach out to us!
 
-The OWASP ModSecurity CRS Team.
+The OWASP CRS Team.

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler, Max Leske, Esad Cetiner"
+  author: "Franziska Bühler, Max Leske, Esad Cetiner, Andrew Howe, Xhoenix"
   description: |
     Unix shell RCE
       - with / without prefix
@@ -333,7 +333,7 @@ tests:
           output:
             no_log_contains: id "932236"
   - test_title: 932236-19
-    desc: "FP MailerUI GitHub Issue #3220"
+    desc: "FP MailerUI"
     stages:
       - stage:
           input:
@@ -349,7 +349,7 @@ tests:
           output:
             no_log_contains: id "932236"
   - test_title: 932236-20
-    desc: "FP tasksListView GitHub Issue #3220"
+    desc: "FP tasksListView"
     stages:
       - stage:
           input:
@@ -807,7 +807,7 @@ tests:
           output:
             log_contains: id "932236"
   - test_title: 932236-44
-    desc: "FP with word comment Github Issue #3387"
+    desc: "FP with word comment"
     stages:
       - stage:
           input:
@@ -818,7 +818,361 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /?args=comment
+            uri: /get?args=comment
             version: HTTP/1.0
           output:
             no_log_contains: id "932236"
+  - test_title: 932236-45
+    desc: "FP with word settings"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: GET
+            port: 80
+            uri: /get?args=settings
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-46
+    desc: False positive against "time"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: en-us,en;q=0.5
+            method: POST
+            port: 80
+            uri: "/post"
+            data: "var=hello; time he came"
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-47
+    desc: False positive against "more"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Accept-Encoding: gzip, deflate, br
+              Accept-Language: en-us,en;q=0.5
+            method: POST
+            port: 80
+            uri: "/post"
+            data: "var=a hero; more than"
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-48
+    desc: "FP with word environment"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: GET
+            port: 80
+            uri: /get?args=environment
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-49
+    desc: "FP with word performance"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: GET
+            port: 80
+            uri: /get?args=performance
+            version: HTTP/1.0
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-50
+    desc: "Block execution of env command with arguments"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: POST
+            port: 80
+            uri: /post
+            data: "args=env --version"
+            version: HTTP/1.1
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-51
+    desc: "Block execution of perf command with arguments"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              User-Agent: "OWASP CRS test agent"
+              Host: localhost
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            method: POST
+            port: 80
+            uri: /post
+            data: "args=perf --version"
+            version: HTTP/1.1
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-52
+    desc: "Block evasion using here string"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=;`cat<<<ifconfig`
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-53
+    desc: "Block evasion using here string with space"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=;`cat<<< ifconfig`
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-54
+    desc: "Block evasion using here string with single quotes"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=;`cat<<<'ifconfig'`
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-55
+    desc: "Block evasion using here string with double quotes"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=;`cat<<<"ifconfig"`
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-56
+    desc: "Block evasion using here string with command substitution"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=;`cat<<<$(ifconfig)`
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-57
+    desc: "Block `time` prefix"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=time ifconfig
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-58
+    desc: "Block `strace` prefix"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=strace ifconfig
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-59
+    desc: "Known false positive with `Cut` at start of string (expected failure)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              sentence=Cut orange quarters into crosswise slices about 1/8-inch thick.
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-60
+    desc: "Known false positive with `Wall` at start of string (expected failure)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              sentence=Wall Street\\xe2\\x80\\x99s benchmark stock index struck an all-time high on Tuesday.
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-61
+    desc: "Known false positive with `Mount` at start of string (expected failure)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              sentence=Mount Airy basketball coach Bryan Hayes lectures his team during a third-quarter timeout.
+          output:
+            log_contains: id "932236"
+  - test_title: 932236-62
+    desc: "Fixed false positive with `As` at start of string"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              sentence=As you near your last year of trick or treating, though, sometimes jokes aren't enough.
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-63
+    desc: "Fixed false positive with `At` at start of string"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              sentence=At any moment we can make a decision to change.
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-64
+    desc: "Block `nohup` prefix"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=nohup ifconfig
+          output:
+            log_contains: id "932236"
