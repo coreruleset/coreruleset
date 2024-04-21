@@ -104,9 +104,8 @@ def create_pr(
     print(f"Creating changelog PR for @{merged_by}")
 
     base_branch = prs[0]["baseRefName"]
-    pr_branch_name = create_pr_branch(
-        start_date, end_date, merged_by, base_branch, dry_run
-    )
+    checkout_base(base_branch, dry_run)
+    pr_branch_name = create_pr_branch(start_date, end_date, merged_by, dry_run)
     pr_body, changelog_lines = generate_content(prs, merged_by)
     create_commit(changelog_lines, dry_run)
     push_pr_branch(pr_branch_name, dry_run)
@@ -137,6 +136,26 @@ def create_pr(
             print_errors(errors)
             sys.exit(1)
         print(f"Created PR: {outs.decode()}")
+
+
+def checkout_base(base_ref: str, dry_run: bool):
+    print("\tChecking out base ref ...")
+    command = f"git checkout {base_ref}"
+
+    if dry_run:
+        print(command)
+        return
+
+    with subprocess.Popen(
+        command,
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    ) as proc:
+        outs, errors = proc.communicate()
+        if proc.returncode != 0:
+            print_errors(errors)
+            sys.exit(1)
 
 
 def create_commit(changelog_lines: str, dry_run: bool):
@@ -201,7 +220,6 @@ def create_pr_branch(
     start_date: datetime.date,
     end_date: datetime.date,
     author: str,
-    base_branch: str,
     dry_run: bool,
 ) -> str:
     print("\tCreating branch...")
