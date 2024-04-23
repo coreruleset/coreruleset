@@ -8,6 +8,18 @@
 ## Nightly builds
 New changelog entries are written to `.changes-pending.md`. They will be moved to the main changelog before a release.
 
+## Version 4.2.0 - 2024-04-23
+
+Changes with direct rule impact (sorted by lowest rule ID per change where available):
+
+ * fix: increase length of Accept-Encoding header from 50 to 100 (920520 PL1) (Franziska Bühler) [#3661]
+ * fix: add detection for php evasion attempt (933100 PL1) (Franziska Bühler) [#3667]
+ * fix: add visudo and cscli to unix-shell.data (932160 PL-1, 932161 PL-2) (@EsadCetiner) [#3663]
+
+Changes without direct rule impact:
+
+ * feat: disassemble php rule (933100 PL1) (Franziska Bühler) [#3662]
+
 ## Version 4.1.0 - 2024-03-21
 
 Changes with direct rule impact (sorted by lowest rule ID per change where available):
