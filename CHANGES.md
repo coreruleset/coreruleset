@@ -13,12 +13,15 @@ New changelog entries are written to `.changes-pending.md`. They will be moved t
 Changes with direct rule impact (sorted by lowest rule ID per change where available):
 
  * fix: increase length of Accept-Encoding header from 50 to 100 (920520 PL1) (Franziska Bühler) [#3661]
+ * fix: add missing roundcube files (930120 PL1, 930121 PL2, 930130 PL1, 932180 PL1) (Esad Cetiner) [#3635]
+ * fix: add visudo and cscli to unix-shell.data (932160 PL1, 932161 PL2) (Esad Cetiner) [#3663]
+ * feat: block crowdsec cscli and visudo commands (932235 PL1, 932236 PL2, 932237 PL3, 932239 PL2, 932260 PL1) (Esad Cetiner) [#3649]
  * fix: add detection for php evasion attempt (933100 PL1) (Franziska Bühler) [#3667]
- * fix: add visudo and cscli to unix-shell.data (932160 PL-1, 932161 PL-2) (@EsadCetiner) [#3663]
 
 Changes without direct rule impact:
 
  * feat: disassemble php rule (933100 PL1) (Franziska Bühler) [#3662]
+ * chore: remove references to nonexistant 942110 rule (Esad Cetiner) [#3648]
 
 ## Version 4.1.0 - 2024-03-21
 
