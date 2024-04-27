@@ -38,7 +38,7 @@ tests:
             uri: "/get"
             version: "HTTP/1.1"
           output:
-            status: [400]
+            status: 400
   - test_title: 920100-3
     desc: Perfectly valid OPTIONS request
     stages:
@@ -70,7 +70,7 @@ tests:
             uri: "1.2.3.4:80"
             version: "HTTP/1.1"
           output:
-            status: [200]
+            status: 200
             no_log_contains: "id \"920100\""
   - test_title: 920100-5
     desc: invalid Connect request, domains require ports
@@ -87,7 +87,7 @@ tests:
             uri: "www.coreruleset.org"
             version: "HTTP/1.1"
           output:
-            status: [400]
+            status: 400
   - test_title: 920100-6
     desc: This is an acceptable CONNECT request for SSL tunneling
     stages:
@@ -137,7 +137,7 @@ tests:
             uri: "/get/index.html:80?I=Like&Apples=Today#tag"
             version: "HTTP/1.1"
           output:
-            status: [400, 403]
+            status: 400
   - test_title: 920100-9
     desc: Normal Options request with path
     stages:
@@ -187,7 +187,7 @@ tests:
             uri: "\\"
             version: "HTTP/1.1"
           output:
-            status: [403, 400]
+            status: 400
   - test_title: 920100-12
     desc: Invalid HTTP Request Line (920100) - Test 1 from old modsec regressions
     stages:
@@ -205,7 +205,7 @@ tests:
             uri: "/get"
             version: HTTP/1.1
           output:
-            status: [400]
+            status: 400
   - test_title: 920100-13
     desc: Invalid HTTP Request Line (920100) - Test 2 from old modsec regressions
     stages:
@@ -223,7 +223,7 @@ tests:
             uri: \index.html
             version: HTTP\1.0
           output:
-            status: [403, 400]
+            status: 400
   - test_title: 920100-14
     desc: Invalid HTTP Request Line (920100) - Test 3 from old modsec regressions
     stages:
@@ -257,7 +257,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             version: "HTTP/1.1"
           output:
-            status: [403, 400]
+            status: 400
   - test_title: 920100-16
     desc: "Status Page Test - Invalid HTTP request line: URI has scheme and authority but no path"
     stages:

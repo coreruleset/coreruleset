@@ -21,7 +21,7 @@ tests:
             uri: "/"
             version: "HTTP/1.1"
           output:
-            status: [400]
+            status: 400
   - # Non digit content-length with content-type
     test_title: 920160-2
     stages:
@@ -39,7 +39,7 @@ tests:
             uri: "/"
             version: "HTTP/1.1"
           output:
-            status: [400]
+            status: 400
   - # Mixed digit and non digit content length
     test_title: 920160-3
     stages:
@@ -57,7 +57,7 @@ tests:
             uri: "/"
             version: "HTTP/1.1"
           output:
-            status: [400]
+            status: 400
   - # Test is based in httpbin.org, so backend returns 405 if you are not posting to /post
     # Apache auto corrects for this error now so the log should not contain anything
     test_title: 920160-4
@@ -81,7 +81,7 @@ tests:
             version: HTTP/1.0
             data: abc
           output:
-            status: [200]
+            status: 200
             no_log_contains: id "920160"
   - test_title: 920160-5
     desc: Content-Length HTTP header is not numeric (920160)  from old modsec regressions
@@ -104,5 +104,5 @@ tests:
             version: HTTP/1.0
             data: abc
           output:
-            status: [200, 403, 400]
+            status: 400
             # log_contains: id "920160"
