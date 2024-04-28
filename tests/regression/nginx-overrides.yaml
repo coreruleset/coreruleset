@@ -7,287 +7,114 @@ meta:
     - purpose: "CRS test suite"
 test_overrides:
   - rule_id: 920100
-    test_id: 4
+    test_ids: [4]
     reason: "Nginx returns a 400 bad request"
     output:
       status: 400
-    expect_failure: false
+      expect_error: false
   - rule_id: 920100
-    test_id: 8
+    test_ids: [8]
     reason: "On Apache is not allowed to put a colon in the path. Nginx, on the other hand, allows it and, in this case, returns a 404. /index.html:80?I=Like&Apples=Today#tag"
     output:
       status: 404
-    expect_failure: false
+      expect_error: false
   - rule_id: 920100
-    test_id: 14
+    test_ids: [14]
     reason: "Invalid request line produces a 400 Bad Request on Nginx. This prevents matching any rules."
-    expect_failure: true
+    output:
+      expect_error: true
   - rule_id: 920100
-    test_id: 16
+    test_ids: [16]
     reason: "Seems like Nginx does a normalization of the request line, and if <schema>://<hostname> is sent (without a path) the request path becomes / by default"
-    expect_failure: true
+    output:
+      expect_error: true
   - rule_id: 920181
-    test_id: 1
+    test_ids: [1]
     reason: "Nginx returns 400 if both Content-length and Transfer-Encoding chunked are present"
     output:
       status: 400
   - rule_id: 920270
-    test_id: 4
+    test_ids: [4]
     reason: "Header host with null byte causes Apache to error before it gets to CRS. Nginx allow this and libModSecurity correctly matches the rule"
-    expect_failure: false
     output:
+      expect_error: false
       status: 200
-      log_contains: "id \"920270\""
+      log:
+        expect_ids: [920270]
   - rule_id: 920290
-    test_id: 4
+    test_ids: [4]
     reason: "Nginx returns 400 if Host header is missing"
     output:
-      log_contains: ""
+      log:
+        expect_ids: []
       status: 400
   - rule_id: 920430
-    test_id: 8
+    test_ids: [8]
     reason: "If the HTTP Protocol Version is invalid, Nginx take action before modsecurity sending a 505 response code."
     output:
-      log_contains: ""
+      log:
+        expect_ids: []
       status: 505
-    expect_failure: false
+      expect_error: false
   - rule_id: 932200
-    test_id: 13
+    test_ids: [13]
     reason: "TODO: the log file contains MATCHED_VAR instead of the macro expansion result"
-    expect_failure: true
+    output:
+      expect_error: true
   - rule_id: 933110
-    test_id: 3
+    test_ids: [3, 13, 14, 20, 21, 22, 24, 25, 26, 27]
     reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"
     output:
-      log_contains: ""
-    expect_failure: false
-  - rule_id: 933110
-    test_id: 13
-    reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"
-    output:
-      log_contains: ""
-    expect_failure: false
-  - rule_id: 933110
-    test_id: 14
-    reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"
-    output:
-      log_contains: ""
-    expect_failure: false
-  - rule_id: 933110
-    test_id: 20
-    reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"
-    output:
-      log_contains: ""
-    expect_failure: false
-  - rule_id: 933110
-    test_id: 21
-    reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"
-    output:
-      log_contains: ""
-    expect_failure: false
-  - rule_id: 933110
-    test_id: 22
-    reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"
-    output:
-      log_contains: ""
-    expect_failure: false
-  - rule_id: 933110
-    test_id: 24
-    reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"
-    output:
-      log_contains: ""
-    expect_failure: false
-  - rule_id: 933110
-    test_id: 25
-    reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"
-    output:
-      log_contains: ""
-    expect_failure: false
-  - rule_id: 933110
-    test_id: 26
-    reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"
-    output:
-      log_contains: ""
-    expect_failure: false
-  - rule_id: 933110
-    test_id: 27
-    reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"
-    output:
-      log_contains: ""
-    expect_failure: false
+      log:
+        expect_ids: []
+      expect_error: false
   - rule_id: 934131
-    test_id: 5
+    test_ids: [5]
     reason: "The problem here is how the rules tfunc works on nginx. Waiting for a decision here: https://github.com/coreruleset/coreruleset/issues/3376"
-    expect_failure: true
+    output:
+      expect_error: true
   - rule_id: 934131
-    test_id: 7
+    test_ids: [7]
     reason: "The problem here is how the rules tfunc works on nginx. Waiting for a decision here: https://github.com/coreruleset/coreruleset/issues/3376"
-    expect_failure: true
+    output:
+      expect_error: true
   - rule_id: 941180
-    test_id: 7
+    test_ids: [7]
     reason: "Rule remove by range doesn't work on v3 if used via ctl. https://github.com/coreruleset/coreruleset/pull/3302"
-    expect_failure: true
+    output:
+      expect_error: true
   - rule_id: 942131
-    test_id: 3
+    test_ids: [3, 5, 7]
     reason: "v3 log bug, the first part of the chain always produces a log"
-    expect_failure: true
-  - rule_id: 942131
-    test_id: 5
-    reason: "v3 log bug, the first part of the chain always produces a log"
-    expect_failure: true
-  - rule_id: 942131
-    test_id: 7
-    reason: "v3 log bug, the first part of the chain always produces a log"
-    expect_failure: true
+    output:
+      expect_error: true
   - rule_id: 942550
-    test_id: 26
+    test_ids: [26, 28, 30, 32]
     reason: "Seems like libmodsecurity3 cuts the substring after '?' if it contains from target `REQUEST_FILENAME`"
-    expect_failure: true
-  - rule_id: 942550
-    test_id: 28
-    reason: "Seems like libmodsecurity3 cuts the substring after '?' if it contains from target `REQUEST_FILENAME`"
-    expect_failure: true
-  - rule_id: 942550
-    test_id: 30
-    reason: "Seems like libmodsecurity3 cuts the substring after '?' if it contains from target `REQUEST_FILENAME`"
-    expect_failure: true
-  - rule_id: 942550
-    test_id: 32
-    reason: "Seems like libmodsecurity3 cuts the substring after '?' if it contains from target `REQUEST_FILENAME`"
-    expect_failure: true
+    output:
+      expect_error: true
   - rule_id: 944100
-    test_id: 11
+    test_ids: [11, 12, 15, 16]
     reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944100
-    test_id: 12
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944100
-    test_id: 15
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944100
-    test_id: 16
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944110
-    test_id: 11
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944110
-    test_id: 12
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944110
-    test_id: 15
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944110
-    test_id: 16
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this" 
-    expect_failure: true
+    output:
+      expect_error: true
   - rule_id: 944120
-    test_id: 6
+    test_ids: [6, 7, 23, 24, 40, 41, 57, 58, 74, 75, 91, 92, 108, 109, 125, 126,]
     reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 7
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 23
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 24
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 40
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 41
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 57
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 58
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 74
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 75
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 91
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 92
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 108
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 109
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 125
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944120
-    test_id: 126
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
+    output:
+      expect_error: true
   - rule_id: 944140
-    test_id: 3
+    test_ids: [3, 8]
     reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944140
-    test_id: 8
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
+    output:
+      expect_error: true
   - rule_id: 944210
-    test_id: 6
+    test_ids: [6, 7, 23, 24, 40, 41]
     reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944210
-    test_id: 7
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944210
-    test_id: 23
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944210
-    test_id: 24
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944210
-    test_id: 40
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
-  - rule_id: 944210
-    test_id: 41
-    reason: "`REQUEST_BODY` is always presents, and rule catches it in case of CT application/xml. A libmodsecurity3 plugin could solve this"
-    expect_failure: true
+    output:
+      expect_error: true
   - rule_id: 980170
-    test_id: 1
+    test_ids: [1, 2]
     reason: "libmodsecurity3 does not make any log entry about rule triggering in error.log if the rule has `noauditlog` action, like 980170"
-    expect_failure: true
-  - rule_id: 980170
-    test_id: 2
-    reason: "libmodsecurity3 does not make any log entry about rule triggering in error.log if the rule has `noauditlog` action, like 980170"
-    expect_failure: true
+    output:
+      expect_error: true
