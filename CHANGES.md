@@ -27,6 +27,7 @@ Changes without direct rule impact:
 
 Changes with direct rule impact (sorted by lowest rule ID per change where available):
 
+ * feat: add support for additional ansible and chef commands (932160 PL1, 932161 PL2, 932235 PL1, 932260 PL1, 932236 PL2, 932239 PL2, 932237 PL3) (Esad Cetiner) [#3601]
  * feat: move HTTP header rules to phase 1 (932161 PL2, 932205 PL2, 932206 PL2, 932237 PL3) (Esad Cetiner) [#3570]
  * fix: remove t:lowercase from rules that use '(?i)' modifier in their regex (942150 PL2, 942151 PL1, 942152 PL2) (Ervin Hegedus) [#3585]
  * fix: prevent FPs against names due to "cron" (932260 PL1, 932236 PL2, 932237 PL3, 932239 PL2) (@superlgn) [#3578]
