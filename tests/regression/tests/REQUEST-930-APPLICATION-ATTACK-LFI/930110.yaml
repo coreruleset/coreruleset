@@ -104,7 +104,9 @@ tests:
           log:
             no_expect_ids: [930110]
   - test_id: 7
-    desc: "Path Traversal Attack (/../) query string"
+    desc: |
+      Path Traversal Attack (/../) query string.
+      Note: apparently, httpd strips dots, ModSecurity never sees them in `REQUEST_URI``
     stages:
       - input:
           dest_addr: "localhost"
@@ -211,7 +213,7 @@ tests:
             X-FTW: "This should trip"
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get?a=..;.\\.;\\."
+          uri: "/get?a=..;.\\.;\\."
           version: "HTTP/1.1"
         output:
           log:

@@ -210,7 +210,8 @@ tests:
           uri: "/get?host=www.google.com;/bin/ca?+/et*/passwd"
           version: HTTP/1.0
         output:
-          no_log_contains: found within MATCHED_VAR
+          log:
+            match_regex: 'found within ARGS:host:'
   - test_id: 14
     desc: "Test variable assignment ('cat /etc/passwd' assigned via individual variables, cat in reverse order)"
     stages:

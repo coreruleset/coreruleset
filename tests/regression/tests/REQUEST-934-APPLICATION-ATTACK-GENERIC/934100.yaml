@@ -1,7 +1,6 @@
 ---
 meta:
   author: "lifeforms, airween, Max Leske, azurit"
-  description: "Tests for rule 934100"
 rule_id: 934100
 tests:
   - test_id: 1
@@ -423,40 +422,6 @@ tests:
             c\u006fnsole.info(1)
           uri: "/post"
           version: "HTTP/1.1"
-        output:
-          log:
-            expect_ids: [934100]
-  - test_id: 25
-    desc: "5ZLKNU33"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-          method: POST
-          port: 80
-          data: |
-            console.info(1)
-          uri: /post
-        output:
-          log:
-            expect_ids: [934100]
-  - test_id: 26
-    desc: "5ZLKNU33"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-          method: POST
-          port: 80
-          data: |
-            console.info(1)
-          uri: /post
         output:
           log:
             expect_ids: [934100]

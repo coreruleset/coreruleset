@@ -1,7 +1,6 @@
 ---
 meta:
   author: "karelorigin, azurit"
-  description: "Tests for rule 934160"
 rule_id: 934160
 tests:
   - test_id: 1
@@ -479,7 +478,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?eval=while(true);"
+          uri: "/get?eval=\u0077\u0068ile(true);"
           version: HTTP/1.1
         output:
           log:
@@ -527,7 +526,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?eval=d2hpbGUodHJ1ZSk7Cg%3D%3D"
+          uri: "/get?eval=\u0064\u0032hpbGUodHJ1ZSk7Cg%3D%3D"
           version: HTTP/1.1
         output:
           log:

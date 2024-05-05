@@ -1,7 +1,6 @@
 ---
 meta:
   author: "jptosso, azurit"
-  description: "Tests to trigger, or not trigger 921170 and 921180"
 rule_id: 921180
 tests:
   - # Standard GET request
@@ -84,8 +83,8 @@ tests:
         output:
           log:
             no_expect_ids: [921180]
-  - # HPP payload with multiple iterations
-    test_id: 6
+  - test_id: 6
+    desc: query parameter repetition
     stages:
       - input:
           dest_addr: "127.0.0.1"

@@ -58,10 +58,11 @@ tests:
         output:
           log:
             no_expect_ids: [920430]
-  - # Currently FTW won't process HTTP 1.0 simple response items
-    # This request generates such a response, so even though it will
-    # generate the alert, it will error.
-    test_id: 5
+  - test_id: 5
+    desc: |
+      Request line without version will be interpreted as HTTP/0.9.
+      Note that go-ftw currently can't handle the generated response though and
+      will see a premature EOF.
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -74,6 +75,7 @@ tests:
           uri: "/"
         output:
           expect_error: true
+          expect_ids: [920430]
   - test_id: 6
     stages:
       - input:

@@ -54,14 +54,9 @@ tests:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
+          version: "HTTP/1.1"
+          uri: "/get"
           encoded_request: "R0VUIC8gSFRUUC8xLjANCkhvc3Q6DQoNCg=="
-          # Request:
-          #
-          # GET / HTTP/1.0
-          # Host:
-          #
-          # CRS prefers the use of encoded_request over raw_request.
-          # Known reason is encoding issues with raw_request.
         output:
           log:
             expect_ids: [920290]

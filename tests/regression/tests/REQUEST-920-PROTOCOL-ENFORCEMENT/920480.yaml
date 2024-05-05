@@ -225,7 +225,7 @@ tests:
   #        version: "HTTP/1.1"
   #      output:
   #         log:
-    #        epxect_ids:: [920480]
+  #          epxect_ids:: [920480]
   - test_id: 7
     stages:
       - input:
@@ -301,10 +301,10 @@ tests:
           port: 80
           method: "POST"
           headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              # double charset may cause evasion
-              Content-Type: "application/x-www-form-urlencoded;charset=ibm037;charset=UTF-8"
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            # double charset may cause evasion
+            Content-Type: "application/x-www-form-urlencoded;charset=ibm037;charset=UTF-8"
           data: "test=value"
           version: "HTTP/1.1"
         output:
@@ -338,12 +338,12 @@ tests:
   #          User-Agent: "OWASP CRS test agent"
   #          Host: "localhost"
   #          Content-Type: "application/x-www-form-urlencoded;charset=ibm037;charset=UTF-8" #double charset may cause evasion
-  #      uri: "/"
-  #      data: "test=value"
-  #      version: "HTTP/1.1"
-  #    output:
-  #      log:
-  #        expect_ids: [920480]
+  #        uri: "/"
+  #        data: "test=value"
+  #        version: "HTTP/1.1"
+  #      output:
+  #        log:
+  #          expect_ids: [920480]
   - test_id: 14
     stages:
       - input:
@@ -353,7 +353,6 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            # random other IBM charset
             Content-Type: "application/x-www-form-urlencoded; charset=\"utf-8\""
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"
@@ -371,7 +370,6 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            # random other IBM charset
             Content-Type: "application/x-www-form-urlencoded; charset='utf-8'"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"
@@ -389,7 +387,6 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            # random other IBM charset
             Content-Type: "application/x-www-form-urlencoded; charset=\"garbage\""
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"

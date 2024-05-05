@@ -67,4 +67,5 @@ tests:
           uri: "/reflect"
           data: "{\"body\": \"<?php echo \\\"Hello World!\\n\\\" ?>\"}"
         output:
-          log_contains: "Outbound Anomaly Score Exceeded [(]Total Score: "
+          log:
+            match_regex: 'Outbound Anomaly Score Exceeded \(Total Score: '
