@@ -10,7 +10,7 @@ services:
     environment:
       SERVERNAME: modsec2-apache
       BACKEND: http://backend
-      PORT: "80"
+      PORT: "8080"
       MODSEC_RULE_ENGINE: DetectionOnly
       BLOCKING_PARANOIA: 4
       ERRORLOG: "/var/log/error.log"
@@ -32,7 +32,7 @@ services:
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
     entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh httpd-foreground"]
     ports:
-      - "80:80"
+      - "80:8080"
     depends_on:
       - backend
 
@@ -43,7 +43,7 @@ services:
     environment:
       SERVERNAME: modsec3-nginx
       BACKEND: http://backend
-      PORT: "80"
+      PORT: "8080"
       MODSEC_RULE_ENGINE: DetectionOnly
       BLOCKING_PARANOIA: 4
       ERRORLOG: "/var/log/error.log"
@@ -65,7 +65,7 @@ services:
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
     entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh nginx -g 'daemon off;'"]
     ports:
-      - "80:80"
+      - "80:8080"
     depends_on:
       - backend
 
