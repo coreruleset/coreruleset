@@ -1,12 +1,10 @@
-version: '3.2'
-
 # Only one of these will be up at a time for now.
 # Concurrency will be on the tests folder we have.
 
 services:
   modsec2-apache:
     container_name: modsec2-apache
-    image: owasp/modsecurity-crs:apache
+    image: owasp/modsecurity-crs:apache@sha256:90b5cb9e76043f24ccaf74cc67c3ca297e9b35f0e5391e7cd0c3f62b139caec7
     environment:
       SERVERNAME: modsec2-apache
       BACKEND: http://backend
@@ -39,7 +37,7 @@ services:
 
   modsec3-nginx:
     container_name: modsec3-nginx
-    image: owasp/modsecurity-crs:nginx
+    image: owasp/modsecurity-crs:nginx@sha256:7fee945b45c4917de92981eb785a0691167a30a17b8bd7c927dd7bd7fc1f5de6
     environment:
       SERVERNAME: modsec3-nginx
       BACKEND: http://backend
