@@ -4,7 +4,7 @@
 services:
   modsec2-apache:
     container_name: modsec2-apache
-    image: owasp/modsecurity-crs:apache@sha256:9c20dd4756378de04c3587911efdf37c15614403c0540e008f16ca1cdbc63cba
+    image: owasp/modsecurity-crs:apache@sha256:9c20dd4756378de04c3587911efdf37c15614403c0540e008f16ca1cdbc63cba # 4.1.0-apache-202404131004
     environment:
       SERVERNAME: modsec2-apache
       BACKEND: http://backend
@@ -34,10 +34,9 @@ services:
     depends_on:
       - backend
 
-
   modsec3-nginx:
     container_name: modsec3-nginx
-    image: owasp/modsecurity-crs:nginx@sha256:71c4719eadc99b0e5df30aa8b07ffb93a71f9e69b3aee59a9029e7cef3f528d9
+    image: owasp/modsecurity-crs:nginx@sha256:71c4719eadc99b0e5df30aa8b07ffb93a71f9e69b3aee59a9029e7cef3f528d9 # 4.1.0-nginx-202404070904
     environment:
       SERVERNAME: modsec3-nginx
       BACKEND: http://backend
@@ -70,8 +69,8 @@ services:
   backend:
     # Use go-httpbin instead of httpbin to ensure that Unicode bytes in JSON
     # are not reflected as JSON Unicode escape sequences but as the data
-    # actualy sent.
-    image: mccutchen/go-httpbin
+    # actually sent.
+    image: mccutchen/go-httpbin@sha256:c16eb8c434865e8be27d5f6a065480a50e4f85f06f5ec0cc1bb77643b160c72f # v2.13.4
 
   coraza-go:
     container_name: coraza-go
