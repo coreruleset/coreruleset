@@ -668,3 +668,21 @@ tests:
               code=time; cscli alerts list
           output:
             log_contains: id "932235"
+  - test_title: 932235-38
+    desc: "FP against 'Times & Schedule` for `sched`"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.0
+            data: |
+              code=Times%20%26%20Schedule
+          output:
+            no_log_contains: id "932235"
