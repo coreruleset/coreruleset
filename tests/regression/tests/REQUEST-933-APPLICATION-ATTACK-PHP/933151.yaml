@@ -10,15 +10,14 @@ tests:
     stages:
       - stage:
           input:
-            data: x=Print_r%28%20%29
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
+            method: GET
             port: 80
-            uri: /array_diff%20foo%20%28
+            uri: /array_diff%20%28
           output:
             log_contains: id "933151"
   - test_title: 933151-2
@@ -26,13 +25,12 @@ tests:
     stages:
       - stage:
           input:
-            data: x=Print_r%28%20%29
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
+            method: GET
             port: 80
             uri: /?date_ADD%28%29
           output:
@@ -42,13 +40,12 @@ tests:
     stages:
       - stage:
           input:
-            data: x=Print_r%28%20%29
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
+            method: GET
             port: 80
             uri: /?foo=filemtime%28%24foo%29
           output:
@@ -85,21 +82,20 @@ tests:
           output:
             no_log_contains: id "933151"
   - test_title: 933151-6
-    desc: "Test correct logging"
+    desc: "rule should not trigger when there are other words before parenthesis"
     stages:
       - stage:
           input:
-            data: x=Print_r%28%20%29
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
+            method: GET
             port: 80
-            uri: /array_diff%20foo%20%28
+            uri: /?a=ceiling%20height(9ft)
           output:
-            no_log_contains: \( found within
+            no_log_contains: id "933151"
   - test_title: 933151-7
     desc: "snippets of Eng words (like prev) should not be matched, requiring regex match with word boundaries (e.g. 933160)"
     stages:
