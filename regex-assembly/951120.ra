@@ -10,6 +10,8 @@ Oracle error
 ##! Cannot initiate JDBC driver with class name oracle jdbc Oracle Driver
 ##! [informatica][Oracle JDBC Driver][Oracle]Connection refused
 ##! JDBC Driver class not found: oracle.jdbc.OracleDriver
-Oracle.{0,20}Driver
-Warning.*oci_.*
-Warning.*ora_.*
+Oracle[^()]{0,20}Driver
+##! Warning</b>: oci_connect(): ...
+Warning.{1,10}oci_.{1,30}
+##! Warning</b>: ora_logon(): ...
+Warning.{1,10}ora_.{1,20}
