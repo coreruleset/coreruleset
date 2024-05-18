@@ -1,6 +1,6 @@
 ---
 meta:
-  author: csanders-git
+  author: csanders-git, azurit
   description: None
   enabled: true
   name: 931110.yaml
@@ -22,7 +22,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /plugins/spamx/BaseAdmin.class.php?_CONF[path]=https://foo.bar
+            uri: '/get/plugins/spamx/BaseAdmin.class.php?_CONF[path]=https://foo.bar'
             version: HTTP/1.1
           output:
             log_contains: id "931110"
@@ -43,7 +43,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /components/com_virtuemart/show_image_in_imgtag.php?mosConfig_absolute_path=https://foo.bar
+            uri: '/get/components/com_virtuemart/show_image_in_imgtag.php?mosConfig_absolute_path=https://foo.bar'
             version: HTTP/1.1
           output:
             log_contains: id "931110"
@@ -64,7 +64,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /plugins/spamx/BaseAdmin.class.php?_CONF[path]=https://foo.bar
+            uri: '/get/plugins/spamx/BaseAdmin.class.php?_CONF[path]=https://foo.bar'
             version: HTTP/1.1
           output:
             log_contains: id "931110"

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: studersi
+  author: "studersi, azurit"
   description: None
   enabled: true
   name: 931120.yaml
@@ -17,7 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=file?
+            uri: "/get?x=file?"
             version: HTTP/1.1
           output:
             log_contains: id "931120"
@@ -33,7 +33,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=ftp?
+            uri: "/get?x=ftp?"
             version: HTTP/1.1
           output:
             log_contains: id "931120"
@@ -49,7 +49,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=ftps?
+            uri: "/get?x=ftps?"
             version: HTTP/1.1
           output:
             log_contains: id "931120"
@@ -65,7 +65,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=http?
+            uri: "/get?x=http?"
             version: HTTP/1.1
           output:
             log_contains: id "931120"
@@ -81,7 +81,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=https?
+            uri: "/get?x=https?"
             version: HTTP/1.1
           output:
             log_contains: id "931120"
@@ -97,7 +97,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=https://foo.bar?
+            uri: "/get?x=https://foo.bar?"
             version: HTTP/1.1
           output:
             log_contains: id "931120"
@@ -113,7 +113,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=https://foo.bar?foo=bar
+            uri: "/get?x=https://foo.bar?foo=bar"
             version: HTTP/1.1
           output:
             no_log_contains: id "931120"
@@ -129,7 +129,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=https://foo.bar&foo=bar
+            uri: "/get?x=https://foo.bar&foo=bar"
             version: HTTP/1.1
           output:
             no_log_contains: id "931120"

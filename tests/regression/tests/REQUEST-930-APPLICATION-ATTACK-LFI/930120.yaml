@@ -1,6 +1,6 @@
 ---
 meta:
-  author: csanders-git
+  author: csanders-git, azurit
   description: None
   enabled: true
   name: 930120.yaml
@@ -22,7 +22,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /index.php?file=News&op=../../../../../boot.ini%00
+            uri: '/get/index.php?file=News&op=../../../../../boot.ini%00'
             version: HTTP/1.1
           output:
             log_contains: id "930120"
@@ -43,7 +43,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /index.php?file=News&op=/etc/passwd%00
+            uri: '/get/index.php?file=News&op=/etc/passwd%00'
             version: HTTP/1.1
           output:
             log_contains: id "930120"
@@ -64,7 +64,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /index.php?file=News&op=../../../../../../../../../../usr/local/apps/apache2/conf/httpd.conf%00
+            uri: '/get/index.php?file=News&op=../../../../../../../../../../usr/local/apps/apache2/conf/httpd.conf%00'
             version: HTTP/1.1
           output:
             log_contains: id "930120"

