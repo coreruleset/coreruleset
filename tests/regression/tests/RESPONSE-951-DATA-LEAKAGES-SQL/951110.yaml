@@ -18,10 +18,12 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "[match sql-errors.data]the used select statements have different number of columns[/match]: [Microsoft][ODBC Microsoft Access Driver] Syntax error (missing operator) in query expression"
+            uri: "/reflect"
+            # [match sql-errors.data]the used select statements have different number of columns[/match]: [Microsoft][ODBC Microsoft Access Driver] Syntax error (missing operator) in query expression
+            data: |
+              {"body":"W21hdGNoIHNxbC1lcnJvcnMuZGF0YV10aGUgdXNlZCBzZWxlY3Qgc3RhdGVtZW50cyBoYXZlIGRpZmZlcmVudCBudW1iZXIgb2YgY29sdW1uc1svbWF0Y2hdOiBbTWljcm9zb2Z0XVtPREJDIE1pY3Jvc29mdCBBY2Nlc3MgRHJpdmVyXSBTeW50YXggZXJyb3IgKG1pc3Npbmcgb3BlcmF0b3IpIGluIHF1ZXJ5IGV4cHJlc3Npb24="}
           output:
             log_contains: "id \"951110\""

@@ -18,11 +18,13 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "[match sql-errors.data]the used select statements have different number of columns[/match]: Warning: pg_query(): supplied argument is not a valid PostgreSQL link resource in /var/www/sivusto/handler.php on line 56"
+            uri: "/reflect"
+            # [match sql-errors.data]the used select statements have different number of columns[/match]: Warning: pg_query(): supplied argument is not a valid PostgreSQL link resource in /var/www/sivusto/handler.php on line 56
+            data: |
+              {"body": "W21hdGNoIHNxbC1lcnJvcnMuZGF0YV10aGUgdXNlZCBzZWxlY3Qgc3RhdGVtZW50cyBoYXZlIGRpZmZlcmVudCBudW1iZXIgb2YgY29sdW1uc1svbWF0Y2hdOiBXYXJuaW5nOiBwZ19xdWVyeSgpOiBzdXBwbGllZCBhcmd1bWVudCBpcyBub3QgYSB2YWxpZCBQb3N0Z3JlU1FMIGxpbmsgcmVzb3VyY2UgaW4gL3Zhci93d3cvc2l2dXN0by9oYW5kbGVyLnBocCBvbiBsaW5lIDU2"}
           output:
             log_contains: "id \"951240\""
   - test_title: 951240-2
@@ -38,10 +40,12 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "[match sql-errors.data]the used select statements have different number of columns[/match]: ERROR:  invalid input syntax for integer"
+            uri: "/reflect"
+            # [match sql-errors.data]the used select statements have different number of columns[/match]: ERROR:  invalid input syntax for integer
+            data: |
+              {"body": "W21hdGNoIHNxbC1lcnJvcnMuZGF0YV10aGUgdXNlZCBzZWxlY3Qgc3RhdGVtZW50cyBoYXZlIGRpZmZlcmVudCBudW1iZXIgb2YgY29sdW1uc1svbWF0Y2hdOiBFUlJPUjogIGludmFsaWQgaW5wdXQgc3ludGF4IGZvciBpbnRlZ2Vy"}
           output:
             log_contains: "id \"951240\""

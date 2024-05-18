@@ -18,11 +18,13 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "Maximum allowed file size is 10 MB"
+            uri: "/reflect"
+            # Maximum allowed file size is 10 MB
+            data: |
+              {"body": "TWF4aW11bSBhbGxvd2VkIGZpbGUgc2l6ZSBpcyAxMCBNQg=="}
           output:
             log_contains: id "953101"
   - test_title: 953101-2
@@ -38,11 +40,13 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "Invalid date selected"
+            uri: "/reflect"
+            # Invalid date selected
+            data: |
+              {"body": "SW52YWxpZCBkYXRlIHNlbGVjdGVk"}
           output:
             log_contains: id "953101"
   - test_title: 953101-3
@@ -58,11 +62,13 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "Please review the function"
+            uri: "/reflect"
+            # Please review the function
+            data: |
+              {"body": "UGxlYXNlIHJldmlldyB0aGUgZnVuY3Rpb24="}
           output:
             log_contains: id "953101"
   - test_title: 953101-4
@@ -78,11 +84,13 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "This is a static function"
+            uri: "/reflect"
+            # This is a static function
+            data: |
+              {"body": "VGhpcyBpcyBhIHN0YXRpYyBmdW5jdGlvbg=="}
           output:
             log_contains: id "953101"
   - test_title: 953101-5
@@ -98,10 +106,12 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "cannot be empty."
+            uri: "/reflect"
+            # cannot be empty.
+            data: |
+              {"body": "Y2Fubm90IGJlIGVtcHR5Lg=="}
           output:
             log_contains: id "953101"

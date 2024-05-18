@@ -18,12 +18,13 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.1"
-            uri: "/post"
+            uri: "/reflect"
+            # <h1>.:NCC:. Shell v
             data: |
-              <h1>.:NCC:. Shell v
+              {"body": "PGgxPi46TkNDOi4gU2hlbGwgdg=="}
           output:
             log_contains: "id \"955100\""
   - test_title: 955100-2
@@ -39,12 +40,13 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.1"
-            uri: "/post"
+            uri: "/reflect"
+            # <!-- Simple PHP backdoor by DK (http://michaeldaw.org) -->
             data: |
-              <!-- Simple PHP backdoor by DK (http://michaeldaw.org) -->
+              {"body": "PCEtLSBTaW1wbGUgUEhQIGJhY2tkb29yIGJ5IERLIChodHRwOi8vbWljaGFlbGRhdy5vcmcpIC0tPg=="}
           output:
             log_contains: "id \"955100\""
   - test_title: 955100-3
@@ -60,11 +62,12 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.1"
-            uri: "/post"
+            uri: "/reflect"
+            # <html><head><title>-:[GreenwooD]:- WinX Shell</title></head>
             data: |
-              <html><head><title>-:[GreenwooD]:- WinX Shell</title></head>
+              {"body": "PGh0bWw+PGhlYWQ+PHRpdGxlPi06W0dyZWVud29vRF06LSBXaW5YIFNoZWxsPC90aXRsZT48L2hlYWQ+"}
           output:
             log_contains: "id \"955100\""

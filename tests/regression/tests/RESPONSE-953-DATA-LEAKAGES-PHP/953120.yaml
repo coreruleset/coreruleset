@@ -18,11 +18,13 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: <?php echo "Hello World!\n" ?>
+            uri: "/reflect"
+            # <?php echo "Hello World!\n" ?>
+            data: |
+              {"body": "PD9waHAgZWNobyAiSGVsbG8gV29ybGQhXG4iID8+"}
           output:
             log_contains: "id \"953120\""
   - test_title: 953120-2
@@ -38,11 +40,13 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: <?php12345
+            uri: "/reflect"
+            # <?php12345
+            data: |
+              {"body": "PD9waHAxMjM0NQ=="}
           output:
             no_log_contains: "id \"953120\""
   - test_title: 953120-3
@@ -58,11 +62,13 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "<? "
+            uri: "/reflect"
+            # "<? "
+            data: |
+              {"body": "Ijw/ICI="}
           output:
             log_contains: "id \"953120\""
   - test_title: 953120-4
@@ -78,11 +84,13 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: <?1234
+            uri: "/reflect"
+            # <?1234
+            data: |
+              {"body": "PD8xMjM0"}
           output:
             no_log_contains: "id \"953120\""
   - test_title: 953120-5
@@ -98,11 +106,13 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: <?= "Hello World!\n" =?>
+            uri: "/reflect"
+            # <?= "Hello World!\n" =?>
+            data: |
+              {"body": "PD89ICJIZWxsbyBXb3JsZCFcbiIgPT8+"}
           output:
             log_contains: "id \"953120\""
   - test_title: 953120-6
@@ -118,11 +128,13 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: <?=!@#$%^&
+            uri: "/reflect"
+            # <?=!@#$%^&
+            data: |
+              {"body": "PD89IUAjJCVeJg=="}
           output:
             no_log_contains: "id \"953120\""
   - test_title: 953120-7
@@ -138,10 +150,12 @@ tests:
               Accept: "*/*"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: <?PhP echo "Hello World!\n" ?>
+            uri: "/reflect"
+            # <?PhP echo "Hello World!\n" ?>
+            data: |
+              {"body": "PD9QaFAgZWNobyAiSGVsbG8gV29ybGQhXG4iID8+"}
           output:
             log_contains: "id \"953120\""

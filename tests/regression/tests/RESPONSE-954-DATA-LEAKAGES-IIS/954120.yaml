@@ -18,9 +18,10 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: "POST"
             version: "HTTP/1.1"
-            uri: "/post"
+            uri: "/reflect"
+            # text=<title>404.14 - URL too long.</title>
             data: |
-              text=<title>404.14 - URL too long.</title>
+              {"body": "dGV4dD08dGl0bGU+NDA0LjE0IC0gVVJMIHRvbyBsb25nLjwvdGl0bGU+"}
           output:
             log_contains: id "954120"
   - test_title: 954120-2
@@ -36,8 +37,9 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: "POST"
             version: "HTTP/1.1"
-            uri: "/post"
+            uri: "/reflect"
+            # text=<title>500.15 - Server error: Direct requests for GLOBAL.ASA are not allowed.</title>
             data: |
-              text=<title>500.15 - Server error: Direct requests for GLOBAL.ASA are not allowed.</title>
+              {"body": "dGV4dD08dGl0bGU+NTAwLjE1IC0gU2VydmVyIGVycm9yOiBEaXJlY3QgcmVxdWVzdHMgZm9yIEdMT0JBTC5BU0EgYXJlIG5vdCBhbGxvd2VkLjwvdGl0bGU+"}
           output:
             log_contains: id "954120"
