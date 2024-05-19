@@ -26,7 +26,7 @@ tests:
             method: "GET"
             version: "HTTP/1.0"
             uri: "/get"
-            data: <?php echo "Hello World!\n" ?>
+            data: "<?php echo \"Hello World!\n\" ?>"
           output:
             log_contains: "id \"959100\""
   - test_title: 959100-2
@@ -66,6 +66,6 @@ tests:
             method: "GET"
             version: "HTTP/1.0"
             uri: "/get"
-            data: <?php echo "Hello World!\n" ?>
+            data: "<?php echo \"Hello World!\n\" ?>"
           output:
             log_contains: "Outbound Anomaly Score Exceeded [(]Total Score: "
