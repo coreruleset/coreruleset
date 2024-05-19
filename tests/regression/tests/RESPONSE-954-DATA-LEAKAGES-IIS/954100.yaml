@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Andrew Howe, azurit"
+  author: "Andrew Howe"
   enabled: true
   name: "954100.yaml"
   description: "Tests for rule 954100"
@@ -16,9 +16,8 @@ tests:
               Host: "localhost"
               User-Agent: "OWASP CRS test agent"
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            method: "POST"
+            method: "GET"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "C:\\\\\\inetpub \\n"
+            uri: "/base64/QzpcaW5ldHB1YiAK"
           output:
             log_contains: "id \"954100\""
