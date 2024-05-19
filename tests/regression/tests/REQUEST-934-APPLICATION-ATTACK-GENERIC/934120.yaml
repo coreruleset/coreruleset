@@ -699,7 +699,7 @@ tests:
               Accept-Encoding: gzip,deflate
               Accept-Language: en-us,en;q=0.5
             method: GET
-            uri: "/get?ssrf=http://\\l\\o\\c\\a\\l\\h\\o\\s\\t/"
+            uri: "/get?ssrf=http://\\\\l\\\\o\\\\c\\\\a\\\\l\\\\h\\\\o\\\\s\\\\t/"
           output:
             log_contains: id "934120"
   - test_title: 934120-42
@@ -716,7 +716,7 @@ tests:
               Accept-Encoding: gzip,deflate
               Accept-Language: en-us,en;q=0.5
             method: GET
-            uri: "/get?ssrf=http://\\g\\o\\o\\g\\l\\e.\\c\\o\\m/"
+            uri: "/get?ssrf=http://\\\\g\\\\o\\\\o\\\\g\\\\l\\\\e.\\\\c\\\\o\\\\m/"
           output:
             log_contains: id "934120"
   - test_title: 934120-43
