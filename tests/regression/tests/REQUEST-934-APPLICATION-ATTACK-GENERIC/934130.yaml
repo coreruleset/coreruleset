@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "lifeforms"
+  author: "lifeforms, azurit"
   enabled: true
   name: "934130.yaml"
   description: "Tests for rule 934130"
@@ -14,7 +14,7 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: "/get?foo=proto"
@@ -30,11 +30,11 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
               Content-Type: application/json
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             version: HTTP/1.0
             data: |
               {"text":"a","title":{"__proto__":{"where":{"name":"sqlinjection","where":null}}}}
@@ -49,7 +49,7 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: "/get?__proto__[test]=test"
@@ -65,7 +65,7 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: "/get?__proto__.test=test"
@@ -81,7 +81,7 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: "/get?constructor.prototype.test=test"
@@ -97,7 +97,7 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: "/get?constructor.prototype.%20test=test"
@@ -113,7 +113,7 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: "/get?__proto__[context]=<img/src/onerror%3dalert(1)>"
@@ -129,7 +129,7 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: "/get?__proto__%5Btest%5D%3D%7B%22json%22%3A%22value%22%7D"
@@ -145,7 +145,7 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: "/get?constructor%5Bprototype%5D%5Btest%5D%3Dtest"
@@ -161,7 +161,7 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: "/get?__proto__[jquery]=x"
@@ -177,7 +177,7 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
             uri: "/get?__proto__%5Bv-bind%3Aclass%5D%3D%27%27.constructor.constructor%28%27alert%281%29%27%29%28%29"

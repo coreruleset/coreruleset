@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron and Allan Boll, Franziska Bühler"
+  author: "Christian S.J. Peron and Allan Boll, Franziska Bühler, azurit"
   description: None
   enabled: true
   name: 942130.yaml
@@ -17,7 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: "var=%221%22%20sSOUNDS%20LIKE%20%22SOUNDS%20LIKE%201&other_var=test"
             version: HTTP/1.0
           output:
@@ -154,7 +154,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
-            uri: "/?user=admin%40juice-sh.op'%20and%20password%20glob%20password;"
+            uri: "/get?user=admin%40juice-sh.op'%20and%20password%20glob%20password;"
             version: HTTP/1.1
           output:
             log_contains: id "942130"

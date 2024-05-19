@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
+  author: "Christian S.J. Peron, azurit"
   description: None
   enabled: true
   name: 941340.yaml
@@ -17,6 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var='  infoo.bar=&var2=whatever"
             version: HTTP/1.0
           output:
@@ -33,6 +34,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "payload=<a href=# language=\"JScript.Encode\" onclick=\"#@~^CAAAAA==C^+.D`8#mgIAAA==^#~@\">XSS</a>"
             version: HTTP/1.0
           output:

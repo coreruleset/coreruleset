@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Max Leske, Esad Cetiner, Xhoenix, Franziska Bühler"
+  author: "Max Leske, Esad Cetiner, Xhoenix, Franziska Bühler, azurit"
   description: Unix shell RCE wordlist for more than 3 characters
   enabled: true
   name: 932235.yaml
@@ -17,7 +17,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               code=;find /etc -name passwd -exec cat {} +
             version: HTTP/1.0
@@ -35,7 +35,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               code=cd /;cd etc;column passwd
             version: HTTP/1.0
@@ -53,7 +53,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               code=cd /;cd etc;bridge -b passwd
             version: HTTP/1.0
@@ -71,7 +71,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               code=cd /;cd etc;fold passwd
             version: HTTP/1.0
@@ -89,7 +89,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               code=;flock -u / whoami
             version: HTTP/1.0
@@ -107,7 +107,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               code=;cd /;cd etc;base32 passwd|base32 -d
             version: HTTP/1.0
@@ -125,7 +125,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=;cpulimit -l 100 -f whoami
@@ -143,7 +143,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               cd /;cd etc;comm passwd passwd
@@ -161,7 +161,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               CD /;CD ETC;COMM PASSWD PASSWD
@@ -179,7 +179,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /?args=comment
+            uri: "/get?args=comment"
             version: HTTP/1.0
           output:
             no_log_contains: id "932235"
@@ -195,7 +195,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get?args=;performance
+            uri: "/get?args=;performance"
             version: HTTP/1.0
           output:
             no_log_contains: id "932235"
@@ -211,7 +211,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: "args=;perf --version"
             version: HTTP/1.1
           output:
@@ -228,7 +228,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=;`cat<<<ifconfig`
@@ -246,7 +246,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=;`cat<<< ifconfig`
@@ -264,7 +264,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=;`cat<<<'ifconfig'`
@@ -282,7 +282,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=;`cat<<<"ifconfig"`
@@ -300,7 +300,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=;`cat<<<$(ifconfig)`
@@ -318,7 +318,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time ifconfig
@@ -336,7 +336,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=strace ifconfig
@@ -392,7 +392,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=nohup ifconfig
@@ -410,7 +410,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; ansible all -m ping
@@ -428,7 +428,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; ansible-config dump
@@ -446,7 +446,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; ansible-galaxy collection install community.general
@@ -464,7 +464,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; ansible-console
@@ -482,7 +482,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; ansible-doc plugin ping
@@ -500,7 +500,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; ansible-inventory --list
@@ -518,7 +518,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; ansible-pull --url example.com
@@ -536,7 +536,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; ansible-vault decrypt secret
@@ -554,7 +554,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; ansible-playbook site.yml
@@ -572,7 +572,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; chef-vault -i secret
@@ -590,7 +590,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; chef-shell
@@ -608,7 +608,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; chef-run all recipie.rb
@@ -626,7 +626,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; chef-client -t 1.1.1.1
@@ -644,7 +644,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; visudo
@@ -662,7 +662,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time; cscli alerts list
@@ -680,7 +680,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /get/?test=Times%20%26%20Schedule
+            uri: "/get?test=Times%20%26%20Schedule"
             version: HTTP/1.1
           output:
             no_log_contains: id "932235"

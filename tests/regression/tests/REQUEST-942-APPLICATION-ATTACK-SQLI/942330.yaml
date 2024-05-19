@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
+  author: "Christian S.J. Peron, azurit"
   description: None
   enabled: true
   name: 942330.yaml
@@ -17,6 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=%22%27&var2=whatever"
             version: HTTP/1.0
           output:
@@ -29,10 +30,11 @@ tests:
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=\\\"1 or 1-"
             version: HTTP/1.0
           output:
@@ -45,10 +47,11 @@ tests:
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=\\x23"
             version: HTTP/1.0
           output:
@@ -61,10 +64,11 @@ tests:
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: |
               "var=05111222333
               andy.surname@somedomain.com"
@@ -79,10 +83,11 @@ tests:
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=05111222333 andy.surname@somedomain.com"
             version: HTTP/1.0
           output:

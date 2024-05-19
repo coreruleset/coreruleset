@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "fzipi"
+  author: "fzipi, azurit"
   enabled: true
   name: "953120.yaml"
   description: "Positive tests for rule 953120"
@@ -21,7 +21,7 @@ tests:
               Content-Type: "text/plain"
             method: "GET"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/get"
             data: <?php echo "Hello World!\n" ?>
           output:
             log_contains: "id \"953120\""
@@ -41,7 +41,7 @@ tests:
               Content-Type: "text/plain"
             method: "GET"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/get"
             data: <?php12345
           output:
             no_log_contains: "id \"953120\""
@@ -61,7 +61,7 @@ tests:
               Content-Type: "text/plain"
             method: "GET"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/get"
             data: "<? "
           output:
             log_contains: "id \"953120\""
@@ -81,7 +81,7 @@ tests:
               Content-Type: "text/plain"
             method: "GET"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/get"
             data: <?1234
           output:
             no_log_contains: "id \"953120\""
@@ -101,7 +101,7 @@ tests:
               Content-Type: "text/plain"
             method: "GET"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/get"
             data: <?= "Hello World!\n" =?>
           output:
             log_contains: "id \"953120\""
@@ -121,7 +121,7 @@ tests:
               Content-Type: "text/plain"
             method: "GET"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/get"
             data: <?=!@#$%^&
           output:
             no_log_contains: "id \"953120\""
@@ -141,7 +141,7 @@ tests:
               Content-Type: "text/plain"
             method: "GET"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/get"
             data: <?PhP echo "Hello World!\n" ?>
           output:
             log_contains: "id \"953120\""

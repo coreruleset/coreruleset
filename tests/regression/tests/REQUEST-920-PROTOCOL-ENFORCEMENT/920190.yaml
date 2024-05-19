@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "920190.yaml"
   description: "Description"
@@ -17,8 +17,8 @@ tests:
               Host: "localhost"
               Range: "0-1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "/"
+            version: HTTP/1.1
           output:
             no_log_contains: id "920190"
   - test_title: 920190-2
@@ -55,7 +55,6 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Request-Range: bytes=64-0
-            protocol: "http"
             uri: "/"
             version: "HTTP/1.1"
           output:

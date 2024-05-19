@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
+  author: "Christian S.J. Peron, azurit"
   description: None
   enabled: true
   name: 941260.yaml
@@ -17,6 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=<meta charset=\"UTF-8\">&var2=whatever"
             version: HTTP/1.0
           output:
@@ -33,6 +34,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "payload=<meta charset=\"UTF-7\" /> +ADw-script+AD4-alert(1)+ADw-/script+AD4-</a>"
             version: HTTP/1.0
           output:

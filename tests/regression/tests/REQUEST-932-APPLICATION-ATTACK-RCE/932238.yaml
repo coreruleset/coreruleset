@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Max Leske, Xhoenix"
+  author: "Max Leske, Xhoenix, azurit"
   enabled: true
   name: "932238.yaml"
 tests:
@@ -16,7 +16,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               code=;vi dddd +silent\\ \!whoami +wq
             version: HTTP/1.0
@@ -34,7 +34,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               code=;vi -c:\!pwd
             version: HTTP/1.0
@@ -52,7 +52,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=;`cat<<<who`
@@ -70,7 +70,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=;`cat<<< who`
@@ -88,7 +88,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=;`cat<<<'who'`
@@ -106,7 +106,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=;`cat<<<"who"`
@@ -124,7 +124,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=;`cat<<<$(who)`
@@ -142,7 +142,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=time who
@@ -160,7 +160,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=strace who
@@ -178,7 +178,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=nohup who

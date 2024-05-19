@@ -1,6 +1,6 @@
 ---
 meta:
-  author: csanders-git
+  author: "csanders-git, azurit"
   description: None
   enabled: true
   name: 942290.yaml
@@ -13,7 +13,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: /mongo/show.php?u_id[$ne]=2
+            uri: "/get/mongo/show.php?u_id[$ne]=2"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
@@ -32,7 +32,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?mongoQ=%5b%24lte%5dasdfsd"
+            uri: "/get?mongoQ=%5b%24lte%5dasdfsd"
             version: HTTP/1.0
           output:
             log_contains: id "942290"
@@ -48,7 +48,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/mongo/show.php?u_id[$regex]=2"
+            uri: "/get/mongo/show.php?u_id[$regex]=2"
             version: HTTP/1.0
           output:
             log_contains: id "942290"
@@ -64,7 +64,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/mongo/show.php?u_id[$regex]=2"
+            uri: "/get/mongo/show.php?u_id[$regex]=2"
             version: HTTP/1.0
           output:
             log_contains: id "942290"
@@ -81,7 +81,7 @@ tests:
               Content-Type: application/json
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             data: '{"$not": "foo"}'
           output:
             log_contains: id "942290"
@@ -98,7 +98,7 @@ tests:
               Content-Type: application/json
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             data: '{"$nor": "foo"}'
           output:
             log_contains: id "942290"
@@ -115,7 +115,7 @@ tests:
               Content-Type: application/json
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             data: '{"$where": "foo"}'
           output:
             log_contains: id "942290"
@@ -132,7 +132,7 @@ tests:
               Content-Type: application/json
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             data: '{"$elemMatch": "foo"}'
           output:
             log_contains: id "942290"
@@ -149,7 +149,7 @@ tests:
               Content-Type: application/json
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             data: '{"$text": "foo"}'
           output:
             log_contains: id "942290"

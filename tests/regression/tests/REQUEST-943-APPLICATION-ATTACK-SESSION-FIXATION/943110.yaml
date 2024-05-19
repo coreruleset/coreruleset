@@ -1,6 +1,6 @@
 ---
 meta:
-  author: csanders-git
+  author: "csanders-git, azurit"
   description: None
   enabled: true
   name: 943110.yaml
@@ -23,7 +23,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /login.php?jsessionid=74B0CB414BD77D17B5680A6386EF1666
+            uri: "/get/login.php?jsessionid=74B0CB414BD77D17B5680A6386EF1666"
             version: HTTP/1.1
           output:
             log_contains: id "943110"
@@ -40,7 +40,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?phpsessid=asdfdasfadsads"
+            uri: "/get?phpsessid=asdfdasfadsads"
             version: HTTP/1.0
           output:
             log_contains: id "943110"
@@ -57,7 +57,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?phpsessid=asdfdasfadsads"
+            uri: "/get?phpsessid=asdfdasfadsads"
             version: HTTP/1.0
           output:
             log_contains: id "943110"
@@ -79,7 +79,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /login.php?jsessionid=74B0CB414BD77D17B5680A6386EF1666
+            uri: "/get/login.php?jsessionid=74B0CB414BD77D17B5680A6386EF1666"
             version: HTTP/1.1
           output:
             no_log_contains: id "943110"

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Max Leske"
+  author: "Christian S.J. Peron, Max Leske, azurit"
   description: None
   enabled: true
   name: 942440.yaml
@@ -17,7 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/post?var=DROP%20sampletable%3b--"
+            uri: "/get?var=DROP%20sampletable%3b--"
             version: HTTP/1.0
           output:
             log_contains: id "942440"
@@ -304,7 +304,7 @@ tests:
             method: "GET"
             port: 80
             version: "HTTP/1.1"
-            uri: "/callback?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c"
+            uri: "/get/callback?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c"
           output:
             no_log_contains: id "942440"
   - test_title: 942440-19
@@ -319,7 +319,7 @@ tests:
             method: "GET"
             port: 80
             version: "HTTP/1.1"
-            uri: "/get/?fbclid=IwAR1dug0BYxe0ukhZ2vKrdQwLAxVFRJ--Q2Y7OBJE_0uId9-Eh-sJWLdVk2E"
+            uri: "/get?fbclid=IwAR1dug0BYxe0ukhZ2vKrdQwLAxVFRJ--Q2Y7OBJE_0uId9-Eh-sJWLdVk2E"
           output:
             no_log_contains: id "942440"
   - test_title: 942440-20
@@ -334,6 +334,6 @@ tests:
             method: "GET"
             port: 80
             version: "HTTP/1.1"
-            uri: "/get/?gclid=j0KCQiA1NebBhDDARIsAANiDD3_RJeMv8zScF--mC1jf8fO8PDYJCxD9xdwT7iQ59QIIwL-86ncQtMaAh0lEALw_wcB"
+            uri: "/get?gclid=j0KCQiA1NebBhDDARIsAANiDD3_RJeMv8zScF--mC1jf8fO8PDYJCxD9xdwT7iQ59QIIwL-86ncQtMaAh0lEALw_wcB"
           output:
             no_log_contains: id "942440"

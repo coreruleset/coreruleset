@@ -1,12 +1,12 @@
 ---
 meta:
-  author: lifeforms, ssigwart
+  author: "lifeforms, ssigwart, azurit"
   description: None
   enabled: true
   name: 933151.yaml
 tests:
   - test_title: 933151-1
-    desc: pmf + chain; must run test in PL2!
+    desc: "pmf + chain"
     stages:
       - stage:
           input:
@@ -17,11 +17,11 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /array_diff%20%28
+            uri: "/get/array_diff%20%28"
           output:
             log_contains: id "933151"
   - test_title: 933151-2
-    desc: pmf + chain; must run test in PL2!
+    desc: "pmf + chain"
     stages:
       - stage:
           input:
@@ -32,11 +32,11 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?date_ADD%28%29
+            uri: "/get?date_ADD%28%29"
           output:
             log_contains: id "933151"
   - test_title: 933151-3
-    desc: non-dangerous PHP functions, removed to reduce FP
+    desc: "non-dangerous PHP functions, removed to reduce FP"
     stages:
       - stage:
           input:
@@ -47,15 +47,14 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?foo=filemtime%28%24foo%29
+            uri: "/get?foo=filemtime%28%24foo%29"
           output:
             no_log_contains: id "933151"
   - test_title: 933151-4
-    desc: pmf + chain; must run test in PL2!
+    desc: "pmf + chain"
     stages:
       - stage:
           input:
-            data: gethostbynamE(
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
@@ -63,11 +62,12 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /gethost
+            uri: "/post"
+            data: gethostbynamE(
           output:
             log_contains: id "933151"
   - test_title: 933151-5
-    desc: No peren after keyword
+    desc: "No peren after keyword"
     stages:
       - stage:
           input:
@@ -78,7 +78,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /?foo=array_diff
+            uri: "/post?foo=array_diff"
           output:
             no_log_contains: id "933151"
   - test_title: 933151-6
@@ -93,7 +93,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?a=ceiling%20height(9ft)
+            uri: "/get?a=ceiling%20height(9ft)"
           output:
             no_log_contains: id "933151"
   - test_title: 933151-7
@@ -101,7 +101,6 @@ tests:
     stages:
       - stage:
           input:
-            data: x=dummydata
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
@@ -109,7 +108,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /?a=preview
+            uri: "/post?a=preview"
           output:
             no_log_contains: id "933151"
   - test_title: 933151-8
@@ -117,7 +116,6 @@ tests:
     stages:
       - stage:
           input:
-            data: x=dummydata
             dest_addr: 127.0.0.1
             headers:
               Host: localhost
@@ -125,6 +123,6 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /?a=exploration
+            uri: "/post?a=exploration"
           output:
             no_log_contains: id "933151"

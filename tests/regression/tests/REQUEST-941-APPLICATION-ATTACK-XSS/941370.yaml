@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Andrea Menin"
+  author: "Andrea Menin, azurit"
   description: None
   enabled: true
   name: 941370.yaml
@@ -17,6 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "a=document+%2F%2Afoo%2A%2F+.+++++cookie"
             version: HTTP/1.1
           output:
@@ -33,6 +34,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "a=document%2F%2Afoo%2A%2F.%2F%2Abar%2A%2Fcookie"
             version: HTTP/1.1
           output:
@@ -49,7 +51,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             data: "a=window%5B%22alert%22%5D%28window%5B%22document%22%5D%5B%22cookie%22%5D%29"
             version: HTTP/1.1
           output:
@@ -66,7 +68,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             data: "a=self%5B%2F%2Afoo%2A%2F%22alert%22%5D%28self%5B%22document%22%2F%2Abar%2A%2F%5D%5B%22cookie%22%5D%29"
             version: HTTP/1.1
           output:
@@ -83,7 +85,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             data: "a=self%5B%2F%2Afoo%2A%2F%22alert%22%5D%28self%5B%22document%22%2F%2Abar%2A%2F%5D%5B%22cookie%22%5D%29"
             version: HTTP/1.1
           output:
@@ -100,7 +102,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             data: "a=self++%2F%2Ajhb%2A%2F++%5B++%2F%2Abar%2A%2F++%22alert%22%5D%28%22xss%22%29"
             version: HTTP/1.1
           output:
@@ -115,8 +117,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
+            method: POST
             port: 80
+            uri: "/post"
             data: "a=self%5B%22%24%22%5D%5B%22globalEval%22%5D%28%22alert%281%29%22%29"
             version: HTTP/1.1
           output:
@@ -133,7 +136,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             data: "a=self%5B%22%5Cx24%22%5D"
             version: HTTP/1.1
           output:
@@ -150,7 +153,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             data: "a=%28document%29%5B%22cookie%22%5D"
             version: HTTP/1.1
           output:
@@ -167,7 +170,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             data: "a=%28document%2F%2Afoo%2A%2F%29%5B%22cookie%22%5D"
             version: HTTP/1.1
           output:

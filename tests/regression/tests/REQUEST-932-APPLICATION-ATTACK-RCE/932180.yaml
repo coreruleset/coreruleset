@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler"
+  author: "Franziska Bühler, azurit"
   description: "Restricted File Upload Attempt"
   enabled: true
   name: 932180.yaml
@@ -19,7 +19,7 @@ tests:
               X-Filename: settings.php
             method: GET
             port: 80
-            uri: /
+            uri: "/get"
             version: HTTP/1.0
           output:
             log_contains: id "932180"
@@ -37,7 +37,7 @@ tests:
               Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             version: HTTP/1.0
             data: |
               ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
@@ -67,7 +67,7 @@ tests:
               Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             version: HTTP/1.0
             data: |
               ------WebKitFormBoundaryABCDEFGIJKLMNOPQ

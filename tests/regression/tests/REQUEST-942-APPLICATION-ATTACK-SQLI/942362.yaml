@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Christoph Hansen, Franziska Buehler"
+  author: "Christian S.J. Peron, Christoph Hansen, Franziska Buehler, azurit"
   description: None
   enabled: true
   name: 942362.yaml
@@ -17,6 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             # 23423 as "sdfsdfs" FROM table
             data: "var=1234%20AS%20%22foobar%22%20FROM%20tablevar2=whatever"
             version: HTTP/1.0
@@ -34,7 +35,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "select Char("
             version: HTTP/1.0
           output:
@@ -51,7 +52,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "SELECT CHAR("
             version: HTTP/1.0
           output:
@@ -68,7 +69,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "SELECT GROUP_CONCAT("
             version: HTTP/1.0
           output:
@@ -85,7 +86,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "SELECT group_cOnCat("
             version: HTTP/1.0
           output:
@@ -102,7 +103,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ") as cc FROM"
             version: HTTP/1.0
           output:
@@ -119,7 +120,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ") AS orders FROM"
             version: HTTP/1.0
           output:
@@ -136,7 +137,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ") AS `carrier_id` from"
             version: HTTP/1.0
           output:
@@ -153,7 +154,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "select load_file("
             version: HTTP/1.0
           output:
@@ -170,7 +171,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ") AS Role FROM"
             version: HTTP/1.0
           output:
@@ -187,7 +188,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "` AS `edit_user_id` from"
             version: HTTP/1.0
           output:
@@ -204,7 +205,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ") AS val FROM"
             version: HTTP/1.0
           output:
@@ -221,7 +222,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=%60+REGEXP%20"
             version: HTTP/1.0
           output:
@@ -238,7 +239,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ") AS 'Durchschnitt_Importzeit' FROM"
             version: HTTP/1.0
           output:
@@ -255,7 +256,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "` AS `OXTIMESTAMP` from"
             version: HTTP/1.0
           output:
@@ -272,7 +273,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ") as col_0_0_ from"
             version: HTTP/1.0
           output:
@@ -289,7 +290,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ") AS `count` FROM"
             version: HTTP/1.0
           output:
@@ -306,7 +307,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ") AS schlagwoerter FROM"
             version: HTTP/1.0
           output:
@@ -323,7 +324,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ") as User from"
             version: HTTP/1.0
           output:
@@ -340,7 +341,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ") AS t FROM"
             version: HTTP/1.0
           output:
@@ -357,7 +358,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "(load_file("
             version: HTTP/1.0
           output:
@@ -374,7 +375,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ") as ExecuteTheseSQLCommands FROM"
             version: HTTP/1.0
           output:
@@ -391,7 +392,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ")      AS schlagwoerter      FROM"
             version: HTTP/1.0
           output:
@@ -408,7 +409,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "` AS `documentType` FROM"
             version: HTTP/1.0
           output:
@@ -425,7 +426,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "! As' from"
             version: HTTP/1.0
           output:
@@ -442,7 +443,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ";  As  not  from"
             version: HTTP/1.0
           output:
@@ -459,7 +460,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "SELECT load_file("
             version: HTTP/1.0
           output:
@@ -476,7 +477,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "6 As\" from"
             version: HTTP/1.0
           output:
@@ -493,7 +494,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: ") as day1 FROM"
             version: HTTP/1.0
           output:
@@ -510,7 +511,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             data: ", aside from"
             version: HTTP/1.0
           output:
@@ -527,7 +528,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             data: "a=/create"
             version: HTTP/1.0
           output:
@@ -544,7 +545,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             data: "a=/CREATE TABLE Persons"
             version: HTTP/1.0
           output:

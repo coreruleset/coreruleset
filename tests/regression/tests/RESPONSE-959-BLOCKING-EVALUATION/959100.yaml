@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "studersi"
+  author: "studersi, azurit"
   enabled: true
   name: "959100.yaml"
   description: |
@@ -25,7 +25,7 @@ tests:
               Content-Type: "text/plain"
             method: "GET"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/get"
             data: <?php echo "Hello World!\n" ?>
           output:
             log_contains: "id \"959100\""
@@ -45,7 +45,7 @@ tests:
               Content-Type: "text/plain"
             method: "GET"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/get"
             data: <?php12345
           output:
             no_log_contains: "id \"959100\""
@@ -65,7 +65,7 @@ tests:
               Content-Type: "text/plain"
             method: "GET"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/get"
             data: <?php echo "Hello World!\n" ?>
           output:
             log_contains: "Outbound Anomaly Score Exceeded [(]Total Score: "

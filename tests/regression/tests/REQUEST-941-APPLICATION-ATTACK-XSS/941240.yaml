@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
+  author: "Christian S.J. Peron, azurit"
   description: None
   enabled: true
   name: 941240.yaml
@@ -17,7 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?var=%3c%3fimport%20implementation%20%3d"
+            uri: "/get?var=%3c%3fimport%20implementation%20%3d"
             version: HTTP/1.0
           output:
             log_contains: id "941240"
@@ -33,7 +33,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?test=<importimplementation="
+            uri: "/get?test=<importimplementation="
             version: HTTP/1.0
           output:
             log_contains: id "941240"

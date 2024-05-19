@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler"
+  author: "Franziska Bühler, azurit"
   description: None
   enabled: true
   name: 942170.yaml
@@ -17,7 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?var=SELECT%20BENCHMARK%281000000%2C1%2B1%29%3B"
+            uri: "/get?var=SELECT%20BENCHMARK%281000000%2C1%2B1%29%3B"
             version: HTTP/1.0
           output:
             log_contains: id "942170"
@@ -33,7 +33,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?var=%3B%20sleep%280%29"
+            uri: "/get?var=%3B%20sleep%280%29"
             version: HTTP/1.0
           output:
             log_contains: id "942170"
@@ -49,7 +49,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?var=I%20sleep%20well%21"
+            uri: "/get?var=I%20sleep%20well%21"
             version: HTTP/1.0
           output:
             no_log_contains: id "942170"
@@ -65,7 +65,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?test=select+if(x"
+            uri: "/get?test=select+if(x"
             version: HTTP/1.0
           output:
             log_contains: id "942170"

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "NiceYouKnow"
+  author: "NiceYouKnow, azurit"
   description: None
   enabled: true
   name: 933200.yaml
@@ -17,7 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /test.php?file=phar://phpinfo.zip/phpinfo.txt
+            uri: "/get/test.php?file=phar://phpinfo.zip/phpinfo.txt"
             version: HTTP/1.1
           output:
             log_contains: id "933200"
@@ -33,7 +33,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /test.php?file=compress.bzip2://file.bz2
+            uri: "/get/test.php?file=compress.bzip2://file.bz2"
             version: HTTP/1.1
           output:
             log_contains: id "933200"
@@ -49,7 +49,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /test.php?file=compress.zlib://http://www.example.com/some_file.gz
+            uri: "/get/test.php?file=compress.zlib://http://www.example.com/some_file.gz"
             version: HTTP/1.1
           output:
             log_contains: id "933200"
@@ -65,7 +65,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /test.php?file=zip://archive.zip
+            uri: "/get/test.php?file=zip://archive.zip"
             version: HTTP/1.1
           output:
             log_contains: id "933200"
@@ -81,7 +81,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /test.php?file=lz77://some_file.lz
+            uri: "/get/test.php?file=lz77://some_file.lz"
             version: HTTP/1.1
           output:
             no_log_contains: id "933200"
@@ -97,7 +97,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /test.php?file=ssh2.shell://user:password@example.com:22/xterm
+            uri: "/get/test.php?file=ssh2.shell://user:password@example.com:22/xterm"
             version: HTTP/1.1
           output:
             log_contains: id "933200"
@@ -113,7 +113,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /test.php?file=ssh2.exec://user:password@example.com:22/usr/local/bin/kubectl
+            uri: "/get/test.php?file=ssh2.exec://user:password@example.com:22/usr/local/bin/kubectl"
             version: HTTP/1.1
           output:
             log_contains: id "933200"
@@ -129,7 +129,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /test.php?file=ssh2.tunnel://user:password@example.com:22/10.0.0.1:25
+            uri: "/get/test.php?file=ssh2.tunnel://user:password@example.com:22/10.0.0.1:25"
             version: HTTP/1.1
           output:
             log_contains: id "933200"
@@ -145,7 +145,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /test.php?file=ssh2.sftp://user:password@example.com:22/path/to/filename
+            uri: "/get/test.php?file=ssh2.sftp://user:password@example.com:22/path/to/filename"
             version: HTTP/1.1
           output:
             log_contains: id "933200"
@@ -161,7 +161,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /test.php?file=ssh2.scp://user:password@example.com:22/path/to/filename
+            uri: "/get/test.php?file=ssh2.scp://user:password@example.com:22/path/to/filename"
             version: HTTP/1.1
           output:
             log_contains: id "933200"

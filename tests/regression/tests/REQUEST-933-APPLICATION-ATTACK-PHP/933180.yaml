@@ -1,6 +1,6 @@
 ---
 meta:
-  author: lifeforms
+  author: "lifeforms, azurit"
   description: None
   enabled: true
   name: 933180.yaml
@@ -15,8 +15,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=
+            uri: "/get?x="
           output:
             no_log_contains: id "933180"
   - test_title: 933180-2
@@ -179,8 +180,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: '/?foo=%24%7B%27a%27%7D%2811%29'
+            uri: "/get?foo=%24%7B%27a%27%7D%2811%29"
           output:
             log_contains: id "933180"
   - test_title: 933180-13
@@ -193,8 +195,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: '/?x=%24%7B%40%24b%7D%2812%29'
+            uri: "/get?x=%24%7B%40%24b%7D%2812%29"
           output:
             log_contains: id "933180"
   - test_title: 933180-14
@@ -252,8 +255,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: '/?x=%24OOO0000O0%20%2816%29'
+            uri: "/get?x=%24OOO0000O0%20%2816%29"
           output:
             log_contains: id "933180"
   - test_title: 933180-18
@@ -266,8 +270,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: '/?x=%24_aB_4c%5B5%5D%5B%27d%27%5D%20%2F%2Alol%2A%2F%20%2817%29'
+            uri: "/get?x=%24_aB_4c%5B5%5D%5B%27d%27%5D%20%2F%2Alol%2A%2F%20%2817%29"
           output:
             log_contains: id "933180"
   - test_title: 933180-19
@@ -310,8 +315,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: '/?x=%24___%5B%40-_%5D%2820%29'
+            uri: "/get?x=%24___%5B%40-_%5D%2820%29"
           output:
             log_contains: id "933180"
   - test_title: 933180-22
@@ -324,8 +330,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=%40%24___%5B%40%21%2B_%5D%2821%29
+            uri: "/get?x=%40%24___%5B%40%21%2B_%5D%2821%29"
           output:
             log_contains: id "933180"
   - test_title: 933180-23
@@ -368,8 +375,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: '/?x=%24__%5B_%5D%2824%29'
+            uri: "/get?x=%24__%5B_%5D%2824%29"
           output:
             log_contains: id "933180"
   - test_title: 933180-26
@@ -382,8 +390,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: '/?x=%24____%5B_%5D%7B_%7D%5B%40_%5D%2825%29'
+            uri: "/get?x=%24____%5B_%5D%7B_%7D%5B%40_%5D%2825%29"
           output:
             log_contains: id "933180"
   - test_title: 933180-27
@@ -411,8 +420,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=%24%24%24z%2829%29
+            uri: "/get?x=%24%24%24z%2829%29"
           output:
             log_contains: id "933180"
   - test_title: 933180-29
@@ -425,8 +435,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=%24%7B_.__%7D%2830%29%3B
+            uri: "/get?x=%24%7B_.__%7D%2830%29%3B"
           output:
             log_contains: id "933180"
   - test_title: 933180-30
@@ -439,8 +450,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=%24%20%7B%40_.__%7D%2831%29%3B
+            uri: "/get?x=%24%20%7B%40_.__%7D%2831%29%3B"
           output:
             log_contains: id "933180"
   - test_title: 933180-31
@@ -453,8 +465,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=%24_%5B%40-_%5D%28%24_%5B%40%21%2B_%5D%20%29
+            uri: "/get?x=%24_%5B%40-_%5D%28%24_%5B%40%21%2B_%5D%20%29"
           output:
             log_contains: id "933180"
   - test_title: 933180-32
@@ -467,8 +480,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=%24f%28101%29.%24f%28120%29
+            uri: "/get?x=%24f%28101%29.%24f%28120%29"
           output:
             log_contains: id "933180"
   - test_title: 933180-33
@@ -481,8 +495,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=%40%24b374k%28%22foo%22%29
+            uri: "/get?x=%40%24b374k%28%22foo%22%29"
           output:
             log_contains: id "933180"
   - test_title: 933180-34
@@ -495,8 +510,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=%24%7B%24foo-%3Ebar%7D%28200%29
+            uri: "/get?x=%24%7B%24foo-%3Ebar%7D%28200%29"
           output:
             log_contains: id "933180"
   - test_title: 933180-35
@@ -524,7 +540,8 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=Foo%3A%3A%24variable%28%29
+            uri: "/get?x=Foo%3A%3A%24variable%28%29"
           output:
             log_contains: id "933180"

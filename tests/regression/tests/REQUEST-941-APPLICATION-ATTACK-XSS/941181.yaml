@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Paul Beckett"
+  author: "Paul Beckett, azurit"
   enabled: true
   name: "941181.yaml"
   description: "Tests to trigger, or not trigger 941180"
@@ -13,7 +13,7 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: '/foo'
+            uri: "/post/foo"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
@@ -29,7 +29,7 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: '/foo'
+            uri: "/post/foo"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
@@ -45,7 +45,7 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: '/bar'
+            uri: "/post/bar"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
@@ -61,7 +61,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/baz'
+            uri: "/get/baz"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler"
+  author: "Franziska Bühler, azurit"
   enabled: true
   name: 942321.yaml
 tests:
@@ -16,6 +16,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
+            uri: "/get"
             version: HTTP/1.0
           output:
             log_contains: id "942321"
@@ -31,7 +32,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/"
+            uri: "/get"
             version: HTTP/1.0
           output:
             log_contains: id "942321"

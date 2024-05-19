@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Paul-Beckett"
+  author: "Paul-Beckett, azurit"
   enabled: true
   name: "920121.yaml"
   description: "Tests to trigger rule 920121"
@@ -24,7 +24,7 @@ tests:
 
               Some-file-test-here
               ----------397236876--
-            protocol: "http"
+            version: HTTP/1.0
           output:
             log_contains: "id \"920121\""
   - test_title: 920121-2
@@ -46,7 +46,7 @@ tests:
 
               Some-file-text-here
               ----------397236876--
-            protocol: "http"
+            version: HTTP/1.0
           output:
             log_contains: "id \"920121\""
   - test_title: 920121-3
@@ -68,7 +68,7 @@ tests:
 
               Some-file-text-here
               ----------397236876--
-            protocol: "http"
+            version: HTTP/1.0
           output:
             log_contains: "id \"920121\""
   - test_title: 920121-4
@@ -90,7 +90,7 @@ tests:
 
               Some-file-text-here
               ----------397236876--
-            protocol: "http"
+            version: HTTP/1.0
           output:
             log_contains: "id \"920121\""
   - test_title: 920121-5
@@ -112,6 +112,6 @@ tests:
 
               Characters-shouldn't-trigger-rule-"-match-in-;-file
               ----------397236876--
-            protocol: "http"
+            version: HTTP/1.0
           output:
             no_log_contains: "id \"920121\""

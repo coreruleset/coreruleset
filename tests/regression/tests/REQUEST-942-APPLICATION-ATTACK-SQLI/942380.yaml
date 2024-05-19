@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christoph Hansen"
+  author: "Christoph Hansen, azurit"
   description: None
   enabled: true
   name: 942380.yaml
@@ -17,7 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "from `db_miwf`.`sys_refindex` limit"
             version: HTTP/1.0
           output:
@@ -34,7 +34,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "from(select count(*),concat((select (select (select concat(0x53,0x65,0x61,0x72,0x63,0x68,0x43,0x6F,0x6C,0x6C,0x65,0x63,0x74,0x6F,0x72) from `information_schema`.tables limit"
             version: HTTP/1.0
           output:
@@ -51,7 +51,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "from `information_schema`.tables limit"
             version: HTTP/1.0
           output:
@@ -68,7 +68,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "ORder by"
             version: HTTP/1.0
           output:
@@ -85,7 +85,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "ordeR by"
             version: HTTP/1.0
           output:
@@ -102,7 +102,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "SELECT (CASE"
             version: HTTP/1.0
           output:
@@ -119,7 +119,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=FROM+termine+GROUP+BY+tag1%26sql_delimit"
             version: HTTP/1.0
           output:
@@ -136,7 +136,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "SELECT 6229 FROM(SELECT COUNT(*),CONCAT(0x717a786a71,(SELECT (CASE"
             version: HTTP/1.0
           output:
@@ -153,7 +153,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "SELECT CHAR(113)+CHAR(122)+CHAR(120)+CHAR(106)+CHAR(113)+(SELECT (CASE"
             version: HTTP/1.0
           output:
@@ -170,7 +170,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "SELECT UPPER(XMLType(CHR(60)||CHR(58)||CHR(113)||CHR(122)||CHR(120)||CHR(106)||CHR(113)||(SELECT (CASE"
             version: HTTP/1.0
           output:
@@ -187,7 +187,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "SELECT CONCAT(0x717a786a71,(SELECT (CASE"
             version: HTTP/1.0
           output:
@@ -204,7 +204,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "SELECT (CHR(113)||CHR(122)||CHR(120)||CHR(106)||CHR(113))||(SELECT (CASE"
             version: HTTP/1.0
           output:
@@ -221,7 +221,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "SELECT CHR(113)||CHR(122)||CHR(120)||CHR(106)||CHR(113)||(SELECT (CASE"
             version: HTTP/1.0
           output:
@@ -238,7 +238,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "SELECT 'qzxjq'||(SELECT (CASE"
             version: HTTP/1.0
           output:
@@ -255,7 +255,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "execute php"
             version: HTTP/1.0
           output:
@@ -272,7 +272,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "from(select count(*),concat((select (select (SELECT concat(user_name,0x7c,password) FROM ecs_admin_user desc limit"
             version: HTTP/1.0
           output:
@@ -289,7 +289,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "Execute("
             version: HTTP/1.0
           output:
@@ -306,7 +306,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "from+information_schema.tables+where+BINARY+LEFT%28table_name%2C+1%29+%3D+%27nnn%27+LIMIT"
             version: HTTP/1.0
           output:
@@ -323,7 +323,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "from+information_schema.tables+where+table_schema%3Ddatabase%28%29+and+table_name+REGEXP+0x6d656d6265727324+limit"
             version: HTTP/1.0
           output:
@@ -340,7 +340,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "fromtype%3DvBForum%3ASocialGroupMessage%26do%3Dprocess%26contenttypeid%3D5%26categoryid%5B%5D%3D-99%29+union+select+salt+from+user+where+userid%3D1+and+row%281%2C1%29%3E%28select+count%28%2A%29%2Cconcat%28+%28select+user.salt%29+%2C0x3a%2Cfloor%28rand%280%29%2A2%29%29+x+from+%28select+1+union+select+2+union+select+3%29a+group+by+x+limit"
             version: HTTP/1.0
           output:
@@ -357,7 +357,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "from%2F%2A%2A%2F%28select%2F%2A%2A%2Fcount%28%2A%29%2Cconcat%28floor%28rand%280%29%2A2%29%2C0x3a%2C%28select%2F%2A%2A%2Fconcat%28user%2C0x3a%2Cpassword%29%2F%2A%2A%2Ffrom%2F%2A%2A%2Fpwn_base_admin%2F%2A%2A%2Flimit"
             version: HTTP/1.0
           output:
@@ -374,7 +374,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "HAVING+1%3D"
             version: HTTP/1.0
           output:
@@ -391,7 +391,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "execute+elysi"
             version: HTTP/1.0
           output:
@@ -408,7 +408,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "FROM%28SELECT+COUNT%28%2A%29%2CCONCAT%280x716a766b71%2C%28SELECT+%28ELT%283419%3D3419%2C1%29%29%29%2C0x7171717071%2CFLOOR%28RAND%280%29%2A2%29%29x+FROM+INFORMATION_SCHEMA.PLUGINS+GROUP+BY+x%29a%29%26limit"
             version: HTTP/1.0
           output:
@@ -425,7 +425,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "FROM%28SELECT+COUNT%28%2A%29%2CCONCAT%280x716a766b71%2C%28SELECT+%28ELT%289184%3D9184%2C1%29%29%29%2C0x7171717071%2CFLOOR%28RAND%280%29%2A2%29%29x+FROM+INFORMATION_SCHEMA.PLUGINS+GROUP+BY+x%29a%29+AND+%27%25%27%3D%27%26limit"
             version: HTTP/1.0
           output:
@@ -442,7 +442,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "from%28select%28sleep%2820%29%29%29a%29%27%26data%5BJob%5D%5Blimit"
             version: HTTP/1.0
           output:
@@ -459,7 +459,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "from%28select%28sleep%2820%29%29%29a%29%2B%27%26data%5BJob%5D%5Blimit"
             version: HTTP/1.0
           output:
@@ -476,7 +476,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "from%28select%28sleep%2820%29%29%29a%29--+%26data%5BJob%5D%5Blimit"
             version: HTTP/1.0
           output:
@@ -493,7 +493,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "from%28select%28sleep%2820%29%29%29a%29%26data%5BJob%5D%5Blimit"
             version: HTTP/1.0
           output:
@@ -510,7 +510,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "FROM+ack_variable+WHERE+name%3D%22cron_last%22%3B%26sql_delimit"
             version: HTTP/1.0
           output:
@@ -527,7 +527,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "execute node_"
             version: HTTP/1.0
           output:
@@ -544,7 +544,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "execute scald"
             version: HTTP/1.0
           output:
@@ -561,7 +561,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "execute system"
             version: HTTP/1.0
           output:
@@ -578,7 +578,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "execute user_"
             version: HTTP/1.0
           output:
@@ -595,7 +595,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "execute views"
             version: HTTP/1.0
           output:
@@ -612,7 +612,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "execute patha"
             version: HTTP/1.0
           output:
@@ -629,7 +629,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "execute workb"
             version: HTTP/1.0
           output:
@@ -646,7 +646,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "execute panel"
             version: HTTP/1.0
           output:
@@ -663,7 +663,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=from+information_schema.tables+where+1%3D2+limit"
             version: HTTP/1.0
           output:
@@ -680,7 +680,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=FROM%2B%2560oxattribute%2560%2BWHERE%2BCONVERT%2528%2560oxattribute%2560.%2560OXID%2560%2BUSING%2Butf8%2529%2B%253D%2B%2527n550a1cee455b9ce585343d75d112b77%2527%2BLIMIT"
             version: HTTP/1.0
           output:
@@ -697,7 +697,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=FROM%28select+count%28%2A%29%2Cconcat%28%28select+%28select+concat%28session_id%29%29+FROM+jml_session+LIMIT"
             version: HTTP/1.0
           output:
@@ -714,7 +714,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=SELECT+dDJq+WHERE+9896%3D9896%3BSELECT+%28CASE"
             version: HTTP/1.0
           output:
@@ -731,7 +731,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=FROM+%60we_tblErrorLog%60+WHERE+%60we_tblErrorLog%60.%60ID%60+%3D+25251+LIMIT"
             version: HTTP/1.0
           output:
@@ -748,7 +748,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=FROM+%60dates%60+order+by+%60uname%60%2C+%60date%60%2C+%60load%60%26dummy%3D%60uname%60%26dummy%3D%60datum%60%26dummy%3D%60laden%60%26sql_delimit"
             version: HTTP/1.0
           output:
@@ -765,7 +765,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=IF%20EXISTS%20(SELECT%20*%20FROM%20users%20WHERE%20username%20%3D%20'root')%20BENCHMARK(1000000000%2CMD5(1))"
             version: HTTP/1.0
           output:

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "941110.yaml"
   description: "Tests to trigger, or not trigger 941110"
@@ -13,7 +13,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/'
+            uri: "/get"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
@@ -29,7 +29,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: "/?x=<script+>alert(1);</script>"
+            uri: "/get?x=<script+>alert(1);</script>"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
@@ -44,7 +44,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/'
+            uri: "/get"
             headers:
               User-Agent: "&#60;script+&#62;alert(1);&#60;/script&#62;=value"
               Host: localhost
@@ -59,7 +59,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/'
+            uri: "/get"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
@@ -75,7 +75,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: "/foo/bar%3C/script%3E%3Cscript%3Ealert(1)%3C/script%3E/"
+            uri: "/get/foo/bar%3C/script%3E%3Cscript%3Ealert(1)%3C/script%3E/"
             headers:
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
@@ -90,7 +90,7 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: /
+            uri: "/get"
             headers:
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
@@ -108,7 +108,7 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: /
+            uri: "/get"
             headers:
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
@@ -126,7 +126,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: /
+            uri: "/get"
             headers:
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
@@ -142,6 +142,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
+            uri: "/get"
             headers:
               Host: localhost
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
@@ -157,7 +158,7 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: "/?%9cscript+%bcalert(1);%bc/script%9e=value"
+            uri: "/get?%9cscript+%bcalert(1);%bc/script%9e=value"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost

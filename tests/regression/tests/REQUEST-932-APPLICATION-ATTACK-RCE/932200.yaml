@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "theMiddle, Franziska Bühler, Max Leske"
+  author: "theMiddle, Franziska Bühler, Max Leske, azurit"
   description: RCE Bypass
   enabled: true
   name: 932200.yaml
@@ -17,7 +17,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?host=www.google.com;/bin/ca?+/et*/passwd
+            uri: "/get?host=www.google.com;/bin/ca?+/et*/passwd"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -33,7 +33,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?host=www.google.com;cat+/etc/%24%7Ba%7Dpasswd
+            uri: "/get?host=www.google.com;cat+/etc/%24%7Ba%7Dpasswd"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -49,7 +49,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?host=www.google.com;cat+/etc/%24%28echo%29passwd
+            uri: "/get?host=www.google.com;cat+/etc/%24%28echo%29passwd"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -65,7 +65,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?host=www.google.com;c%24%40at%2B%2Fet%24%40c%2Fpas%24%40swd
+            uri: "/get?host=www.google.com;c%24%40at%2B%2Fet%24%40c%2Fpas%24%40swd"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -81,7 +81,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?host=www.google.com;c%24%21at%2B%2Fet%24%21c%2Fpas%24%21swd
+            uri: "/get?host=www.google.com;c%24%21at%2B%2Fet%24%21c%2Fpas%24%21swd"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -97,7 +97,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?host=www.google.com;c%24%2Aat%2B%2Fet%24%2Ac%2Fpas%24%2Aswd
+            uri: "/get?host=www.google.com;c%24%2Aat%2B%2Fet%24%2Ac%2Fpas%24%2Aswd"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -113,7 +113,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?host=www.google.com;c%24%3Fat%2B%2Fet%24%3Fc%2Fpas%24%3Fswd
+            uri: "/get?host=www.google.com;c%24%3Fat%2B%2Fet%24%3Fc%2Fpas%24%3Fswd"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -129,7 +129,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?host=www.google.com;c%24-at%2B%2Fet%24-c%2Fpas%24-swd
+            uri: "/get?host=www.google.com;c%24-at%2B%2Fet%24-c%2Fpas%24-swd"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -145,7 +145,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?host=www.google.com;c%24_at%2B%2Fet%24_c%2Fpas%24_swd
+            uri: "/get?host=www.google.com;c%24_at%2B%2Fet%24_c%2Fpas%24_swd"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -161,7 +161,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?host=www.google.com;c%24%24at%2B%2Fet%24%24c%2Fpas%24%24swd
+            uri: "/get?host=www.google.com;c%24%24at%2B%2Fet%24%24c%2Fpas%24%24swd"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -177,7 +177,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?host=www.google.com;c%5Cat%20%2Fetc%2Fpasswd
+            uri: "/get?host=www.google.com;c%5Cat%20%2Fetc%2Fpasswd"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -193,7 +193,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?host=www.google.com;cat%20%2Fetc%2Fp%5Casswd
+            uri: "/get?host=www.google.com;cat%20%2Fetc%2Fp%5Casswd"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -209,7 +209,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?host=www.google.com;/bin/ca?+/et*/passwd
+            uri: "/get?host=www.google.com;/bin/ca?+/et*/passwd"
             version: HTTP/1.0
           output:
             no_log_contains: found within MATCHED_VAR
@@ -226,7 +226,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -243,7 +243,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932200"
@@ -260,7 +260,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932200"

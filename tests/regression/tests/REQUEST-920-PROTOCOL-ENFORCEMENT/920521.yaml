@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler"
+  author: "Franziska Bühler, azurit"
   enabled: true
   name: "920521.yaml"
   description: "Testing for allowed and forbidden Accept-Encoding"
@@ -18,7 +18,6 @@ tests:
               Accept: "*/*"
               Host: "localhost"
               Accept-Encoding: "gzip, deflate, br"
-            protocol: "http"
             uri: "/"
             version: "HTTP/1.1"
           output:
@@ -36,7 +35,6 @@ tests:
               Accept: "*/*"
               Host: "localhost"
               Accept-Encoding: "gzip,deflate,identity"
-            protocol: "http"
             uri: "/"
             version: "HTTP/1.1"
           output:
@@ -54,7 +52,6 @@ tests:
               Accept: "*/*"
               Host: "localhost"
               Accept-Encoding: "compress;q=0.5, gzip;q=1.0"
-            protocol: "http"
             uri: "/"
             version: "HTTP/1.1"
           output:
@@ -72,7 +69,6 @@ tests:
               Accept: "*/*"
               Host: "localhost"
               Accept-Encoding: "gzip;q=1.0, identity; q=0.5, *;q=0"
-            protocol: "http"
             uri: "/"
             version: "HTTP/1.1"
           output:
@@ -90,7 +86,6 @@ tests:
               Accept: "*/*"
               Host: "localhost"
               Accept-Encoding: "gzip;q=1.0, identity; q=0.5, *;q=0"
-            protocol: "http"
             uri: "/"
             version: "HTTP/1.1"
           output:
@@ -108,7 +103,6 @@ tests:
               Accept: "*/*"
               Host: "localhost"
               Accept-Encoding: ""
-            protocol: "http"
             uri: "/"
             version: "HTTP/1.1"
           output:
@@ -126,7 +120,6 @@ tests:
               Accept: "*/*"
               Host: "localhost"
               Accept-Encoding: "foobar"
-            protocol: "http"
             uri: "/"
             version: "HTTP/1.1"
           output:
