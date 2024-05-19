@@ -22,9 +22,7 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # [match sql-errors.data]the used select statements have different number of columns[/match]: Warning: pg_query(): supplied argument is not a valid PostgreSQL link resource in /var/www/sivusto/handler.php on line 56
-            data: |
-              {"body": "W21hdGNoIHNxbC1lcnJvcnMuZGF0YV10aGUgdXNlZCBzZWxlY3Qgc3RhdGVtZW50cyBoYXZlIGRpZmZlcmVudCBudW1iZXIgb2YgY29sdW1uc1svbWF0Y2hdOiBXYXJuaW5nOiBwZ19xdWVyeSgpOiBzdXBwbGllZCBhcmd1bWVudCBpcyBub3QgYSB2YWxpZCBQb3N0Z3JlU1FMIGxpbmsgcmVzb3VyY2UgaW4gL3Zhci93d3cvc2l2dXN0by9oYW5kbGVyLnBocCBvbiBsaW5lIDU2"}
+            data: "{\"body\": \"[match sql-errors.data]the used select statements have different number of columns[/match]: Warning: pg_query(): supplied argument is not a valid PostgreSQL link resource in /var/www/sivusto/handler.php on line 56\"}"
           output:
             log_contains: "id \"951240\""
   - test_title: 951240-2
@@ -44,8 +42,6 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # [match sql-errors.data]the used select statements have different number of columns[/match]: ERROR:  invalid input syntax for integer
-            data: |
-              {"body": "W21hdGNoIHNxbC1lcnJvcnMuZGF0YV10aGUgdXNlZCBzZWxlY3Qgc3RhdGVtZW50cyBoYXZlIGRpZmZlcmVudCBudW1iZXIgb2YgY29sdW1uc1svbWF0Y2hdOiBFUlJPUjogIGludmFsaWQgaW5wdXQgc3ludGF4IGZvciBpbnRlZ2Vy"}
+            data: "{\"body\": \"[match sql-errors.data]the used select statements have different number of columns[/match]: ERROR:  invalid input syntax for integer\"}"
           output:
             log_contains: "id \"951240\""

@@ -22,9 +22,7 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # [match sql-errors.data]the used select statements have different number of columns[/match]: ERROR 1772 (HY000): Malformed GTID set specification 'secret_password'.
-            data: |
-              {"body": "W21hdGNoIHNxbC1lcnJvcnMuZGF0YV10aGUgdXNlZCBzZWxlY3Qgc3RhdGVtZW50cyBoYXZlIGRpZmZlcmVudCBudW1iZXIgb2YgY29sdW1uc1svbWF0Y2hdOiBFUlJPUiAxNzcyIChIWTAwMCk6IE1hbGZvcm1lZCBHVElEIHNldCBzcGVjaWZpY2F0aW9uICdzZWNyZXRfcGFzc3dvcmQnLg=="}
+            data: "{\"body\": \"[match sql-errors.data]the used select statements have different number of columns[/match]: ERROR 1772 (HY000): Malformed GTID set specification 'secret_password'.\"}"
           output:
             log_contains: "id \"951230\""
   - test_title: 951230-2
@@ -44,8 +42,6 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # [match sql-errors.data]the used select statements have different number of columns[/match]: ERROR 1105 (HY000): XPATH syntax error: '\\secret'
-            data: |
-              {"body": "W21hdGNoIHNxbC1lcnJvcnMuZGF0YV10aGUgdXNlZCBzZWxlY3Qgc3RhdGVtZW50cyBoYXZlIGRpZmZlcmVudCBudW1iZXIgb2YgY29sdW1uc1svbWF0Y2hdOiBFUlJPUiAxMTA1IChIWTAwMCk6IFhQQVRIIHN5bnRheCBlcnJvcjogJ1xzZWNyZXQn"}
+            data: "{\"body\": \"[match sql-errors.data]the used select statements have different number of columns[/match]: ERROR 1105 (HY000): XPATH syntax error: '\\\\secret'\"}"
           output:
             log_contains: "id \"951230\""

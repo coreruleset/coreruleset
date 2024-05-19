@@ -22,8 +22,6 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # [match sql-errors.data]the used select statements have different number of columns[/match]: Dynamic SQL Error
-            data: |
-              {"body": "W21hdGNoIHNxbC1lcnJvcnMuZGF0YV10aGUgdXNlZCBzZWxlY3Qgc3RhdGVtZW50cyBoYXZlIGRpZmZlcmVudCBudW1iZXIgb2YgY29sdW1uc1svbWF0Y2hdOiBEeW5hbWljIFNRTCBFcnJvcg=="}
+            data: "{\"body\": \"[match sql-errors.data]the used select statements have different number of columns[/match]: Dynamic SQL Error\"}"
           output:
             log_contains: "id \"951150\""

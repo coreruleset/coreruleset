@@ -22,9 +22,7 @@ tests:
             method: "POST"
             version: "HTTP/1.1"
             uri: "/reflect"
-            # <h1>.:NCC:. Shell v
-            data: |
-              {"body": "PGgxPi46TkNDOi4gU2hlbGwgdg=="}
+            data: "{\"body\": \"<h1>.:NCC:. Shell v\"}"
           output:
             log_contains: "id \"955100\""
   - test_title: 955100-2
@@ -44,9 +42,7 @@ tests:
             method: "POST"
             version: "HTTP/1.1"
             uri: "/reflect"
-            # <!-- Simple PHP backdoor by DK (http://michaeldaw.org) -->
-            data: |
-              {"body": "PCEtLSBTaW1wbGUgUEhQIGJhY2tkb29yIGJ5IERLIChodHRwOi8vbWljaGFlbGRhdy5vcmcpIC0tPg=="}
+            data: "{\"body\": \"<!-- Simple PHP backdoor by DK (http://michaeldaw.org) -->\"}"
           output:
             log_contains: "id \"955100\""
   - test_title: 955100-3
@@ -66,8 +62,6 @@ tests:
             method: "POST"
             version: "HTTP/1.1"
             uri: "/reflect"
-            # <html><head><title>-:[GreenwooD]:- WinX Shell</title></head>
-            data: |
-              {"body": "PGh0bWw+PGhlYWQ+PHRpdGxlPi06W0dyZWVud29vRF06LSBXaW5YIFNoZWxsPC90aXRsZT48L2hlYWQ+"}
+            data: "{\"body\": \"<html><head><title>-:[GreenwooD]:- WinX Shell</title></head>\"}"
           output:
             log_contains: "id \"955100\""

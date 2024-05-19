@@ -22,8 +22,6 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # [match sql-errors.data]the used select statements have different number of columns[/match]: Warning: SQLite3::query() [sqlite3.query]: 1 values for 2 columns in /mysite/product.php on line 94
-            data: |
-              {"body": "W21hdGNoIHNxbC1lcnJvcnMuZGF0YV10aGUgdXNlZCBzZWxlY3Qgc3RhdGVtZW50cyBoYXZlIGRpZmZlcmVudCBudW1iZXIgb2YgY29sdW1uc1svbWF0Y2hdOiBXYXJuaW5nOiBTUUxpdGUzOjpxdWVyeSgpIFtzcWxpdGUzLnF1ZXJ5XTogMSB2YWx1ZXMgZm9yIDIgY29sdW1ucyBpbiAvbXlzaXRlL3Byb2R1Y3QucGhwIG9uIGxpbmUgOTQ="}
+            data: "{\"body\": \"[match sql-errors.data]the used select statements have different number of columns[/match]: Warning: SQLite3::query() [sqlite3.query]: 1 values for 2 columns in /mysite/product.php on line 94\"}"
           output:
             log_contains: "id \"951250\""

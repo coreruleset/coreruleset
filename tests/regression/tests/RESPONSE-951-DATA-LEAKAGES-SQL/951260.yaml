@@ -22,8 +22,6 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # [match sql-errors.data]the used select statements have different number of columns[/match]: Warning: Sybase: Server message: Changed database context to 'rdhiman'. (severity 10, procedure N/A) in guestfatch.php on line 10
-            data: |
-              {"body": "W21hdGNoIHNxbC1lcnJvcnMuZGF0YV10aGUgdXNlZCBzZWxlY3Qgc3RhdGVtZW50cyBoYXZlIGRpZmZlcmVudCBudW1iZXIgb2YgY29sdW1uc1svbWF0Y2hdOiBXYXJuaW5nOiBTeWJhc2U6IFNlcnZlciBtZXNzYWdlOiBDaGFuZ2VkIGRhdGFiYXNlIGNvbnRleHQgdG8gJ3JkaGltYW4nLiAoc2V2ZXJpdHkgMTAsIHByb2NlZHVyZSBOL0EpIGluIGd1ZXN0ZmF0Y2gucGhwIG9uIGxpbmUgMTA="}
+            data: "{\"body\": \"[match sql-errors.data]the used select statements have different number of columns[/match]: Warning: Sybase: Server message: Changed database context to 'rdhiman'. (severity 10, procedure N/A) in guestfatch.php on line 10\"}"
           output:
             log_contains: "id \"951260\""

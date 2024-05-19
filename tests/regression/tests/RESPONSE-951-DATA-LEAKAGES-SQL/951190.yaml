@@ -22,8 +22,6 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # [match sql-errors.data]the used select statements have different number of columns[/match]: [5000A] [Actian][Ingres ODBC Driver][Ingres]Delimited identifier starting with '' contains no valid characters. (6692) (SQLExecDirectW)
-            data: |
-              {"body": "W21hdGNoIHNxbC1lcnJvcnMuZGF0YV10aGUgdXNlZCBzZWxlY3Qgc3RhdGVtZW50cyBoYXZlIGRpZmZlcmVudCBudW1iZXIgb2YgY29sdW1uc1svbWF0Y2hdOiBbNTAwMEFdIFtBY3RpYW5dW0luZ3JlcyBPREJDIERyaXZlcl1bSW5ncmVzXURlbGltaXRlZCBpZGVudGlmaWVyIHN0YXJ0aW5nIHdpdGggJycgY29udGFpbnMgbm8gdmFsaWQgY2hhcmFjdGVycy4gKDY2OTIpIChTUUxFeGVjRGlyZWN0Vyk="}
+            data: "{\"body\": \"[match sql-errors.data]the used select statements have different number of columns[/match]: [5000A] [Actian][Ingres ODBC Driver][Ingres]Delimited identifier starting with '' contains no valid characters. (6692) (SQLExecDirectW)\"}"
           output:
             log_contains: "id \"951190\""

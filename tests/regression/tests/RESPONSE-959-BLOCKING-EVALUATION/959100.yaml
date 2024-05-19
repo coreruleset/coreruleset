@@ -26,9 +26,7 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # <?php echo "Hello World!\n" ?>
-            data: |
-              {"body": "PD9waHAgZWNobyAiSGVsbG8gV29ybGQhXG4iID8+"}
+            data: "{\"body\": \"<?php echo \\\"Hello World!\\n\\\" ?>\"}"
           output:
             log_contains: "id \"959100\""
   - test_title: 959100-2
@@ -44,11 +42,11 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "<?php12345"
+            uri: "/reflect"
+            data: "{\"body\": \"<?php12345\"}"
           output:
             no_log_contains: "id \"959100\""
   - test_title: 959100-3
@@ -68,8 +66,6 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # <?php echo "Hello World!\n" ?>
-            data: |
-              {"body": "PD9waHAgZWNobyAiSGVsbG8gV29ybGQhXG4iID8+"}
+            data: "{\"body\": \"<?php echo \\\"Hello World!\\n\\\" ?>\"}"
           output:
             log_contains: "Outbound Anomaly Score Exceeded [(]Total Score: "

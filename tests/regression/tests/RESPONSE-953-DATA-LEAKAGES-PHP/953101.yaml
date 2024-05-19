@@ -22,9 +22,7 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # Maximum allowed file size is 10 MB
-            data: |
-              {"body": "TWF4aW11bSBhbGxvd2VkIGZpbGUgc2l6ZSBpcyAxMCBNQg=="}
+            data: "{\"body\": \"Maximum allowed file size is 10 MB\"}"
           output:
             log_contains: id "953101"
   - test_title: 953101-2
@@ -44,9 +42,7 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # Invalid date selected
-            data: |
-              {"body": "SW52YWxpZCBkYXRlIHNlbGVjdGVk"}
+            data: "{\"body\": \"Invalid date selected\"}"
           output:
             log_contains: id "953101"
   - test_title: 953101-3
@@ -66,9 +62,7 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # Please review the function
-            data: |
-              {"body": "UGxlYXNlIHJldmlldyB0aGUgZnVuY3Rpb24="}
+            data: "{\"body\": \"Please review the function\"}"
           output:
             log_contains: id "953101"
   - test_title: 953101-4
@@ -88,9 +82,7 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # This is a static function
-            data: |
-              {"body": "VGhpcyBpcyBhIHN0YXRpYyBmdW5jdGlvbg=="}
+            data: "{\"body\": \"This is a static function\"}"
           output:
             log_contains: id "953101"
   - test_title: 953101-5
@@ -110,8 +102,6 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            # cannot be empty.
-            data: |
-              {"body": "Y2Fubm90IGJlIGVtcHR5Lg=="}
+            data: "{\"body\": \"cannot be empty.\"}"
           output:
             log_contains: id "953101"
