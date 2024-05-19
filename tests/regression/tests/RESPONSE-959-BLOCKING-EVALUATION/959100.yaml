@@ -23,9 +23,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/get"
+            uri: "/post"
             data: "<?php echo \"Hello World!\n\" ?>"
           output:
             log_contains: "id \"959100\""
@@ -43,9 +43,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/get"
+            uri: "/post"
             data: <?php12345
           output:
             no_log_contains: "id \"959100\""
@@ -63,9 +63,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/get"
+            uri: "/post"
             data: "<?php echo \"Hello World!\n\" ?>"
           output:
             log_contains: "Outbound Anomaly Score Exceeded [(]Total Score: "
