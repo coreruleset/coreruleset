@@ -11,7 +11,7 @@ The OWASP CRS project was part of the effort to develop the Web Application Fire
 
 ```yaml
 # example of test case: /tests/regression/tests/REQUEST-911-METHOD-ENFORCEMENT
-# format can be found at: https://github.com/coreruleset/ftw/blob/master/docs/YAMLFormat.md
+# format can be found at: https://github.com/coreruleset/ftw-tests-schema
 ---
 meta:
   author: "csanders-git"
