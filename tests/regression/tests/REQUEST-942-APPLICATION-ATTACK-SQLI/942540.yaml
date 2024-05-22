@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "karelorigin, Walter Hop"
+  author: "karelorigin, Walter Hop, azurit"
   description: Various Authentication bypass tests
   enabled: true
   name: 942540.yaml
@@ -17,7 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "email=admin%40juice-sh.op';"
             version: HTTP/1.0
           output:
@@ -34,7 +34,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "email=admin%40juice-sh.op\";"
             version: HTTP/1.0
           output:
@@ -51,7 +51,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "email=admin%40juice-sh.op`;"
             version: HTTP/1.0
           output:
@@ -68,7 +68,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "email='foo';'bar';'def'"
             version: HTTP/1.0
           output:
@@ -85,7 +85,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "email=`foo`;`bar`;`def`"
             version: HTTP/1.0
           output:
@@ -103,7 +103,7 @@ tests:
               Content-Type: "multipart/form-data; boundary=--------397236876"
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: |
               ----------397236876
               Content-Disposition: form-data; name="document"; filename="document.md"
@@ -114,6 +114,7 @@ tests:
               # Bar
               my name is "bar"; and I work on CRS.
               ----------397236876--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "942540"
   - test_title: 942540-7
@@ -128,7 +129,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "email=root%40example.com%27%2F%2A%20comment%20%2A%2F%3B"
             version: HTTP/1.0
           output:

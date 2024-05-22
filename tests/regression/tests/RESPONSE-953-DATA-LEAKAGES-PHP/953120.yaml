@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "fzipi"
+  author: "fzipi, azurit"
   enabled: true
   name: "953120.yaml"
   description: "Positive tests for rule 953120"
@@ -19,9 +19,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/post"
             data: <?php echo "Hello World!\n" ?>
           output:
             log_contains: "id \"953120\""
@@ -39,9 +39,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/post"
             data: <?php12345
           output:
             no_log_contains: "id \"953120\""
@@ -59,9 +59,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/post"
             data: "<? "
           output:
             log_contains: "id \"953120\""
@@ -79,9 +79,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/post"
             data: <?1234
           output:
             no_log_contains: "id \"953120\""
@@ -99,9 +99,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/post"
             data: <?= "Hello World!\n" =?>
           output:
             log_contains: "id \"953120\""
@@ -119,9 +119,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/post"
             data: <?=!@#$%^&
           output:
             no_log_contains: "id \"953120\""
@@ -139,9 +139,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/post"
             data: <?PhP echo "Hello World!\n" ?>
           output:
             log_contains: "id \"953120\""

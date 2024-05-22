@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Paul Beckett, Franziska Bühler, karelorigin, Esad Cetiner"
+  author: "Paul Beckett, Franziska Bühler, karelorigin, Esad Cetiner, azurit"
   enabled: true
   name: "932260.yaml"
   description: "Tests to trigger or not trigger rule 932260"
@@ -17,7 +17,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?932260-1=bash%20-c%20%22echo%20test%22"
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932260"
   - test_title: 932260-2
@@ -32,8 +32,8 @@ tests:
               Host: "localhost"
               Cookie: "931120-3=exec 5<>/dev/tcp/8.8.8.8/80"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/post'
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932260"
   - test_title: 932260-3
@@ -48,7 +48,8 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '932260-2=dont match commands that are not at start;tar -xzf /var/www/exfiltrate.tar.gz /etc'
-            uri: '/post'
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932260"
   - test_title: 932260-4
@@ -63,7 +64,8 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'foo=ping pong tables'
-            uri: '/post'
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932260"
   - test_title: 932260-5
@@ -78,7 +80,8 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'foo=time is of the essence'
-            uri: '/post'
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932260"
   - test_title: 932260-6
@@ -93,7 +96,8 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'x=printf%20dwssap/cte/%20tac%20|%20rev%20|%20sh'
-            uri: '/post'
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932260"
   - test_title: 932260-7
@@ -109,7 +113,7 @@ tests:
             method: GET
             port: 80
             # "cmd=python cmd"
-            uri: /get?cmd=python3.10%20cmd
+            uri: "/get?cmd=python3.10%20cmd"
             version: HTTP/1.0
           output:
             log_contains: id "932260"
@@ -126,7 +130,7 @@ tests:
             method: GET
             port: 80
             # "cmd=printf dW5hbWUgLWE=|base64 -d|sh"
-            uri: /get?cmd=printf%20dW5hbWUgLWE=%7Cbase64%20-d%7Csh
+            uri: "/get?cmd=printf%20dW5hbWUgLWE=%7Cbase64%20-d%7Csh"
             version: HTTP/1.0
           output:
             log_contains: id "932260"
@@ -143,7 +147,8 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'cmd=gunzip -c /var/log/sensitive_log_file.gz'
-            uri: '/post'
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932260"
   - test_title: 932260-10
@@ -159,7 +164,8 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'cmd=zstdcat /var/log/sensitive_log_file.zst'
-            uri: '/post'
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932260"
   - test_title: 932260-11
@@ -175,8 +181,8 @@ tests:
             method: GET
             port: 80
             # code=busybox -c "echo hi"
-            uri: /get?code=busybox%20-c%20%22echo%20hi%22
-            version: HTTP/1.0
+            uri: "/get?code=busybox%20-c%20%22echo%20hi%22"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932260"
   - test_title: 932260-12
@@ -281,8 +287,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?x=find%20.%201%20-exec%20curl%20google.com%20\\;"
-            protocol: "http"
+            uri: "/get?x=find%20.%201%20-exec%20curl%20google.com%20\\;"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932260"
   - test_title: 932260-18
@@ -297,8 +303,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?x=find%20x%20for%20y"
-            protocol: "http"
+            uri: "/get?x=find%20x%20for%20y"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932260"
   - test_title: 932260-19
@@ -313,8 +319,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?x=ping%20127.0.0.1"
-            protocol: "http"
+            uri: "/get?x=ping%20127.0.0.1"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932260"
   - test_title: 932260-20
@@ -323,15 +329,15 @@ tests:
       - stage:
           input:
             dest_addr: "127.0.0.1"
-            method: "GET"
+            method: "POST"
             port: 80
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/post"
-            protocol: "http"
             data: "job_title=head%20of"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932260"
   - test_title: 932260-21
@@ -346,7 +352,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/get?word=evaluation'
+            uri: "/get?word=evaluation"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932260"
   - test_title: 932260-22
@@ -361,7 +368,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/get?word=schedule'
+            uri: "/get?word=schedule"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932260"
   - test_title: 932260-23
@@ -376,7 +384,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /?args=comment
+            uri: "/get?args=comment"
             version: HTTP/1.0
           output:
             no_log_contains: id "932260"
@@ -392,7 +400,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get?last_name=Perlak
+            uri: "/get?last_name=Perlak"
             version: HTTP/1.0
           output:
             no_log_contains: id "932260"
@@ -408,7 +416,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get?first_name=Axel
+            uri: "/get?first_name=Axel"
             version: HTTP/1.0
           output:
             no_log_contains: id "932260"
@@ -424,7 +432,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get?args=performance
+            uri: "/get?args=performance"
             version: HTTP/1.0
           output:
             no_log_contains: id "932260"
@@ -440,7 +448,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: "args=perf --version"
             version: HTTP/1.1
           output:
@@ -460,7 +468,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get/?a=whoami;0'0'"
+            uri: "/get?a=whoami;0'0'\""
             version: HTTP/1.1
           output:
             log_contains: id "932260"
@@ -476,7 +484,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get?last_name=Cronk
+            uri: "/get?last_name=Cronk"
             version: HTTP/1.0
           output:
             no_log_contains: id "932260"
@@ -492,7 +500,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=ansible all -m ping
@@ -510,7 +518,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=ansible-config dump
@@ -528,7 +536,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=ansible-galaxy collection install community.general
@@ -546,7 +554,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=ansible-console
@@ -564,7 +572,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=ansible-doc plugin ping
@@ -582,7 +590,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=ansible-inventory --list
@@ -600,7 +608,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=ansible-pull --url example.com
@@ -618,7 +626,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=ansible-vault decrypt secret
@@ -636,7 +644,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=ansible-playbook site.yml
@@ -654,7 +662,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=chef-vault -i secret
@@ -672,7 +680,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=chef-shell
@@ -690,7 +698,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=chef-run all recipie.rb
@@ -708,7 +716,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=chef-client -t 1.1.1.1
@@ -726,7 +734,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=visudo
@@ -744,7 +752,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
             data: |
               code=cscli alerts list

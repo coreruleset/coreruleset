@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "fzipitria"
+  author: "fzipitria, azurit"
   enabled: true
   name: "934110.yaml"
   description: "Test for vanilla SSRF in PL1"
@@ -14,12 +14,13 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: "ModSecurity CRS 3 Tests"
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Accept-Encoding: gzip,deflate
               Accept-Language: en-us,en;q=0.5
             method: GET
-            uri: "/test?ssrf=http%3A%2F%2F169.254.169.254%2FcomputeMetadata%2Fv1%2F"
+            uri: "/get/test?ssrf=http%3A%2F%2F169.254.169.254%2FcomputeMetadata%2Fv1%2F"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934110"
   - test_title: 934110-2
@@ -31,12 +32,13 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: "ModSecurity CRS 3 Tests"
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Accept-Encoding: gzip,deflate
               Accept-Language: en-us,en;q=0.5
             method: GET
-            uri: "/test?ssrf=http%3A%2F%2F169.254.169.254%2Fmetadata%2Fv1.json"
+            uri: "/get/test?ssrf=http%3A%2F%2F169.254.169.254%2Fmetadata%2Fv1.json"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934110"
   - test_title: 934110-3
@@ -48,12 +50,13 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: "ModSecurity CRS 3 Tests"
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Accept-Encoding: gzip,deflate
               Accept-Language: en-us,en;q=0.5
             method: GET
-            uri: "/test?ssrf=https%3A%2F%2Fmetadata.packet.net%2Fuserdata"
+            uri: "/get/test?ssrf=https%3A%2F%2Fmetadata.packet.net%2Fuserdata"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934110"
   - test_title: 934110-4
@@ -65,12 +68,13 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: "ModSecurity CRS 3 Tests"
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Accept-Encoding: gzip,deflate
               Accept-Language: en-us,en;q=0.5
             method: GET
-            uri: "/test?ssrf=http%3A%2F%2F169.254.169.254%2Fopenstack"
+            uri: "/get/test?ssrf=http%3A%2F%2F169.254.169.254%2Fopenstack"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934110"
   - test_title: 934110-5
@@ -82,12 +86,13 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: "ModSecurity CRS 3 Tests"
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Accept-Encoding: gzip,deflate
               Accept-Language: en-us,en;q=0.5
             method: GET
-            uri: "/test?ssrf=http%3A%2F%2F192.0.0.192%2Flatest%2Fuser-data%2F"
+            uri: "/get/test?ssrf=http%3A%2F%2F192.0.0.192%2Flatest%2Fuser-data%2F"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934110"
   - test_title: 934110-6
@@ -99,12 +104,13 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: "ModSecurity CRS 3 Tests"
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Accept-Encoding: gzip,deflate
               Accept-Language: en-us,en;q=0.5
             method: GET
-            uri: "/test?ssrf=169.254.169.254%2Flatest%2Fuser-data"
+            uri: "/get/test?ssrf=169.254.169.254%2Flatest%2Fuser-data"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "934110"
   - test_title: 934110-7
@@ -116,12 +122,13 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: "ModSecurity CRS 3 Tests"
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Accept-Encoding: gzip,deflate
               Accept-Language: en-us,en;q=0.5
             method: GET
-            uri: "/test?ssrf=http%3A%2F%2F169.254.169.254%2Flatest"
+            uri: "/get/test?ssrf=http%3A%2F%2F169.254.169.254%2Flatest"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "934110"
   - test_title: 934110-8
@@ -133,11 +140,12 @@ tests:
             port: 80
             headers:
               Host: "localhost"
-              User-Agent: "ModSecurity CRS 3 Tests"
+              User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Accept-Encoding: gzip,deflate
               Accept-Language: en-us,en;q=0.5
             method: GET
-            uri: "/test?ssrf=http%3A%2F%2Fmetadata.google.internal"
+            uri: "/get/test?ssrf=http%3A%2F%2Fmetadata.google.internal"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "934110"

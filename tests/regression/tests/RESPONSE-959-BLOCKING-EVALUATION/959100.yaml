@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "studersi"
+  author: "studersi, azurit"
   enabled: true
   name: "959100.yaml"
   description: |
@@ -23,10 +23,10 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/anything"
-            data: <?php echo "Hello World!\n" ?>
+            uri: "/post"
+            data: '<?php echo "Hello World!\n" ?>'
           output:
             log_contains: "id \"959100\""
   - test_title: 959100-2
@@ -43,10 +43,10 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/anything"
-            data: <?php12345
+            uri: "/post"
+            data: "<?php12345"
           output:
             no_log_contains: "id \"959100\""
   - test_title: 959100-3
@@ -63,9 +63,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/anything"
-            data: <?php echo "Hello World!\n" ?>
+            uri: "/post"
+            data: '<?php echo "Hello World!\n" ?>'
           output:
             log_contains: "Outbound Anomaly Score Exceeded [(]Total Score: "

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler, Esad Cetiner"
+  author: "Franziska Bühler, Esad Cetiner, azurit"
   enabled: true
   name: "932237.yaml"
 tests:
@@ -16,7 +16,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get"
-            protocol: "http"
+            version: HTTP/1.1
           output:
             no_log_contains: "id \"932237\""
   - test_title: 932237-2
@@ -31,7 +31,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get"
-            protocol: "http"
+            version: HTTP/1.1
           output:
             log_contains: "id \"932237\""
   - test_title: 932237-3
@@ -45,7 +45,8 @@ tests:
               User-Agent: set -o history
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
+            uri: "/get"
+            version: HTTP/1.1
           output:
             log_contains: "id \"932237\""
   - test_title: 932237-4
@@ -59,8 +60,8 @@ tests:
               User-Agent: settings
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/get'
-            protocol: "http"
+            uri: "/get"
+            version: HTTP/1.1
           output:
             no_log_contains: "id \"932237\""
   - test_title: 932237-5
@@ -74,8 +75,8 @@ tests:
               User-Agent: environment
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/get'
-            protocol: "http"
+            uri: "/get"
+            version: HTTP/1.1
           output:
             no_log_contains: "id \"932237\""
   - test_title: 932237-6
@@ -86,12 +87,12 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Referer: env
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get"
-            protocol: "http"
+            version: HTTP/1.1
           output:
             no_log_contains: "id \"932237\""
   - test_title: 932237-7
@@ -102,12 +103,12 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Referer: id
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get"
-            protocol: "http"
+            version: HTTP/1.1
           output:
             log_contains: "id \"932237\""
   - test_title: 932237-8
@@ -118,11 +119,12 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Referer: set -o history
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
+            uri: "/get"
+            version: HTTP/1.1
           output:
             log_contains: "id \"932237\""
   - test_title: 932237-9
@@ -133,12 +135,12 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Referer: settings
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/get'
-            protocol: "http"
+            uri: "/get"
+            version: HTTP/1.1
           output:
             no_log_contains: "id \"932237\""
   - test_title: 932237-10
@@ -149,12 +151,12 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Referer: environment
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/get'
-            protocol: "http"
+            uri: "/get"
+            version: HTTP/1.1
           output:
             no_log_contains: "id \"932237\""
   - test_title: 932237-11
@@ -169,7 +171,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               code=;vi dddd +silent\\ \!whoami +wq
             version: HTTP/1.0
@@ -187,7 +189,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               code=;vi -c:\!pwd
             version: HTTP/1.0
@@ -205,7 +207,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             no_log_contains: id "932237"
@@ -221,7 +223,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             no_log_contains: id "932237"
@@ -233,11 +235,12 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Referer: set
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
+            uri: "/get"
+            version: HTTP/1.1
           output:
             no_log_contains: "id \"932237\""
   - test_title: 932237-16
@@ -251,7 +254,8 @@ tests:
               User-Agent: set
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
+            uri: "/get"
+            version: HTTP/1.1
           output:
             no_log_contains: "id \"932237\""
   - test_title: 932237-17
@@ -266,7 +270,8 @@ tests:
               User-Agent: env --version
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
+            uri: "/get"
+            version: HTTP/1.1
           output:
             log_contains: "id \"932237\""
   - test_title: 932237-18
@@ -278,11 +283,12 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Referer: env --version
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
+            uri: "/get"
+            version: HTTP/1.1
           output:
             log_contains: "id \"932237\""
   - test_title: 932237-19
@@ -297,7 +303,7 @@ tests:
               User-Agent: "ansible all -m ping"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -313,7 +319,7 @@ tests:
               User-Agent: "ansible-config dump"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -329,7 +335,7 @@ tests:
               User-Agent: "ansible-galaxy collection install community.general"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -345,7 +351,7 @@ tests:
               User-Agent: "code=ansible-console"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -361,7 +367,7 @@ tests:
               User-Agent: "ansible-doc plugin ping"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -377,7 +383,7 @@ tests:
               User-Agent: "ansible-inventory --list"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -393,7 +399,7 @@ tests:
               User-Agent: "ansible-pull --url example.com"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -409,7 +415,7 @@ tests:
               User-Agent: "ansible-vault decrypt secret"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -425,7 +431,7 @@ tests:
               User-Agent: "ansible-playbook site.yml"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -441,7 +447,7 @@ tests:
               User-Agent: "chef-vault -i secret"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -457,7 +463,7 @@ tests:
               User-Agent: "chef-shell"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -473,7 +479,7 @@ tests:
               User-Agent: "chef-run all recipie.rb"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -489,7 +495,7 @@ tests:
               User-Agent: "chef-client -t 1.1.1.1"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -505,7 +511,7 @@ tests:
               User-Agent: "chef report nodes"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -521,7 +527,7 @@ tests:
               User-Agent: "visudo"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"
@@ -537,7 +543,7 @@ tests:
               User-Agent: "cscli alerts list"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932237"

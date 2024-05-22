@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "941170.yaml"
   description: "Tests to trigger, or not trigger 941170"
@@ -13,11 +13,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/char_test?mime=text/xml&body=%3Cx:script%20xmlns:x=%22http://www.w3.org/1999/xhtml%22%20src=%22data:,alert(1)%22%20/%3E'
+            uri: "/get/char_test?mime=text/xml&body=%3Cx:script%20xmlns:x=%22http://www.w3.org/1999/xhtml%22%20src=%22data:,alert(1)%22%20/%3E"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941170"
   - test_title: 941170-2
@@ -32,8 +33,9 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/'
+            uri: "/post"
             data: "payload=javascript:/*--></title></style></textarea></script></xmp><svg/onload='+/\"/+/onmouseover=1/+/[*/[]/+alert(1)//'></a>"
+            version: "HTTP/1.1"
           output:
             log_contains: id "941170"
   - test_title: 941170-3
@@ -44,11 +46,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/?var=javascript:%20%5C%5C%5C%5Ct'
+            uri: "/get?var=javascript:%20%5C%5C%5C%5Ct"
             headers:
               Accept: "*/*"
               User-Agent: "OWASP CRS test agent"
               Host: localhost
+            version: "HTTP/1.1"
           output:
             log_contains: id "941170"
   - test_title: 941170-4
@@ -59,11 +62,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/?var=javascript:%5C%5C%5C%5Cu0020'
+            uri: "/get?var=javascript:%5C%5C%5C%5Cu0020"
             headers:
               Accept: "*/*"
               User-Agent: "OWASP CRS test agent"
               Host: localhost
+            version: "HTTP/1.1"
           output:
             log_contains: id "941170"
   - test_title: 941170-5
@@ -74,10 +78,11 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/?test=%20data%3A%20%2C%20%3Cx%3E'
+            uri: "/get?test=%20data%3A%20%2C%20%3Cx%3E"
             headers:
               Accept: "*/*"
               User-Agent: "OWASP CRS test agent"
               Host: localhost
+            version: "HTTP/1.1"
           output:
             log_contains: id "941170"

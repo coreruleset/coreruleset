@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, karelorigin"
+  author: "csanders-git, karelorigin, azurit"
   enabled: true
   name: "920450.yaml"
   description: "Description"
@@ -16,6 +16,8 @@ tests:
               Host: "localhost"
               Content-range: "test"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920450\""
   - test_title: 920450-2
@@ -29,6 +31,8 @@ tests:
               Host: "localhost"
               If: "test"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920450\""
   - test_title: 920450-3
@@ -42,6 +46,8 @@ tests:
               Host: "localhost"
               lock-token: "test"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920450\""
   - test_title: 920450-4
@@ -60,8 +66,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /
-            version: HTTP/1.1
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920450"
   - test_title: 920450-5
@@ -81,8 +87,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /
-            version: HTTP/1.1
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "920450"
   - test_title: 920450-6
@@ -96,6 +102,8 @@ tests:
               Host: "localhost"
               Range: "test"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920450\""
   - test_title: 920450-7
@@ -110,5 +118,6 @@ tests:
               Host: "localhost"
               Accept: text/html
               Content-Encoding: deflate
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920450\""

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Christoph Hansen"
+  author: "Christian S.J. Peron, Christoph Hansen, azurit"
   description: None
   enabled: true
   name: 942140.yaml
@@ -17,7 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?sql_table=pg_catalog"
+            uri: "/get?sql_table=pg_catalog"
             version: HTTP/1.0
           output:
             log_contains: id "942140"
@@ -33,7 +33,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "INFORMATION_SCHEMA"
             version: HTTP/1.0
           output:
@@ -50,7 +50,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "database("
             version: HTTP/1.0
           output:
@@ -67,7 +67,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "db_name("
             version: HTTP/1.0
           output:
@@ -84,7 +84,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "DaTaBasE("
             version: HTTP/1.0
           output:
@@ -101,7 +101,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "InFoRmaTioN_ScHemA"
             version: HTTP/1.0
           output:
@@ -118,7 +118,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "DB_NAME("
             version: HTTP/1.0
           output:
@@ -135,7 +135,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "tempdb"
             version: HTTP/1.0
           output:
@@ -152,7 +152,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "msdb"
             version: HTTP/1.0
           output:
@@ -169,7 +169,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "mysql.db"
             version: HTTP/1.0
           output:
@@ -186,7 +186,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "MSysAccessObjects"
             version: HTTP/1.0
           output:
@@ -203,7 +203,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "Northwind"
             version: HTTP/1.0
           output:
@@ -220,7 +220,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "northwind"
             version: HTTP/1.0
           output:
@@ -237,7 +237,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "SCHEMA_NAME"
             version: HTTP/1.0
           output:
@@ -254,7 +254,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "DATABASE("
             version: HTTP/1.0
           output:
@@ -271,7 +271,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "schema_name"
             version: HTTP/1.0
           output:
@@ -288,7 +288,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "information_schema"
             version: HTTP/1.0
           output:

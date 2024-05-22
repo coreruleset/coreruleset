@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Christoph Hansen"
+  author: "Christian S.J. Peron, Christoph Hansen, azurit"
   description: None
   enabled: true
   name: 942320.yaml
@@ -17,6 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=procedure%20analyse%20%28"
             version: HTTP/1.0
           output:
@@ -33,7 +34,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=exec+%28%40%0A"
             version: HTTP/1.0
           output:
@@ -50,7 +51,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=declare+%40b%0A"
             version: HTTP/1.0
           output:
@@ -67,7 +68,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=DECLARE%2F%2A%2A%2F%40x%0A"
             version: HTTP/1.0
           output:
@@ -84,7 +85,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/index.php?id=password::int"
+            uri: "/get/index.php?id=password::int"
             version: HTTP/1.0
           output:
             log_contains: id "942320"
@@ -100,7 +101,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/index.php?no=2&id=1%27%20and%20unistr(password)::bool--"
+            uri: "/get/index.php?no=2&id=1%27%20and%20unistr(password)::bool--"
             version: HTTP/1.0
           output:
             log_contains: id "942320"
@@ -116,7 +117,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/index.php?id=div(23,-2)"
+            uri: "/get/index.php?id=div(23,-2)"
             version: HTTP/1.0
           output:
             log_contains: id "942320"
@@ -132,7 +133,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/index.php?id=div+(23.23+,+2)"
+            uri: "/get/index.php?id=div+(23.23+,+2)"
             version: HTTP/1.0
           output:
             log_contains: id "942320"
@@ -148,7 +149,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/index.php?id=lo_import(%27/etc%27%20||%20%27/pass%27%20||%20%27wd%27)"
+            uri: "/get/index.php?id=lo_import(%27/etc%27%20||%20%27/pass%27%20||%20%27wd%27)"
             version: HTTP/1.0
           output:
             log_contains: id "942320"
@@ -164,7 +165,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/index.php?id=lo_get(16400)"
+            uri: "/get/index.php?id=lo_get(16400)"
             version: HTTP/1.0
           output:
             log_contains: id "942320"
@@ -180,7 +181,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/index.php?id=function(foo)::text"
+            uri: "/get/index.php?id=function(foo)::text"
             version: HTTP/1.0
           output:
             log_contains: id "942320"
@@ -196,7 +197,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/index.php?id=function(foo)::bigint"
+            uri: "/get/index.php?id=function(foo)::bigint"
             version: HTTP/1.0
           output:
             log_contains: id "942320"
@@ -212,7 +213,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/index.php?id=function(foo)::double%20precision"
+            uri: "/get/index.php?id=function(foo)::double%20precision"
             version: HTTP/1.0
           output:
             log_contains: id "942320"

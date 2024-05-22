@@ -19,9 +19,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/post"
             data: "[match sql-errors.data]the used select statements have different number of columns[/match]: SQL Error: ORA-00933: SQL command not properly ended"
           output:
             log_contains: "id \"951120\""

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Walter Hop"
+  author: "Christian S.J. Peron, Walter Hop, azurit"
   description: None
   enabled: true
   name: 941120.yaml
@@ -17,7 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/?%20%20onload%3d%20=vardata"
+            uri: "/post?%20%20onload%3d%20=vardata"
             version: HTTP/1.0
           output:
             log_contains: id "941120"
@@ -33,7 +33,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/?%20%20onabcdefgh%3d%20=vardata"
+            uri: "/post?%20%20onabcdefgh%3d%20=vardata"
             version: HTTP/1.0
           output:
             log_contains: id "941120"
@@ -49,7 +49,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/?%20%20onab%3d%20=vardata"
+            uri: "/post?%20%20onab%3d%20=vardata"
             version: HTTP/1.0
           output:
             no_log_contains: id "941120"
@@ -65,7 +65,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/?%20%20onabcdefghijklmnopqrstuvwxyz%3d%20=vardata"
+            uri: "/post?%20%20onabcdefghijklmnopqrstuvwxyz%3d%20=vardata"
             version: HTTP/1.0
           output:
             no_log_contains: id "941120"
@@ -82,7 +82,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "941120"
   - test_title: 941120-6
@@ -97,7 +98,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/index.php/%3Csvg/onload=alert()"
+            uri: "/get/index.php/%3Csvg/onload=alert()"
             version: HTTP/1.0
           output:
             log_contains: id "941120"

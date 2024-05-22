@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "zmallen"
+  author: "zmallen, azurit"
   enabled: true
   name: "941210.yaml"
   description: "Tests to trigger, or not trigger 941210. This checks for abuses of javascript: with different encodings/html etc"
@@ -13,12 +13,13 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '941210-1=ja%26tab%3Bvascript%3A%20'
+            version: "HTTP/1.1"
           output:
             log_contains: id "941210"
   - test_title: 941210-2
@@ -29,12 +30,13 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: "*/*"
             data: 'ja%26tab%3Bvascript%3A%09=941210-2'
+            version: "HTTP/1.1"
           output:
             log_contains: id "941210"
   - test_title: 941210-3
@@ -45,12 +47,13 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/get'
+            uri: "/get"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Cookie: 'ja%26newline%3Bvascript%3A%20=941210-3'
               Accept: "*/*"
+            version: "HTTP/1.1"
           output:
             log_contains: id "941210"
   - test_title: 941210-4
@@ -61,7 +64,7 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
@@ -79,7 +82,7 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost

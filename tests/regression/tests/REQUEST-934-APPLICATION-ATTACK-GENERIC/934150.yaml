@@ -1,6 +1,6 @@
 ---
 meta:
-  author: karelorigin
+  author: "karelorigin, azurit"
   enabled: true
   name: "934150.yaml"
   description: "Tests for rule 934150"
@@ -14,10 +14,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?x=Process.spawn(%22id%22)"
+            uri: "/get?x=Process.spawn(%22id%22)"
             version: HTTP/1.0
           output:
             log_contains: id "934150"

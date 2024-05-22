@@ -1,6 +1,6 @@
 ---
 meta:
-  author: ", Max Leske"
+  author: "Max Leske, azurit"
   enabled: true
   name: "920221.yaml"
   description: "Detect invalid URI encoding in the last path segment of the URI"
@@ -17,6 +17,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920221\""
   - test_title: 920221-2
@@ -31,5 +32,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920221\""

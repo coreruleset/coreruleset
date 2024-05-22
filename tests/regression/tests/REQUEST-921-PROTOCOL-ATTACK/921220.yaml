@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian Folini (dune73)"
+  author: "Christian Folini (dune73), azurit"
   description: "HTTP Parameter Pollution"
   enabled: true
   name: 921220.yaml
@@ -16,6 +16,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
-            uri: "/?foo[1]=bar"
+            method: "GET"
+            uri: "/get?foo[1]=bar"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921220"

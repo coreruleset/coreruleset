@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "zmallen"
+  author: "zmallen, azurit"
   enabled: true
   name: "941200.yaml"
   description: "Tests to trigger, or not trigger 941200"
@@ -13,12 +13,13 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '941200-1=%3Cv%3Avmlframe%20src%3D%22foo.com%2Fsup.fml%22%2F%3E'
+            version: "HTTP/1.1"
           output:
             log_contains: id "941200"
   - test_title: 941200-2
@@ -29,12 +30,13 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '%3Cv%3Avmlframe%20src%3D%22foo.com%2Fsup.fml%22%2F%3E=941200-2'
+            version: "HTTP/1.1"
           output:
             log_contains: id "941200"
   - test_title: 941200-3
@@ -45,12 +47,13 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/baz'
+            uri: "/get/baz"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Cookie: '%3Cv%3Avmlframe%20src%3D%22foo.com%2Fsup.fml%22%2F%3E=941200-3'
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941200"
   - test_title: 941200-4
@@ -61,11 +64,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/baz'
+            uri: "/get/baz"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Cookie: 'test=%3C%3Avmlframe%20src%3D'
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941200"

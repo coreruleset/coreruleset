@@ -1,6 +1,6 @@
 ---
 meta:
-  author: karelorigin
+  author: "karelorigin, azurit"
   enabled: true
   name: "934160.yaml"
   description: "Tests for rule 934160"
@@ -14,10 +14,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?text=while%20(foo)%20is%20bar."
+            uri: "/get?text=while%20(foo)%20is%20bar."
             version: HTTP/1.0
           output:
             no_log_contains: id "934160"
@@ -30,10 +30,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!false)"
+            uri: "/get?eval=while(!false)"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -46,10 +46,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!-0);"
+            uri: "/get?eval=while(!-0);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -62,10 +62,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!%2B0);"
+            uri: "/get?eval=while(!%2B0);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -78,10 +78,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!0);"
+            uri: "/get?eval=while(!0);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -94,10 +94,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!-0);"
+            uri: "/get?eval=while(!-0);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -110,10 +110,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?eval=while(!"");'
+            uri: '/get?eval=while(!"");'
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -126,10 +126,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!'');"
+            uri: "/get?eval=while(!'');"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -142,10 +142,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!``);"
+            uri: "/get?eval=while(!``);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -158,10 +158,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(true);"
+            uri: "/get?eval=while(true);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -174,10 +174,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(Infinity);"
+            uri: "/get?eval=while(Infinity);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -190,10 +190,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(-Infinity);"
+            uri: "/get?eval=while(-Infinity);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -206,10 +206,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(%2BInfinity);"
+            uri: "/get?eval=while(%2BInfinity);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -222,10 +222,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(-1);"
+            uri: "/get?eval=while(-1);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -238,10 +238,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(%2B1);"
+            uri: "/get?eval=while(%2B1);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -254,10 +254,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(new%20Date);"
+            uri: "/get?eval=while(new%20Date);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -270,10 +270,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(this);"
+            uri: "/get?eval=while(this);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -286,10 +286,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(String);"
+            uri: "/get?eval=while(String);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -302,10 +302,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!true);"
+            uri: "/get?eval=while(!true);"
             version: HTTP/1.0
           output:
             no_log_contains: id "934160"
@@ -318,10 +318,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!!{});"
+            uri: "/get?eval=while(!!{});"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -334,10 +334,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!![]);"
+            uri: "/get?eval=while(!![]);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -350,10 +350,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!!\"\");"
+            uri: '/get?eval=while(!!"");'
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -366,10 +366,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!!'');"
+            uri: "/get?eval=while(!!'');"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -382,10 +382,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!!``);"
+            uri: "/get?eval=while(!!``);"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -398,10 +398,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!null)"
+            uri: "/get?eval=while(!null)"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -414,10 +414,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!undefined)"
+            uri: "/get?eval=while(!undefined)"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -430,10 +430,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while(!NaN)"
+            uri: "/get?eval=while(!NaN)"
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -446,10 +446,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: localhost
-              User-Agent: ModSecurity CRS 3 Tests
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/?eval=while((true)))"
+            uri: "/get?eval=while((true)))"
             version: HTTP/1.0
           output:
             log_contains: id "934160"

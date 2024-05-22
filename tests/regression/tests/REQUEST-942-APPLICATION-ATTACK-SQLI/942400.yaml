@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
+  author: "Christian S.J. Peron, azurit"
   description: None
   enabled: true
   name: 942400.yaml
@@ -17,6 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             # variable name boundary attacks
             data: "and '5'orig_var_datavarname=whatever"
             version: HTTP/1.0
@@ -34,6 +35,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             # variable name boundary attacks
             data: "and 7 oranges"
             version: HTTP/1.0

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Andrea Menin"
+  author: "Andrea Menin, azurit"
   enabled: true
   name: "920510.yaml"
   description: "Cache-Control directives allow list"
@@ -19,6 +19,7 @@ tests:
               Host: "localhost"
               Cache-Control: "private"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920510\""
   - test_title: 920510-2
@@ -35,6 +36,7 @@ tests:
               Host: "localhost"
               Cache-Control: "foo=bar"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920510\""
   - test_title: 920510-3
@@ -51,6 +53,7 @@ tests:
               Host: "localhost"
               Cache-Control: "max-age=1, foo=bar"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920510\""
   - test_title: 920510-4
@@ -67,6 +70,7 @@ tests:
               Host: "localhost"
               Cache-Control: "max-age=1,,,max-stale=2"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920510\""
   - test_title: 920510-5
@@ -83,6 +87,7 @@ tests:
               Host: "localhost"
               Cache-Control: "no-cache"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920510\""
   - test_title: 920510-6
@@ -99,5 +104,6 @@ tests:
               Host: "localhost"
               Cache-Control: "max-age=123, max-stale, no-cache"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920510\""

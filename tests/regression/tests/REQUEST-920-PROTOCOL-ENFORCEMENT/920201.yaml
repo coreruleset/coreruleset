@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "920201.yaml"
   description: "Tests for 920201"
@@ -18,7 +18,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /index.pdf
+            uri: "/get/index.pdf"
+            version: "HTTP/1.1"
           output:
             log_contains: id "920201"
   - test_title: 920201-2
@@ -34,6 +35,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /index%2Epdf
+            uri: "/get/index%2Epdf"
+            version: "HTTP/1.1"
           output:
             log_contains: id "920201"

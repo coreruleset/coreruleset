@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
+  author: "Christian S.J. Peron, azurit"
   enabled: true
   name: "921150.yaml"
   description: "Tests for protocol based attacks"
@@ -17,7 +17,8 @@ tests:
               Host: "localhost"
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/script.jsp?variableX=bar&variable2=Y&%0d%0restofdata"
+            uri: "/get/script.jsp?variableX=bar&variable2=Y&%0d%0restofdata"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"921150\""
   - test_title: 921150-2
@@ -29,10 +30,10 @@ tests:
             port: 80
             headers:
               Host: localhost
-              User-Agent: OWASP CRS test agent
+              User-Agent: "OWASP CRS test agent"
               Accept: "*/*"
             method: GET
-            uri: "/?parameter%0d%0a=test"
+            uri: "/get?parameter%0d%0a=test"
             version: HTTP/1.0
           output:
             log_contains: id "921150"

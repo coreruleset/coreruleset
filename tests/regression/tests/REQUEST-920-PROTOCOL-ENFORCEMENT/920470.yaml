@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "lifeforms, Franziska Bühler"
+  author: "lifeforms, Franziska Bühler, azurit"
   enabled: true
   name: "920470.yaml"
   description: "Content-Type header format checks"
@@ -17,6 +17,8 @@ tests:
               Content-Type: "%{(#nike='multipart/form-data').(#dm=@ognl"
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920470\""
   - test_title: 920470-2
@@ -31,6 +33,8 @@ tests:
               Content-Type: 'text/plain; charset="UTF-8"; garbage'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920470\""
   - test_title: 920470-3
@@ -45,6 +49,8 @@ tests:
               Content-Type: 'text/plain; charset=/gar/bage'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-4
@@ -60,6 +66,8 @@ tests:
               Content-Type: "text/plain"
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-5
@@ -74,6 +82,8 @@ tests:
               Host: "localhost"
               Content-Type: 'text/plain; charset=UTF-8'
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-6
@@ -89,6 +99,8 @@ tests:
               Content-Type: 'text/plain; charset="UTF-8"'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-7
@@ -104,6 +116,8 @@ tests:
               Content-Type: 'multipart/form-data; boundary=----WebKitFormBoundary12345'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-8
@@ -119,6 +133,8 @@ tests:
               Content-Type: 'application/json'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-9
@@ -134,6 +150,8 @@ tests:
               Content-Type: 'multipart/form-data; boundary=----formdata-polyfill-0.40616634299_704013'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-10
@@ -149,6 +167,8 @@ tests:
               Content-Type: 'multipart/mixed; boundary=-----boundary_data:55780(123,45:667)+part'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-11
@@ -164,6 +184,8 @@ tests:
               Content-Type: 'multipart/mixed; boundary= gc0p4Jq0M2Yt,08/jU534c0p?==:test'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-12
@@ -179,6 +201,8 @@ tests:
               Content-Type: 'multipart/form-data; boundary=  test_data_123456'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920470\""
   - test_title: 920470-13
@@ -194,6 +218,8 @@ tests:
               Content-Type: 'multipart/related; type="application/xop+xml"; boundary="uuid:a111aaa1-aa11-1a11-a11a-11a1111aa11a"; start="<root.message@cxf.apache.org>"; start-info="application/soap+xml'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-14
@@ -209,6 +235,8 @@ tests:
               Content-Type: 'application/soap+xml; action="urn:hl7-org:v3:PRPA_IN201305UV02"; charset=UTF-8'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-15
@@ -224,6 +252,8 @@ tests:
               Content-Type: 'application/soap+xml; charset=utf-8; action="urn:localhost-hwh#getQuestions"'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-16
@@ -239,6 +269,8 @@ tests:
               Content-Type: 'ext/vcard;version=4.0'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-17
@@ -254,6 +286,8 @@ tests:
               Content-Type: 'application/*+json'
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920470\""
   - test_title: 920470-18
@@ -269,5 +303,7 @@ tests:
               Content-Type: "text/xml; blah"
               Content-Length: 0
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920470\""

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Buehler, Max Leske"
+  author: "Franziska Buehler, Max Leske, azurit"
   description: "Detection of MySQL injection evasion attempts using special comments"
   enabled: true
   name: 942500.yaml
@@ -17,7 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?id=9999+or+{if+length((/*!5000select+username/*!50000from*/user+where+id=1))>0}"
+            uri: "/get?id=9999+or+{if+length((/*!5000select+username/*!50000from*/user+where+id=1))>0}"
             version: HTTP/1.0
           output:
             log_contains: id "942500"
@@ -33,7 +33,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?id=9999+or+{if+length((/*+!5000select+username/*!50000from*/user+where+id=1))>0}"
+            uri: "/get?id=9999+or+{if+length((/*+!5000select+username/*!50000from*/user+where+id=1))>0}"
             version: HTTP/1.0
           output:
             log_contains: id "942500"
@@ -50,6 +50,7 @@ tests:
             method: GET
             port: 80
             uri: "/get?test=9999+or+%2F*%2Boptimizer+hint+*%2F+true"
+            version: "HTTP/1.1"
           output:
             log_contains: id "942500"
   - test_title: 942500-4
@@ -65,6 +66,7 @@ tests:
             method: GET
             port: 80
             uri: "/get?test=9999+or+%2F*+%2Boptimizer+hint+*%2F+true"
+            version: "HTTP/1.1"
           output:
             log_contains: id "942500"
   - test_title: 942500-5
@@ -79,7 +81,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?test=9999+or+{if+length((/*!5000select+username/*!comment*/"
+            uri: "/get?test=9999+or+{if+length((/*!5000select+username/*!comment*/"
             version: HTTP/1.0
           output:
             log_contains: id "942500"

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler"
+  author: "Franziska Bühler, azurit"
   description: "Rule against CVE-2021-40438"
   enabled: true
   name: 921240.yaml
@@ -17,6 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
             uri: "/?unix:AAAAAAAAA|http://coreruleset.org/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921240"
   - test_title: 921240-2
@@ -31,5 +32,6 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
             uri: "/?unix%3AAAAAAAAAA|http://coreruleset.org/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921240"

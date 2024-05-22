@@ -1,6 +1,6 @@
 ---
 meta:
-  author: csanders-git
+  author: "csanders-git, azurit"
   description: None
   enabled: true
   name: 920440.yaml
@@ -21,7 +21,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /foo.bak
+            uri: "/get/foo.bak"
             version: HTTP/1.1
           output:
             log_contains: id "920440"
@@ -41,7 +41,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /foo.db
+            uri: "/get/foo.db"
             version: HTTP/1.1
           output:
             log_contains: id "920440"
@@ -61,7 +61,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /foo.old
+            uri: "/get/foo.old"
             version: HTTP/1.1
           output:
             log_contains: id "920440"
@@ -81,7 +81,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /foo.bar.sql
+            uri: "/get/foo.bar.sql"
             version: HTTP/1.1
           output:
             log_contains: id "920440"
@@ -101,7 +101,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /dump.rdb
+            uri: "/get/dump.rdb"
             version: HTTP/1.1
           output:
             log_contains: id "920440"
@@ -121,7 +121,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /dump%2Erdb
+            uri: "/get/dump%2Erdb"
             version: HTTP/1.1
           output:
             log_contains: id "920440"

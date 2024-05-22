@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler"
+  author: "Franziska Bühler, azurit"
   description: "Remote Command Execution: Unix Command Injection"
   enabled: true
   name: 932232.yaml
@@ -18,7 +18,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?arg=%3Bps
+            uri: "/get?arg=%3Bps"
             version: HTTP/1.0
           output:
             log_contains: id "932232"
@@ -35,7 +35,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?arg=%7Cvi%20%28x
+            uri: "/get?arg=%7Cvi%20%28x"
             version: HTTP/1.0
           output:
             log_contains: id "932232"
@@ -52,7 +52,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?arg=%26w%20%28x
+            uri: "/get?arg=%26w%20%28x"
             version: HTTP/1.0
           output:
             log_contains: id "932232"
@@ -69,7 +69,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?arg=%26aptitude
+            uri: "/get?arg=%26aptitude"
             version: HTTP/1.0
           output:
             no_log_contains: id "932232"
@@ -87,7 +87,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/?foo=time+who"
+            uri: "/get?foo=time+who"
             version: HTTP/1.1
           output:
             log_contains: "id \"932232\""
@@ -105,7 +105,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             port: 80
-            uri: "/?foo=time+warner"
+            uri: "/get?foo=time+warner"
             version: HTTP/1.1
           output:
             no_log_contains: "id \"932232\""

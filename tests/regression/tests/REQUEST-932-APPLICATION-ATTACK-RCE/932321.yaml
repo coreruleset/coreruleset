@@ -1,6 +1,6 @@
 ---
 meta:
-  author: fzipi
+  author: "fzipi, azurit"
   description: "Remote Command Execution: POP3 PL3 Command Injection test cases"
   enabled: true
   name: 932321.yaml
@@ -14,10 +14,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: "localhost"
-              User-Agent: "Coreruleset"
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /get?attackme=%0d%0aQUIT
+            uri: "/get?attackme=%0d%0aQUIT"
             version: HTTP/1.0
           output:
             log_contains: id "932321"
@@ -30,10 +30,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: "localhost"
-              User-Agent: "Coreruleset"
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /get?text=Don't%20quit
+            uri: "/get?text=Don't%20quit"
             version: HTTP/1.0
           output:
             no_log_contains: id "932321"
@@ -46,10 +46,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: "localhost"
-              User-Agent: "Coreruleset"
+              User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               textarea=we%20do%20not%20have%20that%20capability
             version: HTTP/1.0
@@ -64,10 +64,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: "localhost"
-              User-Agent: "Coreruleset"
+              User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               textarea=Hi%20lestat!
             version: HTTP/1.0
@@ -82,10 +82,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: "localhost"
-              User-Agent: "Coreruleset"
+              User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /get?attackme=%0aSeriously%2C%20noop
+            uri: "/get?attackme=%0aSeriously%2C%20noop"
             version: HTTP/1.0
           output:
             no_log_contains: id "932321"
@@ -98,10 +98,10 @@ tests:
             headers:
               Accept: "*/*"
               Host: "localhost"
-              User-Agent: "Coreruleset"
+              User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               textarea=Someone%20bought%20this%20nice%20lerset
             version: HTTP/1.0

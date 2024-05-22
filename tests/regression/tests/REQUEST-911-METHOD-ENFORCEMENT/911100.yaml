@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "911100.yaml"
   description: "Description"
@@ -11,10 +11,13 @@ tests:
           input:
             dest_addr: "127.0.0.1"
             port: 80
+            method: "GET"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"911100\""
   - test_title: 911100-2
@@ -28,6 +31,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/options"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"911100\""
   - test_title: 911100-3
@@ -41,6 +46,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/head"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"911100\""
   - test_title: 911100-4
@@ -55,7 +62,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/x-www-form-urlencoded"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/post"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"911100\""
   - test_title: 911100-5
@@ -69,6 +78,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/test"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"911100\""
   - test_title: 911100-6
@@ -87,7 +98,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: DELETE
             port: 80
-            uri: /
+            uri: "/delete"
             version: HTTP/1.0
           output:
             log_contains: id "911100"
@@ -107,7 +118,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: FOO
             port: 80
-            uri: /
+            uri: "/foo"
             version: HTTP/1.0
           output:
             log_contains: id "911100"
@@ -127,7 +138,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: SUBSCRIBE
             port: 80
-            uri: /
+            uri: "/subscribe"
             version: HTTP/1.0
           output:
             log_contains: id "911100"

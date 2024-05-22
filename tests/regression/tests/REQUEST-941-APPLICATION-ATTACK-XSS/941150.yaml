@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "zmallen"
+  author: "zmallen, azurit"
   enabled: true
   name: "941150.yaml"
   description: "Tests to trigger, or not trigger 941150"
@@ -13,12 +13,13 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '941150-1%3D%3Ca%20href%3D%22test%22'
+            version: "HTTP/1.1"
           output:
             log_contains: id "941150"
   - test_title: 941150-2
@@ -29,11 +30,12 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: '/'
+            uri: "/post"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: "payload=<a href=# language=\"JScript.Encode\" onclick=\"#@~^CAAAAA==C^+.D`8#mgIAAA==^#~@\">XSS</a>"
+            version: "HTTP/1.1"
           output:
             log_contains: id "941150"

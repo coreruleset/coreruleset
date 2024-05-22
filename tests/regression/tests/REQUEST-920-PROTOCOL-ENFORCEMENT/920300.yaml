@@ -1,6 +1,6 @@
 ---
 meta:
-  author: csanders-git
+  author: "csanders-git, azurit"
   description: None
   enabled: true
   name: 920300.yaml
@@ -21,7 +21,7 @@ tests:
               # Test needs a missing 'Accept' header
             method: GET
             port: 80
-            uri: /
+            uri: "/"
             version: HTTP/1.0
             data: ''
           output:
@@ -66,7 +66,7 @@ tests:
             dest_addr: "127.0.0.1"
             headers:
               Host: "localhost"
-              User-Agent: "OWASP ModSecurity Core Rule Set; AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
+              User-Agent: "OWASP CRS test agent; AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
               # Test needs a missing 'Accept' header
             method: "GET"
             uri: "/"

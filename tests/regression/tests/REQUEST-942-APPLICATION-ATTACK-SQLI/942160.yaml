@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Christoph Hansen, Franziska Bühler"
+  author: "Christian S.J. Peron, Christoph Hansen, Franziska Bühler, azurit"
   description: None
   enabled: true
   name: 942160.yaml
@@ -17,7 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?sql_table=sleep%28534543%29"
+            uri: "/get?sql_table=sleep%28534543%29"
             version: HTTP/1.0
           output:
             log_contains: id "942160"
@@ -33,7 +33,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "sleEP(3)"
             version: HTTP/1.0
           output:
@@ -50,7 +50,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "sleep(5000)"
             version: HTTP/1.0
           output:
@@ -67,7 +67,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "BENChmARk(2999/**/999,Md5(NoW()"
             version: HTTP/1.0
           output:
@@ -84,7 +84,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "BEncHMARk(2999999,Md5(NoW('')"
             version: HTTP/1.0
           output:
@@ -101,7 +101,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "BENCHMARK(5000000,MD5(0x48416166)"
             version: HTTP/1.0
           output:
@@ -118,7 +118,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "benchmark(3000000,M%445(4)"
             version: HTTP/1.0
           output:
@@ -135,7 +135,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=BENCHMARK(1000000, md5\" AND 1883=1883-- GSCC('')"
             version: HTTP/1.0
           output:
@@ -152,7 +152,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "pay=BeNChMaRK(1000000, md5 AND 9796=4706('')"
             version: HTTP/1.0
           output:
@@ -169,7 +169,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/if(now()=sysdate(),sleep(12),0)"
+            uri: "/get/if(now()=sysdate(),sleep(12),0)"
             version: HTTP/1.0
           output:
             log_contains: id "942160"

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "941190.yaml"
   description: "Tests to trigger, or not trigger 941190"
@@ -13,12 +13,13 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: "941190-1=<STYLE>@import'http://xss.rocks/xss.css';</STYLE>"
+            version: "HTTP/1.1"
           output:
             log_contains: id "941190"
   - test_title: 941190-2
@@ -29,12 +30,13 @@ tests:
             dest_addr: 127.0.0.1
             method: POST
             port: 80
-            uri: '/post'
+            uri: "/post"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: "x=<STYLE>@im\\port'\\ja\vasc\\ript:alert('XSS')';</STYLE>"
+            version: "HTTP/1.1"
           output:
             log_contains: id "941190"
   - test_title: 941190-3
@@ -45,12 +47,13 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/baz'
+            uri: "/get/baz"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Cookie: '<STYLE>BODY{-moz-binding:url("http://xss.rocks/xssmoz.xml#xss")}</STYLE>'
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941190"
   - test_title: 941190-4
@@ -61,12 +64,13 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/'
+            uri: "/get"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Cookie: 'My-Cookie=<STYLE>@\\\\'
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941190"
   - test_title: 941190-5
@@ -77,11 +81,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/'
+            uri: "/get"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Cookie: 'My-Cookie=<STYLE>=\\\\'
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941190"

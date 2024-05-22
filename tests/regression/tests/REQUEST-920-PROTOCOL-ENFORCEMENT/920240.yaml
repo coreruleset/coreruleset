@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "920240.yaml"
   description: "Description"
@@ -18,8 +18,10 @@ tests:
               Content-Type: "application/x-www-form-urlencoded"
               Content-Length: 11
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "x=new %w20$"
             stop_magic: true
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920240\""
   - test_title: 920240-2
@@ -35,8 +37,10 @@ tests:
               Content-Type: "application/x-www-form-urlencoded"
               Content-Length: 10
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "x=new %20$"
             stop_magic: true
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920240\""
   - test_title: 920240-3
@@ -51,7 +55,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/x-www-form-urlencoded"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "param=value"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920240\""
   - # We have a valid percent encoding here
@@ -70,6 +76,7 @@ tests:
               Keep-Alive: "300"
               Proxy-Connection: "keep-alive"
               Content-Type: "text/xml"
+            uri: "/"
             data: |
               <SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">
                <SOAP-ENV:Body>
@@ -79,6 +86,7 @@ tests:
                     </xkms:StatusRequest>
                 </SOAP-ENV:Body>
               </SOAP-ENV:Envelope>
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920240\""
   - # test URL Encoding Abuse Attack Attempt from old regression tests
@@ -98,8 +106,10 @@ tests:
               Proxy-Connection: "keep-alive"
               Content-Type: "application/x-www-form-urlencoded"
               Content-Length: "9"
+            uri: "/"
             data: "param=%1G"
             stop_magic: true
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920240\""
   - # test URL Encoding Abuse Attack Attempt from old regression tests
@@ -118,6 +128,8 @@ tests:
               Keep-Alive: "300"
               Proxy-Connection: "keep-alive"
               Content-Type: "application/x-www-form-urlencoded"
+            uri: "/"
             data: "param=%7%6F%6D%65%74%65%78%74%5F%31%32%33%"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920240\""

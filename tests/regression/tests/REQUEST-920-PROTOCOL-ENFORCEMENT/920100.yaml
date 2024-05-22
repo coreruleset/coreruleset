@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "920100.yaml"
   description: "Tests to trigger, or not trigger 920100"
@@ -17,8 +17,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
-            uri: "/"
+            uri: "/get"
             version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920100\""
@@ -35,8 +34,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
-            uri: "/"
+            uri: "/get"
             version: "HTTP/1.1"
           output:
             status: [400]
@@ -52,7 +50,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "*"
             version: "HTTP/1.1"
           output:
@@ -69,7 +66,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "1.2.3.4:80"
             version: "HTTP/1.1"
           output:
@@ -86,7 +82,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "www.coreruleset.org"
             version: "HTTP/1.1"
           output:
@@ -103,7 +98,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "www.coreruleset.org:80"
             version: "HTTP/1.1"
           output:
@@ -120,8 +114,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
-            uri: "/index.html?I=Like&Apples=Today#tag"
+            uri: "/get/index.html?I=Like&Apples=Today#tag"
             version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920100\""
@@ -138,8 +131,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
-            uri: "/index.html:80?I=Like&Apples=Today#tag"
+            uri: "/get/index.html:80?I=Like&Apples=Today#tag"
             version: "HTTP/1.1"
           output:
             status: [400, 403]
@@ -155,7 +147,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "/"
             version: "HTTP/1.1"
           output:
@@ -172,7 +163,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "/"
             version: "HTTP/1.1"
           output:
@@ -190,7 +180,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "\\"
             version: "HTTP/1.1"
           output:
@@ -209,7 +198,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: "\tGET"
             port: 80
-            uri: /
+            uri: "/get"
             version: HTTP/1.1
           output:
             status: [400]
@@ -245,7 +234,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: '|GET'
             port: 80
-            uri: /
+            uri: "/get"
             version: HTTP/1.0
           output:
             log_contains: id "920100"
@@ -257,11 +246,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/demo/xss/xml/vuln.xml.php?input=<script xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location=\"javascript:(function () {var x = document.createElement(\\\"script\\\");x.src = \\\"//sdl.me/popup.js?//\\\";document.childNodes\[0\].appendChild(x);}());\"",1000)</script>&//'
+            uri: '/get/demo/xss/xml/vuln.xml.php?input=<script xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location=\"javascript:(function () {var x = document.createElement(\\\"script\\\");x.src = \\\"//sdl.me/popup.js?//\\\";document.childNodes\[0\].appendChild(x);}());\"",1000)</script>&//'
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             status: [403, 400]
   - test_title: 920100-16
@@ -276,7 +266,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "http://localhost"
             version: "HTTP/1.1"
           output:

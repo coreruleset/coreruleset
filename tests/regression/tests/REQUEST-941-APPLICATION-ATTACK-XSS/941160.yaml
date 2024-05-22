@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, Franziska Bühler, Walter Hop, Xhoenix"
+  author: "csanders-git, Franziska Bühler, Walter Hop, Xhoenix, azurit"
   enabled: true
   name: "941160.yaml"
   description: "Tests to trigger, or not trigger 941160"
@@ -13,11 +13,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/demo/xss/xml/vuln.xml.php?input=<script+xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location="javascript:(function+()+{var+x+=+document.createElement(\\"script\\");x.src+=+\\"//sdl.me/popup.js?//\\";document.childNodes\\[0\\].appendChild(x);}());"",1000)</script>&//'
+            uri: '/get/demo/xss/xml/vuln.xml.php?input=<script+xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location="javascript:(function+()+{var+x+=+document.createElement(\\"script\\");x.src+=+\\"//sdl.me/popup.js?//\\";document.childNodes\\[0\\].appendChild(x);}());"",1000)</script>&//'
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"
   - test_title: 941160-2
@@ -28,11 +29,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/char_test?mime=text/xml&body=%3Cx:script%20xmlns:x=%22http://www.w3.org/1999/xhtml%22%20src=%22data:,alert(1)%22%20/%3E'
+            uri: "/get/char_test?mime=text/xml&body=%3Cx:script%20xmlns:x=%22http://www.w3.org/1999/xhtml%22%20src=%22data:,alert(1)%22%20/%3E"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"
   - test_title: 941160-3
@@ -43,11 +45,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/char_test?mime=text/xml&body=%3Cx%20onend%3D'
+            uri: "/get/char_test?mime=text/xml&body=%3Cx%20onend%3D"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"
   - test_title: 941160-4
@@ -58,11 +61,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/char_test?mime=text/xml&body=%22onzoom%3D'
+            uri: "/get/char_test?mime=text/xml&body=%22onzoom%3D"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"
   - test_title: 941160-5
@@ -73,11 +77,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/char_test?mime=text/xml&body=%27formaction%3D'
+            uri: "/get/char_test?mime=text/xml&body=%27formaction%3D"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"
   - test_title: 941160-6
@@ -88,11 +93,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/char_test?mime=text/xml&body=%3C%20x%3A%20script'
+            uri: "/get/char_test?mime=text/xml&body=%3C%20x%3A%20script"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"
   - test_title: 941160-7
@@ -103,11 +109,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/char_test?mime=text/xml&body=$%3Cf%20o%20r%20m'
+            uri: "/get/char_test?mime=text/xml&body=$%3Cf%20o%20r%20m"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"
   - test_title: 941160-8
@@ -118,11 +125,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/'
+            uri: "/get"
             headers:
-              User-Agent: "OWASP ModSecurity Core Rule Set %3Cf%20o%20r%20m"
+              User-Agent: "OWASP CRS test agent %3Cf%20o%20r%20m"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"
   - test_title: 941160-9
@@ -133,12 +141,13 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/'
+            uri: "/get"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Referer: 'https://coreruleset.org/?%3Cf%20o%20r%20m'
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"
   - test_title: 941160-10
@@ -149,12 +158,13 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/'
+            uri: "/get"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Cookie: 'PHPSESSID%3Cf%20o%20r%20m=1234'
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"
   - test_title: 941160-11
@@ -165,12 +175,13 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/'
+            uri: "/get"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Cookie: 'PHPSESSID=1234%3Cf%20o%20r%20m'
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"
   - test_title: 941160-12
@@ -181,11 +192,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/?foo%3Cf%20o%20r%20m=bar'
+            uri: "/get?foo%3Cf%20o%20r%20m=bar"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"
   - test_title: 941160-13
@@ -196,11 +208,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/?foo=bar%3Cf%20o%20r%20m'
+            uri: "/get?foo=bar%3Cf%20o%20r%20m"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"
   - test_title: 941160-14
@@ -215,7 +228,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "var='\"><svg/onload=(new(Image)).src='//m8vzjd10riomx3yxblmcnvaskjghsdz8xorciu7\\56coreruleset.org'>"
             version: HTTP/1.0
           output:
@@ -232,7 +245,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/index.php/%3Csvg/onload=alert()"
+            uri: "/get/index.php/%3Csvg/onload=alert()"
             version: HTTP/1.0
           output:
             log_contains: id "941160"
@@ -244,10 +257,11 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: '/get?mime=text/xml&body=$%3Cd%20i%20a%20l%20o%20g'
+            uri: "/get?mime=text/xml&body=$%3Cd%20i%20a%20l%20o%20g"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941160"

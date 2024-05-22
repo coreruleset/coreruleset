@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "920210.yaml"
   description: "Tests that trigger rule 920210"
@@ -16,6 +16,8 @@ tests:
               Host: "localhost"
               Connection: "keep-alive"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920210\""
   - test_title: 920210-2
@@ -29,6 +31,8 @@ tests:
               Host: "localhost"
               Connection: "keep-alive,keep-alive"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920210\""
   - test_title: 920210-3
@@ -42,6 +46,8 @@ tests:
               Host: "localhost"
               Connection: "keep-alive,close"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920210\""
   - test_title: 920210-4
@@ -55,6 +61,8 @@ tests:
               Host: "localhost"
               Connection: "close,close"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920210\""
   - test_title: 920210-5
@@ -68,6 +76,8 @@ tests:
               Host: "localhost"
               Connection: "User-Agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920210\""
   - test_title: 920210-6
@@ -86,8 +96,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /
-            version: HTTP/1.1
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "920210"
   - test_title: 920210-7
@@ -106,7 +116,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /
-            version: HTTP/1.1
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "920210"

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Felipe Zipitria"
+  author: "Felipe Zipitria, azurit"
   description: Remote Command Execution Evasion Techniques
   enabled: true
   name: 932240.yaml
@@ -17,7 +17,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               cmd=garb=adduse[r];$garb pizza
             version: HTTP/1.1
@@ -35,7 +35,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               cmd={n$u\c$u,-nlvp,777}
             version: HTTP/1.1
@@ -54,7 +54,7 @@ tests:
               Cookie: "una$$me -a"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.1
           output:
             log_contains: id "932240"
@@ -71,7 +71,7 @@ tests:
               Cookie: "uname$u -a"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.1
           output:
             log_contains: id "932240"
@@ -87,7 +87,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               cmd=v='u';cu$v\\r\l google.com
             version: HTTP/1.1
@@ -105,7 +105,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             data: |
               cmd=cu$@rl google.com
             version: HTTP/1.1
@@ -180,8 +180,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?x=ping``%20127.0.0.1"
-            protocol: "http"
+            uri: "/get?x=ping``%20127.0.0.1"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-11
@@ -196,8 +196,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?x=pi``ng%20127.0.0.1"
-            protocol: "http"
+            uri: "/get?x=pi``ng%20127.0.0.1"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-12
@@ -212,8 +212,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?x=ping$()%20127.0.0.1"
-            protocol: "http"
+            uri: "/get?x=ping$()%20127.0.0.1"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-13
@@ -228,8 +228,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?x=pi$()ng%20127.0.0.1"
-            protocol: "http"
+            uri: "/get?x=pi$()ng%20127.0.0.1"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-14
@@ -244,8 +244,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?x=pi<()ng%20127.0.0.1"
-            protocol: "http"
+            uri: "/get?x=pi<()ng%20127.0.0.1"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-15
@@ -260,8 +260,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/?x=pi>()ng%20127.0.0.1"
-            protocol: "http"
+            uri: "/get?x=pi>()ng%20127.0.0.1"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-16
@@ -270,16 +270,16 @@ tests:
       - stage:
           input:
             dest_addr: "127.0.0.1"
-            method: "GET"
+            method: "POST"
             port: 80
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get"
+            uri: "/post"
             data: |
               payload=All told, people were taken with the concept of Stadia, but the execution just didn't work.
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932240"
   - test_title: 932240-17
@@ -288,16 +288,16 @@ tests:
       - stage:
           input:
             dest_addr: "127.0.0.1"
-            method: "GET"
+            method: "POST"
             port: 80
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get"
+            uri: "/post"
             data: |
               payload=kill '-'9
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-18
@@ -306,16 +306,16 @@ tests:
       - stage:
           input:
             dest_addr: "127.0.0.1"
-            method: "GET"
+            method: "POST"
             port: 80
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get"
+            uri: "/post"
             data: |
               payload=An affordable housing advocate says the city's rewrite of the land development code would boost affordable housing, but there's room to do more.
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932240"
   - test_title: 932240-19
@@ -324,15 +324,15 @@ tests:
       - stage:
           input:
             dest_addr: "127.0.0.1"
-            method: "GET"
+            method: "POST"
             port: 80
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get"
+            uri: "/post"
             data: |
               payload=py''thon -c "print('attack')"
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"

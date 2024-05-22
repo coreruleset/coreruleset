@@ -19,9 +19,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/post"
             data: "[match sql-errors.data]the used select statements have different number of columns[/match]: Warning: pg_query(): supplied argument is not a valid PostgreSQL link resource in /var/www/sivusto/handler.php on line 56"
           output:
             log_contains: "id \"951240\""

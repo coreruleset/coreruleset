@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Felipe Zipitria"
+  author: "Felipe Zipitria, azurit"
   enabled: true
   name: "954120.yaml"
   description: "Tests for rule 954120 - IIS Error information disclusure"
@@ -18,7 +18,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: "POST"
             version: "HTTP/1.1"
-            uri: "/anything"
+            uri: "/post"
             data: |
               text=<title>404.14 - URL too long.</title>
           output:
@@ -36,7 +36,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: "POST"
             version: "HTTP/1.1"
-            uri: "/anything"
+            uri: "/post"
             data: |
               text=<title>500.15 - Server error: Direct requests for GLOBAL.ASA are not allowed.</title>
           output:

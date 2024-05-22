@@ -1,6 +1,6 @@
 ---
 meta:
-  author: csanders-git
+  author: "csanders-git, azurit"
   description: None
   enabled: true
   name: 930120.yaml
@@ -22,8 +22,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /index.php?file=News&op=../../../../../boot.ini%00
-            version: HTTP/1.1
+            uri: "/get/index.php?file=News&op=../../../../../boot.ini%00"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930120"
   - test_title: 930120-2
@@ -43,8 +43,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /index.php?file=News&op=/etc/passwd%00
-            version: HTTP/1.1
+            uri: "/get/index.php?file=News&op=/etc/passwd%00"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930120"
   - test_title: 930120-3
@@ -64,8 +64,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /index.php?file=News&op=../../../../../../../../../../usr/local/apps/apache2/conf/httpd.conf%00
-            version: HTTP/1.1
+            uri: "/get/index.php?file=News&op=../../../../../../../../../../usr/local/apps/apache2/conf/httpd.conf%00"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930120"
   - test_title: 930120-4
@@ -80,7 +80,8 @@ tests:
               Host: "localhost"
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get/?foo=arg&path_comp=.ssh/id_rsa"
+            uri: "/get?foo=arg&path_comp=.ssh/id_rsa"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930120"
   - test_title: 930120-5
@@ -95,7 +96,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get/?/sys/class=test"
+            uri: "/get?/sys/class=test"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930120"
   - test_title: 930120-6
@@ -110,7 +112,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get/?test=/sys/class"
+            uri: "/get?test=/sys/class"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930120"
   - test_title: 930120-7
@@ -125,7 +128,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get/?code=cat+%2Fetc%2Fsubuid"
+            uri: "/get?code=cat+%2Fetc%2Fsubuid"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930120"
   - test_title: 930120-8
@@ -140,7 +144,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get/?code=cat+%2Fetc%2Fsubuid-"
+            uri: "/get?code=cat+%2Fetc%2Fsubuid-"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930120"
   - test_title: 930120-9
@@ -157,7 +162,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get/?code=>/tmp/curl"
+            uri: "/get?code=>/tmp/curl"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930120"
   - test_title: 930120-10
@@ -174,6 +180,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get/?code=>/tmp"
+            uri: "/get?code=>/tmp"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "930120"

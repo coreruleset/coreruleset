@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Max Leske, Franziska Bühler"
+  author: "Christian S.J. Peron, Max Leske, Franziska Bühler, azurit"
   description: |
     classic SQL injection probings 2/3
 
@@ -28,6 +28,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=' * from = 1 or '9"
             version: HTTP/1.0
           output:
@@ -45,6 +46,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=' * from = 1 id '9"
             version: HTTP/1.0
           output:
@@ -62,6 +64,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=' = # '"
             version: HTTP/1.0
           output:
@@ -79,6 +82,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=' ? # = #"
             version: HTTP/1.0
           output:
@@ -96,6 +100,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var='? # = --"
             version: HTTP/1.0
           output:
@@ -118,6 +123,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=' or homer 9"
             version: HTTP/1.0
           output:
@@ -135,6 +141,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=^'"
             version: HTTP/1.0
           output:
@@ -152,6 +159,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=\"` * 12344"
             version: HTTP/1.0
           output:
@@ -169,6 +177,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
+            uri: "/post"
             data: "var=>foo##'."
             version: HTTP/1.0
           output:
@@ -184,6 +193,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
+            uri: "/get"
             version: HTTP/1.0
           output:
             log_contains: id "942370"
@@ -199,6 +209,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
+            uri: "/get"
             version: HTTP/1.0
           output:
             log_contains: id "942370"

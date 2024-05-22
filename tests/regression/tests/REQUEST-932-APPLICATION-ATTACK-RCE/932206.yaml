@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Max Leske"
+  author: "Max Leske, azurit"
   description: RCE Bypass
   enabled: true
   name: 932206.yaml
@@ -18,7 +18,7 @@ tests:
               Referer: "/bin/ca't'+/et*/passwd"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             log_contains: id "932206"
@@ -35,7 +35,7 @@ tests:
               Referer: "http://www.example.com/page?param=test+test"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             no_log_contains: id "932206"
@@ -52,7 +52,7 @@ tests:
               Referer: "http://www.example.com/page%20test?param=test"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             no_log_contains: id "932206"

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: lifeforms
+  author: "lifeforms, azurit"
   description: None
   enabled: true
   name: 933150.yaml
@@ -17,7 +17,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get/phpinfo
+            uri: "/get/phpinfo"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-2
@@ -32,7 +33,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get/base64_decode
+            uri: "/get/base64_decode"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-3
@@ -47,7 +49,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?base64_deCOde
+            uri: "/get?base64_deCOde"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-4
@@ -62,7 +65,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=bzdecomprEss
+            uri: "/get?foo=bzdecomprEss"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-5
@@ -77,7 +81,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=FOOcall_user_func
+            uri: "/get?foo=FOOcall_user_func"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-6
@@ -92,7 +97,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=FOOfsockopen
+            uri: "/get?foo=FOOfsockopen"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-7
@@ -107,7 +113,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=FOOgzdecode
+            uri: "/get?foo=FOOgzdecode"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-8
@@ -122,7 +129,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=FOOGzInFlAtE
+            uri: "/get?foo=FOOGzInFlAtE"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-9
@@ -137,7 +145,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=FOOpHpInFo
+            uri: "/get?foo=FOOpHpInFo"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-10
@@ -152,7 +161,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?I%20don%27t%20like%20gzuncompress
+            uri: "/get?I%20don%27t%20like%20gzuncompress"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-11
@@ -166,7 +176,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
-            uri: /get?bar=pfsockopen%28%27foo%27%2C%2025%29
+            uri: "/get?bar=pfsockopen%28%27foo%27%2C%2025%29"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-12
@@ -181,7 +192,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?bar=posix_getpwuiD%28%27foo%27%2C%2025%29
+            uri: "/get?bar=posix_getpwuiD%28%27foo%27%2C%2025%29"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-13
@@ -197,7 +209,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-14
@@ -213,7 +226,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-15
@@ -229,7 +243,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-16
@@ -245,7 +260,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-17
@@ -263,7 +279,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-18
@@ -281,7 +298,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-19
@@ -299,7 +317,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /post/print_r
+            uri: "/post/print_r"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-20
@@ -317,7 +336,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /post/strrev
+            uri: "/post/strrev"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-21
@@ -334,7 +354,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=the%20files%20%28yep%29
+            uri: "/get?foo=the%20files%20%28yep%29"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933150"
   - test_title: 933150-22
@@ -351,7 +372,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=exec%20%28
+            uri: "/get?foo=exec%20%28"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933150"
   - test_title: 933150-23
@@ -368,7 +390,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=executor%28%29
+            uri: "/get?foo=executor%28%29"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933150"
   - test_title: 933150-24
@@ -385,7 +408,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=cheval%28%24foo%29
+            uri: "/get?foo=cheval%28%24foo%29"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933150"
   - test_title: 933150-25
@@ -402,7 +426,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=audi%6ffile%28%24foo%29
+            uri: "/get?foo=audi%6ffile%28%24foo%29"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933150"
   - test_title: 933150-26
@@ -419,7 +444,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=the%20system%20is%20down%28%29
+            uri: "/get?foo=the%20system%20is%20down%28%29"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933150"
   - test_title: 933150-27
@@ -436,7 +462,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=ecosystem%28%29
+            uri: "/get?foo=ecosystem%28%29"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933150"
   - test_title: 933150-28
@@ -453,7 +480,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=systems%28%29
+            uri: "/get?foo=systems%28%29"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933150"
   - test_title: 933150-29
@@ -470,7 +498,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=system%20something%28%29
+            uri: "/get?foo=system%20something%28%29"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933150"
 
@@ -486,7 +515,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /post?a=preview
+            uri: "/post?a=preview"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933150"
   - test_title: 933150-31
@@ -501,7 +531,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /post?a=exploration
+            uri: "/post?a=exploration"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933150"
   - test_title: 933150-32
@@ -518,7 +549,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=file_ExistS%20%28%0A%0A%29
+            uri: "/get?foo=file_ExistS%20%28%0A%0A%29"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"
   - test_title: 933150-33
@@ -535,6 +567,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?foo=fopen%20%20%28blah%29
+            uri: "/get?foo=fopen%20%20%28blah%29"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933150"

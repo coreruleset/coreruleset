@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "920290.yaml"
   description: "Description"
@@ -19,6 +19,8 @@ tests:
               # Test needs empty Host: ""
               Host: ""
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             status: [403, 400]
   - test_title: 920290-2
@@ -31,6 +33,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Host: "%00"
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920290\""
   - test_title: 920290-3
@@ -43,6 +47,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Host: "localhost"
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920290\""
   - test_title: 920290-4

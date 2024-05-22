@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "920170.yaml"
   description: "A Selection of tests to trigger rule 920170"
@@ -20,6 +20,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: "hi=test"
             uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920170\""
   - # GET request with data
@@ -37,6 +38,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: "hi=test"
             uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920170\""
   - # Head Request with data
@@ -54,6 +56,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: "hi=test"
             uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920170\""
   - # GET Request but content length is 0 and data is provided
@@ -73,8 +76,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: "hi=test\r\n"
             stop_magic: true
-            protocol: "http"
             uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920170\""
   - # GET request with content length 0 and no data.
@@ -92,12 +95,12 @@ tests:
               Content-Length: "0"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: ""
-            protocol: "http"
             uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920170\""
   - test_title: 920170-6
-    desc: GET or HEAD Request with Body Content (920170)  from old modsec regressions
+    desc: GET or HEAD Request with Body Content (920170) from old modsec regressions
     stages:
       - stage:
           input:
@@ -113,7 +116,7 @@ tests:
             method: GET
             port: 80
             uri: /
-            version: HTTP/1.0
             data: abc
+            version: "HTTP/1.1"
           output:
             log_contains: id "920170"

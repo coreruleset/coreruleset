@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "920200.yaml"
   description: "Description"
@@ -16,6 +16,8 @@ tests:
               Host: "localhost"
               Range: "bytes=1-10,11-20,21-30,31-40,41-50,51-60"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920200\""
   - # Sample taken from https://github.com/alienwithin/php-utilities/blob/master/apache-byte-range-server-dos/apache_byte_range_server_dos.php
@@ -30,6 +32,8 @@ tests:
               Host: "localhost"
               Request-Range: "bytes=5-0,1-1,2-2,3-3,4-4,5-5,6-6,7-7,8-8,9-9,10-10,11-11"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920200\""
   - test_title: 920200-3
@@ -43,6 +47,8 @@ tests:
               Host: "localhost"
               Range: "bytes=1-10,   11-20, 21-30,   31-40, 41-50"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920200\""
   - test_title: 920200-4
@@ -56,6 +62,8 @@ tests:
               Host: "localhost"
               Range: "bytes=-10,-, 21-30,31-40,41-50,51-500,"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920200\""
   - test_title: 920200-5
@@ -69,6 +77,8 @@ tests:
               Host: "localhost"
               Range: "bytes=1-,11-20, 21-30,31-40,41-50,51-500"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920200\""
   - test_title: 920200-6
@@ -88,8 +98,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /
-            version: HTTP/1.1
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "920200"
   - test_title: 920200-7
@@ -105,7 +115,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /index.html
+            uri: "/get/index.html"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920200"
   - test_title: 920200-8
@@ -121,7 +132,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /index.html
+            uri: "/get/index.html"
+            version: "HTTP/1.1"
           output:
             log_contains: id "920200"
   - test_title: 920200-9
@@ -137,7 +149,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /index.pdf
+            uri: "/get/index.pdf"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920200"
   - test_title: 920200-10
@@ -153,6 +166,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /index.pdf
+            uri: "/get/index.pdf"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920200"

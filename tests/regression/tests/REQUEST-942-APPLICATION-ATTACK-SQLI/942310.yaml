@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
+  author: "Christian S.J. Peron, azurit"
   description: None
   enabled: true
   name: 942310.yaml
@@ -21,7 +21,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?var=%22%27%20and%20%3d%20bar"
+            uri: "/get?var=%22%27%20and%20%3d%20bar"
             version: HTTP/1.0
           output:
             no_log_contains: id "942310"
@@ -39,7 +39,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?var='%20and%201%20in%20(select%20min(name)%20from%20sysobjects%20where%20xtype%20%3D%20'U'%20and%20name%20%3E%20'.')%20--"
+            uri: "/get?var='%20and%201%20in%20(select%20min(name)%20from%20sysobjects%20where%20xtype%20%3D%20'U'%20and%20name%20%3E%20'.')%20--"
             version: HTTP/1.0
           output:
             log_contains: id "942310"
@@ -57,7 +57,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: "/?var=order%20by%20if(1%3D1%2C1%2Csleep(1))"
+            uri: "/get?var=order%20by%20if(1%3D1%2C1%2Csleep(1))"
             version: HTTP/1.0
           output:
             log_contains: id "942310"

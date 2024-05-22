@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "studersi"
+  author: "studersi, azurit"
   enabled: true
   name: "980170.yaml"
   description: |
@@ -21,14 +21,14 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "127.0.0.1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             # Will match rules
             #  - 920273: restricted characters violation
             #  - 920350: numeric IP in Host header
             #  - 932160: Unix remote command execution
             #  - 932236: Unix command injection
             #  - 932260: Unix remote command execution
-            uri: "/?a=/bin/bash"
+            uri: "/get?a=/bin/bash"
+            version: "HTTP/1.1"
           output:
             # Phase 5 rules are prone to a race condition when parsing log output.
             # Retry the test once if it fails to work around this issue.
@@ -48,8 +48,8 @@ tests:
               # Will match rule 920350: numeric IP in Host header
               Host: "127.0.0.1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
-            uri: "/"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             # Phase 5 rules are prone to a race condition when parsing log output.
             # Retry the test once if it fails to work around this issue.
@@ -68,8 +68,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
-            uri: "/"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             # Phase 5 rules are prone to a race condition when parsing log output.
             # Retry the test once if it fails to work around this issue.

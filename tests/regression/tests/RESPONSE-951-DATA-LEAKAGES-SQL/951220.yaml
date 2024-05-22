@@ -19,9 +19,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/anything"
+            uri: "/post"
             data: "[match sql-errors.data]the used select statements have different number of columns[/match]: PHP Warning:  mssql_query(): message: Incorrect syntax near 's'. (severity 15) in /Volumes/Data/Users/username/Desktop/createXML.php on line 375"
           output:
             log_contains: "id \"951220\""

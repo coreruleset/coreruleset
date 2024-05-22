@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Andrew Howe"
+  author: "Andrew Howe, azurit"
   description: "None"
   enabled: true
   name: "930130.yaml"
@@ -17,7 +17,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/sys/class"
+            uri: "/get/sys/class"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930130"
   - test_title: 930130-2
@@ -32,6 +33,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/proc/interrupts"
+            uri: "/get/proc/interrupts"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930130"

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
+  author: "Christian S.J. Peron, azurit"
   description: None
   enabled: true
   name: 942340.yaml
@@ -18,7 +18,7 @@ tests:
             method: GET
             port: 80
             # in ( select * from
-            uri: "/?var=in%20%28%20select%20%2a%20from"
+            uri: "/get?var=in%20%28%20select%20%2a%20from"
             version: HTTP/1.0
           output:
             log_contains: id "942340"
@@ -35,7 +35,7 @@ tests:
             method: GET
             port: 80
             # except \tselect.1,2
-            uri: "/?var=except%20%09select.1%2C2"
+            uri: "/get?var=except%20%09select.1%2C2"
             version: HTTP/1.0
           output:
             log_contains: id "942340"
@@ -52,7 +52,7 @@ tests:
             method: GET
             port: 80
             # except values (1,2)
-            uri: "/?var=except%20values(1%2C2)"
+            uri: "/get?var=except%20values(1%2C2)"
             version: HTTP/1.0
           output:
             log_contains: id "942340"
@@ -69,7 +69,7 @@ tests:
             method: GET
             port: 80
             # except selecting
-            uri: "/?var=except%20selecting"
+            uri: "/get?var=except%20selecting"
             version: HTTP/1.0
           output:
             no_log_contains: id "942340"
@@ -85,7 +85,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "email=x'%20or%20array[id]%20is%20not%20null--"
             version: HTTP/1.0
           output:
@@ -102,7 +102,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "email=x'%20or%20email~all(array[email]);analyze--"
             version: HTTP/1.0
           output:
@@ -119,7 +119,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "email='%20and%20email%20not%20similar%20to%20id--"
             version: HTTP/1.0
           output:
@@ -136,7 +136,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "email='%20or%20true;%20foo"
             version: HTTP/1.0
           output:
@@ -150,7 +150,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "email='%20or%20false;%20foo"
             version: HTTP/1.0
           output:
@@ -167,7 +167,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "email='||true"
             version: HTTP/1.0
           output:
@@ -184,7 +184,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: "/"
+            uri: "/post"
             data: "email='ortrue"
             version: HTTP/1.0
           output:

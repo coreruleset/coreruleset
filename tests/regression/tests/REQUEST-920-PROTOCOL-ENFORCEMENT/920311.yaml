@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "920311.yaml"
   description: "Description"
@@ -16,6 +16,8 @@ tests:
               # Test needs an empty Accept: header
               Accept: ""
               # Test needs no User-Agent: header
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920311\""
   - test_title: 920311-2
@@ -30,6 +32,8 @@ tests:
               # Test needs an empty Accept: header
               Accept: ""
               User-Agent: "OWASP CRS test agent"
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920311\""
   - test_title: 920311-3
@@ -42,5 +46,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: "text/plain, text/html"
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920311\""

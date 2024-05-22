@@ -1,6 +1,6 @@
 ---
 meta:
-  author: lifeforms
+  author: "lifeforms, azurit"
   description: None
   enabled: true
   name: 933161.yaml
@@ -18,7 +18,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /?%20checkDate%28%29
+            uri: "/post?%20checkDate%28%29"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933161"
   - test_title: 933161-2
@@ -34,7 +35,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /?foo=chroot%09%28%29
+            uri: "/post?foo=chroot%09%28%29"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933161"
   - test_title: 933161-3
@@ -50,7 +52,8 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /?foo=symlink%09%28%29
+            uri: "/post?foo=symlink%09%28%29"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933161"
   # See https://github.com/coreruleset/coreruleset/pull/3273#issuecomment-1675490075
@@ -67,7 +70,8 @@ tests:
   #             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
   #           method: POST
   #           port: 80
-  #           uri: /?foo=dl%2F%2Afoo%2A%2F%09%28%29
+  #           uri: "/post?foo=dl%2F%2Afoo%2A%2F%09%28%29"
+  #           version: "HTTP/1.1"
   #         output:
   #           log_contains: id "933161"
   - test_title: 933161-5
@@ -83,6 +87,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: POST
             port: 80
-            uri: /?foo=xucfirst%28%29
+            uri: "/post?foo=xucfirst%28%29"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933161"

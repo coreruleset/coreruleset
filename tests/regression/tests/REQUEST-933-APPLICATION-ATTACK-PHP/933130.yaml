@@ -1,6 +1,6 @@
 ---
 meta:
-  author: csanders-git
+  author: "csanders-git, azurit"
   description: Tests functionality of 933130
   enabled: true
   name: 933130.yaml
@@ -15,8 +15,10 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933130"
   - test_title: 933130-2
@@ -29,8 +31,10 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=$_SERVER['test'];
+            uri: "/get?x=$_SERVER['test'];"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933130"
   - test_title: 933130-3
@@ -43,8 +47,10 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=$_SE%20RVER['test'];
+            uri: "/get?x=$_SE%20RVER['test'];"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933130"
   - test_title: 933130-4
@@ -57,8 +63,10 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=$_%53ERVER['test'];
+            uri: "/get?x=$_%53ERVER['test'];"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933130"
   - test_title: 933130-5
@@ -71,8 +79,10 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?%24_COOKIE=value;
+            uri: "/get?%24_COOKIE=value;"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933130"
   - test_title: 933130-6
@@ -85,7 +95,9 @@ tests:
               Host: localhost
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            method: "GET"
             port: 80
-            uri: /?x=$_%53%20ERVER['request_uri'];
+            uri: "/get?x=$_%53%20ERVER['request_uri'];"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933130"

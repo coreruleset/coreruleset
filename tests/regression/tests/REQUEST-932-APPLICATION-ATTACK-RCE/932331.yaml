@@ -1,6 +1,6 @@
 ---
 meta:
-  author: karelorigin
+  author: "karelorigin, azurit"
   description: "Remote Command Execution: Unix shell history invocation"
   enabled: true
   name: 932331.yaml
@@ -17,7 +17,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?rce=!1
+            uri: "/get?rce=!1"
             version: HTTP/1.0
           output:
             log_contains: id "932331"
@@ -33,7 +33,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?rce=!!
+            uri: "/get?rce=!!"
             version: HTTP/1.0
           output:
             log_contains: id "932331"

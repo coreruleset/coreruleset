@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler"
+  author: "Franziska Bühler, azurit"
   description: "Unicode character bypass"
   enabled: true
   name: "920540.yaml"
@@ -18,7 +18,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/x-www-form-urlencoded; charset=utf-8"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "testarg=%5Cu0061lert"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920540\""
   - test_title: 920540-2
@@ -34,7 +36,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/x-www-form-urlencoded; charset=utf-8"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "testarg=%5Cu0065val%28%29"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920540\""
   - test_title: 920540-3
@@ -50,6 +54,8 @@ tests:
               Host: "localhost"
               Content-Type: "application/json"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "{\"testarg\": \"\x5c\x5cu0065val\"}"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920540\""

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: studersi
+  author: "studersi, azurit"
   description: None
   enabled: true
   name: 931130.yaml
@@ -17,7 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=file://foo.bar
+            uri: "/get?x=file://foo.bar"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -33,7 +33,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=ftp://foo.bar
+            uri: "/get?x=ftp://foo.bar"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -49,7 +49,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=ftps://foo.bar
+            uri: "/get?x=ftps://foo.bar"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -65,7 +65,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=http://foo.bar
+            uri: "/get?x=http://foo.bar"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -81,7 +81,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=https://foo.bar
+            uri: "/get?x=https://foo.bar"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -97,7 +97,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=https://evilexample.com/
+            uri: "/get?x=https://evilexample.com/"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -113,7 +113,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=https://example.com.evil.com/
+            uri: "/get?x=https://example.com.evil.com/"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -129,7 +129,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=https://example.com:1234/
+            uri: "/get?x=https://example.com:1234/"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -145,7 +145,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=https://example.com/
+            uri: "/get?x=https://example.com/"
             version: HTTP/1.1
           output:
             no_log_contains: id "931130"
@@ -161,7 +161,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=https://example.com:1234/
+            uri: "/get?x=https://example.com:1234/"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -177,7 +177,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=http://www.example.com/some/path
+            uri: "/get?x=http://www.example.com/some/path"
             version: HTTP/1.1
           output:
             no_log_contains: id "931130"
@@ -193,7 +193,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=http://example.com%2f:asd@evil.com/
+            uri: "/get?x=http://example.com%2f:asd@evil.com/"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -209,7 +209,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=http://example.com%2f@evil.com/
+            uri: "/get?x=http://example.com%2f@evil.com/"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -225,7 +225,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=http://example.com%2f:foo@bar@evil.com/
+            uri: "/get?x=http://example.com%2f:foo@bar@evil.com/"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -241,7 +241,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=http://foo:bar@example.com/
+            uri: "/get?x=http://foo:bar@example.com/"
             version: HTTP/1.1
           output:
             no_log_contains: id "931130"
@@ -257,7 +257,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=url:file://foo.bar
+            uri: "/get?x=url:file://foo.bar"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -273,7 +273,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=gopher://google.com/_SSRFTest!
+            uri: "/get?x=gopher://google.com/_SSRFTest!"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -289,7 +289,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=ldap://127.0.0.1/
+            uri: "/get?x=ldap://127.0.0.1/"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -305,7 +305,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=jar:http://evil.co/b.zip!a
+            uri: "/get?x=jar:http://evil.co/b.zip!a"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -321,7 +321,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=url:file://etc/services
+            uri: "/get?x=url:file://etc/services"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -337,7 +337,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /get?x=local_file://something
+            uri: "/get?x=local_file://something"
             version: HTTP/1.1
           output:
             log_contains: id "931130"
@@ -353,7 +353,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             method: GET
             port: 80
-            uri: /?x=url:file:///etc/passwd
+            uri: "/get?x=url:file:///etc/passwd"
             version: HTTP/1.1
           output:
             log_contains: id "931130"

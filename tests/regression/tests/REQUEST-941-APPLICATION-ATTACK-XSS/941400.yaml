@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Andrea Menin"
+  author: "Andrea Menin, azurit"
   description: None
   enabled: true
   name: 941400.yaml
@@ -17,7 +17,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?xss=%5B%5D.sort.call%60%24%7Balert%7D1337%60'
+            uri: "/get?xss=%5B%5D.sort.call%60%24%7Balert%7D1337%60"
             version: HTTP/1.1
           output:
             log_contains: id "941400"
@@ -33,7 +33,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?xss=%5B%20%20%5D%20.%20sort%20.%20call%20%60%20%24%7B%20alert%20%7D%201337%20%60'
+            uri: "/get?xss=%5B%20%20%5D%20.%20sort%20.%20call%20%60%20%24%7B%20alert%20%7D%201337%20%60"
             version: HTTP/1.1
           output:
             log_contains: id "941400"
@@ -49,7 +49,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?xss=%5B%20%20%5D%20.%20%2F%2A%2A%2F%20sort%20.%20call%20%60%20%24%7B%20alert%20%7D%201337%20%60'
+            uri: "/get?xss=%5B%20%20%5D%20.%20%2F%2A%2A%2F%20sort%20.%20call%20%60%20%24%7B%20alert%20%7D%201337%20%60"
             version: HTTP/1.1
           output:
             log_contains: id "941400"
@@ -65,7 +65,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?xss=%5B%5D.map.call%60%24%7Beval%7D%5C%5Cu%7B61%7Dlert%5Cx281337%5Cx29%60'
+            uri: "/get?xss=%5B%5D.map.call%60%24%7Beval%7D%5C%5Cu%7B61%7Dlert%5Cx281337%5Cx29%60"
             version: HTTP/1.1
           output:
             log_contains: id "941400"
@@ -81,7 +81,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?xss=%5B%201234%20%5D.%20map%20.%20call%60%24%7Beval%7D%2F%2A%20asd%20%2A%2F%5C%5Cu%7B61%7Dlert%5Cx281337%5Cx29%60'
+            uri: "/get?xss=%5B%201234%20%5D.%20map%20.%20call%60%24%7Beval%7D%2F%2A%20asd%20%2A%2F%5C%5Cu%7B61%7Dlert%5Cx281337%5Cx29%60"
             version: HTTP/1.1
           output:
             log_contains: id "941400"
@@ -97,7 +97,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?xss=Reflect.apply.call%60%24%7Bnavigation.navigate%7D%24%7Bnavigation%7D%24%7B%5Bname%5D%7D%60'
+            uri: "/get?xss=Reflect.apply.call%60%24%7Bnavigation.navigate%7D%24%7Bnavigation%7D%24%7B%5Bname%5D%7D%60"
             version: HTTP/1.1
           output:
             log_contains: id "941400"
@@ -113,7 +113,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: '/?test=Reflect.sort.call%60%60'
+            uri: "/get?test=Reflect.sort.call%60%60"
             version: HTTP/1.1
           output:
             log_contains: id "941400"

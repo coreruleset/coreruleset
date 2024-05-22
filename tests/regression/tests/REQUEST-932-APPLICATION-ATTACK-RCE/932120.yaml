@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Paul Beckett"
+  author: "Paul Beckett, azurit"
   enabled: true
   name: "932120.yaml"
   description: "Tests to trigger or not trigger rule 932120"
@@ -17,7 +17,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?932120-1=Invoke-WebRequest%20http://example.com/path/file.ps1"
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932120\""
   - test_title: 932120-2
@@ -27,13 +27,13 @@ tests:
             dest_addr: "127.0.0.1"
             method: "POST"
             port: 80
-            uri: '/post'
+            uri: "/post"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '932120-2=Invoke-WebRequest http://example.com/path/file.ps1'
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932120\""
   - test_title: 932120-3
@@ -48,8 +48,8 @@ tests:
               Host: "localhost"
               Cookie: "931120-3=Invoke-Expression%20-Command%20file.ps1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/get'
-            protocol: "http"
+            uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"932120\""
   - test_title: 932120-4
@@ -65,7 +65,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '932120-4=Invoke Web Request http://example.com/path/file.ps1'
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"932120\""
   - test_title: 932120-5
@@ -82,6 +82,6 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'cmd=powershell%20C%3A%5Cwindows%5Csystem32%5Cnotepad.exe'
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             log_contains: id "932120"

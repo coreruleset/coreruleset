@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "920120.yaml"
   description: "Tests to trigger rule 920120"
@@ -20,6 +20,7 @@ tests:
               Connection: "close"
               Referer: "http://localhost/"
               Content-Type: "multipart/form-data; boundary=--------397236876"
+            uri: "/"
             data: |
               ----------397236876
               Content-Disposition: form-data; name="fileRap"; filename="file=.txt"
@@ -27,7 +28,7 @@ tests:
 
               555-555-0199@example.com
               ----------397236876--
-            protocol: "http"
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-2
@@ -56,7 +57,7 @@ tests:
               Content-Disposition: form-data; name="fi=le"; filename="test"
               Content-Type: text/plain
 
-              email: security@modsecurity.org
+              email: security@example.com
 
               -----------------------------627652292512397580456702590
               Content-Disposition: form-data; name="note"
@@ -123,6 +124,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-5
@@ -146,6 +148,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-6
@@ -169,6 +172,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-7
@@ -192,6 +196,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-8
@@ -215,6 +220,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-9
@@ -238,6 +244,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-10
@@ -261,6 +268,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-11
@@ -284,6 +292,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-12
@@ -307,6 +316,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-13
@@ -330,6 +340,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-14
@@ -353,6 +364,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-15
@@ -376,6 +388,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-16
@@ -399,6 +412,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-17
@@ -422,6 +436,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-18
@@ -445,6 +460,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-19
@@ -468,6 +484,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-20
@@ -491,6 +508,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-21
@@ -514,6 +532,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-22
@@ -537,6 +556,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-23
@@ -560,6 +580,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-24
@@ -583,6 +604,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-25
@@ -606,6 +628,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-26
@@ -629,6 +652,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-27
@@ -652,6 +676,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-28
@@ -675,6 +700,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-29
@@ -698,6 +724,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-30
@@ -721,6 +748,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-31
@@ -744,6 +772,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-32
@@ -767,6 +796,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-33
@@ -790,6 +820,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-34
@@ -813,6 +844,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-35
@@ -836,6 +868,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-36
@@ -859,6 +892,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-37
@@ -882,6 +916,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             log_contains: id "920120"
   - test_title: 920120-38
@@ -905,6 +940,7 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"
   - test_title: 920120-39
@@ -928,5 +964,6 @@ tests:
 
               helloworld
               -----------------------------265001916915724--
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920120"

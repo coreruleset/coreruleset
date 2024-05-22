@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "920350.yaml"
   description: "Description"
@@ -16,8 +16,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "127.0.0.1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920350\""
   - test_title: 920350-2
@@ -31,8 +31,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920350\""
   - test_title: 920350-3
@@ -46,8 +46,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "1.2.3.4"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920350\""
   - test_title: 920350-4
@@ -61,8 +61,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "[::1]"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920350\""
   - test_title: 920350-5
@@ -76,8 +76,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "[fe80::f1:01:fe01:1]"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920350\""
   - test_title: 920350-6
@@ -91,8 +91,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "[fe80::f1:01:fe01:1]:80"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920350\""
   - test_title: 920350-7
@@ -106,8 +106,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "deadbeef.de:8080"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920350\""
   - test_title: 920350-8
@@ -121,7 +121,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "deadbeef.de"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            protocol: "http"
             uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920350\""
