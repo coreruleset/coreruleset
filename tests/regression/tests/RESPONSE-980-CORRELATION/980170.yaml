@@ -28,7 +28,7 @@ tests:
             #  - 932236: Unix command injection
             #  - 932260: Unix remote command execution
             uri: "/get?a=/bin/bash"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"980170\""
   - test_title: 980170-2
@@ -45,7 +45,7 @@ tests:
               Host: "127.0.0.1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"980170\""
   - test_title: 980170-3
@@ -61,6 +61,6 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"980170\""

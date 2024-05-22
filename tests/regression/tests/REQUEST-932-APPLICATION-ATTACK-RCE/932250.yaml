@@ -22,7 +22,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '932250-2=tar -xzf /var/www/exfiltrate.tar.gz /etc'
             uri: "/post"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932250"
   - test_title: 932250-2
@@ -38,7 +38,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '932250-2=dont match commands that are not at start;tar -xzf /var/www/exfiltrate.tar.gz /etc'
             uri: "/post"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932250"
   # FIXME: 932150 already had this false positive. Fix after rework
@@ -55,7 +55,7 @@ tests:
   #             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
   #           data: 'foo=tar is a dark brown or black bituminous usually odorous viscous liquid'
   #           uri: "/post"
-  #           version: HTTP/1.0
+  #           version: "HTTP/1.1"
   #         output:
   #           no_log_contains: id "932250"
   - test_title: 932250-4
@@ -72,7 +72,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: 'x=c99%20-wrapper%20sh,-c,curl%20google.com%20.'
             uri: "/post"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932250"
   - test_title: 932250-5
@@ -105,7 +105,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?x=%24((7))z%20-wrapper%20sh,-c,curl%20google.com%20."
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "932250"
   - test_title: 932250-7
@@ -121,7 +121,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?x=ls%20-l%20/etc/passwd"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "932250"
   - test_title: 932250-8
@@ -137,7 +137,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?x=ls%20/etc/passwd"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "932250"
   - test_title: 932250-9
@@ -153,7 +153,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?x=ls%20foo%20bar"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "932250"
   - test_title: 932250-10
@@ -169,7 +169,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?x=kills%20foo%20bar"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932250"
   - test_title: 932250-11
@@ -185,7 +185,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?show_comments_cookies_opt_in=true"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932250"
   - test_title: 932250-12
@@ -202,7 +202,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Cookie: "ocvsgo2tnqtc=ls08e58tnf8b027oo1nr5sv3cc"
             uri: "/get"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932250"
   - test_title: 932250-13
@@ -219,6 +219,6 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Cookie: "oc_sessionPassphrase=7ZSW6ZeHbe3SpaUje9ThKrPf86%2B6reu1QPtwIXFYhfGTtDUXa99eNn2P2Ve2SqeJAyq%2FXYPi1zuif%2FLRj3da0RUXYlTzizBACJ9HgiNQax72lEFNKajSuHuOeqYvVRgT"
             uri: "/get"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932250"

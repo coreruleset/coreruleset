@@ -19,6 +19,7 @@ tests:
             method: POST
             port: 80
             uri: "/post?%20checkDate%28%29"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933161"
   - test_title: 933161-2
@@ -35,6 +36,7 @@ tests:
             method: POST
             port: 80
             uri: "/post?foo=chroot%09%28%29"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933161"
   - test_title: 933161-3
@@ -51,6 +53,7 @@ tests:
             method: POST
             port: 80
             uri: "/post?foo=symlink%09%28%29"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933161"
   # See https://github.com/coreruleset/coreruleset/pull/3273#issuecomment-1675490075
@@ -68,6 +71,7 @@ tests:
   #           method: POST
   #           port: 80
   #           uri: "/post?foo=dl%2F%2Afoo%2A%2F%09%28%29"
+  #           version: "HTTP/1.1"
   #         output:
   #           log_contains: id "933161"
   - test_title: 933161-5
@@ -84,5 +88,6 @@ tests:
             method: POST
             port: 80
             uri: "/post?foo=xucfirst%28%29"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933161"

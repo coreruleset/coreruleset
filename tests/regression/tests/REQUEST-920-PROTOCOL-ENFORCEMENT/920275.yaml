@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "airween"
+  author: "airween, azurit"
   enabled: true
   name: "920275.yaml"
   description: "Test cases for CRS rule 920275"
@@ -17,6 +17,7 @@ tests:
               Host: "localhost"
               Sec-Fetch-User: "foo"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920275\""
   - test_title: 920275-2
@@ -31,6 +32,7 @@ tests:
               Host: "localhost"
               Sec-Fetch-User: "?0"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920275\""
   - test_title: 920275-3
@@ -45,6 +47,7 @@ tests:
               Host: "localhost"
               Sec-Fetch-User: "?1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920275\""
   - test_title: 920275-4
@@ -59,6 +62,7 @@ tests:
               Host: "localhost"
               Sec-CH-UA-Mobile: "foo"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920275\""
   - test_title: 920275-5
@@ -73,6 +77,7 @@ tests:
               Host: "localhost"
               Sec-CH-UA-Mobile: "?0"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920275\""
   - test_title: 920275-6
@@ -87,5 +92,6 @@ tests:
               Host: "localhost"
               Sec-CH-UA-Mobile: "?1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920275\""

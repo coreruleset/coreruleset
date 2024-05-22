@@ -19,6 +19,7 @@ tests:
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '941210-1=ja%26tab%3Bvascript%3A%20'
+            version: "HTTP/1.1"
           output:
             log_contains: id "941210"
   - test_title: 941210-2
@@ -35,6 +36,7 @@ tests:
               Host: localhost
               Accept: "*/*"
             data: 'ja%26tab%3Bvascript%3A%09=941210-2'
+            version: "HTTP/1.1"
           output:
             log_contains: id "941210"
   - test_title: 941210-3
@@ -51,6 +53,7 @@ tests:
               Host: localhost
               Cookie: 'ja%26newline%3Bvascript%3A%20=941210-3'
               Accept: "*/*"
+            version: "HTTP/1.1"
           output:
             log_contains: id "941210"
   - test_title: 941210-4

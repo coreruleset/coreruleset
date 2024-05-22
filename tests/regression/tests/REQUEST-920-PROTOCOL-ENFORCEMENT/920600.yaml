@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "karelorigin, Max Leske"
+  author: "karelorigin, Max Leske, azurit"
   enabled: true
   name: "920600.yaml"
   description: "Accept header charset checks"
@@ -16,6 +16,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset=CP1026,*/*;q=0.8
+            version: "HTTP/1.1"
           output:
             log_contains: id "920600"
   - test_title: 920600-2
@@ -29,6 +30,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset="CP1026",*/*;q=0.8
+            version: "HTTP/1.1"
           output:
             log_contains: id "920600"
   - test_title: 920600-3
@@ -42,6 +44,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html; charset=CP1026
+            version: "HTTP/1.1"
           output:
             log_contains: id "920600"
   - test_title: 920600-4
@@ -55,6 +58,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset=UTF-8,*/*;q=0.8
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920600"
   - test_title: 920600-5
@@ -68,6 +72,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset="UTF-8",*/*;q=0.8
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920600"
   - test_title: 920600-6
@@ -81,6 +86,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset="iso-8859-1",*/*;q=0.8
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920600"
   - test_title: 920600-7
@@ -94,6 +100,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset="iso-8859-1",*/*;q=0.8;charset=utf-16
+            version: "HTTP/1.1"
           output:
             log_contains: id "920600"
   - test_title: 920600-8
@@ -107,6 +114,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset="iso-8859-1",*/*;q=0.8;charset=utf-8
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920600"
   - test_title: 920600-9
@@ -120,6 +128,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset="iso-8859-15",*/*;q=0.8
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920600"
   - test_title: 920600-10
@@ -133,6 +142,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset="windows-1252",*/*;q=0.8
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920600"
   - test_title: 920600-11
@@ -146,6 +156,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset="windows-1252",*/*;q=0.8;
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920600"
   - test_title: 920600-12
@@ -159,6 +170,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset="windows-1252";,*/*;q=0.8
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920600"
   - test_title: 920600-13
@@ -173,6 +185,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset="utf-8";,*;q=0.8
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920600"
   - test_title: 920600-14
@@ -187,6 +200,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset="utf-8";,*/*;q=.8
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920600"
   - test_title: 920600-15
@@ -201,5 +215,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/html;q=0.9;charset=utf-8, *;q=0.1
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920600"

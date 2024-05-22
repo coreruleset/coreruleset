@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git"
+  author: "csanders-git, azurit"
   enabled: true
   name: "920280.yaml"
   description: "Description"
@@ -16,6 +16,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               # Test needs empty Host:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
           output:
             log_contains: "id \"920280\""
   - test_title: 920280-2
@@ -28,6 +29,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920280\""
   - test_title: 920280-3
@@ -41,6 +44,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
           output:
             # Technically valid but Apache doesn't allow 0.9 anymore
             status: [400, 426, 505]

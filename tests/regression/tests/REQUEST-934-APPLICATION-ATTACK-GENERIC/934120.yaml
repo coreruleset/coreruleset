@@ -20,6 +20,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://2852039166/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-2
@@ -37,6 +38,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://7147006462/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-3
@@ -54,6 +56,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://0xA9.0xFE.0xA9.0xFE/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-4
@@ -71,6 +74,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://0xA9FEA9FE/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-5
@@ -88,6 +92,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://0x41414141A9FEA9FE/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-6
@@ -105,6 +110,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://0251.0376.0251.0376/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-7
@@ -122,6 +128,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://0251.00376.000251.0000376/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-8
@@ -139,6 +146,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://169.254.43518/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-9
@@ -156,6 +164,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://169.16689662/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-10
@@ -173,6 +182,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://[::ffff:a9fe:a9fe]"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-11
@@ -190,6 +200,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://[0:0:0:0:0:ffff:a9fe:a9fe]"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-12
@@ -207,6 +218,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=[0:0:0:0:0:ffff:a9fe:a9fe]"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "934120"
   - test_title: 934120-13
@@ -224,6 +236,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=2852039166"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "934120"
   - test_title: 934120-14
@@ -241,6 +254,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=0x41414141A9FEA9FE"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "934120"
   - test_title: 934120-15
@@ -258,6 +272,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=169.16689662"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "934120"
   - test_title: 934120-16
@@ -275,6 +290,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=[::ffff:a9fe:a9fe"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "934120"
   - test_title: 934120-17
@@ -292,6 +308,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=[::ffff:a9fe:a9fe]"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "934120"
   - test_title: 934120-18
@@ -309,6 +326,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=[0:0:0:0:0:ffff:a9fe:a9fe]"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "934120"
   - test_title: 934120-19
@@ -326,6 +344,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=[0:0:0:0:0:ffff:169.254.169.254]"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "934120"
   - test_title: 934120-20
@@ -343,6 +362,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http%3A%2F%2Fgoogle.com%3A80%20%26%40google.com%3A80%23%20%40127.88.23.245%3A22%2F"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-21
@@ -360,6 +380,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=xri://[0:0:0:0:0:ffff:169.254.169.254]"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-22
@@ -377,6 +398,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=rsync://[0:0:0:0:0:ffff:169.254.169.254]"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-23
@@ -394,6 +416,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=acap://①②⑦.⓪.⓪.①"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-24
@@ -411,6 +434,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=imap://①⑥⑨.②⑤④.①⑥⑨.②⑤④"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-25
@@ -428,6 +452,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=irc://ⓛⓞⓒⓐⓛⓗⓞⓢⓣ"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-26
@@ -445,6 +470,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=pop3://ⓁⓄⒸⒶⓁⒽⓄⓈⓉ"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-27
@@ -462,6 +488,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=ssh://0177.00.00.01"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-28
@@ -479,6 +506,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=rtmp://017700000001"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-29
@@ -496,6 +524,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=gopher://0x7f000001"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-30
@@ -513,6 +542,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://[a::]"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-31
@@ -530,6 +560,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://[a::b]"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-32
@@ -547,6 +578,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://[dead:beef:dead::beef:dead:beef:dead]"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-33
@@ -564,6 +596,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://[fe80::%zone1]"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-34
@@ -581,6 +614,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://[fe80::dead:beef:dead:beef:dead:beef%zone1]"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-35
@@ -598,6 +632,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://[0:0:0:0:0:ffff:169.254.169.254]"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-36
@@ -615,6 +650,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://[0:0:0:0:0:0:169.254.169.254]"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-37
@@ -632,6 +668,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://google.com%3A80%20%26%40127.88.23.245%3A22%2F%23%20%40google.com%3A80%2F"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-38
@@ -649,6 +686,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://google.com%3A80%20%26%40google.com%3A80%23%20%40127.88.23.245%3A22%2F"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-39
@@ -666,6 +704,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://169。254。169。254/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-40
@@ -683,6 +722,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://[::]/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-41
@@ -699,7 +739,8 @@ tests:
               Accept-Encoding: gzip,deflate
               Accept-Language: en-us,en;q=0.5
             method: GET
-            uri: "/get?ssrf=http://\\\\l\\\\o\\\\c\\\\a\\\\l\\\\h\\\\o\\\\s\\\\t/"
+            uri: '/get?ssrf=http://\\l\\o\\c\\a\\l\\h\\o\\s\\t/'
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-42
@@ -716,7 +757,8 @@ tests:
               Accept-Encoding: gzip,deflate
               Accept-Language: en-us,en;q=0.5
             method: GET
-            uri: "/get?ssrf=http://\\\\g\\\\o\\\\o\\\\g\\\\l\\\\e.\\\\c\\\\o\\\\m/"
+            uri: '/get?ssrf=http://\\g\\o\\o\\g\\l\\e.\\c\\o\\m/'
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-43
@@ -735,6 +777,7 @@ tests:
               Cookie: ssrf=http://2852039166/
             method: "GET"
             uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
       - stage:
@@ -751,6 +794,7 @@ tests:
               Cookie: http://2852039166/
             method: "GET"
             uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
       - stage:
@@ -774,6 +818,7 @@ tests:
               My epic SSRF attempt
 
               ----------397236876--
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
       - stage:
@@ -789,6 +834,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?http://2852039166/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
       - stage:
@@ -804,6 +850,7 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=http://2852039166/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
       - stage:
@@ -821,6 +868,7 @@ tests:
             method: POST
             uri: "/post"
             data: "<?xml version=\"1.0\"?><xml><ssrf>http://2852039166/</ssrf></xml>"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"
   - test_title: 934120-44
@@ -838,5 +886,6 @@ tests:
               Accept-Language: en-us,en;q=0.5
             method: GET
             uri: "/get?ssrf=local_file://2852039166/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "934120"

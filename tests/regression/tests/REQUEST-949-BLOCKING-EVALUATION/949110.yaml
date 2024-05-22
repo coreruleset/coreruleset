@@ -22,7 +22,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "949110"
   - test_title: 949110-2
@@ -39,7 +39,7 @@ tests:
               Referer: http://www.coreruleset.org
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "949110"
   - test_title: 949110-3
@@ -87,6 +87,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "Inbound Anomaly Score Exceeded [(]Total Score: "

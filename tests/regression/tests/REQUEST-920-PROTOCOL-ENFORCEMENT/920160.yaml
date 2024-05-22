@@ -19,7 +19,7 @@ tests:
               Content-Length: "NotDigits"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             status: [400]
   - # Non digit content-length with content-type
@@ -37,7 +37,7 @@ tests:
               Content-Length: "NotDigits"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             status: [400]
   - # Mixed digit and non digit content length
@@ -55,7 +55,7 @@ tests:
               Content-Length: "123x"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             status: [400]
   - # Test is based in httpbin.org, so backend returns 405 if you are not posting to /post

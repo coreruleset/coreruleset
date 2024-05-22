@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian Folini (dune73)"
+  author: "Christian Folini (dune73), azurit"
   description: "HTTP Parameter Pollution"
   enabled: true
   name: 921210.yaml
@@ -17,6 +17,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
             uri: "/?foo[1]a=bar&foo[1]b=<evil>"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921210"
   - test_title: 921210-2
@@ -31,6 +32,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
             uri: "/?foo[1]a[2]=bar"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921210"
   - test_title: 921210-3
@@ -45,5 +47,6 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
             uri: "/?foo[1][2]=bar"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921210"

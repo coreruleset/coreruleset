@@ -1,6 +1,6 @@
 ---
 meta:
-  author: studersi
+  author: "studersi, azurit"
   description: Try to send mime types in different part of Content-Type header
   enabled: true
   name: 921422.yaml
@@ -17,8 +17,8 @@ tests:
               Content-Type: application/x-www-form-urlencoded;boundary="application/json"
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921422"
   - test_title: 921422-2
@@ -33,8 +33,8 @@ tests:
               Content-Type: application/x-www-form-urlencoded;boundary="application/vnd.mycompany.myapp.customer-v2+json"
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921422"
   - test_title: 921422-3
@@ -49,8 +49,8 @@ tests:
               Content-Type: application/x-www-form-urlencoded;boundary="text/xml"
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921422"
   - test_title: 921422-4
@@ -65,8 +65,8 @@ tests:
               Content-Type: application/x-www-form-urlencoded;boundary="application/xml"
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921422"
   - test_title: 921422-5
@@ -81,8 +81,8 @@ tests:
               Content-Type: application/x-www-form-urlencoded;boundary="multipart/related"
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921422"
   - test_title: 921422-6
@@ -97,8 +97,8 @@ tests:
               Content-Type: application/x-www-form-urlencoded;boundary="text/html"
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921422"
   - test_title: 921422-7
@@ -113,8 +113,8 @@ tests:
               Content-Type: application/x-www-form-urlencoded;boundary="image/jpeg"
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921422"
   - test_title: 921422-8
@@ -129,8 +129,8 @@ tests:
               Content-Type: application/x-www-form-urlencoded;boundary="foobar/foobar"
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921422"
   - test_title: 921422-9
@@ -145,8 +145,8 @@ tests:
               Content-Type: application/json
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921422"
   - test_title: 921422-10
@@ -161,8 +161,8 @@ tests:
               Content-Type: application/vnd.mycompany.myapp.customer-v2+json
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921422"
   - test_title: 921422-11
@@ -177,8 +177,8 @@ tests:
               Content-Type: text/xml
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921422"
   - test_title: 921422-12
@@ -193,8 +193,8 @@ tests:
               Content-Type: application/xml
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921422"
   - test_title: 921422-13
@@ -209,8 +209,8 @@ tests:
               Content-Type: application/soap+xml
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921422"
   - test_title: 921422-14
@@ -225,8 +225,8 @@ tests:
               Content-Type: text/html
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921422"
   - test_title: 921422-15
@@ -241,8 +241,8 @@ tests:
               Content-Type: text/html; charset=UTF-8
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921422"
   - test_title: 921422-16
@@ -257,8 +257,8 @@ tests:
               Content-Type: multipart/form-data; boundary=something
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921422"
   - test_title: 921422-17
@@ -273,7 +273,7 @@ tests:
               Content-Type: multipart/form-data; boundary=----webkitformboundary12w4lszoxn26vnd
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921422"

@@ -18,6 +18,7 @@ tests:
               Host: localhost
               Referer: www.github.com<script><img><iframe>
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941101"
   - test_title: 941101-2
@@ -27,11 +28,12 @@ tests:
             dest_addr: 127.0.0.1
             method: GET
             port: 80
-            uri: "/get/\"onmouseover='prompt(document.cookie)'\""
+            uri: /get/"onmouseover='prompt(document.cookie)'"
             headers:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941101"
   - test_title: 941101-3

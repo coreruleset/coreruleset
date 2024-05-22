@@ -18,6 +18,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get/serialize0?foo=O%3A8%3A%22stdClass%22%3A0%3A%7B%7D"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933170"
   - test_title: 933170-2
@@ -33,6 +34,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get/serialize1?foo=O%3A8%3A%22stdClass%22%3A1%3A%7Bs%3A1%3A%22a%22%3Bi%3A2%3B%7D"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933170"
   - test_title: 933170-3
@@ -49,6 +51,7 @@ tests:
             method: POST
             port: 80
             uri: "/post/serialize2"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933170"
   - test_title: 933170-4
@@ -65,6 +68,7 @@ tests:
             method: POST
             port: 80
             uri: "/post/serialize3?foo=O%3A21%3A%22JDatabaseDriverMysqli%22%3A3%3A%7Bs%3A2%3A%22fc%22%3BO%3A17%3A%22JSimplepieFactory%22%3A0%3A%7B%7Ds%3A21%3A%22%5C0%5C0%5C0disconnectHandlers%22%3Ba%3A1%3A%7Bi%3A0%3Ba%3A2%3A%7Bi%3A0%3BO%3A9%3A%22SimplePie%22%3A5%3A%7Bs%3A8%3A%22sanitize%22%3BO%3A20%3A%22JDatabaseDriverMysql%22%3A0%3A%7B%7Ds%3A8%3A%22feed_url%22%3Bs%3A119%3A%22eval%28chr%28112%29.chr%28104%29.chr%28112%29.chr%28105%29.chr%28110%29.chr%28102%29.chr%28111%29.chr%2840%29.chr%2841%29.chr%2859%29%29%3BJFactory%3A%3AgetConfig%28%29%3Bexit%22%3Bs%3A19%3A%22cache_name_function%22%3Bs%3A6%3A%22assert%22%3Bs%3A5%3A%22cache%22%3Bb%3A1%3Bs%3A11%3A%22cache_class%22%3BO%3A20%3A%22JDatabaseDriverMysql%22%3A0%3A%7B%7D%7Di%3A1%3Bs%3A4%3A%22init%22%3B%7D%7Ds%3A13%3A%22%5C0%5C0%5C0connection%22%3Bb%3A1%3B%7D"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933170"
   - test_title: 933170-5
@@ -81,6 +85,7 @@ tests:
             method: POST
             port: 80
             uri: "/post/serialize4/ajax/api/hook/decodeArguments?arguments=O%3A12%3A%22vB_dB_Result%22%3A2%3A%7Bs%3A5%3A%22%00%2a%00db%22%3BO%3A11%3A%22vB_Database%22%3A1%3A%7Bs%3A9%3A%22functions%22%3Ba%3A1%3A%7Bs%3A11%3A%22free_result%22%3Bs%3A7%3A%22phpinfo%22%3B%7D%7Ds%3A12%3A%22%00%2a%00recordset%22%3Bi%3A1%3B%7D"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933170"
   - test_title: 933170-6
@@ -97,6 +102,7 @@ tests:
             method: POST
             port: 80
             uri: "/post/serialize5?O%3A8%3A%22stdClass%22%3A4%3A%7Bs%3A3%3A%22aaa%22%3Ba%3A5%3A%7Bi%3A0%3Bi%3A1%3Bi%3A1%3Bi%3A2%3Bi%3A2%3Ba%3A1%3A%7Bi%3A0%3Bi%3A1%3B%7Di%3A3%3Bi%3A4%3Bi%3A4%3Bi%3A5%3B%7Ds%3A3%3A%22aaa%22%3Bi%3A1%3Bs%3A3%3A%22ccc%22%3BR%3A5%3Bs%3A3%3A%22ddd%22%3Bs%3A4%3A%22AAAA%22%3B%7D"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933170"
   - test_title: 933170-7
@@ -113,6 +119,7 @@ tests:
             method: POST
             port: 80
             uri: "/post/serialize6"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933170"
   - test_title: 933170-8
@@ -129,6 +136,7 @@ tests:
             method: POST
             port: 80
             uri: "/post/serialize7"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933170"
   - test_title: 933170-9
@@ -145,6 +153,7 @@ tests:
             method: POST
             port: 80
             uri: "/post/serialize8"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933170"
   - test_title: 933170-10
@@ -161,5 +170,6 @@ tests:
             method: POST
             port: 80
             uri: "/post/serialize9"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933170"

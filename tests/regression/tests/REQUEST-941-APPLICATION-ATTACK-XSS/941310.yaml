@@ -20,6 +20,7 @@ tests:
             port: 80
             uri: "/post"
             data: var=\xbcscript\xbealert(\xa2XSS\xa2)\xbc/script\xbe
+            version: "HTTP/1.1"
           output:
             log_contains: id "941310"
   - test_title: 941310-2
@@ -37,6 +38,7 @@ tests:
             port: 80
             uri: "/post"
             data: var=\xc2\xbcscript\xc2\xbealert(\xc2\xa2XSS\xc2\xa2)\xc2\xbc/script\xc2\xbe
+            version: "HTTP/1.1"
           output:
             log_contains: id "941310"
   - test_title: 941310-3
@@ -54,6 +56,7 @@ tests:
             port: 80
             uri: "/post"
             data: var=\xd0\xbcscript\xd0\xbealert(\xc2\xa2XSS\xc2\xa2)\xd0\xbc/script\xd0\xbe
+            version: "HTTP/1.1"
           output:
             log_contains: id "941310"
   - test_title: 941310-4
@@ -72,6 +75,7 @@ tests:
             uri: "/post"
             # Reported in https://github.com/coreruleset/coreruleset/issues/1942 as "абвгдеёжзийклмнопрстуфхцчшщъыэюя"
             data: var=\xd0\xb0\xd0\xb1\xd0\xb2\xd0\xb3\xd0\xb4\xd0\xb5\xd1\x91\xd0\xb6\xd0\xb7\xd0\xb8\xd0\xb9\xd0\xba\xd0\xbb\xd0\xbc\xd0\xbd\xd0\xbe\xd0\xbf\xd1\x80\xd1\x81\xd1\x82\xd1\x83\xd1\x84\xd1\x85\xd1\x86\xd1\x87\xd1\x88\xd1\x89\xd1\x8a\xd1\x8b\xd1\x8d\xd1\x8e\xd1\x8f
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "941310"
   - test_title: 941310-5
@@ -90,6 +94,7 @@ tests:
             uri: "/post"
             # Reported in https://github.com/coreruleset/coreruleset/issues/1645 as "de_matten & sitzbez\xc3\xbcge > fu\xc3\x9fmatten_mt"
             data: var=de_matten & sitzbez\xc3\x83\xc2\xbcge > fu\xc3\x83\xc2\x9fmatten_mt
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "941310"
   - test_title: 941310-6
@@ -107,6 +112,7 @@ tests:
             port: 80
             uri: "/post"
             data: var=\xbc\xbc
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "941310"
   - test_title: 941310-7
@@ -124,6 +130,7 @@ tests:
             port: 80
             uri: "/post"
             data: var=\xbe\xbe
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "941310"
   - test_title: 941310-8
@@ -141,6 +148,7 @@ tests:
             port: 80
             uri: "/post"
             data: var=\xd0\xbcscript\xd0\xbealert(\xc2\xa2XSS\xc2\xa2)\xd0\xbc/script\xd0
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "941310"
   - test_title: 941310-9
@@ -158,6 +166,7 @@ tests:
             port: 80
             uri: "/post"
             data: var=\xd0\xbcscript\xd0\xbealert(\xc2\xa2XSS\xc2\xa2)\xd0/script\xd0\xbe
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "941310"
   - test_title: 941310-10
@@ -176,6 +185,7 @@ tests:
             uri: "/post"
             # Reported in https://github.com/coreruleset/coreruleset/issues/1942 as "абвгдеёжзийклмнпрстуфхцчшщъыэюя"
             data: var=\xd0\xb0\xd0\xb1\xd0\xb2\xd0\xb3\xd0\xb4\xd0\xb5\xd1\x91\xd0\xb6\xd0\xb7\xd0\xb8\xd0\xb9\xd0\xba\xd0\xbb\xd0\xbc\xd0\xbd\xd0\xbf\xd1\x80\xd1\x81\xd1\x82\xd1\x83\xd1\x84\xd1\x85\xd1\x86\xd1\x87\xd1\x88\xd1\x89\xd1\x8a\xd1\x8b\xd1\x8d\xd1\x8e\xd1\x8f
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "941310"
   - test_title: 941310-11
@@ -194,6 +204,7 @@ tests:
             uri: "/post"
             # Reported in https://github.com/coreruleset/coreruleset/issues/1942 as "абвгдеёжзийклнопрстуфхцчшщъыэюя"
             data: var=\xd0\xb0\xd0\xb1\xd0\xb2\xd0\xb3\xd0\xb4\xd0\xb5\xd1\x91\xd0\xb6\xd0\xb7\xd0\xb8\xd0\xb9\xd0\xba\xd0\xbb\xd0\xbd\xd0\xbe\xd0\xbf\xd1\x80\xd1\x81\xd1\x82\xd1\x83\xd1\x84\xd1\x85\xd1\x86\xd1\x87\xd1\x88\xd1\x89\xd1\x8a\xd1\x8b\xd1\x8d\xd1\x8e\xd1\x8f
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "941310"
   - test_title: 941310-12
@@ -211,5 +222,6 @@ tests:
             port: 80
             uri: "/post"
             data: test=\xbctest\xbetest(\xa2XSS\xa2)\xbc/test\xbe
+            version: "HTTP/1.1"
           output:
             log_contains: id "941310"

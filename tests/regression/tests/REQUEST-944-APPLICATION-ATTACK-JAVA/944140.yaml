@@ -1,6 +1,6 @@
 ---
 meta:
-  author: lifeforms
+  author: "lifeforms, azurit"
   description: None
   enabled: true
   name: 944140.yaml
@@ -16,7 +16,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
-            uri: /
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "944140"
   - test_title: 944140-2
@@ -31,7 +32,8 @@ tests:
               X-Filename: a.jsp
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
-            uri: /upload1
+            uri: "/upload1"
+            version: "HTTP/1.1"
           output:
             log_contains: id "944140"
   - test_title: 944140-3
@@ -46,7 +48,8 @@ tests:
               X_Filename: B.jsp
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
-            uri: /upload2
+            uri: "/upload2"
+            version: "HTTP/1.1"
           output:
             log_contains: id "944140"
   - test_title: 944140-4
@@ -61,7 +64,8 @@ tests:
               X-File-Name: a.jspx
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
-            uri: /upload3
+            uri: "/upload3"
+            version: "HTTP/1.1"
           output:
             log_contains: id "944140"
   - test_title: 944140-5
@@ -76,7 +80,8 @@ tests:
               X-Filename: a.jsp..
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
-            uri: /upload4
+            uri: "/upload4"
+            version: "HTTP/1.1"
           output:
             log_contains: id "944140"
   - test_title: 944140-6
@@ -91,7 +96,8 @@ tests:
               X-Filename: a.jspx..
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
-            uri: /upload
+            uri: "/upload"
+            version: "HTTP/1.1"
           output:
             log_contains: id "944140"
   - test_title: 944140-7
@@ -106,7 +112,8 @@ tests:
               X-File-Name: foo.jspx...
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
-            uri: /upload
+            uri: "/upload"
+            version: "HTTP/1.1"
           output:
             log_contains: id "944140"
   - test_title: 944140-8
@@ -121,7 +128,8 @@ tests:
               X_Filename: foo.jspx.
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
-            uri: /upload7
+            uri: "/upload7"
+            version: "HTTP/1.1"
           output:
             log_contains: id "944140"
   - test_title: 944140-9
@@ -136,6 +144,7 @@ tests:
               X-File-Name: foo.html
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             port: 80
-            uri: /upload8
+            uri: "/upload8"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "944140"

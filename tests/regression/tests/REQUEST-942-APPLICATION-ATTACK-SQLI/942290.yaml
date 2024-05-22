@@ -18,6 +18,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "942290"
   - test_title: 942290-2
@@ -83,6 +84,7 @@ tests:
             port: 80
             uri: "/post"
             data: '{"$not": "foo"}'
+            version: "HTTP/1.1"
           output:
             log_contains: id "942290"
   - test_title: 942290-6
@@ -100,6 +102,7 @@ tests:
             port: 80
             uri: "/post"
             data: '{"$nor": "foo"}'
+            version: "HTTP/1.1"
           output:
             log_contains: id "942290"
   - test_title: 942290-7
@@ -117,6 +120,7 @@ tests:
             port: 80
             uri: "/post"
             data: '{"$where": "foo"}'
+            version: "HTTP/1.1"
           output:
             log_contains: id "942290"
   - test_title: 942290-8
@@ -134,6 +138,7 @@ tests:
             port: 80
             uri: "/post"
             data: '{"$elemMatch": "foo"}'
+            version: "HTTP/1.1"
           output:
             log_contains: id "942290"
   - test_title: 942290-9
@@ -151,5 +156,6 @@ tests:
             port: 80
             uri: "/post"
             data: '{"$text": "foo"}'
+            version: "HTTP/1.1"
           output:
             log_contains: id "942290"

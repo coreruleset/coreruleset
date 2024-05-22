@@ -18,6 +18,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=%5bACME%5d%3a+this+is%2c+%28another%29+test+%28foo%29bar+or+foo%28bar%29."
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933210"
   - test_title: 933210-2
@@ -33,6 +34,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=%28foo%29bar+or+foo%28bar%29+or+%5bfoo%5dbar+or+foo%5bbar%5d"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933210"
   - test_title: 933210-3
@@ -48,6 +50,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=%28system%29%28%27uname%27%29%20%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-4
@@ -63,6 +66,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=%28sy.%28st%29.em%29%28%27uname%27%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-5
@@ -78,6 +82,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=%28string%29%22system%22%28%27uname%27%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-6
@@ -93,6 +98,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=%28+string+%29+%22sys%22.%22t%22.%22em%22+%28%27uname%27%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-7
@@ -108,6 +114,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=%28string%29+%7b%5bsystem%5d%5b0%5d%7d+%28%27uname%27%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-8
@@ -123,6 +130,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=define%28%27x%27,+%27sys%27+.+%27tem%27%29%3b%28x%29%2f*+comment+*%2f%28%27uname%27%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-9
@@ -138,6 +146,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=$y+=+%27sys%27.%27tem%27%3b%28$y%29%28%27uname%27%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-10
@@ -153,6 +162,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=define%28%27z%27,+%5b%5b%27sys%27+.%27tem%27%5d%5d%29%3b%28z%29%5b0%5d%5b0%5d%28%27uname%27%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-11
@@ -168,6 +178,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=%28system%29%28ls%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-12
@@ -183,6 +194,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=%28%2f*+comment+*%2fsystem%29%28ls%2f*+comment+*%2f%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-13
@@ -198,6 +210,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=%5bsystem%5d%5b0%5d%28ls%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-14
@@ -213,6 +226,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=%5b+system+%5d+%5b+0+%5d+%28+ls+%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-15
@@ -228,6 +242,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=%28%5b%27system%27%5d%29%5b0%5d%28%27uname%27%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-16
@@ -243,6 +258,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?x=%28++%5b++system++%5d%5b++0++%5d%29++%7b%2f*+comment+*%2f0%7d++%28++ls++%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-17
@@ -259,6 +275,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933210"
   - test_title: 933210-18
@@ -275,6 +292,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933210"
   - test_title: 933210-19
@@ -290,6 +308,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?search=this+is+a+%22dog%22+%28not+a+cat%29"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "933210"
   - test_title: 933210-20
@@ -305,6 +324,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?code=%22system%22%28ls%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"
   - test_title: 933210-21
@@ -320,5 +340,6 @@ tests:
             method: "GET"
             port: 80
             uri: "/get?code=%22%5Cx73y%5Cx73tem%22%28ls%29%3B"
+            version: "HTTP/1.1"
           output:
             log_contains: id "933210"

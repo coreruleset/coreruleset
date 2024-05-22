@@ -113,7 +113,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/get?eval=while(!\"\");"
+            uri: '/get?eval=while(!"");'
             version: HTTP/1.0
           output:
             log_contains: id "934160"
@@ -353,7 +353,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/get?eval=while(!!\"\");"
+            uri: '/get?eval=while(!!"");'
             version: HTTP/1.0
           output:
             log_contains: id "934160"

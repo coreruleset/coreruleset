@@ -1,6 +1,6 @@
 ---
 meta:
-  author: studersi
+  author: "studersi, azurit"
   description: Test whether the recommended rules can be fooled into using the wrong body processor which can result in bypasses
   enabled: true
   name: 921421.yaml
@@ -17,8 +17,8 @@ tests:
               Content-Type: application/x-www-form-urlencoded;boundary="application/json"
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921421"
   - test_title: 921421-2
@@ -33,8 +33,8 @@ tests:
               Content-Type: application/x-www-form-urlencoded;boundary="application/vnd.mycompany.myapp.customer-v2+json"
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921421"
   - test_title: 921421-3
@@ -49,8 +49,8 @@ tests:
               Content-Type: application/x-www-form-urlencoded;boundary="text/xml"
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921421"
   - test_title: 921421-4
@@ -65,8 +65,8 @@ tests:
               Content-Type: application/x-www-form-urlencoded;boundary="application/xml"
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921421"
   - test_title: 921421-5
@@ -81,8 +81,8 @@ tests:
               Content-Type: application/x-www-form-urlencoded;boundary="application/soap+xml"
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921421"
   - test_title: 921421-6
@@ -97,8 +97,8 @@ tests:
               Content-Type: application/json
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921421"
   - test_title: 921421-7
@@ -113,8 +113,8 @@ tests:
               Content-Type: application/vnd.mycompany.myapp.customer-v2+json
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921421"
   - test_title: 921421-8
@@ -129,8 +129,8 @@ tests:
               Content-Type: text/xml
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921421"
   - test_title: 921421-9
@@ -145,8 +145,8 @@ tests:
               Content-Type: application/xml
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921421"
   - test_title: 921421-10
@@ -161,8 +161,8 @@ tests:
               Content-Type: application/soap+xml
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921421"
   - test_title: 921421-11
@@ -177,8 +177,8 @@ tests:
               Content-Type: text/html; charset=UTF-8
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921421"
   - test_title: 921421-12
@@ -193,7 +193,7 @@ tests:
               Content-Type: multipart/form-data; boundary=something
             method: POST
             port: 80
-            uri: /post
-            version: HTTP/1.1
+            uri: "/post"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "921421"

@@ -22,7 +22,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: "/get/foo.php?bar=blah<script>document.cookie=\"sessionid=1234;%20domain=.example.dom\";</script>"
+            uri: '/get/foo.php?bar=blah<script>document.cookie="sessionid=1234;%20domain=.example.dom";</script>'
             version: HTTP/1.1
           output:
             log_contains: id "943100"

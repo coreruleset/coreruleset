@@ -21,6 +21,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/post"
             data: "%89%95%97%A4%A3%F1=%A7%A7%A7%A7%A7%A7%A7"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920490\""
   - test_title: 920490-2
@@ -38,6 +39,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/post"
             data: "%89%95%97%A4%A3%F1=%A7%A7%A7%A7%A7%A7%A7"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920490\""
   - test_title: 920490-3
@@ -54,5 +56,6 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/post"
             data: "%89%95%97%A4%A3%F1=%A7%A7%A7%A7%A7%A7%A7"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920490\""

@@ -19,6 +19,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930110"
   - test_title: 930110-2
@@ -35,6 +36,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?arg=../../../etc/passwd"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930110"
   - test_title: 930110-3
@@ -51,6 +53,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/post"
             data: "arg=../../../etc/passwd&foo=var"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930110"
   - test_title: 930110-4
@@ -66,6 +69,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get/foo../1234"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "930110"
   - test_title: 930110-5
@@ -81,6 +85,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get/foo.../1234"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "930110"
   - test_title: 930110-6
@@ -96,6 +101,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get/..foo"
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "930110"
   - test_title: 930110-7
@@ -111,6 +117,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get/.."
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "930110"
   - test_title: 930110-8
@@ -125,7 +132,8 @@ tests:
               Host: "localhost"
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/get/?arg=..\pineapple'
+            uri: '/get?arg=..\pineapple'
+            version: "HTTP/1.1"
           output:
             log_contains: id "930110"
   - test_title: 930110-9
@@ -140,7 +148,8 @@ tests:
               Host: "localhost"
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: '/get/?foo=.../.../WINDOWS/win.ini'
+            uri: '/get?foo=.../.../WINDOWS/win.ini'
+            version: "HTTP/1.1"
           output:
             log_contains: id "930110"
   - test_title: 930110-10
@@ -156,7 +165,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            uri: '/post'
+            uri: "/post"
             data: |
               ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
               Content-Disposition: form-data; name="file"; filename="../1.7z"
@@ -164,6 +173,7 @@ tests:
 
               BINARYDATA
               ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
+            version: "HTTP/1.1"
           output:
             log_contains: id "930110"
   - test_title: 930110-11
@@ -179,7 +189,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            uri: '/post'
+            uri: "/post"
             data: |
               ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
               Content-Disposition: form-data; name="file"; filename="..\1.7z"
@@ -187,6 +197,7 @@ tests:
 
               BINARYDATA
               ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
+            version: "HTTP/1.1"
           output:
             log_contains: id "930110"
   - test_title: 930110-12
@@ -203,5 +214,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?a=..;.\\.;\\."
+            version: "HTTP/1.1"
           output:
             log_contains: id "930110"

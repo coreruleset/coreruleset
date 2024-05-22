@@ -19,6 +19,7 @@ tests:
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '9411400-1=%3Cp%20style%3D%22background%3Aurl(javascript%3Aalert(1))%22%3E'
+            version: "HTTP/1.1"
           output:
             log_contains: id "941140"
   - test_title: 941140-2
@@ -35,6 +36,7 @@ tests:
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: '%3Cp%20style%3D%22background%3Aurl(javascript%3Aalert(1))%22%3E=941140-2'
+            version: "HTTP/1.1"
           output:
             log_contains: id "941140"
   - test_title: 941140-3
@@ -51,6 +53,7 @@ tests:
               Host: localhost
               Cookie: '%3Cp%20style%3D%22background%3Aurl(javascript%3Aalert(1))%22%3E=941140-2'
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941140"
   - test_title: 941140-4
@@ -66,5 +69,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941140"

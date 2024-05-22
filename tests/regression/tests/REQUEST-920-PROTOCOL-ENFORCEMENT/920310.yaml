@@ -16,6 +16,8 @@ tests:
               Host: "localhost"
               # Test needs an empty Accept: header
               Accept: ""
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920310\""
   - test_title: 920310-2
@@ -30,6 +32,8 @@ tests:
               Host: "localhost"
               # Test needs an empty Accept: header
               Accept: ""
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920310\""
   - test_title: 920310-3
@@ -42,6 +46,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920310\""
   - test_title: 920310-4
@@ -55,6 +61,8 @@ tests:
               Host: "localhost"
               # Test needs an empty Accept: header
               Accept: ""
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920310\""
   - test_title: 920310-5
@@ -68,6 +76,8 @@ tests:
               Host: "localhost"
               # Test needs an empty Accept: header
               Accept: ""
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920310\""
   - test_title: 920310-6
@@ -81,5 +91,7 @@ tests:
               Host: "localhost"
               # Test needs an empty Accept: header
               Accept: ""
+            uri: "/"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920310\""

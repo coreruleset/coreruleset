@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Andrew Howe"
+  author: "Andrew Howe, azurit"
   enabled: true
   name: "920451.yaml"
   description: "Tests to trigger and not trigger rule 920451"
@@ -18,6 +18,7 @@ tests:
               Host: localhost
               Accept: text/html
               Accept-Charset: UTF-8
+            version: "HTTP/1.1"
           output:
             log_contains: id "920451"
   - test_title: 920451-2
@@ -33,5 +34,6 @@ tests:
               Host: localhost
               Accept: text/html
               Content-Range: bytes 4096-8192/8192
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "920451"

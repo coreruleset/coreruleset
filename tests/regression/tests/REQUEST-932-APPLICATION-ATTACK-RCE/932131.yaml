@@ -18,7 +18,7 @@ tests:
             method: "GET"
             port: 80
             uri: "/get"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "932131"
   - test_title: 932131-2
@@ -34,6 +34,6 @@ tests:
             method: "GET"
             port: 80
             uri: "/get"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932131"

@@ -19,6 +19,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930100"
   - test_title: 930100-2
@@ -34,6 +35,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?foo=.../.../WINDOWS/win.ini"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930100"
   - test_title: 930100-3
@@ -49,6 +51,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?foo=0x2e.%000x2f0x2e.%00/WINDOWS/win.ini"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930100"
   - test_title: 930100-4
@@ -65,5 +68,6 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get"
+            version: "HTTP/1.1"
           output:
             log_contains: id "930100"

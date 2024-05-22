@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "lifeforms"
+  author: "lifeforms, azurit"
   enabled: true
   name: "920480.yaml"
   description: "Description"
@@ -17,7 +17,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/x-www-form-urlencoded; charset=utf-8"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920480\""
   - test_title: 920480-2
@@ -32,7 +34,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/x-www-form-urlencoded;charset=UTF-8"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920480\""
   - test_title: 920480-3
@@ -47,7 +51,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/x-www-form-urlencoded;charset=iso-8859-1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920480\""
   - test_title: 920480-4
@@ -62,7 +68,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/x-www-form-urlencoded;charset=ISO-8859-15"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920480\""
   - test_title: 920480-5
@@ -77,7 +85,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/x-www-form-urlencoded; charset=windows-1252"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920480\""
   # TODO: this case is not yet handled by 3.1, future work
@@ -92,7 +102,9 @@ tests:
   #               User-Agent: "OWASP CRS test agent"
   #               Host: "localhost"
   #               Content-Type: "application/x-www-form-urlencoded; charset=UTF-80" #trailing garbage after 'UTF-8'
+  #           uri: "/"
   #           data: "test=value"
+  #           version: "HTTP/1.1"
   #         output:
   #           log_contains: "id \"920480\""
   - test_title: 920480-7
@@ -107,7 +119,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/x-www-form-urlencoded; charset=garbage"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920480\""
   - test_title: 920480-8
@@ -122,7 +136,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/x-www-form-urlencoded;charset=garbage"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920480\""
   # TODO: this test should pass (works with curl), to be researched
@@ -137,7 +153,9 @@ tests:
   #               User-Agent: "OWASP CRS test agent"
   #               Host: "localhost"
   #               Content-Type: "application/x-www-form-urlencoded; charset=ibm037" # https://www.slideshare.net/SoroushDalili/waf-bypass-techniques-using-http-standard-and-web-servers-behaviour slide 32
+  #           uri: "/"
   #           data: "test=value"
+  #           version: "HTTP/1.1"
   #         output:
   #           log_contains: "id \"920480\""
   # TODO: this test should pass (works with curl), to be researched
@@ -152,7 +170,9 @@ tests:
   #               User-Agent: "OWASP CRS test agent"
   #               Host: "localhost"
   #               Content-Type: "application/x-www-form-urlencoded;charset=ibm037" # https://www.slideshare.net/SoroushDalili/waf-bypass-techniques-using-http-standard-and-web-servers-behaviour slide 32
+  #           uri: "/"
   #           data: "test=value"
+  #           version: "HTTP/1.1"
   #         output:
   #           log_contains: "id \"920480\""
   - test_title: 920480-11
@@ -168,7 +188,9 @@ tests:
               # random other IBM charset
               Content-Type: "application/x-www-form-urlencoded;charset=ibm038"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920480\""
   # TODO: this case is not yet checked by CRS, future work
@@ -183,7 +205,9 @@ tests:
   #               User-Agent: "OWASP CRS test agent"
   #               Host: "localhost"
   #               Content-Type: "application/x-www-form-urlencoded;charset=utf-8;charset=ibm037" #double charset may cause evasion
+  #           uri: "/"
   #           data: "test=value"
+  #           version: "HTTP/1.1"
   #         output:
   #           log_contains: "id \"920480\""
   # TODO: this case is not yet checked by CRS, future work
@@ -198,7 +222,9 @@ tests:
   #               User-Agent: "OWASP CRS test agent"
   #               Host: "localhost"
   #               Content-Type: "application/x-www-form-urlencoded;charset=ibm037;charset=UTF-8" #double charset may cause evasion
+  #           uri: "/"
   #           data: "test=value"
+  #           version: "HTTP/1.1"
   #         output:
   #           log_contains: "id \"920480\""
   - test_title: 920480-14
@@ -214,7 +240,9 @@ tests:
               # random other IBM charset
               Content-Type: "application/x-www-form-urlencoded; charset=\"utf-8\""
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920480\""
   - test_title: 920480-15
@@ -230,7 +258,9 @@ tests:
               # random other IBM charset
               Content-Type: "application/x-www-form-urlencoded; charset='utf-8'"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920480\""
   - test_title: 920480-16
@@ -246,7 +276,9 @@ tests:
               # random other IBM charset
               Content-Type: "application/x-www-form-urlencoded; charset=\"garbage\""
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920480\""
   - test_title: 920480-17
@@ -261,6 +293,8 @@ tests:
               Host: "localhost"
               Content-Type: 'application/x-www-form-urlencoded; charset="utf-88"'
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920480\""

@@ -181,7 +181,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?x=ping``%20127.0.0.1"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-11
@@ -197,7 +197,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?x=pi``ng%20127.0.0.1"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-12
@@ -213,7 +213,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?x=ping$()%20127.0.0.1"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-13
@@ -229,7 +229,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?x=pi$()ng%20127.0.0.1"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-14
@@ -245,7 +245,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?x=pi<()ng%20127.0.0.1"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-15
@@ -261,7 +261,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get?x=pi>()ng%20127.0.0.1"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-16
@@ -279,7 +279,7 @@ tests:
             uri: "/post"
             data: |
               payload=All told, people were taken with the concept of Stadia, but the execution just didn't work.
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932240"
   - test_title: 932240-17
@@ -297,7 +297,7 @@ tests:
             uri: "/post"
             data: |
               payload=kill '-'9
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"
   - test_title: 932240-18
@@ -315,7 +315,7 @@ tests:
             uri: "/post"
             data: |
               payload=An affordable housing advocate says the city's rewrite of the land development code would boost affordable housing, but there's room to do more.
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "932240"
   - test_title: 932240-19
@@ -333,6 +333,6 @@ tests:
             uri: "/post"
             data: |
               payload=py''thon -c "print('attack')"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: id "932240"

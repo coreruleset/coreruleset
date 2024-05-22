@@ -18,6 +18,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941100"
   - test_title: 941100-2
@@ -33,6 +34,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941100"
   - test_title: 941100-3
@@ -48,6 +50,7 @@ tests:
               User-Agent: '/char_test?mime=text/xml&body=%3Cx:script%20xmlns:x=%22http://www.w3.org/1999/xhtml%22%20src=%22data:,alert(1)%22%20/%3E'
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941100"
   - test_title: 941100-4
@@ -64,6 +67,7 @@ tests:
               Referer: http://www.coreruleset.org
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "941100"
   - test_title: 941100-5
@@ -80,6 +84,7 @@ tests:
               Referer: '/demo/xss/xml/vuln.xml.php?input=<script+xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location="javascript:(function+()+{var+x+=+document.createElement(\\"script\\");x.src+=+\\"//sdl.me/popup.js?//\\";document.childNodes\\[0\\].appendChild(x);}());"",1000)</script>&//'
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             no_log_contains: id "941100"
   - test_title: 941100-6
@@ -97,5 +102,6 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data:
                 foo=<xss onbeforehellfreezes%3Daler%77(1)>
+            version: "HTTP/1.1"
           output:
             log_contains: id "941100"

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, Franziska Bühler"
+  author: "csanders-git, Franziska Bühler, azurit"
   description: None
   enabled: true
   name: 921130.yaml
@@ -22,8 +22,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?lang=foobar%3Cmeta%20http-equiv%3D%22Refresh%22%20content%3D%220%3B%20url%3Dhttp%3A%2F%2Fwww.hacker.com%2F%22%3E
-            version: HTTP/1.1
+            uri: "/?lang=foobar%3Cmeta%20http-equiv%3D%22Refresh%22%20content%3D%220%3B%20url%3Dhttp%3A%2F%2Fwww.hacker.com%2F%22%3E"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921130"
   - test_title: 921130-2
@@ -40,6 +40,7 @@ tests:
             method: GET
             port: 80
             uri: "/"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921130"
   - test_title: 921130-3
@@ -54,7 +55,8 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?arg1=GET%20http%3A%2F%2Fwww.foo.bar%20HTTP%2F1.2
+            uri: "/?arg1=GET%20http%3A%2F%2Fwww.foo.bar%20HTTP%2F1.2"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921130"
   - test_title: 921130-4
@@ -69,6 +71,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /?arg1=GET%20http%3A%2F%2Fwww.foo.bar%20HTTP%2F3.2
+            uri: "/?arg1=GET%20http%3A%2F%2Fwww.foo.bar%20HTTP%2F3.2"
+            version: "HTTP/1.1"
           output:
             log_contains: id "921130"

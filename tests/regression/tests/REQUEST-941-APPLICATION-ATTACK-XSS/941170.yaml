@@ -18,6 +18,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: localhost
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            version: "HTTP/1.1"
           output:
             log_contains: id "941170"
   - test_title: 941170-2
@@ -34,6 +35,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/post"
             data: "payload=javascript:/*--></title></style></textarea></script></xmp><svg/onload='+/\"/+/onmouseover=1/+/[*/[]/+alert(1)//'></a>"
+            version: "HTTP/1.1"
           output:
             log_contains: id "941170"
   - test_title: 941170-3
@@ -49,6 +51,7 @@ tests:
               Accept: "*/*"
               User-Agent: "OWASP CRS test agent"
               Host: localhost
+            version: "HTTP/1.1"
           output:
             log_contains: id "941170"
   - test_title: 941170-4
@@ -64,6 +67,7 @@ tests:
               Accept: "*/*"
               User-Agent: "OWASP CRS test agent"
               Host: localhost
+            version: "HTTP/1.1"
           output:
             log_contains: id "941170"
   - test_title: 941170-5
@@ -79,5 +83,6 @@ tests:
               Accept: "*/*"
               User-Agent: "OWASP CRS test agent"
               Host: localhost
+            version: "HTTP/1.1"
           output:
             log_contains: id "941170"

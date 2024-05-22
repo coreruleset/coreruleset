@@ -17,8 +17,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/x-www-form-urlencoded"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test=value"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920420\""
   - test_title: 920420-2
@@ -33,8 +34,9 @@ tests:
               Host: "localhost"
               Content-Type: "my-new-content-type"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920420\""
   - test_title: 920420-3
@@ -49,8 +51,9 @@ tests:
               Host: "localhost"
               Content-Type: "my-new-content-type"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920420\""
   - test_title: 920420-4
@@ -65,8 +68,9 @@ tests:
               Host: "localhost"
               Content-Type: "my-new-content-type"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920420\""
   - test_title: 920420-5
@@ -86,7 +90,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /
+            uri: "/"
             version: HTTP/1.1
             data: |
               --0000
@@ -122,7 +126,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /
+            uri: "/"
             version: HTTP/1.1
             data: |
               --0000
@@ -158,7 +162,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: POST
             port: 80
-            uri: /
+            uri: "/"
             version: HTTP/1.1
             data: |
               --0000
@@ -189,8 +193,9 @@ tests:
               Host: "localhost"
               Content-Type: "my-new-content-type"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920420\""
   - test_title: 920420-9
@@ -205,8 +210,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/json"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920420\""
   - test_title: 920420-10
@@ -221,8 +227,9 @@ tests:
               Host: "localhost"
               Content-Type: "application/soap+xml"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920420\""
   - test_title: 920420-11
@@ -237,8 +244,9 @@ tests:
               Host: "localhost"
               Content-Type: "application"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920420\""
   - test_title: 920420-12
@@ -253,8 +261,9 @@ tests:
               Host: "localhost"
               Content-Type: "multipart/related"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920420\""
   - test_title: 920420-13
@@ -269,8 +278,9 @@ tests:
               Host: "localhost"
               Content-Type: "Multipart/Related"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
             data: "test"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920420\""
   - test_title: 920420-14
@@ -285,8 +295,9 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Content-Type: text/plain
+            uri: "/"
             data: 'cmd=/bin/unxz -c /var/log/something_sensitive.xz'
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920420\""
   - test_title: 920420-15
@@ -302,7 +313,7 @@ tests:
               Content-Type: text/plain
             method: GET
             port: 80
-            uri: /
+            uri: "/"
             version: HTTP/1.0
             data: "{\"foo\" : \";+cat+/e\\\\t\\\\*/pa\\\\?s\\\\wd\"}"
           output:
@@ -320,7 +331,7 @@ tests:
               Content-Type: application/x-amf
             method: GET
             port: 80
-            uri: /
+            uri: "/"
             version: HTTP/1.0
             data: "{\"foo\" : \";+cat+/e\\\\t\\\\*/pa\\\\?s\\\\wd\"}"
           output:
@@ -338,7 +349,7 @@ tests:
               Content-Type: application/octet-stream
             method: GET
             port: 80
-            uri: /
+            uri: "/"
             version: HTTP/1.0
             data: "{\"foo\" : \";+cat+/e\\\\t\\\\*/pa\\\\?s\\\\wd\"}"
           output:

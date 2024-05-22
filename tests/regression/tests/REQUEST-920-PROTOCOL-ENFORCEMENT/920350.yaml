@@ -17,7 +17,7 @@ tests:
               Host: "127.0.0.1"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920350\""
   - test_title: 920350-2
@@ -32,7 +32,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920350\""
   - test_title: 920350-3
@@ -47,7 +47,7 @@ tests:
               Host: "1.2.3.4"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920350\""
   - test_title: 920350-4
@@ -62,7 +62,7 @@ tests:
               Host: "[::1]"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920350\""
   - test_title: 920350-5
@@ -77,7 +77,7 @@ tests:
               Host: "[fe80::f1:01:fe01:1]"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920350\""
   - test_title: 920350-6
@@ -92,7 +92,7 @@ tests:
               Host: "[fe80::f1:01:fe01:1]:80"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"920350\""
   - test_title: 920350-7
@@ -107,7 +107,7 @@ tests:
               Host: "deadbeef.de:8080"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920350\""
   - test_title: 920350-8
@@ -122,6 +122,6 @@ tests:
               Host: "deadbeef.de"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/"
-            version: HTTP/1.0
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920350\""

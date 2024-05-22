@@ -17,6 +17,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/get"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"911100\""
   - test_title: 911100-2
@@ -31,6 +32,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/options"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"911100\""
   - test_title: 911100-3
@@ -45,6 +47,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/head"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"911100\""
   - test_title: 911100-4
@@ -61,6 +64,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/post"
             data: "test=value"
+            version: "HTTP/1.1"
           output:
             no_log_contains: "id \"911100\""
   - test_title: 911100-5
@@ -75,6 +79,7 @@ tests:
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             uri: "/test"
+            version: "HTTP/1.1"
           output:
             log_contains: "id \"911100\""
   - test_title: 911100-6

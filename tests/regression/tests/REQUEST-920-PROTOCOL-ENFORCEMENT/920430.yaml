@@ -16,6 +16,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
           output:
             no_log_contains: "id \"920430\""
   - test_title: 920430-2
@@ -29,6 +30,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
           output:
             no_log_contains: "id \"920430\""
   - test_title: 920430-3
@@ -42,6 +44,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
           output:
             status: [403, 400, 426, 505]
   - test_title: 920430-4
@@ -55,6 +58,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
           output:
             no_log_contains: "id \"920430\""
   - # Currently FTW won't process HTTP 1.0 simple response items
@@ -71,6 +75,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
           output:
             expect_error: true
   - test_title: 920430-6
@@ -84,6 +89,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
           output:
             status: [403, 400]
   - test_title: 920430-7
@@ -97,6 +103,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
               Host: "localhost"
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            uri: "/"
           output:
             status: [403, 400]
   - test_title: 920430-8
@@ -115,7 +122,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /
+            uri: "/"
             version: HTTP/4.0
           output:
             log_contains: id "920430"
@@ -135,7 +142,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /
+            uri: "/"
             version: HTTP/0.8
           output:
             status: [403, 400, 426, 505]
@@ -155,7 +162,7 @@ tests:
               User-Agent: "OWASP CRS test agent"
             method: GET
             port: 80
-            uri: /
+            uri: "/"
             version: JUNK/1.0
           output:
             status: [403, 400]
