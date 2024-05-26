@@ -68,8 +68,5 @@ services:
       - backend
 
   backend:
-    # Use go-httpbin instead of httpbin to ensure that Unicode bytes in JSON
-    # are not reflected as JSON Unicode escape sequences but as the data
-    # actualy sent.
-    image: mccutchen/go-httpbin
-    command: ["/bin/go-httpbin", "-port", "80"]
+    image: ghcr.io/coreruleset/albedo:0.0.14
+    command: ["--port", "80"]

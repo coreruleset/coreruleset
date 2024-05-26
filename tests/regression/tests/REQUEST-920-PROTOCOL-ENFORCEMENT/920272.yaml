@@ -61,9 +61,7 @@ tests:
             version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920272\""
-  - # This will not trigger with Apache because Apache will block with AH00127
-    # (22)Invalid argument: [client 127.0.0.1:47427] AH00127: Cannot map GET /i%FFndex.html?test=test1 HTTP/1.1 to file. It will return a 404 instead so we accept either.
-    test_title: 920272-5
+  - test_title: 920272-5
     stages:
       - stage:
           input:
@@ -76,4 +74,5 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             version: "HTTP/1.1"
           output:
-            status: [403, 404]
+            status: [200]
+            log_contains: "id \"920272\""

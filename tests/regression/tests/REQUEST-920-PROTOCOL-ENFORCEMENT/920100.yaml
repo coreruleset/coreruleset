@@ -5,8 +5,8 @@ meta:
   name: "920100.yaml"
   description: "Tests to trigger, or not trigger 920100"
 tests:
-  - # Standard GET request
-    test_title: 920100-1
+  - test_title: 920100-1
+    desc: Standard GET request
     stages:
       - stage:
           input:
@@ -21,9 +21,10 @@ tests:
             version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920100\""
-  - # Request has tab (\t) before request method - Apache complains
-    # AH00126: Invalid URI in request      GET / HTTP/1.1
-    test_title: 920100-2
+  - test_title: 920100-2
+    desc: |
+      Request has tab (\t) before request method - Apache complains
+      AH00126: Invalid URI in request      GET / HTTP/1.1
     stages:
       - stage:
           input:
@@ -38,8 +39,8 @@ tests:
             version: "HTTP/1.1"
           output:
             status: [400]
-  - # Perfectly valid OPTIONS request
-    test_title: 920100-3
+  - test_title: 920100-3
+    desc: Perfectly valid OPTIONS request
     stages:
       - stage:
           input:
@@ -54,8 +55,8 @@ tests:
             version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920100\""
-  - # Valid CONNECT request however this is disabled by Apache default
-    test_title: 920100-4
+  - test_title: 920100-4
+    desc: Valid CONNECT
     stages:
       - stage:
           input:
@@ -69,9 +70,10 @@ tests:
             uri: "1.2.3.4:80"
             version: "HTTP/1.1"
           output:
-            status: [405, 403]
-  - # invalid Connect request, domains require ports
-    test_title: 920100-5
+            status: [200]
+            no_log_contains: "id \"920100\""
+  - test_title: 920100-5
+    desc: invalid Connect request, domains require ports
     stages:
       - stage:
           input:
@@ -86,8 +88,8 @@ tests:
             version: "HTTP/1.1"
           output:
             status: [400]
-  - # This is an acceptable CONNECT request for SSL tunneling
-    test_title: 920100-6
+  - test_title: 920100-6
+    desc: This is an acceptable CONNECT request for SSL tunneling
     stages:
       - stage:
           input:
@@ -102,8 +104,8 @@ tests:
             version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920100\""
-  - # Valid request with query and anchor components
-    test_title: 920100-7
+  - test_title: 920100-7
+    desc: Valid request with query and anchor components
     stages:
       - stage:
           input:
@@ -118,9 +120,10 @@ tests:
             version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920100\""
-  - # The colon in the path is not allowed. Apache will block by default
-    # (20024)The given path is misformatted or contained invalid characters: [client 127.0.0.1:4142] AH00127: Cannot map GET /index.html:80?I=Like&Apples=Today#tag HTTP/1.1 to file
-    test_title: 920100-8
+  - test_title: 920100-8
+    desc: |
+      The colon in the path is not allowed. Apache will block by default
+      (20024)The given path is misformatted or contained invalid characters: [client 127.0.0.1:4142] AH00127: Cannot map GET /index.html:80?I=Like&Apples=Today#tag HTTP/1.1 to file
     stages:
       - stage:
           input:
@@ -135,8 +138,8 @@ tests:
             version: "HTTP/1.1"
           output:
             status: [400, 403]
-  - # Normal Options request with path
-    test_title: 920100-9
+  - test_title: 920100-9
+    desc: Normal Options request with path
     stages:
       - stage:
           input:
@@ -151,8 +154,8 @@ tests:
             version: "HTTP/1.1"
           output:
             no_log_contains: "id \"920100\""
-  - # An invalid method with a long name
-    test_title: 920100-10
+  - test_title: 920100-10
+    desc: An invalid method with a long name
     stages:
       - stage:
           input:
@@ -167,10 +170,11 @@ tests:
             version: "HTTP/1.1"
           output:
             log_contains: "id \"920100\""
-  - # An invalid request because a backslash is used in uri
-    # Apache will end up blocking this before it gets to CRS.
-    # We will need to support OR output tests to fix this
-    test_title: 920100-11
+  - test_title: 920100-11
+    desc: |
+      An invalid request because a backslash is used in uri
+      Apache will end up blocking this before it gets to CRS.
+      We will need to support OR output tests to fix this
     stages:
       - stage:
           input:
