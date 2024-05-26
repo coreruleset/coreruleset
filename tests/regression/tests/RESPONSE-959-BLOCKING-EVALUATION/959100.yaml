@@ -46,7 +46,8 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            data: "{\"body\": \"<?php12345\"}"
+            data: |-
+              {"body": "<?php12345"}
           output:
             no_log_contains: "id \"959100\""
   - test_title: 959100-3

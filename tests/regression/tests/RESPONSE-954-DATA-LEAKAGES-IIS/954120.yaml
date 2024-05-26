@@ -20,7 +20,8 @@ tests:
             method: "POST"
             version: "HTTP/1.1"
             uri: "/reflect"
-            data: "{\"body\": \"text=<title>404.14 - URL too long.</title>\"}"
+            data: |-
+              {"body": "text=<title>404.14 - URL too long.</title>"}
           output:
             log_contains: id "954120"
   - test_title: 954120-2
@@ -38,6 +39,7 @@ tests:
             method: "POST"
             version: "HTTP/1.1"
             uri: "/reflect"
-            data: "{\"body\": \"text=<title>500.15 - Server error: Direct requests for GLOBAL.ASA are not allowed.</title>\"}"
+            data: |-
+              {"body": "text=<title>500.15 - Server error: Direct requests for GLOBAL.ASA are not allowed.</title>"}
           output:
             log_contains: id "954120"

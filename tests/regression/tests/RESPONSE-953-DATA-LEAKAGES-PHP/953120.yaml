@@ -42,7 +42,8 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            data: "{\"body\": \"<?php12345\"}"
+            data: |-
+              {"body": "<?php12345"}
           output:
             no_log_contains: "id \"953120\""
   - test_title: 953120-3
@@ -62,7 +63,8 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            data: "{\"body\": \"<? \"}"
+            data: |-
+              {"body": "<? "}
           output:
             log_contains: "id \"953120\""
   - test_title: 953120-4
@@ -82,7 +84,8 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            data: "{\"body\": \"<?1234\"}"
+            data: |-
+              {"body": "<?1234"}
           output:
             no_log_contains: "id \"953120\""
   - test_title: 953120-5
@@ -122,7 +125,8 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            data: "{\"body\": \"<?=!@#$%^&\"}"
+            data: |-
+              {"body": "<?=!@#$%^&"}
           output:
             no_log_contains: "id \"953120\""
   - test_title: 953120-7

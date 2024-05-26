@@ -22,7 +22,8 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            data: "{\"body\": \"[match sql-errors.data]the used select statements have different number of columns[/match]: PHP Warning:  mssql_query(): message: Incorrect syntax near 's'. (severity 15) in /Volumes/Data/Users/username/Desktop/createXML.php on line 375\"}"
+            data: |-
+              {"body": "[match sql-errors.data]the used select statements have different number of columns[/match]: PHP Warning:  mssql_query(): message: Incorrect syntax near 's'. (severity 15) in /Volumes/Data/Users/username/Desktop/createXML.php on line 375"}
           output:
             log_contains: "id \"951220\""
 
@@ -43,6 +44,7 @@ tests:
             method: "POST"
             version: "HTTP/1.0"
             uri: "/reflect"
-            data: "{\"body\": \"[match sql-errors.data]the used select statements have different number of columns[/match]: Conversion failed when converting the varchar value 'secret' to data type int.\"}"
+            data: |-
+              {"body": "[match sql-errors.data]the used select statements have different number of columns[/match]: Conversion failed when converting the varchar value 'secret' to data type int."}
           output:
             log_contains: "id \"951220\""
