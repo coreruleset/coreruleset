@@ -18,12 +18,12 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.1"
-            uri: "/post"
-            data: |
-              <h1>.:NCC:. Shell v
+            uri: "/reflect"
+            data: |-
+              {"body": "<h1>.:NCC:. Shell v"}
           output:
             log_contains: "id \"955100\""
   - test_title: 955100-2
@@ -39,12 +39,12 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.1"
-            uri: "/post"
-            data: |
-              <!-- Simple PHP backdoor by DK (http://michaeldaw.org) -->
+            uri: "/reflect"
+            data: |-
+              {"body": "<!-- Simple PHP backdoor by DK (http://michaeldaw.org) -->"}
           output:
             log_contains: "id \"955100\""
   - test_title: 955100-3
@@ -60,11 +60,11 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.1"
-            uri: "/post"
-            data: |
-              <html><head><title>-:[GreenwooD]:- WinX Shell</title></head>
+            uri: "/reflect"
+            data: |-
+              {"body": "<html><head><title>-:[GreenwooD]:- WinX Shell</title></head>"}
           output:
             log_contains: "id \"955100\""

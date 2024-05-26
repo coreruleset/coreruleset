@@ -6,7 +6,7 @@ meta:
   description: "Tests for rule 954100"
 tests:
   - test_title: 954100-1
-    desc: 'Returns C:\inetpub in the response body. Sends as Base64 encoded rather than using /anything to avoid the backslash being escaped in the response.'
+    desc: 'Returns C:\inetpub in the response body'
     stages:
       - stage:
           input:
@@ -16,8 +16,10 @@ tests:
               Host: "localhost"
               User-Agent: "OWASP CRS test agent"
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            method: "GET"
+              Content-Type: "application/json"
+            method: "POST"
             version: "HTTP/1.0"
-            uri: "/base64/QzpcaW5ldHB1YiAK"
+            uri: "/reflect"
+            data: "{\"body\": \"C:\\\\inetpub \\n\"}"
           output:
             log_contains: "id \"954100\""

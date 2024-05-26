@@ -18,11 +18,12 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "[match sql-errors.data]the used select statements have different number of columns[/match]: PHP Warning:  mssql_query(): message: Incorrect syntax near 's'. (severity 15) in /Volumes/Data/Users/username/Desktop/createXML.php on line 375"
+            uri: "/reflect"
+            data: |-
+              {"body": "[match sql-errors.data]the used select statements have different number of columns[/match]: PHP Warning:  mssql_query(): message: Incorrect syntax near 's'. (severity 15) in /Volumes/Data/Users/username/Desktop/createXML.php on line 375"}
           output:
             log_contains: "id \"951220\""
 
@@ -39,10 +40,11 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "[match sql-errors.data]the used select statements have different number of columns[/match]: Conversion failed when converting the varchar value 'secret' to data type int."
+            uri: "/reflect"
+            data: |-
+              {"body": "[match sql-errors.data]the used select statements have different number of columns[/match]: Conversion failed when converting the varchar value 'secret' to data type int."}
           output:
             log_contains: "id \"951220\""
