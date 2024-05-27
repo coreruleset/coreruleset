@@ -1076,28 +1076,11 @@ tests:
             method: "POST"
             port: 80
             uri: "/post"
-            data: "payload=HAVING%20"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "942380"
-  - test_title: 942380-64
-    desc: "SQL Injection Attack: HAVING"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: "POST"
-            port: 80
-            uri: "/post"
             data: "payload=HAVING%20('1%20div%201')"
             version: "HTTP/1.1"
           output:
             log_contains: id "942380"
-  - test_title: 942380-65
+  - test_title: 942380-64
     desc: "SQL Injection Attack: HAVING"
     stages:
       - stage:
@@ -1115,7 +1098,7 @@ tests:
             version: "HTTP/1.1"
           output:
             log_contains: id "942380"
-  - test_title: 942380-66
+  - test_title: 942380-65
     desc: "SQL Injection Attack: HAVING"
     stages:
       - stage:
@@ -1133,7 +1116,7 @@ tests:
             version: "HTTP/1.1"
           output:
             log_contains: id "942380"
-  - test_title: 942380-67
+  - test_title: 942380-66
     desc: "SQL Injection Attack: HAVING"
     stages:
       - stage:
@@ -1150,7 +1133,7 @@ tests:
             version: "HTTP/1.1"
           output:
             log_contains: id "942380"
-  - test_title: 942380-68
+  - test_title: 942380-67
     desc: "SQL Injection Attack: HAVING"
     stages:
       - stage:
@@ -1168,7 +1151,7 @@ tests:
             version: "HTTP/1.1"
           output:
             log_contains: id "942380"
-  - test_title: 942380-69
+  - test_title: 942380-68
     desc: "SQL Injection Attack: HAVING"
     stages:
       - stage:
@@ -1186,7 +1169,7 @@ tests:
             version: "HTTP/1.1"
           output:
             log_contains: id "942380"
-  - test_title: 942380-70
+  - test_title: 942380-69
     desc: "SQL Injection Attack: CREATE TABLE"
     stages:
       - stage:
@@ -1203,7 +1186,7 @@ tests:
             version: "HTTP/1.1"
           output:
             log_contains: id "942380"
-  - test_title: 942380-71
+  - test_title: 942380-70
     desc: "SQL Injection Attack: EXECUTE"
     stages:
       - stage:
