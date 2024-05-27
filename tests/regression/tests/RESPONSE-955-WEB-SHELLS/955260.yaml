@@ -1,7 +1,7 @@
 ---
 meta:
   author: "azurit"
-  enabled: false
+  enabled: true
   name: "955260.yaml"
   description: "Regression tests for rule 955260"
 tests:
@@ -19,12 +19,9 @@ tests:
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
               Content-Type: "text/plain"
-            method: "GET"
+            method: "POST"
             version: "HTTP/1.1"
-            uri: "/get"
-            data: |
-              <html>
-              <head>
-              <title>Ru24PostWebShell -
+            uri: "/reflect"
+            data: "{\"body\": \"<html>\\n<head>\\n<title>Ru24PostWebShell -\"}"
           output:
             log_contains: "id \"955260\""
