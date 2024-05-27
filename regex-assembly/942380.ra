@@ -3,23 +3,16 @@
 
 ##!+ i
 
-\bhaving\b\s+\d{1,10}\s*?[=<>]
-\bhaving\b\s+'[^=]{1,10}'\s*?[=<>]
-\bexecute\(
-\bexecute\s{1,5}[\w\.$]{1,5}\s{0,3}
-\bhaving\b ?\d{1,10} ?[=<>]+
-\bhaving\b ?[\'\"][^=]{1,10}[\'\" ?[=<>]+
-\bcreate\s+?table.{0,20}?\(
+\bhaving\b\s*\(?\s*(?:['"]?\s*\d\s*['"]?|['"]\s*[^\d]+\s*['"]|true|false)\s*(?:[=<>+\-*/%^&!|]+|div|mod)
+\bexecute\s*\(
+\bexecute\s*`?\s*[\w\.$]+\s*`?
+\bcreate\s+table\s*`?\s*.+?\s*`?\s*\(
 \blike\W*?char\W*?\(
-select.*?case
-from.*?limit
-order\sby
-exists\s\sselect
-exists\sselect\Sif\s\(
-exists\sselect\Sifnull\s\(
-exists\sselect\Stop
-exists\sselect\Sconcat
-exists\ssystem\s\(
-exists\s\bhaving\b\s+\d{1,10}
-exists\s'[^=]{1,10}'
-\bexists\s*?\(\s*?select\b
+\bselect.*?case
+\bfrom.*?limit
+\border\s+by
+\bexists\s+select\b
+\bexists\s+system\s*\(
+\bexists\s+\bhaving\b\s+(?:\d+|true)
+\bexists\s+['"][^=]+['"]
+\bexists\s*\(\s*select\b
