@@ -17,9 +17,7 @@ payloads=[]
 skeletontest=0
 Meta='''---
   meta:
-    author: "spartantri"
-    enabled: true
-    name: "skeletonid.yaml"
+    author: "spartantri"    name: "skeletonid.yaml"
     description: "Positive tests for rule skeletonid"
   tests:
 '''
