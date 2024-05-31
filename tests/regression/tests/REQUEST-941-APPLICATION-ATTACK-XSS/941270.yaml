@@ -17,7 +17,8 @@ tests:
           uri: "/get?var=%3clink%20%2f%20asdf%20href%20%20%2f%3d%20"
           version: HTTP/1.0
         output:
-          log_contains: id "941270"
+          log:
+            expect_ids: [941270]
   - test_id: 2
     desc: "XSS test based on portswigger XSS cheatsheet"
     stages:
@@ -33,4 +34,5 @@ tests:
           version: HTTP/1.0
           data: 'payload=<link href="xss.js" rel=stylesheet type="text/javascript"></a>'
         output:
-          log_contains: id "941270"
+          log:
+            expect_ids: [941270]

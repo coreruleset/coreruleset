@@ -23,7 +23,8 @@ tests:
           data: |-
             {"body": "Maximum allowed file size is 10 MB"}
         output:
-          log_contains: id "953101"
+          log:
+            expect_ids: [953101]
   - test_id: 2
     desc: "'Invalid date' leads to FPs at PL1, it should match at PL2"
     stages:
@@ -43,7 +44,8 @@ tests:
           data: |-
             {"body": "Invalid date selected"}
         output:
-          log_contains: id "953101"
+          log:
+            expect_ids: [953101]
   - test_id: 3
     desc: "'The function' might lead to FPs at PL1, it should match at PL2"
     stages:
@@ -63,7 +65,8 @@ tests:
           data: |-
             {"body": "Please review the function"}
         output:
-          log_contains: id "953101"
+          log:
+            expect_ids: [953101]
   - test_id: 4
     desc: "'Static function' might lead to FPs at PL1, it should match at PL2"
     stages:
@@ -83,7 +86,8 @@ tests:
           data: |-
             {"body": "This is a static function"}
         output:
-          log_contains: id "953101"
+          log:
+            expect_ids: [953101]
   - test_id: 5
     desc: "'cannot be empty is too common for PL1, it should match at PL2 GH isue #3399"
     stages:
@@ -103,4 +107,5 @@ tests:
           data: |-
             {"body": "cannot be empty."}
         output:
-          log_contains: id "953101"
+          log:
+            expect_ids: [953101]

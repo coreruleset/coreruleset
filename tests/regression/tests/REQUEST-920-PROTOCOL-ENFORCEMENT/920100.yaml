@@ -18,7 +18,8 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920100\""
+          log:
+            no_expect_ids: [920100]
   - test_id: 2
     desc: |
       Request has tab (\t) before request method - Apache complains
@@ -50,7 +51,8 @@ tests:
           uri: "*"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920100\""
+          log:
+            no_expect_ids: [920100]
   - test_id: 4
     desc: Valid CONNECT
     stages:
@@ -66,7 +68,8 @@ tests:
           version: "HTTP/1.1"
         output:
           status: 200
-          no_log_contains: "id \"920100\""
+          log:
+            no_expect_ids: [920100]
   - test_id: 5
     desc: invalid Connect request, domains require ports
     stages:
@@ -96,7 +99,8 @@ tests:
           uri: "www.coreruleset.org:80"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920100\""
+          log:
+            no_expect_ids: [920100]
   - test_id: 7
     desc: Valid request with query and anchor components
     stages:
@@ -111,10 +115,11 @@ tests:
           uri: "/get/index.html?I=Like&Apples=Today#tag"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920100\""
+          log:
+            no_expect_ids: [920100]
   - test_id: 8
     desc: |
-      The colon in the path is not allowed. Apache will block by default
+      The colon in the path is not allowed. Apache will block by default:
       (20024)The given path is misformatted or contained invalid characters: [client 127.0.0.1:4142] AH00127: Cannot map GET /index.html:80?I=Like&Apples=Today#tag HTTP/1.1 to file
     stages:
       - input:
@@ -143,7 +148,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920100\""
+          log:
+            no_expect_ids: [920100]
   - test_id: 10
     desc: An invalid method with a long name
     stages:
@@ -158,12 +164,13 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920100\""
+          log:
+            expect_ids: [920100]
   - test_id: 11
     desc: |
-      An invalid request because a backslash is used in uri
+      An invalid request because a backslash is used in URI.
       Apache will end up blocking this before it gets to CRS.
-      We will need to support OR output tests to fix this
+      We will need to support OR output tests to fix this.
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -226,7 +233,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "920100"
+          log:
+            expect_ids: [920100]
   - test_id: 15
     desc: Test as described in http://www.client9.com/article/five-interesting-injection-attacks/
     stages:
@@ -256,4 +264,5 @@ tests:
           uri: "http://localhost"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920100\""
+          log:
+            expect_ids: [920100]

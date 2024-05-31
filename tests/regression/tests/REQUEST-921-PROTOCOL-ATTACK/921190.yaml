@@ -17,7 +17,8 @@ tests:
           uri: "/foo%0Abar"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921190"
+          log:
+            expect_ids: [921190]
   - test_id: 2
     desc: "New line char in request filename (2)"
     stages:
@@ -31,7 +32,8 @@ tests:
           uri: "/foo%0abar"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921190"
+          log:
+            expect_ids: [921190]
   - test_id: 3
     desc: "FastCGI variable injection: Nginx + PHP-FPM (CVE-2019-11043)"
     stages:
@@ -45,7 +47,8 @@ tests:
           uri: "/index.php/PHP%0Ainfo.php?QQQ"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921190"
+          log:
+            expect_ids: [921190]
   - test_id: 4
     desc: "PHP Settings injection: Nginx + PHP-FPM (CVE-2019-11043)"
     stages:
@@ -59,4 +62,5 @@ tests:
           uri: "/index.php/PHP_VALUE%0Asession.auto_start=1;;;?QQQ"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921190"
+          log:
+            expect_ids: [921190]

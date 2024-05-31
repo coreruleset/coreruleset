@@ -21,7 +21,8 @@ tests:
           data: "%89%95%97%A4%A3%F1=%A7%A7%A7%A7%A7%A7%A7"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920490\""
+          log:
+            expect_ids: [920490]
   - test_id: 2
     stages:
       - input:
@@ -38,7 +39,8 @@ tests:
           data: "%89%95%97%A4%A3%F1=%A7%A7%A7%A7%A7%A7%A7"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920490\""
+          log:
+            no_expect_ids: [920490]
   - test_id: 3
     stages:
       - input:
@@ -54,4 +56,5 @@ tests:
           data: "%89%95%97%A4%A3%F1=%A7%A7%A7%A7%A7%A7%A7"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920490\""
+          log:
+            no_expect_ids: [920490]

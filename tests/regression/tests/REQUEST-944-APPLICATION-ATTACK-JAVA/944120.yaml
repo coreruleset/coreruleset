@@ -22,7 +22,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.clonetransformer"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 2
     desc: "Argument name includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -41,7 +42,8 @@ tests:
           version: "HTTP/1.0"
           data: "ProcessBuilder.evil.clonetransformer=test"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 3
     desc: "Cookie test includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -61,7 +63,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 4
     desc: "Cookie name includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -81,7 +84,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 5
     desc: "Request header test includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -101,7 +105,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 6
     desc: "XML element includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -120,7 +125,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.clonetransformer attribute_name=\"attribute_value\">value</ProcessBuilder.evil.clonetransformer></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 7
     desc: "XML attribute name includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -139,7 +145,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.clonetransformer=\"attribute_value\">element_value</element></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 8
     desc: "XML attribute value includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -158,7 +165,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.clonetransformer\">element_value</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 9
     desc: "XML element value includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -177,7 +185,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.clonetransformer</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 10
     desc: "Nested XML element value includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -196,7 +205,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.clonetransformer</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 11
     desc: "Content-Type text/plain includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -215,7 +225,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.clonetransformer"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 12
     desc: "Content-Type application/json arg value includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -234,7 +245,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"ProcessBuilder.evil.clonetransformer\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 13
     desc: "Content-Type application/json arg name includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -253,7 +265,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"ProcessBuilder.evil.clonetransformer\": \"test\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 14
     desc: "Content-Type multipart/form-data json arg name includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -278,7 +291,8 @@ tests:
             {"ProcessBuilder.evil.clonetransformer": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 15
     desc: "Content-Type multipart/form-data json arg value includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -303,7 +317,8 @@ tests:
             {"ProcessBuilder.evil.clonetransformer": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 16
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -328,7 +343,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.clonetransformer</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 17
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.clonetransformer"
     stages:
@@ -353,7 +369,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.clonetransformer</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 18
     desc: "Argument test includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -372,7 +389,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.forclosure"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 19
     desc: "Argument name includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -391,7 +409,8 @@ tests:
           version: "HTTP/1.0"
           data: "ProcessBuilder.evil.forclosure=test"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 20
     desc: "Cookie test includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -411,7 +430,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 21
     desc: "Cookie name includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -431,7 +451,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 22
     desc: "Request header test includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -451,7 +472,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 23
     desc: "XML element includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -470,7 +492,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.forclosure attribute_name=\"attribute_value\">value</ProcessBuilder.evil.forclosure></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 24
     desc: "XML attribute name includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -489,7 +512,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.forclosure=\"attribute_value\">element_value</element></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 25
     desc: "XML attribute value includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -508,7 +532,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.forclosure\">element_value</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 26
     desc: "XML element value includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -527,7 +552,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.forclosure</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 27
     desc: "Nested XML element value includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -546,7 +572,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.forclosure</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 28
     desc: "Content-Type text/plain includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -565,7 +592,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.forclosure"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 29
     desc: "Content-Type application/json arg value includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -584,7 +612,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"ProcessBuilder.evil.forclosure\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 30
     desc: "Content-Type application/json arg name includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -603,7 +632,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"ProcessBuilder.evil.forclosure\": \"test\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 31
     desc: "Content-Type multipart/form-data json arg name includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -628,7 +658,8 @@ tests:
             {"ProcessBuilder.evil.forclosure": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 32
     desc: "Content-Type multipart/form-data json arg value includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -653,7 +684,8 @@ tests:
             {"ProcessBuilder.evil.forclosure": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 33
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -678,7 +710,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.forclosure</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 34
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.forclosure"
     stages:
@@ -703,7 +736,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.forclosure</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 35
     desc: "Argument test includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -722,7 +756,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.instantiatefactory"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 36
     desc: "Argument name includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -741,7 +776,8 @@ tests:
           version: "HTTP/1.0"
           data: "ProcessBuilder.evil.instantiatefactory=test"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 37
     desc: "Cookie test includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -761,7 +797,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 38
     desc: "Cookie name includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -781,7 +818,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 39
     desc: "Request header test includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -801,7 +839,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 40
     desc: "XML element includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -820,7 +859,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.instantiatefactory attribute_name=\"attribute_value\">value</ProcessBuilder.evil.instantiatefactory></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 41
     desc: "XML attribute name includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -839,7 +879,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.instantiatefactory=\"attribute_value\">element_value</element></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 42
     desc: "XML attribute value includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -858,7 +899,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.instantiatefactory\">element_value</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 43
     desc: "XML element value includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -877,7 +919,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.instantiatefactory</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 44
     desc: "Nested XML element value includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -896,7 +939,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.instantiatefactory</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 45
     desc: "Content-Type text/plain includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -915,7 +959,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.instantiatefactory"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 46
     desc: "Content-Type application/json arg value includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -934,7 +979,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"ProcessBuilder.evil.instantiatefactory\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 47
     desc: "Content-Type application/json arg name includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -953,7 +999,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"ProcessBuilder.evil.instantiatefactory\": \"test\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 48
     desc: "Content-Type multipart/form-data json arg name includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -978,7 +1025,8 @@ tests:
             {"ProcessBuilder.evil.instantiatefactory": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 49
     desc: "Content-Type multipart/form-data json arg value includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -1003,7 +1051,8 @@ tests:
             {"ProcessBuilder.evil.instantiatefactory": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 50
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -1028,7 +1077,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.instantiatefactory</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 51
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.instantiatefactory"
     stages:
@@ -1053,7 +1103,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.instantiatefactory</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 52
     desc: "Argument test includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1072,7 +1123,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.instantiatetransformer"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 53
     desc: "Argument name includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1091,7 +1143,8 @@ tests:
           version: "HTTP/1.0"
           data: "ProcessBuilder.evil.instantiatetransformer=test"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 54
     desc: "Cookie test includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1111,7 +1164,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 55
     desc: "Cookie name includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1131,7 +1185,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 56
     desc: "Request header test includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1151,7 +1206,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 57
     desc: "XML element includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1170,7 +1226,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.instantiatetransformer attribute_name=\"attribute_value\">value</ProcessBuilder.evil.instantiatetransformer></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 58
     desc: "XML attribute name includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1189,7 +1246,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.instantiatetransformer=\"attribute_value\">element_value</element></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 59
     desc: "XML attribute value includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1208,7 +1266,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.instantiatetransformer\">element_value</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 60
     desc: "XML element value includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1227,7 +1286,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.instantiatetransformer</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 61
     desc: "Nested XML element value includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1246,7 +1306,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.instantiatetransformer</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 62
     desc: "Content-Type text/plain includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1265,7 +1326,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.instantiatetransformer"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 63
     desc: "Content-Type application/json arg value includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1284,7 +1346,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"ProcessBuilder.evil.instantiatetransformer\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 64
     desc: "Content-Type application/json arg name includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1303,7 +1366,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"ProcessBuilder.evil.instantiatetransformer\": \"test\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 65
     desc: "Content-Type multipart/form-data json arg name includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1328,7 +1392,8 @@ tests:
             {"ProcessBuilder.evil.instantiatetransformer": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 66
     desc: "Content-Type multipart/form-data json arg value includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1353,7 +1418,8 @@ tests:
             {"ProcessBuilder.evil.instantiatetransformer": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 67
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1378,7 +1444,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.instantiatetransformer</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 68
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.instantiatetransformer"
     stages:
@@ -1403,7 +1470,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.instantiatetransformer</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 69
     desc: "Argument test includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1422,7 +1490,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.invokertransformer"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 70
     desc: "Argument name includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1441,7 +1510,8 @@ tests:
           version: "HTTP/1.0"
           data: "ProcessBuilder.evil.invokertransformer=test"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 71
     desc: "Cookie test includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1461,7 +1531,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 72
     desc: "Cookie name includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1481,7 +1552,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 73
     desc: "Request header test includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1501,7 +1573,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 74
     desc: "XML element includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1520,7 +1593,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.invokertransformer attribute_name=\"attribute_value\">value</ProcessBuilder.evil.invokertransformer></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 75
     desc: "XML attribute name includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1539,7 +1613,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.invokertransformer=\"attribute_value\">element_value</element></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 76
     desc: "XML attribute value includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1558,7 +1633,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.invokertransformer\">element_value</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 77
     desc: "XML element value includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1577,7 +1653,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.invokertransformer</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 78
     desc: "Nested XML element value includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1596,7 +1673,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.invokertransformer</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 79
     desc: "Content-Type text/plain includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1615,7 +1693,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.invokertransformer"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 80
     desc: "Content-Type application/json arg value includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1634,7 +1713,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"ProcessBuilder.evil.invokertransformer\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 81
     desc: "Content-Type application/json arg name includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1653,7 +1733,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"ProcessBuilder.evil.invokertransformer\": \"test\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 82
     desc: "Content-Type multipart/form-data json arg name includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1678,7 +1759,8 @@ tests:
             {"ProcessBuilder.evil.invokertransformer": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 83
     desc: "Content-Type multipart/form-data json arg value includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1703,7 +1785,8 @@ tests:
             {"ProcessBuilder.evil.invokertransformer": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 84
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1728,7 +1811,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.invokertransformer</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 85
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.invokertransformer"
     stages:
@@ -1753,7 +1837,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.invokertransformer</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 86
     desc: "Argument test includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -1772,7 +1857,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.prototypeclonefactory"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 87
     desc: "Argument name includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -1791,7 +1877,8 @@ tests:
           version: "HTTP/1.0"
           data: "ProcessBuilder.evil.prototypeclonefactory=test"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 88
     desc: "Cookie test includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -1811,7 +1898,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 89
     desc: "Cookie name includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -1831,7 +1919,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 90
     desc: "Request header test includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -1851,7 +1940,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 91
     desc: "XML element includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -1870,7 +1960,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.prototypeclonefactory attribute_name=\"attribute_value\">value</ProcessBuilder.evil.prototypeclonefactory></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 92
     desc: "XML attribute name includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -1889,7 +1980,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.prototypeclonefactory=\"attribute_value\">element_value</element></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 93
     desc: "XML attribute value includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -1908,7 +2000,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.prototypeclonefactory\">element_value</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 94
     desc: "XML element value includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -1927,7 +2020,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.prototypeclonefactory</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 95
     desc: "Nested XML element value includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -1946,7 +2040,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.prototypeclonefactory</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 96
     desc: "Content-Type text/plain includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -1965,7 +2060,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.prototypeclonefactory"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 97
     desc: "Content-Type application/json arg value includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -1984,7 +2080,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"ProcessBuilder.evil.prototypeclonefactory\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 98
     desc: "Content-Type application/json arg name includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -2003,7 +2100,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"ProcessBuilder.evil.prototypeclonefactory\": \"test\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 99
     desc: "Content-Type multipart/form-data json arg name includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -2028,7 +2126,8 @@ tests:
             {"ProcessBuilder.evil.prototypeclonefactory": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 100
     desc: "Content-Type multipart/form-data json arg value includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -2053,7 +2152,8 @@ tests:
             {"ProcessBuilder.evil.prototypeclonefactory": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 101
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -2078,7 +2178,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.prototypeclonefactory</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 102
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.prototypeclonefactory"
     stages:
@@ -2103,7 +2204,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.prototypeclonefactory</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 103
     desc: "Argument test includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2122,7 +2224,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.prototypeserializationfactory"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 104
     desc: "Argument name includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2141,7 +2244,8 @@ tests:
           version: "HTTP/1.0"
           data: "ProcessBuilder.evil.prototypeserializationfactory=test"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 105
     desc: "Cookie test includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2161,7 +2265,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 106
     desc: "Cookie name includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2181,7 +2286,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 107
     desc: "Request header test includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2201,7 +2307,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 108
     desc: "XML element includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2220,7 +2327,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.prototypeserializationfactory attribute_name=\"attribute_value\">value</ProcessBuilder.evil.prototypeserializationfactory></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 109
     desc: "XML attribute name includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2239,7 +2347,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.prototypeserializationfactory=\"attribute_value\">element_value</element></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 110
     desc: "XML attribute value includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2258,7 +2367,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.prototypeserializationfactory\">element_value</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 111
     desc: "XML element value includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2277,7 +2387,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.prototypeserializationfactory</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 112
     desc: "Nested XML element value includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2296,7 +2407,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.prototypeserializationfactory</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 113
     desc: "Content-Type text/plain includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2315,7 +2427,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.prototypeserializationfactory"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 114
     desc: "Content-Type application/json arg value includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2334,7 +2447,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"ProcessBuilder.evil.prototypeserializationfactory\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 115
     desc: "Content-Type application/json arg name includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2353,7 +2467,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"ProcessBuilder.evil.prototypeserializationfactory\": \"test\"}"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 116
     desc: "Content-Type multipart/form-data json arg name includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2378,7 +2493,8 @@ tests:
             {"ProcessBuilder.evil.prototypeserializationfactory": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 117
     desc: "Content-Type multipart/form-data json arg value includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2403,7 +2519,8 @@ tests:
             {"ProcessBuilder.evil.prototypeserializationfactory": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 118
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2428,7 +2545,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.prototypeserializationfactory</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 119
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.prototypeserializationfactory"
     stages:
@@ -2453,7 +2571,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.prototypeserializationfactory</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 120
     desc: "Argument test includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2472,7 +2591,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.whileclosure"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 121
     desc: "Argument name includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2491,7 +2611,8 @@ tests:
           version: "HTTP/1.0"
           data: "ProcessBuilder.evil.whileclosure=test"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 122
     desc: "Cookie test includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2511,7 +2632,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 123
     desc: "Cookie name includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2531,7 +2653,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 124
     desc: "Request header test includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2551,7 +2674,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 125
     desc: "XML element includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2570,7 +2694,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.whileclosure attribute_name=\"attribute_value\">value</ProcessBuilder.evil.whileclosure></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 126
     desc: "XML attribute name includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2589,7 +2714,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.whileclosure=\"attribute_value\">element_value</element></xml>"
         output:
-          no_log_contains: "id \"944120\""
+          log:
+            no_expect_ids: [944120]
   - test_id: 127
     desc: "XML attribute value includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2608,7 +2734,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.whileclosure\">element_value</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 128
     desc: "XML element value includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2627,7 +2754,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.whileclosure</element></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 129
     desc: "Nested XML element value includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2646,7 +2774,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.whileclosure</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 130
     desc: "Content-Type text/plain includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2665,7 +2794,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=ProcessBuilder.evil.whileclosure"
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 131
     desc: "Content-Type application/json arg value includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2685,7 +2815,8 @@ tests:
           data: |
             {"test": "ProcessBuilder.evil.whileclosure"}
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 132
     desc: "Content-Type application/json arg name includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2705,7 +2836,8 @@ tests:
           data: |
             {"ProcessBuilder.evil.whileclosure": "test"}
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 133
     desc: "Content-Type multipart/form-data json arg name includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2730,7 +2862,8 @@ tests:
             {"ProcessBuilder.evil.whileclosure": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 134
     desc: "Content-Type multipart/form-data json arg value includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2755,7 +2888,8 @@ tests:
             {"ProcessBuilder.evil.whileclosure": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 135
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2780,7 +2914,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.whileclosure</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]
   - test_id: 136
     desc: "Content-Type multipart/form-data XML element value includes keyword ProcessBuilder.evil.whileclosure"
     stages:
@@ -2805,4 +2940,5 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">ProcessBuilder.evil.whileclosure</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944120\""
+          log:
+            expect_ids: [944120]

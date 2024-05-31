@@ -16,7 +16,7 @@ The OWASP CRS project was part of the effort to develop the Web Application Fire
 meta:
   author: "csanders-git"
   name: "911100.yaml"
-  description: "Description"
+  description: "A meaningful description"
   rule_id: 911100
 tests:
   - test_id: 1

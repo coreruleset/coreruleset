@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: "Description"
 rule_id: 920240
 tests:
   - test_id: 1
@@ -18,10 +17,11 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"
           data: "x=new %w20$"
-          stop_magic: true
+          autocomplete_headers: false
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920240\""
+          log:
+            expect_ids: [920240]
   - test_id: 2
     stages:
       - input:
@@ -36,10 +36,11 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"
           data: "x=new %20$"
-          stop_magic: true
+          autocomplete_headers: false
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920240\""
+          log:
+            no_expect_ids: [920240]
   - test_id: 3
     stages:
       - input:
@@ -55,7 +56,8 @@ tests:
           data: "param=value"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920240\""
+          log:
+            no_expect_ids: [920240]
   - # We have a valid percent encoding here
     test_id: 4
     stages:
@@ -83,7 +85,8 @@ tests:
             </SOAP-ENV:Envelope>
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920240\""
+          log:
+            no_expect_ids: [920240]
   - # test URL Encoding Abuse Attack Attempt from old regression tests
     test_id: 5
     stages:
@@ -102,10 +105,11 @@ tests:
             Content-Length: "9"
           uri: "/"
           data: "param=%1G"
-          stop_magic: true
+          autocomplete_headers: false
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920240\""
+          log:
+            expect_ids: [920240]
   - # test URL Encoding Abuse Attack Attempt from old regression tests
     test_id: 6
     stages:
@@ -125,4 +129,5 @@ tests:
           data: "param=%7%6F%6D%65%74%65%78%74%5F%31%32%33%"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920240\""
+          log:
+            expect_ids: [920240]

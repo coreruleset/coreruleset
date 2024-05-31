@@ -19,7 +19,8 @@ tests:
           data: '941150-1%3D%3Ca%20href%3D%22test%22'
           version: "HTTP/1.1"
         output:
-          log_contains: id "941150"
+          log:
+            expect_ids: [941150]
   - test_id: 2
     desc: Disallowed HTML entities, ARGS
     stages:
@@ -35,4 +36,5 @@ tests:
           data: "payload=<a href=# language=\"JScript.Encode\" onclick=\"#@~^CAAAAA==C^+.D`8#mgIAAA==^#~@\">XSS</a>"
           version: "HTTP/1.1"
         output:
-          log_contains: id "941150"
+          log:
+            expect_ids: [941150]

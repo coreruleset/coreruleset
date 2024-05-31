@@ -17,7 +17,8 @@ tests:
           uri: "/?foo[1]a=bar&foo[1]b=<evil>"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921210"
+          log:
+            expect_ids: [921210]
   - test_id: 2
     desc: "HTTP Parameter Pollution via bogus chars between square brackets of multi-dimensional array name"
     stages:
@@ -31,7 +32,8 @@ tests:
           uri: "/?foo[1]a[2]=bar"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921210"
+          log:
+            expect_ids: [921210]
   - test_id: 3
     desc: "HTTP Parameter Pollution false positive test"
     stages:
@@ -45,4 +47,5 @@ tests:
           uri: "/?foo[1][2]=bar"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921210"
+          log:
+            no_expect_ids: [921210]

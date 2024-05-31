@@ -1,7 +1,6 @@
 ---
 meta:
   author: "lifeforms, azurit"
-  description: "Description"
 rule_id: 920480
 tests:
   - test_id: 1
@@ -17,7 +16,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "test=value"
         output:
-          no_log_contains: "id \"920480\""
+          log:
+            no_expect_ids: [920480]
   - test_id: 2
     stages:
       - input:
@@ -31,7 +31,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "test=value"
         output:
-          no_log_contains: "id \"920480\""
+          log:
+            no_expect_ids: [920480]
   - test_id: 3
     stages:
       - input:
@@ -45,7 +46,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "test=value"
         output:
-          no_log_contains: "id \"920480\""
+          log:
+            no_expect_ids: [920480]
   - test_id: 4
     stages:
       - input:
@@ -59,7 +61,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "test=value"
         output:
-          no_log_contains: "id \"920480\""
+          log:
+            no_expect_ids: [920480]
   - test_id: 5
     stages:
       - input:
@@ -73,7 +76,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "test=value"
         output:
-          no_log_contains: "id \"920480\""
+          log:
+            no_expect_ids: [920480]
   - test_id: 6
     stages:
       - input:
@@ -89,7 +93,8 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920480\""
+          log:
+            no_expect_ids: [920480]
   - test_id: 2
     stages:
       - input:
@@ -103,7 +108,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "test=value"
         output:
-          log_contains: "id \"920480\""
+          log:
+            expect_ids: [920480]
   - test_id: 8
     stages:
       - input:
@@ -117,7 +123,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "test=value"
         output:
-          log_contains: "id \"920480\""
+          log:
+            expect_ids: [920480]
   - test_id: 9
     stages:
       - input:
@@ -133,8 +140,9 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920480\""
-  - test_id: 3
+          log:
+            no_expect_ids: [920480]
+  - test_id: 10
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -149,8 +157,9 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920480\""
-  - test_id: 4
+          log:
+            no_expect_ids: [920480]
+  - test_id: 11
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -164,7 +173,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "test=value"
         output:
-          log_contains: "id \"920480\""
+          log:
+            expect_ids: [920480]
   - test_id: 12
     stages:
       - input:
@@ -180,7 +190,8 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920480\""
+          log:
+          no_expect_ids: [920480]
   - test_id: 5
     stages:
       - input:
@@ -196,7 +207,8 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920480\""
+          log:
+            no_expect_ids: [920480]
   # TODO: this case is not yet handled by 3.1, future work
   # - test_id: 6
   #   stages:
@@ -212,7 +224,8 @@ tests:
   #        data: "test=value"
   #        version: "HTTP/1.1"
   #      output:
-  #        log_contains: "id \"920480\""
+  #         log:
+    #        epxect_ids:: [920480]
   - test_id: 7
     stages:
       - input:
@@ -228,7 +241,8 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920480\""
+          log:
+            expect_ids: [920480]
   - test_id: 8
     stages:
       - input:
@@ -244,7 +258,8 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920480\""
+          log:
+            expect_ids: [920480]
   # TODO: this test should pass (works with curl), to be researched
   # - test_id: 9
   #   stages:
@@ -260,7 +275,8 @@ tests:
   #        data: "test=value"
   #        version: "HTTP/1.1"
   #      output:
-  #        log_contains: "id \"920480\""
+  #        log:
+  #          expect_ids: [920480]
   # TODO: this test should pass (works with curl), to be researched
   # - test_id: 10
   #   stages:
@@ -276,7 +292,8 @@ tests:
   #         data: "test=value"
   #         version: "HTTP/1.1"
   #       output:
-  #         log_contains: "id \"920480\""
+  #         log:
+  #           expect_ids: [920480]
   - test_id: 11
     stages:
       - input:
@@ -284,16 +301,15 @@ tests:
           port: 80
           method: "POST"
           headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            # random other IBM charset
-            Content-Type: "application/x-www-form-urlencoded;charset=ibm038"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/"
+              User-Agent: "OWASP CRS test agent"
+              Host: "localhost"
+              # double charset may cause evasion
+              Content-Type: "application/x-www-form-urlencoded;charset=ibm037;charset=UTF-8"
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920480\""
+          log:
+            expect_ids: [920480]
   # TODO: this case is not yet checked by CRS, future work
   # - test_id: 12
   #   stages:
@@ -309,7 +325,8 @@ tests:
   #        data: "test=value"
   #        version: "HTTP/1.1"
   #      output:
-  #        log_contains: "id \"920480\""
+  #        log:
+  #          expect_ids: [920480]
   # TODO: this case is not yet checked by CRS, future work
   # - test_id: 13
   #   stages:
@@ -325,7 +342,8 @@ tests:
   #      data: "test=value"
   #      version: "HTTP/1.1"
   #    output:
-  #      log_contains: "id \"920480\""
+  #      log:
+  #        expect_ids: [920480]
   - test_id: 14
     stages:
       - input:
@@ -342,7 +360,8 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920480\""
+          log:
+            no_expect_ids: [920480]
   - test_id: 15
     stages:
       - input:
@@ -359,7 +378,8 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920480\""
+          log:
+            no_expect_ids: [920480]
   - test_id: 16
     stages:
       - input:
@@ -376,7 +396,8 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920480\""
+          log:
+            expect_ids: [920480]
   - test_id: 17
     stages:
       - input:
@@ -392,4 +413,5 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920480\""
+          log:
+            expect_ids: [920480]

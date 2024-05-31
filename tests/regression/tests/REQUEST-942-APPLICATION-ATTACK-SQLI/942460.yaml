@@ -18,7 +18,8 @@ tests:
           data: "var=foo...."
           version: HTTP/1.1
         output:
-          log_contains: id "942460"
+          log:
+            expect_ids: [942460]
   - test_id: 2
     desc: "Repetitive Non-Word Characters negative test only 3 characters"
     stages:
@@ -34,4 +35,5 @@ tests:
           data: "var=foo..."
           version: HTTP/1.1
         output:
-          no_log_contains: id "942460"
+          log:
+            no_expect_ids: [942460]

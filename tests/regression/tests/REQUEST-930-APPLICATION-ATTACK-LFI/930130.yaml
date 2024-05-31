@@ -18,7 +18,8 @@ tests:
           uri: "/get/sys/class"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930130"
+          log:
+            expect_ids: [930130]
   - test_id: 2
     desc: "LFI via URI: /proc"
     stages:
@@ -33,4 +34,5 @@ tests:
           uri: "/get/proc/interrupts"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930130"
+          log:
+            expect_ids: [930130]

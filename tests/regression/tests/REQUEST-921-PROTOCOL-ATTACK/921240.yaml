@@ -17,7 +17,8 @@ tests:
           uri: "/?unix:AAAAAAAAA|http://coreruleset.org/"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921240"
+          log:
+            expect_ids: [921240]
   - test_id: 2
     desc: "Detect attacks against mod_proxy: CVE-2021-40438, URI encoded"
     stages:
@@ -31,4 +32,5 @@ tests:
           uri: "/?unix%3AAAAAAAAAA|http://coreruleset.org/"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921240"
+          log:
+            expect_ids: [921240]

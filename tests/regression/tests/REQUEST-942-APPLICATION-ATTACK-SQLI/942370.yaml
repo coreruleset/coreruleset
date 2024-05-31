@@ -29,7 +29,8 @@ tests:
           data: "var=' * from = 1 or '9"
           version: HTTP/1.0
         output:
-          log_contains: id "942370"
+          log:
+            expect_ids: [942370]
   - test_id: 2
     desc: |
       [\"'`]\s*?\*.+id\W*?[\"'`]\d
@@ -46,7 +47,8 @@ tests:
           data: "var=' * from = 1 id '9"
           version: HTTP/1.0
         output:
-          log_contains: id "942370"
+          log:
+            expect_ids: [942370]
   - test_id: 3
     desc: |
       [^\w\s?]+\s*?[^\w\s]+\s*?[\"'`"]
@@ -63,7 +65,8 @@ tests:
           data: "var=' = # '"
           version: HTTP/1.0
         output:
-          log_contains: id "942370"
+          log:
+            expect_ids: [942370]
   - test_id: 4
     desc: |
       [^\w\s]+\s*?[\W\d].*?#
@@ -80,7 +83,8 @@ tests:
           data: "var=' ? # = #"
           version: HTTP/1.0
         output:
-          log_contains: id "942370"
+          log:
+            expect_ids: [942370]
   - test_id: 5
     desc: |
       [^\w\s]+\s*?[\W\d].*?--
@@ -97,7 +101,8 @@ tests:
           data: "var='? # = --"
           version: HTTP/1.0
         output:
-          log_contains: id "942370"
+          log:
+            expect_ids: [942370]
   - test_id: 6
     desc: |
       [\"'`]\s*?or\s[^\d]+[\w-]+.*?\d
@@ -119,7 +124,8 @@ tests:
           data: "var=' or homer 9"
           version: HTTP/1.0
         output:
-          log_contains: id "942370"
+          log:
+            expect_ids: [942370]
   - test_id: 7
     desc: |
       \^[\"'`]
@@ -136,7 +142,8 @@ tests:
           data: "var=^'"
           version: HTTP/1.0
         output:
-          log_contains: id "942370"
+          log:
+            expect_ids: [942370]
   - test_id: 8
     desc: |
       [\"'`].*?\*\s*?\d
@@ -153,7 +160,8 @@ tests:
           data: "var=\"` * 12344"
           version: HTTP/1.0
         output:
-          log_contains: id "942370"
+          log:
+            expect_ids: [942370]
   - test_id: 9
     desc: |
       [()\*<>%+-][\w-]+[^\w\s]+[\"'`][^,]
@@ -170,7 +178,8 @@ tests:
           data: "var=>foo##'."
           version: HTTP/1.0
         output:
-          log_contains: id "942370"
+          log:
+            expect_ids: [942370]
   - test_id: 10
     stages:
       - input:
@@ -184,7 +193,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "942370"
+          log:
+            expect_ids: [942370]
   - test_id: 11
     desc: encode(lo_get(16400),'base64')::int
     stages:
@@ -199,4 +209,5 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "942370"
+          log:
+            expect_ids: [942370]

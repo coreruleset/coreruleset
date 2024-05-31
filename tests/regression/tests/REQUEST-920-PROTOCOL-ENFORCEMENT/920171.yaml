@@ -25,7 +25,8 @@ tests:
           #
           encoded_request: "UE9TVCAvIEhUVFAvMS4xDQpBY2NlcHQ6ICovKg0KSG9zdDogbG9jYWxob3N0DQpUcmFuc2Zlci1FbmNvZGluZzogY2h1bmtlZA0KVXNlci1BZ2VudDogTW9kU2VjdXJpdHkgQ1JTIDMgVGVzdHMNCg0KMw0KSGkgDQozDQpDUlMNCjANCg0K"
         output:
-          no_log_contains: "id \"920171\""
+          log:
+            no_expect_ids: [920171]
   - # GET Request with chunked data (invalid)
     test_id: 2
     stages:
@@ -47,7 +48,8 @@ tests:
           #
           encoded_request: "R0VUIC8gSFRUUC8xLjENCkFjY2VwdDogKi8qDQpIb3N0OiBsb2NhbGhvc3QNClRyYW5zZmVyLUVuY29kaW5nOiBjaHVua2VkDQpVc2VyLUFnZW50OiBNb2RTZWN1cml0eSBDUlMgMyBUZXN0cw0KDQozDQpIaSANCjMNCkNSUw0KMA0KDQo="
         output:
-          log_contains: "id \"920171\""
+          log:
+            expect_ids: [920171]
   - # HEAD Request with chunked data (invalid)
     test_id: 3
     stages:
@@ -69,4 +71,5 @@ tests:
           #
           encoded_request: "SEVBRCAvIEhUVFAvMS4xDQpBY2NlcHQ6ICovKg0KSG9zdDogbG9jYWxob3N0DQpUcmFuc2Zlci1FbmNvZGluZzogY2h1bmtlZA0KVXNlci1BZ2VudDogTW9kU2VjdXJpdHkgQ1JTIDMgVGVzdHMNCg0KMw0KSGkgDQozDQpDUlMNCjANCg0K"
         output:
-          log_contains: "id \"920171\""
+          log:
+            expect_ids: [920171]

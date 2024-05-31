@@ -19,7 +19,8 @@ tests:
           uri: "/get?%28%29%20%7B"
           version: HTTP/1.0
         output:
-          log_contains: id "932171"
+          log:
+            expect_ids: [932171]
   - test_id: 2
     desc: "Test for '() {' in ARGS"
     stages:
@@ -35,4 +36,5 @@ tests:
           uri: "/get?arg=%28%29%20%7B"
           version: HTTP/1.0
         output:
-          log_contains: id "932171"
+          log:
+            expect_ids: [932171]

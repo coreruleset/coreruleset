@@ -18,7 +18,8 @@ tests:
           uri: "/get?rce=alias%20eennvv%3Denv%26eennvv%20whoami"
           version: HTTP/1.1
         output:
-          log_contains: id "932175"
+          log:
+            expect_ids: [932175]
   - test_id: 2
     desc: "Test for alias with shell tricks"
     stages:
@@ -35,7 +36,8 @@ tests:
             rce=alias a=c${KK}url&a google.com
           version: HTTP/1.1
         output:
-          log_contains: id "932175"
+          log:
+            expect_ids: [932175]
   - test_id: 3
     desc: "Test for alias name with single quoting"
     stages:
@@ -52,7 +54,8 @@ tests:
             rce=alias 'letter'=curl&letter google.com
           version: HTTP/1.1
         output:
-          log_contains: id "932175"
+          log:
+            expect_ids: [932175]
   - test_id: 4
     desc: "Test for alias name with double quotes"
     stages:
@@ -69,7 +72,8 @@ tests:
             rce=alias "quote"=curl&quote google.com
           version: HTTP/1.1
         output:
-          log_contains: id "932175"
+          log:
+            expect_ids: [932175]
   - test_id: 5
     desc: "Test for alias value with single quoting"
     stages:
@@ -86,7 +90,8 @@ tests:
             rce=alias alias='curl'&letter google.com
           version: HTTP/1.1
         output:
-          log_contains: id "932175"
+          log:
+            expect_ids: [932175]
   - test_id: 6
     desc: "Test for alias value with double quotes"
     stages:
@@ -103,7 +108,8 @@ tests:
             rce=alias double="curl"&quote google.com
           version: HTTP/1.1
         output:
-          log_contains: id "932175"
+          log:
+            expect_ids: [932175]
   - test_id: 7
     desc: "Negative test alias"
     stages:
@@ -120,7 +126,8 @@ tests:
             "text=I%20see%2C%20so%20your%20alias%20is%20not%20%3D%20to%20your%20name"
           version: HTTP/1.1
         output:
-          no_log_contains: id "932175"
+          log:
+            no_expect_ids: [932175]
   - test_id: 8
     desc: "Negative test alias with quotes"
     stages:
@@ -137,7 +144,8 @@ tests:
             "text=The%20pizza%20vendor%20was%20known%20by%20the%20alias%20%22pineapple%22%20online."
           version: HTTP/1.1
         output:
-          no_log_contains: id "932175"
+          log:
+            no_expect_ids: [932175]
   - test_id: 9
     desc: "Status Page Test - Test for simple alias example"
     stages:
@@ -152,7 +160,8 @@ tests:
           uri: "/get?rce=alias%20a=b"
           version: HTTP/1.1
         output:
-          log_contains: id "932175"
+          log:
+            expect_ids: [932175]
   - test_id: 10
     desc: "Test for alias with -p argument"
     stages:
@@ -169,7 +178,8 @@ tests:
             rce=alias -p jzfrx=id
           version: HTTP/1.1
         output:
-          log_contains: id "932175"
+          log:
+            expect_ids: [932175]
   - test_id: 11
     desc: "Test for alias with zsh flags"
     stages:
@@ -186,7 +196,8 @@ tests:
             rce=alias -gmr a=b
           version: HTTP/1.1
         output:
-          log_contains: id "932175"
+          log:
+            expect_ids: [932175]
   - test_id: 12
     desc: |
       Test for alias with zsh '+' flags.
@@ -203,7 +214,8 @@ tests:
           uri: "/get?rce=%61%6c%69%61%73%20%2b%6d%20%61%3d%62"
           version: HTTP/1.1
         output:
-          log_contains: id "932175"
+          log:
+            expect_ids: [932175]
   - test_id: 13
     desc: |
       Test for alias with trailing '+' in a flag.
@@ -220,7 +232,8 @@ tests:
           uri: "/get?rce=%61%6c%69%61%73%20%2b%67%2b%20%61%3d%62"
           version: HTTP/1.1
         output:
-          log_contains: id "932175"
+          log:
+            expect_ids: [932175]
   - test_id: 14
     desc: "Test for alias with zsh flags"
     stages:
@@ -237,7 +250,8 @@ tests:
             rce=alias ls-al='ls -al'
           version: HTTP/1.1
         output:
-          log_contains: id "932175"
+          log:
+            expect_ids: [932175]
   - test_id: 15
     desc: "Test for alias with zsh flags"
     stages:
@@ -254,4 +268,5 @@ tests:
             rce=alias ..='cd ..'
           version: HTTP/1.1
         output:
-          log_contains: id "932175"
+          log:
+            expect_ids: [932175]

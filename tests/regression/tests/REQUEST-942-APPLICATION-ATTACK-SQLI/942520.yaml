@@ -19,7 +19,8 @@ tests:
           data: "var=id'is%20not-id--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 2
     desc: "Negative test: 'is notes"
     stages:
@@ -35,7 +36,8 @@ tests:
           data: "var=id'is%20notes"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942520"
+          log:
+            no_expect_ids: [942520]
   - test_id: 3
     desc: "Detects basic SQL auth bypass with 'not like something'"
     stages:
@@ -51,7 +53,8 @@ tests:
           data: "var=id'not%20like%20id--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 4
     desc: "Detects basic SQL auth bypass with 'not glob'"
     stages:
@@ -67,7 +70,8 @@ tests:
           data: "var=id'not%20glob-id--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 5
     desc: "Detects basic SQL auth bypass with 'not like glob'"
     stages:
@@ -83,7 +87,8 @@ tests:
           data: "var=id'not%20glob-id--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 6
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
@@ -100,7 +105,8 @@ tests:
           data: "var=x'%7Cemail--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 7
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
@@ -117,7 +123,8 @@ tests:
           data: "var=x'-email--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 8
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
@@ -134,7 +141,8 @@ tests:
           data: "var=x'%252Bemail--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 9
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
@@ -151,7 +159,8 @@ tests:
           data: "var=x'%5Eemail--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 10
     desc: "Nagive test: Detects basic SQL auth bypass with binary operators"
     stages:
@@ -168,7 +177,8 @@ tests:
           data: "var=x'%40email--"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942520"
+          log:
+            no_expect_ids: [942520]
   - test_id: 11
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
@@ -185,7 +195,8 @@ tests:
           data: "var=x'%26email--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 12
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
@@ -202,7 +213,8 @@ tests:
           data: "var=x'%3Cemail--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 13
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
@@ -219,7 +231,8 @@ tests:
           data: "var=x'%3Eemail--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 14
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
@@ -236,7 +249,8 @@ tests:
           data: "var=x'%3Demail--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 15
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
@@ -253,7 +267,8 @@ tests:
           data: "var=x'%2Femail--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 16
     desc: "Detects basic SQL auth bypass with binary operators"
     stages:
@@ -270,7 +285,8 @@ tests:
           data: "var=x'%25email--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 17
     desc: "Negative test: Detects basic SQL auth bypass with binary operators"
     stages:
@@ -287,7 +303,8 @@ tests:
           data: "var=x'~email--"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942520"
+          log:
+            no_expect_ids: [942520]
   - test_id: 18
     desc: "Detects basic SQL auth bypass with mod"
     stages:
@@ -303,7 +320,8 @@ tests:
           data: "var=x'%20mod%20id--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 19
     desc: "Detects basic SQL auth bypass with: sounds like"
     stages:
@@ -319,7 +337,8 @@ tests:
           data: "var='sounds%20like%20rowid--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 20
     desc: "Bypass with a comment"
     stages:
@@ -335,7 +354,8 @@ tests:
           data: "var='%2F**%2F*2--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]
   - test_id: 21
     desc: "Integration test: 942521 blocks foo'or'oof"
     stages:
@@ -351,7 +371,8 @@ tests:
           data: "var=foo'or'oof"
           version: HTTP/1.0
         output:
-          log_contains: id "942521"
+          log:
+            expect_ids: [942521]
   - test_id: 22
     desc: "Integration test: 942522 blocks foo\\''or'oof"
     stages:
@@ -367,7 +388,8 @@ tests:
           data: "var=foo%5c''or'oof"
           version: HTTP/1.0
         output:
-          log_contains: id "942522"
+          log:
+            expect_ids: [942522]
   - test_id: 23
     desc: "Detect auth bypass email=' is not?--"
     stages:
@@ -383,4 +405,5 @@ tests:
           data: "email=%27%20is%20not%3F--"
           version: HTTP/1.0
         output:
-          log_contains: id "942520"
+          log:
+            expect_ids: [942520]

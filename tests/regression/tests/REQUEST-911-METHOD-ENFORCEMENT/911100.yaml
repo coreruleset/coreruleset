@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: "Description"
 rule_id: 911100
 tests:
   - test_id: 1
@@ -17,7 +16,8 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"911100\""
+          log:
+            no_expect_ids: [911100]
   - test_id: 2
     stages:
       - input:
@@ -31,7 +31,8 @@ tests:
           uri: "/options"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"911100\""
+          log:
+            no_expect_ids: [911100]
   - test_id: 3
     stages:
       - input:
@@ -45,7 +46,8 @@ tests:
           uri: "/head"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"911100\""
+          log:
+            no_expect_ids: [911100]
   - test_id: 4
     stages:
       - input:
@@ -61,7 +63,8 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"911100\""
+          log:
+            no_expect_ids: [911100]
   - test_id: 5
     stages:
       - input:
@@ -75,7 +78,8 @@ tests:
           uri: "/test"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"911100\""
+          log:
+            expect_ids: [911100]
   - test_id: 6
     desc: Method is not allowed by policy (911100) from old modsec regressions
     stages:
@@ -94,7 +98,8 @@ tests:
           uri: "/delete"
           version: HTTP/1.0
         output:
-          log_contains: id "911100"
+          log:
+            expect_ids: [911100]
   - test_id: 7
     desc: Method is not allowed by policy (911100) from old modsec regressions
     stages:
@@ -113,7 +118,8 @@ tests:
           uri: "/foo"
           version: HTTP/1.0
         output:
-          log_contains: id "911100"
+          log:
+            expect_ids: [911100]
   - test_id: 8
     desc: Method is not allowed by policy (911100) from old modsec regressions
     stages:
@@ -132,4 +138,5 @@ tests:
           uri: "/subscribe"
           version: HTTP/1.0
         output:
-          log_contains: id "911100"
+          log:
+            expect_ids: [911100]

@@ -18,7 +18,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941170"
+          log:
+            expect_ids: [941170]
   - test_id: 2
     desc: "XSS test based on portswigger XSS cheatsheet"
     stages:
@@ -34,7 +35,8 @@ tests:
           data: "payload=javascript:/*--></title></style></textarea></script></xmp><svg/onload='+/\"/+/onmouseover=1/+/[*/[]/+alert(1)//'></a>"
           version: "HTTP/1.1"
         output:
-          log_contains: id "941170"
+          log:
+            expect_ids: [941170]
   - test_id: 3
     desc: 'Test first backslash match (javascript:(?:[\s\S]+[=\x5c\(\[\.<]) with: javascript: \\\\t (extra backslashes to work around rule transformations)'
     stages:
@@ -49,7 +51,8 @@ tests:
             Host: localhost
           version: "HTTP/1.1"
         output:
-          log_contains: id "941170"
+          log:
+            expect_ids: [941170]
   - test_id: 4
     desc: 'Test second backslash match (javascript:(?:...|\x5c[ux]\d)) with: javascript:\\\\u0020 (extra backslashes to work around rule transformations)'
     stages:
@@ -64,7 +67,8 @@ tests:
             Host: localhost
           version: "HTTP/1.1"
         output:
-          log_contains: id "941170"
+          log:
+            expect_ids: [941170]
   - test_id: 5
     desc: "Status Page Test -  data: , <x> as GET variable"
     stages:
@@ -79,4 +83,5 @@ tests:
             Host: localhost
           version: "HTTP/1.1"
         output:
-          log_contains: id "941170"
+          log:
+            expect_ids: [941170]

@@ -19,7 +19,8 @@ tests:
           data: "var=1234%20AS%20%22foobar%22%20FROM%20tablevar2=whatever"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 2
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -35,7 +36,8 @@ tests:
           data: "select Char("
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 3
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -51,7 +53,8 @@ tests:
           data: "SELECT CHAR("
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 4
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -67,7 +70,8 @@ tests:
           data: "SELECT GROUP_CONCAT("
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 5
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -83,7 +87,8 @@ tests:
           data: "SELECT group_cOnCat("
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 6
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -99,7 +104,8 @@ tests:
           data: ") as cc FROM"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 7
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -115,7 +121,8 @@ tests:
           data: ") AS orders FROM"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 8
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -131,7 +138,8 @@ tests:
           data: ") AS `carrier_id` from"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 9
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -147,7 +155,8 @@ tests:
           data: "select load_file("
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 10
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -163,7 +172,8 @@ tests:
           data: ") AS Role FROM"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 11
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -179,7 +189,8 @@ tests:
           data: "` AS `edit_user_id` from"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 12
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -195,7 +206,8 @@ tests:
           data: ") AS val FROM"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 13
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -211,7 +223,8 @@ tests:
           data: "pay=%60+REGEXP%20"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 14
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -227,7 +240,8 @@ tests:
           data: ") AS 'Durchschnitt_Importzeit' FROM"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 15
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -243,7 +257,8 @@ tests:
           data: "` AS `OXTIMESTAMP` from"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 16
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -259,7 +274,8 @@ tests:
           data: ") as col_0_0_ from"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 17
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -275,7 +291,8 @@ tests:
           data: ") AS `count` FROM"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 18
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -291,7 +308,8 @@ tests:
           data: ") AS schlagwoerter FROM"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 19
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -307,7 +325,8 @@ tests:
           data: ") as User from"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 20
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -323,7 +342,8 @@ tests:
           data: ") AS t FROM"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 21
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -339,7 +359,8 @@ tests:
           data: "(load_file("
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 22
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -355,7 +376,8 @@ tests:
           data: ") as ExecuteTheseSQLCommands FROM"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 23
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -371,7 +393,8 @@ tests:
           data: ")      AS schlagwoerter      FROM"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 24
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -387,7 +410,8 @@ tests:
           data: "` AS `documentType` FROM"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 25
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -403,7 +427,8 @@ tests:
           data: "! As' from"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 26
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -419,7 +444,8 @@ tests:
           data: ";  As  not  from"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 27
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -435,7 +461,8 @@ tests:
           data: "SELECT load_file("
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 28
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -451,7 +478,8 @@ tests:
           data: "6 As\" from"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 29
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -467,7 +495,8 @@ tests:
           data: ") as day1 FROM"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]
   - test_id: 30
     desc: GH issue 1580
     stages:
@@ -483,7 +512,8 @@ tests:
           data: ", aside from"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942362"
+          log:
+            no_expect_ids: [942362]
   - test_id: 31
     desc: GH issue 1605
     stages:
@@ -499,7 +529,8 @@ tests:
           data: "a=/create"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942362"
+          log:
+            no_expect_ids: [942362]
   - test_id: 32
     desc: GH issue 1605
     stages:
@@ -515,4 +546,5 @@ tests:
           data: "a=/CREATE TABLE Persons"
           version: HTTP/1.0
         output:
-          log_contains: id "942362"
+          log:
+            expect_ids: [942362]

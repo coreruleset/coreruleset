@@ -1,7 +1,6 @@
 ---
 meta:
   author: "fgsch"
-  description: "Description"
 rule_id: 920181
 tests:
   - test_id: 1
@@ -18,9 +17,10 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
             Transfer-Encoding: "chunked"
             User-Agent: "OWASP CRS test agent"
-            data: "7\x0D\x0Afoo=bar\x0D\x0A0\x0D\x0A\x0D\x0A"
+          data: "7\x0D\x0Afoo=bar\x0D\x0A0\x0D\x0A\x0D\x0A"
           stop_magic: true
         output:
           # Apache unsets the Content-Length header if Transfer-Encoding is found!
           status: 200
-          no_log_contains: id "920181"
+          log:
+            no_expect_ids: [920181]

@@ -18,7 +18,8 @@ tests:
           uri: "/get?foo=_%24%24ND_FUNC%24%24_"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 2
     desc: imported test
     stages:
@@ -33,7 +34,8 @@ tests:
           uri: "/get?foo=__js_function"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 3
     desc: imported test
     stages:
@@ -48,7 +50,8 @@ tests:
           uri: "/get?foo=eval%28String.fromCharCode"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 4
     desc: imported test
     stages:
@@ -63,7 +66,8 @@ tests:
           uri: "/get?foo=function%28%29+%7B"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 5
     desc: imported test
     stages:
@@ -78,7 +82,8 @@ tests:
           uri: "/get?foo=new+Function+%28"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 6
     desc: imported test
     stages:
@@ -93,7 +98,8 @@ tests:
           uri: "/get?foo=this.constructor.constructor"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 7
     desc: imported test
     stages:
@@ -108,7 +114,8 @@ tests:
           uri: "/get?foo=module.exports%3D"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 8
     desc: base64 encoded test
     stages:
@@ -123,7 +130,8 @@ tests:
           uri: "/get?foo=XyQkTkRfRlVOQyQkXwo="
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 9
     desc: base64 encoded test
     stages:
@@ -138,7 +146,8 @@ tests:
           uri: "/get?foo=XyQkTkRfRlVOQyQkXwo="
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 10
     desc: process.env test
     stages:
@@ -153,7 +162,8 @@ tests:
           uri: "/get?foo=process.env"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 11
     desc: console.info test
     stages:
@@ -168,7 +178,8 @@ tests:
           uri: "/get?foo=console.info(1)"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 12
     desc: console.info test (JavaScript escape sequences)
     stages:
@@ -183,7 +194,8 @@ tests:
           uri: "/get?foo=c%5Cu006fnsole.info(1)"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 13
     desc: process.env test (square bracket property access)
     stages:
@@ -198,7 +210,8 @@ tests:
           uri: '/get?foo=process["env"]'
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 14
     desc: console.info test (square bracket property access)
     stages:
@@ -213,7 +226,8 @@ tests:
           uri: '/get?foo=console["info"](1)'
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 15
     desc: console.info test (call method)
     stages:
@@ -228,7 +242,8 @@ tests:
           uri: "/get?foo=console.info.call(this,1)"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 16
     desc: '"process" false positive test'
     stages:
@@ -243,7 +258,8 @@ tests:
           uri: "/get?foo=process."
           version: HTTP/1.0
         output:
-          no_log_contains: id "934100"
+          log:
+            no_expect_ids: [934100]
   - test_id: 17
     desc: '"console" false positive test'
     stages:
@@ -258,7 +274,8 @@ tests:
           uri: "/get?foo=console."
           version: HTTP/1.0
         output:
-          no_log_contains: id "934100"
+          log:
+            no_expect_ids: [934100]
   - test_id: 18
     desc: ssti test 1
     stages:
@@ -273,7 +290,8 @@ tests:
           uri: "/get?foo=%23%7Bprocess.binding%28foo%29.spawn%28foo2%29%7D"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 19
     desc: ssti test 2
     stages:
@@ -288,7 +306,8 @@ tests:
           uri: "/get?foo=%23%7Brequire.main.constructor._load%28foo%29.readdirSync%28foo2%29%7D"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 20
     desc: ssti test 3
     stages:
@@ -303,7 +322,8 @@ tests:
           uri: "/get?foo=process%5Breq.query.a"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 21
     desc: ssti test 4
     stages:
@@ -318,7 +338,8 @@ tests:
           uri: "/get?foo=require%5Breq.query.a"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 22
     desc: ssti test 5
     stages:
@@ -333,7 +354,8 @@ tests:
           uri: "/get?foo=process%5BmainModule"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 23
     desc: require child_process
     stages:
@@ -348,7 +370,8 @@ tests:
           uri: /get?foo=require("child_process").exec('whoami')
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 24
     desc: "5ZLKNU33"
     stages:
@@ -365,7 +388,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 25
     desc: "5ZLKNU33"
     stages:
@@ -382,7 +406,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 26
     desc: "5ZLKNU33"
     stages:
@@ -399,7 +424,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 25
     desc: "5ZLKNU33"
     stages:
@@ -415,7 +441,8 @@ tests:
             console.info(1)
           uri: /post
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 26
     desc: "5ZLKNU33"
     stages:
@@ -431,7 +458,8 @@ tests:
             console.info(1)
           uri: /post
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 27
     desc: "Detect example function _$$ND_FUNC$$_ submitted as plaintext"
     stages:
@@ -447,7 +475,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 28
     desc: "Detect example function _$$ND_FUNC$$_ submitted as plaintext with JavaScript escape sequence obfuscation"
     stages:
@@ -463,7 +492,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 29
     desc: "Detect example function _$$ND_FUNC$$_ submitted as plaintext that has been Base64 encoded"
     stages:
@@ -479,7 +509,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 30
     desc: "Detect example function _$$ND_FUNC$$_ submitted as plaintext with JavaScript escape sequence obfuscation that has been Base64 encoded"
     stages:
@@ -495,7 +526,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]
   - test_id: 31
     desc: "Detect example function _$$ND_FUNC$$_ submitted as plaintext that has been Base64 encoded and then obfuscated with JavaScript escape sequences"
     stages:
@@ -511,4 +543,5 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "934100"
+          log:
+            expect_ids: [934100]

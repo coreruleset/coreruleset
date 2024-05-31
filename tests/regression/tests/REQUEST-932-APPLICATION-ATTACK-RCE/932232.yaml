@@ -19,7 +19,8 @@ tests:
           uri: "/get?arg=%3Bps"
           version: HTTP/1.0
         output:
-          log_contains: id "932232"
+          log:
+            expect_ids: [932232]
   - test_id: 2
     desc: "/?arg=|vi (x"
     stages:
@@ -35,7 +36,8 @@ tests:
           uri: "/get?arg=%7Cvi%20%28x"
           version: HTTP/1.0
         output:
-          log_contains: id "932232"
+          log:
+            expect_ids: [932232]
   - test_id: 3
     desc: "/?arg=&w (x"
     stages:
@@ -51,7 +53,8 @@ tests:
           uri: "/get?arg=%26w%20%28x"
           version: HTTP/1.0
         output:
-          log_contains: id "932232"
+          log:
+            expect_ids: [932232]
   - test_id: 4
     desc: "/?arg=&aptitude"
     stages:
@@ -67,7 +70,8 @@ tests:
           uri: "/get?arg=%26aptitude"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932232"
+          log:
+            no_expect_ids: [932232]
   - test_id: 5
     desc: Remote Command Execution bypass with time
     stages:
@@ -84,7 +88,8 @@ tests:
           uri: "/get?foo=time+who"
           version: HTTP/1.1
         output:
-          log_contains: "id \"932232\""
+          log:
+            expect_ids: [932232]
   - test_id: 6
     desc: Remote Command Execution bypass with time negative test
     stages:
@@ -101,7 +106,8 @@ tests:
           uri: "/get?foo=time+warner"
           version: HTTP/1.1
         output:
-          no_log_contains: "id \"932232\""
+          log:
+            no_expect_ids: [932232]
   - test_id: 7
     desc: Remote Command Injection test for BB finding 935E1D91 - time evasion attempt
     stages:
@@ -118,4 +124,5 @@ tests:
           uri: "/get?foo=ti''me+who"
           version: HTTP/1.1
         output:
-          log_contains: "id \"932232\""
+          log:
+            expect_ids: [932232]

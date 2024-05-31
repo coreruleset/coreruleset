@@ -19,7 +19,8 @@ tests:
           data: '941181-1=-->'
           version: "HTTP/1.1"
         output:
-          log_contains: id "941181"
+          log:
+            expect_ids: [941181]
   - test_id: 2
     desc: Node-validator deny list keywords, ARGS
     stages:
@@ -35,7 +36,8 @@ tests:
           data: '941181-1=--%3E'
           version: "HTTP/1.1"
         output:
-          log_contains: id "941181"
+          log:
+            expect_ids: [941181]
   - test_id: 3
     desc: Node-validator deny list keywords, ARGS_NAMES
     stages:
@@ -51,7 +53,8 @@ tests:
           data: '-->=941181-3'
           version: "HTTP/1.1"
         output:
-          log_contains: id "941181"
+          log:
+            expect_ids: [941181]
   - test_id: 4
     desc: Node-validator deny list keywords, ARGS_NAMES
     stages:
@@ -67,4 +70,5 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941181"
+          log:
+            expect_ids: [941181]

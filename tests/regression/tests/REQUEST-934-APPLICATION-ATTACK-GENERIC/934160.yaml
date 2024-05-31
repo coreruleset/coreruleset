@@ -18,7 +18,8 @@ tests:
           uri: "/get?text=while%20(foo)%20is%20bar."
           version: HTTP/1.0
         output:
-          no_log_contains: id "934160"
+          log:
+            no_expect_ids: [934160]
   - test_id: 2
     desc: while falsy with negations
     stages:
@@ -33,7 +34,8 @@ tests:
           uri: "/get?eval=while(!false)"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 3
     desc: while falsy with negations
     stages:
@@ -48,7 +50,8 @@ tests:
           uri: "/get?eval=while(!-0);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 4
     desc: while falsy with negations
     stages:
@@ -63,7 +66,8 @@ tests:
           uri: "/get?eval=while(!%2B0);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 5
     desc: while falsy with negations
     stages:
@@ -78,7 +82,8 @@ tests:
           uri: "/get?eval=while(!0);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 6
     desc: while falsy with negations
     stages:
@@ -93,7 +98,8 @@ tests:
           uri: "/get?eval=while(!-0);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 7
     desc: while falsy with negations
     stages:
@@ -108,7 +114,8 @@ tests:
           uri: '/get?eval=while(!"");'
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 8
     desc: while falsy with negations
     stages:
@@ -123,7 +130,8 @@ tests:
           uri: "/get?eval=while(!'');"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 9
     desc: while falsy with negations
     stages:
@@ -138,7 +146,8 @@ tests:
           uri: "/get?eval=while(!``);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 10
     desc: while truthy
     stages:
@@ -153,7 +162,8 @@ tests:
           uri: "/get?eval=while(true);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 11
     desc: while truthy
     stages:
@@ -168,7 +178,8 @@ tests:
           uri: "/get?eval=while(Infinity);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 12
     desc: while truthy
     stages:
@@ -183,7 +194,8 @@ tests:
           uri: "/get?eval=while(-Infinity);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 13
     desc: while truthy
     stages:
@@ -198,7 +210,8 @@ tests:
           uri: "/get?eval=while(%2BInfinity);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 14
     desc: while truthy
     stages:
@@ -213,7 +226,8 @@ tests:
           uri: "/get?eval=while(-1);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 15
     desc: while truthy
     stages:
@@ -228,7 +242,8 @@ tests:
           uri: "/get?eval=while(%2B1);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 16
     desc: while truthy
     stages:
@@ -243,7 +258,8 @@ tests:
           uri: "/get?eval=while(new%20Date);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 17
     desc: while truthy
     stages:
@@ -258,7 +274,8 @@ tests:
           uri: "/get?eval=while(this);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 18
     desc: while truthy
     stages:
@@ -273,7 +290,8 @@ tests:
           uri: "/get?eval=while(String);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 19
     desc: while truthy with negation (false positive)
     stages:
@@ -288,7 +306,8 @@ tests:
           uri: "/get?eval=while(!true);"
           version: HTTP/1.0
         output:
-          no_log_contains: id "934160"
+          log:
+            no_expect_ids: [934160]
   - test_id: 20
     desc: while truthy with double negation
     stages:
@@ -303,7 +322,8 @@ tests:
           uri: "/get?eval=while(!!{});"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 21
     desc: while truthy with double negation
     stages:
@@ -318,7 +338,8 @@ tests:
           uri: "/get?eval=while(!![]);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 22
     desc: while truthy with double negation
     stages:
@@ -333,7 +354,8 @@ tests:
           uri: '/get?eval=while(!!"");'
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 23
     desc: while truthy with double negation
     stages:
@@ -348,7 +370,8 @@ tests:
           uri: "/get?eval=while(!!'');"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 24
     desc: while truthy with double negation
     stages:
@@ -363,7 +386,8 @@ tests:
           uri: "/get?eval=while(!!``);"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 25
     desc: while falsy with negation
     stages:
@@ -378,7 +402,8 @@ tests:
           uri: "/get?eval=while(!null)"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 26
     desc: while falsy with negation
     stages:
@@ -393,7 +418,8 @@ tests:
           uri: "/get?eval=while(!undefined)"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 27
     desc: while falsy with negation
     stages:
@@ -408,7 +434,8 @@ tests:
           uri: "/get?eval=while(!NaN)"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 28
     desc: while truthy
     stages:
@@ -423,7 +450,8 @@ tests:
           uri: "/get?eval=while((true)))"
           version: HTTP/1.0
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 29
     desc: "Detect example DoS loop while(true) submitted as plaintext"
     stages:
@@ -438,7 +466,8 @@ tests:
           uri: "/get?eval=while(true);"
           version: HTTP/1.1
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 30
     desc: "Detect example DoS loop while(true) submitted as plaintext with JavaScript escape sequence obfuscation"
     stages:
@@ -453,7 +482,8 @@ tests:
           uri: "/get?eval=while(true);"
           version: HTTP/1.1
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 31
     desc: "Detect example DoS loop while(true) submitted as plaintext that has been Base64 encoded"
     stages:
@@ -468,7 +498,8 @@ tests:
           uri: "/get?eval=d2hpbGUodHJ1ZSk7Cg%3D%3D"
           version: HTTP/1.1
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 32
     desc: "Detect example DoS loop while(true) submitted as plaintext with JavaScript escape sequence obfuscation that has been Base64 encoded"
     stages:
@@ -483,7 +514,8 @@ tests:
           uri: "/get?eval=XHUwMDc3XHUwMDY4aWxlKHRydWUpOwo%3D"
           version: HTTP/1.1
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]
   - test_id: 33
     desc: "Detect example DoS loop while(true) submitted as plaintext that has been Base64 encoded and then obfuscated with JavaScript escape sequences"
     stages:
@@ -498,4 +530,5 @@ tests:
           uri: "/get?eval=d2hpbGUodHJ1ZSk7Cg%3D%3D"
           version: HTTP/1.1
         output:
-          log_contains: id "934160"
+          log:
+            expect_ids: [934160]

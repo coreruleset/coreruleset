@@ -18,7 +18,8 @@ tests:
           data: "var=<applet code%3d\"deuce.class\">&var=whatever"
           version: HTTP/1.0
         output:
-          log_contains: id "941290"
+          log:
+            expect_ids: [941290]
   - test_id: 2
     desc: "XSS test based on portswigger XSS cheatsheet"
     stages:
@@ -34,4 +35,5 @@ tests:
           data: "payload=<applet onreadystatechange=alert(1)></applet></a>"
           version: HTTP/1.0
         output:
-          log_contains: id "941290"
+          log:
+            expect_ids: [941290]

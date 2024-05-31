@@ -17,7 +17,8 @@ tests:
           uri: "/get?var=%20HAVING%20COUNT%28CustomerID%29%20%3E%205"
           version: HTTP/1.0
         output:
-          log_contains: id "942251"
+          log:
+            expect_ids: [942251]
   - test_id: 2
     desc: "Detects having injections negative test"
     stages:
@@ -32,4 +33,5 @@ tests:
           uri: "/get?var=having%20fun"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942251"
+          log:
+            no_expect_ids: [942251]

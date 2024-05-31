@@ -18,7 +18,8 @@ tests:
           uri: "/get?attackme=%0d%0aQUIT"
           version: HTTP/1.0
         output:
-          log_contains: id "932321"
+          log:
+            expect_ids: [932321]
   - test_id: 2
     desc: "POP3 QUIT Command Injection negative test"
     stages:
@@ -33,7 +34,8 @@ tests:
           uri: "/get?text=Don't%20quit"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932321"
+          log:
+            no_expect_ids: [932321]
   - test_id: 3
     desc: "POP3 CAPA Command Injection negative test 2"
     stages:
@@ -50,7 +52,8 @@ tests:
             textarea=we%20do%20not%20have%20that%20capability
           version: HTTP/1.0
         output:
-          no_log_contains: id "932321"
+          log:
+            no_expect_ids: [932321]
   - test_id: 4
     desc: "POP3 STAT Command Injection negative test"
     stages:
@@ -67,7 +70,8 @@ tests:
             textarea=Hi%20lestat!
           version: HTTP/1.0
         output:
-          no_log_contains: id "932321"
+          log:
+            no_expect_ids: [932321]
   - test_id: 5
     desc: "POP3 NOOP Command injection negative test"
     stages:
@@ -82,7 +86,8 @@ tests:
           uri: "/get?attackme=%0aSeriously%2C%20noop"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932321"
+          log:
+            no_expect_ids: [932321]
   - test_id: 6
     desc: "POP3 RSET Command Injection negative test"
     stages:
@@ -99,4 +104,5 @@ tests:
             textarea=Someone%20bought%20this%20nice%20lerset
           version: HTTP/1.0
         output:
-          no_log_contains: id "932321"
+          log:
+            no_expect_ids: [932321]

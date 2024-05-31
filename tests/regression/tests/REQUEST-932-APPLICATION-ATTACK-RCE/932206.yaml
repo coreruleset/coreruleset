@@ -19,7 +19,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "932206"
+          log:
+            expect_ids: [932206]
   - test_id: 2
     desc: False positive test against URL
     stages:
@@ -35,7 +36,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932206"
+          log:
+            no_expect_ids: [932206]
   - test_id: 3
     desc: False positive test against query string and space in path
     stages:
@@ -51,4 +53,5 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932206"
+          log:
+            no_expect_ids: [932206]

@@ -18,7 +18,8 @@ tests:
           uri: "/get?host=www.google.com;/bin/ca?+/et*/passwd"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 2
     desc: uninitialized variable
     stages:
@@ -33,7 +34,8 @@ tests:
           uri: "/get?host=www.google.com;cat+/etc/%24%7Ba%7Dpasswd"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 3
     desc: bash function
     stages:
@@ -48,7 +50,8 @@ tests:
           uri: "/get?host=www.google.com;cat+/etc/%24%28echo%29passwd"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 4
     desc: uninitialized vars
     stages:
@@ -63,7 +66,8 @@ tests:
           uri: "/get?host=www.google.com;c%24%40at%2B%2Fet%24%40c%2Fpas%24%40swd"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 5
     desc: uninitialized vars
     stages:
@@ -78,7 +82,8 @@ tests:
           uri: "/get?host=www.google.com;c%24%21at%2B%2Fet%24%21c%2Fpas%24%21swd"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 6
     desc: uninitialized vars
     stages:
@@ -93,7 +98,8 @@ tests:
           uri: "/get?host=www.google.com;c%24%2Aat%2B%2Fet%24%2Ac%2Fpas%24%2Aswd"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 7
     desc: uninitialized vars
     stages:
@@ -108,7 +114,8 @@ tests:
           uri: "/get?host=www.google.com;c%24%3Fat%2B%2Fet%24%3Fc%2Fpas%24%3Fswd"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 8
     desc: uninitialized vars
     stages:
@@ -123,7 +130,8 @@ tests:
           uri: "/get?host=www.google.com;c%24-at%2B%2Fet%24-c%2Fpas%24-swd"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 9
     desc: uninitialized vars
     stages:
@@ -138,7 +146,8 @@ tests:
           uri: "/get?host=www.google.com;c%24_at%2B%2Fet%24_c%2Fpas%24_swd"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 10
     desc: uninitialized vars
     stages:
@@ -153,7 +162,8 @@ tests:
           uri: "/get?host=www.google.com;c%24%24at%2B%2Fet%24%24c%2Fpas%24%24swd"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 11
     desc: "Test first backslash match ([*?`\\'][^/\n]+/) with: c\at /etc/passwd"
     stages:
@@ -168,7 +178,8 @@ tests:
           uri: "/get?host=www.google.com;c%5Cat%20%2Fetc%2Fpasswd"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 12
     desc: "Test second backslash match (/[^/]+?[*?`\\']) with: cat /etc/p\asswd"
     stages:
@@ -183,7 +194,8 @@ tests:
           uri: "/get?host=www.google.com;cat%20%2Fetc%2Fp%5Casswd"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 13
     desc: "Test correct logging"
     stages:
@@ -214,7 +226,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 15
     desc: "Add test to match BB EBIDJ91T"
     stages:
@@ -230,7 +243,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]
   - test_id: 16
     desc: "Add test to match BB MKXQCJMX"
     stages:
@@ -246,4 +260,5 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932200"
+          log:
+            expect_ids: [932200]

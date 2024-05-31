@@ -387,7 +387,8 @@ Example of a simple *positive test*:
         data: "var=` /bin/cat /etc/passwd`"
         version: HTTP/1.1
       output:
-        log_contains: id "932230"
+        log:
+          expect_ids: [932230]
 ```
 
 This test will succeed if the log output contains `id "932230"`, which would indicate that the rule in question matched and generated an alert.
@@ -414,7 +415,8 @@ Example of a simple *negative test*:
         data: 'foo=ping pong tables'
         uri: '/post'
       output:
-        no_log_contains: id "932260"
+        log:
+          no_expect_ids: [932260]
 ```
 
 This test will succeed if the log output does **not** contain `id "932260"`, which would indicate that the rule in question did **not** match and so did **not** generate an alert.

@@ -5,7 +5,7 @@ meta:
 rule_id: 920221
 tests:
   - test_id: 1
-    description: Detect invalid URI encoding in decoded URI (`%w20`)
+    desc: Detect invalid URI encoding in decoded URI (`%w20`)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -17,9 +17,10 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920221\""
+          log:
+            expect_ids: [920221]
   - test_id: 2
-    description: Ignore invalid URI encoding if the last path segment looks like file name (`%w20`)
+    desc: Ignore invalid URI encoding if the last path segment looks like file name (`%w20`)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -31,4 +32,5 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920221\""
+          log:
+            no_expect_ids: [920221]

@@ -18,7 +18,8 @@ tests:
           data: "var=procedure%20analyse%20%28"
           version: HTTP/1.0
         output:
-          log_contains: id "942320"
+          log:
+            expect_ids: [942320]
   - test_id: 2
     desc: "Detects MySQL and PostgreSQL stored procedure/function injections"
     stages:
@@ -34,7 +35,8 @@ tests:
           data: "pay=exec+%28%40%0A"
           version: HTTP/1.0
         output:
-          log_contains: id "942320"
+          log:
+            expect_ids: [942320]
   - test_id: 3
     desc: "Detects MySQL and PostgreSQL stored procedure/function injections"
     stages:
@@ -50,7 +52,8 @@ tests:
           data: "pay=declare+%40b%0A"
           version: HTTP/1.0
         output:
-          log_contains: id "942320"
+          log:
+            expect_ids: [942320]
   - test_id: 4
     desc: "Detects MySQL and PostgreSQL stored procedure/function injections"
     stages:
@@ -66,7 +69,8 @@ tests:
           data: "pay=DECLARE%2F%2A%2A%2F%40x%0A"
           version: HTTP/1.0
         output:
-          log_contains: id "942320"
+          log:
+            expect_ids: [942320]
   - test_id: 5
     desc: "Detects PostgreSQL data conversion with ::int"
     stages:
@@ -81,7 +85,8 @@ tests:
           uri: "/get/index.php?id=password::int"
           version: HTTP/1.0
         output:
-          log_contains: id "942320"
+          log:
+            expect_ids: [942320]
   - test_id: 6
     desc: "Detects PostgreSQL data conversion with ::bool"
     stages:
@@ -96,7 +101,8 @@ tests:
           uri: "/get/index.php?no=2&id=1%27%20and%20unistr(password)::bool--"
           version: HTTP/1.0
         output:
-          log_contains: id "942320"
+          log:
+            expect_ids: [942320]
   - test_id: 7
     desc: "Detects PostgreSQL bypass attempt with div(23,-2) - issue #2910"
     stages:
@@ -111,7 +117,8 @@ tests:
           uri: "/get/index.php?id=div(23,-2)"
           version: HTTP/1.0
         output:
-          log_contains: id "942320"
+          log:
+            expect_ids: [942320]
   - test_id: 8
     desc: "Detects PostgreSQL bypass attempt with div (23.23 , 2) - issue #2910"
     stages:
@@ -126,7 +133,8 @@ tests:
           uri: "/get/index.php?id=div+(23.23+,+2)"
           version: HTTP/1.0
         output:
-          log_contains: id "942320"
+          log:
+            expect_ids: [942320]
   - test_id: 9
     desc: "Detects PostgreSQL bypass attempt lo_import'( - issue #2912"
     stages:
@@ -141,7 +149,8 @@ tests:
           uri: "/get/index.php?id=lo_import(%27/etc%27%20||%20%27/pass%27%20||%20%27wd%27)"
           version: HTTP/1.0
         output:
-          log_contains: id "942320"
+          log:
+            expect_ids: [942320]
   - test_id: 10
     desc: "Detects PostgreSQL bypass attempt with lo_get(16400) - issue #2924"
     stages:
@@ -156,7 +165,8 @@ tests:
           uri: "/get/index.php?id=lo_get(16400)"
           version: HTTP/1.0
         output:
-          log_contains: id "942320"
+          log:
+            expect_ids: [942320]
   - test_id: 11
     desc: "Detects PostgreSQL bypass attempt function(foo)::text - issue #2924"
     stages:
@@ -171,7 +181,8 @@ tests:
           uri: "/get/index.php?id=function(foo)::text"
           version: HTTP/1.0
         output:
-          log_contains: id "942320"
+          log:
+            expect_ids: [942320]
   - test_id: 12
     desc: "Detects PostgreSQL bypass attempt function(foo)::bigint - issue #2924"
     stages:
@@ -186,7 +197,8 @@ tests:
           uri: "/get/index.php?id=function(foo)::bigint"
           version: HTTP/1.0
         output:
-          log_contains: id "942320"
+          log:
+            expect_ids: [942320]
   - test_id: 13
     desc: "Detects PostgreSQL bypass attempt function(foo)::double precision - issue #2924"
     stages:
@@ -201,4 +213,5 @@ tests:
           uri: "/get/index.php?id=function(foo)::double%20precision"
           version: HTTP/1.0
         output:
-          log_contains: id "942320"
+          log:
+            expect_ids: [942320]

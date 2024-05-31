@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: "Description"
 rule_id: 920340
 tests:
   - test_id: 1
@@ -16,10 +15,11 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"
           data: "xy"
-          stop_magic: true
+          autocomplete_headers: false
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920340\""
+          log:
+            expect_ids: [920340]
   - test_id: 2
     desc: "Status Page Test - POST request with body content, a non-zero Content-Length header, but no Content-Type header"
     stages:
@@ -34,7 +34,8 @@ tests:
           method: "POST"
           uri: "/"
           data: "abc"
-          stop_magic: true
+          autocomplete_headers: false
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920340\""
+          log:
+            expect_ids: [920340]

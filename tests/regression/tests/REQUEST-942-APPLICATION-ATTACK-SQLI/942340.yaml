@@ -18,7 +18,8 @@ tests:
           uri: "/get?var=in%20%28%20select%20%2a%20from"
           version: HTTP/1.0
         output:
-          log_contains: id "942340"
+          log:
+            expect_ids: [942340]
   - test_id: 2
     desc: "SQLite authentication bypass with except select"
     stages:
@@ -34,7 +35,8 @@ tests:
           uri: "/get?var=except%20%09select.1%2C2"
           version: HTTP/1.0
         output:
-          log_contains: id "942340"
+          log:
+            expect_ids: [942340]
   - test_id: 3
     desc: "SQLite authentication bypass with except values"
     stages:
@@ -50,7 +52,8 @@ tests:
           uri: "/get?var=except%20values(1%2C2)"
           version: HTTP/1.0
         output:
-          log_contains: id "942340"
+          log:
+            expect_ids: [942340]
   - test_id: 4
     desc: "true-negative except selecting"
     stages:
@@ -66,7 +69,8 @@ tests:
           uri: "/get?var=except%20selecting"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942340"
+          log:
+            no_expect_ids: [942340]
   - test_id: 5
     desc: "basic SQL authentication bypass attempts 3/3"
     stages:
@@ -82,7 +86,8 @@ tests:
           data: "email=x'%20or%20array[id]%20is%20not%20null--"
           version: HTTP/1.0
         output:
-          log_contains: id "942340"
+          log:
+            expect_ids: [942340]
   - test_id: 6
     desc: "basic SQL authentication bypass attempts 3/3"
     stages:
@@ -98,7 +103,8 @@ tests:
           data: "email=x'%20or%20email~all(array[email]);analyze--"
           version: HTTP/1.0
         output:
-          log_contains: id "942340"
+          log:
+            expect_ids: [942340]
   - test_id: 7
     desc: "basic SQL authentication bypass attempts 3/3"
     stages:
@@ -114,7 +120,8 @@ tests:
           data: "email='%20and%20email%20not%20similar%20to%20id--"
           version: HTTP/1.0
         output:
-          log_contains: id "942340"
+          log:
+            expect_ids: [942340]
   - test_id: 8
     desc: "basic SQL authentication bypass attempts 3/3"
     stages:
@@ -130,7 +137,8 @@ tests:
           data: "email='%20or%20true;%20foo"
           version: HTTP/1.0
         output:
-          log_contains: id "942340"
+          log:
+            expect_ids: [942340]
       - input:
           dest_addr: 127.0.0.1
           headers:
@@ -143,7 +151,8 @@ tests:
           data: "email='%20or%20false;%20foo"
           version: HTTP/1.0
         output:
-          log_contains: id "942340"
+          log:
+            expect_ids: [942340]
   - test_id: 9
     desc: "basic SQL authentication bypass attempts 3/3 (no whitespace between operator)"
     stages:
@@ -159,7 +168,8 @@ tests:
           data: "email='||true"
           version: HTTP/1.0
         output:
-          log_contains: id "942340"
+          log:
+            expect_ids: [942340]
   - test_id: 10
     desc: "SQL Auth Bypass FP test (invalid operator without whitespace)"
     stages:
@@ -175,4 +185,5 @@ tests:
           data: "email='ortrue"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942340"
+          log:
+            no_expect_ids: [942340]

@@ -19,7 +19,8 @@ tests:
           data: "var=1234%20AS%20%22foobar%22%20FROM%20tablevar2=whatever"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 2
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -35,7 +36,8 @@ tests:
           data: "select Char("
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 3
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -51,7 +53,8 @@ tests:
           data: "SELECT CHAR("
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 4
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -67,7 +70,8 @@ tests:
           data: "SELECT GROUP_CONCAT("
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 5
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -83,7 +87,8 @@ tests:
           data: "SELECT group_cOnCat("
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 6
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -99,7 +104,8 @@ tests:
           data: "select load_file("
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 7
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -115,7 +121,8 @@ tests:
           data: "` AS `edit_user_id` from"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 8
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -131,7 +138,8 @@ tests:
           data: "pay=%60+REGEXP%20"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 9
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -147,7 +155,8 @@ tests:
           data: "` AS `OXTIMESTAMP` from"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 10
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -163,7 +172,8 @@ tests:
           data: "(load_file("
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 11
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -179,7 +189,8 @@ tests:
           data: "` AS `documentType` FROM"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 12
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -195,7 +206,8 @@ tests:
           data: "SELECT load_file("
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 13
     desc: "Detects concatenated basic SQL injection and SQLLFI attempts"
     stages:
@@ -211,7 +223,8 @@ tests:
           data: "6 As\" from"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 14
     desc: GH issue 1580
     stages:
@@ -227,7 +240,8 @@ tests:
           data: ", aside from"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 15
     desc: GH issue 1605
     stages:
@@ -243,7 +257,8 @@ tests:
           data: "a=/create"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 16
     desc: GH issue 1605
     stages:
@@ -259,7 +274,8 @@ tests:
           data: "a=/CREATE TABLE Persons"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 17
     desc: GH issue 1816
     stages:
@@ -275,7 +291,8 @@ tests:
           data: " Delete (Trashcan)"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 18
     desc: GH issue 1816
     stages:
@@ -291,7 +308,8 @@ tests:
           data: "5desc"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 19
     desc: GH issue 1816
     stages:
@@ -307,7 +325,8 @@ tests:
           data: "34-delete"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 20
     desc: GH issue 1816
     stages:
@@ -323,7 +342,8 @@ tests:
           data: " update"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 21
     desc: GH issue 1816
     stages:
@@ -339,7 +359,8 @@ tests:
           data: "/select-quote"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 22
     desc: GH issue 1816
     stages:
@@ -355,7 +376,8 @@ tests:
           data: " Update: After..."
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 23
     desc: GH issue 1816
     stages:
@@ -371,7 +393,8 @@ tests:
           data: "\"desc\""
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 24
     desc: GH issue 1816
     stages:
@@ -387,7 +410,8 @@ tests:
           data: "a=/load.php"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 25
     desc: GH issue 1816
     stages:
@@ -403,7 +427,8 @@ tests:
           data: "a=/update-assets"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 26
     desc: GH issue 1816
     stages:
@@ -419,7 +444,8 @@ tests:
           data: "bla blabla live update chart"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 27
     desc: GH issue 1816
     stages:
@@ -435,7 +461,8 @@ tests:
           data: ".select-gws-banana"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 28
     desc: GH issue 1816
     stages:
@@ -451,7 +478,8 @@ tests:
           data: "blablabla. As evidence from the following blablabla"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 29
     desc: GH issue 1816 - Known false positive
     stages:
@@ -467,7 +495,8 @@ tests:
           data: "||(SELECT(DBMS_LDAP.INIT('169.1.1.1',19))FROM(DUAL))/investigate"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 30
     desc: GH issue 1816 - Known false positive
     stages:
@@ -483,7 +512,8 @@ tests:
           data: "'||(select(pg_sleep(15))where(true))||'/investigate"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 31
     desc: GH issue 1816 - Known false positive
     stages:
@@ -499,7 +529,8 @@ tests:
           data: "UNION ALL SELECT NULL,NULL,CONCAT(CONCAT('qqkjq','mxTSrPILRz'),'qvxvq')-- sqCV"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942360"
+          log:
+            no_expect_ids: [942360]
   - test_id: 32
     desc: GH issue 1816
     stages:
@@ -515,7 +546,8 @@ tests:
           data: "2020-03-01 UNION ALL SELECT CONCAT"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 33
     desc: GH issue 1816
     stages:
@@ -531,7 +563,8 @@ tests:
           data: "x\"; SELECT LOAD_FILE('"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 34
     desc: GH issue 1816
     stages:
@@ -547,7 +580,8 @@ tests:
           data: "-1 UNION SELECT null,123456,null,null,null,null--"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 35
     desc: GH issue 1816
     stages:
@@ -563,7 +597,8 @@ tests:
           data: "(CONVERT(INT,(SELECT CHAR(113)+CHAR(118)+CHAR(112)+CHAR(113)+CHAR(113)+(SELECT (CASE WHEN (6557=6557"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 36
     desc: GH issue 1816
     stages:
@@ -579,7 +614,8 @@ tests:
           data: ") UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL--"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 37
     desc: GH issue 1816
     stages:
@@ -595,7 +631,8 @@ tests:
           data: "1 union select 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,CONCAT('vbulletin','rce',@@version)"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 38
     desc: GH issue 1816
     stages:
@@ -611,7 +648,8 @@ tests:
           data: "(SELECT 4440 FROM(SELECT COUNT(*),CONCAT(0x716b627a71,(SELECT (ELT(4440=4440,1))),0x7170716271,FLOOR"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]
   - test_id: 39
     desc: GH issue 1816
     stages:
@@ -627,4 +665,5 @@ tests:
           data: "2759399466.1534185336 -6863 union all select 1,1,1,1,1,1,1,1,1,CONCAT"
           version: HTTP/1.0
         output:
-          log_contains: id "942360"
+          log:
+            expect_ids: [942360]

@@ -21,7 +21,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932250"
+          log:
+            no_expect_ids: [932250]
   - test_id: 2
     stages:
       - input:
@@ -36,23 +37,24 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932250"
-  # FIXME: 932150 already had this false positive. Fix after rework
-  # - test_id: 3
-  #   stages:
-  #     - input:
-  #         dest_addr: "127.0.0.1"
-  #         method: "POST"
-  #         port: 80
-  #         headers:
-  #           User-Agent: "OWASP CRS test agent"
-  #           Host: "localhost"
-  #           Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-  #         data: 'foo=tar is a dark brown or black bituminous usually odorous viscous liquid'
-  #         uri: "/post"
-  #         version: "HTTP/1.1"
-  #       output:
-  #         no_log_contains: id "932250"
+          log:
+            no_expect_ids: [932250]
+  - test_id: 3
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: 'foo=tar is a dark brown or black bituminous usually odorous viscous liquid'
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
   - test_id: 4
     desc: Negative test for excluded command `c99`
     stages:
@@ -68,7 +70,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932250"
+          log:
+            no_expect_ids: [932250]
   - test_id: 5
     desc: "Positive test: Unix Command Injection - ksh test"
     stages:
@@ -84,7 +87,8 @@ tests:
           uri: "/get?code=ksh%20-c%20\"curl%20google.\"COM"
           version: HTTP/1.0
         output:
-          log_contains: id "932250"
+          log:
+            expect_ids: [932250]
   - test_id: 6
     desc: Arithmetic expansion '$(())' WAF evasion (mid command)
     stages:
@@ -99,7 +103,8 @@ tests:
           uri: "/get?x=%24((7))z%20-wrapper%20sh,-c,curl%20google.com%20."
           version: "HTTP/1.1"
         output:
-          log_contains: id "932250"
+          log:
+            expect_ids: [932250]
   - test_id: 7
     desc: "'ls' direct command injection"
     stages:
@@ -114,7 +119,8 @@ tests:
           uri: "/get?x=ls%20-l%20/etc/passwd"
           version: "HTTP/1.1"
         output:
-          log_contains: id "932250"
+          log:
+            expect_ids: [932250]
   - test_id: 8
     desc: "'ls' direct command injection (no flags)"
     stages:
@@ -129,7 +135,8 @@ tests:
           uri: "/get?x=ls%20/etc/passwd"
           version: "HTTP/1.1"
         output:
-          log_contains: id "932250"
+          log:
+            expect_ids: [932250]
   - test_id: 9
     desc: "'ls' direct command injection (no slashes)"
     stages:
@@ -144,7 +151,8 @@ tests:
           uri: "/get?x=ls%20foo%20bar"
           version: "HTTP/1.1"
         output:
-          log_contains: id "932250"
+          log:
+            expect_ids: [932250]
   - test_id: 10
     desc: "'ls' direct command injection FP test"
     stages:
@@ -159,7 +167,8 @@ tests:
           uri: "/get?x=kills%20foo%20bar"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932250"
+          log:
+            no_expect_ids: [932250]
   - test_id: 11
     desc: "FP for 'sh' without word boundary"
     stages:
@@ -174,7 +183,8 @@ tests:
           uri: "/get?show_comments_cookies_opt_in=true"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932250"
+          log:
+            no_expect_ids: [932250]
   - test_id: 12
     desc: "FP for 'ls' without word boundary in cookie header value"
     stages:
@@ -190,7 +200,8 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932250"
+          log:
+            no_expect_ids: [932250]
   - test_id: 13
     desc: "FP for '7z' without word boundary in cookie header value"
     stages:
@@ -206,4 +217,5 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932250"
+          log:
+            no_expect_ids: [932250]

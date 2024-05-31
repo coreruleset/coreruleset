@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, Franziska Bühler, azurit"
-  description: "Description"
 rule_id: 920420
 tests:
   - test_id: 1
@@ -19,7 +18,8 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920420\""
+          log:
+            no_expect_ids: [920420]
   - test_id: 2
     stages:
       - input:
@@ -35,7 +35,8 @@ tests:
           data: "test"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920420\""
+          log:
+            expect_ids: [920420]
   - test_id: 3
     stages:
       - input:
@@ -51,7 +52,8 @@ tests:
           data: "test"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920420\""
+          log:
+            expect_ids: [920420]
   - test_id: 4
     stages:
       - input:
@@ -67,7 +69,8 @@ tests:
           data: "test"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920420\""
+          log:
+            expect_ids: [920420]
   - test_id: 5
     desc: Request content type is not allowed by policy (920420) from old modsec regressions
     stages:
@@ -102,7 +105,8 @@ tests:
             BINARYDATA
             --0000--
         output:
-          log_contains: id "920420"
+          log:
+            expect_ids: [920420]
   - test_id: 6
     desc: Request content type is not allowed by policy (920420) from old modsec regressions
     stages:
@@ -137,7 +141,8 @@ tests:
             BINARYDATA
             --0000--
         output:
-          log_contains: id "920420"
+          log:
+            expect_ids: [920420]
   - test_id: 7
     desc: Request content type is not allowed by policy (920420) from old modsec regressions
     stages:
@@ -172,7 +177,8 @@ tests:
             BINARYDATA
             --0000--
         output:
-          log_contains: id "920420"
+          log:
+            expect_ids: [920420]
   - test_id: 8
     stages:
       - input:
@@ -188,7 +194,8 @@ tests:
           data: "test"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920420\""
+          log:
+            expect_ids: [920420]
   - test_id: 9
     stages:
       - input:
@@ -204,7 +211,8 @@ tests:
           data: "test"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920420\""
+          log:
+            no_expect_ids: [920420]
   - test_id: 10
     stages:
       - input:
@@ -220,7 +228,8 @@ tests:
           data: "test"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920420\""
+          log:
+            no_expect_ids: [920420]
   - test_id: 11
     stages:
       - input:
@@ -236,7 +245,8 @@ tests:
           data: "test"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920420\""
+          log:
+            expect_ids: [920420]
   - test_id: 12
     stages:
       - input:
@@ -252,7 +262,8 @@ tests:
           data: "test"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920420\""
+          log:
+            no_expect_ids: [920420]
   - test_id: 13
     stages:
       - input:
@@ -268,7 +279,8 @@ tests:
           data: "test"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920420\""
+          log:
+            no_expect_ids: [920420]
   - test_id: 14
     stages:
       - input:
@@ -284,7 +296,8 @@ tests:
           data: 'cmd=/bin/unxz -c /var/log/something_sensitive.xz'
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920420\""
+          log:
+            expect_ids: [920420]
   - test_id: 15
     stages:
       - input:
@@ -301,7 +314,8 @@ tests:
           version: HTTP/1.0
           data: "{\"foo\" : \";+cat+/e\\\\t\\\\*/pa\\\\?s\\\\wd\"}"
         output:
-          log_contains: "id \"920420\""
+          log:
+            expect_ids: [920420]
   - test_id: 16
     stages:
       - input:
@@ -318,7 +332,8 @@ tests:
           version: HTTP/1.0
           data: "{\"foo\" : \";+cat+/e\\\\t\\\\*/pa\\\\?s\\\\wd\"}"
         output:
-          log_contains: "id \"920420\""
+          log:
+            expect_ids: [920420]
   - test_id: 17
     stages:
       - input:
@@ -335,4 +350,5 @@ tests:
           version: HTTP/1.0
           data: "{\"foo\" : \";+cat+/e\\\\t\\\\*/pa\\\\?s\\\\wd\"}"
         output:
-          log_contains: "id \"920420\""
+          log:
+            expect_ids: [920420]

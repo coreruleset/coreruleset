@@ -17,7 +17,8 @@ tests:
           uri: "/get?var=union%20select%20col%20from"
           version: HTTP/1.0
         output:
-          log_contains: id "942270"
+          log:
+            expect_ids: [942270]
   - test_id: 2
     desc: "Status Page Test - SQL injection test with Xunionselectfrom (missing word boundary at the beginning)"
     stages:
@@ -32,4 +33,5 @@ tests:
           uri: "/get?test=Xunionselectfrom"
           version: HTTP/1.0
         output:
-          log_contains: id "942270"
+          log:
+            expect_ids: [942270]

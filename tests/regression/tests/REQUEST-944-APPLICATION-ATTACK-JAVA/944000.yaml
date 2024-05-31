@@ -1,7 +1,6 @@
 ---
 meta:
   author: "spartantri, azurit"
-  description: "Description"
 rule_id: 944000
 tests:
   - test_id: 1
@@ -22,4 +21,5 @@ tests:
           uri: "/post"
           data: "test=value"
         output:
-          no_log_contains: "id \"944000\""
+          log:
+            no_expect_ids: [944000]

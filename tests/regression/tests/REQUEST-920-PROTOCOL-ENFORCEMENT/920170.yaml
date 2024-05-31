@@ -4,8 +4,8 @@ meta:
   description: "A Selection of tests to trigger rule 920170"
 rule_id: 920170
 tests:
-  - # POST Request with data (valid)
-    test_id: 1
+  - test_id: 1
+    desc: POST Request with data (valid)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -20,9 +20,10 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920170\""
-  - # GET request with data
-    test_id: 2
+          log:
+            no_expect_ids: [920170]
+  - test_id: 2
+    desc: GET request with data
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -37,9 +38,10 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920170\""
-  - # Head Request with data
-    test_id: 3
+          log:
+            expect_ids: [920170]
+  - test_id: 3
+    desc: Head Request with data
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -54,10 +56,12 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920170\""
-  - # GET Request but content length is 0 and data is provided
-    # Weird HTTP 1.0 support bug in Apache, without newline causes 408
-    test_id: 4
+          log:
+            expect_ids: [920170]
+  - test_id: 4
+    desc: |
+      GET Request but content length is 0 and data is provided.
+      Weird HTTP 1.0 support bug in Apache, without newline causes 408
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -70,13 +74,14 @@ tests:
             Content-Length: "0"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "hi=test\r\n"
-          stop_magic: true
           uri: "/"
           version: "HTTP/1.1"
+          autocomplete_headers: false
         output:
-          no_log_contains: "id \"920170\""
-  - # GET request with content length 0 and no data.
-    test_id: 5
+          log:
+            no_expect_ids: [920170]
+  - test_id: 5
+    desc: GET request with content length 0 and no data.
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -92,7 +97,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920170\""
+          log:
+            no_expect_ids: [920170]
   - test_id: 6
     desc: GET or HEAD Request with Body Content (920170) from old modsec regressions
     stages:
@@ -112,4 +118,5 @@ tests:
           data: abc
           version: "HTTP/1.1"
         output:
-          log_contains: id "920170"
+          log:
+            expect_ids: [920170]

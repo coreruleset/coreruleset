@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: "Description"
 rule_id: 920270
 tests:
   - test_id: 1
@@ -16,7 +15,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920270\""
+          log:
+            expect_ids: [920270]
   - test_id: 2
     stages:
       - input:
@@ -29,7 +29,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920270\""
+          log:
+            expect_ids: [920270]
   - test_id: 3
     stages:
       - input:
@@ -42,10 +43,12 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920270\""
-  - # This causes apache to error before it gets to CRS. Therefore
-    # we'll mark this as a status 400 now until the FTW OR output is added
-    test_id: 4
+          log:
+            expect_ids: [920270]
+  - test_id: 4
+    desc: |
+      This causes apache to error before it gets to CRS. Therefore,
+      we'll mark this as a status 400 now until the FTW OR output is added
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -58,7 +61,6 @@ tests:
           version: "HTTP/1.1"
         output:
           status: 400
-          # log_contains: "id \"920270\""
   - test_id: 5
     stages:
       - input:
@@ -72,7 +74,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920270\""
+          log:
+            expect_ids: [920270]
   - test_id: 6
     stages:
       - input:
@@ -85,7 +88,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920270\""
+          log:
+            no_expect_ids: [920270]
   - test_id: 7
     stages:
       - input:
@@ -98,7 +102,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920270\""
+          log:
+            no_expect_ids: [920270]
   - test_id: 8
     stages:
       - input:
@@ -111,9 +116,10 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920270\""
-  - # Test converted from old tests
-    test_id: 9
+          log:
+            no_expect_ids: [920270]
+  - test_id: 9
+    desc: Test converted from old tests
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -128,4 +134,5 @@ tests:
             Proxy-Connection: "keep-alive"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920270\""
+          log:
+            expect_ids: [920270]

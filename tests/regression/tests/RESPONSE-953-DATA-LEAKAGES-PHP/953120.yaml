@@ -22,7 +22,8 @@ tests:
           uri: "/reflect"
           data: "{\"body\": \"<?php echo \\\"Hello World!\\n\\\" ?>\"}"
         output:
-          log_contains: "id \"953120\""
+          log:
+            expect_ids: [953120]
   - test_id: 2
     desc: "Negative test, returns <?php12345, should not match"
     stages:
@@ -42,7 +43,8 @@ tests:
           data: |-
             {"body": "<?php12345"}
         output:
-          no_log_contains: "id \"953120\""
+          log:
+            no_expect_ids: [953120]
   - test_id: 3
     desc: "Positive test, returns <? "
     stages:
@@ -62,7 +64,8 @@ tests:
           data: |-
             {"body": "<? "}
         output:
-          log_contains: "id \"953120\""
+          log:
+            expect_ids: [953120]
   - test_id: 4
     desc: "Negative test, returns <?1234"
     stages:
@@ -82,7 +85,8 @@ tests:
           data: |-
             {"body": "<?1234"}
         output:
-          no_log_contains: "id \"953120\""
+          log:
+            no_expect_ids: [953120]
   - test_id: 5
     desc: "Positive test, returns <?= "
     stages:
@@ -101,7 +105,8 @@ tests:
           uri: "/reflect"
           data: "{\"body\": \"<?= \\\"Hello World!\\n\\\" =?>\"}"
         output:
-          log_contains: "id \"953120\""
+          log:
+            expect_ids: [953120]
   - test_id: 6
     desc: "Negative test, returns <?=!@#$%^&"
     stages:
@@ -121,7 +126,8 @@ tests:
           data: |-
             {"body": "<?=!@#$%^&"}
         output:
-          no_log_contains: "id \"953120\""
+          log:
+            no_expect_ids: [953120]
   - test_id: 7
     desc: "Case insensitive test <?PhP "
     stages:
@@ -140,4 +146,5 @@ tests:
           uri: "/reflect"
           data: "{\"body\": \"<?PhP echo \\\"Hello World!\\n\\\" ?>\"}"
         output:
-          log_contains: "id \"953120\""
+          log:
+            expect_ids: [953120]

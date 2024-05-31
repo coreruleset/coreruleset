@@ -22,7 +22,8 @@ tests:
           uri: "/?lang=foobar%3Cmeta%20http-equiv%3D%22Refresh%22%20content%3D%220%3B%20url%3Dhttp%3A%2F%2Fwww.hacker.com%2F%22%3E"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921130"
+          log:
+            expect_ids: [921130]
   - test_id: 2
     desc: "HTTP Response splitting attack: cookie data"
     stages:
@@ -38,7 +39,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921130"
+          log:
+            expect_ids: [921130]
   - test_id: 3
     desc: HTTP Request Smuggling with not supported HTTP versions such as HTTP/1.2
     stages:
@@ -53,7 +55,8 @@ tests:
           uri: "/?arg1=GET%20http%3A%2F%2Fwww.foo.bar%20HTTP%2F1.2"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921130"
+          log:
+            expect_ids: [921130]
   - test_id: 4
     desc: HTTP Request Smuggling with not supported HTTP versions such as HTTP/3
     stages:
@@ -68,4 +71,5 @@ tests:
           uri: "/?arg1=GET%20http%3A%2F%2Fwww.foo.bar%20HTTP%2F3.2"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921130"
+          log:
+            expect_ids: [921130]

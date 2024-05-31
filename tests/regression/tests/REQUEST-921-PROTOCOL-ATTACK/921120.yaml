@@ -22,7 +22,8 @@ tests:
           uri: /?lang=foobar%0d%0aContent-Length:%200%0d%0a%0d%0aHTTP/1.1%20200%20OK%0d%0aContent-Type:%20text/html%0d%0aContent-Length:%2019%0d%0a%0d%0a<html>Shazam</html>
           version: HTTP/1.1
         output:
-          log_contains: id "921120"
+          log:
+            expect_ids: [921120]
   - test_id: 2
     desc: "HTTP Response splitting attack"
     stages:
@@ -39,7 +40,8 @@ tests:
           uri: "/file.jsp?somevar=foobar%0d%0aContent-Length:%2002343432423<html>ftw</html>"
           version: HTTP/1.1
         output:
-          log_contains: id "921120"
+          log:
+            expect_ids: [921120]
   - test_id: 3
     desc: "Fix FP issue 1615. Header followed by word chars."
     stages:
@@ -56,7 +58,8 @@ tests:
           uri: "/file.jsp?somevar=%0A%0Dlocation:%0A%0D"
           version: HTTP/1.1
         output:
-          no_log_contains: id "921120"
+          log:
+            no_expect_ids: [921120]
   - test_id: 4
     desc: "Status Page Test - Parameter with value 'CR.LF.Content-Length: 0' to match the rule's regular expression"
     stages:
@@ -74,4 +77,5 @@ tests:
           data: "var=%0d%0aContent-Length: 0"
           version: HTTP/1.1
         output:
-          log_contains: id "921120"
+          log:
+            expect_ids: [921120]

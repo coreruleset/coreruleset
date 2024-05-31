@@ -23,4 +23,5 @@ tests:
           data: |-
             {"body": "[match sql-errors.data]the used select statements have different number of columns[/match]: Warning: SQLite3::query() [sqlite3.query]: 1 values for 2 columns in /mysite/product.php on line 94"}
         output:
-          log_contains: "id \"951250\""
+          log:
+            expect_ids: [951250]

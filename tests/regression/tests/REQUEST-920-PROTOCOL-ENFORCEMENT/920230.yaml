@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: "Description"
 rule_id: 920230
 tests:
   - # From old modsec regression tests
@@ -20,7 +19,8 @@ tests:
             Proxy-Connection: "keep-alive"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920230\""
+          log:
+            expect_ids: [920230]
   - # From old modsec regression tests
     test_id: 2
     stages:
@@ -37,4 +37,5 @@ tests:
             Proxy-Connection: "keep-alive"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920230\""
+          log:
+            no_expect_ids: [920230]

@@ -22,7 +22,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.clonetransformer"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 2
     desc: "Argument name includes keyword runtime.clonetransformer"
     stages:
@@ -41,7 +42,8 @@ tests:
           version: "HTTP/1.0"
           data: "runtime.clonetransformer=test"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 3
     desc: "Cookie test includes keyword runtime.clonetransformer"
     stages:
@@ -61,7 +63,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 4
     desc: "Cookie name includes keyword runtime.clonetransformer"
     stages:
@@ -81,7 +84,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 5
     desc: "Request header test includes keyword runtime.clonetransformer"
     stages:
@@ -101,7 +105,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 6
     desc: "XML attribute value includes keyword runtime.clonetransformer"
     stages:
@@ -120,7 +125,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"runtime.clonetransformer\">element_value</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 7
     desc: "XML element value includes keyword runtime.clonetransformer"
     stages:
@@ -139,7 +145,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">runtime.clonetransformer</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 8
     desc: "Nested XML element value includes keyword runtime.clonetransformer"
     stages:
@@ -158,7 +165,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">runtime.clonetransformer</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 9
     desc: "Content-Type text/plain includes keyword runtime.clonetransformer"
     stages:
@@ -177,7 +185,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.clonetransformer"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 10
     desc: "Content-Type application/json arg value includes keyword runtime.clonetransformer"
     stages:
@@ -196,7 +205,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"runtime.clonetransformer\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 11
     desc: "Content-Type application/json arg name includes keyword runtime.clonetransformer"
     stages:
@@ -215,7 +225,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"runtime.clonetransformer\": \"test\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 12
     desc: "Argument test includes keyword runtime.forclosure"
     stages:
@@ -234,7 +245,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.forclosure"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 13
     desc: "Argument name includes keyword runtime.forclosure"
     stages:
@@ -253,7 +265,8 @@ tests:
           version: "HTTP/1.0"
           data: "runtime.forclosure=test"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 14
     desc: "Cookie test includes keyword runtime.forclosure"
     stages:
@@ -273,7 +286,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 15
     desc: "Cookie name includes keyword runtime.forclosure"
     stages:
@@ -293,7 +307,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 16
     desc: "Request header test includes keyword runtime.forclosure"
     stages:
@@ -313,7 +328,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 17
     desc: "XML attribute value includes keyword runtime.forclosure"
     stages:
@@ -332,7 +348,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"runtime.forclosure\">element_value</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 18
     desc: "XML element value includes keyword runtime.forclosure"
     stages:
@@ -351,7 +368,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">runtime.forclosure</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 19
     desc: "Nested XML element value includes keyword runtime.forclosure"
     stages:
@@ -370,7 +388,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">runtime.forclosure</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 20
     desc: "Content-Type text/plain includes keyword runtime.forclosure"
     stages:
@@ -389,7 +408,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.forclosure"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 21
     desc: "Content-Type application/json arg value includes keyword runtime.forclosure"
     stages:
@@ -408,7 +428,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"runtime.forclosure\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 22
     desc: "Content-Type application/json arg name includes keyword runtime.forclosure"
     stages:
@@ -427,7 +448,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"runtime.forclosure\": \"test\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 23
     desc: "Argument test includes keyword runtime.instantiatefactory"
     stages:
@@ -446,7 +468,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.instantiatefactory"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 24
     desc: "Argument name includes keyword runtime.instantiatefactory"
     stages:
@@ -465,7 +488,8 @@ tests:
           version: "HTTP/1.0"
           data: "runtime.instantiatefactory=test"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 25
     desc: "Cookie test includes keyword runtime.instantiatefactory"
     stages:
@@ -485,7 +509,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 26
     desc: "Cookie name includes keyword runtime.instantiatefactory"
     stages:
@@ -505,7 +530,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 27
     desc: "Request header test includes keyword runtime.instantiatefactory"
     stages:
@@ -525,7 +551,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 28
     desc: "XML attribute value includes keyword runtime.instantiatefactory"
     stages:
@@ -544,7 +571,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"runtime.instantiatefactory\">element_value</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 29
     desc: "XML element value includes keyword runtime.instantiatefactory"
     stages:
@@ -563,7 +591,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">runtime.instantiatefactory</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 30
     desc: "Nested XML element value includes keyword runtime.instantiatefactory"
     stages:
@@ -582,7 +611,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">runtime.instantiatefactory</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 31
     desc: "Content-Type text/plain includes keyword runtime.instantiatefactory"
     stages:
@@ -601,7 +631,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.instantiatefactory"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 32
     desc: "Content-Type application/json arg value includes keyword runtime.instantiatefactory"
     stages:
@@ -620,7 +651,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"runtime.instantiatefactory\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 33
     desc: "Content-Type application/json arg name includes keyword runtime.instantiatefactory"
     stages:
@@ -639,7 +671,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"runtime.instantiatefactory\": \"test\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 34
     desc: "Argument test includes keyword runtime.instantiatetransformer"
     stages:
@@ -658,7 +691,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.instantiatetransformer"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 35
     desc: "Argument name includes keyword runtime.instantiatetransformer"
     stages:
@@ -677,7 +711,8 @@ tests:
           version: "HTTP/1.0"
           data: "runtime.instantiatetransformer=test"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 36
     desc: "Cookie test includes keyword runtime.instantiatetransformer"
     stages:
@@ -697,7 +732,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 37
     desc: "Cookie name includes keyword runtime.instantiatetransformer"
     stages:
@@ -717,7 +753,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 38
     desc: "Request header test includes keyword runtime.instantiatetransformer"
     stages:
@@ -737,7 +774,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 39
     desc: "XML attribute value includes keyword runtime.instantiatetransformer"
     stages:
@@ -756,7 +794,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"runtime.instantiatetransformer\">element_value</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 40
     desc: "XML element value includes keyword runtime.instantiatetransformer"
     stages:
@@ -775,7 +814,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">runtime.instantiatetransformer</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 41
     desc: "Nested XML element value includes keyword runtime.instantiatetransformer"
     stages:
@@ -794,7 +834,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">runtime.instantiatetransformer</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 42
     desc: "Content-Type text/plain includes keyword runtime.instantiatetransformer"
     stages:
@@ -813,7 +854,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.instantiatetransformer"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 43
     desc: "Content-Type application/json arg value includes keyword runtime.instantiatetransformer"
     stages:
@@ -832,7 +874,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"runtime.instantiatetransformer\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 44
     desc: "Content-Type application/json arg name includes keyword runtime.instantiatetransformer"
     stages:
@@ -851,7 +894,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"runtime.instantiatetransformer\": \"test\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 45
     desc: "Argument test includes keyword runtime.invokertransformer"
     stages:
@@ -870,7 +914,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.invokertransformer"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 46
     desc: "Argument name includes keyword runtime.invokertransformer"
     stages:
@@ -889,7 +934,8 @@ tests:
           version: "HTTP/1.0"
           data: "runtime.invokertransformer=test"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 47
     desc: "Cookie test includes keyword runtime.invokertransformer"
     stages:
@@ -909,7 +955,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 48
     desc: "Cookie name includes keyword runtime.invokertransformer"
     stages:
@@ -929,7 +976,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 49
     desc: "Request header test includes keyword runtime.invokertransformer"
     stages:
@@ -949,7 +997,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 50
     desc: "XML attribute value includes keyword runtime.invokertransformer"
     stages:
@@ -968,7 +1017,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"runtime.invokertransformer\">element_value</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 51
     desc: "XML element value includes keyword runtime.invokertransformer"
     stages:
@@ -987,7 +1037,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">runtime.invokertransformer</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 52
     desc: "Nested XML element value includes keyword runtime.invokertransformer"
     stages:
@@ -1006,7 +1057,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">runtime.invokertransformer</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 53
     desc: "Content-Type text/plain includes keyword runtime.invokertransformer"
     stages:
@@ -1025,7 +1077,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.invokertransformer"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 54
     desc: "Content-Type application/json arg value includes keyword runtime.invokertransformer"
     stages:
@@ -1044,7 +1097,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"runtime.invokertransformer\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 55
     desc: "Content-Type application/json arg name includes keyword runtime.invokertransformer"
     stages:
@@ -1063,7 +1117,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"runtime.invokertransformer\": \"test\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 56
     desc: "Argument test includes keyword runtime.prototypeclonefactory"
     stages:
@@ -1082,7 +1137,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.prototypeclonefactory"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 57
     desc: "Argument name includes keyword runtime.prototypeclonefactory"
     stages:
@@ -1101,7 +1157,8 @@ tests:
           version: "HTTP/1.0"
           data: "runtime.prototypeclonefactory=test"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 58
     desc: "Cookie test includes keyword runtime.prototypeclonefactory"
     stages:
@@ -1121,7 +1178,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 59
     desc: "Cookie name includes keyword runtime.prototypeclonefactory"
     stages:
@@ -1141,7 +1199,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 60
     desc: "Request header test includes keyword runtime.prototypeclonefactory"
     stages:
@@ -1161,7 +1220,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 61
     desc: "XML attribute value includes keyword runtime.prototypeclonefactory"
     stages:
@@ -1180,7 +1240,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"runtime.prototypeclonefactory\">element_value</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 62
     desc: "XML element value includes keyword runtime.prototypeclonefactory"
     stages:
@@ -1199,7 +1260,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">runtime.prototypeclonefactory</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 63
     desc: "Nested XML element value includes keyword runtime.prototypeclonefactory"
     stages:
@@ -1218,7 +1280,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">runtime.prototypeclonefactory</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 64
     desc: "Content-Type text/plain includes keyword runtime.prototypeclonefactory"
     stages:
@@ -1237,7 +1300,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.prototypeclonefactory"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 65
     desc: "Content-Type application/json arg value includes keyword runtime.prototypeclonefactory"
     stages:
@@ -1256,7 +1320,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"runtime.prototypeclonefactory\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 66
     desc: "Content-Type application/json arg name includes keyword runtime.prototypeclonefactory"
     stages:
@@ -1275,7 +1340,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"runtime.prototypeclonefactory\": \"test\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 67
     desc: "Argument test includes keyword runtime.prototypeserializationfactory"
     stages:
@@ -1294,7 +1360,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.prototypeserializationfactory"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 68
     desc: "Argument name includes keyword runtime.prototypeserializationfactory"
     stages:
@@ -1313,7 +1380,8 @@ tests:
           version: "HTTP/1.0"
           data: "runtime.prototypeserializationfactory=test"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 69
     desc: "Cookie test includes keyword runtime.prototypeserializationfactory"
     stages:
@@ -1333,7 +1401,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 70
     desc: "Cookie name includes keyword runtime.prototypeserializationfactory"
     stages:
@@ -1353,7 +1422,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 71
     desc: "Request header test includes keyword runtime.prototypeserializationfactory"
     stages:
@@ -1373,7 +1443,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 72
     desc: "XML attribute value includes keyword runtime.prototypeserializationfactory"
     stages:
@@ -1392,7 +1463,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"runtime.prototypeserializationfactory\">element_value</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 73
     desc: "XML element value includes keyword runtime.prototypeserializationfactory"
     stages:
@@ -1411,7 +1483,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">runtime.prototypeserializationfactory</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 74
     desc: "Nested XML element value includes keyword runtime.prototypeserializationfactory"
     stages:
@@ -1430,7 +1503,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">runtime.prototypeserializationfactory</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 75
     desc: "Content-Type text/plain includes keyword runtime.prototypeserializationfactory"
     stages:
@@ -1449,7 +1523,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.prototypeserializationfactory"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 76
     desc: "Content-Type application/json arg value includes keyword runtime.prototypeserializationfactory"
     stages:
@@ -1468,7 +1543,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"runtime.prototypeserializationfactory\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 77
     desc: "Content-Type application/json arg name includes keyword runtime.prototypeserializationfactory"
     stages:
@@ -1487,7 +1563,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"runtime.prototypeserializationfactory\": \"test\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 78
     desc: "Argument test includes keyword runtime.whileclosure"
     stages:
@@ -1506,7 +1583,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.whileclosure"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 79
     desc: "Argument name includes keyword runtime.whileclosure"
     stages:
@@ -1525,7 +1603,8 @@ tests:
           version: "HTTP/1.0"
           data: "runtime.whileclosure=test"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 80
     desc: "Cookie test includes keyword runtime.whileclosure"
     stages:
@@ -1545,7 +1624,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 81
     desc: "Cookie name includes keyword runtime.whileclosure"
     stages:
@@ -1565,7 +1645,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 82
     desc: "Request header test includes keyword runtime.whileclosure"
     stages:
@@ -1585,7 +1666,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 83
     desc: "XML attribute value includes keyword runtime.whileclosure"
     stages:
@@ -1604,7 +1686,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"runtime.whileclosure\">element_value</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 84
     desc: "XML element value includes keyword runtime.whileclosure"
     stages:
@@ -1623,7 +1706,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">runtime.whileclosure</element></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 85
     desc: "Nested XML element value includes keyword runtime.whileclosure"
     stages:
@@ -1642,7 +1726,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">runtime.whileclosure</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 86
     desc: "Content-Type text/plain includes keyword runtime.whileclosure"
     stages:
@@ -1661,7 +1746,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=runtime.whileclosure"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 87
     desc: "Content-Type application/json arg value includes keyword runtime.whileclosure"
     stages:
@@ -1680,7 +1766,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"runtime.whileclosure\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]
   - test_id: 88
     desc: "Content-Type application/json arg name includes keyword runtime.whileclosure"
     stages:
@@ -1699,4 +1786,5 @@ tests:
           version: "HTTP/1.0"
           data: "{\"runtime.whileclosure\": \"test\"}"
         output:
-          log_contains: "id \"944240\""
+          log:
+            expect_ids: [944240]

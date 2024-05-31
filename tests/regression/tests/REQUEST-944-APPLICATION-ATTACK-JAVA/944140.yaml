@@ -17,7 +17,8 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "944140"
+          log:
+            no_expect_ids: [944140]
   - test_id: 2
     desc: Java script uploads
     stages:
@@ -33,7 +34,8 @@ tests:
           uri: "/get/upload1"
           version: "HTTP/1.1"
         output:
-          log_contains: id "944140"
+          log:
+            expect_ids: [944140]
   - test_id: 3
     desc: Java script uploads
     stages:
@@ -49,7 +51,8 @@ tests:
           uri: "/get/upload2"
           version: "HTTP/1.1"
         output:
-          log_contains: id "944140"
+          log:
+            expect_ids: [944140]
   - test_id: 4
     desc: Java script uploads
     stages:
@@ -65,7 +68,8 @@ tests:
           uri: "/get/upload3"
           version: "HTTP/1.1"
         output:
-          log_contains: id "944140"
+          log:
+            expect_ids: [944140]
   - test_id: 5
     desc: Java script uploads
     stages:
@@ -81,7 +85,8 @@ tests:
           uri: "/get/upload4"
           version: "HTTP/1.1"
         output:
-          log_contains: id "944140"
+          log:
+            expect_ids: [944140]
   - test_id: 6
     desc: Java script uploads
     stages:
@@ -97,7 +102,8 @@ tests:
           uri: "/get/upload"
           version: "HTTP/1.1"
         output:
-          log_contains: id "944140"
+          log:
+            expect_ids: [944140]
   - test_id: 7
     desc: Java script uploads
     stages:
@@ -113,7 +119,8 @@ tests:
           uri: "/get/upload"
           version: "HTTP/1.1"
         output:
-          log_contains: id "944140"
+          log:
+            expect_ids: [944140]
   - test_id: 8
     desc: Java script uploads
     stages:
@@ -129,7 +136,8 @@ tests:
           uri: "/get/upload7"
           version: "HTTP/1.1"
         output:
-          log_contains: id "944140"
+          log:
+            expect_ids: [944140]
   - test_id: 9
     desc: Java script uploads
     stages:
@@ -145,4 +153,5 @@ tests:
           uri: "/get/upload8"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "944140"
+          log:
+            no_expect_ids: [944140]

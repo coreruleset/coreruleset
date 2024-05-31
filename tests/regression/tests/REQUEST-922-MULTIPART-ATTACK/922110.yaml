@@ -30,7 +30,8 @@ tests:
             Knock knock.
             --boundary--
         output:
-          log_contains: id "922110"
+          log:
+            expect_ids: [922110]
   - test_id: 2
     desc: "Negative test: utf-8 is allowed"
     stages:
@@ -57,4 +58,5 @@ tests:
             I shold be allowed to get in.
             --boundary--
         output:
-          no_log_contains: id "922110"
+          log:
+            no_expect_ids: [922110]

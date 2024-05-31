@@ -18,7 +18,8 @@ tests:
           uri: "/script_rule921160.jsp?variableX=bar&variable2=Y&%0d%0Remote-addr%0d%0d%0d:%20foo.bar.com"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921160"
+          log:
+            expect_ids: [921160]
   - test_id: 2
     desc: "HTTP Header Injection Attack via payload: w/header, correct line break, newlines after key"
     stages:
@@ -33,7 +34,8 @@ tests:
           uri: "/script_rule921160.jsp?variableX=bar&variable2=Y&%0d%0aRemote-addr%0d%0d%0d:%20foo.bar.com"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921160"
+          log:
+            expect_ids: [921160]
   - test_id: 3
     desc: "HTTP Header Injection Attack via payload: w/header"
     stages:
@@ -48,7 +50,8 @@ tests:
           uri: "/script_rule921160.jsp?variableX=bar&variable2=Y&%0d%0aRemote-addr:%20foo.bar.com"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921160"
+          log:
+            expect_ids: [921160]
   - test_id: 4
     desc: "HTTP Header Injection Attack via payload: w/header, attack explicitly in value rather than key"
     stages:
@@ -63,7 +66,8 @@ tests:
           uri: "/script_rule921160.jsp?variableX=bar&variable2=%0d%0aRemote-addr:%20foo.bar.com"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921160"
+          log:
+            expect_ids: [921160]
   - test_id: 5
     desc: "HTTP Header Injection Attack via payload: w/header, attack explicitly in key rather than value"
     stages:
@@ -78,7 +82,8 @@ tests:
           uri: "/script_rule921160.jsp?variableX=bar&%0d%0aRemote-addr:%20foo.bar.com=Y"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921160"
+          log:
+            expect_ids: [921160]
   - test_id: 6
     desc: "Status Page Test - simple HTTP header Injection Attack via payload in value"
     stages:
@@ -93,4 +98,5 @@ tests:
           uri: "/get?foo=%0d%0arefresh:%20www.bar.com"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921160"
+          log:
+            expect_ids: [921160]

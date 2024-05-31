@@ -20,7 +20,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "932180"
+          log:
+            expect_ids: [932180]
   - test_id: 2
     desc: "Test file upload with multipart/form-data and filename config.yml"
     stages:
@@ -49,7 +50,8 @@ tests:
             BINARYDATA
             ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
         output:
-          log_contains: id "932180"
+          log:
+            expect_ids: [932180]
   - test_id: 3
     desc: "File upload - negative test"
     stages:
@@ -76,4 +78,5 @@ tests:
             BINARYDATA
             --0000--
         output:
-          no_log_contains: id "932180"
+          log:
+            no_expect_ids: [932180]

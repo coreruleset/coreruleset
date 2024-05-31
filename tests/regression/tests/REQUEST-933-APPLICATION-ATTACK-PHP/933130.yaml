@@ -18,7 +18,8 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933130"
+          log:
+            no_expect_ids: [933130]
   - test_id: 2
     desc: Trigger a basic request
     stages:
@@ -33,7 +34,8 @@ tests:
           uri: "/get?x=$_SERVER['test'];"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933130"
+          log:
+            expect_ids: [933130]
   - test_id: 3
     desc: Non-Server Request
     stages:
@@ -48,7 +50,8 @@ tests:
           uri: "/get?x=$_SE%20RVER['test'];"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933130"
+          log:
+            no_expect_ids: [933130]
   - test_id: 4
     desc: SERVER request URLEncoded
     stages:
@@ -63,7 +66,8 @@ tests:
           uri: "/get?x=$_%53ERVER['test'];"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933130"
+          log:
+            expect_ids: [933130]
   - test_id: 5
     desc: SERVER request URLEncoded
     stages:
@@ -78,7 +82,8 @@ tests:
           uri: "/get?%24_COOKIE=value;"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933130"
+          log:
+            expect_ids: [933130]
   - test_id: 6
     desc: SERVER index listed with obfuscated SERVER
     stages:
@@ -93,4 +98,5 @@ tests:
           uri: "/get?x=$_%53%20ERVER['request_uri'];"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933130"
+          log:
+            no_expect_ids: [933130]

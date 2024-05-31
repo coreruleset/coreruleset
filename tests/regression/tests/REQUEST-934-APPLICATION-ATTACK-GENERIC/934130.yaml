@@ -18,7 +18,8 @@ tests:
           uri: "/get?foo=proto"
           version: HTTP/1.0
         output:
-          no_log_contains: id "934130"
+          log:
+            no_expect_ids: [934130]
   - test_id: 2
     desc: positive test case with JSON POST
     stages:
@@ -36,7 +37,8 @@ tests:
           data: |
             {"text":"a","title":{"__proto__":{"where":{"name":"sqlinjection","where":null}}}}
         output:
-          log_contains: id "934130"
+          log:
+            expect_ids: [934130]
   - test_id: 3
     desc: positive test case, CVE-2021-20083
     stages:
@@ -51,7 +53,8 @@ tests:
           uri: "/get?__proto__[test]=test"
           version: HTTP/1.0
         output:
-          log_contains: id "934130"
+          log:
+            expect_ids: [934130]
   - test_id: 4
     desc: positive test case, CVE-2021-20084, 1/2
     stages:
@@ -66,7 +69,8 @@ tests:
           uri: "/get?__proto__.test=test"
           version: HTTP/1.0
         output:
-          log_contains: id "934130"
+          log:
+            expect_ids: [934130]
   - test_id: 5
     desc: positive test case, CVE-2021-20084, 2/2
     stages:
@@ -81,7 +85,8 @@ tests:
           uri: "/get?constructor.prototype.test=test"
           version: HTTP/1.0
         output:
-          log_contains: id "934130"
+          log:
+            expect_ids: [934130]
   - test_id: 6
     desc: positive test case with space evasion, CVE-2021-20084, 2/2
     stages:
@@ -96,7 +101,8 @@ tests:
           uri: "/get?constructor.prototype.%20test=test"
           version: HTTP/1.0
         output:
-          log_contains: id "934130"
+          log:
+            expect_ids: [934130]
   - test_id: 7
     desc: positive test case with GET parameter, jQuery $.get
     stages:
@@ -111,7 +117,8 @@ tests:
           uri: "/get?__proto__[context]=<img/src/onerror%3dalert(1)>"
           version: HTTP/1.0
         output:
-          log_contains: id "934130"
+          log:
+            expect_ids: [934130]
   - test_id: 8
     desc: positive test case with GET parameter, V4Fire Core Library
     stages:
@@ -126,7 +133,8 @@ tests:
           uri: "/get?__proto__%5Btest%5D%3D%7B%22json%22%3A%22value%22%7D"
           version: HTTP/1.0
         output:
-          log_contains: id "934130"
+          log:
+            expect_ids: [934130]
   - test_id: 9
     desc: positive test case with GET parameter, analytics-utils < 1.0.3
     stages:
@@ -141,7 +149,8 @@ tests:
           uri: "/get?constructor%5Bprototype%5D%5Btest%5D%3Dtest"
           version: HTTP/1.0
         output:
-          log_contains: id "934130"
+          log:
+            expect_ids: [934130]
   - test_id: 10
     desc: positive test case with GET parameter, jQuery $.get
     stages:
@@ -156,7 +165,8 @@ tests:
           uri: "/get?__proto__[jquery]=x"
           version: HTTP/1.0
         output:
-          log_contains: id "934130"
+          log:
+            expect_ids: [934130]
   - test_id: 11
     desc: positive test case with GET parameter, Vue.js
     stages:
@@ -171,7 +181,8 @@ tests:
           uri: "/get?__proto__%5Bv-bind%3Aclass%5D%3D%27%27.constructor.constructor%28%27alert%281%29%27%29%28%29"
           version: HTTP/1.0
         output:
-          log_contains: id "934130"
+          log:
+            expect_ids: [934130]
   - test_id: 12
     desc: "Detect example payload __proto__... submitted as plaintext"
     stages:
@@ -187,7 +198,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          log_contains: id "934130"
+          log:
+            expect_ids: [934130]
   - test_id: 13
     desc: "Detect example payload __proto__... submitted as plaintext with JavaScript escape sequence obfuscation"
     stages:
@@ -203,4 +215,5 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          log_contains: id "934130"
+          log:
+            expect_ids: [934130]

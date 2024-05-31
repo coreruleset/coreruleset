@@ -19,7 +19,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941110"
+          log:
+            expect_ids: [941110]
   - test_id: 2
     desc: Test as described in http://www.client9.com/article/five-interesting-injection-attacks/
     stages:
@@ -34,7 +35,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941110"
+          log:
+            expect_ids: [941110]
   - test_id: 3
     desc: Test as described in http://www.client9.com/article/five-interesting-injection-attacks/
     stages:
@@ -49,7 +51,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941110"
+          log:
+            expect_ids: [941110]
   - test_id: 4
     desc: Test as described in http://www.client9.com/article/five-interesting-injection-attacks/
     stages:
@@ -65,7 +68,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941110"
+          log:
+            expect_ids: [941110]
   - test_id: 5
     desc: XSS in URI / PATH_INFO going undetected - GH issue 1022
     stages:
@@ -80,7 +84,8 @@ tests:
             User-Agent: "OWASP CRS test agent"
           version: "HTTP/1.1"
         output:
-          log_contains: id "941110"
+          log:
+            expect_ids: [941110]
   - test_id: 6
     desc: XSS in payload using %uNNNN
     stages:
@@ -98,7 +103,8 @@ tests:
             var=%uff1cscript%u0020%uff1ealert%281%29%uff1c/script%uff1e
           version: "HTTP/1.1"
         output:
-          log_contains: id "941110"
+          log:
+            expect_ids: [941110]
   - test_id: 7
     desc: XSS in payload with individual code points urlencoded
     stages:
@@ -116,7 +122,8 @@ tests:
             var=%ef%bc%9cscript%20%ef%bc%9ealert%281%29%ef%bc%9c/script%ef%bc%9e
           version: "HTTP/1.1"
         output:
-          log_contains: id "941110"
+          log:
+            expect_ids: [941110]
   - test_id: 8
     desc: XSS in cookie name using unicode
     stages:
@@ -132,7 +139,8 @@ tests:
             Cookie: ＜script ＞alert(1)＜/script＞=value
           version: "HTTP/1.1"
         output:
-          log_contains: id "941110"
+          log:
+            expect_ids: [941110]
   - test_id: 9
     desc: XSS in Referer using html entities
     stages:
@@ -148,7 +156,8 @@ tests:
             User-Agent: "OWASP CRS test agent"
           version: "HTTP/1.1"
         output:
-          log_contains: id "941110"
+          log:
+            expect_ids: [941110]
   - test_id: 10
     desc: GH issue 1481
     stages:
@@ -163,4 +172,5 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "941110"
+          log:
+            no_expect_ids: [941110]

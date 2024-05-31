@@ -23,7 +23,8 @@ tests:
           uri: "/get/login.php?jsessionid=74B0CB414BD77D17B5680A6386EF1666"
           version: HTTP/1.1
         output:
-          log_contains: id "943110"
+          log:
+            expect_ids: [943110]
   - test_id: 2
     desc: "session fixation attack"
     stages:
@@ -39,7 +40,8 @@ tests:
           uri: "/get?phpsessid=asdfdasfadsads"
           version: HTTP/1.0
         output:
-          log_contains: id "943110"
+          log:
+            expect_ids: [943110]
   - test_id: 3
     desc: "session fixation attack"
     stages:
@@ -55,7 +57,8 @@ tests:
           uri: "/get?phpsessid=asdfdasfadsads"
           version: HTTP/1.0
         output:
-          log_contains: id "943110"
+          log:
+            expect_ids: [943110]
   - test_id: 4
     desc: Session Fixation Attack (943110) from old modsec regressions
     stages:
@@ -76,4 +79,5 @@ tests:
           uri: "/get/login.php?jsessionid=74B0CB414BD77D17B5680A6386EF1666"
           version: HTTP/1.1
         output:
-          no_log_contains: id "943110"
+          log:
+            no_expect_ids: [943110]

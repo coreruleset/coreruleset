@@ -30,7 +30,8 @@ tests:
             Let me see if I can use utf-7.
             --boundary--
         output:
-          log_contains: id "922100"
+          log:
+            expect_ids: [922100]
   - test_id: 2
     desc: "Negative test: only allowed charsets when using _charset_"
     stages:
@@ -57,7 +58,8 @@ tests:
             This should be good as we use utf-8 that is allowed.
             --boundary--
         output:
-          no_log_contains: id "922100"
+          log:
+            no_expect_ids: [922100]
   - test_id: 3
     desc: "Positive test: don't allow substrings of valid charsets when using _charset_"
     stages:
@@ -84,4 +86,5 @@ tests:
             utf-8 is valid but utf- should not be.
             --boundary--
         output:
-          log_contains: id "922100"
+          log:
+            expect_ids: [922100]

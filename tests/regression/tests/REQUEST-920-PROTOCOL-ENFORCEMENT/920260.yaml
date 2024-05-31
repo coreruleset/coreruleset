@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: "Description"
 rule_id: 920260
 tests:
   - test_id: 1
@@ -9,34 +8,36 @@ tests:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          uri: "/?test=%uff0F"
+          uri: "/get?test=%uff0F"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920260\""
+          log:
+            expect_ids: [920260]
   - test_id: 2
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          uri: "/?test=%u0F"
+          uri: "/get?test=%u0F"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920260\""
-  - # Test taken from existing modsec regression
-    test_id: 3
+          log:
+            no_expect_ids: [920260]
+  - test_id: 3
+    desc: Test taken from existing modsec regression
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          uri: "/?param=foo%uFF01"
+          uri: "/get?param=foo%uFF01"
           version: "HTTP/1.0"
           headers:
             User-Agent: "OWASP CRS test agent"
@@ -46,4 +47,5 @@ tests:
             Keep-Alive: "300"
             Proxy-Connection: "keep-alive"
         output:
-          log_contains: "id \"920260\""
+          log:
+            expect_ids: [920260]

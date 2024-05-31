@@ -17,7 +17,8 @@ tests:
           uri: "/get?941151-1=test%0Dnext=more"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"921151\""
+          log:
+            expect_ids: [921151]
   - test_id: 2
     stages:
       - input:
@@ -31,7 +32,8 @@ tests:
           uri: "/get?941151-2=test%0Anext=more"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"921151\""
+          log:
+            expect_ids: [921151]
   - test_id: 3
     stages:
       - input:
@@ -45,7 +47,8 @@ tests:
           uri: "/get?941151-3=test%0A%0Dnext=more"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"921151\""
+          log:
+            expect_ids: [921151]
   - test_id: 4
     stages:
       - input:
@@ -60,4 +63,5 @@ tests:
           data: '941151-4=test\r\nmore=text'
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"921151\""
+          log:
+            no_expect_ids: [921151]

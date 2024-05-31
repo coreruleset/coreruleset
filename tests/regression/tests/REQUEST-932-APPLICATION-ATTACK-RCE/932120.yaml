@@ -17,7 +17,8 @@ tests:
           uri: "/get?932120-1=Invoke-WebRequest%20http://example.com/path/file.ps1"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"932120\""
+          log:
+            expect_ids: [932120]
   - test_id: 2
     stages:
       - input:
@@ -32,7 +33,8 @@ tests:
           data: '932120-2=Invoke-WebRequest http://example.com/path/file.ps1'
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"932120\""
+          log:
+            expect_ids: [932120]
   - test_id: 3
     stages:
       - input:
@@ -47,7 +49,8 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"932120\""
+          log:
+            expect_ids: [932120]
   - test_id: 4
     stages:
       - input:
@@ -62,7 +65,8 @@ tests:
           data: '932120-4=Invoke Web Request http://example.com/path/file.ps1'
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"932120\""
+          log:
+            no_expect_ids: [932120]
   - test_id: 5
     desc: "Test for BB GU2FIXLC - powershell"
     stages:
@@ -78,4 +82,5 @@ tests:
           data: 'cmd=powershell%20C%3A%5Cwindows%5Csystem32%5Cnotepad.exe'
           version: "HTTP/1.1"
         output:
-          log_contains: id "932120"
+          log:
+            expect_ids: [932120]

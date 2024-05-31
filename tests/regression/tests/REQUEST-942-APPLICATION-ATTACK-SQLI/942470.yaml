@@ -18,7 +18,8 @@ tests:
           data: "pay=nvarchar"
           version: HTTP/1.0
         output:
-          log_contains: id "942470"
+          log:
+            expect_ids: [942470]
   - test_id: 2
     desc: "SQL Injection Attack"
     stages:
@@ -34,7 +35,8 @@ tests:
           data: "pay=xp_cmdshell"
           version: HTTP/1.0
         output:
-          log_contains: id "942470"
+          log:
+            expect_ids: [942470]
   - test_id: 3
     desc: "SQL Injection Attack"
     stages:
@@ -50,7 +52,8 @@ tests:
           data: "pay=varchar"
           version: HTTP/1.0
         output:
-          log_contains: id "942470"
+          log:
+            expect_ids: [942470]
   - test_id: 4
     desc: "SQL Injection Attack"
     stages:
@@ -66,7 +69,8 @@ tests:
           data: "pay=xp_dirtree"
           version: HTTP/1.0
         output:
-          log_contains: id "942470"
+          log:
+            expect_ids: [942470]
   - test_id: 5
     desc: "SQL Injection Attack"
     stages:
@@ -82,7 +86,8 @@ tests:
           data: "pay=xp_regread"
           version: HTTP/1.0
         output:
-          log_contains: id "942470"
+          log:
+            expect_ids: [942470]
   - test_id: 6
     desc: "SQL Injection Attack"
     stages:
@@ -98,7 +103,8 @@ tests:
           data: "pay=sp_password"
           version: HTTP/1.0
         output:
-          log_contains: id "942470"
+          log:
+            expect_ids: [942470]
   - test_id: 7
     desc: "SQL Injection Attack"
     stages:
@@ -114,7 +120,8 @@ tests:
           data: "pay=UTL_HTTP"
           version: HTTP/1.0
         output:
-          log_contains: id "942470"
+          log:
+            expect_ids: [942470]
   - test_id: 8
     desc: "SQL Injection Attack"
     stages:
@@ -130,7 +137,8 @@ tests:
           data: "pay=OPENROWSET"
           version: HTTP/1.0
         output:
-          log_contains: id "942470"
+          log:
+            expect_ids: [942470]
   - test_id: 9
     desc: "SQL Injection Attack"
     stages:
@@ -146,7 +154,8 @@ tests:
           data: "pay=sp_executesql"
           version: HTTP/1.0
         output:
-          log_contains: id "942470"
+          log:
+            expect_ids: [942470]
   - test_id: 10
     desc: "SQL Injection Attack"
     stages:
@@ -162,7 +171,8 @@ tests:
           data: "sp_executesql"
           version: HTTP/1.0
         output:
-          log_contains: id "942470"
+          log:
+            expect_ids: [942470]
   - test_id: 11
     desc: "SQL Injection Attack: current_user"
     stages:
@@ -177,4 +187,5 @@ tests:
           uri: "/get/index.php?id=1%2bcurrent_user::int"
           version: HTTP/1.0
         output:
-          log_contains: id "942470"
+          log:
+            expect_ids: [942470]

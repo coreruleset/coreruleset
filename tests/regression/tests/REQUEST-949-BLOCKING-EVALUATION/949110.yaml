@@ -22,7 +22,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "949110"
+          log:
+            expect_ids: [949110]
   - test_id: 2
     desc: Test is basically identical to 941100-4 (XSS negative test in phase 2) but here we assert that inbound blocking mechanism is not triggered
     stages:
@@ -38,7 +39,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "949110"
+          log:
+            no_expect_ids: [949110]
   - test_id: 3
     desc: Test is basically identical to 920100-9 (protocol enforcement negative test in phase 1) but here we assert that the inbound blocking mechanism is not triggered
     stages:
@@ -53,7 +55,8 @@ tests:
           uri: "/options"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"949110\""
+          log:
+            no_expect_ids: [949110]
   - test_id: 4
     desc: Test is basically identical to 920100-10 (protocol enforcement positive test in phase 1) but here we assert that inbound blocking mechanism is triggered
     stages:
@@ -68,7 +71,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"949110\""
+          log:
+            expect_ids: [949110]
   - test_id: 5
     desc: Test is basically identical to 949110-0 (see above) but here we assert that the scores are summed up and reported properly
     stages:

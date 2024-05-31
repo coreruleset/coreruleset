@@ -19,7 +19,8 @@ tests:
           data: "TEST=echo | php7.4"
           version: HTTP/1.0
         output:
-          log_contains: id "932220"
+          log:
+            expect_ids: [932220]
   - test_id: 2
     desc: "TEST=echo | ${php7.4}php7.4"
     stages:
@@ -35,7 +36,8 @@ tests:
           data: "TEST=echo | ${php7.4}php7.4"
           version: HTTP/1.0
         output:
-          log_contains: id "932220"
+          log:
+            expect_ids: [932220]
   - test_id: 3
     desc: "whxami|sh+``"
     stages:
@@ -51,7 +53,8 @@ tests:
           data: "whxami|sh+``"
           version: HTTP/1.0
         output:
-          log_contains: id "932220"
+          log:
+            expect_ids: [932220]
   - test_id: 4
     desc: "whxami|fish+``"
     stages:
@@ -67,7 +70,8 @@ tests:
           data: "whxami|fish+``"
           version: HTTP/1.0
         output:
-          log_contains: id "932220"
+          log:
+            expect_ids: [932220]
   - test_id: 5
     desc: "Negative test"
     stages:
@@ -83,7 +87,8 @@ tests:
           data: "echo | curx"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932220"
+          log:
+            no_expect_ids: [932220]
   - test_id: 6
     desc: |
       Test for BB finding 9P5LL13Y
@@ -102,7 +107,8 @@ tests:
             echo "foo;whxam"i | tr x o | sh #"
           version: HTTP/1.1
         output:
-          log_contains: id "932220"
+          log:
+            expect_ids: [932220]
   - test_id: 7
     desc: "Block evasion using here string"
     stages:
@@ -119,7 +125,8 @@ tests:
           data: |
             code=cat<<<ifconfig | sh
         output:
-          log_contains: id "932220"
+          log:
+            expect_ids: [932220]
   - test_id: 8
     desc: "Block evasion using here string with space"
     stages:
@@ -136,7 +143,8 @@ tests:
           data: |
             code=cat<<< ifconfig | sh
         output:
-          log_contains: id "932220"
+          log:
+            expect_ids: [932220]
   - test_id: 9
     desc: "Block evasion using here string with single quotes"
     stages:
@@ -153,7 +161,8 @@ tests:
           data: |
             code=cat<<<'ifconfig' | sh
         output:
-          log_contains: id "932220"
+          log:
+            expect_ids: [932220]
   - test_id: 10
     desc: "Block evasion using here string with double quotes"
     stages:
@@ -170,7 +179,8 @@ tests:
           data: |
             code=cat<<<"ifconfig" | sh
         output:
-          log_contains: id "932220"
+          log:
+            expect_ids: [932220]
   - test_id: 11
     desc: "Block evasion using here string with command substitution"
     stages:
@@ -187,7 +197,8 @@ tests:
           data: |
             code=cat<<<$(whoami | sh)
         output:
-          log_contains: id "932220"
+          log:
+            expect_ids: [932220]
   - test_id: 12
     desc: "Block `time` prefix"
     stages:
@@ -204,7 +215,8 @@ tests:
           data: |
             code=time whoami | sh
         output:
-          log_contains: id "932220"
+          log:
+            expect_ids: [932220]
   - test_id: 13
     desc: "Block `strace` prefix"
     stages:
@@ -221,7 +233,8 @@ tests:
           data: |
             code=strace whoami | sh
         output:
-          log_contains: id "932220"
+          log:
+            expect_ids: [932220]
   - test_id: 14
     desc: "Block `nohup` prefix"
     stages:
@@ -238,4 +251,5 @@ tests:
           data: |
             code=nohup whoami | sh
         output:
-          log_contains: id "932220"
+          log:
+            expect_ids: [932220]

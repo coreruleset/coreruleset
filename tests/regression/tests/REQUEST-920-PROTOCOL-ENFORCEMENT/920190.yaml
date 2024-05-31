@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: "Description"
 rule_id: 920190
 tests:
   - test_id: 1
@@ -18,7 +17,8 @@ tests:
           uri: "/"
           version: HTTP/1.1
         output:
-          no_log_contains: id "920190"
+          log:
+            no_expect_ids: [920190]
   - test_id: 2
     desc: 'Range: Invalid Last Byte Value (920190) from old modsec regressions'
     stages:
@@ -38,7 +38,8 @@ tests:
           uri: /
           version: HTTP/1.1
         output:
-          log_contains: id "920190"
+          log:
+            expect_ids: [920190]
   - test_id: 3
     desc: "Status Page Test - Request-Range header field with range end less than range start"
     stages:
@@ -54,4 +55,5 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920190\""
+          log:
+            expect_ids: [920190]

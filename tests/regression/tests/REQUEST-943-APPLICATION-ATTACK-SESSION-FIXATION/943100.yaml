@@ -22,7 +22,8 @@ tests:
           uri: '/get/foo.php?bar=blah<script>document.cookie="sessionid=1234;%20domain=.example.dom";</script>'
           version: HTTP/1.1
         output:
-          log_contains: id "943100"
+          log:
+            expect_ids: [943100]
   - test_id: 2
     desc: "Status Page Test - Possible Session Fixation Attack: Part of Setting Cookie Values in ARG"
     stages:
@@ -42,4 +43,5 @@ tests:
           uri: "/get/foo.php?test=.cookie;expires="
           version: HTTP/1.1
         output:
-          log_contains: id "943100"
+          log:
+            expect_ids: [943100]

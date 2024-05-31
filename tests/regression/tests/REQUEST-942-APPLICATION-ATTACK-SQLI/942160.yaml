@@ -17,7 +17,8 @@ tests:
           uri: "/get?sql_table=sleep%28534543%29"
           version: HTTP/1.0
         output:
-          log_contains: id "942160"
+          log:
+            expect_ids: [942160]
   - test_id: 2
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -33,7 +34,8 @@ tests:
           data: "sleEP(3)"
           version: HTTP/1.0
         output:
-          log_contains: id "942160"
+          log:
+            expect_ids: [942160]
   - test_id: 3
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -49,7 +51,8 @@ tests:
           data: "sleep(5000)"
           version: HTTP/1.0
         output:
-          log_contains: id "942160"
+          log:
+            expect_ids: [942160]
   - test_id: 4
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -65,7 +68,8 @@ tests:
           data: "BENChmARk(2999/**/999,Md5(NoW()"
           version: HTTP/1.0
         output:
-          log_contains: id "942160"
+          log:
+            expect_ids: [942160]
   - test_id: 5
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -81,7 +85,8 @@ tests:
           data: "BEncHMARk(2999999,Md5(NoW('')"
           version: HTTP/1.0
         output:
-          log_contains: id "942160"
+          log:
+            expect_ids: [942160]
   - test_id: 6
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -97,7 +102,8 @@ tests:
           data: "BENCHMARK(5000000,MD5(0x48416166)"
           version: HTTP/1.0
         output:
-          log_contains: id "942160"
+          log:
+            expect_ids: [942160]
   - test_id: 7
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -113,7 +119,8 @@ tests:
           data: "benchmark(3000000,M%445(4)"
           version: HTTP/1.0
         output:
-          log_contains: id "942160"
+          log:
+            expect_ids: [942160]
   - test_id: 8
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -129,7 +136,8 @@ tests:
           data: "pay=BENCHMARK(1000000, md5\" AND 1883=1883-- GSCC('')"
           version: HTTP/1.0
         output:
-          log_contains: id "942160"
+          log:
+            expect_ids: [942160]
   - test_id: 9
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -145,7 +153,8 @@ tests:
           data: "pay=BeNChMaRK(1000000, md5 AND 9796=4706('')"
           version: HTTP/1.0
         output:
-          log_contains: id "942160"
+          log:
+            expect_ids: [942160]
   - test_id: 10
     desc: "Detect blind SQLi attack in REQUEST_BASENAME. Issue #1904"
     stages:
@@ -160,4 +169,5 @@ tests:
           uri: "/get/if(now()=sysdate(),sleep(12),0)"
           version: HTTP/1.0
         output:
-          log_contains: id "942160"
+          log:
+            expect_ids: [942160]

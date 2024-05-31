@@ -18,7 +18,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941101"
+          log:
+            expect_ids: [941101]
   - test_id: 2
     stages:
       - input:
@@ -32,7 +33,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941101"
+          log:
+            expect_ids: [941101]
   - test_id: 3
     desc: "SVG onload injection in filename"
     stages:
@@ -47,4 +49,5 @@ tests:
           uri: "/get/index.php/%3Csvg/onload=alert()"
           version: HTTP/1.0
         output:
-          log_contains: id "941101"
+          log:
+            expect_ids: [941101]

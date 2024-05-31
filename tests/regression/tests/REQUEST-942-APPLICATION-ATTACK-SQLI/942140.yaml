@@ -17,7 +17,8 @@ tests:
           uri: "/get?sql_table=pg_catalog"
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 2
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -33,7 +34,8 @@ tests:
           data: "INFORMATION_SCHEMA"
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 3
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -49,7 +51,8 @@ tests:
           data: "database("
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 4
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -65,7 +68,8 @@ tests:
           data: "db_name("
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 5
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -81,7 +85,8 @@ tests:
           data: "DaTaBasE("
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 6
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -97,7 +102,8 @@ tests:
           data: "InFoRmaTioN_ScHemA"
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 7
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -113,7 +119,8 @@ tests:
           data: "DB_NAME("
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 8
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -129,7 +136,8 @@ tests:
           data: "tempdb"
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 9
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -145,7 +153,8 @@ tests:
           data: "msdb"
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 10
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -161,7 +170,8 @@ tests:
           data: "mysql.db"
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 11
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -177,7 +187,8 @@ tests:
           data: "MSysAccessObjects"
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 12
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -193,7 +204,8 @@ tests:
           data: "Northwind"
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 13
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -209,7 +221,8 @@ tests:
           data: "northwind"
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 14
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -225,7 +238,8 @@ tests:
           data: "SCHEMA_NAME"
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 15
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -241,7 +255,8 @@ tests:
           data: "DATABASE("
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 16
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -257,7 +272,8 @@ tests:
           data: "schema_name"
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]
   - test_id: 17
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
@@ -273,4 +289,5 @@ tests:
           data: "information_schema"
           version: HTTP/1.0
         output:
-          log_contains: id "942140"
+          log:
+            expect_ids: [942140]

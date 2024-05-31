@@ -18,7 +18,8 @@ tests:
           data: "var=%5c0xf00dsdfdsa"
           version: HTTP/1.0
         output:
-          log_contains: id "942450"
+          log:
+            expect_ids: [942450]
   - test_id: 2
     desc: "SQL Hex Encoding"
     stages:
@@ -34,7 +35,8 @@ tests:
           data: "var=concat%280x223e3c62723e%2Cversion%28%29%2C0x3c696d67207372633d22%29"
           version: HTTP/1.0
         output:
-          log_contains: id "942450"
+          log:
+            expect_ids: [942450]
   - test_id: 3
     desc: "SQL Hex Encoding"
     stages:
@@ -50,7 +52,8 @@ tests:
           data: "var=select%200x616263"
           version: HTTP/1.0
         output:
-          log_contains: id "942450"
+          log:
+            expect_ids: [942450]
   - test_id: 4
     desc: "SQL Hex Encoding - negative"
     stages:
@@ -66,7 +69,8 @@ tests:
           data: "var=IHRlc3Q0xAcF"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942450"
+          log:
+            no_expect_ids: [942450]
   - test_id: 5
     desc: "SQL Hex Encoding - negative"
     stages:
@@ -82,4 +86,5 @@ tests:
           data: "var=9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942450"
+          log:
+            no_expect_ids: [942450]

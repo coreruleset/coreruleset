@@ -19,7 +19,8 @@ tests:
           data: "var%3d%20@.%3d%20%28%20SELECT"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 2
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -35,7 +36,8 @@ tests:
           data: "pay%3DAND+2771%3D1709%29"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 3
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -51,7 +53,8 @@ tests:
           data: "pay=%3B+insert+into"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 4
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -67,7 +70,8 @@ tests:
           data: "pay%3DAND+7639%3D%28"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 5
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -83,7 +87,8 @@ tests:
           data: "pay%3Dor+120%3D121%3D"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 6
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -99,7 +104,8 @@ tests:
           data: "pay%3DAND+deleted+%3D+0%29"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 7
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -115,7 +121,8 @@ tests:
           data: "pay%3D%2FCm7+OR+"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 8
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -131,7 +138,8 @@ tests:
           data: "pay%3DOR+%287319%3D8742%29"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 9
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -147,7 +155,8 @@ tests:
           data: "pay%3D%7C%7C%28null%21%3D"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 10
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -163,7 +172,8 @@ tests:
           data: "pay%3Dand+1%21%3D%22"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 11
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -179,7 +189,8 @@ tests:
           data: "pay%3Ddiv+role%3D%22"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 12
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -195,7 +206,8 @@ tests:
           data: "pay%3Ddiv+id%3D%22"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 13
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -211,7 +223,8 @@ tests:
           data: "pay%3Ddiv+style%3D%22"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 14
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -227,7 +240,8 @@ tests:
           data: "pay%3Dor+1%3D%27"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 15
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -243,7 +257,8 @@ tests:
           data: "pay%3DAND+7829%3D%28"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 16
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -259,7 +274,8 @@ tests:
           data: "pay%3DAND+4372%3D%28"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 17
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -275,7 +291,8 @@ tests:
           data: "pay%3D%3B+UpdateUserTypeTracking"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 18
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -291,7 +308,8 @@ tests:
           data: "pay%3DoR+pmw%3D%3D"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 19
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -307,7 +325,8 @@ tests:
           data: "pay%3D%7C%7C+langCode+%3D%3D+%27"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 20
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -323,7 +342,8 @@ tests:
           data: "pay%3D%7C%7C+c+%3D%3D+%27"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 21
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -339,7 +359,8 @@ tests:
           data: "pay%3D%7C%7C+arg+%3D%3D+%27"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 22
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -355,7 +376,8 @@ tests:
           data: "pay%3D%2FHmong_language+AND+"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 23
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -371,7 +393,8 @@ tests:
           data: "pay%3D%7C%7C+langCode+%3D%3D"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 24
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -387,7 +410,8 @@ tests:
           data: "pay%3D%7C%7C+checker+%3D%3D"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 25
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -403,7 +427,8 @@ tests:
           data: "pay%3D%26%26+setPath+%21%3D"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 26
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -419,7 +444,8 @@ tests:
           data: "pay%3D%3Bset+%40"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942210"
+          log:
+            no_expect_ids: [942210]
   - test_id: 27
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -435,7 +461,8 @@ tests:
           data: "pay%3D%3Bupdate+users"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 28
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -451,7 +478,8 @@ tests:
           data: "pay%3Dand+1%3D%28"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 29
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -467,7 +495,8 @@ tests:
           data: "pay%3D%2FSPZwOaVcDWkrRly2aV01662fN+Or+"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 30
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -483,7 +512,8 @@ tests:
           data: "pay%3DOR+CType%3D%27"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 31
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -499,7 +529,8 @@ tests:
           data: "pay%3D1+OR+2%2B"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942210"
+          log:
+            no_expect_ids: [942210]
   - test_id: 32
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -515,7 +546,8 @@ tests:
           data: "pay%3D%3ESET+%40OLD_SQL_NOTES"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 33
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -531,7 +563,8 @@ tests:
           data: "pay%3D%3BSET+%40OLD_SQL_MODE"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 34
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -547,7 +580,8 @@ tests:
           data: "pay%3D%3BSET+%40OLD_FOREIGN_KEY_CHECKS"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 35
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -563,7 +597,8 @@ tests:
           data: "pay%3D%3BSET+%40OLD_UNIQUE_CHECKS"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 36
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -579,7 +614,8 @@ tests:
           data: "pay%3D%3Bdrop"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 37
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -595,7 +631,8 @@ tests:
           data: "pay%3D+SET+%40OLD_SQL_NOTES"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 38
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -611,7 +648,8 @@ tests:
           data: "pay%3D%40example.com%26name%3D%28select"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 39
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -627,7 +665,8 @@ tests:
           data: "pay%3D%40extension%5D%3DMmcDirectmailSubscription%26tx_mmcdirectmailsubscription_subscr%5B__referrer%5D%5B%40vendor%5D%3D%28SELECT"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 40
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -643,7 +682,8 @@ tests:
           data: "pay%3D%40extension%5D%3DMmcDirectmailSubscription%26tx_mmcdirectmailsubscription_subscr%5B__referrer%5D%5B%40vendor%5D%3DMMC%26tx_mmcdirectmailsubscription_subscr%5B__referrer%5D%5B%40controller%5D%3DSubscribe%26tx_mmcdirectmailsubscription_subscr%5B__referrer%5D%5B%40action%5D%3Dregister%26tx_mmcdirectmailsubscription_subscr%5B__referrer%5D%5Barguments%5D%3DYTowOnt98f5f75937bad1b56b6c736ef42e625647dab347d%26tx_mmcdirectmailsubscription_subscr%5B__referrer%5D%5B%40request%5D%3Da%3A4%3A%7Bs%3A10%3A%26tx_mmcdirectmailsubscription_subscr%5B__trustedProperties%5D%3Da%3A4%3A%7Bs%3A7%3A%26tx_mmcdirectmailsubscription_subscr%5Baddress%5D%5BfirstName%5D%3D%28SELECT"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 41
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -659,7 +699,8 @@ tests:
           data: "pay%3Dand+object_type+%3D+%27"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 42
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -675,7 +716,8 @@ tests:
           data: "pay%3D%2FBusiness+and"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942210"
+          log:
+            no_expect_ids: [942210]
   - test_id: 43
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -691,7 +733,8 @@ tests:
           data: "pay%3DAND+value+%3D+%27"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 44
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -707,7 +750,8 @@ tests:
           data: "pay%3D4AND4%2B"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942210"
+          log:
+            no_expect_ids: [942210]
   - test_id: 45
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -723,7 +767,8 @@ tests:
           data: "pay%3D%2F3+or+"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 46
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -739,7 +784,8 @@ tests:
           data: "pay%3D%2F3+and%28"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 47
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -755,7 +801,8 @@ tests:
           data: "pay%3D%2Fxxxx_R+AND+"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 48
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -771,7 +818,8 @@ tests:
           data: "pay%3D%2Fxxxx_R+or"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942210"
+          log:
+            no_expect_ids: [942210]
   - test_id: 49
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -787,7 +835,8 @@ tests:
           data: "pay%3D1+GROUP+BY+CONCAT%280x716a787671%2C%28SELECT+MID%28%28IFNULL%28CAST%28a_1_18+AS+CHAR%29%2C0x20%29%29%2C1%2C54%29+FROM+db_justiz_daz.ugesundheit_antworten+ORDER+BY+id+LIMIT+571%2C1%29%2C0x7178716b71%2CFLOOR%28RAND%280%29%2A2%29%29+HAVING+MIN%28"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 50
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -803,7 +852,8 @@ tests:
           data: "pay%3DAND+backend_layout%21%3D"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 51
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -819,7 +869,8 @@ tests:
           data: "pay%3DAND+uid%21%3D%28"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 52
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -835,7 +886,8 @@ tests:
           data: "pay%3Dand+1%3D1%27"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 53
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -851,7 +903,8 @@ tests:
           data: "pay%3D%26%26%28l%3D%210%29"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 54
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -867,7 +920,8 @@ tests:
           data: "pay%3D%7C%7C%28e+%3D%22"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 55
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -883,7 +937,8 @@ tests:
           data: "pay%3D%26%26%28e%3D%3D%3D"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 56
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -899,7 +954,8 @@ tests:
           data: "pay%3D%26%26%28null%3D%3D%28"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 57
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -915,7 +971,8 @@ tests:
           data: "pay%3D%26%26%28a%3D%22"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 58
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -931,7 +988,8 @@ tests:
           data: "pay%3D%7C%7C%28c%3D%211%29"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 59
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -947,7 +1005,8 @@ tests:
           data: "pay%3D%26%26%28d%21%3D%3D"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 60
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -963,7 +1022,8 @@ tests:
           data: "pay%3D%7C%7C%28g%3D%210%29"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 61
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -979,7 +1039,8 @@ tests:
           data: "pay%3D%26%26%28e%3D%22"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 62
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -995,7 +1056,8 @@ tests:
           data: "pay%3D%26%26%28c%3D%210%29"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 63
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1011,7 +1073,8 @@ tests:
           data: "pay%3D%26%26%28f+%3D%28"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 64
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1027,7 +1090,8 @@ tests:
           data: "pay%3D%7C%7C%28x%3D%22"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 65
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1043,7 +1107,8 @@ tests:
           data: "pay%3D%26%26%28b%3D0%29"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 66
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1059,7 +1124,8 @@ tests:
           data: "pay%3D%7C%7C%28e%3D%3D%3D"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 67
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1075,7 +1141,8 @@ tests:
           data: "pay%3D%7C%7C%28c%3D%3D%3D"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 68
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1091,7 +1158,8 @@ tests:
           data: "pay%3D%26%26+1%3D%3D%28"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 69
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1107,7 +1175,8 @@ tests:
           data: "pay=OR backend_layout= '"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 70
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1123,7 +1192,8 @@ tests:
           data: "pay=--alter"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 71
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1139,7 +1209,8 @@ tests:
           data: "pay=AND (name = \""
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 72
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1155,7 +1226,8 @@ tests:
           data: "pay=OR name = \""
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 73
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1171,7 +1243,8 @@ tests:
           data: "pay=AND ( name = \""
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 74
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1187,7 +1260,8 @@ tests:
           data: "pay=4oR2-"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 75
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1203,7 +1277,8 @@ tests:
           data: "pay=AND engine = '"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 76
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1219,7 +1294,8 @@ tests:
           data: "pay=and code != \""
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 77
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1235,7 +1311,8 @@ tests:
           data: "pay=and freigabe = \""
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 78
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1251,7 +1328,8 @@ tests:
           data: "pay=AND 6698=("
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 79
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1267,7 +1345,8 @@ tests:
           data: "pay=or class!=\""
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 80
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1283,7 +1362,8 @@ tests:
           data: "pay=or 4975==4975'"
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]
   - test_id: 81
     desc: "Detects chained SQL injection attempts"
     stages:
@@ -1299,4 +1379,5 @@ tests:
           data: "pay=1 GROUP BY CONCAT(0x7162766a71,(SELECT (CASE WHEN (5554=5554) THEN 1 ELSE 0 END)),0x7171786271,FLOOR(RAND(0)*2)) HAVING MIN("
           version: HTTP/1.0
         output:
-          log_contains: id "942210"
+          log:
+            expect_ids: [942210]

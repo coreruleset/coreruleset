@@ -18,7 +18,8 @@ tests:
           data: "var=%22%60%20%2A%20123"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 2
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -34,7 +35,8 @@ tests:
           data: "' ', 10"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 3
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -50,7 +52,8 @@ tests:
           data: "'', '', '', '', '', '', '', '', 13"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 4
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -66,7 +69,8 @@ tests:
           data: "`>65"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 5
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -82,7 +86,8 @@ tests:
           data: "pay='1001'='10"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 6
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -98,7 +103,8 @@ tests:
           data: "\"2562*23"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 7
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -114,7 +120,8 @@ tests:
           data: "pay=\":[\"00"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 8
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -130,7 +137,8 @@ tests:
           data: "pay=`>6fbdec2"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 9
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -146,7 +154,8 @@ tests:
           data: "pay='][0]]), strtolower($b[$GLOBALS['"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 10
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -162,7 +171,8 @@ tests:
           data: "pay=', 2, 1"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 11
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -178,7 +188,8 @@ tests:
           data: "`>9e7"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 12
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -194,7 +205,8 @@ tests:
           data: "pay=\":\"65"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 13
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -210,7 +222,8 @@ tests:
           data: "pay='\\2nq5"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 14
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -226,7 +239,8 @@ tests:
           data: "pay=` < 0) AND `"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 15
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -242,7 +256,8 @@ tests:
           data: "pay='0:0:6"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 16
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -258,7 +273,8 @@ tests:
           data: "\":60"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 17
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -274,7 +290,8 @@ tests:
           data: "pay=\">%5 - type_submit_reset_5"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 18
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -290,7 +307,8 @@ tests:
           data: "\":35"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 19
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -306,7 +324,8 @@ tests:
           data: "pay='3085'='30"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 20
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -322,7 +341,8 @@ tests:
           data: "\":\"[0,\\x22"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 21
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -338,7 +358,8 @@ tests:
           data: "pay='16/17"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]
   - test_id: 22
     desc: "classic SQL injection probings 3/3"
     stages:
@@ -354,4 +375,5 @@ tests:
           data: "\";}7b6"
           version: HTTP/1.0
         output:
-          log_contains: id "942490"
+          log:
+            expect_ids: [942490]

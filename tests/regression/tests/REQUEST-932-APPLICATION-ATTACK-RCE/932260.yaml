@@ -17,7 +17,8 @@ tests:
           uri: "/get?932260-1=bash%20-c%20%22echo%20test%22"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 2
     stages:
       - input:
@@ -32,7 +33,8 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 3
     stages:
       - input:
@@ -47,7 +49,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 4
     stages:
       - input:
@@ -62,7 +65,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 5
     stages:
       - input:
@@ -77,7 +81,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 6
     stages:
       - input:
@@ -92,7 +97,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 7
     desc: "Unix Command Injection - python version bypass test"
     stages:
@@ -108,7 +114,8 @@ tests:
           uri: "/get?cmd=python3.10%20cmd"
           version: HTTP/1.0
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 8
     desc: "Unix Command Injection - printf bypass test"
     stages:
@@ -124,7 +131,8 @@ tests:
           uri: "/get?cmd=printf%20dW5hbWUgLWE=%7Cbase64%20-d%7Csh"
           version: HTTP/1.0
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 9
     desc: "Positive test: Data exfiltration with gunzip"
     stages:
@@ -140,7 +148,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 10
     desc: "Positive test: Data exfiltration with zstdcat"
     stages:
@@ -156,7 +165,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 11
     desc: "Positive test: Unix Command Injection - busybox test"
     stages:
@@ -172,7 +182,8 @@ tests:
           uri: "/get?code=busybox%20-c%20%22echo%20hi%22"
           version: "HTTP/1.1"
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 12
     desc: Remote Command Execution bypass with time
     stages:
@@ -189,7 +200,8 @@ tests:
           uri: "/get?foo=time+bsdtar+"
           version: HTTP/1.1
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 13
     desc: Remote Command Execution bypass with time negative test
     stages:
@@ -206,7 +218,8 @@ tests:
           uri: "/get?foo=time+warner+"
           version: HTTP/1.1
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 14
     desc: Remote Command Injection test for BB finding 935E1D91
     stages:
@@ -223,7 +236,8 @@ tests:
           uri: "/get?foo=time+curl+coreruleset.org"
           version: HTTP/1.1
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 15
     desc: Remote Command Injection test for BB finding 935E1D91 - time evasion attempt
     stages:
@@ -240,7 +254,8 @@ tests:
           uri: "/get?foo=ti''me+curl+coreruleset.org"
           version: HTTP/1.1
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 16
     desc: System Command Injection test for BB finding AV6ZO3ZS - mixed case
     stages:
@@ -257,7 +272,8 @@ tests:
           uri: "/get?foo='ZsTdcaT+/var/log/sensitive_log_file.zst"
           version: HTTP/1.1
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 17
     desc: "'find' direct command injection FP test"
     stages:
@@ -272,7 +288,8 @@ tests:
           uri: "/get?x=find%20.%201%20-exec%20curl%20google.com%20\\;"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 18
     desc: "'find' direct command injection FP test"
     stages:
@@ -287,7 +304,8 @@ tests:
           uri: "/get?x=find%20x%20for%20y"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 19
     desc: "'ping' direct command injection FP test"
     stages:
@@ -302,7 +320,8 @@ tests:
           uri: "/get?x=ping%20127.0.0.1"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 20
     desc: "FP for 'head of'"
     stages:
@@ -318,7 +337,8 @@ tests:
           data: "job_title=head%20of"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 21
     desc: "False positive test: 'evaluation' (FP while rule looks for 'eval')"
     stages:
@@ -333,7 +353,8 @@ tests:
           uri: "/get?word=evaluation"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 22
     desc: "False positive test: 'schedule' (FP while rule looks for 'sched')"
     stages:
@@ -348,7 +369,8 @@ tests:
           uri: "/get?word=schedule"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 23
     desc: "FP with word comment Github Issue #3387"
     stages:
@@ -363,7 +385,8 @@ tests:
           uri: "/get?args=comment"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 24
     desc: "FP against name 'Perlak' (matches 'perl')"
     stages:
@@ -378,7 +401,8 @@ tests:
           uri: "/get?last_name=Perlak"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 25
     desc: "FP against word 'Axel'"
     stages:
@@ -393,7 +417,8 @@ tests:
           uri: "/get?first_name=Axel"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 26
     desc: "FP with word performance"
     stages:
@@ -408,7 +433,8 @@ tests:
           uri: "/get?args=performance"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 27
     desc: "Block execution of perf command with arguments"
     stages:
@@ -424,7 +450,8 @@ tests:
           data: "args=perf --version"
           version: HTTP/1.1
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 28
     desc: |
       Match despite quote evasion attempt.
@@ -442,7 +469,8 @@ tests:
           uri: "/get?a=whoami;0'0'\""
           version: HTTP/1.1
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 29
     desc: "FP against word 'Cronk'"
     stages:
@@ -457,7 +485,8 @@ tests:
           uri: "/get?last_name=Cronk"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]
   - test_id: 30
     desc: "Block ad-hoc ansible commands"
     stages:
@@ -474,7 +503,8 @@ tests:
           data: |
             code=ansible all -m ping
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 31
     desc: "Block ansible config dump command"
     stages:
@@ -491,7 +521,8 @@ tests:
           data: |
             code=ansible-config dump
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 32
     desc: "Block installing collections from ansible galaxy"
     stages:
@@ -508,7 +539,8 @@ tests:
           data: |
             code=ansible-galaxy collection install community.general
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 33
     desc: "Block ad-hoc ansible commands using ansible-console"
     stages:
@@ -525,7 +557,8 @@ tests:
           data: |
             code=ansible-console
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 34
     desc: "Block ansible-doc command"
     stages:
@@ -542,7 +575,8 @@ tests:
           data: |
             code=ansible-doc plugin ping
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 35
     desc: "Block dumping ansible inventory file and variables"
     stages:
@@ -559,7 +593,8 @@ tests:
           data: |
             code=ansible-inventory --list
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 36
     desc: "Block ansible pull from remote repository"
     stages:
@@ -576,7 +611,8 @@ tests:
           data: |
             code=ansible-pull --url example.com
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 37
     desc: "Block decrypting ansible secrets"
     stages:
@@ -593,7 +629,8 @@ tests:
           data: |
             code=ansible-vault decrypt secret
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 38
     desc: "Block execution of ansible playbooks"
     stages:
@@ -610,7 +647,8 @@ tests:
           data: |
             code=ansible-playbook site.yml
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 39
     desc: "Block decryption of secrets with chef-vault"
     stages:
@@ -627,7 +665,8 @@ tests:
           data: |
             code=chef-vault -i secret
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 40
     desc: "Block execution of chef-shell command"
     stages:
@@ -644,7 +683,8 @@ tests:
           data: |
             code=chef-shell
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 41
     desc: "Block execution chef recipie book"
     stages:
@@ -661,7 +701,8 @@ tests:
           data: |
             code=chef-run all recipie.rb
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 42
     desc: "Block execution chef recipie book against a specific node"
     stages:
@@ -678,7 +719,8 @@ tests:
           data: |
             code=chef-client -t 1.1.1.1
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 43
     desc: "Block execution of visudo"
     stages:
@@ -695,7 +737,8 @@ tests:
           data: |
             code=visudo
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 44
     desc: "Block execution of CrowdSec cscli"
     stages:
@@ -712,7 +755,8 @@ tests:
           data: |
             code=cscli alerts list
         output:
-          log_contains: id "932260"
+          log:
+            expect_ids: [932260]
   - test_id: 45
     desc: "Test for false positive with name Axel Smith"
     stages:
@@ -729,4 +773,5 @@ tests:
           data: |
             name=Axel Smith
         output:
-          no_log_contains: id "932260"
+          log:
+            no_expect_ids: [932260]

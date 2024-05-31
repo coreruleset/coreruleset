@@ -22,7 +22,8 @@ tests:
           uri: "/post"
           data: "Maximum allowed file size is 10 MB"
         output:
-          no_log_contains: id "953100"
+          log:
+            no_expect_ids: [953100]
   - test_id: 2
     desc: "'Invalid date' Wordpress FP, it should not match at PL1"
     stages:
@@ -41,7 +42,8 @@ tests:
           uri: "/post"
           data: "Invalid date selected"
         output:
-          no_log_contains: id "953100"
+          log:
+            no_expect_ids: [953100]
   - test_id: 3
     desc: "'The function' might lead to FPs, it should not match at PL1"
     stages:
@@ -60,7 +62,8 @@ tests:
           uri: "/post"
           data: "please review the function"
         output:
-          no_log_contains: id "953100"
+          log:
+            no_expect_ids: [953100]
   - test_id: 4
     desc: "'Static function' might lead to FPs, it should not match at PL1"
     stages:
@@ -79,7 +82,8 @@ tests:
           uri: "/post"
           data: "This is a static function"
         output:
-          no_log_contains: id "953100"
+          log:
+            no_expect_ids: [953100]
   - test_id: 5
     desc: "'cannot be empty is too common for PL1 GH isue #3399"
     stages:
@@ -98,4 +102,5 @@ tests:
           uri: "/post"
           data: "Field cannot be empty."
         output:
-          no_log_contains: id "953100"
+          log:
+            no_expect_ids: [953100]

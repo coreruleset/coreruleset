@@ -19,7 +19,8 @@ tests:
           data: "and '5'orig_var_datavarname=whatever"
           version: HTTP/1.0
         output:
-          log_contains: id "942400"
+          log:
+            expect_ids: [942400]
   - test_id: 2
     desc: "SQL Injection Attack - false positive"
     stages:
@@ -36,4 +37,5 @@ tests:
           data: "and 7 oranges"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942400"
+          log:
+            no_expect_ids: [942400]

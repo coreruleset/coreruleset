@@ -25,7 +25,8 @@ tests:
             ----------397236876--
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920121\""
+          log:
+            expect_ids: [920121]
   - test_id: 2
     stages:
       - input:
@@ -47,7 +48,8 @@ tests:
             ----------397236876--
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920121\""
+          log:
+            expect_ids: [920121]
   - test_id: 3
     stages:
       - input:
@@ -69,7 +71,8 @@ tests:
             ----------397236876--
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920121\""
+          log:
+            expect_ids: [920121]
   - test_id: 4
     stages:
       - input:
@@ -91,7 +94,8 @@ tests:
             ----------397236876--
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920121\""
+          log:
+            expect_ids: [920121]
   - test_id: 5
     stages:
       - input:
@@ -113,4 +117,5 @@ tests:
             ----------397236876--
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920121\""
+          log:
+            no_expect_ids: [920121]

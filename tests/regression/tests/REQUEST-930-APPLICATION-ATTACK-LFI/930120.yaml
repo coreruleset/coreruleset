@@ -22,7 +22,8 @@ tests:
           uri: "/get/index.php?file=News&op=../../../../../boot.ini%00"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930120"
+          log:
+            expect_ids: [930120]
   - test_id: 2
     desc: Remote File Access Attempt (930120) from old modsec regressions
     stages:
@@ -42,7 +43,8 @@ tests:
           uri: "/get/index.php?file=News&op=/etc/passwd%00"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930120"
+          log:
+            expect_ids: [930120]
   - test_id: 3
     desc: Remote File Access Attempt (930120) from old modsec regressions
     stages:
@@ -62,7 +64,8 @@ tests:
           uri: "/get/index.php?file=News&op=../../../../../../../../../../usr/local/apps/apache2/conf/httpd.conf%00"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930120"
+          log:
+            expect_ids: [930120]
   - test_id: 4
     desc: "OS File Access"
     stages:
@@ -77,7 +80,8 @@ tests:
           uri: "/get?foo=arg&path_comp=.ssh/id_rsa"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930120"
+          log:
+            expect_ids: [930120]
   - test_id: 5
     desc: "LFI via parameter name: /sys"
     stages:
@@ -92,7 +96,8 @@ tests:
           uri: "/get?/sys/class=test"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930120"
+          log:
+            expect_ids: [930120]
   - test_id: 6
     desc: "LFI via parameter value: /sys"
     stages:
@@ -107,7 +112,8 @@ tests:
           uri: "/get?test=/sys/class"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930120"
+          log:
+            expect_ids: [930120]
   - test_id: 7
     desc: "LFI via parameter value: /etc/subuid"
     stages:
@@ -122,7 +128,8 @@ tests:
           uri: "/get?code=cat+%2Fetc%2Fsubuid"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930120"
+          log:
+            expect_ids: [930120]
   - test_id: 8
     desc: "LFI via parameter value: /etc/subuid-"
     stages:
@@ -137,7 +144,8 @@ tests:
           uri: "/get?code=cat+%2Fetc%2Fsubuid-"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930120"
+          log:
+            expect_ids: [930120]
   - test_id: 9
     desc: |
       YM9WT5NU
@@ -154,7 +162,8 @@ tests:
           uri: "/get?code=>/tmp/curl"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930120"
+          log:
+            expect_ids: [930120]
   - test_id: 10
     desc: |
       YM9WT5NU
@@ -171,4 +180,5 @@ tests:
           uri: "/get?code=>/tmp"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "930120"
+          log:
+            no_expect_ids: [930120]

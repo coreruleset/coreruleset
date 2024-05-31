@@ -17,7 +17,8 @@ tests:
           uri: "/get?`bla`"
           version: HTTP/1.0
         output:
-          log_contains: id "942510"
+          log:
+            expect_ids: [942510]
   - test_id: 2
     desc: "SQLi bypass detected: backticks"
     stages:
@@ -32,4 +33,5 @@ tests:
           uri: "/get?'bla'"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942510"
+          log:
+            no_expect_ids: [942510]

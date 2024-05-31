@@ -4,8 +4,8 @@ meta:
   description: "Tests to trigger rule 920160"
 rule_id: 920160
 tests:
-  - # Non digit Content-Length without content-type
-    test_id: 1
+  - test_id: 1
+    desc: Non digit Content-Length without content-type
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -20,8 +20,8 @@ tests:
           version: "HTTP/1.1"
         output:
           status: 400
-  - # Non digit content-length with content-type
-    test_id: 2
+  - test_id: 2
+    desc: Non digit content-length with content-type
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -37,8 +37,8 @@ tests:
           version: "HTTP/1.1"
         output:
           status: 400
-  - # Mixed digit and non digit content length
-    test_id: 3
+  - test_id: 3
+    desc: Mixed digit and non digit content length
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -54,10 +54,11 @@ tests:
           version: "HTTP/1.1"
         output:
           status: 400
-  - # Test is based in httpbin.org, so backend returns 405 if you are not posting to /post
-    # Apache auto corrects for this error now so the log should not contain anything
-    test_id: 4
-    desc: Content-Length HTTP header is not numeric (920160)  from old modsec regressions
+  - test_id: 4
+    desc: |
+      Content-Length HTTP header is not numeric (920160)  from old modsec regressions
+      Test is based in httpbin.org, so backend returns 405 if you are not posting to /post
+      Apache auto corrects for this error now so the log should not contain anything
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -77,7 +78,8 @@ tests:
           data: abc
         output:
           status: 200
-          no_log_contains: id "920160"
+          log:
+            no_expect_ids: [920160]
   - test_id: 5
     desc: Content-Length HTTP header is not numeric (920160)  from old modsec regressions
     stages:
@@ -99,4 +101,3 @@ tests:
           data: abc
         output:
           status: 400
-          # log_contains: id "920160"

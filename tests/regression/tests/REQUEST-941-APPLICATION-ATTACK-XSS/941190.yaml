@@ -19,7 +19,8 @@ tests:
           data: "941190-1=<STYLE>@import'http://xss.rocks/xss.css';</STYLE>"
           version: "HTTP/1.1"
         output:
-          log_contains: id "941190"
+          log:
+            expect_ids: [941190]
   - test_id: 2
     desc: Node-validator deny list keywords, ARGS_NAMES
     stages:
@@ -35,7 +36,8 @@ tests:
           data: "x=<STYLE>@im\\port'\\ja\vasc\\ript:alert('XSS')';</STYLE>"
           version: "HTTP/1.1"
         output:
-          log_contains: id "941190"
+          log:
+            expect_ids: [941190]
   - test_id: 3
     desc: Node-validator deny list keywords, COOKIES_NAMES
     stages:
@@ -51,7 +53,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941190"
+          log:
+            expect_ids: [941190]
   - test_id: 4
     desc: Test first replaced backslash match (\x5c)
     stages:
@@ -67,7 +70,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941190"
+          log:
+            expect_ids: [941190]
   - test_id: 5
     desc: Test second replaced backslash match (\x5c)
     stages:
@@ -83,4 +87,5 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941190"
+          log:
+            expect_ids: [941190]

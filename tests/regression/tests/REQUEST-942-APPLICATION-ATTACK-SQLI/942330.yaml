@@ -18,7 +18,8 @@ tests:
           data: "var=%22%27&var2=whatever"
           version: HTTP/1.0
         output:
-          log_contains: id "942330"
+          log:
+            expect_ids: [942330]
   - test_id: 2
     desc: "Test first backslash match ([\"'`\x5c]*?)"
     stages:
@@ -34,7 +35,8 @@ tests:
           data: "var=\\\"1 or 1-"
           version: HTTP/1.0
         output:
-          log_contains: id "942330"
+          log:
+            expect_ids: [942330]
   - test_id: 3
     desc: "Test second backslash match (\x5cx(?:23|27|3d))"
     stages:
@@ -50,7 +52,8 @@ tests:
           data: "var=\\x23"
           version: HTTP/1.0
         output:
-          log_contains: id "942330"
+          log:
+            expect_ids: [942330]
   - test_id: 4
     desc: "Test false positive issue nr. 3205"
     stages:
@@ -68,7 +71,8 @@ tests:
             andy.surname@somedomain.com"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942330"
+          log:
+            no_expect_ids: [942330]
   - test_id: 5
     desc: "Test false positive issue nr. 3205"
     stages:
@@ -84,4 +88,5 @@ tests:
           data: "var=05111222333 andy.surname@somedomain.com"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942330"
+          log:
+            no_expect_ids: [942330]

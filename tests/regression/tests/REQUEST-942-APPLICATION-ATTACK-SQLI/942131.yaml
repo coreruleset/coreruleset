@@ -17,7 +17,8 @@ tests:
           uri: "/get?a=11!=1"
           version: HTTP/1.1
         output:
-          log_contains: id "942131"
+          log:
+            expect_ids: [942131]
   - test_id: 2
     desc: "SQL Injection Attack: SQL Tautology"
     stages:
@@ -31,7 +32,8 @@ tests:
           uri: "/get?a=1!=11"
           version: HTTP/1.1
         output:
-          log_contains: id "942131"
+          log:
+            expect_ids: [942131]
   - test_id: 3
     desc: "SQL Injection Attack: SQL Tautology"
     stages:
@@ -45,7 +47,8 @@ tests:
           uri: "/get?a=11!=11"
           version: HTTP/1.1
         output:
-          no_log_contains: id "942131"
+          log:
+            no_expect_ids: [942131]
   - test_id: 4
     desc: "SQL Injection Attack: SQL Tautology"
     stages:
@@ -59,7 +62,8 @@ tests:
           uri: "/get?a=1%20is%20not%202"
           version: HTTP/1.1
         output:
-          log_contains: id "942131"
+          log:
+            expect_ids: [942131]
   - test_id: 5
     desc: "SQL Injection Attack: SQL Tautology negative"
     stages:
@@ -73,7 +77,8 @@ tests:
           uri: "/get?a=1%20is%20not%201"
           version: HTTP/1.1
         output:
-          no_log_contains: id "942131"
+          log:
+            no_expect_ids: [942131]
   - test_id: 6
     desc: "SQL Injection Attack: SQL Tautology"
     stages:
@@ -88,7 +93,8 @@ tests:
           data: "a='1' not regexp '2'"
           version: HTTP/1.1
         output:
-          log_contains: id "942131"
+          log:
+            expect_ids: [942131]
   - test_id: 7
     desc: "SQL Injection Attack: SQL Tautology"
     stages:
@@ -103,4 +109,5 @@ tests:
           data: "a='1' not regexp '1'"
           version: HTTP/1.1
         output:
-          no_log_contains: id "942131"
+          log:
+            no_expect_ids: [942131]

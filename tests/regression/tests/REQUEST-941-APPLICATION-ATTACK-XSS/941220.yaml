@@ -18,7 +18,8 @@ tests:
           data: "var=v%26newline;b%26tab;s%26newline;c%26newline;r%26tab;i%26tab;p%26newline;t%26colon;:&var2=whatever"
           version: HTTP/1.0
         output:
-          log_contains: id "941220"
+          log:
+            expect_ids: [941220]
   - test_id: 2
     desc: "XSS test based on portswigger XSS cheatsheet"
     stages:
@@ -34,4 +35,5 @@ tests:
           data: "payload=<a href=\"vbscript:MsgBox+1\">XSS</a>"
           version: HTTP/1.0
         output:
-          log_contains: id "941220"
+          log:
+            expect_ids: [941220]

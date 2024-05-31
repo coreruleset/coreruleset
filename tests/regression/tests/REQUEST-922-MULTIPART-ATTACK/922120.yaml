@@ -27,7 +27,8 @@ tests:
             Pineapple. Pizza.
             --boundary--
         output:
-          log_contains: id "922120"
+          log:
+            expect_ids: [922120]
   - test_id: 2
     desc: "Negative test: no content-transfer-encoding header should be good"
     stages:
@@ -50,4 +51,5 @@ tests:
             This should be good as there is no content-transfer-encoding header.
             --boundary--
         output:
-          no_log_contains: id "922120"
+          log:
+            no_expect_ids: [922120]

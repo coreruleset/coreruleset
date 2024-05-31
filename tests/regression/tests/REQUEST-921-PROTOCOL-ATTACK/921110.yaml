@@ -19,7 +19,8 @@ tests:
           data: "var=%0aPOST / HTTP/1.0"
           version: HTTP/1.0
         output:
-          log_contains: id "921110"
+          log:
+            expect_ids: [921110]
   - test_id: 2
     desc: "HTTP Response Splitting"
     stages:
@@ -36,7 +37,8 @@ tests:
           data: "var=aaa%0aGET+/+HTTP/1.1"
           version: HTTP/1.0
         output:
-          log_contains: id "921110"
+          log:
+            expect_ids: [921110]
   - test_id: 3
     desc: "HTTP Response Splitting"
     stages:
@@ -53,7 +55,8 @@ tests:
           data: "var=aaa%0dHEAD+http://example.com/+HTTP/1.1"
           version: HTTP/1.0
         output:
-          log_contains: id "921110"
+          log:
+            expect_ids: [921110]
   - test_id: 4
     desc: "HTTP Response Splitting - pre-HTTP/1.0"
     stages:
@@ -70,7 +73,8 @@ tests:
           data: "var=aaa%0d%0aGet+/foo%0d"
           version: HTTP/1.0
         output:
-          no_log_contains: id "921110"
+          log:
+            no_expect_ids: [921110]
   - test_id: 5
     desc: "HTTP Response Splitting"
     stages:
@@ -87,7 +91,8 @@ tests:
           data: "var=aaa%0d%0aGet+foo+bar"
           version: HTTP/1.0
         output:
-          no_log_contains: id "921110"
+          log:
+            no_expect_ids: [921110]
   - test_id: 6
     desc: HTTP Request Smuggling bypass with Content-Type text/plain
     stages:
@@ -105,7 +110,8 @@ tests:
           data: "barGET /a.html HTTP/1.1\r\nSomething: GET /b.html HTTP/1.1\r\nHost: foo.com\r\nUser-Agent: foo\r\nAccept: */*\r\n\r\n"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921110"
+          log:
+            expect_ids: [921110]
   - test_id: 7
     desc: HTTP Request Smuggling with not supported HTTP versions such as HTTP/1.2
     stages:
@@ -120,7 +126,8 @@ tests:
           uri: "/?arg1=GET%20http%3A%2F%2Fwww.foo.bar%20HTTP%2F1.2"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921110"
+          log:
+            expect_ids: [921110]
   - test_id: 8
     desc: HTTP Request Smuggling with not supported HTTP versions such as HTTP/3
     stages:
@@ -135,7 +142,8 @@ tests:
           uri: "/?arg1=GET%20http%3A%2F%2Fwww.foo.bar%20HTTP%2F3.2"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921110"
+          log:
+            expect_ids: [921110]
   - test_id: 9
     desc: "HTTP Response Splitting false negative test"
     stages:
@@ -151,7 +159,8 @@ tests:
           data: "var=soundtrack Gympl\r\nanything"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921110"
+          log:
+            no_expect_ids: [921110]
   - test_id: 10
     desc: "HTTP Response Splitting false positive test issue 2054"
     stages:
@@ -167,7 +176,8 @@ tests:
           data: "var=budget foo)</bar>\n"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921110"
+          log:
+            no_expect_ids: [921110]
   - test_id: 11
     desc: "HTTP Response Splitting false positive test issue 2054"
     stages:
@@ -183,4 +193,5 @@ tests:
           data: "var=get it\n"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921110"
+          log:
+            no_expect_ids: [921110]

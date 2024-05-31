@@ -18,7 +18,8 @@ tests:
           uri: "/get?x=$_%53ERVER['test'];"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933131"
+          log:
+            no_expect_ids: [933131]
   - test_id: 2
     desc: SERVER request URLEncoded
     stages:
@@ -33,7 +34,8 @@ tests:
           uri: "/get?%24_COOKIE=value;"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933131"
+          log:
+            no_expect_ids: [933131]
   - test_id: 3
     desc: SERVER index listed with obfuscated SERVER
     stages:
@@ -48,4 +50,5 @@ tests:
           uri: "/get?x=$_%53%20ERVER['REQUEST_URI'];"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933131"
+          log:
+            expect_ids: [933131]

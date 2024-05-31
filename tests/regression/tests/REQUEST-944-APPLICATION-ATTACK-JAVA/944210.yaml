@@ -22,7 +22,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=rO0ABQ"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 2
     desc: "Argument name includes keyword rO0ABQ"
     stages:
@@ -41,7 +42,8 @@ tests:
           version: "HTTP/1.0"
           data: "rO0ABQ=test"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 3
     desc: "Cookie test includes keyword rO0ABQ"
     stages:
@@ -61,7 +63,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 4
     desc: "Cookie name includes keyword rO0ABQ"
     stages:
@@ -81,7 +84,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 5
     desc: "Request header test includes keyword rO0ABQ"
     stages:
@@ -101,7 +105,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 6
     desc: "XML element includes keyword rO0ABQ"
     stages:
@@ -120,7 +125,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><rO0ABQ attribute_name=\"attribute_value\">value</rO0ABQ></xml>"
         output:
-          no_log_contains: "id \"944210\""
+          log:
+            no_expect_ids: [944210]
   - test_id: 7
     desc: "XML attribute name includes keyword rO0ABQ"
     stages:
@@ -139,7 +145,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element rO0ABQ=\"attribute_value\">element_value</element></xml>"
         output:
-          no_log_contains: "id \"944210\""
+          log:
+            no_expect_ids: [944210]
   - test_id: 8
     desc: "XML attribute value includes keyword rO0ABQ"
     stages:
@@ -158,7 +165,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"rO0ABQ\">element_value</element></xml>"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 9
     desc: "XML element value includes keyword rO0ABQ"
     stages:
@@ -177,7 +185,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">rO0ABQ</element></xml>"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 10
     desc: "Nested XML element value includes keyword rO0ABQ"
     stages:
@@ -196,7 +205,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">rO0ABQ</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 11
     desc: "Content-Type text/plain includes keyword rO0ABQ"
     stages:
@@ -215,7 +225,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=rO0ABQ"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 12
     desc: "Content-Type application/json arg value includes keyword rO0ABQ"
     stages:
@@ -234,7 +245,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"rO0ABQ\"}"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 13
     desc: "Content-Type application/json arg name includes keyword rO0ABQ"
     stages:
@@ -253,7 +265,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"rO0ABQ\": \"test\"}"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 14
     desc: "Content-Type multipart/form-data json arg name includes keyword rO0ABQ"
     stages:
@@ -278,7 +291,8 @@ tests:
             {"rO0ABQ": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 15
     desc: "Content-Type multipart/form-data json arg value includes keyword rO0ABQ"
     stages:
@@ -303,7 +317,8 @@ tests:
             {"rO0ABQ": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 16
     desc: "Content-Type multipart/form-data XML element value includes keyword rO0ABQ"
     stages:
@@ -328,7 +343,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">rO0ABQ</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 17
     desc: "Content-Type multipart/form-data XML element value includes keyword rO0ABQ"
     stages:
@@ -353,7 +369,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">rO0ABQ</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 18
     desc: "Argument test includes keyword KztAAU"
     stages:
@@ -372,7 +389,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=KztAAU"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 19
     desc: "Argument name includes keyword KztAAU"
     stages:
@@ -391,7 +409,8 @@ tests:
           version: "HTTP/1.0"
           data: "KztAAU=test"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 20
     desc: "Cookie test includes keyword KztAAU"
     stages:
@@ -411,7 +430,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 21
     desc: "Cookie name includes keyword KztAAU"
     stages:
@@ -431,7 +451,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 22
     desc: "Request header test includes keyword KztAAU"
     stages:
@@ -451,7 +472,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 23
     desc: "XML element includes keyword KztAAU"
     stages:
@@ -470,7 +492,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><KztAAU attribute_name=\"attribute_value\">value</KztAAU></xml>"
         output:
-          no_log_contains: "id \"944210\""
+          log:
+            no_expect_ids: [944210]
   - test_id: 24
     desc: "XML attribute name includes keyword KztAAU"
     stages:
@@ -489,7 +512,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element KztAAU=\"attribute_value\">element_value</element></xml>"
         output:
-          no_log_contains: "id \"944210\""
+          log:
+            no_expect_ids: [944210]
   - test_id: 25
     desc: "XML attribute value includes keyword KztAAU"
     stages:
@@ -508,7 +532,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"KztAAU\">element_value</element></xml>"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 26
     desc: "XML element value includes keyword KztAAU"
     stages:
@@ -527,7 +552,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">KztAAU</element></xml>"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 27
     desc: "Nested XML element value includes keyword KztAAU"
     stages:
@@ -546,7 +572,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">KztAAU</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 28
     desc: "Content-Type text/plain includes keyword KztAAU"
     stages:
@@ -565,7 +592,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=KztAAU"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 29
     desc: "Content-Type application/json arg value includes keyword KztAAU"
     stages:
@@ -584,7 +612,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"KztAAU\"}"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 30
     desc: "Content-Type application/json arg name includes keyword KztAAU"
     stages:
@@ -603,7 +632,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"KztAAU\": \"test\"}"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 31
     desc: "Content-Type multipart/form-data json arg name includes keyword KztAAU"
     stages:
@@ -628,7 +658,8 @@ tests:
             {"KztAAU": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 32
     desc: "Content-Type multipart/form-data json arg value includes keyword KztAAU"
     stages:
@@ -653,7 +684,8 @@ tests:
             {"KztAAU": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 33
     desc: "Content-Type multipart/form-data XML element value includes keyword KztAAU"
     stages:
@@ -678,7 +710,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">KztAAU</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 34
     desc: "Content-Type multipart/form-data XML element value includes keyword KztAAU"
     stages:
@@ -703,7 +736,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">KztAAU</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 35
     desc: "Argument test includes keyword Cs7QAF"
     stages:
@@ -722,7 +756,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Cs7QAF"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 36
     desc: "Argument name includes keyword Cs7QAF"
     stages:
@@ -741,7 +776,8 @@ tests:
           version: "HTTP/1.0"
           data: "Cs7QAF=test"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 37
     desc: "Cookie test includes keyword Cs7QAF"
     stages:
@@ -761,7 +797,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 38
     desc: "Cookie name includes keyword Cs7QAF"
     stages:
@@ -781,7 +818,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 39
     desc: "Request header test includes keyword Cs7QAF"
     stages:
@@ -801,7 +839,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 40
     desc: "XML element includes keyword Cs7QAF"
     stages:
@@ -820,7 +859,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><Cs7QAF attribute_name=\"attribute_value\">value</Cs7QAF></xml>"
         output:
-          no_log_contains: "id \"944210\""
+          log:
+            no_expect_ids: [944210]
   - test_id: 41
     desc: "XML attribute name includes keyword Cs7QAF"
     stages:
@@ -839,7 +879,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element Cs7QAF=\"attribute_value\">element_value</element></xml>"
         output:
-          no_log_contains: "id \"944210\""
+          log:
+            no_expect_ids: [944210]
   - test_id: 42
     desc: "XML attribute value includes keyword Cs7QAF"
     stages:
@@ -858,7 +899,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"Cs7QAF\">element_value</element></xml>"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 43
     desc: "XML element value includes keyword Cs7QAF"
     stages:
@@ -877,7 +919,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">Cs7QAF</element></xml>"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 44
     desc: "Nested XML element value includes keyword Cs7QAF"
     stages:
@@ -896,7 +939,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">Cs7QAF</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 45
     desc: "Content-Type text/plain includes keyword Cs7QAF"
     stages:
@@ -915,7 +959,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Cs7QAF"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 46
     desc: "Content-Type application/json arg value includes keyword Cs7QAF"
     stages:
@@ -934,7 +979,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"Cs7QAF\"}"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 47
     desc: "Content-Type application/json arg name includes keyword Cs7QAF"
     stages:
@@ -953,7 +999,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"Cs7QAF\": \"test\"}"
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 48
     desc: "Content-Type multipart/form-data json arg name includes keyword Cs7QAF"
     stages:
@@ -978,7 +1025,8 @@ tests:
             {"Cs7QAF": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 49
     desc: "Content-Type multipart/form-data json arg value includes keyword Cs7QAF"
     stages:
@@ -1003,7 +1051,8 @@ tests:
             {"Cs7QAF": "test"}
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 50
     desc: "Content-Type multipart/form-data XML element value includes keyword Cs7QAF"
     stages:
@@ -1028,7 +1077,8 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">Cs7QAF</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]
   - test_id: 51
     desc: "Content-Type multipart/form-data XML element value includes keyword Cs7QAF"
     stages:
@@ -1053,4 +1103,5 @@ tests:
             <?xml version="1.0"?><xml><element attribute_name="attribute_value">Cs7QAF</element></xml>
             -----------------------------thisissparta--
         output:
-          log_contains: "id \"944210\""
+          log:
+            expect_ids: [944210]

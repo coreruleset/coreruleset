@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: "Description"
 rule_id: 920250
 tests:
   - # crs-setup.conf needs to have CRS_VALIDATE_UTF8_ENCODING set
@@ -21,7 +20,8 @@ tests:
             Proxy-Connection: "keep-alive"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920250\""
+          log:
+            expect_ids: [920250]
   - # Taken from existing modsec regression
     test_id: 2
     stages:
@@ -38,7 +38,8 @@ tests:
             Proxy-Connection: "keep-alive"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920250\""
+          log:
+            expect_ids: [920250]
   - # Taken from existing modsec regression
     test_id: 3
     stages:
@@ -55,7 +56,8 @@ tests:
             Proxy-Connection: "keep-alive"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920250\""
+          log:
+            expect_ids: [920250]
   - test_id: 4
     desc: "Status Page Test - Invalid UTF-8 encoding: %C2%A3 is a valid Pound sign; %E2%A3 is invalid UTF-8 (incorrect starting binary sequence)"
     stages:
@@ -72,4 +74,5 @@ tests:
             Proxy-Connection: "keep-alive"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920250\""
+          log:
+            expect_ids: [920250]

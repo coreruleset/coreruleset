@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: "Description"
 rule_id: 920330
 tests:
   - test_id: 1
@@ -17,7 +16,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920330\""
+          log:
+            expect_ids: [920330]
   - test_id: 2
     stages:
       - input:
@@ -30,4 +30,5 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920330\""
+          log:
+            no_expect_ids: [920330]

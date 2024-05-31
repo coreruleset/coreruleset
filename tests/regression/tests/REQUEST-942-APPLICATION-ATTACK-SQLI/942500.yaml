@@ -18,7 +18,8 @@ tests:
           uri: "/get?id=9999+or+{if+length((/*!5000select+username/*!50000from*/user+where+id=1))>0}"
           version: HTTP/1.0
         output:
-          log_contains: id "942500"
+          log:
+            expect_ids: [942500]
   - test_id: 2
     desc: "Use of portability comment (/*!...*/) as evasion technique, with space before !"
     stages:
@@ -33,7 +34,8 @@ tests:
           uri: "/get?id=9999+or+{if+length((/*+!5000select+username/*!50000from*/user+where+id=1))>0}"
           version: HTTP/1.0
         output:
-          log_contains: id "942500"
+          log:
+            expect_ids: [942500]
   - test_id: 3
     desc: "Use of optimizer hints (/*+...*/) as evasion technique"
     stages:
@@ -48,7 +50,8 @@ tests:
           uri: "/get?test=9999+or+%2F*%2Boptimizer+hint+*%2F+true"
           version: "HTTP/1.1"
         output:
-          log_contains: id "942500"
+          log:
+            expect_ids: [942500]
   - test_id: 4
     desc: "Use of optimizer hints (/*+...*/) as evasion technique with space before +"
     stages:
@@ -63,7 +66,8 @@ tests:
           uri: "/get?test=9999+or+%2F*+%2Boptimizer+hint+*%2F+true"
           version: "HTTP/1.1"
         output:
-          log_contains: id "942500"
+          log:
+            expect_ids: [942500]
   - test_id: 5
     desc: "Status Page Test - MySQL inline comment detected"
     stages:
@@ -78,4 +82,5 @@ tests:
           uri: "/get?test=9999+or+{if+length((/*!5000select+username/*!comment*/"
           version: HTTP/1.0
         output:
-          log_contains: id "942500"
+          log:
+            expect_ids: [942500]

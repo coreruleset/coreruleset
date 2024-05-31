@@ -19,7 +19,8 @@ tests:
           data: '9411400-1=%3Cp%20style%3D%22background%3Aurl(javascript%3Aalert(1))%22%3E'
           version: "HTTP/1.1"
         output:
-          log_contains: id "941140"
+          log:
+            expect_ids: [941140]
   - test_id: 2
     desc: XSS vectors making use of javascript uri and tags, e.g., <p style="background:url(javascript:alert(1))">, in ARGS_NAMES
     stages:
@@ -35,7 +36,8 @@ tests:
           data: '%3Cp%20style%3D%22background%3Aurl(javascript%3Aalert(1))%22%3E=941140-2'
           version: "HTTP/1.1"
         output:
-          log_contains: id "941140"
+          log:
+            expect_ids: [941140]
   - test_id: 3
     desc: XSS vectors making use of javascript uri and tags, e.g., <p style="background:url(javascript:alert(1))">, in COOKIE
     stages:
@@ -51,7 +53,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941140"
+          log:
+            expect_ids: [941140]
   - test_id: 4
     desc: "Status Page Test -  x=x:url(javascript as GET variable"
     stages:
@@ -66,4 +69,5 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941140"
+          log:
+            expect_ids: [941140]

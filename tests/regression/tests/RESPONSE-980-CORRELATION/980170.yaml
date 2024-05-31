@@ -32,7 +32,8 @@ tests:
           # Retry the test once if it fails to work around this issue.
           # See https://github.com/coreruleset/go-ftw/issues/141.
           retry_once: true
-          log_contains: "id \"980170\""
+          log:
+            expect_ids: [980170]
   - test_id: 2
     desc: Test is similar to 920350-1 but here we check if at reporting level 4 a request is logged that scored but was not blocked
     stages:
@@ -52,7 +53,8 @@ tests:
           # Retry the test once if it fails to work around this issue.
           # See https://github.com/coreruleset/go-ftw/issues/141.
           retry_once: true
-          log_contains: "id \"980170\""
+          log:
+            expect_ids: [980170]
   - test_id: 3
     desc: Test is similar to 920350-1 but here we check if at reporting level 4 a request is not logged that did not score
     stages:
@@ -67,8 +69,9 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          # Phase 5 rules are prone to a race condition when parsing log output.
+            # Phase 5 rules are prone to a race condition when parsing log output.
           # Retry the test once if it fails to work around this issue.
           # See https://github.com/coreruleset/go-ftw/issues/141.
           retry_once: true
-          no_log_contains: "id \"980170\""
+          log:
+          no_expect_ids: [980170]

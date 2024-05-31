@@ -18,7 +18,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920470\""
+          log:
+            expect_ids: [920470]
   - test_id: 2
     stages:
       - input:
@@ -33,7 +34,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920470\""
+          log:
+            expect_ids: [920470]
   - test_id: 3
     stages:
       - input:
@@ -48,7 +50,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 4
     stages:
       - input:
@@ -64,7 +67,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 5
     stages:
       - input:
@@ -79,7 +83,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 6
     stages:
       - input:
@@ -95,7 +100,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 7
     stages:
       - input:
@@ -111,7 +117,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 8
     stages:
       - input:
@@ -127,7 +134,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 9
     stages:
       - input:
@@ -143,7 +151,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 10
     stages:
       - input:
@@ -159,7 +168,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 11
     stages:
       - input:
@@ -175,7 +185,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 12
     stages:
       - input:
@@ -191,7 +202,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920470\""
+          log:
+            expect_ids: [920470]
   - test_id: 13
     stages:
       - input:
@@ -207,7 +219,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 14
     stages:
       - input:
@@ -223,7 +236,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 15
     stages:
       - input:
@@ -239,7 +253,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 16
     stages:
       - input:
@@ -255,7 +270,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 17
     stages:
       - input:
@@ -271,7 +287,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920470\""
+          log:
+            no_expect_ids: [920470]
   - test_id: 18
     desc: "Status Page Test - Illegal Content-Type header: 'text/xml; blah' where blah isn't a valid parameter for this header field"
     stages:
@@ -287,4 +304,5 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920470\""
+          log:
+            expect_ids: [920470]

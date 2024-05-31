@@ -19,7 +19,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920520\""
+          log:
+            no_expect_ids: [920520]
   - test_id: 2
     desc: "Allowed Accept-Encoding: gzip,deflate,identity"
     stages:
@@ -35,7 +36,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920520\""
+          log:
+            no_expect_ids: [920520]
   - test_id: 3
     desc: "Allowed Accept-Encoding: compress;q=0.5, gzip;q=1.0"
     stages:
@@ -51,7 +53,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920520\""
+          log:
+            no_expect_ids: [920520]
   - test_id: 4
     desc: "Allowed Accept-Encoding: gzip;q=1.0, identity; q=0.5, *;q=0"
     stages:
@@ -67,7 +70,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920520\""
+          log:
+            no_expect_ids: [920520]
   - test_id: 5
     desc: "Allowed Accept-Encoding: gzip;q=1.0, identity; q=0.5, *;q=0"
     stages:
@@ -83,7 +87,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920520\""
+          log:
+            no_expect_ids: [920520]
   - test_id: 6
     desc: "Allowed empty Accept-Encoding"
     stages:
@@ -99,7 +104,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920520\""
+          log:
+            no_expect_ids: [920520]
   - test_id: 7
     desc: "Not allowed Accept-Encoding CVE-2022-21907"
     stages:
@@ -115,7 +121,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920520\""
+          log:
+            expect_ids: [920520]
   - test_id: 8
     desc: "False positive test for long Accept-Encoding headers from internet.nl"
     stages:
@@ -131,7 +138,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920520\""
+          log:
+            no_expect_ids: [920520]
   - test_id: 9
     desc: "False positive test for long Accept-Encoding of length 99"
     stages:
@@ -147,4 +155,5 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920520\""
+          log:
+            no_expect_ids: [920520]

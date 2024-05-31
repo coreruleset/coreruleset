@@ -21,7 +21,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "913100"
+          log:
+            expect_ids: [913100]
   - test_id: 2
     desc: Request Indicates a Security Scanner Scanned the Site (913100) from old modsec regressions
     stages:
@@ -40,7 +41,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "913100"
+          log:
+            expect_ids: [913100]
   - test_id: 3
     desc: Request Indicates a Security Scanner Scanned the Site (913100)
     stages:
@@ -59,7 +61,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "913100"
+          log:
+            expect_ids: [913100]
   - test_id: 4
     desc: "Scanner identification based on User-agent field"
     stages:
@@ -74,7 +77,8 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          log_contains: id "913100"
+          log:
+            expect_ids: [913100]
   - test_id: 5
     desc: "YUM package manager allow list"
     stages:
@@ -89,7 +93,8 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "913100"
+          log:
+            no_expect_ids: [913100]
   - test_id: 6
     desc: "ZGrab"
     stages:
@@ -104,7 +109,8 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          log_contains: id "913100"
+          log:
+            expect_ids: [913100]
   - test_id: 7
     desc: "eCairn allow list"
     stages:
@@ -119,4 +125,5 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "913100"
+          log:
+            no_expect_ids: [913100]

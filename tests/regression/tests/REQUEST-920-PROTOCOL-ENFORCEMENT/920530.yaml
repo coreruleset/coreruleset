@@ -20,7 +20,8 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920530\""
+          log:
+            no_expect_ids: [920530]
   - test_id: 2
     desc: "Bypass attempt with two charsets"
     stages:
@@ -37,7 +38,8 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920530\""
+          log:
+            expect_ids: [920530]
   - test_id: 3
     desc: "Bypass attempt with hiding the charset inside a field"
     stages:
@@ -54,7 +56,8 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920530\""
+          log:
+            expect_ids: [920530]
   - test_id: 4
     desc: "Bypass attempt with uppercase CHARSET"
     stages:
@@ -71,4 +74,5 @@ tests:
           data: "test=value"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920530\""
+          log:
+            expect_ids: [920530]

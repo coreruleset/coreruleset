@@ -19,7 +19,8 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930110"
+          log:
+            expect_ids: [930110]
   - test_id: 2
     desc: "Path Traversal Attack (/../) query string"
     stages:
@@ -35,7 +36,8 @@ tests:
           uri: "/get?arg=../../../etc/passwd"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930110"
+          log:
+            expect_ids: [930110]
   - test_id: 3
     desc: "Path Traversal Attack (/../) query string"
     stages:
@@ -51,7 +53,8 @@ tests:
           data: "arg=../../../etc/passwd&foo=var"
           version: "HTTP/1.1"
         output:
-          log_contains: id "930110"
+          log:
+            expect_ids: [930110]
   - test_id: 4
     desc: "Path Traversal Attack (/../) query string"
     stages:
@@ -66,7 +69,8 @@ tests:
           uri: "/get/foo../1234"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "930110"
+          log:
+            no_expect_ids: [930110]
   - test_id: 5
     desc: "Path Traversal Attack (/../) query string"
     stages:
@@ -81,7 +85,8 @@ tests:
           uri: "/get/foo.../1234"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "930110"
+          log:
+            no_expect_ids: [930110]
   - test_id: 6
     desc: "Path Traversal Attack (/../) query string"
     stages:
@@ -96,7 +101,8 @@ tests:
           uri: "/get/..foo"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "930110"
+          log:
+            no_expect_ids: [930110]
   - test_id: 7
     desc: "Path Traversal Attack (/../) query string"
     stages:
@@ -111,7 +117,8 @@ tests:
           uri: "/get/.."
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "930110"
+          log:
+            no_expect_ids: [930110]
   - test_id: 8
     desc: 'Path Traversal Attack (..\) query string'
     stages:
@@ -126,7 +133,8 @@ tests:
           uri: '/get?arg=..\pineapple'
           version: "HTTP/1.1"
         output:
-          log_contains: id "930110"
+          log:
+            expect_ids: [930110]
   - test_id: 9
     desc: 'Path Traversal Attack triple dot (.../) query string'
     stages:
@@ -141,7 +149,8 @@ tests:
           uri: '/get?foo=.../.../WINDOWS/win.ini'
           version: "HTTP/1.1"
         output:
-          log_contains: id "930110"
+          log:
+            expect_ids: [930110]
   - test_id: 10
     desc: 'Path Traversal Attack (../) file upload'
     stages:
@@ -164,7 +173,8 @@ tests:
             ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
           version: "HTTP/1.1"
         output:
-          log_contains: id "930110"
+          log:
+            expect_ids: [930110]
   - test_id: 11
     desc: 'Path Traversal Attack (..\) file upload'
     stages:
@@ -187,7 +197,8 @@ tests:
             ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
           version: "HTTP/1.1"
         output:
-          log_contains: id "930110"
+          log:
+            expect_ids: [930110]
   - test_id: 12
     desc: "Path Traversal Attack (;..;) query string"
     stages:
@@ -203,4 +214,5 @@ tests:
             uri: "/get?a=..;.\\.;\\."
           version: "HTTP/1.1"
         output:
-          log_contains: id "930110"
+          log:
+            expect_ids: [930110]

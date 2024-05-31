@@ -19,7 +19,8 @@ tests:
           data: '941210-1=ja%26tab%3Bvascript%3A%20'
           version: "HTTP/1.1"
         output:
-          log_contains: id "941210"
+          log:
+            expect_ids: [941210]
   - test_id: 2
     desc: Obfuscated javascript tag in ARGS_NAMES, with tab
     stages:
@@ -35,7 +36,8 @@ tests:
           data: 'ja%26tab%3Bvascript%3A%09=941210-2'
           version: "HTTP/1.1"
         output:
-          log_contains: id "941210"
+          log:
+            expect_ids: [941210]
   - test_id: 3
     desc: Microsoft vmlframe xss, REQUEST_COOKIE_NAMES
     stages:
@@ -51,7 +53,8 @@ tests:
             Accept: "*/*"
           version: "HTTP/1.1"
         output:
-          log_contains: id "941210"
+          log:
+            expect_ids: [941210]
   - test_id: 4
     desc: "New line in javascript prefix, with &#10."
     stages:
@@ -68,7 +71,8 @@ tests:
           data: '{"url":"javascript&#10:alert(7)"}'
           version: HTTP/1.1
         output:
-          log_contains: id "941210"
+          log:
+            expect_ids: [941210]
   - test_id: 5
     desc: "Carriage return in javascript prefix, with &#13."
     stages:
@@ -85,4 +89,5 @@ tests:
           data: '{"url":"jav&#13ascript:alert(7)"}'
           version: HTTP/1.1
         output:
-          log_contains: id "941210"
+          log:
+            expect_ids: [941210]

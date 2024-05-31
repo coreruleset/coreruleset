@@ -19,7 +19,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921200"
+          log:
+            no_expect_ids: [921200]
   - test_id: 2
     desc: "Testing for FP, this should not trigger"
     stages:
@@ -35,7 +36,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921200"
+          log:
+            no_expect_ids: [921200]
   - test_id: 3
     desc: "Testing for FP, this should not trigger"
     stages:
@@ -51,7 +53,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921200"
+          log:
+            no_expect_ids: [921200]
   - test_id: 4
     desc: "Testing for rule, this should trigger"
     stages:
@@ -67,7 +70,8 @@ tests:
           port: 80
           version: "HTTP/1.1"
         output:
-          log_contains: id "921200"
+          log:
+            expect_ids: [921200]
   - test_id: 5
     desc: "Testing for rule, this should trigger"
     stages:
@@ -83,7 +87,8 @@ tests:
           port: 80
           version: "HTTP/1.1"
         output:
-          log_contains: id "921200"
+          log:
+            expect_ids: [921200]
   - test_id: 6
     desc: "Testing for rule, this should trigger"
     stages:
@@ -99,7 +104,8 @@ tests:
           port: 80
           version: "HTTP/1.1"
         output:
-          log_contains: id "921200"
+          log:
+            expect_ids: [921200]
   - test_id: 7
     desc: "Testing for rule, this should trigger"
     stages:
@@ -115,7 +121,8 @@ tests:
           port: 80
           version: "HTTP/1.1"
         output:
-          log_contains: id "921200"
+          log:
+            expect_ids: [921200]
   - test_id: 8
     desc: "Testing for rule, this should trigger"
     stages:
@@ -131,7 +138,8 @@ tests:
           port: 80
           version: "HTTP/1.1"
         output:
-          log_contains: id "921200"
+          log:
+            expect_ids: [921200]
   - test_id: 9
     desc: "Testing for rule, this should trigger"
     stages:
@@ -147,7 +155,8 @@ tests:
           port: 80
           version: "HTTP/1.1"
         output:
-          log_contains: id "921200"
+          log:
+            expect_ids: [921200]
   - test_id: 10
     desc: "Testing for rule, this should trigger"
     stages:
@@ -163,4 +172,5 @@ tests:
           port: 80
           version: "HTTP/1.1"
         output:
-          log_contains: id "921200"
+          log:
+            expect_ids: [921200]

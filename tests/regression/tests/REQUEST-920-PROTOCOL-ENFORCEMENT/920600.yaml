@@ -16,7 +16,8 @@ tests:
             Accept: text/html;q=0.9;charset=CP1026,*/*;q=0.8
           version: "HTTP/1.1"
         output:
-          log_contains: id "920600"
+          log:
+            expect_ids: [920600]
   - test_id: 2
     stages:
       - input:
@@ -29,7 +30,8 @@ tests:
             Accept: text/html;q=0.9;charset="CP1026",*/*;q=0.8
           version: "HTTP/1.1"
         output:
-          log_contains: id "920600"
+          log:
+            expect_ids: [920600]
   - test_id: 3
     stages:
       - input:
@@ -42,7 +44,8 @@ tests:
             Accept: text/html; charset=CP1026
           version: "HTTP/1.1"
         output:
-          log_contains: id "920600"
+          log:
+            expect_ids: [920600]
   - test_id: 4
     stages:
       - input:
@@ -55,7 +58,8 @@ tests:
             Accept: text/html;q=0.9;charset=UTF-8,*/*;q=0.8
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "920600"
+          log:
+            no_expect_ids: [920600]
   - test_id: 5
     stages:
       - input:
@@ -68,7 +72,8 @@ tests:
             Accept: text/html;q=0.9;charset="UTF-8",*/*;q=0.8
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "920600"
+          log:
+            no_expect_ids: [920600]
   - test_id: 6
     stages:
       - input:
@@ -81,7 +86,8 @@ tests:
             Accept: text/html;q=0.9;charset="iso-8859-1",*/*;q=0.8
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "920600"
+          log:
+            no_expect_ids: [920600]
   - test_id: 7
     stages:
       - input:
@@ -94,7 +100,8 @@ tests:
             Accept: text/html;q=0.9;charset="iso-8859-1",*/*;q=0.8;charset=utf-16
           version: "HTTP/1.1"
         output:
-          log_contains: id "920600"
+          log:
+            expect_ids: [920600]
   - test_id: 8
     stages:
       - input:
@@ -107,7 +114,8 @@ tests:
             Accept: text/html;q=0.9;charset="iso-8859-1",*/*;q=0.8;charset=utf-8
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "920600"
+          log:
+            no_expect_ids: [920600]
   - test_id: 9
     stages:
       - input:
@@ -120,7 +128,8 @@ tests:
             Accept: text/html;q=0.9;charset="iso-8859-15",*/*;q=0.8
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "920600"
+          log:
+            no_expect_ids: [920600]
   - test_id: 10
     stages:
       - input:
@@ -133,7 +142,8 @@ tests:
             Accept: text/html;q=0.9;charset="windows-1252",*/*;q=0.8
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "920600"
+          log:
+            no_expect_ids: [920600]
   - test_id: 11
     stages:
       - input:
@@ -146,7 +156,8 @@ tests:
             Accept: text/html;q=0.9;charset="windows-1252",*/*;q=0.8;
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "920600"
+          log:
+            no_expect_ids: [920600]
   - test_id: 12
     stages:
       - input:
@@ -159,7 +170,8 @@ tests:
             Accept: text/html;q=0.9;charset="windows-1252";,*/*;q=0.8
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "920600"
+          log:
+            no_expect_ids: [920600]
   - test_id: 13
     desc: Allow "*" only media type
     stages:
@@ -173,7 +185,8 @@ tests:
             Accept: text/html;q=0.9;charset="utf-8";,*;q=0.8
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "920600"
+          log:
+            no_expect_ids: [920600]
   - test_id: 14
     desc: Allow "q=.1" instead of "q=0.1"
     stages:
@@ -187,7 +200,8 @@ tests:
             Accept: text/html;q=0.9;charset="utf-8";,*/*;q=.8
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "920600"
+          log:
+            no_expect_ids: [920600]
   - test_id: 15
     desc: False positive test request that violates the spec but should be tolerated
     stages:
@@ -201,4 +215,5 @@ tests:
             Accept: text/html;q=0.9;charset=utf-8, *;q=0.1
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "920600"
+          log:
+            no_expect_ids: [920600]

@@ -19,7 +19,8 @@ tests:
           data: '941200-1=%3Cv%3Avmlframe%20src%3D%22foo.com%2Fsup.fml%22%2F%3E'
           version: "HTTP/1.1"
         output:
-          log_contains: id "941200"
+          log:
+            expect_ids: [941200]
   - test_id: 2
     desc: Microsoft vmlframe xss, ARGS_NAMES
     stages:
@@ -35,7 +36,8 @@ tests:
           data: '%3Cv%3Avmlframe%20src%3D%22foo.com%2Fsup.fml%22%2F%3E=941200-2'
           version: "HTTP/1.1"
         output:
-          log_contains: id "941200"
+          log:
+            expect_ids: [941200]
   - test_id: 3
     desc: Microsoft vmlframe xss, REQUEST_COOKIE_NAMES
     stages:
@@ -51,7 +53,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941200"
+          log:
+            expect_ids: [941200]
   - test_id: 4
     desc: "Status Page Test - <:vmlframe src= as cookie content"
     stages:
@@ -67,4 +70,5 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "941200"
+          log:
+            expect_ids: [941200]

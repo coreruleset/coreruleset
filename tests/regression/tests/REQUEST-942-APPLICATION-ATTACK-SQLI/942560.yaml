@@ -19,7 +19,8 @@ tests:
           data: "email=1.e(ascii+1.e(substring(1.e(select+password+from+users+limit+1+1.e,1+1.e)+1.e,1+1.e,1+1.e)1.e)1.e)+=+70+or'1'='2"
           version: HTTP/1.0
         output:
-          log_contains: id "942560"
+          log:
+            expect_ids: [942560]
   - test_id: 2
     desc: "Status Page Test - simplified positive test for Scientific Notation in MySQL, e.g 1.e("
     stages:
@@ -35,4 +36,5 @@ tests:
           data: "foo=1.e(ascii)"
           version: HTTP/1.0
         output:
-          log_contains: id "942560"
+          log:
+            expect_ids: [942560]

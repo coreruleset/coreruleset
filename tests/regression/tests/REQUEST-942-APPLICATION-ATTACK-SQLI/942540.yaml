@@ -19,7 +19,8 @@ tests:
           data: "email=admin%40juice-sh.op';"
           version: HTTP/1.0
         output:
-          log_contains: id "942540"
+          log:
+            expect_ids: [942540]
   - test_id: 2
     desc: "Positive test for double quotes"
     stages:
@@ -35,7 +36,8 @@ tests:
           data: "email=admin%40juice-sh.op\";"
           version: HTTP/1.0
         output:
-          log_contains: id "942540"
+          log:
+            expect_ids: [942540]
   - test_id: 3
     desc: "Positive test for backticks"
     stages:
@@ -51,7 +53,8 @@ tests:
           data: "email=admin%40juice-sh.op`;"
           version: HTTP/1.0
         output:
-          log_contains: id "942540"
+          log:
+            expect_ids: [942540]
   - test_id: 4
     desc: "False positive test CSV balanced single quotes"
     stages:
@@ -67,7 +70,8 @@ tests:
           data: "email='foo';'bar';'def'"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942540"
+          log:
+            no_expect_ids: [942540]
   - test_id: 5
     desc: "False positive test balanced backticks"
     stages:
@@ -83,7 +87,8 @@ tests:
           data: "email=`foo`;`bar`;`def`"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942540"
+          log:
+            no_expect_ids: [942540]
   - test_id: 6
     desc: "False positive test (markdown) mixed and balanced quotes"
     stages:
@@ -109,7 +114,8 @@ tests:
             ----------397236876--
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "942540"
+          log:
+            no_expect_ids: [942540]
   - test_id: 7
     desc: "Test for bypass with comment"
     stages:
@@ -125,4 +131,5 @@ tests:
           data: "email=root%40example.com%27%2F%2A%20comment%20%2A%2F%3B"
           version: HTTP/1.0
         output:
-          log_contains: id "942540"
+          log:
+            expect_ids: [942540]

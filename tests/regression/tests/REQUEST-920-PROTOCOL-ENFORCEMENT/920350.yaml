@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: "Description"
 rule_id: 920350
 tests:
   - test_id: 1
@@ -17,7 +16,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920350\""
+          log:
+            expect_ids: [920350]
   - test_id: 2
     stages:
       - input:
@@ -31,7 +31,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920350\""
+          log:
+            no_expect_ids: [920350]
   - test_id: 3
     stages:
       - input:
@@ -45,7 +46,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920350\""
+          log:
+            expect_ids: [920350]
   - test_id: 4
     stages:
       - input:
@@ -59,7 +61,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920350\""
+          log:
+            expect_ids: [920350]
   - test_id: 5
     stages:
       - input:
@@ -73,7 +76,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920350\""
+          log:
+            expect_ids: [920350]
   - test_id: 6
     stages:
       - input:
@@ -87,7 +91,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920350\""
+          log:
+            expect_ids: [920350]
   - test_id: 7
     stages:
       - input:
@@ -101,7 +106,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920350\""
+          log:
+            no_expect_ids: [920350]
   - test_id: 8
     stages:
       - input:
@@ -115,4 +121,5 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920350\""
+          log:
+            no_expect_ids: [920350]

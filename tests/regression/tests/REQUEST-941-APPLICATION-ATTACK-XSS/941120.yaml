@@ -17,7 +17,8 @@ tests:
           uri: "/post?%20%20onload%3d%20=vardata"
           version: HTTP/1.0
         output:
-          log_contains: id "941120"
+          log:
+            expect_ids: [941120]
   - test_id: 2
     desc: "XSS Filter - Category 2: Event Handler Vector"
     stages:
@@ -32,7 +33,8 @@ tests:
           uri: "/post?%20%20onabcdefgh%3d%20=vardata"
           version: HTTP/1.0
         output:
-          log_contains: id "941120"
+          log:
+            expect_ids: [941120]
   - test_id: 3
     desc: "XSS Filter - Category 2: Event Handler Vector"
     stages:
@@ -47,7 +49,8 @@ tests:
           uri: "/post?%20%20onab%3d%20=vardata"
           version: HTTP/1.0
         output:
-          no_log_contains: id "941120"
+          log:
+            no_expect_ids: [941120]
   - test_id: 4
     desc: "XSS Filter - Category 2: Event Handler Vector"
     stages:
@@ -62,7 +65,8 @@ tests:
           uri: "/post?%20%20onabcdefghijklmnopqrstuvwxyz%3d%20=vardata"
           version: HTTP/1.0
         output:
-          no_log_contains: id "941120"
+          log:
+            no_expect_ids: [941120]
   - test_id: 5
     desc: "XSS Filter - Category 2: Event Handler Vector"
     stages:
@@ -78,7 +82,8 @@ tests:
           uri: "/get"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "941120"
+          log:
+            no_expect_ids: [941120]
   - test_id: 6
     desc: "SVG onload injection in filename"
     stages:
@@ -93,4 +98,5 @@ tests:
           uri: "/get/index.php/%3Csvg/onload=alert()"
           version: HTTP/1.0
         output:
-          log_contains: id "941120"
+          log:
+            expect_ids: [941120]

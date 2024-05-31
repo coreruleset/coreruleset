@@ -17,7 +17,8 @@ tests:
           uri: "/get?var=DROP%20sampletable%3b--"
           version: HTTP/1.0
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 2
     desc: "SQL Comment Sequence"
     stages:
@@ -33,7 +34,8 @@ tests:
           uri: "/post"
           data: "test=' or 1=1;%00"
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 3
     desc: "SQL Comment Sequence"
     stages:
@@ -49,7 +51,8 @@ tests:
           uri: "/post"
           data: "test=OR 1# "
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 4
     desc: "SQL Comment Sequence"
     stages:
@@ -65,7 +68,8 @@ tests:
           uri: "/post"
           data: "test=admin'--"
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 5
     desc: "SQL Comment Sequence"
     stages:
@@ -81,7 +85,8 @@ tests:
           uri: "/post"
           data: "test=DROP/*comment*/sampletable"
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 6
     desc: "SQL Comment Sequence"
     stages:
@@ -97,7 +102,8 @@ tests:
           uri: "/post"
           data: "test=DR/**/OP/*bypass deny listing*/sampletable"
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 7
     desc: "SQL Comment Sequence"
     stages:
@@ -113,7 +119,8 @@ tests:
           uri: "/post"
           data: "test=SELECT/*avoid-spaces*/password/**/FROM/**/Members"
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 8
     desc: "SQL Comment Sequence"
     stages:
@@ -129,7 +136,8 @@ tests:
           uri: "/post"
           data: "test=SELECT /*!32302 1/0, */ 1 FROM tablename"
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 9
     desc: "SQL Comment Sequence"
     stages:
@@ -145,7 +153,8 @@ tests:
           uri: "/post"
           data: "test=' or 1=1# "
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 10
     desc: "SQL Comment Sequence"
     stages:
@@ -161,7 +170,8 @@ tests:
           uri: "/post"
           data: "test=‘ or 1=1-- -"
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 11
     desc: "SQL Comment Sequence"
     stages:
@@ -177,7 +187,8 @@ tests:
           uri: "/post"
           data: "test=‘ or 1=1/*"
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 12
     desc: "SQL Comment Sequence"
     stages:
@@ -193,7 +204,8 @@ tests:
           uri: "/post"
           data: "test=1='1' or-- -"
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 13
     desc: "SQL Comment Sequence"
     stages:
@@ -209,7 +221,8 @@ tests:
           uri: "/post"
           data: "test=' /*!50000or*/1='1"
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 14
     desc: "SQL Comment Sequence"
     stages:
@@ -225,7 +238,8 @@ tests:
           uri: "/post"
           data: "test=' /*!or*/1='1"
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 15
     desc: "SQL Comment Sequence"
     stages:
@@ -241,7 +255,8 @@ tests:
           uri: "/post"
           data: "test=0/**/union/*!50000select*/table_name`foo`/**/"
         output:
-          log_contains: id "942440"
+          log:
+            expect_ids: [942440]
   - test_id: 16
     desc: "Avoid False Positive on JWT (body)"
     stages:
@@ -256,7 +271,8 @@ tests:
           uri: "/post"
           data: "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c"
         output:
-          no_log_contains: id "942440"
+          log:
+            no_expect_ids: [942440]
   - test_id: 17
     desc: "Avoid False Positive on JWT (cookie)"
     stages:
@@ -272,7 +288,8 @@ tests:
           uri: "/post"
           data: "foo=bar"
         output:
-          no_log_contains: id "942440"
+          log:
+            no_expect_ids: [942440]
   - test_id: 18
     desc: "Avoid False Positive on JWT (querystring)"
     stages:
@@ -286,7 +303,8 @@ tests:
           version: "HTTP/1.1"
           uri: "/get/callback?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c"
         output:
-          no_log_contains: id "942440"
+          log:
+            no_expect_ids: [942440]
   - test_id: 19
     desc: "False positive against Facebook click identifier"
     stages:
@@ -300,7 +318,8 @@ tests:
           version: "HTTP/1.1"
           uri: "/get?fbclid=IwAR1dug0BYxe0ukhZ2vKrdQwLAxVFRJ--Q2Y7OBJE_0uId9-Eh-sJWLdVk2E"
         output:
-          no_log_contains: id "942440"
+          log:
+            no_expect_ids: [942440]
   - test_id: 20
     desc: "False positive against Google click identifier"
     stages:
@@ -314,4 +333,5 @@ tests:
           version: "HTTP/1.1"
           uri: "/get?gclid=j0KCQiA1NebBhDDARIsAANiDD3_RJeMv8zScF--mC1jf8fO8PDYJCxD9xdwT7iQ59QIIwL-86ncQtMaAh0lEALw_wcB"
         output:
-          no_log_contains: id "942440"
+          log:
+            no_expect_ids: [942440]

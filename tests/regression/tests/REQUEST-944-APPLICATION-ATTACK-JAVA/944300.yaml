@@ -22,7 +22,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=cnVudGltZQ"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 2
     desc: "Argument name includes keyword cnVudGltZQ"
     stages:
@@ -41,7 +42,8 @@ tests:
           version: "HTTP/1.0"
           data: "cnVudGltZQ=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 3
     desc: "Cookie test includes keyword cnVudGltZQ"
     stages:
@@ -61,7 +63,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 4
     desc: "Cookie name includes keyword cnVudGltZQ"
     stages:
@@ -81,7 +84,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 5
     desc: "Request header test includes keyword cnVudGltZQ"
     stages:
@@ -101,7 +105,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 6
     desc: "XML attribute value includes keyword cnVudGltZQ"
     stages:
@@ -120,7 +125,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"cnVudGltZQ\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 7
     desc: "XML element value includes keyword cnVudGltZQ"
     stages:
@@ -139,7 +145,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">cnVudGltZQ</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 8
     desc: "Nested XML element value includes keyword cnVudGltZQ"
     stages:
@@ -158,7 +165,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">cnVudGltZQ</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 9
     desc: "Content-Type text/plain includes keyword cnVudGltZQ"
     stages:
@@ -177,7 +185,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=cnVudGltZQ"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 10
     desc: "Content-Type application/json arg value includes keyword cnVudGltZQ"
     stages:
@@ -196,7 +205,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"cnVudGltZQ\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 11
     desc: "Content-Type application/json arg name includes keyword cnVudGltZQ"
     stages:
@@ -215,7 +225,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"cnVudGltZQ\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 12
     desc: "Argument test includes keyword HJ1bnRpbWU"
     stages:
@@ -234,7 +245,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=HJ1bnRpbWU"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 13
     desc: "Argument name includes keyword HJ1bnRpbWU"
     stages:
@@ -253,7 +265,8 @@ tests:
           version: "HTTP/1.0"
           data: "HJ1bnRpbWU=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 14
     desc: "Cookie test includes keyword HJ1bnRpbWU"
     stages:
@@ -273,7 +286,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 15
     desc: "Cookie name includes keyword HJ1bnRpbWU"
     stages:
@@ -293,7 +307,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 16
     desc: "Request header test includes keyword HJ1bnRpbWU"
     stages:
@@ -313,7 +328,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 17
     desc: "XML attribute value includes keyword HJ1bnRpbWU"
     stages:
@@ -332,7 +348,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"HJ1bnRpbWU\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 18
     desc: "XML element value includes keyword HJ1bnRpbWU"
     stages:
@@ -351,7 +368,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">HJ1bnRpbWU</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 19
     desc: "Nested XML element value includes keyword HJ1bnRpbWU"
     stages:
@@ -370,7 +388,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">HJ1bnRpbWU</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 20
     desc: "Content-Type text/plain includes keyword HJ1bnRpbWU"
     stages:
@@ -389,7 +408,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=HJ1bnRpbWU"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 21
     desc: "Content-Type application/json arg value includes keyword HJ1bnRpbWU"
     stages:
@@ -408,7 +428,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"HJ1bnRpbWU\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 22
     desc: "Content-Type application/json arg name includes keyword HJ1bnRpbWU"
     stages:
@@ -427,7 +448,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"HJ1bnRpbWU\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 23
     desc: "Argument test includes keyword BydW50aW1l"
     stages:
@@ -446,7 +468,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=BydW50aW1l"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 24
     desc: "Argument name includes keyword BydW50aW1l"
     stages:
@@ -465,7 +488,8 @@ tests:
           version: "HTTP/1.0"
           data: "BydW50aW1l=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 25
     desc: "Cookie test includes keyword BydW50aW1l"
     stages:
@@ -485,7 +509,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 26
     desc: "Cookie name includes keyword BydW50aW1l"
     stages:
@@ -505,7 +530,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 27
     desc: "Request header test includes keyword BydW50aW1l"
     stages:
@@ -525,7 +551,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 28
     desc: "XML attribute value includes keyword BydW50aW1l"
     stages:
@@ -544,7 +571,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"BydW50aW1l\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 29
     desc: "XML element value includes keyword BydW50aW1l"
     stages:
@@ -563,7 +591,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">BydW50aW1l</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 30
     desc: "Nested XML element value includes keyword BydW50aW1l"
     stages:
@@ -582,7 +611,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">BydW50aW1l</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 31
     desc: "Content-Type text/plain includes keyword BydW50aW1l"
     stages:
@@ -601,7 +631,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=BydW50aW1l"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 32
     desc: "Content-Type application/json arg value includes keyword BydW50aW1l"
     stages:
@@ -620,7 +651,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"BydW50aW1l\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 33
     desc: "Content-Type application/json arg name includes keyword BydW50aW1l"
     stages:
@@ -639,7 +671,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"BydW50aW1l\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 34
     desc: "Argument test includes keyword cHJvY2Vzc2J1aWxkZXI"
     stages:
@@ -658,7 +691,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=cHJvY2Vzc2J1aWxkZXI"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 35
     desc: "Argument name includes keyword cHJvY2Vzc2J1aWxkZXI"
     stages:
@@ -677,7 +711,8 @@ tests:
           version: "HTTP/1.0"
           data: "cHJvY2Vzc2J1aWxkZXI=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 36
     desc: "Cookie test includes keyword cHJvY2Vzc2J1aWxkZXI"
     stages:
@@ -697,7 +732,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 37
     desc: "Cookie name includes keyword cHJvY2Vzc2J1aWxkZXI"
     stages:
@@ -717,7 +753,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 38
     desc: "Request header test includes keyword cHJvY2Vzc2J1aWxkZXI"
     stages:
@@ -737,7 +774,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 39
     desc: "XML attribute value includes keyword cHJvY2Vzc2J1aWxkZXI"
     stages:
@@ -756,7 +794,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"cHJvY2Vzc2J1aWxkZXI\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 40
     desc: "XML element value includes keyword cHJvY2Vzc2J1aWxkZXI"
     stages:
@@ -775,7 +814,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">cHJvY2Vzc2J1aWxkZXI</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 41
     desc: "Nested XML element value includes keyword cHJvY2Vzc2J1aWxkZXI"
     stages:
@@ -794,7 +834,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">cHJvY2Vzc2J1aWxkZXI</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 42
     desc: "Content-Type text/plain includes keyword cHJvY2Vzc2J1aWxkZXI"
     stages:
@@ -813,7 +854,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=cHJvY2Vzc2J1aWxkZXI"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 43
     desc: "Content-Type application/json arg value includes keyword cHJvY2Vzc2J1aWxkZXI"
     stages:
@@ -832,7 +874,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"cHJvY2Vzc2J1aWxkZXI\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 44
     desc: "Content-Type application/json arg name includes keyword cHJvY2Vzc2J1aWxkZXI"
     stages:
@@ -851,7 +894,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"cHJvY2Vzc2J1aWxkZXI\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 45
     desc: "Argument test includes keyword HByb2Nlc3NidWlsZGVy"
     stages:
@@ -870,7 +914,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=HByb2Nlc3NidWlsZGVy"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 46
     desc: "Argument name includes keyword HByb2Nlc3NidWlsZGVy"
     stages:
@@ -889,7 +934,8 @@ tests:
           version: "HTTP/1.0"
           data: "HByb2Nlc3NidWlsZGVy=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 47
     desc: "Cookie test includes keyword HByb2Nlc3NidWlsZGVy"
     stages:
@@ -909,7 +955,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 48
     desc: "Cookie name includes keyword HByb2Nlc3NidWlsZGVy"
     stages:
@@ -929,7 +976,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 49
     desc: "Request header test includes keyword HByb2Nlc3NidWlsZGVy"
     stages:
@@ -949,7 +997,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 50
     desc: "XML attribute value includes keyword HByb2Nlc3NidWlsZGVy"
     stages:
@@ -968,7 +1017,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"HByb2Nlc3NidWlsZGVy\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 51
     desc: "XML element value includes keyword HByb2Nlc3NidWlsZGVy"
     stages:
@@ -987,7 +1037,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">HByb2Nlc3NidWlsZGVy</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 52
     desc: "Nested XML element value includes keyword HByb2Nlc3NidWlsZGVy"
     stages:
@@ -1006,7 +1057,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">HByb2Nlc3NidWlsZGVy</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 53
     desc: "Content-Type text/plain includes keyword HByb2Nlc3NidWlsZGVy"
     stages:
@@ -1025,7 +1077,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=HByb2Nlc3NidWlsZGVy"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 54
     desc: "Content-Type application/json arg value includes keyword HByb2Nlc3NidWlsZGVy"
     stages:
@@ -1044,7 +1097,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"HByb2Nlc3NidWlsZGVy\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 55
     desc: "Content-Type application/json arg name includes keyword HByb2Nlc3NidWlsZGVy"
     stages:
@@ -1063,7 +1117,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"HByb2Nlc3NidWlsZGVy\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 56
     desc: "Argument test includes keyword Bwcm9jZXNzYnVpbGRlcg"
     stages:
@@ -1082,7 +1137,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Bwcm9jZXNzYnVpbGRlcg"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 57
     desc: "Argument name includes keyword Bwcm9jZXNzYnVpbGRlcg"
     stages:
@@ -1101,7 +1157,8 @@ tests:
           version: "HTTP/1.0"
           data: "Bwcm9jZXNzYnVpbGRlcg=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 58
     desc: "Cookie test includes keyword Bwcm9jZXNzYnVpbGRlcg"
     stages:
@@ -1121,7 +1178,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 59
     desc: "Cookie name includes keyword Bwcm9jZXNzYnVpbGRlcg"
     stages:
@@ -1141,7 +1199,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 60
     desc: "Request header test includes keyword Bwcm9jZXNzYnVpbGRlcg"
     stages:
@@ -1161,7 +1220,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 61
     desc: "XML attribute value includes keyword Bwcm9jZXNzYnVpbGRlcg"
     stages:
@@ -1180,7 +1240,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"Bwcm9jZXNzYnVpbGRlcg\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 62
     desc: "XML element value includes keyword Bwcm9jZXNzYnVpbGRlcg"
     stages:
@@ -1199,7 +1260,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">Bwcm9jZXNzYnVpbGRlcg</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 63
     desc: "Nested XML element value includes keyword Bwcm9jZXNzYnVpbGRlcg"
     stages:
@@ -1218,7 +1280,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">Bwcm9jZXNzYnVpbGRlcg</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 64
     desc: "Content-Type text/plain includes keyword Bwcm9jZXNzYnVpbGRlcg"
     stages:
@@ -1237,7 +1300,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Bwcm9jZXNzYnVpbGRlcg"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 65
     desc: "Content-Type application/json arg value includes keyword Bwcm9jZXNzYnVpbGRlcg"
     stages:
@@ -1256,7 +1320,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"Bwcm9jZXNzYnVpbGRlcg\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 66
     desc: "Content-Type application/json arg name includes keyword Bwcm9jZXNzYnVpbGRlcg"
     stages:
@@ -1275,7 +1340,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"Bwcm9jZXNzYnVpbGRlcg\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 67
     desc: "Argument test includes keyword Y2xvbmV0cmFuc2Zvcm1lcg"
     stages:
@@ -1294,7 +1360,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Y2xvbmV0cmFuc2Zvcm1lcg"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 68
     desc: "Argument name includes keyword Y2xvbmV0cmFuc2Zvcm1lcg"
     stages:
@@ -1313,7 +1380,8 @@ tests:
           version: "HTTP/1.0"
           data: "Y2xvbmV0cmFuc2Zvcm1lcg=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 69
     desc: "Cookie test includes keyword Y2xvbmV0cmFuc2Zvcm1lcg"
     stages:
@@ -1333,7 +1401,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 70
     desc: "Cookie name includes keyword Y2xvbmV0cmFuc2Zvcm1lcg"
     stages:
@@ -1353,7 +1422,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 71
     desc: "Request header test includes keyword Y2xvbmV0cmFuc2Zvcm1lcg"
     stages:
@@ -1373,7 +1443,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 72
     desc: "XML attribute value includes keyword Y2xvbmV0cmFuc2Zvcm1lcg"
     stages:
@@ -1392,7 +1463,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"Y2xvbmV0cmFuc2Zvcm1lcg\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 73
     desc: "XML element value includes keyword Y2xvbmV0cmFuc2Zvcm1lcg"
     stages:
@@ -1411,7 +1483,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">Y2xvbmV0cmFuc2Zvcm1lcg</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 74
     desc: "Nested XML element value includes keyword Y2xvbmV0cmFuc2Zvcm1lcg"
     stages:
@@ -1430,7 +1503,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">Y2xvbmV0cmFuc2Zvcm1lcg</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 75
     desc: "Content-Type text/plain includes keyword Y2xvbmV0cmFuc2Zvcm1lcg"
     stages:
@@ -1449,7 +1523,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Y2xvbmV0cmFuc2Zvcm1lcg"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 76
     desc: "Content-Type application/json arg value includes keyword Y2xvbmV0cmFuc2Zvcm1lcg"
     stages:
@@ -1468,7 +1543,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"Y2xvbmV0cmFuc2Zvcm1lcg\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 77
     desc: "Content-Type application/json arg name includes keyword Y2xvbmV0cmFuc2Zvcm1lcg"
     stages:
@@ -1487,7 +1563,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"Y2xvbmV0cmFuc2Zvcm1lcg\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 78
     desc: "Argument test includes keyword GNsb25ldHJhbnNmb3JtZXI"
     stages:
@@ -1506,7 +1583,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=GNsb25ldHJhbnNmb3JtZXI"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 79
     desc: "Argument name includes keyword GNsb25ldHJhbnNmb3JtZXI"
     stages:
@@ -1525,7 +1603,8 @@ tests:
           version: "HTTP/1.0"
           data: "GNsb25ldHJhbnNmb3JtZXI=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 80
     desc: "Cookie test includes keyword GNsb25ldHJhbnNmb3JtZXI"
     stages:
@@ -1545,7 +1624,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 81
     desc: "Cookie name includes keyword GNsb25ldHJhbnNmb3JtZXI"
     stages:
@@ -1565,7 +1645,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 82
     desc: "Request header test includes keyword GNsb25ldHJhbnNmb3JtZXI"
     stages:
@@ -1585,7 +1666,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 83
     desc: "XML attribute value includes keyword GNsb25ldHJhbnNmb3JtZXI"
     stages:
@@ -1604,7 +1686,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"GNsb25ldHJhbnNmb3JtZXI\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 84
     desc: "XML element value includes keyword GNsb25ldHJhbnNmb3JtZXI"
     stages:
@@ -1623,7 +1706,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">GNsb25ldHJhbnNmb3JtZXI</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 85
     desc: "Nested XML element value includes keyword GNsb25ldHJhbnNmb3JtZXI"
     stages:
@@ -1642,7 +1726,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">GNsb25ldHJhbnNmb3JtZXI</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 86
     desc: "Content-Type text/plain includes keyword GNsb25ldHJhbnNmb3JtZXI"
     stages:
@@ -1661,7 +1746,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=GNsb25ldHJhbnNmb3JtZXI"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 87
     desc: "Content-Type application/json arg value includes keyword GNsb25ldHJhbnNmb3JtZXI"
     stages:
@@ -1680,7 +1766,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"GNsb25ldHJhbnNmb3JtZXI\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 88
     desc: "Content-Type application/json arg name includes keyword GNsb25ldHJhbnNmb3JtZXI"
     stages:
@@ -1699,7 +1786,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"GNsb25ldHJhbnNmb3JtZXI\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 89
     desc: "Argument test includes keyword BjbG9uZXRyYW5zZm9ybWVy"
     stages:
@@ -1718,7 +1806,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=BjbG9uZXRyYW5zZm9ybWVy"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 90
     desc: "Argument name includes keyword BjbG9uZXRyYW5zZm9ybWVy"
     stages:
@@ -1737,7 +1826,8 @@ tests:
           version: "HTTP/1.0"
           data: "BjbG9uZXRyYW5zZm9ybWVy=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 91
     desc: "Cookie test includes keyword BjbG9uZXRyYW5zZm9ybWVy"
     stages:
@@ -1757,7 +1847,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 92
     desc: "Cookie name includes keyword BjbG9uZXRyYW5zZm9ybWVy"
     stages:
@@ -1777,7 +1868,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 93
     desc: "Request header test includes keyword BjbG9uZXRyYW5zZm9ybWVy"
     stages:
@@ -1797,7 +1889,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 94
     desc: "XML attribute value includes keyword BjbG9uZXRyYW5zZm9ybWVy"
     stages:
@@ -1816,7 +1909,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"BjbG9uZXRyYW5zZm9ybWVy\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 95
     desc: "XML element value includes keyword BjbG9uZXRyYW5zZm9ybWVy"
     stages:
@@ -1835,7 +1929,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">BjbG9uZXRyYW5zZm9ybWVy</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 96
     desc: "Nested XML element value includes keyword BjbG9uZXRyYW5zZm9ybWVy"
     stages:
@@ -1854,7 +1949,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">BjbG9uZXRyYW5zZm9ybWVy</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 97
     desc: "Content-Type text/plain includes keyword BjbG9uZXRyYW5zZm9ybWVy"
     stages:
@@ -1873,7 +1969,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=BjbG9uZXRyYW5zZm9ybWVy"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 98
     desc: "Content-Type application/json arg value includes keyword BjbG9uZXRyYW5zZm9ybWVy"
     stages:
@@ -1892,7 +1989,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"BjbG9uZXRyYW5zZm9ybWVy\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 99
     desc: "Content-Type application/json arg name includes keyword BjbG9uZXRyYW5zZm9ybWVy"
     stages:
@@ -1911,7 +2009,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"BjbG9uZXRyYW5zZm9ybWVy\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 100
     desc: "Argument test includes keyword Zm9yY2xvc3VyZQ"
     stages:
@@ -1930,7 +2029,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Zm9yY2xvc3VyZQ"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 101
     desc: "Argument name includes keyword Zm9yY2xvc3VyZQ"
     stages:
@@ -1949,7 +2049,8 @@ tests:
           version: "HTTP/1.0"
           data: "Zm9yY2xvc3VyZQ=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 102
     desc: "Cookie test includes keyword Zm9yY2xvc3VyZQ"
     stages:
@@ -1969,7 +2070,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 103
     desc: "Cookie name includes keyword Zm9yY2xvc3VyZQ"
     stages:
@@ -1989,7 +2091,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 104
     desc: "Request header test includes keyword Zm9yY2xvc3VyZQ"
     stages:
@@ -2009,7 +2112,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 105
     desc: "XML attribute value includes keyword Zm9yY2xvc3VyZQ"
     stages:
@@ -2028,7 +2132,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"Zm9yY2xvc3VyZQ\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 106
     desc: "XML element value includes keyword Zm9yY2xvc3VyZQ"
     stages:
@@ -2047,7 +2152,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">Zm9yY2xvc3VyZQ</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 107
     desc: "Nested XML element value includes keyword Zm9yY2xvc3VyZQ"
     stages:
@@ -2066,7 +2172,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">Zm9yY2xvc3VyZQ</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 108
     desc: "Content-Type text/plain includes keyword Zm9yY2xvc3VyZQ"
     stages:
@@ -2085,7 +2192,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Zm9yY2xvc3VyZQ"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 109
     desc: "Content-Type application/json arg value includes keyword Zm9yY2xvc3VyZQ"
     stages:
@@ -2104,7 +2212,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"Zm9yY2xvc3VyZQ\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 110
     desc: "Content-Type application/json arg name includes keyword Zm9yY2xvc3VyZQ"
     stages:
@@ -2123,7 +2232,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"Zm9yY2xvc3VyZQ\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 111
     desc: "Argument test includes keyword GZvcmNsb3N1cmU"
     stages:
@@ -2142,7 +2252,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=GZvcmNsb3N1cmU"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 112
     desc: "Argument name includes keyword GZvcmNsb3N1cmU"
     stages:
@@ -2161,7 +2272,8 @@ tests:
           version: "HTTP/1.0"
           data: "GZvcmNsb3N1cmU=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 113
     desc: "Cookie test includes keyword GZvcmNsb3N1cmU"
     stages:
@@ -2181,7 +2293,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 114
     desc: "Cookie name includes keyword GZvcmNsb3N1cmU"
     stages:
@@ -2201,7 +2314,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 115
     desc: "Request header test includes keyword GZvcmNsb3N1cmU"
     stages:
@@ -2221,7 +2335,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 116
     desc: "XML attribute value includes keyword GZvcmNsb3N1cmU"
     stages:
@@ -2240,7 +2355,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"GZvcmNsb3N1cmU\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 117
     desc: "XML element value includes keyword GZvcmNsb3N1cmU"
     stages:
@@ -2259,7 +2375,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">GZvcmNsb3N1cmU</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 118
     desc: "Nested XML element value includes keyword GZvcmNsb3N1cmU"
     stages:
@@ -2278,7 +2395,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">GZvcmNsb3N1cmU</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 119
     desc: "Content-Type text/plain includes keyword GZvcmNsb3N1cmU"
     stages:
@@ -2297,7 +2415,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=GZvcmNsb3N1cmU"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 120
     desc: "Content-Type application/json arg value includes keyword GZvcmNsb3N1cmU"
     stages:
@@ -2316,7 +2435,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"GZvcmNsb3N1cmU\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 121
     desc: "Content-Type application/json arg name includes keyword GZvcmNsb3N1cmU"
     stages:
@@ -2335,7 +2455,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"GZvcmNsb3N1cmU\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 122
     desc: "Argument test includes keyword Bmb3JjbG9zdXJl"
     stages:
@@ -2354,7 +2475,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Bmb3JjbG9zdXJl"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 123
     desc: "Argument name includes keyword Bmb3JjbG9zdXJl"
     stages:
@@ -2373,7 +2495,8 @@ tests:
           version: "HTTP/1.0"
           data: "Bmb3JjbG9zdXJl=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 124
     desc: "Cookie test includes keyword Bmb3JjbG9zdXJl"
     stages:
@@ -2393,7 +2516,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 125
     desc: "Cookie name includes keyword Bmb3JjbG9zdXJl"
     stages:
@@ -2413,7 +2537,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 126
     desc: "Request header test includes keyword Bmb3JjbG9zdXJl"
     stages:
@@ -2433,7 +2558,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 127
     desc: "XML attribute value includes keyword Bmb3JjbG9zdXJl"
     stages:
@@ -2452,7 +2578,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"Bmb3JjbG9zdXJl\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 128
     desc: "XML element value includes keyword Bmb3JjbG9zdXJl"
     stages:
@@ -2471,7 +2598,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">Bmb3JjbG9zdXJl</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 129
     desc: "Nested XML element value includes keyword Bmb3JjbG9zdXJl"
     stages:
@@ -2490,7 +2618,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">Bmb3JjbG9zdXJl</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 130
     desc: "Content-Type text/plain includes keyword Bmb3JjbG9zdXJl"
     stages:
@@ -2509,7 +2638,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Bmb3JjbG9zdXJl"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 131
     desc: "Content-Type application/json arg value includes keyword Bmb3JjbG9zdXJl"
     stages:
@@ -2528,7 +2658,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"Bmb3JjbG9zdXJl\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 132
     desc: "Content-Type application/json arg name includes keyword Bmb3JjbG9zdXJl"
     stages:
@@ -2547,7 +2678,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"Bmb3JjbG9zdXJl\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 133
     desc: "Argument test includes keyword aW5zdGFudGlhdGVmYWN0b3J5"
     stages:
@@ -2566,7 +2698,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=aW5zdGFudGlhdGVmYWN0b3J5"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 134
     desc: "Argument name includes keyword aW5zdGFudGlhdGVmYWN0b3J5"
     stages:
@@ -2585,7 +2718,8 @@ tests:
           version: "HTTP/1.0"
           data: "aW5zdGFudGlhdGVmYWN0b3J5=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 135
     desc: "Cookie test includes keyword aW5zdGFudGlhdGVmYWN0b3J5"
     stages:
@@ -2605,7 +2739,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 136
     desc: "Cookie name includes keyword aW5zdGFudGlhdGVmYWN0b3J5"
     stages:
@@ -2625,7 +2760,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 137
     desc: "Request header test includes keyword aW5zdGFudGlhdGVmYWN0b3J5"
     stages:
@@ -2645,7 +2781,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 138
     desc: "XML attribute value includes keyword aW5zdGFudGlhdGVmYWN0b3J5"
     stages:
@@ -2664,7 +2801,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"aW5zdGFudGlhdGVmYWN0b3J5\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 139
     desc: "XML element value includes keyword aW5zdGFudGlhdGVmYWN0b3J5"
     stages:
@@ -2683,7 +2821,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">aW5zdGFudGlhdGVmYWN0b3J5</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 140
     desc: "Nested XML element value includes keyword aW5zdGFudGlhdGVmYWN0b3J5"
     stages:
@@ -2702,7 +2841,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">aW5zdGFudGlhdGVmYWN0b3J5</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 141
     desc: "Content-Type text/plain includes keyword aW5zdGFudGlhdGVmYWN0b3J5"
     stages:
@@ -2721,7 +2861,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=aW5zdGFudGlhdGVmYWN0b3J5"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 142
     desc: "Content-Type application/json arg value includes keyword aW5zdGFudGlhdGVmYWN0b3J5"
     stages:
@@ -2740,7 +2881,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"aW5zdGFudGlhdGVmYWN0b3J5\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 143
     desc: "Content-Type application/json arg name includes keyword aW5zdGFudGlhdGVmYWN0b3J5"
     stages:
@@ -2759,7 +2901,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"aW5zdGFudGlhdGVmYWN0b3J5\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 144
     desc: "Argument test includes keyword Gluc3RhbnRpYXRlZmFjdG9yeQ"
     stages:
@@ -2778,7 +2921,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Gluc3RhbnRpYXRlZmFjdG9yeQ"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 145
     desc: "Argument name includes keyword Gluc3RhbnRpYXRlZmFjdG9yeQ"
     stages:
@@ -2797,7 +2941,8 @@ tests:
           version: "HTTP/1.0"
           data: "Gluc3RhbnRpYXRlZmFjdG9yeQ=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 146
     desc: "Cookie test includes keyword Gluc3RhbnRpYXRlZmFjdG9yeQ"
     stages:
@@ -2817,7 +2962,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 147
     desc: "Cookie name includes keyword Gluc3RhbnRpYXRlZmFjdG9yeQ"
     stages:
@@ -2837,7 +2983,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 148
     desc: "Request header test includes keyword Gluc3RhbnRpYXRlZmFjdG9yeQ"
     stages:
@@ -2857,7 +3004,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 149
     desc: "XML attribute value includes keyword Gluc3RhbnRpYXRlZmFjdG9yeQ"
     stages:
@@ -2876,7 +3024,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"Gluc3RhbnRpYXRlZmFjdG9yeQ\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 150
     desc: "XML element value includes keyword Gluc3RhbnRpYXRlZmFjdG9yeQ"
     stages:
@@ -2895,7 +3044,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">Gluc3RhbnRpYXRlZmFjdG9yeQ</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 151
     desc: "Nested XML element value includes keyword Gluc3RhbnRpYXRlZmFjdG9yeQ"
     stages:
@@ -2914,7 +3064,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">Gluc3RhbnRpYXRlZmFjdG9yeQ</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 152
     desc: "Content-Type text/plain includes keyword Gluc3RhbnRpYXRlZmFjdG9yeQ"
     stages:
@@ -2933,7 +3084,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Gluc3RhbnRpYXRlZmFjdG9yeQ"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 153
     desc: "Content-Type application/json arg value includes keyword Gluc3RhbnRpYXRlZmFjdG9yeQ"
     stages:
@@ -2952,7 +3104,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"Gluc3RhbnRpYXRlZmFjdG9yeQ\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 154
     desc: "Content-Type application/json arg name includes keyword Gluc3RhbnRpYXRlZmFjdG9yeQ"
     stages:
@@ -2971,7 +3124,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"Gluc3RhbnRpYXRlZmFjdG9yeQ\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 155
     desc: "Argument test includes keyword BpbnN0YW50aWF0ZWZhY3Rvcnk"
     stages:
@@ -2990,7 +3144,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=BpbnN0YW50aWF0ZWZhY3Rvcnk"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 156
     desc: "Argument name includes keyword BpbnN0YW50aWF0ZWZhY3Rvcnk"
     stages:
@@ -3009,7 +3164,8 @@ tests:
           version: "HTTP/1.0"
           data: "BpbnN0YW50aWF0ZWZhY3Rvcnk=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 157
     desc: "Cookie test includes keyword BpbnN0YW50aWF0ZWZhY3Rvcnk"
     stages:
@@ -3029,7 +3185,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 158
     desc: "Cookie name includes keyword BpbnN0YW50aWF0ZWZhY3Rvcnk"
     stages:
@@ -3049,7 +3206,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 159
     desc: "Request header test includes keyword BpbnN0YW50aWF0ZWZhY3Rvcnk"
     stages:
@@ -3069,7 +3227,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 160
     desc: "XML attribute value includes keyword BpbnN0YW50aWF0ZWZhY3Rvcnk"
     stages:
@@ -3088,7 +3247,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"BpbnN0YW50aWF0ZWZhY3Rvcnk\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 161
     desc: "XML element value includes keyword BpbnN0YW50aWF0ZWZhY3Rvcnk"
     stages:
@@ -3107,7 +3267,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">BpbnN0YW50aWF0ZWZhY3Rvcnk</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 162
     desc: "Nested XML element value includes keyword BpbnN0YW50aWF0ZWZhY3Rvcnk"
     stages:
@@ -3126,7 +3287,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">BpbnN0YW50aWF0ZWZhY3Rvcnk</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 163
     desc: "Content-Type text/plain includes keyword BpbnN0YW50aWF0ZWZhY3Rvcnk"
     stages:
@@ -3145,7 +3307,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=BpbnN0YW50aWF0ZWZhY3Rvcnk"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 164
     desc: "Content-Type application/json arg value includes keyword BpbnN0YW50aWF0ZWZhY3Rvcnk"
     stages:
@@ -3164,7 +3327,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"BpbnN0YW50aWF0ZWZhY3Rvcnk\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 165
     desc: "Content-Type application/json arg name includes keyword BpbnN0YW50aWF0ZWZhY3Rvcnk"
     stages:
@@ -3183,7 +3347,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"BpbnN0YW50aWF0ZWZhY3Rvcnk\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 166
     desc: "Argument test includes keyword aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg"
     stages:
@@ -3202,7 +3367,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 167
     desc: "Argument name includes keyword aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg"
     stages:
@@ -3221,7 +3387,8 @@ tests:
           version: "HTTP/1.0"
           data: "aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 168
     desc: "Cookie test includes keyword aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg"
     stages:
@@ -3241,7 +3408,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 169
     desc: "Cookie name includes keyword aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg"
     stages:
@@ -3261,7 +3429,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 170
     desc: "Request header test includes keyword aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg"
     stages:
@@ -3281,7 +3450,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 171
     desc: "XML attribute value includes keyword aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg"
     stages:
@@ -3300,7 +3470,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 172
     desc: "XML element value includes keyword aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg"
     stages:
@@ -3319,7 +3490,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 173
     desc: "Nested XML element value includes keyword aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg"
     stages:
@@ -3338,7 +3510,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 174
     desc: "Content-Type text/plain includes keyword aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg"
     stages:
@@ -3357,7 +3530,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 175
     desc: "Content-Type application/json arg value includes keyword aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg"
     stages:
@@ -3376,7 +3550,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 176
     desc: "Content-Type application/json arg name includes keyword aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg"
     stages:
@@ -3395,7 +3570,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"aW5zdGFudGlhdGV0cmFuc2Zvcm1lcg\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 177
     desc: "Argument test includes keyword Gluc3RhbnRpYXRldHJhbnNmb3JtZXI"
     stages:
@@ -3414,7 +3590,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Gluc3RhbnRpYXRldHJhbnNmb3JtZXI"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 178
     desc: "Argument name includes keyword Gluc3RhbnRpYXRldHJhbnNmb3JtZXI"
     stages:
@@ -3433,7 +3610,8 @@ tests:
           version: "HTTP/1.0"
           data: "Gluc3RhbnRpYXRldHJhbnNmb3JtZXI=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 179
     desc: "Cookie test includes keyword Gluc3RhbnRpYXRldHJhbnNmb3JtZXI"
     stages:
@@ -3453,7 +3631,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 180
     desc: "Cookie name includes keyword Gluc3RhbnRpYXRldHJhbnNmb3JtZXI"
     stages:
@@ -3473,7 +3652,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 181
     desc: "Request header test includes keyword Gluc3RhbnRpYXRldHJhbnNmb3JtZXI"
     stages:
@@ -3493,7 +3673,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 182
     desc: "XML attribute value includes keyword Gluc3RhbnRpYXRldHJhbnNmb3JtZXI"
     stages:
@@ -3512,7 +3693,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"Gluc3RhbnRpYXRldHJhbnNmb3JtZXI\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 183
     desc: "XML element value includes keyword Gluc3RhbnRpYXRldHJhbnNmb3JtZXI"
     stages:
@@ -3531,7 +3713,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">Gluc3RhbnRpYXRldHJhbnNmb3JtZXI</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 184
     desc: "Nested XML element value includes keyword Gluc3RhbnRpYXRldHJhbnNmb3JtZXI"
     stages:
@@ -3550,7 +3733,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">Gluc3RhbnRpYXRldHJhbnNmb3JtZXI</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 185
     desc: "Content-Type text/plain includes keyword Gluc3RhbnRpYXRldHJhbnNmb3JtZXI"
     stages:
@@ -3569,7 +3753,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Gluc3RhbnRpYXRldHJhbnNmb3JtZXI"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 186
     desc: "Content-Type application/json arg value includes keyword Gluc3RhbnRpYXRldHJhbnNmb3JtZXI"
     stages:
@@ -3588,7 +3773,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"Gluc3RhbnRpYXRldHJhbnNmb3JtZXI\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 187
     desc: "Content-Type application/json arg name includes keyword Gluc3RhbnRpYXRldHJhbnNmb3JtZXI"
     stages:
@@ -3607,7 +3793,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"Gluc3RhbnRpYXRldHJhbnNmb3JtZXI\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 188
     desc: "Argument test includes keyword BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy"
     stages:
@@ -3626,7 +3813,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 189
     desc: "Argument name includes keyword BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy"
     stages:
@@ -3645,7 +3833,8 @@ tests:
           version: "HTTP/1.0"
           data: "BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 190
     desc: "Cookie test includes keyword BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy"
     stages:
@@ -3665,7 +3854,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 191
     desc: "Cookie name includes keyword BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy"
     stages:
@@ -3685,7 +3875,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 192
     desc: "Request header test includes keyword BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy"
     stages:
@@ -3705,7 +3896,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 193
     desc: "XML attribute value includes keyword BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy"
     stages:
@@ -3724,7 +3916,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 194
     desc: "XML element value includes keyword BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy"
     stages:
@@ -3743,7 +3936,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 195
     desc: "Nested XML element value includes keyword BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy"
     stages:
@@ -3762,7 +3956,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 196
     desc: "Content-Type text/plain includes keyword BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy"
     stages:
@@ -3781,7 +3976,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 197
     desc: "Content-Type application/json arg value includes keyword BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy"
     stages:
@@ -3800,7 +3996,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 198
     desc: "Content-Type application/json arg name includes keyword BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy"
     stages:
@@ -3819,7 +4016,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"BpbnN0YW50aWF0ZXRyYW5zZm9ybWVy\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 199
     desc: "Argument test includes keyword aW52b2tlcnRyYW5zZm9ybWVy"
     stages:
@@ -3838,7 +4036,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=aW52b2tlcnRyYW5zZm9ybWVy"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 200
     desc: "Argument name includes keyword aW52b2tlcnRyYW5zZm9ybWVy"
     stages:
@@ -3857,7 +4056,8 @@ tests:
           version: "HTTP/1.0"
           data: "aW52b2tlcnRyYW5zZm9ybWVy=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 201
     desc: "Cookie test includes keyword aW52b2tlcnRyYW5zZm9ybWVy"
     stages:
@@ -3877,7 +4077,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 202
     desc: "Cookie name includes keyword aW52b2tlcnRyYW5zZm9ybWVy"
     stages:
@@ -3897,7 +4098,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 203
     desc: "Request header test includes keyword aW52b2tlcnRyYW5zZm9ybWVy"
     stages:
@@ -3917,7 +4119,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 204
     desc: "XML attribute value includes keyword aW52b2tlcnRyYW5zZm9ybWVy"
     stages:
@@ -3936,7 +4139,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"aW52b2tlcnRyYW5zZm9ybWVy\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 205
     desc: "XML element value includes keyword aW52b2tlcnRyYW5zZm9ybWVy"
     stages:
@@ -3955,7 +4159,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">aW52b2tlcnRyYW5zZm9ybWVy</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 206
     desc: "Nested XML element value includes keyword aW52b2tlcnRyYW5zZm9ybWVy"
     stages:
@@ -3974,7 +4179,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">aW52b2tlcnRyYW5zZm9ybWVy</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 207
     desc: "Content-Type text/plain includes keyword aW52b2tlcnRyYW5zZm9ybWVy"
     stages:
@@ -3993,7 +4199,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=aW52b2tlcnRyYW5zZm9ybWVy"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 208
     desc: "Content-Type application/json arg value includes keyword aW52b2tlcnRyYW5zZm9ybWVy"
     stages:
@@ -4012,7 +4219,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"aW52b2tlcnRyYW5zZm9ybWVy\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 209
     desc: "Content-Type application/json arg name includes keyword aW52b2tlcnRyYW5zZm9ybWVy"
     stages:
@@ -4031,7 +4239,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"aW52b2tlcnRyYW5zZm9ybWVy\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 210
     desc: "Argument test includes keyword Gludm9rZXJ0cmFuc2Zvcm1lcg"
     stages:
@@ -4050,7 +4259,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Gludm9rZXJ0cmFuc2Zvcm1lcg"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 211
     desc: "Argument name includes keyword Gludm9rZXJ0cmFuc2Zvcm1lcg"
     stages:
@@ -4069,7 +4279,8 @@ tests:
           version: "HTTP/1.0"
           data: "Gludm9rZXJ0cmFuc2Zvcm1lcg=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 212
     desc: "Cookie test includes keyword Gludm9rZXJ0cmFuc2Zvcm1lcg"
     stages:
@@ -4089,7 +4300,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 213
     desc: "Cookie name includes keyword Gludm9rZXJ0cmFuc2Zvcm1lcg"
     stages:
@@ -4109,7 +4321,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 214
     desc: "Request header test includes keyword Gludm9rZXJ0cmFuc2Zvcm1lcg"
     stages:
@@ -4129,7 +4342,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 215
     desc: "XML attribute value includes keyword Gludm9rZXJ0cmFuc2Zvcm1lcg"
     stages:
@@ -4148,7 +4362,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"Gludm9rZXJ0cmFuc2Zvcm1lcg\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 216
     desc: "XML element value includes keyword Gludm9rZXJ0cmFuc2Zvcm1lcg"
     stages:
@@ -4167,7 +4382,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">Gludm9rZXJ0cmFuc2Zvcm1lcg</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 217
     desc: "Nested XML element value includes keyword Gludm9rZXJ0cmFuc2Zvcm1lcg"
     stages:
@@ -4186,7 +4402,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">Gludm9rZXJ0cmFuc2Zvcm1lcg</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 218
     desc: "Content-Type text/plain includes keyword Gludm9rZXJ0cmFuc2Zvcm1lcg"
     stages:
@@ -4205,7 +4422,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Gludm9rZXJ0cmFuc2Zvcm1lcg"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 219
     desc: "Content-Type application/json arg value includes keyword Gludm9rZXJ0cmFuc2Zvcm1lcg"
     stages:
@@ -4224,7 +4442,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"Gludm9rZXJ0cmFuc2Zvcm1lcg\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 220
     desc: "Content-Type application/json arg name includes keyword Gludm9rZXJ0cmFuc2Zvcm1lcg"
     stages:
@@ -4243,7 +4462,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"Gludm9rZXJ0cmFuc2Zvcm1lcg\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 221
     desc: "Argument test includes keyword BpbnZva2VydHJhbnNmb3JtZXI"
     stages:
@@ -4262,7 +4482,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=BpbnZva2VydHJhbnNmb3JtZXI"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 222
     desc: "Argument name includes keyword BpbnZva2VydHJhbnNmb3JtZXI"
     stages:
@@ -4281,7 +4502,8 @@ tests:
           version: "HTTP/1.0"
           data: "BpbnZva2VydHJhbnNmb3JtZXI=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 223
     desc: "Cookie test includes keyword BpbnZva2VydHJhbnNmb3JtZXI"
     stages:
@@ -4301,7 +4523,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 224
     desc: "Cookie name includes keyword BpbnZva2VydHJhbnNmb3JtZXI"
     stages:
@@ -4321,7 +4544,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 225
     desc: "Request header test includes keyword BpbnZva2VydHJhbnNmb3JtZXI"
     stages:
@@ -4341,7 +4565,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 226
     desc: "XML attribute value includes keyword BpbnZva2VydHJhbnNmb3JtZXI"
     stages:
@@ -4360,7 +4585,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"BpbnZva2VydHJhbnNmb3JtZXI\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 227
     desc: "XML element value includes keyword BpbnZva2VydHJhbnNmb3JtZXI"
     stages:
@@ -4379,7 +4605,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">BpbnZva2VydHJhbnNmb3JtZXI</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 228
     desc: "Nested XML element value includes keyword BpbnZva2VydHJhbnNmb3JtZXI"
     stages:
@@ -4398,7 +4625,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">BpbnZva2VydHJhbnNmb3JtZXI</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 229
     desc: "Content-Type text/plain includes keyword BpbnZva2VydHJhbnNmb3JtZXI"
     stages:
@@ -4417,7 +4645,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=BpbnZva2VydHJhbnNmb3JtZXI"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 230
     desc: "Content-Type application/json arg value includes keyword BpbnZva2VydHJhbnNmb3JtZXI"
     stages:
@@ -4436,7 +4665,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"BpbnZva2VydHJhbnNmb3JtZXI\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 231
     desc: "Content-Type application/json arg name includes keyword BpbnZva2VydHJhbnNmb3JtZXI"
     stages:
@@ -4455,7 +4685,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"BpbnZva2VydHJhbnNmb3JtZXI\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 232
     desc: "Argument test includes keyword cHJvdG90eXBlY2xvbmVmYWN0b3J5"
     stages:
@@ -4474,7 +4705,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=cHJvdG90eXBlY2xvbmVmYWN0b3J5"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 233
     desc: "Argument name includes keyword cHJvdG90eXBlY2xvbmVmYWN0b3J5"
     stages:
@@ -4493,7 +4725,8 @@ tests:
           version: "HTTP/1.0"
           data: "cHJvdG90eXBlY2xvbmVmYWN0b3J5=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 234
     desc: "Cookie test includes keyword cHJvdG90eXBlY2xvbmVmYWN0b3J5"
     stages:
@@ -4513,7 +4746,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 235
     desc: "Cookie name includes keyword cHJvdG90eXBlY2xvbmVmYWN0b3J5"
     stages:
@@ -4533,7 +4767,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 236
     desc: "Request header test includes keyword cHJvdG90eXBlY2xvbmVmYWN0b3J5"
     stages:
@@ -4553,7 +4788,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 237
     desc: "XML attribute value includes keyword cHJvdG90eXBlY2xvbmVmYWN0b3J5"
     stages:
@@ -4572,7 +4808,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"cHJvdG90eXBlY2xvbmVmYWN0b3J5\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 238
     desc: "XML element value includes keyword cHJvdG90eXBlY2xvbmVmYWN0b3J5"
     stages:
@@ -4591,7 +4828,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">cHJvdG90eXBlY2xvbmVmYWN0b3J5</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 239
     desc: "Nested XML element value includes keyword cHJvdG90eXBlY2xvbmVmYWN0b3J5"
     stages:
@@ -4610,7 +4848,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">cHJvdG90eXBlY2xvbmVmYWN0b3J5</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 240
     desc: "Content-Type text/plain includes keyword cHJvdG90eXBlY2xvbmVmYWN0b3J5"
     stages:
@@ -4629,7 +4868,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=cHJvdG90eXBlY2xvbmVmYWN0b3J5"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 241
     desc: "Content-Type application/json arg value includes keyword cHJvdG90eXBlY2xvbmVmYWN0b3J5"
     stages:
@@ -4648,7 +4888,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"cHJvdG90eXBlY2xvbmVmYWN0b3J5\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 242
     desc: "Content-Type application/json arg name includes keyword cHJvdG90eXBlY2xvbmVmYWN0b3J5"
     stages:
@@ -4667,7 +4908,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"cHJvdG90eXBlY2xvbmVmYWN0b3J5\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 243
     desc: "Argument test includes keyword HByb3RvdHlwZWNsb25lZmFjdG9yeQ"
     stages:
@@ -4686,7 +4928,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=HByb3RvdHlwZWNsb25lZmFjdG9yeQ"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 244
     desc: "Argument name includes keyword HByb3RvdHlwZWNsb25lZmFjdG9yeQ"
     stages:
@@ -4705,7 +4948,8 @@ tests:
           version: "HTTP/1.0"
           data: "HByb3RvdHlwZWNsb25lZmFjdG9yeQ=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 245
     desc: "Cookie test includes keyword HByb3RvdHlwZWNsb25lZmFjdG9yeQ"
     stages:
@@ -4725,7 +4969,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 246
     desc: "Cookie name includes keyword HByb3RvdHlwZWNsb25lZmFjdG9yeQ"
     stages:
@@ -4745,7 +4990,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 247
     desc: "Request header test includes keyword HByb3RvdHlwZWNsb25lZmFjdG9yeQ"
     stages:
@@ -4765,7 +5011,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 248
     desc: "XML attribute value includes keyword HByb3RvdHlwZWNsb25lZmFjdG9yeQ"
     stages:
@@ -4784,7 +5031,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"HByb3RvdHlwZWNsb25lZmFjdG9yeQ\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 249
     desc: "XML element value includes keyword HByb3RvdHlwZWNsb25lZmFjdG9yeQ"
     stages:
@@ -4803,7 +5051,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">HByb3RvdHlwZWNsb25lZmFjdG9yeQ</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 250
     desc: "Nested XML element value includes keyword HByb3RvdHlwZWNsb25lZmFjdG9yeQ"
     stages:
@@ -4822,7 +5071,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">HByb3RvdHlwZWNsb25lZmFjdG9yeQ</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 251
     desc: "Content-Type text/plain includes keyword HByb3RvdHlwZWNsb25lZmFjdG9yeQ"
     stages:
@@ -4841,7 +5091,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=HByb3RvdHlwZWNsb25lZmFjdG9yeQ"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 252
     desc: "Content-Type application/json arg value includes keyword HByb3RvdHlwZWNsb25lZmFjdG9yeQ"
     stages:
@@ -4860,7 +5111,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"HByb3RvdHlwZWNsb25lZmFjdG9yeQ\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 253
     desc: "Content-Type application/json arg name includes keyword HByb3RvdHlwZWNsb25lZmFjdG9yeQ"
     stages:
@@ -4879,7 +5131,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"HByb3RvdHlwZWNsb25lZmFjdG9yeQ\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 254
     desc: "Argument test includes keyword Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk"
     stages:
@@ -4898,7 +5151,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 255
     desc: "Argument name includes keyword Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk"
     stages:
@@ -4917,7 +5171,8 @@ tests:
           version: "HTTP/1.0"
           data: "Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 256
     desc: "Cookie test includes keyword Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk"
     stages:
@@ -4937,7 +5192,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 257
     desc: "Cookie name includes keyword Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk"
     stages:
@@ -4957,7 +5213,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 258
     desc: "Request header test includes keyword Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk"
     stages:
@@ -4977,7 +5234,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 259
     desc: "XML attribute value includes keyword Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk"
     stages:
@@ -4996,7 +5254,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 260
     desc: "XML element value includes keyword Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk"
     stages:
@@ -5015,7 +5274,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 261
     desc: "Nested XML element value includes keyword Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk"
     stages:
@@ -5034,7 +5294,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 262
     desc: "Content-Type text/plain includes keyword Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk"
     stages:
@@ -5053,7 +5314,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 263
     desc: "Content-Type application/json arg value includes keyword Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk"
     stages:
@@ -5072,7 +5334,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 264
     desc: "Content-Type application/json arg name includes keyword Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk"
     stages:
@@ -5091,7 +5354,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"Bwcm90b3R5cGVjbG9uZWZhY3Rvcnk\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 265
     desc: "Argument test includes keyword cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk"
     stages:
@@ -5110,7 +5374,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 266
     desc: "Argument name includes keyword cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk"
     stages:
@@ -5129,7 +5394,8 @@ tests:
           version: "HTTP/1.0"
           data: "cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 267
     desc: "Cookie test includes keyword cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk"
     stages:
@@ -5149,7 +5415,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 268
     desc: "Cookie name includes keyword cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk"
     stages:
@@ -5169,7 +5436,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 269
     desc: "Request header test includes keyword cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk"
     stages:
@@ -5189,7 +5457,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 270
     desc: "XML attribute value includes keyword cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk"
     stages:
@@ -5208,7 +5477,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 271
     desc: "XML element value includes keyword cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk"
     stages:
@@ -5227,7 +5497,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 272
     desc: "Nested XML element value includes keyword cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk"
     stages:
@@ -5246,7 +5517,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 273
     desc: "Content-Type text/plain includes keyword cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk"
     stages:
@@ -5265,7 +5537,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 274
     desc: "Content-Type application/json arg value includes keyword cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk"
     stages:
@@ -5284,7 +5557,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 275
     desc: "Content-Type application/json arg name includes keyword cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk"
     stages:
@@ -5303,7 +5577,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"cHJvdG90eXBlc2VyaWFsaXphdGlvbmZhY3Rvcnk\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 276
     desc: "Argument test includes keyword HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5"
     stages:
@@ -5322,7 +5597,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 277
     desc: "Argument name includes keyword HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5"
     stages:
@@ -5341,7 +5617,8 @@ tests:
           version: "HTTP/1.0"
           data: "HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 278
     desc: "Cookie test includes keyword HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5"
     stages:
@@ -5361,7 +5638,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 279
     desc: "Cookie name includes keyword HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5"
     stages:
@@ -5381,7 +5659,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 280
     desc: "Request header test includes keyword HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5"
     stages:
@@ -5401,7 +5680,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 281
     desc: "XML attribute value includes keyword HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5"
     stages:
@@ -5420,7 +5700,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 282
     desc: "XML element value includes keyword HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5"
     stages:
@@ -5439,7 +5720,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 283
     desc: "Nested XML element value includes keyword HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5"
     stages:
@@ -5458,7 +5740,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 284
     desc: "Content-Type text/plain includes keyword HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5"
     stages:
@@ -5477,7 +5760,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 285
     desc: "Content-Type application/json arg value includes keyword HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5"
     stages:
@@ -5496,7 +5780,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 286
     desc: "Content-Type application/json arg name includes keyword HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5"
     stages:
@@ -5515,7 +5800,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"HByb3RvdHlwZXNlcmlhbGl6YXRpb25mYWN0b3J5\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 287
     desc: "Argument test includes keyword Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ"
     stages:
@@ -5534,7 +5820,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 288
     desc: "Argument name includes keyword Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ"
     stages:
@@ -5553,7 +5840,8 @@ tests:
           version: "HTTP/1.0"
           data: "Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 289
     desc: "Cookie test includes keyword Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ"
     stages:
@@ -5573,7 +5861,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 290
     desc: "Cookie name includes keyword Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ"
     stages:
@@ -5593,7 +5882,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 291
     desc: "Request header test includes keyword Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ"
     stages:
@@ -5613,7 +5903,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 292
     desc: "XML attribute value includes keyword Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ"
     stages:
@@ -5632,7 +5923,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 293
     desc: "XML element value includes keyword Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ"
     stages:
@@ -5651,7 +5943,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 294
     desc: "Nested XML element value includes keyword Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ"
     stages:
@@ -5670,7 +5963,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 295
     desc: "Content-Type text/plain includes keyword Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ"
     stages:
@@ -5689,7 +5983,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 296
     desc: "Content-Type application/json arg value includes keyword Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ"
     stages:
@@ -5708,7 +6003,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 297
     desc: "Content-Type application/json arg name includes keyword Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ"
     stages:
@@ -5727,7 +6023,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"Bwcm90b3R5cGVzZXJpYWxpemF0aW9uZmFjdG9yeQ\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 298
     desc: "Argument test includes keyword d2hpbGVjbG9zdXJl"
     stages:
@@ -5746,7 +6043,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=d2hpbGVjbG9zdXJl"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 299
     desc: "Argument name includes keyword d2hpbGVjbG9zdXJl"
     stages:
@@ -5765,7 +6063,8 @@ tests:
           version: "HTTP/1.0"
           data: "d2hpbGVjbG9zdXJl=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 300
     desc: "Cookie test includes keyword d2hpbGVjbG9zdXJl"
     stages:
@@ -5785,7 +6084,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 301
     desc: "Cookie name includes keyword d2hpbGVjbG9zdXJl"
     stages:
@@ -5805,7 +6105,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 302
     desc: "Request header test includes keyword d2hpbGVjbG9zdXJl"
     stages:
@@ -5825,7 +6126,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 303
     desc: "XML attribute value includes keyword d2hpbGVjbG9zdXJl"
     stages:
@@ -5844,7 +6146,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"d2hpbGVjbG9zdXJl\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 304
     desc: "XML element value includes keyword d2hpbGVjbG9zdXJl"
     stages:
@@ -5863,7 +6166,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">d2hpbGVjbG9zdXJl</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 305
     desc: "Nested XML element value includes keyword d2hpbGVjbG9zdXJl"
     stages:
@@ -5882,7 +6186,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">d2hpbGVjbG9zdXJl</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 306
     desc: "Content-Type text/plain includes keyword d2hpbGVjbG9zdXJl"
     stages:
@@ -5901,7 +6206,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=d2hpbGVjbG9zdXJl"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 307
     desc: "Content-Type application/json arg value includes keyword d2hpbGVjbG9zdXJl"
     stages:
@@ -5920,7 +6226,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"d2hpbGVjbG9zdXJl\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 308
     desc: "Content-Type application/json arg name includes keyword d2hpbGVjbG9zdXJl"
     stages:
@@ -5939,7 +6246,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"d2hpbGVjbG9zdXJl\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 309
     desc: "Argument test includes keyword HdoaWxlY2xvc3VyZQ"
     stages:
@@ -5958,7 +6266,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=HdoaWxlY2xvc3VyZQ"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 310
     desc: "Argument name includes keyword HdoaWxlY2xvc3VyZQ"
     stages:
@@ -5977,7 +6286,8 @@ tests:
           version: "HTTP/1.0"
           data: "HdoaWxlY2xvc3VyZQ=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 311
     desc: "Cookie test includes keyword HdoaWxlY2xvc3VyZQ"
     stages:
@@ -5997,7 +6307,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 312
     desc: "Cookie name includes keyword HdoaWxlY2xvc3VyZQ"
     stages:
@@ -6017,7 +6328,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 313
     desc: "Request header test includes keyword HdoaWxlY2xvc3VyZQ"
     stages:
@@ -6037,7 +6349,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 314
     desc: "XML attribute value includes keyword HdoaWxlY2xvc3VyZQ"
     stages:
@@ -6056,7 +6369,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"HdoaWxlY2xvc3VyZQ\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 315
     desc: "XML element value includes keyword HdoaWxlY2xvc3VyZQ"
     stages:
@@ -6075,7 +6389,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">HdoaWxlY2xvc3VyZQ</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 316
     desc: "Nested XML element value includes keyword HdoaWxlY2xvc3VyZQ"
     stages:
@@ -6094,7 +6409,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">HdoaWxlY2xvc3VyZQ</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 317
     desc: "Content-Type text/plain includes keyword HdoaWxlY2xvc3VyZQ"
     stages:
@@ -6113,7 +6429,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=HdoaWxlY2xvc3VyZQ"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 318
     desc: "Content-Type application/json arg value includes keyword HdoaWxlY2xvc3VyZQ"
     stages:
@@ -6132,7 +6449,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"HdoaWxlY2xvc3VyZQ\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 319
     desc: "Content-Type application/json arg name includes keyword HdoaWxlY2xvc3VyZQ"
     stages:
@@ -6151,7 +6469,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"HdoaWxlY2xvc3VyZQ\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 320
     desc: "Argument test includes keyword B3aGlsZWNsb3N1cmU"
     stages:
@@ -6170,7 +6489,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=B3aGlsZWNsb3N1cmU"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 321
     desc: "Argument name includes keyword B3aGlsZWNsb3N1cmU"
     stages:
@@ -6189,7 +6509,8 @@ tests:
           version: "HTTP/1.0"
           data: "B3aGlsZWNsb3N1cmU=test"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 322
     desc: "Cookie test includes keyword B3aGlsZWNsb3N1cmU"
     stages:
@@ -6209,7 +6530,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 323
     desc: "Cookie name includes keyword B3aGlsZWNsb3N1cmU"
     stages:
@@ -6229,7 +6551,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 324
     desc: "Request header test includes keyword B3aGlsZWNsb3N1cmU"
     stages:
@@ -6249,7 +6572,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=value"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 325
     desc: "XML attribute value includes keyword B3aGlsZWNsb3N1cmU"
     stages:
@@ -6268,7 +6592,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"B3aGlsZWNsb3N1cmU\">element_value</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 326
     desc: "XML element value includes keyword B3aGlsZWNsb3N1cmU"
     stages:
@@ -6287,7 +6612,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">B3aGlsZWNsb3N1cmU</element></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 327
     desc: "Nested XML element value includes keyword B3aGlsZWNsb3N1cmU"
     stages:
@@ -6306,7 +6632,8 @@ tests:
           version: "HTTP/1.0"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">B3aGlsZWNsb3N1cmU</element></l3></l2></l1></xml>"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 328
     desc: "Content-Type text/plain includes keyword B3aGlsZWNsb3N1cmU"
     stages:
@@ -6325,7 +6652,8 @@ tests:
           version: "HTTP/1.0"
           data: "test=B3aGlsZWNsb3N1cmU"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 329
     desc: "Content-Type application/json arg value includes keyword B3aGlsZWNsb3N1cmU"
     stages:
@@ -6344,7 +6672,8 @@ tests:
           version: "HTTP/1.0"
           data: "{\"test\": \"B3aGlsZWNsb3N1cmU\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]
   - test_id: 330
     desc: "Content-Type application/json arg name includes keyword B3aGlsZWNsb3N1cmU"
     stages:
@@ -6363,4 +6692,5 @@ tests:
           version: "HTTP/1.0"
           data: "{\"B3aGlsZWNsb3N1cmU\": \"test\"}"
         output:
-          log_contains: "id \"944300\""
+          log:
+            expect_ids: [944300]

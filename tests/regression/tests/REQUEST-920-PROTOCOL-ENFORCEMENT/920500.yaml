@@ -18,7 +18,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920500\""
+          log:
+            expect_ids: [920500]
   - test_id: 2
     desc: "Check request filename contains file that ends with ~ but not at end of string (bypass)"
     stages:
@@ -33,7 +34,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920500\""
+          log:
+            expect_ids: [920500]
   - test_id: 3
     desc: "Rules 920500 should not block user dir such as /~user/"
     stages:
@@ -48,4 +50,5 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920500\""
+          log:
+            no_expect_ids: [920500]

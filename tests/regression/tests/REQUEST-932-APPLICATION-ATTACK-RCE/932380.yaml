@@ -21,7 +21,8 @@ tests:
           uri: "/get?view%3Dimage.jpg%26bcdboot%20%3C%20file.txt"
           version: HTTP/1.0
         output:
-          log_contains: id "932380"
+          log:
+            expect_ids: [932380]
   - test_id: 2
     desc: |
       Windows shell command injection with 'bcdboot': view=image.jpg%26bcdboot /r file.txt
@@ -39,7 +40,8 @@ tests:
           uri: "/get?view%3Dimage.jpg%26bcdboot%20%2Fr%20file.txt"
           version: HTTP/1.0
         output:
-          log_contains: id "932380"
+          log:
+            expect_ids: [932380]
   - test_id: 3
     desc: |
       Windows shell command injection with 'bcdboot': view=image.jpg%26bcdboot/r file.txt
@@ -57,7 +59,8 @@ tests:
           uri: "/get?view%3Dimage.jpg%26bcdboot%2Fr%20file.txt"
           version: HTTP/1.0
         output:
-          log_contains: id "932380"
+          log:
+            expect_ids: [932380]
   - test_id: 4
     desc: |
       Windows shell command injection with 'bcdboot': view=image.jpg%26bcdboot  /r file.txt
@@ -75,7 +78,8 @@ tests:
           uri: "/get?view%3Dimage.jpg%26bcdboot%20%20%2Fr%20file.txt"
           version: HTTP/1.0
         output:
-          log_contains: id "932380"
+          log:
+            expect_ids: [932380]
   - test_id: 5
     desc: |
       Windows shell command injection with 'sort' (false positive): sort%3Dex%26sort%3Dascending
@@ -93,7 +97,8 @@ tests:
           uri: "/get/www/delivery/lg.php?bannerid=18&campaignid=1&zoneid=4&loc=https%3A%2F%2Fwww.example.com%2Ffoo%2Fbar%2Fx-x%2Fx%3Fs%3D2014-11-01%26e%3D2020-10-31%26ex%3D7%26page%3D1%26sort%3Dex%26sort%3Ddescending&referer=https%3A%2F%2Fwww.example.com%2Ffoo%2Fbar%2Fx-x%2Fx%3Fs%3D2014-11-01%26e%3D2020-10-31%26ex%3D7%26page%3D1%26sort%3Dex%26sort%3Dascending&cb=7de91ea349"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932380"
+          log:
+            no_expect_ids: [932380]
   - test_id: 6
     desc: |
       Windows shell command injection with 'sort' (false positive): sort%3D0
@@ -111,7 +116,8 @@ tests:
           uri: "/get/url%2Fbla%3Ftest%3D1%26sort%3D0"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932380"
+          log:
+            no_expect_ids: [932380]
   - test_id: 7
     desc: "Windows shell command injection using 'bcdboot'"
     stages:
@@ -127,7 +133,8 @@ tests:
           data: "var=test@coreruleset.org\"|bcdboot %SYSTEMROOT%\\win.ini"
           version: HTTP/1.0
         output:
-          log_contains: id "932380"
+          log:
+            expect_ids: [932380]
   - test_id: 8
     desc: False positive against 'time warner'
     stages:
@@ -144,7 +151,8 @@ tests:
           uri: "/get?foo=time+warner+"
           version: HTTP/1.1
         output:
-          no_log_contains: "id \"932380\""
+          log:
+            no_expect_ids: [932380]
   - test_id: 9
     desc: False positive against 'time for'
     stages:
@@ -163,4 +171,5 @@ tests:
           data: |
             payload=While this is a challenging time for us all, we are busy helping customers manage playout infrastructure in ways that were just dreams only a couple of years ago.
         output:
-          no_log_contains: "id \"932380\""
+          log:
+            no_expect_ids: [932380]

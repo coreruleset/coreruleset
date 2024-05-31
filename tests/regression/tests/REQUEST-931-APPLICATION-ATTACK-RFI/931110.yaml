@@ -22,7 +22,8 @@ tests:
           uri: "/get/plugins/spamx/BaseAdmin.class.php?_CONF[path]=https://foo.bar"
           version: "HTTP/1.1"
         output:
-          log_contains: id "931110"
+          log:
+            expect_ids: [931110]
   - test_id: 2
     desc: Remote File Inclusion Attack (931110) from old modsec regressions
     stages:
@@ -42,7 +43,8 @@ tests:
           uri: "/get/components/com_virtuemart/show_image_in_imgtag.php?mosConfig_absolute_path=https://foo.bar"
           version: "HTTP/1.1"
         output:
-          log_contains: id "931110"
+          log:
+            expect_ids: [931110]
   - test_id: 3
     desc: Remote File Inclusion Attack (931110) from old modsec regressions
     stages:
@@ -62,4 +64,5 @@ tests:
           uri: "/get/plugins/spamx/BaseAdmin.class.php?_CONF[path]=https://foo.bar"
           version: "HTTP/1.1"
         output:
-          log_contains: id "931110"
+          log:
+            expect_ids: [931110]

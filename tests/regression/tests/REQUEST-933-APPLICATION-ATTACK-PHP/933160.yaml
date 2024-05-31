@@ -19,7 +19,8 @@ tests:
           uri: "/get?foo=chr%28123%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 2
     desc: |
       PHP function call with variable as parameter.
@@ -37,7 +38,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 3
     desc: |
       PHP function call, CR, ($variable).
@@ -55,7 +57,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 4
     desc: |
       PHP function call, LF, ('value').
@@ -72,7 +75,8 @@ tests:
           uri: "/get?foo=exec%0A%28%27bar%27%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 5
     desc: |
       PHP uppercase function call, CR, LF, ().
@@ -89,7 +93,8 @@ tests:
           uri: "/get?foo=FILE%0D%0A%28%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 6
     desc: |
       PHP function call with multiple whitespaces.
@@ -106,7 +111,8 @@ tests:
           uri: "/get?foo=exec%20%20%28blah%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 7
     desc: |
       PHP function call using Error Control Operator.
@@ -123,7 +129,8 @@ tests:
           uri: "/get?foo=%40exec%28%27test%27%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 8
     desc: |
       PHP function call with vertical tab.
@@ -140,7 +147,8 @@ tests:
           uri: "/get?foo=exec%09%28blah%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 9
     desc: |
       PHP function call with comment and newline.
@@ -157,7 +165,8 @@ tests:
           uri: "/get?foo=exec%20%2f%2fcomment%0d%0a%20%28blah%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 10
     desc: |
       PHP function call with comment and newline.
@@ -174,7 +183,8 @@ tests:
           uri: "/get?foo=exec%20%23comment%0d%0a%20%28blah%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 11
     desc: |
       PHP function call with comment and newline.
@@ -191,7 +201,8 @@ tests:
           uri: "/get?foo=exec%23%0a%20%28blah%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 12
     desc: |
       PHP function call with comment, newline, and vertical tab.
@@ -208,7 +219,8 @@ tests:
           uri: "/get?foo=exec%20%09%20%23%0a%20%28%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 13
     desc: |
       PHP function call with c-style comment syntax.
@@ -225,7 +237,8 @@ tests:
           uri: "/get?foo=exec%2f%2acomment%2a%2f%28%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 14
     desc: |
       PHP function call with c-style comment syntax and whitespaces.
@@ -242,7 +255,8 @@ tests:
           uri: "/post?foo=exec%20%2f%2acomment%2a%2f%20%28%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 15
     desc: |
       PHP function call with empry c-style comment syntax, whitespaces, and vertical tab.
@@ -259,7 +273,8 @@ tests:
           uri: "/get?foo=exec%20%09%2f%2a%2a%2f%09%20%28%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 16
     desc: |
       PHP function call with c-style comment syntax containing newline, whitespaces and vertical tab.
@@ -276,7 +291,8 @@ tests:
           uri: "/get?foo=exec%09%2f%2afoo%0d%0abar%2a%2f%09%20%28%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 17
     desc: |
       PHP function call in URI
@@ -293,7 +309,8 @@ tests:
           uri: "/get/substr()"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 18
     desc: |
       PHP function call in URI, using mixed case
@@ -310,7 +327,8 @@ tests:
           uri: "/post/subSTR%28%24x%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 19
     desc: |
       PHP function call in URI with concatenated string/functions
@@ -327,7 +345,8 @@ tests:
           uri: "/get?x=eval%28chr%28112%29.chr%28104%29.chr%28112%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 20
     desc: |
       PHP function call in URI
@@ -344,7 +363,8 @@ tests:
           uri: '/get/eval(gzinflate(str_rot13(base64_decode("")'
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 21
     desc: |
       PHP function call in URI, base64 encoded payload:
@@ -361,7 +381,8 @@ tests:
           uri: "/get/eval%28base64_decode%28%27cGFwYWRhcHVwaSwK%27%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 22
     desc: |
       PHP function call in body
@@ -379,7 +400,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 23
     desc: |
       PHP function call in body, mixed case
@@ -397,7 +419,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 24
     desc: string function call
     stages:
@@ -412,7 +435,8 @@ tests:
           uri: "/get?foo=return%22system%22%28xyz%29.s"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 25
     desc: |
       PHP function call
@@ -430,7 +454,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 26
     desc: |
       PHP function call
@@ -448,7 +473,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 27
     desc: |
       PHP function system call in single quotes and parentheses
@@ -466,7 +492,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 28
     desc: |
       PHP system call in double quotes and parentheses
@@ -484,7 +511,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 29
     desc: |
       PHP system call in double quotes and parentheses, multiple spaces after command
@@ -502,7 +530,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 30
     desc: |
       PHP string function call
@@ -519,7 +548,8 @@ tests:
           uri: "/get?foo=return%22system%22%28xyz%29.s"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 31
     desc: |
       False Positive test, missing mandatory parenthesis
@@ -536,7 +566,8 @@ tests:
           uri: "/get/eval("
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933160"
+          log:
+            no_expect_ids: [933160]
   - test_id: 32
     desc: |
       False Positive test, missing mandatory parenthesis
@@ -553,7 +584,8 @@ tests:
           uri: "/get?foo=eval"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933160"
+          log:
+            no_expect_ids: [933160]
   - test_id: 33
     desc: |
       False Positive test
@@ -570,7 +602,8 @@ tests:
           uri: "/get?foo=the%20files%20%28yep%29"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933160"
+          log:
+            no_expect_ids: [933160]
   - test_id: 34
     desc: |
       PHP mixed case function call with space, LF between ().
@@ -587,7 +620,8 @@ tests:
           uri: "/get?foo=assert_OptionS%20%28%0A%0A%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 35
     desc: |
       PHP function call `filegroup` with multiple whitespaces.
@@ -604,7 +638,8 @@ tests:
           uri: "/get?foo=filegroup%20%20%28blah%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 36
     desc: |
       PHP function call in URI
@@ -621,7 +656,8 @@ tests:
           uri: "/get/unpack()"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]
   - test_id: 37
     desc: |
       PHP function call in URI, using mixed case
@@ -638,4 +674,5 @@ tests:
           uri: "/post/unPACK%28%24x%29"
           version: "HTTP/1.1"
         output:
-          log_contains: id "933160"
+          log:
+            expect_ids: [933160]

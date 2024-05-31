@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: "Description"
 rule_id: 920272
 tests:
   - test_id: 1
@@ -16,7 +15,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920272\""
+          log:
+            expect_ids: [920272]
   - test_id: 2
     stages:
       - input:
@@ -29,7 +29,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920272\""
+          log:
+            expect_ids: [920272]
   - test_id: 3
     stages:
       - input:
@@ -42,7 +43,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920272\""
+          log:
+            expect_ids: [920272]
   - test_id: 4
     stages:
       - input:
@@ -55,7 +57,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920272\""
+          log:
+            no_expect_ids: [920272]
   - test_id: 5
     stages:
       - input:
@@ -69,4 +72,5 @@ tests:
           version: "HTTP/1.1"
         output:
           status: 200
-          log_contains: "id \"920272\""
+          log:
+            expect_ids: [920272]

@@ -20,7 +20,8 @@ tests:
           data: "testarg=%5Cu0061lert"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920540\""
+          log:
+            expect_ids: [920540]
   - test_id: 2
     desc: "Unicode character bypass issue #2512: eval() eval()"
     stages:
@@ -37,7 +38,8 @@ tests:
           data: "testarg=%5Cu0065val%28%29"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920540\""
+          log:
+            expect_ids: [920540]
   - test_id: 3
     desc: "Unicode character bypass: negative test for JSON (double encoded as JSON parser decodes it)"
     stages:
@@ -54,4 +56,5 @@ tests:
           data: "{\"testarg\": \"\x5c\x5cu0065val\"}"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920540\""
+          log:
+            no_expect_ids: [920540]

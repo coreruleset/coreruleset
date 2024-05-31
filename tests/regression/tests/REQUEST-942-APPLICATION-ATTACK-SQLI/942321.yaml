@@ -16,7 +16,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "942321"
+          log:
+            expect_ids: [942321]
   - test_id: 2
     desc: "Detects MySQL and PostgreSQL stored procedure/function injections"
     stages:
@@ -31,4 +32,5 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "942321"
+          log:
+            expect_ids: [942321]

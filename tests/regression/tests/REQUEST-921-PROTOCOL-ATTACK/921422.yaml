@@ -18,7 +18,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921422"
+          log:
+            expect_ids: [921422]
   - test_id: 2
     desc: Bypass targeting recommended rules (rule 200006)
     stages:
@@ -33,7 +34,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921422"
+          log:
+            expect_ids: [921422]
   - test_id: 3
     desc: Bypass targeting recommended rules (rule 200001)
     stages:
@@ -48,7 +50,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921422"
+          log:
+            expect_ids: [921422]
   - test_id: 4
     desc: Bypass targeting recommended rules (rule 200001)
     stages:
@@ -63,7 +66,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921422"
+          log:
+            expect_ids: [921422]
   - test_id: 5
     desc: Bypass targeting recommended rules (rule 200001)
     stages:
@@ -78,7 +82,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921422"
+          log:
+            expect_ids: [921422]
   - test_id: 6
     desc: Bypass targeting recommended rules (rule 200001)
     stages:
@@ -93,7 +98,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921422"
+          log:
+            expect_ids: [921422]
   - test_id: 7
     desc: Bypass targeting recommended rules (rule 200001)
     stages:
@@ -108,7 +114,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921422"
+          log:
+            expect_ids: [921422]
   - test_id: 8
     desc: Bypass targeting recommended rules (rule 200001)
     stages:
@@ -123,7 +130,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          log_contains: id "921422"
+          log:
+            expect_ids: [921422]
   - test_id: 9
     desc: Negative test for 921422-1
     stages:
@@ -138,7 +146,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921422"
+          log:
+            no_expect_ids: [921422]
   - test_id: 10
     desc: Negative test for 921422-2
     stages:
@@ -153,7 +162,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921422"
+          log:
+            no_expect_ids: [921422]
   - test_id: 11
     desc: Negative test for 921422-3
     stages:
@@ -168,7 +178,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921422"
+          log:
+            no_expect_ids: [921422]
   - test_id: 12
     desc: Negative test for 921422-4
     stages:
@@ -183,7 +194,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921422"
+          log:
+            no_expect_ids: [921422]
   - test_id: 13
     desc: Negative test for 921422-5
     stages:
@@ -198,7 +210,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921422"
+          log:
+            no_expect_ids: [921422]
   - test_id: 14
     desc: Negative test for 921422-6
     stages:
@@ -213,7 +226,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921422"
+          log:
+            no_expect_ids: [921422]
   - test_id: 15
     desc: Negative test for rule 921422-7
     stages:
@@ -228,7 +242,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921422"
+          log:
+            no_expect_ids: [921422]
   - test_id: 16
     desc: Negative test for rule 921422-8
     stages:
@@ -243,7 +258,8 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921422"
+          log:
+            no_expect_ids: [921422]
   - test_id: 17
     desc: Negative test for rule 921422-9
     stages:
@@ -258,4 +274,5 @@ tests:
           uri: "/post"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "921422"
+          log:
+            no_expect_ids: [921422]

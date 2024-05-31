@@ -17,7 +17,8 @@ tests:
           uri: "/get?var=SELECT%20BENCHMARK%281000000%2C1%2B1%29%3B"
           version: HTTP/1.0
         output:
-          log_contains: id "942170"
+          log:
+            expect_ids: [942170]
   - test_id: 2
     desc: "Detects SQL benchmark and sleep injection attempts including conditional queries: '; sleep(0)'"
     stages:
@@ -32,7 +33,8 @@ tests:
           uri: "/get?var=%3B%20sleep%280%29"
           version: HTTP/1.0
         output:
-          log_contains: id "942170"
+          log:
+            expect_ids: [942170]
   - test_id: 3
     desc: "Detects SQL benchmark and sleep injection attempts including conditional queries: negative test"
     stages:
@@ -47,7 +49,8 @@ tests:
           uri: "/get?var=I%20sleep%20well%21"
           version: HTTP/1.0
         output:
-          no_log_contains: id "942170"
+          log:
+            no_expect_ids: [942170]
   - test_id: 4
     desc: "Status Page Test - SQL injection test with select if(x"
     stages:
@@ -62,4 +65,5 @@ tests:
           uri: "/get?test=select+if(x"
           version: HTTP/1.0
         output:
-          log_contains: id "942170"
+          log:
+            expect_ids: [942170]

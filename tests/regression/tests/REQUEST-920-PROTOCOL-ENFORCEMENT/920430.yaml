@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: "Description"
 rule_id: 920430
 tests:
   - test_id: 1
@@ -16,7 +15,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"
         output:
-          no_log_contains: "id \"920430\""
+          log:
+            no_expect_ids: [920430]
   - test_id: 2
     stages:
       - input:
@@ -29,7 +29,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"
         output:
-          no_log_contains: "id \"920430\""
+          log:
+            no_expect_ids: [920430]
   - test_id: 3
     stages:
       - input:
@@ -55,7 +56,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"
         output:
-          no_log_contains: "id \"920430\""
+          log:
+            no_expect_ids: [920430]
   - # Currently FTW won't process HTTP 1.0 simple response items
     # This request generates such a response, so even though it will
     # generate the alert, it will error.
@@ -116,7 +118,8 @@ tests:
           uri: "/"
           version: HTTP/4.0
         output:
-          log_contains: id "920430"
+          log:
+            expect_ids: [920430]
   - test_id: 9
     desc: HTTP protocol version is not allowed by policy (920430) from old modsec regressions
     stages:

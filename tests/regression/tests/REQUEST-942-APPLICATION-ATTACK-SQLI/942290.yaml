@@ -17,7 +17,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: id "942290"
+          log:
+            expect_ids: [942290]
   - test_id: 2
     desc: "basic MongoDB NOSQL injection attempts"
     stages:
@@ -32,7 +33,8 @@ tests:
           uri: "/get?mongoQ=%5b%24lte%5dasdfsd"
           version: HTTP/1.0
         output:
-          log_contains: id "942290"
+          log:
+            expect_ids: [942290]
   - test_id: 3
     desc: "basic MongoDB NOSQL injection attempts 2"
     stages:
@@ -47,7 +49,8 @@ tests:
           uri: "/get/mongo/show.php?u_id[$regex]=2"
           version: HTTP/1.0
         output:
-          log_contains: id "942290"
+          log:
+            expect_ids: [942290]
   - test_id: 4
     desc: "basic MongoDB NOSQL injection attempts 3"
     stages:
@@ -62,7 +65,8 @@ tests:
           uri: "/get/mongo/show.php?u_id[$regex]=2"
           version: HTTP/1.0
         output:
-          log_contains: id "942290"
+          log:
+            expect_ids: [942290]
   - test_id: 5
     desc: "basic MongoDB NOSQL injection attempts 4"
     stages:
@@ -79,7 +83,8 @@ tests:
           data: '{"$not": "foo"}'
           version: "HTTP/1.1"
         output:
-          log_contains: id "942290"
+          log:
+            expect_ids: [942290]
   - test_id: 6
     desc: "basic MongoDB NOSQL injection attempts 5"
     stages:
@@ -96,7 +101,8 @@ tests:
           data: '{"$nor": "foo"}'
           version: "HTTP/1.1"
         output:
-          log_contains: id "942290"
+          log:
+            expect_ids: [942290]
   - test_id: 7
     desc: "basic MongoDB NOSQL injection attempts 6"
     stages:
@@ -113,7 +119,8 @@ tests:
           data: '{"$where": "foo"}'
           version: "HTTP/1.1"
         output:
-          log_contains: id "942290"
+          log:
+            expect_ids: [942290]
   - test_id: 8
     desc: "basic MongoDB NOSQL injection attempts 7"
     stages:
@@ -130,7 +137,8 @@ tests:
           data: '{"$elemMatch": "foo"}'
           version: "HTTP/1.1"
         output:
-          log_contains: id "942290"
+          log:
+            expect_ids: [942290]
   - test_id: 9
     desc: "basic MongoDB NOSQL injection attempts 8"
     stages:
@@ -147,4 +155,5 @@ tests:
           data: '{"$text": "foo"}'
           version: "HTTP/1.1"
         output:
-          log_contains: id "942290"
+          log:
+            expect_ids: [942290]

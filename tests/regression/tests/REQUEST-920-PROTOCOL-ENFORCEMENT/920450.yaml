@@ -1,7 +1,6 @@
 ---
 meta:
   author: "csanders-git, karelorigin, azurit"
-  description: "Description"
 rule_id: 920450
 tests:
   - test_id: 1
@@ -17,7 +16,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920450\""
+          log:
+            expect_ids: [920450]
   - test_id: 2
     stages:
       - input:
@@ -31,7 +31,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920450\""
+          log:
+            expect_ids: [920450]
   - test_id: 3
     stages:
       - input:
@@ -45,7 +46,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920450\""
+          log:
+            expect_ids: [920450]
   - test_id: 4
     desc: HTTP header is restricted by policy (920450) from old modsec regressions, we no longer block proxy-connection in 3.0
     stages:
@@ -64,7 +66,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "920450"
+          log:
+            no_expect_ids: [920450]
   - test_id: 5
     desc: HTTP header is restricted by policy (920450) from old modsec regressions
     stages:
@@ -84,7 +87,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          log_contains: id "920450"
+          log:
+            expect_ids: [920450]
   - test_id: 6
     stages:
       - input:
@@ -98,7 +102,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920450\""
+          log:
+            no_expect_ids: [920450]
   - test_id: 7
     stages:
       - input:
@@ -112,4 +117,5 @@ tests:
             Content-Encoding: deflate
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920450\""
+          log:
+            expect_ids: [920450]

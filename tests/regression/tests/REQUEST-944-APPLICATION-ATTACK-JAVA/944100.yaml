@@ -1,7 +1,6 @@
 ---
 meta:
   author: "spartantri, azurit"
-  description: "Description"
 rule_id: 944100
 tests:
   - test_id: 1
@@ -22,7 +21,8 @@ tests:
           version: HTTP/1.0
           data: "test=java.lang.Runtime"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]
   - test_id: 2
     desc: Argument test includes keywords java.lang.ProcessBuilder
     stages:
@@ -41,7 +41,8 @@ tests:
           version: HTTP/1.0
           data: "test=java.lang.ProcessBuilder"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]
   - test_id: 3
     desc: Argument name includes keywords java.lang.Runtime
     stages:
@@ -60,7 +61,8 @@ tests:
           version: HTTP/1.0
           data: "java.lang.Runtime=test"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]
   - test_id: 4
     desc: Argument name includes keywords java.lang.ProcessBuilder
     stages:
@@ -79,7 +81,8 @@ tests:
           version: HTTP/1.0
           data: "java.lang.ProcessBuilder=test"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]
   - test_id: 5
     desc: Cookie test includes keywords java.lang.Runtime
     stages:
@@ -99,7 +102,8 @@ tests:
           version: HTTP/1.0
           data: "test=value"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]
   - test_id: 6
     desc: Cookie test includes keywords java.lang.ProcessBuilder
     stages:
@@ -119,7 +123,8 @@ tests:
           version: HTTP/1.0
           data: "test=value"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]
   - test_id: 7
     desc: Cookie name includes keywords java.lang.Runtime
     stages:
@@ -139,7 +144,8 @@ tests:
           version: HTTP/1.0
           data: "test=value"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]
   - test_id: 8
     desc: Cookie name includes keywords java.lang.ProcessBuilder
     stages:
@@ -159,7 +165,8 @@ tests:
           version: HTTP/1.0
           data: "test=value"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]
   - test_id: 9
     desc: Request header test includes keywords java.lang.Runtime
     stages:
@@ -179,7 +186,8 @@ tests:
           version: HTTP/1.0
           data: "test=value"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]
   - test_id: 10
     desc: Request header test includes keywords java.lang.ProcessBuilder
     stages:
@@ -199,7 +207,8 @@ tests:
           version: HTTP/1.0
           data: "test=value"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]
   - test_id: 11
     desc: XML element includes keywords java.lang.Runtime
     stages:
@@ -218,7 +227,8 @@ tests:
           version: HTTP/1.0
           data: "<?xml version=\"1.0\"?><xml><java.lang.Runtime attribute_name=\"attribute_value\">value</java.lang.Runtime></xml>"
         output:
-          no_log_contains: "id \"944100\""
+          log:
+            no_expect_ids: [944100]
   - test_id: 12
     desc: XML attribute name includes keywords java.lang.Runtime
     stages:
@@ -237,7 +247,8 @@ tests:
           version: HTTP/1.0
           data: "<?xml version=\"1.0\"?><xml><element java.lang.Runtime=\"attribute_value\">element_value</element></xml>"
         output:
-          no_log_contains: "id \"944100\""
+          log:
+            no_expect_ids: [944100]
   - test_id: 13
     desc: XML attribute value includes keywords java.lang.Runtime
     stages:
@@ -256,7 +267,8 @@ tests:
           version: HTTP/1.0
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"java.lang.Runtime\">element_value</element></xml>"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]
   - test_id: 14
     desc: XML element value includes keywords java.lang.Runtime
     stages:
@@ -275,7 +287,8 @@ tests:
           version: HTTP/1.0
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">java.lang.Runtime</element></xml>"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]
   - test_id: 15
     desc: XML element includes keywords java.lang.ProcessBuilder
     stages:
@@ -294,7 +307,8 @@ tests:
           version: HTTP/1.0
           data: "<?xml version=\"1.0\"?><xml><java.lang.ProcessBuilder attribute_name=\"attribute_value\">value</java.lang.ProcessBuilder></xml>"
         output:
-          no_log_contains: "id \"944100\""
+          log:
+            no_expect_ids: [944100]
   - test_id: 16
     desc: XML attribute name includes keywords java.lang.ProcessBuilder
     stages:
@@ -313,7 +327,8 @@ tests:
           version: HTTP/1.0
           data: "<?xml version=\"1.0\"?><xml><element java.lang.ProcessBuilder=\"attribute_value\">element_value</element></xml>"
         output:
-          no_log_contains: "id \"944100\""
+          log:
+            no_expect_ids: [944100]
   - test_id: 17
     desc: XML attribute value includes keywords java.lang.ProcessBuilder
     stages:
@@ -332,7 +347,8 @@ tests:
           version: HTTP/1.0
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"java.lang.ProcessBuilder\">element_value</element></xml>"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]
   - test_id: 18
     desc: XML element value includes keywords java.lang.ProcessBuilder
     stages:
@@ -351,4 +367,5 @@ tests:
           version: HTTP/1.0
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">java.lang.ProcessBuilder</element></xml>"
         output:
-          log_contains: "id \"944100\""
+          log:
+            expect_ids: [944100]

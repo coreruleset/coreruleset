@@ -16,7 +16,8 @@ tests:
           uri: /
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933110"
+          log:
+            no_expect_ids: [933110]
   - test_id: 2
     desc: PHP .php upload
     stages:
@@ -31,7 +32,8 @@ tests:
           uri: /upload1
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 3
     desc: PHP .php upload in X_Filename
     stages:
@@ -46,7 +48,8 @@ tests:
           uri: /upload2
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 4
     desc: PHP .php upload in X-File-Name
     stages:
@@ -61,7 +64,8 @@ tests:
           uri: /upload3
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 5
     desc: PHP .php.. upload
     stages:
@@ -76,7 +80,8 @@ tests:
           uri: /upload4
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 6
     desc: PHP .phtml upload
     stages:
@@ -91,7 +96,8 @@ tests:
           uri: /upload
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 7
     desc: PHP .phtml...... upload in X-File-Name
     stages:
@@ -106,7 +112,8 @@ tests:
           uri: /upload
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 8
     desc: PHP .php5 upload in X-File-Name
     stages:
@@ -121,7 +128,8 @@ tests:
           uri: /upload
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 9
     desc: PHP .php5 upload in X-File-Name
     stages:
@@ -136,7 +144,8 @@ tests:
           uri: /upload
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 10
     desc: PHP .php7 upload in X-File-Name
     stages:
@@ -151,7 +160,8 @@ tests:
           uri: /upload
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 11
     desc: PHP no file upload
     stages:
@@ -165,7 +175,8 @@ tests:
           uri: /
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933110"
+          log:
+            no_expect_ids: [933110]
   - test_id: 12
     desc: PHP php5... upload
     stages:
@@ -180,7 +191,8 @@ tests:
           uri: /upload5
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 13
     desc: PHP php5... upload in X_Filename
     stages:
@@ -195,7 +207,8 @@ tests:
           uri: /upload6
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 14
     desc: PHP .php. upload in X_Filename
     stages:
@@ -210,7 +223,8 @@ tests:
           uri: /upload7
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 15
     desc: PHP sfewfda.php............. upload
     stages:
@@ -225,7 +239,8 @@ tests:
           uri: /upload8
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 16
     desc: PHP script uploads
     stages:
@@ -240,7 +255,8 @@ tests:
           uri: /upload
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 17
     desc: PHP .php907............. upload
     stages:
@@ -255,7 +271,8 @@ tests:
           uri: /upload
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 18
     desc: PHP .phtml upload
     stages:
@@ -270,7 +287,8 @@ tests:
           uri: /upload
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 19
     desc: PHP .phtml987... upload passes in X_Filename
     stages:
@@ -285,7 +303,8 @@ tests:
           uri: /
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933110"
+          log:
+            no_expect_ids: [933110]
   - test_id: 20
     desc: PHP .php upload
     stages:
@@ -300,7 +319,8 @@ tests:
           uri: /upload2
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 21
     desc: PHP .php5... upload
     stages:
@@ -315,7 +335,8 @@ tests:
           uri: /upload6
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 22
     desc: PHP .php. upload
     stages:
@@ -330,7 +351,8 @@ tests:
           uri: /upload7
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 23
     desc: PHP .phtml987... upload passes in X.Filename
     stages:
@@ -345,7 +367,8 @@ tests:
           uri: /
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933110"
+          log:
+            no_expect_ids: [933110]
   - test_id: 24
     desc: PHP .phar upload
     stages:
@@ -360,7 +383,8 @@ tests:
           uri: /upload7
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 25
     desc: PHP .phps upload
     stages:
@@ -375,7 +399,8 @@ tests:
           uri: /upload7
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 26
     desc: PHP .pht upload
     stages:
@@ -390,7 +415,8 @@ tests:
           uri: /upload7
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 27
     desc: PHP .phpt upload
     stages:
@@ -405,7 +431,8 @@ tests:
           uri: /upload7
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 28
     desc: PHP upload via multipart
     stages:
@@ -428,7 +455,8 @@ tests:
             ----------397236876--
           version: "HTTP/1.1"
         output:
-          log_contains: id "933110"
+          log:
+            expect_ids: [933110]
   - test_id: 29
     desc: PHP upload via multipart should pass
     stages:
@@ -451,7 +479,8 @@ tests:
             ----------397236876--
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933110"
+          log:
+            no_expect_ids: [933110]
   - test_id: 30
     desc: PHP upload via multipart should pass
     stages:
@@ -474,4 +503,5 @@ tests:
             ----------397236876--
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "933110"
+          log:
+            no_expect_ids: [933110]

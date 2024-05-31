@@ -18,7 +18,8 @@ tests:
           data: "var=<meta charset=\"UTF-8\">&var2=whatever"
           version: HTTP/1.0
         output:
-          log_contains: id "941260"
+          log:
+            expect_ids: [941260]
   - test_id: 2
     desc: "XSS test based on portswigger XSS cheatsheet"
     stages:
@@ -34,4 +35,5 @@ tests:
           data: "payload=<meta charset=\"UTF-7\" /> +ADw-script+AD4-alert(1)+ADw-/script+AD4-</a>"
           version: HTTP/1.0
         output:
-          log_contains: id "941260"
+          log:
+            expect_ids: [941260]

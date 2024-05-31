@@ -18,7 +18,8 @@ tests:
             code=;vi dddd +silent\\ \!whoami +wq
           version: HTTP/1.0
         output:
-          log_contains: "id \"932238\""
+          log:
+            expect_ids: [932238]
   - test_id: 2
     desc: "9323HNQU"
     stages:
@@ -35,7 +36,8 @@ tests:
             code=;vi -c:\!pwd
           version: HTTP/1.0
         output:
-          log_contains: "id \"932238\""
+          log:
+            expect_ids: [932238]
   - test_id: 3
     desc: "Block evasion using here string"
     stages:
@@ -52,7 +54,8 @@ tests:
           data: |
             code=;`cat<<<who`
         output:
-          log_contains: "id \"932238\""
+          log:
+            expect_ids: [932238]
   - test_id: 4
     desc: "Block evasion using here string with space"
     stages:
@@ -69,7 +72,8 @@ tests:
           data: |
             code=;`cat<<< who`
         output:
-          log_contains: "id \"932238\""
+          log:
+            expect_ids: [932238]
   - test_id: 5
     desc: "Block evasion using here string with single quotes"
     stages:
@@ -86,7 +90,8 @@ tests:
           data: |
             code=;`cat<<<'who'`
         output:
-          log_contains: "id \"932238\""
+          log:
+            expect_ids: [932238]
   - test_id: 6
     desc: "Block evasion using here string with double quotes"
     stages:
@@ -103,7 +108,8 @@ tests:
           data: |
             code=;`cat<<<"who"`
         output:
-          log_contains: "id \"932238\""
+          log:
+            expect_ids: [932238]
   - test_id: 7
     desc: "Block evasion using here string with command substitution"
     stages:
@@ -120,7 +126,8 @@ tests:
           data: |
             code=;`cat<<<$(who)`
         output:
-          log_contains: "id \"932238\""
+          log:
+            expect_ids: [932238]
   - test_id: 8
     desc: "Block `time` prefix"
     stages:
@@ -137,7 +144,8 @@ tests:
           data: |
             code=time who
         output:
-          log_contains: "id \"932238\""
+          log:
+            expect_ids: [932238]
   - test_id: 9
     desc: "Block `strace` prefix"
     stages:
@@ -154,7 +162,8 @@ tests:
           data: |
             code=strace who
         output:
-          log_contains: "id \"932238\""
+          log:
+            expect_ids: [932238]
   - test_id: 10
     desc: "Block `nohup` prefix"
     stages:
@@ -171,4 +180,5 @@ tests:
           data: |
             code=nohup who
         output:
-          log_contains: "id \"932238\""
+          log:
+            expect_ids: [932238]

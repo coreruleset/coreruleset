@@ -21,7 +21,8 @@ tests:
           uri: "/get/foo.bak"
           version: HTTP/1.1
         output:
-          log_contains: id "920440"
+          log:
+            expect_ids: [920440]
   - test_id: 2
     desc: URL file extension is restricted by policy (920440) from old modsec regressions
     stages:
@@ -40,7 +41,8 @@ tests:
           uri: "/get/foo.db"
           version: HTTP/1.1
         output:
-          log_contains: id "920440"
+          log:
+            expect_ids: [920440]
   - test_id: 3
     desc: URL file extension is restricted by policy (920440) from old modsec regressions
     stages:
@@ -59,7 +61,8 @@ tests:
           uri: "/get/foo.old"
           version: HTTP/1.1
         output:
-          log_contains: id "920440"
+          log:
+            expect_ids: [920440]
   - test_id: 4
     desc: URL file extension is restricted by policy (920440) - GH issue 1296
     stages:
@@ -78,7 +81,8 @@ tests:
           uri: "/get/foo.bar.sql"
           version: HTTP/1.1
         output:
-          log_contains: id "920440"
+          log:
+            expect_ids: [920440]
   - test_id: 5
     desc: Redis dump file
     stages:
@@ -97,7 +101,8 @@ tests:
           uri: "/get/dump.rdb"
           version: HTTP/1.1
         output:
-          log_contains: id "920440"
+          log:
+            expect_ids: [920440]
   - test_id: 6
     desc: Redis dump file, URI encoded
     stages:
@@ -116,4 +121,5 @@ tests:
           uri: "/get/dump%2Erdb"
           version: HTTP/1.1
         output:
-          log_contains: id "920440"
+          log:
+            expect_ids: [920440]

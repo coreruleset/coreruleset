@@ -5,7 +5,7 @@ meta:
 rule_id: 920220
 tests:
   - test_id: 1
-    description: Detect invalid URI encoding in decoded URI (`%w20`)
+    desc: Detect invalid URI encoding in decoded URI (`%w20`)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -17,9 +17,10 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920220\""
+          log:
+            expect_ids: [920220]
   - test_id: 2
-    description: Detect invalid URI encoding in decoded URI (`%1G`)
+    desc: Detect invalid URI encoding in decoded URI (`%1G`)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -31,9 +32,10 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920220\""
+          log:
+            expect_ids: [920220]
   - test_id: 3
-    description: Do not trigger for valid URI encoding in decoded URI (`xyz zyx`)
+    desc: Do not trigger for valid URI encoding in decoded URI (`xyz zyx`)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -45,9 +47,10 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920220\""
+          log:
+            no_expect_ids: [920220]
   - test_id: 4
-    description: Do not trigger for spaces encoded as `+`, which is valid
+    desc: Do not trigger for spaces encoded as `+`, which is valid
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -59,9 +62,10 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920220\""
+          log:
+            no_expect_ids: [920220]
   - test_id: 5
-    description: |
+    desc: |
       Detect incomplete URI encoding sequence (`bxy`, with crippled encoding of `b`).
       Note that the second character must not complete the `%6` to a valid sequence.
     stages:
@@ -75,9 +79,10 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920220\""
+          log:
+            expect_ids: [920220]
   - test_id: 6
-    description: Detect incomplete URI encoding sequence, single `%` (`bad%`)
+    desc: Detect incomplete URI encoding sequence, single `%` (`bad%`)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -89,9 +94,10 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920220\""
+          log:
+            expect_ids: [920220]
   - test_id: 7
-    description: Do not inspect file names for invalid URI encoding (`Taxes20%Done.txt`)
+    desc: Do not inspect file names for invalid URI encoding (`Taxes20%Done.txt`)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -103,9 +109,10 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920220\""
+          log:
+            no_expect_ids: [920220]
   - test_id: 8
-    description: Do not inspect file names for invalid URI encoding (`Taxes20%Done.txt`), with query
+    desc: Do not inspect file names for invalid URI encoding (`Taxes20%Done.txt`), with query
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -117,4 +124,5 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920220\""
+          log:
+            no_expect_ids: [920220]

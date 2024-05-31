@@ -18,7 +18,8 @@ tests:
           data: "var=<embed src=\"deuce.swf\">&var2=whatever"
           version: HTTP/1.0
         output:
-          log_contains: id "941230"
+          log:
+            expect_ids: [941230]
   - test_id: 2
     desc: "XSS test based on portswigger XSS cheatsheet"
     stages:
@@ -34,4 +35,5 @@ tests:
           data: "payload=<embed src=\"javascript:alert(1)\"></a>"
           version: HTTP/1.0
         output:
-          log_contains: id "941230"
+          log:
+            expect_ids: [941230]

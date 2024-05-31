@@ -19,7 +19,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "932205"
+          log:
+            expect_ids: [932205]
   - test_id: 2
     desc: Referer header with query string and obvious payload
     stages:
@@ -35,7 +36,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "932205"
+          log:
+            expect_ids: [932205]
   - test_id: 3
     desc: Referer header with canonical path, query string and obvious payload
     stages:
@@ -51,7 +53,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          log_contains: id "932205"
+          log:
+            expect_ids: [932205]
   - test_id: 4
     desc: False positive test against query string and space in a parameter
     stages:
@@ -67,7 +70,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932205"
+          log:
+            no_expect_ids: [932205]
   - test_id: 5
     desc: False positive test against query string and space in path
     stages:
@@ -83,7 +87,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932205"
+          log:
+            no_expect_ids: [932205]
   - test_id: 6
     desc: False positive test against syntax highlighter (generic)
     stages:
@@ -99,7 +104,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932205"
+          log:
+            no_expect_ids: [932205]
   - test_id: 7
     desc: False positive test against fragment (scroll to text fragment)
     stages:
@@ -115,4 +121,5 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932205"
+          log:
+            no_expect_ids: [932205]

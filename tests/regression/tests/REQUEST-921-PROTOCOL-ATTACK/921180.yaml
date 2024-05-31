@@ -18,7 +18,8 @@ tests:
           uri: "/?pineapple=pizza"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"921180\""
+          log:
+            no_expect_ids: [921180]
   - # Standard GET request
     test_id: 2
     stages:
@@ -33,7 +34,8 @@ tests:
           uri: "/?pineapple=pizza&pizza=pineapple"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"921180\""
+          log:
+            no_expect_ids: [921180]
   - # Standard GET request (Negative, no args)
     test_id: 3
     stages:
@@ -48,7 +50,8 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"921180\""
+          log:
+            no_expect_ids: [921180]
   - # HPP payload
     test_id: 4
     stages:
@@ -63,7 +66,8 @@ tests:
           uri: "/?pineapple=pizza&pineapple=aint-pizza"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"921180\""
+          log:
+            expect_ids: [921180]
   - # Similar arg names
     test_id: 5
     stages:
@@ -78,7 +82,8 @@ tests:
           uri: "/?pineapple=pizza&pineapple2=aint-pizza"
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"921180\""
+          log:
+            no_expect_ids: [921180]
   - # HPP payload with multiple iterations
     test_id: 6
     stages:
@@ -93,4 +98,5 @@ tests:
           uri: "/?pineapple=pizza&pineapple=aint-pizza&pineapple=is-pizza&pineapple=aint-pizza2"
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"921180\""
+          log:
+            expect_ids: [921180]

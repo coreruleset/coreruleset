@@ -17,7 +17,8 @@ tests:
           uri: "/get?x=file://foo.bar"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 2
     desc: Remote File Inclusion Attack (931130)
     stages:
@@ -32,7 +33,8 @@ tests:
           uri: "/get?x=ftp://foo.bar"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 3
     desc: Remote File Inclusion Attack (931130)
     stages:
@@ -47,7 +49,8 @@ tests:
           uri: "/get?x=ftps://foo.bar"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 4
     desc: Remote File Inclusion Attack (931130)
     stages:
@@ -62,7 +65,8 @@ tests:
           uri: "/get?x=http://foo.bar"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 5
     desc: Remote File Inclusion Attack (931130)
     stages:
@@ -77,7 +81,8 @@ tests:
           uri: "/get?x=https://foo.bar"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 6
     desc: Partial match
     stages:
@@ -92,7 +97,8 @@ tests:
           uri: "/get?x=https://evilexample.com/"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 7
     desc: Mismatching domains
     stages:
@@ -107,7 +113,8 @@ tests:
           uri: "/get?x=https://example.com.evil.com/"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 8
     desc: Mismatching ports
     stages:
@@ -122,7 +129,8 @@ tests:
           uri: "/get?x=https://example.com:1234/"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 9
     desc: Matching hosts
     stages:
@@ -137,7 +145,8 @@ tests:
           uri: "/get?x=https://example.com/"
           version: HTTP/1.1
         output:
-          no_log_contains: id "931130"
+          log:
+            no_expect_ids: [931130]
   - test_id: 10
     desc: Matching hosts and ports
     stages:
@@ -152,7 +161,8 @@ tests:
           uri: "/get?x=https://example.com:1234/"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 11
     desc: Subdomains
     stages:
@@ -167,7 +177,8 @@ tests:
           uri: "/get?x=http://www.example.com/some/path"
           version: HTTP/1.1
         output:
-          no_log_contains: id "931130"
+          log:
+            no_expect_ids: [931130]
   - test_id: 12
     desc: Bypass 1
     stages:
@@ -182,7 +193,8 @@ tests:
           uri: "/get?x=http://example.com%2f:asd@evil.com/"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 13
     desc: Bypass 2
     stages:
@@ -197,7 +209,8 @@ tests:
           uri: "/get?x=http://example.com%2f@evil.com/"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 14
     desc: Bypass 3
     stages:
@@ -212,7 +225,8 @@ tests:
           uri: "/get?x=http://example.com%2f:foo@bar@evil.com/"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 15
     desc: basic auth
     stages:
@@ -227,7 +241,8 @@ tests:
           uri: "/get?x=http://foo:bar@example.com/"
           version: HTTP/1.1
         output:
-          no_log_contains: id "931130"
+          log:
+            no_expect_ids: [931130]
   - test_id: 16
     desc: "Positive test: Remote File Inclusion Attack (931130) - Detect url:file://"
     stages:
@@ -242,7 +257,8 @@ tests:
           uri: "/get?x=url:file://foo.bar"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 17
     desc: Remote File Inclusion Attack (931130) - Detect gopher://
     stages:
@@ -257,7 +273,8 @@ tests:
           uri: "/get?x=gopher://google.com/_SSRFTest!"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 18
     desc: Remote File Inclusion Attack (931130) - Ldap Protocol
     stages:
@@ -272,7 +289,8 @@ tests:
           uri: "/get?x=ldap://127.0.0.1/"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 19
     desc: Remote File Inclusion Attack (931130)
     stages:
@@ -287,7 +305,8 @@ tests:
           uri: "/get?x=jar:http://evil.co/b.zip!a"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 20
     desc: Remote File Inclusion Attack (931130) with Java backend
     stages:
@@ -302,7 +321,8 @@ tests:
           uri: "/get?x=url:file://etc/services"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 21
     desc: Remote File Inclusion Attack (931130) with local_file url scheme
     stages:
@@ -317,7 +337,8 @@ tests:
           uri: "/get?x=local_file://something"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]
   - test_id: 22
     desc: Remote File Inclusion Attack (931130) with Java backend and trailing /
     stages:
@@ -332,4 +353,5 @@ tests:
           uri: "/get?x=url:file:///etc/passwd"
           version: HTTP/1.1
         output:
-          log_contains: id "931130"
+          log:
+            expect_ids: [931130]

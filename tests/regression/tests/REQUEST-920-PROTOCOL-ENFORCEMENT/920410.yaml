@@ -886,7 +886,8 @@ tests:
             ----------111111--
           version: "HTTP/1.1"
         output:
-          log_contains: "id \"920410\""
+          log:
+            expect_ids: [920410]
   - test_id: 2
     stages:
       - input:
@@ -909,4 +910,5 @@ tests:
             ----------111111--
           version: "HTTP/1.1"
         output:
-          no_log_contains: "id \"920410\""
+          log:
+            no_expect_ids: [920410]

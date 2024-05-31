@@ -20,9 +20,10 @@ tests:
           uri: "/pineapple"
           version: "HTTP/1.1"
           data: test
-          stop_magic: true
+          autocomplete_headers: false
         output:
-          log_contains: id "920341"
+          log:
+            expect_ids: [920341]
   - # Standard POST request with length and content-type
     test_id: 2
     stages:
@@ -40,7 +41,8 @@ tests:
           version: "HTTP/1.1"
           data: "{}"
         output:
-          no_log_contains: id "920341"
+          log:
+            no_expect_ids: [920341]
   - # Standard GET request (negative test)
     test_id: 3
     stages:
@@ -55,4 +57,5 @@ tests:
           uri: "/"
           version: "HTTP/1.1"
         output:
-          no_log_contains: id "920341"
+          log:
+            no_expect_ids: [920341]

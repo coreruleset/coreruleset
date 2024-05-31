@@ -15,7 +15,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          no_log_contains: "id \"932237\""
+          log:
+            no_expect_ids: [932237]
   - test_id: 2
     stages:
       - input:
@@ -29,7 +30,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          log_contains: "id \"932237\""
+          log:
+            expect_ids: [932237]
   - test_id: 3
     stages:
       - input:
@@ -43,7 +45,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          log_contains: "id \"932237\""
+          log:
+            expect_ids: [932237]
   - test_id: 4
     stages:
       - input:
@@ -57,7 +60,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          no_log_contains: "id \"932237\""
+          log:
+            no_expect_ids: [932237]
   - test_id: 5
     stages:
       - input:
@@ -71,7 +75,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          no_log_contains: "id \"932237\""
+          log:
+            no_expect_ids: [932237]
   - test_id: 6
     stages:
       - input:
@@ -86,7 +91,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          no_log_contains: "id \"932237\""
+          log:
+            no_expect_ids: [932237]
   - test_id: 7
     stages:
       - input:
@@ -101,7 +107,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          log_contains: "id \"932237\""
+          log:
+            expect_ids: [932237]
   - test_id: 8
     stages:
       - input:
@@ -116,7 +123,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          log_contains: "id \"932237\""
+          log:
+            expect_ids: [932237]
   - test_id: 9
     stages:
       - input:
@@ -131,7 +139,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          no_log_contains: "id \"932237\""
+          log:
+            no_expect_ids: [932237]
   - test_id: 10
     stages:
       - input:
@@ -146,7 +155,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          no_log_contains: "id \"932237\""
+          log:
+            no_expect_ids: [932237]
   - test_id: 11
     desc: "9323HNQU - should not be detected at PL 2"
     stages:
@@ -163,7 +173,8 @@ tests:
             code=;vi dddd +silent\\ \!whoami +wq
           version: HTTP/1.0
         output:
-          no_log_contains: "id \"932237\""
+          log:
+            no_expect_ids: [932237]
   - test_id: 12
     desc: "9323HNQU - should not be detected at PL 2"
     stages:
@@ -180,7 +191,8 @@ tests:
             code=;vi -c:\!pwd
           version: HTTP/1.0
         output:
-          no_log_contains: "id \"932237\""
+          log:
+            no_expect_ids: [932237]
   - test_id: 13
     desc: "FP with word comment"
     stages:
@@ -195,7 +207,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932237"
+          log:
+            no_expect_ids: [932237]
   - test_id: 14
     desc: "FP with word settings"
     stages:
@@ -210,7 +223,8 @@ tests:
           uri: "/get"
           version: HTTP/1.0
         output:
-          no_log_contains: id "932237"
+          log:
+            no_expect_ids: [932237]
   - test_id: 15
     stages:
       - input:
@@ -225,7 +239,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          no_log_contains: "id \"932237\""
+          log:
+            no_expect_ids: [932237]
   - test_id: 16
     stages:
       - input:
@@ -239,7 +254,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          no_log_contains: "id \"932237\""
+          log:
+            no_expect_ids: [932237]
   - test_id: 17
     desc: "Block env command with arguments"
     stages:
@@ -254,7 +270,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          log_contains: "id \"932237\""
+          log:
+            expect_ids: [932237]
   - test_id: 18
     desc: "Block env command with arguments"
     stages:
@@ -270,7 +287,8 @@ tests:
           uri: "/get"
           version: HTTP/1.1
         output:
-          log_contains: "id \"932237\""
+          log:
+            expect_ids: [932237]
   - test_id: 19
     desc: "Block ad-hoc ansible commands"
     stages:
@@ -285,7 +303,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 20
     desc: "Block ansible config dump command"
     stages:
@@ -300,7 +319,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 21
     desc: "Block installing collections from ansible galaxy"
     stages:
@@ -315,7 +335,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 22
     desc: "Block ad-hoc ansible commands using ansible-console"
     stages:
@@ -330,7 +351,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 23
     desc: "Block ansible-doc command"
     stages:
@@ -345,7 +367,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 24
     desc: "Block dumping ansible inventory file and variables"
     stages:
@@ -360,7 +383,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 25
     desc: "Block ansible pull from remote repository"
     stages:
@@ -375,7 +399,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 26
     desc: "Block decrypting ansible secrets"
     stages:
@@ -390,7 +415,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 27
     desc: "Block execution of ansible playbooks"
     stages:
@@ -405,7 +431,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 28
     desc: "Block decryption of secrets with chef-vault"
     stages:
@@ -420,7 +447,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 29
     desc: "Block execution of chef-shell command"
     stages:
@@ -435,7 +463,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 30
     desc: "Block execution chef recipie book"
     stages:
@@ -450,7 +479,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 31
     desc: "Block execution chef recipie book against a specific node"
     stages:
@@ -465,7 +495,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 32
     desc: "Block execution chef command"
     stages:
@@ -480,7 +511,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 33
     desc: "Block execution of visudo"
     stages:
@@ -495,7 +527,8 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]
   - test_id: 34
     desc: "Block execution of CrowdSec cscli"
     stages:
@@ -510,4 +543,5 @@ tests:
           uri: "/post"
           version: HTTP/1.0
         output:
-          log_contains: id "932237"
+          log:
+            expect_ids: [932237]

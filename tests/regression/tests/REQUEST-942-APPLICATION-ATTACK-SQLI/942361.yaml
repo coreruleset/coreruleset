@@ -18,7 +18,8 @@ tests:
           data: "'alter a"
           version: HTTP/1.0
         output:
-          log_contains: id "942361"
+          log:
+            expect_ids: [942361]
   - test_id: 2
     desc: "Detects basic SQL injection based on keyword alter or union"
     stages:
@@ -34,7 +35,8 @@ tests:
           data: "\" ALTER A"
           version: HTTP/1.0
         output:
-          log_contains: id "942361"
+          log:
+            expect_ids: [942361]
   - test_id: 3
     desc: "Detects basic SQL injection based on keyword alter or union"
     stages:
@@ -50,7 +52,8 @@ tests:
           data: "'ALTER A"
           version: HTTP/1.0
         output:
-          log_contains: id "942361"
+          log:
+            expect_ids: [942361]
   - test_id: 4
     desc: "Detects basic SQL injection based on keyword alter or union"
     stages:
@@ -66,7 +69,8 @@ tests:
           data: "' alter/"
           version: HTTP/1.0
         output:
-          log_contains: id "942361"
+          log:
+            expect_ids: [942361]
   - test_id: 5
     desc: "Detects basic SQL injection based on keyword alter or union"
     stages:
@@ -82,7 +86,8 @@ tests:
           data: "\" UNION A"
           version: HTTP/1.0
         output:
-          log_contains: id "942361"
+          log:
+            expect_ids: [942361]
   - test_id: 6
     desc: "Detects basic SQL injection based on keyword alter or union"
     stages:
@@ -98,7 +103,8 @@ tests:
           data: "'UNION A"
           version: HTTP/1.0
         output:
-          log_contains: id "942361"
+          log:
+            expect_ids: [942361]
   - test_id: 7
     desc: "Detects basic SQL injection based on keyword alter or union"
     stages:
@@ -114,4 +120,5 @@ tests:
           data: "' union/"
           version: HTTP/1.0
         output:
-          log_contains: id "942361"
+          log:
+            expect_ids: [942361]

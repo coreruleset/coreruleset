@@ -23,7 +23,8 @@ tests:
           data: |-
             {"body": "[match sql-errors.data]the used select statements have different number of columns[/match]: PHP Warning:  mssql_query(): message: Incorrect syntax near 's'. (severity 15) in /Volumes/Data/Users/username/Desktop/createXML.php on line 375"}
         output:
-          log_contains: "id \"951220\""
+          log:
+            expect_ids: [951220]
   - test_id: 2
     desc: "Matching mssql SQL Information Leakage"
     stages:
@@ -43,4 +44,5 @@ tests:
           data: |-
             {"body": "[match sql-errors.data]the used select statements have different number of columns[/match]: Conversion failed when converting the varchar value 'secret' to data type int."}
         output:
-          log_contains: "id \"951220\""
+          log:
+            expect_ids: [951220]
