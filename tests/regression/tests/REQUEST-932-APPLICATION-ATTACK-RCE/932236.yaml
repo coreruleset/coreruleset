@@ -1464,3 +1464,91 @@ tests:
               code=cscli alerts list
           output:
             log_contains: id "932236"
+  - test_title: 932236-81
+    desc: "False positive with session cookie, invalid command match with sudo"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              cookie: example=SUDoLongRandomString
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-82
+    desc: "False positive with session cookie, invalid command match with fd"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+              cookie: example=fd01bfcfdbe02
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.1
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-83
+    desc: "False positive with UUID"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.1
+            data: |
+              uuid=dfc987c2-72e2-4a8e-ad98-e0bf1bc3a01c
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-84
+    desc: "False positive with word idendity"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.1
+            data: |
+              uuid=idendity
+          output:
+            no_log_contains: id "932236"
+  - test_title: 932236-85
+    desc: "False positive with word unique"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: /post
+            version: HTTP/1.1
+            data: |
+              uuid=unique
+          output:
+            no_log_contains: id "932236"
