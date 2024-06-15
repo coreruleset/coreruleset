@@ -562,7 +562,7 @@ tests:
             uri: "/post"
             version: HTTP/1.0
           output:
-            log_contains: id "932237"
+            no_log_contains: id "932237"
   - test_title: 932237-36
     desc: "False positive with token in referrer"
     stages:
@@ -579,4 +579,4 @@ tests:
             uri: "/post"
             version: HTTP/1.0
           output:
-            log_contains: id "932237"
+            no_log_contains: id "932237"
