@@ -776,24 +776,6 @@ tests:
               name=Axel Smith
           output:
             no_log_contains: id "932260"
-  - test_title: 932260-45
-    desc: "Test for false positive with name Axel Smith"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-            method: POST
-            port: 80
-            uri: /post
-            version: HTTP/1.1
-            data: |
-              name=Axel Smith
-          output:
-            no_log_contains: id "932260"
   - test_title: 932260-46
     desc: "False positive with session cookie"
     stages:
