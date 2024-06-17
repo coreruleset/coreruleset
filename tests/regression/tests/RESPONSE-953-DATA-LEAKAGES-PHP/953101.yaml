@@ -18,11 +18,12 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "Maximum allowed file size is 10 MB"
+            uri: "/reflect"
+            data: |-
+              {"body": "Maximum allowed file size is 10 MB"}
           output:
             log_contains: id "953101"
   - test_title: 953101-2
@@ -38,11 +39,12 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "Invalid date selected"
+            uri: "/reflect"
+            data: |-
+              {"body": "Invalid date selected"}
           output:
             log_contains: id "953101"
   - test_title: 953101-3
@@ -58,11 +60,12 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "Please review the function"
+            uri: "/reflect"
+            data: |-
+              {"body": "Please review the function"}
           output:
             log_contains: id "953101"
   - test_title: 953101-4
@@ -78,11 +81,12 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "This is a static function"
+            uri: "/reflect"
+            data: |-
+              {"body": "This is a static function"}
           output:
             log_contains: id "953101"
   - test_title: 953101-5
@@ -98,10 +102,11 @@ tests:
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
               Accept-Encoding: "gzip,deflate"
               Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "text/plain"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.0"
-            uri: "/post"
-            data: "cannot be empty."
+            uri: "/reflect"
+            data: |-
+              {"body": "cannot be empty."}
           output:
             log_contains: id "953101"

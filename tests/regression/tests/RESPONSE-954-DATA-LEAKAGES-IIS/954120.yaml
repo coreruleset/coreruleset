@@ -16,11 +16,12 @@ tests:
               Host: "localhost"
               User-Agent: "OWASP CRS test agent"
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.1"
-            uri: "/post"
-            data: |
-              text=<title>404.14 - URL too long.</title>
+            uri: "/reflect"
+            data: |-
+              {"body": "text=<title>404.14 - URL too long.</title>"}
           output:
             log_contains: id "954120"
   - test_title: 954120-2
@@ -34,10 +35,11 @@ tests:
               Host: "localhost"
               User-Agent: "OWASP CRS test agent"
               Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Content-Type: "application/json"
             method: "POST"
             version: "HTTP/1.1"
-            uri: "/post"
-            data: |
-              text=<title>500.15 - Server error: Direct requests for GLOBAL.ASA are not allowed.</title>
+            uri: "/reflect"
+            data: |-
+              {"body": "text=<title>500.15 - Server error: Direct requests for GLOBAL.ASA are not allowed.</title>"}
           output:
             log_contains: id "954120"
