@@ -163,3 +163,22 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932175"
+  - test_title: 932175-10
+    desc: "Test for alias with -p argument"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: "/post"
+            data: |
+              rce=alias -p jzfrx=id
+            version: HTTP/1.1
+          output:
+            log_contains: id "932175"
+
