@@ -1,6 +1,7 @@
 ---
 meta:
   author: "csanders-git, azurit"
+  description: 920340 should detect requests that have a `Content-Length` header but no `Content-Type` header
 rule_id: 920340
 tests:
   - test_id: 1
@@ -15,6 +16,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"
           data: "xy"
+          method: "POST"
           autocomplete_headers: false
           version: "HTTP/1.1"
         output:

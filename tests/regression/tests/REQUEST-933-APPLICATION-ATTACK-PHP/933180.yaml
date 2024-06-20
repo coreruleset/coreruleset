@@ -1,6 +1,7 @@
 ---
 meta:
   author: "lifeforms, azurit"
+rule_id: 933180
 tests:
   - test_id: 1
     desc: PHP variable functions
@@ -28,6 +29,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'foo=%24a%281%29'
           version: "HTTP/1.1"
@@ -44,6 +46,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'foo=%24%24b%282%29'
           version: "HTTP/1.1"
@@ -60,6 +63,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'foo=%24_%283%29'
           version: "HTTP/1.1"
@@ -76,6 +80,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'foo=%40%24__%5Bo%5D%284%29'
           version: "HTTP/1.1"
@@ -92,6 +97,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'foo=%24__%5B%27o%27%5D%285%29'
           version: "HTTP/1.1"
@@ -108,6 +114,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'foo=%24__%5B%40o%5D%286%29'
           version: "HTTP/1.1"
@@ -124,6 +131,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'foo=%24__%5B%24_%5B1%5D%5D%287%29'
           version: "HTTP/1.1"
@@ -140,6 +148,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'foo=%24__%5B%40%24c%5D%288%29'
           version: "HTTP/1.1"
@@ -156,6 +165,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: '%24d%5B%27o%27%5D%289%29'
           version: "HTTP/1.1"
@@ -172,6 +182,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'foo=%24%7B%40a%7D%2810%29'
           version: "HTTP/1.1"
@@ -220,6 +231,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: '%24%7B%24s20%7D%5B%27q53b3a6%27%5D%2813%29'
           version: "HTTP/1.1"
@@ -236,6 +248,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'foo=%24GLOBALS%5B%27cf908275%27%5D%2814%29'
           version: "HTTP/1.1"
@@ -252,6 +265,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'c=%24OOO000000%7B0%7D%2815%29'
           version: "HTTP/1.1"
@@ -300,6 +314,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'x=%24_aB_4c%5B%405%5D%2F%2Awat%2A%2F%5B%40d%5D%20%28%29'
           version: "HTTP/1.1"
@@ -316,6 +331,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'y=%24_aB_4c%2F%2Afoo%2A%2F%5B%405%5D%2F%2Abar%2A%2F%5B%40d%5D%2F%2Abaz%2A%2F%2819%29'
           version: "HTTP/1.1"
@@ -364,6 +380,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'foo=%24b374k%3D%40%24s_func%2822%29'
           version: "HTTP/1.1"
@@ -380,6 +397,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: 'foo=%24function%0D%0A%20%2823%29'
           version: "HTTP/1.1"
@@ -428,6 +446,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: x=%24_aB_4c%20%23foo%0D%0A%09%5B5%5D%2F%2Fbar%0D%0A%09%5B%27d%27%5D%20%2F%2Afoo%2A%2F%20%2817%29
           version: "HTTP/1.1"
@@ -556,6 +575,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           port: 80
+          method: "POST"
           uri: /
           data: '%24foo-%3E%24funcname%28%29'
           version: "HTTP/1.1"
