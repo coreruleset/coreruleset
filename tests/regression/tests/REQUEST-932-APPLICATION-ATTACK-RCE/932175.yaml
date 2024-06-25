@@ -181,3 +181,93 @@ tests:
             version: HTTP/1.1
           output:
             log_contains: id "932175"
+  - test_title: 932175-11
+    desc: "Test for alias with -p argument"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: "/post"
+            data: |
+              rce=alias -gmr a=b
+            version: HTTP/1.1
+          output:
+            log_contains: id "932175"
+  - test_title: 932175-12
+    desc: "Test for alias with -p argument"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: "/post"
+            data: |
+              rce=alias +m a=b
+            version: HTTP/1.1
+          output:
+            log_contains: id "932175"
+  - test_title: 932175-13
+    desc: "Test for alias with -p argument"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: "/post"
+            data: |
+              rce=alias +g a=b
+            version: HTTP/1.1
+          output:
+            log_contains: id "932175"
+  - test_title: 932175-14
+    desc: "Test for alias with -p argument"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: "/post"
+            data: |
+              rce=alias ls-al='ls -al'
+            version: HTTP/1.1
+          output:
+            log_contains: id "932175"
+  - test_title: 932175-15
+    desc: "Test for alias with -p argument"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+              Host: localhost
+              User-Agent: "OWASP CRS test agent"
+            method: POST
+            port: 80
+            uri: "/post"
+            data: |
+              rce=alias ..='cd ..'
+            version: HTTP/1.1
+          output:
+            log_contains: id "932175"
