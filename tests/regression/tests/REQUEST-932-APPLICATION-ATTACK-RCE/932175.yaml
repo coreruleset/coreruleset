@@ -200,7 +200,7 @@ tests:
           output:
             log_contains: id "932175"
   - test_title: 932175-12
-    desc: "Test for alias with zsh flags"
+    desc: "Test for alias with zsh '+' flags"
     stages:
       - stage:
           input:
@@ -209,16 +209,14 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Host: localhost
               User-Agent: "OWASP CRS test agent"
-            method: POST
+            method: GET
             port: 80
-            uri: "/post"
-            data: |
-              rce=alias +m a=b
+            uri: "/get?rce=%61%6c%69%61%73%20%2b%6d%20%61%3d%62"
             version: HTTP/1.1
           output:
             log_contains: id "932175"
   - test_title: 932175-13
-    desc: "Test for alias with zsh flags"
+    desc: "Test for alias with trailing '+' in a flag"
     stages:
       - stage:
           input:
@@ -227,11 +225,9 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
               Host: localhost
               User-Agent: "OWASP CRS test agent"
-            method: POST
+            method: GET
             port: 80
-            uri: "/post"
-            data: |
-              rce=alias +g+ a=b
+            uri: "/get?rce=%61%6c%69%61%73%20%2b%67%2b%20%61%3d%62"
             version: HTTP/1.1
           output:
             log_contains: id "932175"
