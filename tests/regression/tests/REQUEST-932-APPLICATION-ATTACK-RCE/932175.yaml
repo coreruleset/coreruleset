@@ -200,7 +200,9 @@ tests:
           output:
             log_contains: id "932175"
   - test_title: 932175-12
-    desc: "Test for alias with zsh '+' flags"
+    desc: |
+      Test for alias with zsh '+' flags.
+      Payload: "alias +m a=b"
     stages:
       - stage:
           input:
@@ -216,7 +218,9 @@ tests:
           output:
             log_contains: id "932175"
   - test_title: 932175-13
-    desc: "Test for alias with trailing '+' in a flag"
+    desc: |
+      Test for alias with trailing '+' in a flag.
+      Payload: "alias +g+ a=b"
     stages:
       - stage:
           input:
