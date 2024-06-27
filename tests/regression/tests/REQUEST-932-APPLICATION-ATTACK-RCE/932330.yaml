@@ -21,3 +21,51 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "932330"
+  - test_title: 932330-2
+    desc: "Unix shell history invocation: argument injection"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: "localhost"
+              User-Agent: "OWASP CRS test agent"
+            method: GET
+            port: 80
+            uri: "/get?rce=!!1-3"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932330"
+  - test_title: 932330-3
+    desc: "Unix shell history invocation: relative position"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: "localhost"
+              User-Agent: "OWASP CRS test agent"
+            method: GET
+            port: 80
+            uri: "/get?rce=!1!2"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932330"
+  - test_title: 932330-4
+    desc: "Unix shell history invocation: previous command"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+              Host: "localhost"
+              User-Agent: "OWASP CRS test agent"
+            method: GET
+            port: 80
+            uri: "/get?rce=!!"
+            version: HTTP/1.0
+          output:
+            log_contains: id "932330"
