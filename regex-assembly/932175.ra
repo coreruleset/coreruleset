@@ -15,8 +15,10 @@
   ##! match white space between command and arguments
   \b\s+
   ##!=>
-  [+\-][a-z]+\s+
-  [+\-][a-z]+\+\s+
+
+  ##! match flags
+  (?:[+\-][a-z]+\+?\s+)?
+  ##!=>
 
   ##! match the alias name
   ##! The '.' and '-' character match payloads like "alias ls-al='ls -al'" and "alias ..='cd ..'"
