@@ -4,27 +4,27 @@
 services:
   modsec2-apache:
     container_name: modsec2-apache
-    image: owasp/modsecurity-crs:apache@sha256:9c20dd4756378de04c3587911efdf37c15614403c0540e008f16ca1cdbc63cba
+    image: owasp/modsecurity-crs:apache@sha256:36fc67d66f7761a6cb532c4855901a41792efa6e58303833c03aeed285c9c961 # pin v4.3.0
     environment:
-      SERVERNAME: modsec2-apache
+      ACCESSLOG: "/var/log/apache2/access.log"
       BACKEND: http://backend
-      PORT: "8080"
-      MODSEC_RULE_ENGINE: DetectionOnly
       BLOCKING_PARANOIA: 4
-      ERRORLOG: "/var/log/error.log"
-      ACCESSLOG: "/var/log/access.log"
-      MODSEC_AUDIT_LOG_FORMAT: Native
-      MODSEC_AUDIT_LOG_TYPE: Serial
-      MODSEC_AUDIT_LOG: "/var/log/modsec_audit.log"
-      MODSEC_TMP_DIR: "/tmp"
-      MODSEC_RESP_BODY_ACCESS: "On"
-      MODSEC_RESP_BODY_MIMETYPE: "text/plain text/html text/xml application/json"
-      MAX_FILE_SIZE: "64100"
       COMBINED_FILE_SIZES: "65535"
       CRS_ENABLE_TEST_MARKER: 1
+      ERRORLOG: "/var/log/apache2/error.log"
+      MAX_FILE_SIZE: "64100"
+      MODSEC_AUDIT_LOG_FORMAT: Native
+      MODSEC_AUDIT_LOG_TYPE: Serial
+      MODSEC_AUDIT_LOG: "/var/log/apache2/modsec_audit.log"
+      MODSEC_RESP_BODY_ACCESS: "On"
+      MODSEC_RESP_BODY_MIMETYPE: "text/plain text/html text/xml application/json"
+      MODSEC_RULE_ENGINE: DetectionOnly
+      MODSEC_TMP_DIR: "/tmp"
+      PORT: "8080"
+      SERVERNAME: modsec2-apache
       VALIDATE_UTF8_ENCODING: 1
     volumes:
-      - ./logs/modsec2-apache:/var/log:rw
+      - ./logs/modsec2-apache:/var/log/apache2:rw
       - ../rules:/opt/owasp-crs/rules:ro
       - ../plugins:/opt/owasp-crs/plugins:ro
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
@@ -37,27 +37,27 @@ services:
 
   modsec3-nginx:
     container_name: modsec3-nginx
-    image: owasp/modsecurity-crs:nginx@sha256:71c4719eadc99b0e5df30aa8b07ffb93a71f9e69b3aee59a9029e7cef3f528d9
+    image: owasp/modsecurity-crs:nginx@sha256:44b6e45fdc9eb9fdd34bb62f91f51513a87116e1445222cff7f4018bed7d42eb # pin v4.3.0
     environment:
-      SERVERNAME: modsec3-nginx
+      ACCESSLOG: "/var/log/nginx/access.log"
       BACKEND: http://backend
-      PORT: "8080"
-      MODSEC_RULE_ENGINE: DetectionOnly
       BLOCKING_PARANOIA: 4
-      ERRORLOG: "/var/log/error.log"
-      LOGLEVEL: "info"
-      ACCESSLOG: "/var/log/access.log"
-      MODSEC_AUDIT_LOG_FORMAT: Native
-      MODSEC_AUDIT_LOG_TYPE: Serial
-      MODSEC_AUDIT_LOG: "/var/log/modsec_audit.log"
-      MODSEC_RESP_BODY_ACCESS: "On"
-      MODSEC_RESP_BODY_MIMETYPE: "text/plain text/html text/xml application/json"
-      MAX_FILE_SIZE: "64100"
       COMBINED_FILE_SIZES: "65535"
       CRS_ENABLE_TEST_MARKER: 1
+      ERRORLOG: "/var/log/nginx/error.log"
+      LOGLEVEL: "info"
+      MAX_FILE_SIZE: "64100"
+      MODSEC_AUDIT_LOG_FORMAT: Native
+      MODSEC_AUDIT_LOG_TYPE: Serial
+      MODSEC_AUDIT_LOG: "/var/log/nginx/modsec_audit.log"
+      MODSEC_RESP_BODY_ACCESS: "On"
+      MODSEC_RESP_BODY_MIMETYPE: "text/plain text/html text/xml application/json"
+      MODSEC_RULE_ENGINE: DetectionOnly
+      PORT: "8080"
+      SERVERNAME: modsec3-nginx
       VALIDATE_UTF8_ENCODING: 1
     volumes:
-      - ./logs/modsec3-nginx:/var/log:rw
+      - ./logs/modsec3-nginx:/var/log/nginx:rw
       - ../rules:/opt/owasp-crs/rules:ro
       - ../plugins:/opt/owasp-crs/plugins:ro
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
