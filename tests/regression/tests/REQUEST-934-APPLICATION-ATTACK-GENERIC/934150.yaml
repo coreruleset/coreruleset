@@ -1,23 +1,21 @@
 ---
 meta:
   author: "karelorigin, azurit"
-  enabled: true
-  name: "934150.yaml"
-  description: "Tests for rule 934150"
+rule_id: 934150
 tests:
-  - test_title: 934150-1
+  - test_id: 1
     desc: Ruby injection test
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "*/*"
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get?x=Process.spawn(%22id%22)"
-            version: HTTP/1.0
-          output:
-            log_contains: id "934150"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=Process.spawn(%22id%22)"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [934150]

@@ -1,97 +1,96 @@
 ---
 meta:
   author: "airween, azurit"
-  enabled: true
-  name: "920275.yaml"
   description: "Test cases for CRS rule 920275"
+rule_id: 920275
 tests:
-  - test_title: 920275-1
+  - test_id: 1
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            uri: "/"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Sec-Fetch-User: "foo"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"920275\""
-  - test_title: 920275-2
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Sec-Fetch-User: "foo"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920275]
+  - test_id: 2
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            uri: "/"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Sec-Fetch-User: "?0"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"920275\""
-  - test_title: 920275-3
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Sec-Fetch-User: "?0"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920275]
+  - test_id: 3
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            uri: "/"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Sec-Fetch-User: "?1"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"920275\""
-  - test_title: 920275-4
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Sec-Fetch-User: "?1"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920275]
+  - test_id: 4
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            uri: "/"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Sec-CH-UA-Mobile: "foo"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"920275\""
-  - test_title: 920275-5
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Sec-CH-UA-Mobile: "foo"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920275]
+  - test_id: 5
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            uri: "/"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Sec-CH-UA-Mobile: "?0"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"920275\""
-  - test_title: 920275-6
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Sec-CH-UA-Mobile: "?0"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920275]
+  - test_id: 6
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            uri: "/"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Sec-CH-UA-Mobile: "?1"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"920275\""
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Sec-CH-UA-Mobile: "?1"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920275]

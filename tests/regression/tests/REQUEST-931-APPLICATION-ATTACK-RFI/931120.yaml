@@ -1,135 +1,133 @@
 ---
 meta:
   author: "studersi, azurit"
-  description: None
-  enabled: true
-  name: 931120.yaml
+rule_id: 931120
 tests:
-  - test_title: 931120-1
+  - test_id: 1
     desc: Remote File Inclusion Attack (931120)
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?x=file?"
-            version: HTTP/1.1
-          output:
-            log_contains: id "931120"
-  - test_title: 931120-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?x=file?"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [931120]
+  - test_id: 2
     desc: Remote File Inclusion Attack (931120)
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?x=ftp?"
-            version: HTTP/1.1
-          output:
-            log_contains: id "931120"
-  - test_title: 931120-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?x=ftp?"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [931120]
+  - test_id: 3
     desc: Remote File Inclusion Attack (931120)
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?x=ftps?"
-            version: HTTP/1.1
-          output:
-            log_contains: id "931120"
-  - test_title: 931120-4
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?x=ftps?"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [931120]
+  - test_id: 4
     desc: Remote File Inclusion Attack (931120)
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?x=http?"
-            version: HTTP/1.1
-          output:
-            log_contains: id "931120"
-  - test_title: 931120-5
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?x=http?"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [931120]
+  - test_id: 5
     desc: Remote File Inclusion Attack (931120)
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?x=https?"
-            version: HTTP/1.1
-          output:
-            log_contains: id "931120"
-  - test_title: 931120-6
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?x=https?"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [931120]
+  - test_id: 6
     desc: Remote File Inclusion Attack (931120)
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?x=https://foo.bar?"
-            version: HTTP/1.1
-          output:
-            log_contains: id "931120"
-  - test_title: 931120-7
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?x=https://foo.bar?"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [931120]
+  - test_id: 7
     desc: Remote File Inclusion Attack (931120)
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?x=https://foo.bar?foo=bar"
-            version: HTTP/1.1
-          output:
-            no_log_contains: id "931120"
-  - test_title: 931120-8
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?x=https://foo.bar?foo=bar"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [931120]
+  - test_id: 8
     desc: Remote File Inclusion Attack (931120)
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?x=https://foo.bar&foo=bar"
-            version: HTTP/1.1
-          output:
-            no_log_contains: id "931120"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?x=https://foo.bar&foo=bar"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [931120]

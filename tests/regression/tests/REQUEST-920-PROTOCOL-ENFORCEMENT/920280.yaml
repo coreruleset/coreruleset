@@ -1,50 +1,47 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  enabled: true
-  name: "920280.yaml"
-  description: "Description"
+rule_id: 920280
 tests:
-  - test_title: 920280-1
+  - test_id: 1
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            version: "HTTP/1.0"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              # Test needs empty Host:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/"
-          output:
-            log_contains: "id \"920280\""
-  - test_title: 920280-2
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          version: "HTTP/1.0"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            # Test needs empty Host:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+        output:
+          log:
+            expect_ids: [920280]
+  - test_id: 2
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"920280\""
-  - test_title: 920280-3
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920280]
+  - test_id: 3
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            version: "HTTP/0.9"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/"
-          output:
-            # Technically valid but Apache doesn't allow 0.9 anymore
-            status: [400, 426, 505]
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          version: "HTTP/0.9"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+        output:
+          # Technically valid but Apache doesn't allow 0.9 anymore
+          status: 400

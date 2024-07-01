@@ -1,674 +1,671 @@
 ---
 meta:
   author: "Christian S.J. Peron, Christoph Hansen, Franziska Bühler, azurit"
-  description: None
-  enabled: true
-  name: 942120.yaml
+rule_id: 942120
 tests:
-  - test_title: 942120-1
+  - test_id: 1
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?var=blahblah&var2=LIKE%20NULL"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=blahblah&var2=LIKE%20NULL"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 2
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay=RegExp"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay=RegExp"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 3
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: ">>"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-4
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: ">>"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 4
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay=%26%26"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-5
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay=%26%26"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 5
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "<<"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-6
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "<<"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 6
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "%21%3D"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-7
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "%21%3D"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 7
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "||"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-8
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "||"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 8
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "XOR"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-9
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "XOR"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 9
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay=%3C%3D"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-10
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay=%3C%3D"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 10
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "IS NULL"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-11
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "IS NULL"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 11
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "in (0,1)"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-12
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "in (0,1)"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 12
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "in (2147483647,-1)"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-13
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "in (2147483647,-1)"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 13
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay=%3C%3D%3E"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-14
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay=%3C%3D%3E"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 14
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "regexp"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-15
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "regexp"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 15
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "RLIKE"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-16
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "RLIKE"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 16
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "<>"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-17
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "<>"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 17
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "+in+%28++select+anfrage_id+from+erkenntnisse+where+id+is++not++null++%29%0A"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-18
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "+in+%28++select+anfrage_id+from+erkenntnisse+where+id+is++not++null++%29%0A"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 18
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "+IN+%28815914%2C+815913%29%0A"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-19
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "+IN+%28815914%2C+815913%29%0A"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 19
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "+IN+%28815919%2C+815920%2C+815921%2C+815922%2C+815923%2C+815924%2C+815925%2C+815926%2C+815927%2C+815928%2C+815929%2C+815930%2C+815932%2C+815933%2C+815934%2C+815935%2C+815936%2C+815937%2C+815917%2C+815918%29%0A"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-20
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "+IN+%28815919%2C+815920%2C+815921%2C+815922%2C+815923%2C+815924%2C+815925%2C+815926%2C+815927%2C+815928%2C+815929%2C+815930%2C+815932%2C+815933%2C+815934%2C+815935%2C+815936%2C+815937%2C+815917%2C+815918%29%0A"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 20
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay= in ( Aa,- Ab-, and Ac)"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-21
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay= in ( Aa,- Ab-, and Ac)"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 21
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "%3E%3D"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-22
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "%3E%3D"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 22
     desc: "SQL Injection Attack: not between * and "
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "select%20*%20from%20user%20where%20password_last_changed%20not%20between%20'2021-04-11'%20and%20'2021-04-11'"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-23
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "select%20*%20from%20user%20where%20password_last_changed%20not%20between%20'2021-04-11'%20and%20'2021-04-11'"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 23
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email=z'or%20email%20notnull--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-24
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email=z'or%20email%20notnull--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 24
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email=x'%20or%20username%20like%20totpSecret%20escape%20'x';"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-25
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email=x'%20or%20username%20like%20totpSecret%20escape%20'x';"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 25
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email=admin%40juice-sh.op'%20and%20email%20ilike%20email--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-26
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email=admin%40juice-sh.op'%20and%20email%20ilike%20email--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 26
     desc: "SQL Injection Attack: SQL Operator Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email=admin%40juice-sh.op'%20and%20email%20%3d%20all%20(select%20email)--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-27
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email=admin%40juice-sh.op'%20and%20email%20%3d%20all%20(select%20email)--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 27
     desc: "SQLite collate nocase"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=user'collate%20nocase--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-28
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=user'collate%20nocase--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 28
     desc: "SQLite collate nocase"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=user'collate%20nocase--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-29
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=user'collate%20nocase--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 29
     desc: "SQL collate`nocase`"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=user'collate%60nocase%60--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-30
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=user'collate%60nocase%60--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 30
     desc: "Invalid SQL collate foo"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=user'collate%20foo--"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "942120"
-  - test_title: 942120-31
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=user'collate%20foo--"
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [942120]
+  - test_id: 31
     desc: "Invalid SQL collate foo"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            # collate`utf8mb4_general_ci`
-            data: "var=user'collate%60utf8mb4_general_ci%60--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-32
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          # collate`utf8mb4_general_ci`
+          data: "var=user'collate%60utf8mb4_general_ci%60--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 32
     desc: "Collate bypass with character escaping"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            # collate"\utf8mb4_general_ci"
-            data: "var=user'collate%22%5Cutf8mb4_general_ci%22--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-33
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          # collate"\utf8mb4_general_ci"
+          data: "var=user'collate%22%5Cutf8mb4_general_ci%22--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 33
     desc: "Collate bypass with postgress string escaping U&"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            # collate U&"\0441\043B\043E\043D"
-            data: "var=user'collate U%26%22%241%23B%23E%23D%22--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-34
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          # collate U&"\0441\043B\043E\043D"
+          data: "var=user'collate U%26%22%241%23B%23E%23D%22--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 34
     desc: "Detect auth bypass email=' notnull --"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email=%27%20notnull%20--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-35
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email=%27%20notnull%20--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 35
     desc: "Test for IJ5N1CXB - unlikely"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email=admin%40juice-sh.op'and%20unlikely%20(id)--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-36
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email=admin%40juice-sh.op'and%20unlikely%20(id)--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 36
     desc: "Negative test for IJ5N1CXB - unlikely"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data:
-              text=It is highly unlikely this is going to be a false positive
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "942120"
-  - test_title: 942120-37
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: text=It is highly unlikely this is going to be a false positive
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [942120]
+  - test_id: 37
     desc: "Test for HOH7M88Q - likelihood"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: |
-              email=admin%40juice-sh.op\'%20and(%20likelihood%20(id,.0));'
-            version: HTTP/1.1
-          output:
-            log_contains: id "942120"
-  - test_title: 942120-38
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            email=admin%40juice-sh.op\'%20and(%20likelihood%20(id,.0));'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 38
     desc: "Negative test for HOH7M88Q - likelihood"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: |
-              text=After calculating the likelihood this should not be matched.
-            version: HTTP/1.1
-          output:
-            no_log_contains: id "942120"
-  - test_title: 942120-39
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            text=After calculating the likelihood this should not be matched.
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942120]
+  - test_id: 39
     desc: "Detect path-based SQLi attempt"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            port: 80
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: "*/*"
-            method: POST
-            uri: "/post/catalogue/rest/products/2499999||this.product/reviews"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942120"
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: POST
+          uri: "/post/catalogue/rest/products/2499999||this.product/reviews"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942120]

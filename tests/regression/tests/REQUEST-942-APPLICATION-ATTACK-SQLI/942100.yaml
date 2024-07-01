@@ -2,244 +2,243 @@
 meta:
   author: "Christian Folini, azurit"
   description: Various SQL injection tests
-  enabled: true
-  name: 942100.yaml
+rule_id: 942100
 tests:
-  - test_title: 942100-1
+  - test_id: 1
     desc: "Simple SQL Injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=1234 OR 1=1"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
-  - test_title: 942100-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=1234 OR 1=1"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 2
     desc: "Simple SQL injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=-1839' or '1'='1"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
-  - test_title: 942100-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=-1839' or '1'='1"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 3
     desc: "Simple SQL injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=-1839\" or \"1\"=\"2"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
-  - test_title: 942100-4
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=-1839\" or \"1\"=\"2"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 4
     desc: "Basic SQL injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=2010-01-01'+sleep(20.to_i)+'"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
-  - test_title: 942100-5
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=2010-01-01'+sleep(20.to_i)+'"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 5
     desc: "Simple SQL injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=EmptyValue' and 526=527"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
-  - test_title: 942100-6
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=EmptyValue' and 526=527"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 6
     desc: "Simple SQL injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=foo') UNION ALL select NULL --"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
-  - test_title: 942100-7
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=foo') UNION ALL select NULL --"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 7
     desc: "Advanced SQL injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=foo')waitfor%20delay'5%3a0%3a20'--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
-  - test_title: 942100-8
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=foo')waitfor%20delay'5%3a0%3a20'--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 8
     desc: "Simple SQL Injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=JKGHUKGDI8TDHLFJH72FZLFJSKFH' and sleep(12) --"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
-  - test_title: 942100-9
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=JKGHUKGDI8TDHLFJH72FZLFJSKFH' and sleep(12) --"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 9
     desc: "Simple SQL injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=/path/to/file/unitests.txt') UNION ALL select NULL --"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
-  - test_title: 942100-10
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=/path/to/file/unitests.txt') UNION ALL select NULL --"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 10
     desc: "Advanced SQL Injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "1'||(select extractvalue(xmltype('<?xml version=\"1.1\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % toyop SYSTEM \"https://coreruleset.org/\">%toyop;"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
-  - test_title: 942100-11
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "1'||(select extractvalue(xmltype('<?xml version=\"1.1\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % toyop SYSTEM \"https://coreruleset.org/\">%toyop;"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 11
     desc: "Simple function call"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=sleep(20)"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
-  - test_title: 942100-12
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=sleep(20)"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 12
     desc: "Advanced SQL injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=unittests@coreruleset.org\" sleep(10.to_i) \""
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
-  - test_title: 942100-13
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=unittests@coreruleset.org\" sleep(10.to_i) \""
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 13
     desc: "Advanced injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=\" | type %SystemDrive%\\\\config.ini | \""
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
-  - test_title: 942100-14
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=\" | type %SystemDrive%\\\\config.ini | \""
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 14
     desc: "Advanced SQL injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=\"unittests@coreruleset.org\"')) and (select*from(select(sleep(5)))x) --"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942100"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=\"unittests@coreruleset.org\"')) and (select*from(select(sleep(5)))x) --"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942100]

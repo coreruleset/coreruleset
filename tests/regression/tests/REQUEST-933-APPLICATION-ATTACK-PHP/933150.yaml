@@ -1,573 +1,570 @@
 ---
 meta:
   author: "lifeforms, azurit"
-  description: None
-  enabled: true
-  name: 933150.yaml
+rule_id: 933150
 tests:
-  - test_title: 933150-1
+  - test_id: 1
     desc: phpinfo
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get/phpinfo"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/phpinfo"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 2
     desc: base64_decode
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get/base64_decode"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/base64_decode"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 3
     desc: base64_decode mixed case
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?base64_deCOde"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-4
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?base64_deCOde"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 4
     desc: bzdecompress
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=bzdecomprEss"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-5
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=bzdecomprEss"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 5
     desc: call_user_func
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=FOOcall_user_func"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-6
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=FOOcall_user_func"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 6
     desc: fsockopen
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=FOOfsockopen"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-7
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=FOOfsockopen"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 7
     desc: gzdecode
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=FOOgzdecode"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-8
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=FOOgzdecode"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 8
     desc: GzInFlAtE
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=FOOGzInFlAtE"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-9
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=FOOGzInFlAtE"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 9
     desc: pHpInFo mixed case
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=FOOpHpInFo"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-10
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=FOOpHpInFo"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 10
     desc: gzuncompress
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?I%20don%27t%20like%20gzuncompress"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-11
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?I%20don%27t%20like%20gzuncompress"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 11
     desc: fsockopen
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            port: 80
-            uri: "/get?bar=pfsockopen%28%27foo%27%2C%2025%29"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-12
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: "/get?bar=pfsockopen%28%27foo%27%2C%2025%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 12
     desc: posix_getpwuiD
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?bar=posix_getpwuiD%28%27foo%27%2C%2025%29"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-13
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?bar=posix_getpwuiD%28%27foo%27%2C%2025%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 13
     desc: shell_exec
     stages:
-      - stage:
-          input:
-            data: Shell%5fexec=bla
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-14
+      - input:
+          data: Shell%5fexec=bla
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 14
     desc: ZlIb_DeCoDe
     stages:
-      - stage:
-          input:
-            data: ZlIb%5fDeCoDe=bla
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-15
+      - input:
+          data: ZlIb%5fDeCoDe=bla
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 15
     desc: get_defined_functions
     stages:
-      - stage:
-          input:
-            data: foo=get_defined_functions%28%29%5B0%5D
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-16
+      - input:
+          data: foo=get_defined_functions%28%29%5B0%5D
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 16
     desc: get_defined_vars
     stages:
-      - stage:
-          input:
-            data: foo=get_defined_vars%28%29%5B0%5D
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-17
+      - input:
+          data: foo=get_defined_vars%28%29%5B0%5D
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 17
     desc: |
       PHP function call in body, mixed case.
       payload: curl_iNit()
     stages:
-      - stage:
-          input:
-            data: foo=curl_iNit%28%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-18
+      - input:
+          data: foo=curl_iNit%28%29
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 18
     desc: |
       PHP function call in body
       payload: posix_getegid()
     stages:
-      - stage:
-          input:
-            data: posix_getegid%28%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-19
+      - input:
+          data: posix_getegid%28%29
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 19
     desc: |
       PHP function call in body, mixed case
       payload: Print_r()
     stages:
-      - stage:
-          input:
-            data: x=Print_r%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post/print_r"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-20
+      - input:
+          data: x=Print_r%28%20%29
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post/print_r"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 20
     desc: |
       PHP function call in body.
       payload: strrev()
     stages:
-      - stage:
-          input:
-            data: x=strrev%28%20%29
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post/strrev"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-21
+      - input:
+          data: x=strrev%28%20%29
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post/strrev"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 21
     desc: |
       False Positive test
       payload: the files (yep)
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=the%20files%20%28yep%29"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933150"
-  - test_title: 933150-22
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=the%20files%20%28yep%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 22
     desc: |
       False Positive test, exec should be followed by parenthesis
       payload: exec (
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=exec%20%28"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933150"
-  - test_title: 933150-23
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=exec%20%28"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 23
     desc: |
       False Positive test
       payload: executor()
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=executor%28%29"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933150"
-  - test_title: 933150-24
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=executor%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 24
     desc: |
       False Positive test
       payload: cheval($foo)
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=cheval%28%24foo%29"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933150"
-  - test_title: 933150-25
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=cheval%28%24foo%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 25
     desc: |
       False Positive test
       payload: audiofile($foo)
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=audi%6ffile%28%24foo%29"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933150"
-  - test_title: 933150-26
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=audi%6ffile%28%24foo%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 26
     desc: |
       False Positive test
       payload: the system is down()
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=the%20system%20is%20down%28%29"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933150"
-  - test_title: 933150-27
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=the%20system%20is%20down%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 27
     desc: |
       False Positive test
       payload: ecosystem()
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=ecosystem%28%29"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933150"
-  - test_title: 933150-28
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=ecosystem%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 28
     desc: |
       False Positive test, function doesn't exist
       payload: systems()
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=systems%28%29"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933150"
-  - test_title: 933150-29
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=systems%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 29
     desc: |
       False Positive test, function doesn't exist
       payload: system something()
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=system%20something%28%29"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933150"
-
-  - test_title: 933150-30
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=system%20something%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 30
     desc: "Snippets of English words (like `prev`) should not be matched, requiring regex match with word boundaries (e.g. 933160)"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post?a=preview"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933150"
-  - test_title: 933150-31
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post?a=preview"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 31
     desc: "Snippets of English words (like `exp`) should not be matched, requiring regex match with word boundaries (e.g. 933160)"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post?a=exploration"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933150"
-  - test_title: 933150-32
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post?a=exploration"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 32
     desc: |
       PHP mixed case function call with space, LF between ().
       payload: file_ExistS (\n\n)
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=file_ExistS%20%28%0A%0A%29"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
-  - test_title: 933150-33
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=file_ExistS%20%28%0A%0A%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 33
     desc: |
       PHP function call with multiple whitespaces.
       payload: fopen  (blah)
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=fopen%20%20%28blah%29"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933150"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=fopen%20%20%28blah%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
