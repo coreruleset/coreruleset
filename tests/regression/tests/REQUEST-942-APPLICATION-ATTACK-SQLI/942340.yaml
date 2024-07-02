@@ -1,191 +1,189 @@
 ---
 meta:
   author: "Christian S.J. Peron, azurit"
-  description: None
-  enabled: true
-  name: 942340.yaml
+rule_id: 942340
 tests:
-  - test_title: 942340-1
+  - test_id: 1
     desc: "basic SQL authentication bypass attempts 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            # in ( select * from
-            uri: "/get?var=in%20%28%20select%20%2a%20from"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942340"
-  - test_title: 942340-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # in ( select * from
+          uri: "/get?var=in%20%28%20select%20%2a%20from"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942340]
+  - test_id: 2
     desc: "SQLite authentication bypass with except select"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            # except \tselect.1,2
-            uri: "/get?var=except%20%09select.1%2C2"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942340"
-  - test_title: 942340-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # except \tselect.1,2
+          uri: "/get?var=except%20%09select.1%2C2"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942340]
+  - test_id: 3
     desc: "SQLite authentication bypass with except values"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            # except values (1,2)
-            uri: "/get?var=except%20values(1%2C2)"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942340"
-  - test_title: 942340-4
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # except values (1,2)
+          uri: "/get?var=except%20values(1%2C2)"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942340]
+  - test_id: 4
     desc: "true-negative except selecting"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            # except selecting
-            uri: "/get?var=except%20selecting"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "942340"
-  - test_title: 942340-5
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # except selecting
+          uri: "/get?var=except%20selecting"
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [942340]
+  - test_id: 5
     desc: "basic SQL authentication bypass attempts 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email=x'%20or%20array[id]%20is%20not%20null--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942340"
-  - test_title: 942340-6
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email=x'%20or%20array[id]%20is%20not%20null--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942340]
+  - test_id: 6
     desc: "basic SQL authentication bypass attempts 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email=x'%20or%20email~all(array[email]);analyze--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942340"
-  - test_title: 942340-7
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email=x'%20or%20email~all(array[email]);analyze--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942340]
+  - test_id: 7
     desc: "basic SQL authentication bypass attempts 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email='%20and%20email%20not%20similar%20to%20id--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942340"
-  - test_title: 942340-8
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email='%20and%20email%20not%20similar%20to%20id--"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942340]
+  - test_id: 8
     desc: "basic SQL authentication bypass attempts 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email='%20or%20true;%20foo"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942340"
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email='%20or%20false;%20foo"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942340"
-  - test_title: 942340-9
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email='%20or%20true;%20foo"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942340]
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email='%20or%20false;%20foo"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942340]
+  - test_id: 9
     desc: "basic SQL authentication bypass attempts 3/3 (no whitespace between operator)"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email='||true"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942340"
-  - test_title: 942340-10
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email='||true"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942340]
+  - test_id: 10
     desc: "SQL Auth Bypass FP test (invalid operator without whitespace)"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email='ortrue"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "942340"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email='ortrue"
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [942340]

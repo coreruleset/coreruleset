@@ -1,55 +1,53 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: Tests functionality of stricter sibling 933131
-  enabled: true
-  name: 933131.yaml
+rule_id: 933131
 tests:
-  - test_title: 933131-1
+  - test_id: 1
     desc: SERVER request URLEncoded
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: "GET"
-            port: 80
-            uri: "/get?x=$_%53ERVER['test'];"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933131"
-  - test_title: 933131-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "GET"
+          port: 80
+          uri: "/get?x=$_%53ERVER['test'];"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933131]
+  - test_id: 2
     desc: SERVER request URLEncoded
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: "GET"
-            port: 80
-            uri: "/get?%24_COOKIE=value;"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933131"
-  - test_title: 933131-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "GET"
+          port: 80
+          uri: "/get?%24_COOKIE=value;"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933131]
+  - test_id: 3
     desc: SERVER index listed with obfuscated SERVER
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: "GET"
-            port: 80
-            uri: "/get?x=$_%53%20ERVER['REQUEST_URI'];"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933131"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "GET"
+          port: 80
+          uri: "/get?x=$_%53%20ERVER['REQUEST_URI'];"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933131]

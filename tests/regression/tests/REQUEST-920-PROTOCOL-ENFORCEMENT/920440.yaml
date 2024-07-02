@@ -1,127 +1,125 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  description: None
-  enabled: true
-  name: 920440.yaml
+rule_id: 920440
 tests:
-  - test_title: 920440-1
+  - test_id: 1
     desc: URL file extension is restricted by policy (920440) from old modsec regressions
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Host: localhost
-              Keep-Alive: "300"
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get/foo.bak"
-            version: HTTP/1.1
-          output:
-            log_contains: id "920440"
-  - test_title: 920440-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get/foo.bak"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920440]
+  - test_id: 2
     desc: URL file extension is restricted by policy (920440) from old modsec regressions
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Host: localhost
-              Keep-Alive: "300"
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get/foo.db"
-            version: HTTP/1.1
-          output:
-            log_contains: id "920440"
-  - test_title: 920440-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get/foo.db"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920440]
+  - test_id: 3
     desc: URL file extension is restricted by policy (920440) from old modsec regressions
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Host: localhost
-              Keep-Alive: "300"
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get/foo.old"
-            version: HTTP/1.1
-          output:
-            log_contains: id "920440"
-  - test_title: 920440-4
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get/foo.old"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920440]
+  - test_id: 4
     desc: URL file extension is restricted by policy (920440) - GH issue 1296
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Host: localhost
-              Keep-Alive: "300"
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get/foo.bar.sql"
-            version: HTTP/1.1
-          output:
-            log_contains: id "920440"
-  - test_title: 920440-5
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get/foo.bar.sql"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920440]
+  - test_id: 5
     desc: Redis dump file
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Host: localhost
-              Keep-Alive: "300"
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get/dump.rdb"
-            version: HTTP/1.1
-          output:
-            log_contains: id "920440"
-  - test_title: 920440-6
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get/dump.rdb"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920440]
+  - test_id: 6
     desc: Redis dump file, URI encoded
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Host: localhost
-              Keep-Alive: "300"
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get/dump%2Erdb"
-            version: HTTP/1.1
-          output:
-            log_contains: id "920440"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get/dump%2Erdb"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920440]

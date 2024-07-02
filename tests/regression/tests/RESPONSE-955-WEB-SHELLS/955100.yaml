@@ -1,70 +1,68 @@
 ---
 meta:
   author: "azurit"
-  enabled: true
-  name: "955100.yaml"
-  description: "Regression tests for rule 955100"
+rule_id: 955100
 tests:
-  - test_title: 955100-1
+  - test_id: 1
     desc: "Matching web shell NCC Shell"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Accept-Encoding: "gzip,deflate"
-              Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "application/json"
-            method: "POST"
-            version: "HTTP/1.1"
-            uri: "/reflect"
-            data: |-
-              {"body": "<h1>.:NCC:. Shell v"}
-          output:
-            log_contains: "id \"955100\""
-  - test_title: 955100-2
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "<h1>.:NCC:. Shell v"}
+        output:
+          log:
+            expect_ids: [955100]
+  - test_id: 2
     desc: "Matching web shell Simple PHP backdoor"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Accept-Encoding: "gzip,deflate"
-              Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "application/json"
-            method: "POST"
-            version: "HTTP/1.1"
-            uri: "/reflect"
-            data: |-
-              {"body": "<!-- Simple PHP backdoor by DK (http://michaeldaw.org) -->"}
-          output:
-            log_contains: "id \"955100\""
-  - test_title: 955100-3
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "<!-- Simple PHP backdoor by DK (http://michaeldaw.org) -->"}
+        output:
+          log:
+            expect_ids: [955100]
+  - test_id: 3
     desc: "Matching web shell WinX Shell"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Accept-Encoding: "gzip,deflate"
-              Accept-Language: "en-us,en;q=0.5"
-              Content-Type: "application/json"
-            method: "POST"
-            version: "HTTP/1.1"
-            uri: "/reflect"
-            data: |-
-              {"body": "<html><head><title>-:[GreenwooD]:- WinX Shell</title></head>"}
-          output:
-            log_contains: "id \"955100\""
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "<html><head><title>-:[GreenwooD]:- WinX Shell</title></head>"}
+        output:
+          log:
+            expect_ids: [955100]

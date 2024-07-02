@@ -1,27 +1,25 @@
 ---
 meta:
   author: "spartantri, azurit"
-  enabled: true
-  name: "944000.yaml"
-  description: "Description"
+rule_id: 944000
 tests:
-  - test_title: 944000-1
+  - test_id: 1
     desc: Using text/plain Content-Type which do not have any bodyprocessor associated
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "text/plain"
-            method: POST
-            version: HTTP/1.0
-            uri: "/post"
-            data: "test=value"
-          output:
-            no_log_contains: "id \"944000\""
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "text/plain"
+          method: POST
+          version: HTTP/1.0
+          uri: "/post"
+          data: "test=value"
+        output:
+          log:
+            no_expect_ids: [944000]

@@ -2,66 +2,65 @@
 meta:
   author: "Andrea Menin (theMiddle), azurit"
   description: "HTTP Splitting"
-  enabled: true
-  name: 921190.yaml
+rule_id: 921190
 tests:
-  - test_title: 921190-1
+  - test_id: 1
     desc: "New line char in request filename (1)"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            port: 80
-            uri: "/foo%0Abar"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "921190"
-  - test_title: 921190-2
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: "/foo%0Abar"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921190]
+  - test_id: 2
     desc: "New line char in request filename (2)"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            port: 80
-            uri: "/foo%0abar"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "921190"
-  - test_title: 921190-3
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: "/foo%0abar"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921190]
+  - test_id: 3
     desc: "FastCGI variable injection: Nginx + PHP-FPM (CVE-2019-11043)"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            port: 80
-            uri: "/index.php/PHP%0Ainfo.php?QQQ"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "921190"
-  - test_title: 921190-4
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: "/index.php/PHP%0Ainfo.php?QQQ"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921190]
+  - test_id: 4
     desc: "PHP Settings injection: Nginx + PHP-FPM (CVE-2019-11043)"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            port: 80
-            uri: "/index.php/PHP_VALUE%0Asession.auto_start=1;;;?QQQ"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "921190"
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: "/index.php/PHP_VALUE%0Asession.auto_start=1;;;?QQQ"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921190]
