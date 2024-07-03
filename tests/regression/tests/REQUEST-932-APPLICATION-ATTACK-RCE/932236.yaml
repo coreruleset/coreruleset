@@ -1483,7 +1483,7 @@ tests:
   - test_id: 82
     desc: "False positive with session cookie, invalid command match with fd"
     stages:
-        input:
+      - input:
           dest_addr: 127.0.0.1
           headers:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
@@ -1500,7 +1500,7 @@ tests:
   - test_id: 83
     desc: "False positive with UUID"
     stages:
-        input:
+      - input:
           dest_addr: 127.0.0.1
           headers:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
@@ -1518,7 +1518,7 @@ tests:
   - test_id: 84
     desc: "False positive with word idendity"
     stages:
-        input:
+      - input:
           dest_addr: 127.0.0.1
           headers:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
@@ -1536,7 +1536,7 @@ tests:
   - test_id: 85
     desc: "False positive with word unique"
     stages:
-        input:
+      - input:
           dest_addr: 127.0.0.1
           headers:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
@@ -1554,7 +1554,7 @@ tests:
   - test_id: 86
     desc: "Block executing id comand no arguments"
     stages:
-        input:
+      - input:
           dest_addr: 127.0.0.1
           headers:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
