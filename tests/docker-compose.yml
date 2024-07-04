@@ -5,6 +5,11 @@ services:
   modsec2-apache:
     container_name: modsec2-apache
     image: owasp/modsecurity-crs:apache@sha256:36fc67d66f7761a6cb532c4855901a41792efa6e58303833c03aeed285c9c961 # pin v4.3.0
+    # NOTE: The user used to run the container process is explicitly set to
+    # 'root'. This fixes issues with permissions on the logging directories used
+    # as bind mounts. This is done as *a convenience for running the CRS testing
+    # setup only* and *should not be done in general!*
+    user: root
     environment:
       ACCESSLOG: "/var/log/apache2/access.log"
       BACKEND: http://backend
@@ -38,6 +43,11 @@ services:
   modsec3-nginx:
     container_name: modsec3-nginx
     image: owasp/modsecurity-crs:nginx@sha256:44b6e45fdc9eb9fdd34bb62f91f51513a87116e1445222cff7f4018bed7d42eb # pin v4.3.0
+    # NOTE: The user used to run the container process is explicitly set to
+    # 'root'. This fixes issues with permissions on the logging directories used
+    # as bind mounts. This is done as *a convenience for running the CRS testing
+    # setup only* and *should not be done in general!*
+    user: root
     environment:
       ACCESSLOG: "/var/log/nginx/access.log"
       BACKEND: http://backend
