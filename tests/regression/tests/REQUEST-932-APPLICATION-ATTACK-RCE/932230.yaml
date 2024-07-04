@@ -1084,3 +1084,19 @@ tests:
         output:
           log:
             expect_ids: [932230]
+  - test_id: 58
+    desc: "Bash - Arithmetic expansion"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+          uri: "/get?932230-58=$%5B2%2B2%5D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
