@@ -38,7 +38,6 @@ jobs:
       - name: "Run tests for ${{ matrix.modsec_version }}"
         run: |
           mkdir -p "tests/logs/${{ matrix.modsec_version }}/{nginx,apache2}"
-          chmod -R o+rw "tests/logs"
           docker-compose -f ./tests/docker-compose.yml up -d "${{ matrix.modsec_version }}"
           docker-compose -f ./tests/docker-compose.yml logs
           if ! [ "$(docker inspect ${{ matrix.modsec_version }} --format='{{.State.Running}}')" = "true" ]; then
@@ -52,12 +51,6 @@ jobs:
             --log-file "tests/logs/${{ matrix.modsec_version }}/error.log" \
             --overrides tests/regression/httpd-overrides.yaml \
             --show-failures-only
-
-      - name: "Change permissions if failed"
-        if: failure()
-        run: |
-            # we want to get the audit log, so change permissions (file is only for root on docker)
-            sudo chmod 644 tests/logs/${{ matrix.modsec_version }}/modsec_audit.log
 
       - uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         if: failure()
