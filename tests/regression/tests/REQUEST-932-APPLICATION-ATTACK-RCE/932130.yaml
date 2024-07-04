@@ -265,6 +265,7 @@ tests:
           log:
             expect_ids: [932130]
   - test_id: 17
+    desc: "Bash - Arithmetic expansion"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -274,7 +275,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/get?932130-1=$[2+2]"
+          uri: "/get?932130-17=$%5B2%2B2%5D"
           version: "HTTP/1.1"
         output:
           log:
