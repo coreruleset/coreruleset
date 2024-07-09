@@ -13,7 +13,7 @@
 ##!
 ##! Only using a word boundry for the @ processor in the line below will crash Apache,
 ##! the below is in effect the same, except the generated regular expressions are bigger.
-##!> include-except unix-shell-upto3 unix-shell-fps-useragents -- @ [\s<>&|)]?\b ~ \S
+##!> include-except unix-shell-upto3 unix-shell-fps-useragents -- @ (?:[\s<>&|)]|$) ~ \S
 
-##!> include-except unix-shell-4andup unix-shell-fps-useragents -- @ \b ~ \S
-##!> include-except unix-shell-pl3 unix-shell-fps-useragents -- @ \b ~ \S
+##!> include-except unix-shell-4andup unix-shell-fps-useragents -- @ (?:[\s<>&|)]|$) ~ \S
+##!> include-except unix-shell-pl3 unix-shell-fps-useragents -- @ (?:[\s<>&|)]|$) ~ \S
