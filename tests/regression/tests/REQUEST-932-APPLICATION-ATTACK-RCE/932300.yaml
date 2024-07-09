@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "fzipi, azurit"
+  author: "fzipi, azurit, Max Leske"
   description: "Remote Command Execution: SMTP Command Injection test cases"
 rule_id: 932300
 tests:
@@ -156,3 +156,28 @@ tests:
         output:
           log:
             no_expect_ids: [932300]
+  - test_id: 10
+    desc: |
+      Make sure that log contains matched payload.
+      Without the `capture` action, the log data would include the last
+      value of `TX.0`. While writing this test, the previous value of `TX.0`
+      was always `user-agent` (set by rule 920451).
+      Note that the previous value of `TX.0` depends on the payload of this test.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |-
+            textarea=%0D%0AMAIL%20FROM%3A%3CSmith%40bar.com%3E
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932300]
+            match_regex: |-
+              Matched Data:.*MAIL FROM:<Smith@bar.com> found within ARGS:textarea:.*MAIL FROM:<Smith@bar.com>
