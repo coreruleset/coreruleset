@@ -28,6 +28,7 @@ services:
       PORT: "8080"
       SERVERNAME: modsec2-apache
       VALIDATE_UTF8_ENCODING: 1
+      ARG_LENGTH: 400
     volumes:
       - ./logs/modsec2-apache:/var/log/apache2:rw
       - ../rules:/opt/owasp-crs/rules:ro
@@ -66,6 +67,7 @@ services:
       PORT: "8080"
       SERVERNAME: modsec3-nginx
       VALIDATE_UTF8_ENCODING: 1
+      ARG_LENGTH: 400
     volumes:
       - ./logs/modsec3-nginx:/var/log/nginx:rw
       - ../rules:/opt/owasp-crs/rules:ro
