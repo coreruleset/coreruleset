@@ -68,7 +68,7 @@ tests:
           log:
             expect_ids: [932270]
   - test_id: 5
-    desc: "Bash Tilde expansion - ~+"
+    desc: "Bash Tilde expansion - ~+5"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -83,3 +83,51 @@ tests:
         output:
           log:
             expect_ids: [932270]
+  - test_id: 6
+    desc: "Bash Tilde expansion(Negative test) - ~+z"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932270-1=%7E%2Bz"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
+  - test_id: 7
+    desc: "Bash Tilde expansion(Negative test) - ~-z"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932270-1=%7E%2Bz"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
+  - test_id: 8
+    desc: "Bash Tilde expansion(Negative test) - ~z"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932270-1=%7Ez"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
