@@ -26,16 +26,15 @@
 ##!> define json_starting_brackets [\[\{]
 ##!> define something_except_json_ending_brackets [^\]\}]*
 ##!> define json_ending_brackets [\]\}]+
-##!> define non_greedy_jsonb (?:::{{optional_spacing}}jsonb?)?
+##!> define sql_comment_evasion {{optional_spacing}}/\*[^*]*\*/{{optional_spacing}}
+##!> define non_greedy_jsonb (?:::{{sql_comment_evasion}}jsonb?)?
 
 ##!> assemble
-  ##! 
-  {{quotes}}{{json_starting_brackets}}{{something_except_json_ending_brackets}}{{json_ending_brackets}}{{quotes}}{{optional_spacing}}{{non_greedy_jsonb}}{{optional_spacing}}{{operators}}
+  ##!
+  {{non_greedy_jsonb}}{{optional_spacing}}{{operators}}
+  {{quotes}}{{json_starting_brackets}}{{something_except_json_ending_brackets}}{{json_ending_brackets}}{{quotes}}{{optional_spacing}}
   {{operators}}{{quotes}}{{json_starting_brackets}}{{something_except_json_ending_brackets}}{{json_ending_brackets}}{{quotes}}
 
   ##! example: SELECT id FROM users WHERE id=JsoN_EXTraCT/**/(/**/'  {"a":1}  '/**/,/**/' $.a '/**/);
   \bjson_extract\b[\(\)]*\([^()]*\)
 ##!<
-
-##! [\"'`][\[\{].*[\]\}][\"'`].*(::.*jsonb?)?.*(?:(?:@|->?)>|<@|\?[&\|]?|#>>?|[<>]|<-)|(?:(?:@|->?)>|<@|\?[&\|]?|#>>?|[<>]|<-)[\"'`][\[\{].*[\]\}][\"'`]|\bjson_extract\b[\(\)]*\([^\(\)]*\)|#o
-##! ["'`][\[\{][^\]\}]*[\]\}]["'`][^"'\n]*?(::.*?jsonb?)?[^"'\n]*(?:@|->?)>|<@|\?[&\|]?|#>>?|[<>]|<-|(?:@|->?)>|<@|\?[&\|]?|#>>?|[<>]|<-["'`][\[\{][^\]\}]*[\]\}]["'`]|\bjson_extract\b[^\(\)]*\([^()]*\)
