@@ -17,7 +17,7 @@ meta:
   author: "csanders-git"
   name: "911100.yaml"
   description: "A meaningful description"
-  rule_id: 911100
+rule_id: 911100
 tests:
   - test_id: 1
     stages:
