@@ -1588,7 +1588,9 @@ tests:
           log:
             no_expect_ids: [932236]
   - test_id: 88
-    desc: "false positive with WordPress order posts by date"
+    desc: |
+      false positive with WordPress order posts by date
+      Make sure there is no trailing whitespace at the end, only date with no arguments is excluded
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1598,9 +1600,9 @@ tests:
             User-Agent: "OWASP CRS test agent"
           method: POST
           port: 80
-          uri: "/post"
+          uri: "/wp-json/wp/v2/posts"
           version: HTTP/1.1
-          data: |
+          data: |-
             orderby=date
         output:
           log:
