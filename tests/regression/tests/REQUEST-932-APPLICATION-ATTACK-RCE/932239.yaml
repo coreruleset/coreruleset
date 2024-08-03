@@ -903,7 +903,9 @@ tests:
           log:
             expect_ids: [932239]
   - test_id: 54
-    desc: "False positive with Nextcloud iOS user-agent ip matching iPhone"
+    desc: |
+      False positive with Nextcloud iOS user-agent.
+      Should not match `ip`.
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -919,7 +921,9 @@ tests:
           log:
             no_expect_ids: [932239]
   - test_id: 55
-    desc: "False positive with token in referrer starting with df"
+    desc: |
+      False positive with token in referrer.
+      Should not match `df`.
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -936,7 +940,9 @@ tests:
           log:
             no_expect_ids: [932239]
   - test_id: 56
-    desc: "False positive with Android user-agent PG matching PGT"
+    desc: |
+      False positive with Android user-agent.
+      Should not match `pg`.
     stages:
       - input:
           dest_addr: 127.0.0.1

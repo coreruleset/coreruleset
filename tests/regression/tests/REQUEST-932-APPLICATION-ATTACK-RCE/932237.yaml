@@ -547,7 +547,9 @@ tests:
           log:
             expect_ids: [932237]
   - test_id: 35
-    desc: "False positive with Nextcloud iOS user-agent ip matching iPhone"
+    desc: |
+      False positive with Nextcloud iOS user-agent.
+      Should not match `ip`.
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -580,7 +582,9 @@ tests:
           log:
             no_expect_ids: [932237]
   - test_id: 37
-    desc: "False positive with Android user-agent PG matching PGT"
+    desc: |
+      False positive with Android user-agent.
+      Should not match `pg`.
     stages:
       - input:
           dest_addr: 127.0.0.1
