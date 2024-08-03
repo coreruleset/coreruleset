@@ -565,7 +565,9 @@ tests:
           log:
             no_expect_ids: [932237]
   - test_id: 36
-    desc: "False positive with token in referrer starting with df"
+    desc: |
+      False positive with token in referrer.
+      Should not match `df`.
     stages:
       - input:
           dest_addr: 127.0.0.1
