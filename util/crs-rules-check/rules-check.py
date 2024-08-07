@@ -350,7 +350,7 @@ class Check(object):
                     for v in val_act + val_act_arg:
                         v = v.lower().replace("tx.", "")
                         # check whether the variable is a captured var, eg TX.1 - we do not care that case
-                        if not re.match("^\\d$", v, re.I):
+                        if not re.match(r"^\d$", v, re.I):
                             # v holds the tx.ANY variable, but not the captured ones
                             # we should collect these variables
                             if (v not in self.globtxvars or phase < self.globtxvars[v]['phase']):
