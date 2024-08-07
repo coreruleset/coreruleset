@@ -604,7 +604,7 @@ class Check(object):
                     aidx += 1
 
     def check_lowercase_ignorecase(self):
-        ruleid = 0 
+        ruleid = 0
         for d in self.data:
             if d['type'].lower() == "secrule":
                 if d['operator'] == "@rx":
@@ -614,7 +614,7 @@ class Check(object):
                             aidx = 0        # stores the index of current action
                             while aidx < len(d['actions']):
                                 # read the action into 'a'
-                                a = d['actions'][aidx]               
+                                a = d['actions'][aidx]
                                 if a['act_name'] == "id":
                                     ruleid = int(a['act_arg'])
                                 if a['act_name'] == 't':
@@ -816,7 +816,7 @@ def generate_version_string():
       v4.5.0-6-g872a90ab -> "4.6.0-dev"
       v4.5.0-0-abcd01234 -> "4.5.0"
     """
-    result = subprocess.run(["git", "describe", "--tags"], capture_output=True, text=True)
+    result = subprocess.run(["git", "describe", "--tags", "--match", "v*.*.*"], capture_output=True, text=True)
     version = re.sub("^v", "", result.stdout.strip())
     ver, commits = version.split("-")[0:2]
     if int(commits) > 0:
@@ -1074,7 +1074,7 @@ if __name__ == "__main__":
                 a['title']  = "new unlisted tag"
                 errmsgf(a)
                 retval = 1
-        ### check for t:lowercase in combination with (?i) in regex       
+        ### check for t:lowercase in combination with (?i) in regex
         c.check_lowercase_ignorecase()
         if len(c.ignorecase) == 0:
             msg(" No t:lowercase and (?i) flag used.")
@@ -1130,4 +1130,3 @@ if __name__ == "__main__":
         msg(" No unused TX variable")
 
     sys.exit(retval)
-
