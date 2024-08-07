@@ -387,7 +387,7 @@ class Check(object):
                                 })
                             elif o in self.globtxvars and phase >= self.globtxvars[o]['phase'] and \
                                 not re.match(r"^\d$", o) and \
-                                not re.match(r"\/.*\/", o):
+                                not re.match(r"/.*/", o):
                                     self.globtxvars[o]['used'] = True
                 if "variables" in d:
                     for v in d['variables']:
