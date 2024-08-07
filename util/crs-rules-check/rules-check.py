@@ -822,7 +822,7 @@ def generate_version_string():
     if int(commits) > 0:
         version = ver.split(".")
         version[1] = str((int(version[1]) + 1))
-        ver = "%s-dev" % (".".join(version))
+        ver = f"{".".join(version)}-dev"
     return ver
 
 if __name__ == "__main__":
