@@ -816,10 +816,6 @@ def generate_version_string():
       v4.5.0-6-g872a90ab -> "4.6.0-dev"
       v4.5.0-0-abcd01234 -> "4.5.0"
     """
-    result = subprocess.run(["git", "tag", "-l"], capture_output=True, text=True)
-    print(result.stdout.strip())
-    result = subprocess.run(["git", "fetch", "--tags"], capture_output=True, text=True)
-    print(result.stdout.strip())
     result = subprocess.run(["git", "describe", "--tags"], capture_output=True, text=True)
     version = re.sub("^v", "", result.stdout.strip())
     ver, commits = version.split("-")[0:2]
