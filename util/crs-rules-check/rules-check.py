@@ -495,7 +495,7 @@ class Check(object):
                             txv = a['act_arg'][3:].split("=")
                             txv[0] = txv[0].lower()                     # variable name
                             if len(txv) > 1:
-                                txv[1] = txv[1].lower().strip("+\\{\\}")  # variable value
+                                txv[1] = txv[1].lower().strip(r"+\{\}")  # variable value
                             else:
                                 txv.append(a['act_arg_val'].strip(r"+\{\}"))
                             _txvars[txv[0]] = txv[1]
