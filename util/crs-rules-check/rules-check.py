@@ -369,7 +369,7 @@ class Check(object):
                     aidx += 1
 
                 if "operator_argument" in d:
-                    oparg = re.findall("%\\{(tx.[^%]*)\\}", d['operator_argument'], re.I)
+                    oparg = re.findall(r"%\{(tx.[^%]*)\}", d['operator_argument'], re.I)
                     if oparg:
                         for o in oparg:
                             o = o.lower()
