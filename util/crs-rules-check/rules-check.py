@@ -665,7 +665,7 @@ class Check(object):
                         'ruleid' : ruleid,
                         'line'   : a['lineno'],
                         'endLine': a['lineno'],
-                        'message': "rule does not have tag with value 'OWASP_CRS'; rule id: %d" % (ruleid)
+                        'message': f"rule does not have tag with value 'OWASP_CRS'; rule id: {ruleid}"
                     })
 
     def check_ver_action(self, version):
