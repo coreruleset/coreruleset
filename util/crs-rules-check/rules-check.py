@@ -404,7 +404,7 @@ class Check(object):
                                 rvar = v['variable_part'].lower()
                                 if (rvar not in self.globtxvars or (ruleid != self.globtxvars[rvar]['ruleid'] and phase < self.globtxvars[rvar]['phase'])) and \
                                   not re.match(r"^\d$", rvar) and \
-                                  not re.match(r"\/.*\/", rvar):
+                                  not re.match(r"/.*/", rvar):
                                     self.undef_txvars.append({
                                         'var'    : rvar,
                                         'ruleid' : ruleid,
