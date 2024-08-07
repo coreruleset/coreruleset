@@ -376,7 +376,7 @@ class Check(object):
                             o = re.sub(r"tx\.", "", o, re.I)
                             if (o not in self.globtxvars or phase < self.globtxvars[o]['phase']) and \
                               not re.match(r"^\d$", o) and \
-                              not re.match(r"\/.*\/", o) and \
+                              not re.match(r"/.*/", o) and \
                               check_exists is None:
                                 self.undef_txvars.append({
                                     'var'    : o,
