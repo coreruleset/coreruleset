@@ -414,7 +414,7 @@ class Check(object):
                                     })
                                 elif rvar in self.globtxvars and phase >= self.globtxvars[rvar]['phase'] and \
                                     not re.match(r"^\d$", rvar) and \
-                                    not re.match(r"\/.*\/", rvar):
+                                    not re.match(r"/.*/", rvar):
                                         self.globtxvars[rvar]['used'] = True
                             else:
                                 check_exists = True
