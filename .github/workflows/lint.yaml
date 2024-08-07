@@ -41,6 +41,10 @@ jobs:
           git tag -l
           git fetch --tags
 
+      - name: "Show current tag"
+        run: |
+          git describe --tags
+
       - name: "Check CRS formatting"
         run: |
           pip install --upgrade setuptools
