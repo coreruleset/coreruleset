@@ -84,7 +84,7 @@ class Check(object):
         self.nocrstags      = []    # list of rules without tag:OWASP_CRS
         self.noveract       = []    # list of rules without ver action or incorrect ver
 
-        self.re_tx_var      = re.compile("%\\{\\}")
+        self.re_tx_var      = re.compile(r"%\{\}")
 
     def store_error(self, msg):
         # store the error msg in the list
@@ -281,7 +281,7 @@ class Check(object):
                             # OR
                             # key exists but the existing struct's phase is higher
                             if (txv[0] not in self.globtxvars or self.globtxvars[txv[0]]['phase'] > phase) and \
-                               not re.search("%\\{[^%]+\\}", txv[0]):
+                               not re.search(r"%\{[^%]+\}", txv[0]):
                                 self.globtxvars[txv[0]] = {
                                     'phase'  : phase,
                                     'used'   : False,
@@ -291,8 +291,6 @@ class Check(object):
                                     'line'   : a['lineno'],
                                     'endLine': a['lineno']
                                 }
-                            else:
-                                pass
                     aidx += 1
 
     def check_tx_variable(self, fname):
@@ -346,9 +344,9 @@ class Check(object):
                     #  act_atg_val <- 5
                     #
                     if "act_arg" in a and a['act_arg'] is not None:
-                        val_act = re.findall("%\\{(tx.[^%]*)\\}", a['act_arg'], re.I)
+                        val_act = re.findall(r"%\{(tx.[^%]*)\}", a['act_arg'], re.I)
                     if "act_arg_val" in a and a['act_arg_val'] is not None:
-                        val_act_arg = re.findall("%\\{(tx.[^%]*)\\}", a['act_arg_val'], re.I)
+                        val_act_arg = re.findall(r"%\{(tx.[^%]*)\}", a['act_arg_val'], re.I)
                     for v in val_act + val_act_arg:
                         v = v.lower().replace("tx.", "")
                         # check whether the variable is a captured var, eg TX.1 - we do not care that case
@@ -375,10 +373,10 @@ class Check(object):
                     if oparg:
                         for o in oparg:
                             o = o.lower()
-                            o = re.sub("tx\\.", "", o, re.I)
+                            o = re.sub(r"tx\.", "", o, re.I)
                             if (o not in self.globtxvars or phase < self.globtxvars[o]['phase']) and \
-                              not re.match("^\\d$", o) and \
-                              not re.match("\\/.*\\/", o) and \
+                              not re.match(r"^\d$", o) and \
+                              not re.match(r"\/.*\/", o) and \
                               check_exists is None:
                                 self.undef_txvars.append({
                                     'var'    : o,
@@ -388,8 +386,8 @@ class Check(object):
                                     'message': "TX variable '%s' not set / later set (OPARG) in rule %d" % (o, ruleid)
                                 })
                             elif o in self.globtxvars and phase >= self.globtxvars[o]['phase'] and \
-                                not re.match("^\\d$", o) and \
-                                not re.match("\\/.*\\/", o):
+                                not re.match(r"^\d$", o) and \
+                                not re.match(r"\/.*\/", o):
                                     self.globtxvars[o]['used'] = True
                 if "variables" in d:
                     for v in d['variables']:
@@ -405,8 +403,8 @@ class Check(object):
                                 # * rule's phase lower than declaration's phase
                                 rvar = v['variable_part'].lower()
                                 if (rvar not in self.globtxvars or (ruleid != self.globtxvars[rvar]['ruleid'] and phase < self.globtxvars[rvar]['phase'])) and \
-                                  not re.match("^\\d$", rvar) and \
-                                  not re.match("\\/.*\\/", rvar):
+                                  not re.match(r"^\d$", rvar) and \
+                                  not re.match(r"\/.*\/", rvar):
                                     self.undef_txvars.append({
                                         'var'    : rvar,
                                         'ruleid' : ruleid,
@@ -415,8 +413,8 @@ class Check(object):
                                         'message': "TX variable '%s' not set / later set (VAR)" % (v['variable_part'])
                                     })
                                 elif rvar in self.globtxvars and phase >= self.globtxvars[rvar]['phase'] and \
-                                    not re.match("^\\d$", rvar) and \
-                                    not re.match("\\/.*\\/", rvar):
+                                    not re.match(r"^\d$", rvar) and \
+                                    not re.match(r"\/.*\/", rvar):
                                         self.globtxvars[rvar]['used'] = True
                             else:
                                 check_exists = True
@@ -472,7 +470,7 @@ class Check(object):
                 for v in d['variables']:
                     if v['variable'].lower() == "tx" and \
                        v['variable_part'].lower() == "detection_paranoia_level" and \
-                       d['operator'] == "@lt" and re.match("^\\d$", d['operator_argument']):
+                       d['operator'] == "@lt" and re.match(r"^\d$", d['operator_argument']):
                             curr_pl = int(d['operator_argument'])
 
             if "actions" in d:
@@ -538,8 +536,8 @@ class Check(object):
 
                 for t in _txvars:
                     subst_val = re.search("%{tx.[a-z]+_anomaly_score}", _txvars[t], re.I)
-                    val = re.sub("[\\+\\%\\{\\}]", "", _txvars[t]).lower()
-                    scorepl = re.search("anomaly_score_pl\\d$", t)   # check if last char is a numeric, eg ...anomaly_score_pl1
+                    val = re.sub(r"[\+\%\{\}]", "", _txvars[t]).lower()
+                    scorepl = re.search(r"anomaly_score_pl\d$", t)   # check if last char is a numeric, eg ...anomaly_score_pl1
                     if scorepl:
                         if curr_pl > 0 and int(t[-1]) != curr_pl:
                             self.plscores.append({
@@ -818,6 +816,7 @@ def generate_version_string():
       v4.5.0-6-g872a90ab -> "4.6.0-dev"
       v4.5.0-0-abcd01234 -> "4.5.0"
     """
+    subprocess.run(["git", "fetch", "--tags"], capture_output=True, text=True)
     result = subprocess.run(["git", "describe", "--tags"], capture_output=True, text=True)
     version = re.sub("^v", "", result.stdout.strip())
     ver, commits = version.split("-")[0:2]
@@ -983,7 +982,7 @@ if __name__ == "__main__":
             retval = 1
         for d in diff:
             d = d.strip("\n")
-            r = re.match("^@@ -(\\d+),(\\d+) \\+\\d+,\\d+ @@$", d)
+            r = re.match(r"^@@ -(\d+),(\d+) \+\d+,\d+ @@$", d)
             if r:
                 line1, line2 = [int(i) for i in r.groups()]
                 e = {
