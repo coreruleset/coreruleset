@@ -497,7 +497,7 @@ class Check(object):
                             if len(txv) > 1:
                                 txv[1] = txv[1].lower().strip("+\\{\\}")  # variable value
                             else:
-                                txv.append(a['act_arg_val'].strip("+\\{\\}"))
+                                txv.append(a['act_arg_val'].strip(r"+\{\}"))
                             _txvars[txv[0]] = txv[1]
                             _txvlines[txv[0]] = a['lineno']
                     if a['act_name'] == "nolog":
