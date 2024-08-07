@@ -713,7 +713,7 @@ class Check(object):
                             'ruleid' : ruleid,
                             'line'   : a['lineno'],
                             'endLine': a['lineno'],
-                            'message': "rule does not have 'ver' action; rule id: %d" % (ruleid)
+                            'message': f"rule does not have 'ver' action; rule id: {ruleid}"
                         })
                     else:
                         if ver_is_ok == False:
