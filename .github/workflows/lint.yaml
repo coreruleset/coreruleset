@@ -36,6 +36,11 @@ jobs:
           pip install secrules-parsing==${{ env.SECRULES_PARSING_VERSION }}
           secrules-parser -c --output-type github -f rules/*.conf
 
+      - name: "Fetch git tags"
+        run: |
+          git tag -l
+          git fetch --tags
+
       - name: "Check CRS formatting"
         run: |
           pip install --upgrade setuptools
