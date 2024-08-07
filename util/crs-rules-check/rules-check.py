@@ -721,7 +721,7 @@ class Check(object):
                                 'ruleid' : ruleid,
                                 'line'   : a['lineno'],
                                 'endLine': a['lineno'],
-                                'message': "rule's 'ver' action has incorrect value; rule id: %d, version: '%s', expected: '%s'" % (ruleid, ruleversion, crsversion)
+                                'message': f"rule's 'ver' action has incorrect value; rule id: {ruleid}, version: '{ruleversion}', expected: '{crsversion}'"
                             })
 
 def remove_comments(data):
