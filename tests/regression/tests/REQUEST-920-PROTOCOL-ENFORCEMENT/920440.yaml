@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, azurit"
+  author: "csanders-git, azurit, Esad Cetiner"
 rule_id: 920440
 tests:
   - test_id: 1
@@ -119,6 +119,26 @@ tests:
           method: GET
           port: 80
           uri: "/get/dump%2Erdb"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920440]
+  - test_id: 7
+    desc: Block accessing private key files
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get/etc/letsencrypt/live/example.com/privkey.pem"
           version: HTTP/1.1
         output:
           log:
