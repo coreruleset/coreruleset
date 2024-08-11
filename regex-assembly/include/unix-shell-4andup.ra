@@ -50,19 +50,25 @@
 ##!   fi
 ##! done <<<"${source}"
 
-##! # check entries for English words and suffix those
+##! # Suffix all English words or words shorter than 5 characters with `@`
 ##! original="${result}"
 ##! english="$(util/fp-finder/spell.sh -m -e - <<<"${result}")"
 ##! result=""
 ##! while read -r oword; do
 ##!   found=0
-##!   while read -r eword; do
-##!     if [ "${oword}" = "${eword}" ] && [ -n "${oword}" ]; then
-##!       result="${result}${oword}@${NL}"
+##!   if [ -n "${oword}" ]; then
+##!     if [ ${#oword} -lt 5 ]; then
 ##!       found=1
-##!       break
+##!     else
+##!       while read -r eword; do
+##!         if ([ "${oword}" = "${eword}" ]); then
+##!           result="${result}${oword}@${NL}"
+##!           found=1
+##!           break
+##!         fi
+##!       done <<<"${english}"
 ##!     fi
-##!   done <<<"${english}"
+##!   fi
 ##!   if [ ${found} -eq 0 ]; then
 ##!     result="${result}${oword}${NL}"
 ##!   fi
@@ -78,11 +84,6 @@
 
 HEAD@
 POST@
-c89-gcc
-c99-gcc
-arjdisp
-arj-register
-cobcrun
 addgroup
 adduser
 agetty
@@ -93,6 +94,8 @@ apt-get
 aptitude@
 arch@
 aria2c
+arj-register
+arjdisp
 ascii-xfr
 ascii85
 aspell
@@ -129,6 +132,8 @@ bzip2@
 bzip2recover
 bzless
 bzmore
+c89-gcc
+c99-gcc
 cancel@
 capsh@
 certbot
@@ -141,8 +146,8 @@ check_memory
 check_raid
 check_ssl_cert
 check_statusfile
-chef@
 chef-
+chef@
 chflags
 chgpasswd
 chgrp@
@@ -155,6 +160,7 @@ chsh@
 clang@
 clang\+\+
 cobc@
+cobcrun
 column@
 comm@
 command@
@@ -186,8 +192,8 @@ doas@
 docker@
 done@
 dosbox
-dpkg@
 dpkg-
+dpkg@
 dvips@
 e2fsck
 easy_install
@@ -207,8 +213,8 @@ expect@
 export@
 expr@
 facter
-fdisk@
 fdfind@
+fdisk@
 fdmount
 fdumount
 fetch@
@@ -221,8 +227,8 @@ fish@
 flock@
 fold@
 foreach
-fping@
 fping6
+fping@
 ftpstats
 ftpwho
 function@
@@ -231,9 +237,9 @@ gcore@
 genie@
 genisoimage
 getfacl@
-ghc-pkg
-ghci@
+ghc-@
 ghci-~
+ghci@
 gimp@
 ginsh@
 grcat@
@@ -265,8 +271,8 @@ ip6tables
 ipconfig
 ippeveprinter
 ippfind
-iptables
 ipptool
+iptables
 ispell
 java@
 jexec@
@@ -393,8 +399,8 @@ pdflatex
 pdftex
 pdksh@
 perf@
-perl@
 perl5@
+perl@
 perlsh
 perms@
 pftp@
@@ -422,11 +428,11 @@ ptargrep
 puppet@
 pushd@
 pwd\.db
+py3versions
 python2
 python3
 python~
 pyversions
-py3versions
 rake@
 raku@
 rbash@
@@ -446,8 +452,8 @@ route@
 rpmdb@
 rpmquery
 rpmverify
-rsync@
 rsync-ssl
+rsync@
 ruby~
 run-mailcap
 run-parts
@@ -493,9 +499,9 @@ stdout
 strace
 strings@
 sudo@
+sudo_~
 sudoedit
 sudoreplay
-sudo_~
 svnadmin
 svnauthz
 svnbench
