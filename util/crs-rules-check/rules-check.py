@@ -818,6 +818,7 @@ def generate_version_string():
     """
     result = subprocess.run(["git", "describe", "--tags", "--match", "v*.*.*"], capture_output=True, text=True)
     version = re.sub("^v", "", result.stdout.strip())
+    print(f"Latest tag found: {version}")
     ver, commits = version.split("-")[0:2]
     if int(commits) > 0:
         version = ver.split(".")
