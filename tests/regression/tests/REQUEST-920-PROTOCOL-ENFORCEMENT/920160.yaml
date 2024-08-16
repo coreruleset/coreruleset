@@ -20,6 +20,8 @@ tests:
           version: "HTTP/1.1"
         output:
           status: 400
+          log:
+            expect_ids: [920160]
   - test_id: 2
     desc: Non digit content-length with content-type
     stages:
@@ -37,6 +39,8 @@ tests:
           version: "HTTP/1.1"
         output:
           status: 400
+          log:
+            expect_ids: [920160]
   - test_id: 3
     desc: Mixed digit and non digit content length
     stages:
@@ -54,6 +58,8 @@ tests:
           version: "HTTP/1.1"
         output:
           status: 400
+          log:
+            expect_ids: [920160]
   - test_id: 4
     desc: |
       Content-Length HTTP header is not numeric (920160)  from old modsec regressions
@@ -101,3 +107,5 @@ tests:
           data: abc
         output:
           status: 400
+          log:
+            expect_ids: [920160]
