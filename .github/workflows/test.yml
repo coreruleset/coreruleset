@@ -32,9 +32,9 @@ jobs:
 
       - name: "Run tests for ${{ matrix.modsec_version }}"
         env:
-          FTW_LOGFILE: './tests/logs/modsec2-apache/error.log'
+          FTW_LOGFILE: './tests/logs/${{ matrix.modsec_version }}/error.log'
         run: |
-          mkdir -p tests/logs/${{ matrix.modsec_version }}
+          mkdir -p "tests/logs/${{ matrix.modsec_version }}"
           docker compose -f ./tests/docker-compose.yml up -d "${{ matrix.modsec_version }}"
           docker compose -f ./tests/docker-compose.yml logs
           [ $(docker inspect ${{ matrix.modsec_version }} --format='{{.State.Running}}') = 'true' ]

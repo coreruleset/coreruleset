@@ -2,6 +2,11 @@ services:
   modsec2-apache:
     container_name: modsec2-apache
     image: owasp/modsecurity-crs:apache
+    # NOTE: The user used to run the container process is explicitly set to
+    # 'root'. This fixes issues with permissions on the logging directories used
+    # as bind mounts. This is done as *a convenience for running the CRS testing
+    # setup only* and *should not be done in general!*
+    user: root
     environment:
       ACCESSLOG: "/var/log/apache2/access.log"
       BACKEND: http://backend
@@ -22,7 +27,7 @@ services:
       - ./logs/modsec2-apache:/var/log/apache2:rw
       - ../rules:/opt/owasp-crs/rules:ro
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
-    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh && apachectl -D FOREGROUND"]
+    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh httpd-foreground"]
     ports:
       - "80:8080"
     depends_on:
@@ -32,6 +37,11 @@ services:
   modsec3-nginx:
     container_name: modsec3-nginx
     image: owasp/modsecurity-crs:nginx
+    # NOTE: The user used to run the container process is explicitly set to
+    # 'root'. This fixes issues with permissions on the logging directories used
+    # as bind mounts. This is done as *a convenience for running the CRS testing
+    # setup only* and *should not be done in general!*
+    user: root
     environment:
       ACCESSLOG: "/var/log/nginx/access.log"
       BACKEND: http://backend
