@@ -15,7 +15,7 @@ tests:
           encoded_request: "UE9TVCAvcG9zdCBIVFRQLzEuMQ0KQWNjZXB0OiAqLyoNCkNvbm5lY3Rpb246IGNsb3NlDQpDb250ZW50LUxlbmd0aDogMTg2DQpDb250ZW50LVR5cGU6IG11bHRpcGFydC9mb3JtLWRhdGE7IGJvdW5kYXJ5PWJvdW5kYXJ5DQpIb3N0OiBsb2NhbGhvc3QNClVzZXItQWdlbnQ6IE9XQVNQIENSUyB0ZXN0IGFnZW50DQoNCi0tYm91bmRhcnkNCg5Db250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImZpbGUiOyBmaWxlbmFtZT0iMS5waHAiDQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InBvc3QiDQoNCjw/cGhwIHZhcl9kdW1wKGZpbGVfZ2V0X2NvbnRlbnRzKCIvZXRjL3Bhc3N3ZCIpKTsNCi0tYm91bmRhcnktLQ=="
         output:
           log:
-            match_regex: 'Multipart parsing error: Multipart: Invalid part header (contains invalid character)|[id "922130"] [msg "Multipart header contains special characters which should not be used"]'
+            match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains special characters which should not be used"\]'
   - test_id: 2
     desc: "Negative test: no special character in multipart header"
     stages:
