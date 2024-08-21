@@ -55,5 +55,4 @@ jobs:
 
       - name: Clean docker-compose
         run: |
-          docker compose -f ./tests/docker-compose.yml stop "${{ matrix.modsec_version }}"
-          docker compose -f ./tests/docker-compose.yml down
+          docker compose -f ./tests/docker-compose.yml down -t 0
