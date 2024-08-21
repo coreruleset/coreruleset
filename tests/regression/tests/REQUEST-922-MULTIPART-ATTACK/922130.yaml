@@ -6,15 +6,14 @@ rule_id: 922130
 tests:
   - test_id: 1
     desc: |
-      # Positive test: special character in multipart header
-      # Request is a multipart request with 2 Content-Disposition header,
-      # where the first one contains a 0x0E character
-      # --boundary
-      # \x0EContent-Disposition: form-data; name="file"; filename="1.php"
-      # Content-Disposition: form-data; name="post"
-      #
-      # <?php var_dump(file_get_contents("/etc/passwd"));
-      # --boundary--
+      Positive test: special character in multipart header
+      Request is a multipart request with 2 Content-Disposition header,
+      where the first one contains a 0x0E character
+      --boundary
+      \x0EContent-Disposition: form-data; name="file"; filename="1.php"
+      Content-Disposition: form-data; name="post"
+            # <?php var_dump(file_get_contents("/etc/passwd"));
+      --boundary--
     stages:
       - input:
           dest_addr: 127.0.0.1
