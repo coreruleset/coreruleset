@@ -967,7 +967,7 @@ tests:
           log:
             no_expect_ids: [920120]
   - test_id: 40
-    desc: 'Attempted multipart/form-data bypass (920120). Match \ in FILES_NAMES.'
+    desc: 'Attempted multipart/form-data bypass (920120). Match \ in FILES.'
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -986,30 +986,6 @@ tests:
 
             helloworld
             -----------------------------265001916915724--
-          version: "HTTP/1.1"
-        output:
-          log:
-            expect_ids: [920120, 920121]
-  - test_id: 41
-    desc: 'Attempted multipart/form-data bypass (920120). Match \ in FILES.'
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Content-Type: multipart/form-data; boundary="--abcdefg"
-            Accept: "*/*"
-          method: POST
-          port: 80
-          uri: /
-          data: |
-            --abcdefg
-            Content-Disposition: form-data; name="test.t\x\t"
-            Content-Type: application/octet-stream
-
-            helloworld
-            --abcdefg--
           version: "HTTP/1.1"
         output:
           log:
