@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Christoph Hansen, Franziska Bühler, azurit"
+  author: "Christian S.J. Peron, Christoph Hansen, Franziska Bühler, azurit, Matthias Kneer"
 rule_id: 942160
 tests:
   - test_id: 1
@@ -168,6 +168,70 @@ tests:
           port: 80
           uri: "/get/if(now()=sysdate(),sleep(12),0)"
           version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942160]
+  - test_id: 11
+    desc: "Detect blind SQLi attack in REQUEST_FILENAME. Issue #3779"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/if(now()=sysdate(),sleep(12),0)/"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942160]
+  - test_id: 12
+    desc: "Detect blind SQLi attack in REQUEST_FILENAME. Issue #3779 - Negative test (invalid sleep syntax)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/if(now()=sysdate(),sleep(12,0)/"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942160]
+  - test_id: 13
+    desc: "Detect blind SQLi attack in REQUEST_FILENAME. Issue #3779 - Negative test (invalid benchmark syntax)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/BENChmARk(2999/**/999,Md5(/"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942160]
+  - test_id: 14
+    desc: "Detect blind SQLi attack in REQUEST_FILENAME. Issue #3779"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/if(now()=sysdate(),sleep(/*comment*/12),0)/"
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942160]
