@@ -210,6 +210,7 @@ tests:
           log:
             no_expect_ids: [920480]
   - test_id: 14
+    desc:  Trailing garbage after 'UTF-8'
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -218,7 +219,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Content-Type: "application/x-www-form-urlencoded; charset=UTF-80" #trailing garbage after 'UTF-8'
+            Content-Type: "application/x-www-form-urlencoded; charset=UTF-80" # trailing garbage after 'UTF-8'
           uri: "/"
           data: "test=value"
           version: "HTTP/1.1"
@@ -260,6 +261,10 @@ tests:
           log:
             expect_ids: [920480]
   - test_id: 17
+    desc: |
+      Use of special charset to hide body payload.
+      Additional space in header.
+      See https://www.slideshare.net/SoroushDalili/waf-bypass-techniques-using-http-standard-and-web-servers-behaviour, slide 32.
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -268,7 +273,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Content-Type: "application/x-www-form-urlencoded; charset=ibm037" # https://www.slideshare.net/SoroushDalili/waf-bypass-techniques-using-http-standard-and-web-servers-behaviour slide 32
+            Content-Type: "application/x-www-form-urlencoded; charset=ibm037"
           uri: "/"
           data: "test=value"
           version: "HTTP/1.1"
@@ -277,6 +282,10 @@ tests:
            expect_ids: [920480]
   # TODO: this test should pass (works with curl), to be researched (https://github.com/coreruleset/coreruleset/issues/3743)
   - test_id: 18
+    desc: |
+      Use of special charset to hide body payload.
+      No space in header.
+      See https://www.slideshare.net/SoroushDalili/waf-bypass-techniques-using-http-standard-and-web-servers-behaviour, slide 32.
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -285,7 +294,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Content-Type: "application/x-www-form-urlencoded;charset=ibm037" # https://www.slideshare.net/SoroushDalili/waf-bypass-techniques-using-http-standard-and-web-servers-behaviour slide 32
+            Content-Type: "application/x-www-form-urlencoded;charset=ibm037"
           uri: "/"
           data: "test=value"
           version: "HTTP/1.1"
