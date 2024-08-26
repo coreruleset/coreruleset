@@ -77,7 +77,7 @@ tests:
     desc: |
       Positive test: special character in multipart header.
       Request is a multipart request with 2 Content-Disposition headers,
-      where the first one contains a 0x0E character, the last invalid character before the valid range.
+      where the first one contains a 0x20 character, the last invalid character before the valid range.
       --boundary
       Content-\x20Disposition: form-data; name="file"; filename="1.php"
       Content-Disposition: form-data; name="post"
@@ -97,7 +97,7 @@ tests:
             # parsing will fail and the body will be considered invalid.
             match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
   - test_id: 5
-    desc: "Negative test: no character from outside of range in multipart header; '!' is allowed (\x21, the first character of the range of valid characters))"
+    desc: "Negative test: no character from outside of range in multipart header; '!' is allowed (\x21, the first character in the range of valid characters))"
     stages:
       - input:
           dest_addr: 127.0.0.1
