@@ -12,7 +12,7 @@
 Important changes:
 
 * Backport fix for 3MU-240701-1 - catch invalid character in multipart headers via new rule 922130 (Ervin Hegedus, Felipe Zipitría)
-* Backport fix for 3MU-240701-2 - prevent using backslash in file names from v4 - updated rule 920120 (Felipe Zipitria)
+* Backport fix for 3MU-240701-2 - prevent using backslash in file names from v4 - updated rule 920120 - pl1, 920121 - pl2 (Felipe Zipitria)
 
 ## Version 3.3.5 - 2023-07-18
 
