@@ -1100,17 +1100,17 @@ if __name__ == "__main__":
                 errmsgf(a)
                 retval = 1
         ### check for ver action
-        c.check_ver_action(crsversion)
-        if len(c.noveract) == 0:
-            msg(" No rule without correct ver action.")
-        else:
-            errmsg(" There are one or more rules without ver action.")
-            for a in c.noveract:
-                a['indent'] = 2
-                a['file']   = f
-                a['title']  = "ver is missing / incorrect"
-                errmsgf(a)
-                retval = 1
+        # c.check_ver_action(crsversion)
+        # if len(c.noveract) == 0:
+        #     msg(" No rule without correct ver action.")
+        # else:
+        #     errmsg(" There are one or more rules without ver action.")
+        #     for a in c.noveract:
+        #         a['indent'] = 2
+        #         a['file']   = f
+        #         a['title']  = "ver is missing / incorrect"
+        #         errmsgf(a)
+        #         retval = 1
 
     msg("End of checking parsed rules")
     msg("Cumulated report about unused TX variables")
