@@ -1,0 +1,168 @@
+---
+meta:
+  author: "Ervin Hegedus"
+  description: Test Multipart/form-data
+rule_id: 922130
+tests:
+  - test_id: 1
+    desc: |
+      Positive test: special character in multipart header.
+      Request is a multipart request with 2 Content-Disposition headers,
+      where the first one contains a 0x0E character at the first position.
+      --boundary
+      \x0EContent-Disposition: form-data; name="file"; filename="1.php"
+      Content-Disposition: form-data; name="post"
+
+      <?php var_dump(file_get_contents("/etc/passwd"));
+      --boundary--
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          encoded_request: "UE9TVCAvcG9zdCBIVFRQLzEuMQ0KQWNjZXB0OiAqLyoNCkNvbm5lY3Rpb246IGNsb3NlDQpDb250ZW50LUxlbmd0aDogMTg2DQpDb250ZW50LVR5cGU6IG11bHRpcGFydC9mb3JtLWRhdGE7IGJvdW5kYXJ5PWJvdW5kYXJ5DQpIb3N0OiBsb2NhbGhvc3QNClVzZXItQWdlbnQ6IE9XQVNQIENSUyB0ZXN0IGFnZW50DQoNCi0tYm91bmRhcnkNCg5Db250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImZpbGUiOyBmaWxlbmFtZT0iMS5waHAiDQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InBvc3QiDQoNCjw/cGhwIHZhcl9kdW1wKGZpbGVfZ2V0X2NvbnRlbnRzKCIvZXRjL3Bhc3N3ZCIpKTsNCi0tYm91bmRhcnktLQ=="
+        output:
+          log:
+            # The rule will match when an older version of the engine doesn't fail parsing. In newer versions of the engine,
+            # parsing will fail and the body will be considered invalid.
+            match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
+  - test_id: 2
+    desc: |
+      Positive test: special character in multipart header.
+      Request is a multipart request with 2 Content-Disposition headers,
+      where the first one contains a 0x0E character at the last position.
+      --boundary
+      Content-Disposition\x0E: form-data; name="file"; filename="1.php"
+      Content-Disposition: form-data; name="post"
+
+      <?php var_dump(file_get_contents("/etc/passwd"));
+      --boundary--
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          encoded_request: "UE9TVCAvcG9zdCBIVFRQLzEuMQ0KQWNjZXB0OiAqLyoNCkNvbm5lY3Rpb246IGNsb3NlDQpDb250ZW50LUxlbmd0aDogMTg2DQpDb250ZW50LVR5cGU6IG11bHRpcGFydC9mb3JtLWRhdGE7IGJvdW5kYXJ5PWJvdW5kYXJ5DQpIb3N0OiBsb2NhbGhvc3QNClVzZXItQWdlbnQ6IE9XQVNQIENSUyB0ZXN0IGFnZW50DQoNCi0tYm91bmRhcnkNCkNvbnRlbnQtRGlzcG9zaXRpb24OOiBmb3JtLWRhdGE7IG5hbWU9ImZpbGUiOyBmaWxlbmFtZT0iMS5waHAiDQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InBvc3QiDQoNCjw/cGhwIHZhcl9kdW1wKGZpbGVfZ2V0X2NvbnRlbnRzKCIvZXRjL3Bhc3N3ZCIpKTsNCi0tYm91bmRhcnktLQ=="
+        output:
+          log:
+            # The rule will match when an older version of the engine doesn't fail parsing. In newer versions of the engine,
+            # parsing will fail and the body will be considered invalid.
+            match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
+  - test_id: 3
+    desc: "Negative test: no special character in multipart header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=boundary
+            Accept: "*/*"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: |
+            --boundary
+            Content-Disposition: form-data; name="file"; filename="1.php"
+
+            <?php var_dump(file_get_contents("/etc/passwd")); ?>
+            --boundary--
+        output:
+          log:
+            no_match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
+  - test_id: 4
+    desc: |
+      Positive test: special character in multipart header.
+      Request is a multipart request with 2 Content-Disposition headers,
+      where the first one contains a 0x20 character, the last invalid character before the valid range.
+      --boundary
+      Content-\x20Disposition: form-data; name="file"; filename="1.php"
+      Content-Disposition: form-data; name="post"
+
+      <?php var_dump(file_get_contents("/etc/passwd"));
+      --boundary--
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          encoded_request: "UE9TVCAvcG9zdCBIVFRQLzEuMQ0KQWNjZXB0OiAqLyoNCkNvbm5lY3Rpb246IGNsb3NlDQpDb250ZW50LUxlbmd0aDogMTg2DQpDb250ZW50LVR5cGU6IG11bHRpcGFydC9mb3JtLWRhdGE7IGJvdW5kYXJ5PWJvdW5kYXJ5DQpIb3N0OiBsb2NhbGhvc3QNClVzZXItQWdlbnQ6IE9XQVNQIENSUyB0ZXN0IGFnZW50DQoNCi0tYm91bmRhcnkNCkNvbnRlbnQtIERpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImZpbGUiOyBmaWxlbmFtZT0iMS5waHAiDQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InBvc3QiDQoNCjw/cGhwIHZhcl9kdW1wKGZpbGVfZ2V0X2NvbnRlbnRzKCIvZXRjL3Bhc3N3ZCIpKTsNCi0tYm91bmRhcnktLQ=="
+        output:
+          log:
+            # The rule will match when an older version of the engine doesn't fail parsing. In newer versions of the engine,
+            # parsing will fail and the body will be considered invalid.
+            match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
+  - test_id: 5
+    desc: "Negative test: no character from outside of range in multipart header; '!' is allowed (\x21, the first character in the range of valid characters))"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=boundary
+            Accept: "*/*"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: |
+            --boundary
+            Content-!Disposition: form-data; name="file"; filename="1.php"
+
+            <?php var_dump(file_get_contents("/etc/passwd")); ?>
+            --boundary--
+        output:
+          log:
+            no_match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
+  - test_id: 6
+    desc: "Negative test: no character from outside of range in multipart header; '~' is allowed (\x7E, the last valid character in the range of valid characters)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=boundary
+            Accept: "*/*"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: |
+            --boundary
+            Content~Disposition: form-data; name="file"; filename="1.php"
+            Content-Disposition: form-data; name="post"
+
+            <?php var_dump(file_get_contents("/etc/passwd")); ?>
+            --boundary--
+        output:
+          log:
+            no_match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
+  - test_id: 7
+    desc: |
+      Positive test: special character in multipart header.
+      Request is a multipart request with 2 Content-Disposition headers,
+      where the first one contains a 0x7F character, the first invalid character after the valid range.
+      --boundary
+      Content\x7F-Disposition: form-data; name="file"; filename="1.php"
+      Content-Disposition: form-data; name="post"
+
+      <?php var_dump(file_get_contents("/etc/passwd"));
+      --boundary--
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          encoded_request: "UE9TVCAvcG9zdCBIVFRQLzEuMQ0KQWNjZXB0OiAqLyoNCkNvbm5lY3Rpb246IGNsb3NlDQpDb250ZW50LUxlbmd0aDogMTg2DQpDb250ZW50LVR5cGU6IG11bHRpcGFydC9mb3JtLWRhdGE7IGJvdW5kYXJ5PWJvdW5kYXJ5DQpIb3N0OiBsb2NhbGhvc3QNClVzZXItQWdlbnQ6IE9XQVNQIENSUyB0ZXN0IGFnZW50DQoNCi0tYm91bmRhcnkNCkNvbnRlbnR/LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImZpbGUiOyBmaWxlbmFtZT0iMS5waHAiDQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InBvc3QiDQoNCjw/cGhwIHZhcl9kdW1wKGZpbGVfZ2V0X2NvbnRlbnRzKCIvZXRjL3Bhc3N3ZCIpKTsNCi0tYm91bmRhcnktLQ=="
+        output:
+          log:
+            # The rule will match when an older version of the engine doesn't fail parsing. In newer versions of the engine,
+            # parsing will fail and the body will be considered invalid.
+            match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'

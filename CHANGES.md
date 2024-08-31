@@ -8,6 +8,37 @@
 ## Nightly builds
 New changelog entries are written to `.changes-pending.md`. They will be moved to the main changelog before a release.
 
+## Version 4.4.0 - 2024-06-23
+
+### 🆕 New features and detections 🎉
+* fix: ignore checking compressed response body by @azurit in https://github.com/coreruleset/coreruleset/pull/3712
+
+### 🧰 Other Changes
+* fix(934140): update regex by @fzipi in https://github.com/coreruleset/coreruleset/pull/3731
+* fix: replacing t:UrlDecode with t:UrlDecodeUni (921240 PL1, 932170 PL1, 932171 PL1, 932190 PL3, 932190 PL1, 933211 PL3, 941310 PL1, 941350 PL1) by @azurit in https://github.com/coreruleset/coreruleset/pull/3713
+* feat: skip response rules if data are compressed by @azurit in https://github.com/coreruleset/coreruleset/pull/3742
+
+## Version 4.3.0 - 2024-05-24
+
+### 🆕 New features and detections 🎉
+
+* feat: catch Java PostgreSQL errors (951240 PL1) by @azurit in https://github.com/coreruleset/coreruleset/pull/3686
+* feat: block The Mysterious Mozlila User Agent bot (913100 PL1) by @brentclark in https://github.com/coreruleset/coreruleset/pull/3646
+
+### 🧰 Other Changes
+* fix: Oracle SQL database data leakage FP (951120 PL1) by @azurit in https://github.com/coreruleset/coreruleset/pull/3685
+* fix: typos in 920330 and 942280 tests by @TimDiam0nd in https://github.com/coreruleset/coreruleset/pull/3688
+* test: change pl-1 to pl1 to be inline with others by @TimDiam0nd in https://github.com/coreruleset/coreruleset/pull/3690
+* feat: use renovate to update docker-compose by @theseion in https://github.com/coreruleset/coreruleset/pull/3697
+* fix: FP for `sched` (932235 PL1, 932236 PL2, 932237 PL3, 932239 PL2, … by @theseion in https://github.com/coreruleset/coreruleset/pull/3701
+* fix: collections not being initialized without User-Agent header by @azurit in https://github.com/coreruleset/coreruleset/pull/3645
+* feat: refactoring of rule 941310 (PL1 941310) by @azurit in https://github.com/coreruleset/coreruleset/pull/3700
+* fix: resolving more FPs with Oracle error messages (951120 PL1) by @azurit in https://github.com/coreruleset/coreruleset/pull/3703
+* fix: removing double t:urlDecodeUni (920221 PL1, 920440 PL1, 932200 PL2, 932205 PL2, 932206 PL2) by @azurit in https://github.com/coreruleset/coreruleset/pull/3699
+* fix: false positives from PHP config directives and functions (933120 PL1, 933151 PL2) by @ssigwart in https://github.com/coreruleset/coreruleset/pull/3638
+* feat: prevent detection of web shells rules as malware by Windows Defender (955260 PL1) by @azurit in https://github.com/coreruleset/coreruleset/pull/3687
+* fix: fp with name axel by removing it from rce rule (932260 PL1) by @franbuehler in https://github.com/coreruleset/coreruleset/pull/3705
+
 ## Version 4.2.0 - 2024-04-23
 
 Changes with direct rule impact (sorted by lowest rule ID per change where available):

@@ -1,373 +1,371 @@
 ---
 meta:
   author: "spartantri, azurit"
-  enabled: true
-  name: "944100.yaml"
-  description: "Description"
+rule_id: 944100
 tests:
-  - test_title: 944100-1
+  - test_id: 1
     desc: Argument test includes keywords java.lang.Runtime
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "application/x-www-form-urlencoded"
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "test=java.lang.Runtime"
-          output:
-            log_contains: "id \"944100\""
-  - test_title: 944100-2
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "test=java.lang.Runtime"
+        output:
+          log:
+            expect_ids: [944100]
+  - test_id: 2
     desc: Argument test includes keywords java.lang.ProcessBuilder
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "text/plain"
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "test=java.lang.ProcessBuilder"
-          output:
-            log_contains: "id \"944100\""
-  - test_title: 944100-3
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "text/plain"
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "test=java.lang.ProcessBuilder"
+        output:
+          log:
+            expect_ids: [944100]
+  - test_id: 3
     desc: Argument name includes keywords java.lang.Runtime
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "text/plain"
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "java.lang.Runtime=test"
-          output:
-            log_contains: "id \"944100\""
-  - test_title: 944100-4
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "text/plain"
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "java.lang.Runtime=test"
+        output:
+          log:
+            expect_ids: [944100]
+  - test_id: 4
     desc: Argument name includes keywords java.lang.ProcessBuilder
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "text/plain"
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "java.lang.ProcessBuilder=test"
-          output:
-            log_contains: "id \"944100\""
-  - test_title: 944100-5
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "text/plain"
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "java.lang.ProcessBuilder=test"
+        output:
+          log:
+            expect_ids: [944100]
+  - test_id: 5
     desc: Cookie test includes keywords java.lang.Runtime
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "text/plain"
-              Cookie: test=java.lang.Runtime
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "test=value"
-          output:
-            log_contains: "id \"944100\""
-  - test_title: 944100-6
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "text/plain"
+            Cookie: test=java.lang.Runtime
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "test=value"
+        output:
+          log:
+            expect_ids: [944100]
+  - test_id: 6
     desc: Cookie test includes keywords java.lang.ProcessBuilder
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "text/plain"
-              Cookie: test=java.lang.ProcessBuilder
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "test=value"
-          output:
-            log_contains: "id \"944100\""
-  - test_title: 944100-7
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "text/plain"
+            Cookie: test=java.lang.ProcessBuilder
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "test=value"
+        output:
+          log:
+            expect_ids: [944100]
+  - test_id: 7
     desc: Cookie name includes keywords java.lang.Runtime
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "text/plain"
-              Cookie: java.lang.Runtime=test
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "test=value"
-          output:
-            log_contains: "id \"944100\""
-  - test_title: 944100-8
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "text/plain"
+            Cookie: java.lang.Runtime=test
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "test=value"
+        output:
+          log:
+            expect_ids: [944100]
+  - test_id: 8
     desc: Cookie name includes keywords java.lang.ProcessBuilder
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "text/plain"
-              Cookie: java.lang.ProcessBuilder=test
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "test=value"
-          output:
-            log_contains: "id \"944100\""
-  - test_title: 944100-9
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "text/plain"
+            Cookie: java.lang.ProcessBuilder=test
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "test=value"
+        output:
+          log:
+            expect_ids: [944100]
+  - test_id: 9
     desc: Request header test includes keywords java.lang.Runtime
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "text/plain"
-              test: java.lang.Runtime
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "test=value"
-          output:
-            log_contains: "id \"944100\""
-  - test_title: 944100-10
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "text/plain"
+            test: java.lang.Runtime
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "test=value"
+        output:
+          log:
+            expect_ids: [944100]
+  - test_id: 10
     desc: Request header test includes keywords java.lang.ProcessBuilder
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "text/plain"
-              test: java.lang.ProcessBuilder
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "test=value"
-          output:
-            log_contains: "id \"944100\""
-  - test_title: 944100-11
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "text/plain"
+            test: java.lang.ProcessBuilder
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "test=value"
+        output:
+          log:
+            expect_ids: [944100]
+  - test_id: 11
     desc: XML element includes keywords java.lang.Runtime
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "application/xml"
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "<?xml version=\"1.0\"?><xml><java.lang.Runtime attribute_name=\"attribute_value\">value</java.lang.Runtime></xml>"
-          output:
-            no_log_contains: "id \"944100\""
-  - test_title: 944100-12
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "application/xml"
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "<?xml version=\"1.0\"?><xml><java.lang.Runtime attribute_name=\"attribute_value\">value</java.lang.Runtime></xml>"
+        output:
+          log:
+            no_expect_ids: [944100]
+  - test_id: 12
     desc: XML attribute name includes keywords java.lang.Runtime
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "application/xml"
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "<?xml version=\"1.0\"?><xml><element java.lang.Runtime=\"attribute_value\">element_value</element></xml>"
-          output:
-            no_log_contains: "id \"944100\""
-  - test_title: 944100-13
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "application/xml"
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "<?xml version=\"1.0\"?><xml><element java.lang.Runtime=\"attribute_value\">element_value</element></xml>"
+        output:
+          log:
+            no_expect_ids: [944100]
+  - test_id: 13
     desc: XML attribute value includes keywords java.lang.Runtime
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "application/xml"
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"java.lang.Runtime\">element_value</element></xml>"
-          output:
-            log_contains: "id \"944100\""
-  - test_title: 944100-14
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "application/xml"
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"java.lang.Runtime\">element_value</element></xml>"
+        output:
+          log:
+            expect_ids: [944100]
+  - test_id: 14
     desc: XML element value includes keywords java.lang.Runtime
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "application/xml"
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">java.lang.Runtime</element></xml>"
-          output:
-            log_contains: "id \"944100\""
-  - test_title: 944100-15
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "application/xml"
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">java.lang.Runtime</element></xml>"
+        output:
+          log:
+            expect_ids: [944100]
+  - test_id: 15
     desc: XML element includes keywords java.lang.ProcessBuilder
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "application/xml"
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "<?xml version=\"1.0\"?><xml><java.lang.ProcessBuilder attribute_name=\"attribute_value\">value</java.lang.ProcessBuilder></xml>"
-          output:
-            no_log_contains: "id \"944100\""
-  - test_title: 944100-16
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "application/xml"
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "<?xml version=\"1.0\"?><xml><java.lang.ProcessBuilder attribute_name=\"attribute_value\">value</java.lang.ProcessBuilder></xml>"
+        output:
+          log:
+            no_expect_ids: [944100]
+  - test_id: 16
     desc: XML attribute name includes keywords java.lang.ProcessBuilder
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "application/xml"
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "<?xml version=\"1.0\"?><xml><element java.lang.ProcessBuilder=\"attribute_value\">element_value</element></xml>"
-          output:
-            no_log_contains: "id \"944100\""
-  - test_title: 944100-17
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "application/xml"
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "<?xml version=\"1.0\"?><xml><element java.lang.ProcessBuilder=\"attribute_value\">element_value</element></xml>"
+        output:
+          log:
+            no_expect_ids: [944100]
+  - test_id: 17
     desc: XML attribute value includes keywords java.lang.ProcessBuilder
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "application/xml"
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"java.lang.ProcessBuilder\">element_value</element></xml>"
-          output:
-            log_contains: "id \"944100\""
-  - test_title: 944100-18
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "application/xml"
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"java.lang.ProcessBuilder\">element_value</element></xml>"
+        output:
+          log:
+            expect_ids: [944100]
+  - test_id: 18
     desc: XML element value includes keywords java.lang.ProcessBuilder
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: "application/xml"
-            method: POST
-            uri: "/post"
-            version: HTTP/1.0
-            data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">java.lang.ProcessBuilder</element></xml>"
-          output:
-            log_contains: "id \"944100\""
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: "application/xml"
+          method: POST
+          uri: "/post"
+          version: HTTP/1.0
+          data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">java.lang.ProcessBuilder</element></xml>"
+        output:
+          log:
+            expect_ids: [944100]

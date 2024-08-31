@@ -2,54 +2,53 @@
 meta:
   author: "Franziska Bühler, azurit"
   description: Various SQL injection tests
-  enabled: true
-  name: 942152.yaml
+rule_id: 942152
 tests:
-  - test_title: 942152-1
+  - test_id: 1
     desc: "SQL injection in request header User-Agent"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: encode%28lo_get%2816400%29%2C%27base64%27%29%3A%3Aint
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942152"
-  - test_title: 942152-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: encode%28lo_get%2816400%29%2C%27base64%27%29%3A%3Aint
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942152]
+  - test_id: 2
     desc: "SQL injection in request header User-Agent"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: 1%27%20and%20starts_with%28password%2C%5C%24%5C%24t%5C%24%5C%24%29%20and%20%27true
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942152"
-  - test_title: 942152-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: 1%27%20and%20starts_with%28password%2C%5C%24%5C%24t%5C%24%5C%24%29%20and%20%27true
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942152]
+  - test_id: 3
     desc: "SQL injection in request header User-Agent"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: encode%28lo_get%2816200%29%2C%27base64%27%29%3A%3Aint
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942152"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: encode%28lo_get%2816200%29%2C%27base64%27%29%3A%3Aint
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942152]

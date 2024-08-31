@@ -2,135 +2,134 @@
 meta:
   author: "karelorigin, Walter Hop, azurit"
   description: Various Authentication bypass tests
-  enabled: true
-  name: 942540.yaml
+rule_id: 942540
 tests:
-  - test_title: 942540-1
+  - test_id: 1
     desc: "Positive test for single quotes"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email=admin%40juice-sh.op';"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942540"
-  - test_title: 942540-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email=admin%40juice-sh.op';"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942540]
+  - test_id: 2
     desc: "Positive test for double quotes"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email=admin%40juice-sh.op\";"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942540"
-  - test_title: 942540-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email=admin%40juice-sh.op\";"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942540]
+  - test_id: 3
     desc: "Positive test for backticks"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email=admin%40juice-sh.op`;"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942540"
-  - test_title: 942540-4
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email=admin%40juice-sh.op`;"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942540]
+  - test_id: 4
     desc: "False positive test CSV balanced single quotes"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email='foo';'bar';'def'"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "942540"
-  - test_title: 942540-5
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email='foo';'bar';'def'"
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [942540]
+  - test_id: 5
     desc: "False positive test balanced backticks"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email=`foo`;`bar`;`def`"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "942540"
-  - test_title: 942540-6
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email=`foo`;`bar`;`def`"
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [942540]
+  - test_id: 6
     desc: "False positive test (markdown) mixed and balanced quotes"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Content-Type: "multipart/form-data; boundary=--------397236876"
-            method: POST
-            port: 80
-            uri: "/post"
-            data: |
-              ----------397236876
-              Content-Disposition: form-data; name="document"; filename="document.md"
-              Content-Type: text/markdown
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "multipart/form-data; boundary=--------397236876"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="document"; filename="document.md"
+            Content-Type: text/markdown
 
-              # Foo
-              my name is 'foo'; and I work on CRS.
-              # Bar
-              my name is "bar"; and I work on CRS.
-              ----------397236876--
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "942540"
-  - test_title: 942540-7
+            # Foo
+            my name is 'foo'; and I work on CRS.
+            # Bar
+            my name is "bar"; and I work on CRS.
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942540]
+  - test_id: 7
     desc: "Test for bypass with comment"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "email=root%40example.com%27%2F%2A%20comment%20%2A%2F%3B"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942540"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "email=root%40example.com%27%2F%2A%20comment%20%2A%2F%3B"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942540]

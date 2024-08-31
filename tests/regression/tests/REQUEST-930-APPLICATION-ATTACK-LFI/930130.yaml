@@ -1,39 +1,37 @@
 ---
 meta:
   author: "Andrew Howe, azurit"
-  description: "None"
-  enabled: true
-  name: "930130.yaml"
+rule_id: 930130
 tests:
-  - test_title: 930130-1
+  - test_id: 1
     desc: "LFI via URI: /sys"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get/sys/class"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "930130"
-  - test_title: 930130-2
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get/sys/class"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930130]
+  - test_id: 2
     desc: "LFI via URI: /proc"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get/proc/interrupts"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "930130"
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get/proc/interrupts"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930130]

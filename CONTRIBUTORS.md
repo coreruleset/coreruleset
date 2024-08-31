@@ -30,6 +30,7 @@
 
 ## Contributors:
 
+- [luelueking](https://github.com/luelueking)
 - [agusmu](https://github.com/agusmu)
 - [Amir Hosein Aliakbarian](https://github.com/AmirHoseinAliakbarian)
 - [Zack Allen](https://github.com/zmallen)
@@ -146,3 +147,5 @@
 - [NiceYouKnow](https://github.com/NiceYouKnow)
 - [floyd](https://github.com/floyd)
 - [superlgn](https://github.com/superlgn)
+- [TimDiam0nd](https://github.com/TimDiam0nd)
+- [brentclark](https://github.com/brentclark)

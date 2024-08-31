@@ -2,22 +2,21 @@
 meta:
   author: "Christian Folini (dune73), azurit"
   description: "HTTP Range Header"
-  enabled: true
-  name: 921230.yaml
+rule_id: 921230
 tests:
-  - test_title: 921230-1
+  - test_id: 1
     desc: "Submit HTTP Range Header, forbidden at PL3 by default"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Range: 1-2
-            port: 80
-            uri: "/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "921230"
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Range: 1-2
+          port: 80
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921230]

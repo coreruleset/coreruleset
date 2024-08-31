@@ -1,126 +1,124 @@
 ---
 meta:
   author: "Christoph Hansen, azurit"
-  description: None
-  enabled: true
-  name: 942361.yaml
+rule_id: 942361
 tests:
-  - test_title: 942361-1
+  - test_id: 1
     desc: "Detects basic SQL injection based on keyword alter or union"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "'alter a"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942361"
-  - test_title: 942361-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "'alter a"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942361]
+  - test_id: 2
     desc: "Detects basic SQL injection based on keyword alter or union"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "\" ALTER A"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942361"
-  - test_title: 942361-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "\" ALTER A"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942361]
+  - test_id: 3
     desc: "Detects basic SQL injection based on keyword alter or union"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "'ALTER A"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942361"
-  - test_title: 942361-4
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "'ALTER A"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942361]
+  - test_id: 4
     desc: "Detects basic SQL injection based on keyword alter or union"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "' alter/"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942361"
-  - test_title: 942361-5
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "' alter/"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942361]
+  - test_id: 5
     desc: "Detects basic SQL injection based on keyword alter or union"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "\" UNION A"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942361"
-  - test_title: 942361-6
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "\" UNION A"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942361]
+  - test_id: 6
     desc: "Detects basic SQL injection based on keyword alter or union"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "'UNION A"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942361"
-  - test_title: 942361-7
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "'UNION A"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942361]
+  - test_id: 7
     desc: "Detects basic SQL injection based on keyword alter or union"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "' union/"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942361"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "' union/"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942361]

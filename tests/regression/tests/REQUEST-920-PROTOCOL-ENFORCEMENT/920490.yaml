@@ -1,61 +1,60 @@
 ---
 meta:
   author: "Christian Folini, azurit"
-  enabled: true
-  name: "920490.yaml"
   description: "Tests for the charset protection in combination with the x-up-devcap-post-charset header"
+rule_id: 920490
 tests:
-  - test_title: 920490-1
+  - test_id: 1
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            method: "POST"
-            headers:
-              # User-Agent must starts with "UP"
-              User-Agent: "UP OWASP CRS test agent"
-              Host: "localhost"
-              Content-Type: "application/x-www-form-urlencoded; charset=utf-8"
-              x-up-devcap-post-charset: "ibm500"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/post"
-            data: "%89%95%97%A4%A3%F1=%A7%A7%A7%A7%A7%A7%A7"
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"920490\""
-  - test_title: 920490-2
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          headers:
+            # User-Agent must start with "UP"
+            User-Agent: "UP OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded; charset=utf-8"
+            x-up-devcap-post-charset: "ibm500"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: "%89%95%97%A4%A3%F1=%A7%A7%A7%A7%A7%A7%A7"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920490]
+  - test_id: 2
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            method: "POST"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Content-Type: "application/x-www-form-urlencoded; charset=utf-8"
-              x-up-devcap-post-charset: "ibm500"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/post"
-            data: "%89%95%97%A4%A3%F1=%A7%A7%A7%A7%A7%A7%A7"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"920490\""
-  - test_title: 920490-3
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded; charset=utf-8"
+            x-up-devcap-post-charset: "ibm500"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: "%89%95%97%A4%A3%F1=%A7%A7%A7%A7%A7%A7%A7"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920490]
+  - test_id: 3
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            method: "POST"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Content-Type: "application/x-www-form-urlencoded; charset=utf-8"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/post"
-            data: "%89%95%97%A4%A3%F1=%A7%A7%A7%A7%A7%A7%A7"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"920490\""
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded; charset=utf-8"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: "%89%95%97%A4%A3%F1=%A7%A7%A7%A7%A7%A7%A7"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920490]

@@ -1,0 +1,269 @@
+---
+meta:
+  author: "Xhoenix"
+rule_id: 932270
+tests:
+  - test_id: 1
+    desc: "Bash Tilde expansion - ~+"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932270-1=%7E%2B"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 2
+    desc: "Bash Tilde Expansion - ~-"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932270-2=%7E%2D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 3
+    desc: "Bash Tilde Expansion - ~0"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932270-3=%7E0"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 4
+    desc: "Bash Tilde Expansion - ~-1"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932270-4=%7E%2D1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 5
+    desc: "Bash Tilde expansion - ~+5"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932270-5=%7E%2B5"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 6
+    desc: "Bash Tilde expansion(Negative test) - ~+z"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932270-6=%7E%2Bz"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
+  - test_id: 7
+    desc: "Bash Tilde expansion(Negative test) - ~-z"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932270-7=%7E%2Bz"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
+  - test_id: 8
+    desc: "Bash Tilde expansion(Negative test) - ~z"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932270-8=%7Ez"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
+  - test_id: 9
+    desc: "Bash Tilde expansion - ~+"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: 932270-9=%7E%2B
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 10
+    desc: "Bash Tilde Expansion - ~-"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: 932270-10=%7E%2D
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 11
+    desc: "Bash Tilde Expansion - ~0"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: 932270-11=%7E0
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 12
+    desc: "Bash Tilde Expansion - ~-1"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: 932270-12=%7E%2D1
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 13
+    desc: "Bash Tilde expansion - ~+5"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: 932270-13=%7E%2B5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 14
+    desc: "Bash Tilde expansion(Negative test) - ~+z"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: 932270-14=%7E%2Bz
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
+  - test_id: 15
+    desc: "Bash Tilde expansion(Negative test) - ~-z"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: 932270-15=%7E%2Bz
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
+  - test_id: 16
+    desc: "Bash Tilde expansion(Negative test) - ~z"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: 932270-16=%7Ez
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]

@@ -1,144 +1,142 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  enabled: true
-  name: "911100.yaml"
-  description: "Description"
+rule_id: 911100
 tests:
-  - test_title: 911100-1
+  - test_id: 1
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            method: "GET"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"911100\""
-  - test_title: 911100-2
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [911100]
+  - test_id: 2
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            method: "OPTIONS"
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/options"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"911100\""
-  - test_title: 911100-3
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "OPTIONS"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/options"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [911100]
+  - test_id: 3
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "HEAD"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/head"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"911100\""
-  - test_title: 911100-4
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "HEAD"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/head"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [911100]
+  - test_id: 4
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "POST"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Content-Type: "application/x-www-form-urlencoded"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/post"
-            data: "test=value"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"911100\""
-  - test_title: 911100-5
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: "test=value"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [911100]
+  - test_id: 5
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "TEST"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/test"
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"911100\""
-  - test_title: 911100-6
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "TEST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/test"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [911100]
+  - test_id: 6
     desc: Method is not allowed by policy (911100) from old modsec regressions
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Host: localhost
-              Keep-Alive: '300'
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: DELETE
-            port: 80
-            uri: "/delete"
-            version: HTTP/1.0
-          output:
-            log_contains: id "911100"
-  - test_title: 911100-7
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: DELETE
+          port: 80
+          uri: "/delete"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [911100]
+  - test_id: 7
     desc: Method is not allowed by policy (911100) from old modsec regressions
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Host: localhost
-              Keep-Alive: '300'
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: FOO
-            port: 80
-            uri: "/foo"
-            version: HTTP/1.0
-          output:
-            log_contains: id "911100"
-  - test_title: 911100-8
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: FOO
+          port: 80
+          uri: "/foo"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [911100]
+  - test_id: 8
     desc: Method is not allowed by policy (911100) from old modsec regressions
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Host: localhost
-              Keep-Alive: '300'
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: SUBSCRIBE
-            port: 80
-            uri: "/subscribe"
-            version: HTTP/1.0
-          output:
-            log_contains: id "911100"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: SUBSCRIBE
+          port: 80
+          uri: "/subscribe"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [911100]
