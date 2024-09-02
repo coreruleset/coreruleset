@@ -5,7 +5,7 @@ meta:
 rule_id: 920540
 tests:
   - test_id: 1
-    desc: "Unicode character bypass issue #2512: alert() \u0061lert"
+    desc: 'Unicode character bypass issue #2512: alert() \u0061lert'
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -23,7 +23,7 @@ tests:
           log:
             expect_ids: [920540]
   - test_id: 2
-    desc: "Unicode character bypass issue #2512: eval() \u0065val()"
+    desc: 'Unicode character bypass issue #2512: eval() \u0065val()'
     stages:
       - input:
           dest_addr: "127.0.0.1"

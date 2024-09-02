@@ -165,7 +165,8 @@ tests:
           log:
             expect_ids: [932200]
   - test_id: 11
-    desc: "Test first backslash match ([*?`\\'][^/\n]+/) with: c\at /etc/passwd"
+    desc: |
+      Test first backslash match ([*?`\\][^/\n]+/) with: c\at /etc/passwd
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -181,7 +182,8 @@ tests:
           log:
             expect_ids: [932200]
   - test_id: 12
-    desc: "Test second backslash match (/[^/]+?[*?`\\']) with: cat /etc/p\asswd"
+    desc: |
+      Test second backslash match (/[^/]+?[*?`\\']) with: cat /etc/p\asswd
     stages:
       - input:
           dest_addr: 127.0.0.1
