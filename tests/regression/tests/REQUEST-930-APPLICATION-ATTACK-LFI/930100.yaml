@@ -1,73 +1,72 @@
 ---
 meta:
   author: "Christian S.J. Peron, Franziska Bühler, azurit"
-  enabled: true
-  name: "930100.yaml"
   description: "Application attack LFI"
+rule_id: 930100
 tests:
-  - test_title: 930100-1
+  - test_id: 1
     desc: "Path Traversal Attack (/../) encoded"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              Host: "localhost"
-              FoobarHeader: "0x5c0x2e.%00/"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "930100"
-  - test_title: 930100-2
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            FoobarHeader: "0x5c0x2e.%00/"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930100]
+  - test_id: 2
     desc: "Path Traversal Attack Triple Dot (/.../)"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get?foo=.../.../WINDOWS/win.ini"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "930100"
-  - test_title: 930100-3
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=.../.../WINDOWS/win.ini"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930100]
+  - test_id: 3
     desc: "Path Traversal Attack Triple Dot (/.../) encoded: foo=.../.../WINDOWS/win.ini"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get?foo=0x2e.%000x2f0x2e.%00/WINDOWS/win.ini"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "930100"
-  - test_title: 930100-4
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=0x2e.%000x2f0x2e.%00/WINDOWS/win.ini"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930100]
+  - test_id: 4
     desc: "Status Page Test - Path Traversal Attack (<backslash>../), partially encoded"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              Host: "localhost"
-              FoobarHeader: "0x5c0x2e./"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "930100"
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            FoobarHeader: "0x5c0x2e./"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930100]

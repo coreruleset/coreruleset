@@ -1,52 +1,50 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  enabled: true
-  name: "920311.yaml"
-  description: "Description"
+rule_id: 920311
 tests:
-  - test_title: 920311-1
+  - test_id: 1
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              # Test needs an empty Accept: header
-              Accept: ""
-              # Test needs no User-Agent: header
-            uri: "/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"920311\""
-  - test_title: 920311-2
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            # Test needs an empty Accept: header
+            Accept: ""
+            # Test needs no User-Agent: header
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920311]
+  - test_id: 2
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            method: "OPTIONS"
-            headers:
-              Host: "localhost"
-              # Test needs an empty Accept: header
-              Accept: ""
-              User-Agent: "OWASP CRS test agent"
-            uri: "/"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"920311\""
-  - test_title: 920311-3
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "OPTIONS"
+          headers:
+            Host: "localhost"
+            # Test needs an empty Accept: header
+            Accept: ""
+            User-Agent: "OWASP CRS test agent"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920311]
+  - test_id: 3
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: "text/plain, text/html"
-            uri: "/"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"920311\""
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/plain, text/html"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920311]

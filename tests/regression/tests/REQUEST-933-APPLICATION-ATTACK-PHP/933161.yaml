@@ -1,93 +1,92 @@
 ---
 meta:
   author: "lifeforms, azurit"
-  description: None
-  enabled: true
-  name: 933161.yaml
+rule_id: 933161
 tests:
-  - test_title: 933161-1
+  - test_id: 1
     desc: regexp; must run test in PL3!
     stages:
-      - stage:
-          input:
-            data: gethostbynamE(
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post?%20checkDate%28%29"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933161"
-  - test_title: 933161-2
+      - input:
+          data: gethostbynamE(
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post?%20checkDate%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933161]
+  - test_id: 2
     desc: regexp; must run test in PL3!
     stages:
-      - stage:
-          input:
-            data: gethostbynamE(
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post?foo=chroot%09%28%29"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933161"
-  - test_title: 933161-3
+      - input:
+          data: gethostbynamE(
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post?foo=chroot%09%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933161]
+  - test_id: 3
     desc: symlink \t()
     stages:
-      - stage:
-          input:
-            data: gethostbynamE(
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post?foo=symlink%09%28%29"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "933161"
+      - input:
+          data: gethostbynamE(
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post?foo=symlink%09%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933161]
+  # See https://github.com/coreruleset/coreruleset/issues/3693
   # See https://github.com/coreruleset/coreruleset/pull/3273#issuecomment-1675490075
-  # - test_title: 933161-4
+  # - test_id: 4
   #   desc: dl/*foo*/()
   #   stages:
-  #     - stage:
-  #         input:
-  #           data: gethostbynamE(
-  #           dest_addr: 127.0.0.1
-  #           headers:
-  #             Host: localhost
-  #             User-Agent: "OWASP CRS test agent"
-  #             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-  #           method: POST
-  #           port: 80
-  #           uri: "/post?foo=dl%2F%2Afoo%2A%2F%09%28%29"
-  #           version: "HTTP/1.1"
-  #         output:
-  #           log_contains: id "933161"
-  - test_title: 933161-5
+  #     - input:
+  #         data: gethostbynamE(
+  #         dest_addr: 127.0.0.1
+  #         headers:
+  #           Host: localhost
+  #           User-Agent: "OWASP CRS test agent"
+  #           Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+  #         method: POST
+  #         port: 80
+  #         uri: "/post?foo=dl%2F%2Afoo%2A%2F%09%28%29"
+  #         version: "HTTP/1.1"
+  #       output:
+  #         log:
+  #           expect_ids: [933161]
+  - test_id: 5
     desc: ucfirst()
     stages:
-      - stage:
-          input:
-            data: gethostbynamE(
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post?foo=xucfirst%28%29"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "933161"
+      - input:
+          data: gethostbynamE(
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post?foo=xucfirst%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933161]

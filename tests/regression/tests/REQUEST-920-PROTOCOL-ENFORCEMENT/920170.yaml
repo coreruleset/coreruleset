@@ -1,122 +1,122 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  enabled: true
-  name: "920170.yaml"
   description: "A Selection of tests to trigger rule 920170"
+rule_id: 920170
 tests:
-  - # POST Request with data (valid)
-    test_title: 920170-1
+  - test_id: 1
+    desc: POST Request with data (valid)
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "POST"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Content-Type: "application/x-www-form-urlencoded"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            data: "hi=test"
-            uri: "/"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"920170\""
-  - # GET request with data
-    test_title: 920170-2
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "hi=test"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920170]
+  - test_id: 2
+    desc: GET request with data
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Content-Type: "application/x-www-form-urlencoded"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            data: "hi=test"
-            uri: "/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"920170\""
-  - # Head Request with data
-    test_title: 920170-3
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "hi=test"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920170]
+  - test_id: 3
+    desc: Head Request with data
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "HEAD"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Content-Type: "application/x-www-form-urlencoded"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            data: "hi=test"
-            uri: "/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"920170\""
-  - # GET Request but content length is 0 and data is provided
-    # Weird HTTP 1.0 support bug in Apache, without newline causes 408
-    test_title: 920170-4
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "HEAD"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "hi=test"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920170]
+  - test_id: 4
+    desc: |
+      GET Request but content length is 0 and data is provided.
+      Weird HTTP 1.0 support bug in Apache, without newline causes 408
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Content-Type: "application/x-www-form-urlencoded"
-              Content-Length: "0"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            data: "hi=test\r\n"
-            stop_magic: true
-            uri: "/"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"920170\""
-  - # GET request with content length 0 and no data.
-    test_title: 920170-5
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded"
+            Content-Length: "0"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "hi=test\r\n"
+          uri: "/"
+          version: "HTTP/1.1"
+          autocomplete_headers: false
+        output:
+          log:
+            no_expect_ids: [920170]
+  - test_id: 5
+    desc: GET request with content length 0 and no data.
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Content-Type: "application/x-www-form-urlencoded"
-              Content-Length: "0"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            data: ""
-            uri: "/"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"920170\""
-  - test_title: 920170-6
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded"
+            Content-Length: "0"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: ""
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920170]
+  - test_id: 6
     desc: GET or HEAD Request with Body Content (920170) from old modsec regressions
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: application/x-www-form-urlencoded
-              Host: localhost
-              Keep-Alive: '300'
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: /
-            data: abc
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "920170"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: /
+          data: abc
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920170]

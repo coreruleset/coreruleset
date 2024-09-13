@@ -1,43 +1,43 @@
 ---
 meta:
   author: "csanders-git, azurit"
-  enabled: true
-  name: "920340.yaml"
-  description: "Description"
+  description: 920340 should detect requests that have a `Content-Length` header but no `Content-Type` header
+rule_id: 920340
 tests:
-  - test_title: 920340-1
+  - test_id: 1
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Content-Length: "2"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/"
-            data: "xy"
-            stop_magic: true
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"920340\""
-  - test_title: 920340-2
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Length: "2"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          data: "xy"
+          method: "POST"
+          autocomplete_headers: false
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920340]
+  - test_id: 2
     desc: "Status Page Test - POST request with body content, a non-zero Content-Length header, but no Content-Type header"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Content-Length: "3"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: "POST"
-            uri: "/"
-            data: "abc"
-            stop_magic: true
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"920340\""
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Length: "3"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          uri: "/"
+          data: "abc"
+          autocomplete_headers: false
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920340]

@@ -1,23 +1,21 @@
 ---
 meta:
   author: "karelorigin, azurit"
-  enabled: true
-  name: "934140.yaml"
-  description: "Tests for rule 934140"
+rule_id: 934140
 tests:
-  - test_title: 934140-1
+  - test_id: 1
     desc: Perl interpolation attack
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "*/*"
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get?x=@{[system+whoami]}"
-            version: HTTP/1.0
-          output:
-            log_contains: id "934140"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=@{[system+whoami]}"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [934140]
