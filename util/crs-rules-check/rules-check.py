@@ -786,16 +786,16 @@ def remove_comments(data):
 
 def errmsg(msg):
     if oformat == "github":
-        print("::error %s" % (msg))
+        print("::error::%s" % (msg))
     else:
         print(msg)
 
 def errmsgf(msg):
     if oformat == "github":
         if 'message' in msg and msg['message'].strip() != "":
-            print("::error%sfile={file},line={line},endLine={endLine},title={title}: {message}".format(**msg) % (msg['indent']*" "))
+            print("::error%sfile={file},line={line},endLine={endLine},title={title}:: {message}".format(**msg) % (msg['indent']*" "))
         else:
-            print("::error%sfile={file},line={line},endLine={endLine},title={title}".format(**msg) % (msg['indent']*" "))
+            print("::error%sfile={file},line={line},endLine={endLine},title={title}::".format(**msg) % (msg['indent']*" "))
     else:
         if 'message' in msg and msg['message'].strip() != "":
             print("%sfile={file}, line={line}, endLine={endLine}, title={title}: {message}".format(**msg) % (msg['indent']*" "))
@@ -804,7 +804,7 @@ def errmsgf(msg):
 
 def msg(msg):
     if oformat == "github":
-        print("::debug %s" % (msg))
+        print("::debug::%s" % (msg))
     else:
         print(msg)
 
@@ -818,6 +818,7 @@ def generate_version_string():
     """
     result = subprocess.run(["git", "describe", "--tags", "--match", "v*.*.*"], capture_output=True, text=True)
     version = re.sub("^v", "", result.stdout.strip())
+    print(f"Latest tag found: {version}")
     ver, commits = version.split("-")[0:2]
     if int(commits) > 0:
         version = ver.split(".")
@@ -849,7 +850,7 @@ if __name__ == "__main__":
         # if no --version/-v was given, get version from git describe --tags output
         crsversion = generate_version_string()
     else:
-        crsversion = args.version
+        crsversion = args.version.strip()
     # if no "OWASP_CRS/" prefix, append it
     if not crsversion.startswith("OWASP_CRS/"):
         crsversion = "OWASP_CRS/" + crsversion

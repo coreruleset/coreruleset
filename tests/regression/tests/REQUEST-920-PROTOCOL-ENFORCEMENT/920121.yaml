@@ -119,3 +119,51 @@ tests:
         output:
           log:
             no_expect_ids: [920121]
+  - test_id: 6
+    desc: 'Attempted multipart/form-data bypass (920121). Match \ in FILES.'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: multipart/form-data; boundary=---------------------------265001916915724
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: POST
+          port: 80
+          uri: /
+          data: |
+            -----------------------------265001916915724
+            Content-Disposition: form-data; name="cv.pdf"; filename="1.j\s\p"
+            Content-Type: application/octet-stream
+
+            helloworld
+            -----------------------------265001916915724--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920121]
+  - test_id: 7
+    desc: 'Attempted multipart/form-data bypass (920121). Match \ in FILES_NAMES.'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: multipart/form-data; boundary=---------------------------265001916915724
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: POST
+          port: 80
+          uri: /
+          data: |
+            -----------------------------265001916915724
+            Content-Disposition: form-data; name="cv.p\d\f"; filename="cv.pdf"
+            Content-Type: application/octet-stream
+
+            helloworld
+            -----------------------------265001916915724--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920121]
