@@ -59,27 +59,28 @@ jobs:
           # v<major>.<minor>.<patch>-<nr of commits>-g<hash>.
           # In the former case we simply use that as the version, in the latter we construct
           # v<major>.<minor + 1>.<patch>-dev.
-          version_flag=""
-          if [ -n ${{ github.base_ref }} ]; then
+          if [ -z "${{ github.base_ref }}" ]; then
+            # e.g., force push
+            version="$(git describe --tags --match "v*.*.*")"
+          else
             version="$(git describe --tags --match "v*.*.*" "upstream/${{ github.base_ref }}")"
-            version="$(cut -dv -f2 <<<"${version}")"
-            echo "Detected version ${version}"
-            if $(grep -q -- "-g" <<<"${version}"); then
-              prefix="$(cut -d. -f1 <<<"${version}")"
-              minor="$(cut -d. -f2 <<<"${version}")"
-              suffix="$(cut -d. -f3 <<<"${version}")"
-              version="${prefix}.$((minor + 1)).${suffix}"
-              version="${version/-*-g*/}-dev"
-              version_flag="-v ${version}"
-            fi
-            echo "Required version for check: ${version}"
           fi
+          version="$(cut -dv -f2 <<<"${version}")"
+          echo "Detected version ${version}"
+          if $(grep -q -- "-g" <<<"${version}"); then
+            prefix="$(cut -d. -f1 <<<"${version}")"
+            minor="$(cut -d. -f2 <<<"${version}")"
+            suffix="$(cut -d. -f3 <<<"${version}")"
+            version="${prefix}.$((minor + 1)).${suffix}"
+            version="${version/-*-g*/}-dev"
+          fi
+          echo "Required version for check: ${version}"
           ./util/crs-rules-check/rules-check.py \
             --output=github \
             -r crs-setup.conf.example \
             -r rules/*.conf \
             -t util/APPROVED_TAGS \
-            "${version_flag}"
+            "-v ${version}"
 
       - name: "Find rules without test"
         run: |
