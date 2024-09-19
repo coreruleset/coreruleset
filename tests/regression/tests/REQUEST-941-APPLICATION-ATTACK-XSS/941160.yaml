@@ -263,3 +263,19 @@ tests:
         output:
           log:
             expect_ids: [941160]
+  - test_id: 17
+    desc: "Test with long event name to trigger 941160: onwebkitplaybacktargetavailabilitychanged"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get?body=%3C%22onwebkitplaybacktargetavailabilitychanged%3D"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941160]

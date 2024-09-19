@@ -18,7 +18,7 @@ tests:
             Transfer-Encoding: "chunked"
             User-Agent: "OWASP CRS test agent"
           data: "7\x0D\x0Afoo=bar\x0D\x0A0\x0D\x0A\x0D\x0A"
-          stop_magic: true
+          autocomplete_headers: false
         output:
           # Apache unsets the Content-Length header if Transfer-Encoding is found!
           status: 200
