@@ -1,38 +1,37 @@
 ---
 meta:
   author: "Franziska Bühler, azurit"
-  enabled: true
-  name: 942321.yaml
+rule_id: 942321
 tests:
-  - test_title: 942321-1
+  - test_id: 1
     desc: "Detects MySQL and PostgreSQL stored procedure/function injections"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: encode(lo_get(16200),'base64')::int
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942321"
-  - test_title: 942321-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: encode(lo_get(16200),'base64')::int
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942321]
+  - test_id: 2
     desc: "Detects MySQL and PostgreSQL stored procedure/function injections"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: overlay(password placing $$$$ from 1)::int and id=1
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942321"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: overlay(password placing $$$$ from 1)::int and id=1
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942321]

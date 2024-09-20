@@ -1,40 +1,38 @@
 ---
 meta:
   author: "Christian S.J. Peron, azurit"
-  description: None
-  enabled: true
-  name: 941300.yaml
+rule_id: 941300
 tests:
-  - test_title: 941300-1
+  - test_id: 1
     desc: "IE XSS Filters"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?%3cOBJECT%20data%20%3d=sdffdsa"
-            version: HTTP/1.0
-          output:
-            log_contains: id "941300"
-  - test_title: 941300-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?%3cOBJECT%20data%20%3d=sdffdsa"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [941300]
+  - test_id: 2
     desc: "IE XSS Filters"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            version: HTTP/1.0
-            data: "payload=<object data=\"javascript:alert(1)\"></a>"
-          output:
-            log_contains: id "941300"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.0
+          data: "payload=<object data=\"javascript:alert(1)\"></a>"
+        output:
+          log:
+            expect_ids: [941300]

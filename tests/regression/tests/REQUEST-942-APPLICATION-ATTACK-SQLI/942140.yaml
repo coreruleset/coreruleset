@@ -1,295 +1,293 @@
 ---
 meta:
   author: "Christian S.J. Peron, Christoph Hansen, azurit"
-  description: None
-  enabled: true
-  name: 942140.yaml
+rule_id: 942140
 tests:
-  - test_title: 942140-1
+  - test_id: 1
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?sql_table=pg_catalog"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?sql_table=pg_catalog"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 2
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "INFORMATION_SCHEMA"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "INFORMATION_SCHEMA"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 3
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "database("
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-4
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "database("
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 4
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "db_name("
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-5
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "db_name("
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 5
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "DaTaBasE("
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-6
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "DaTaBasE("
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 6
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "InFoRmaTioN_ScHemA"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-7
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "InFoRmaTioN_ScHemA"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 7
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "DB_NAME("
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-8
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "DB_NAME("
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 8
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "tempdb"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-9
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "tempdb"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 9
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "msdb"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-10
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "msdb"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 10
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "mysql.db"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-11
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "mysql.db"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 11
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "MSysAccessObjects"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-12
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "MSysAccessObjects"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 12
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "Northwind"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-13
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "Northwind"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 13
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "northwind"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-14
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "northwind"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 14
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "SCHEMA_NAME"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-15
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "SCHEMA_NAME"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 15
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "DATABASE("
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-16
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "DATABASE("
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 16
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "schema_name"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
-  - test_title: 942140-17
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "schema_name"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]
+  - test_id: 17
     desc: "SQL Injection Attack: Common DB Names Detected"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "information_schema"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942140"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "information_schema"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942140]

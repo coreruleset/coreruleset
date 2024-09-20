@@ -1,381 +1,379 @@
 ---
 meta:
   author: "Christoph Hansen, azurit"
-  description: None
-  enabled: true
-  name: 942490.yaml
+rule_id: 942490
 tests:
-  - test_title: 942490-1
+  - test_id: 1
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=%22%60%20%2A%20123"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=%22%60%20%2A%20123"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 2
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "' ', 10"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "' ', 10"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 3
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "'', '', '', '', '', '', '', '', 13"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-4
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "'', '', '', '', '', '', '', '', 13"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 4
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "`>65"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-5
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "`>65"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 5
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay='1001'='10"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-6
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay='1001'='10"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 6
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "\"2562*23"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-7
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "\"2562*23"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 7
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay=\":[\"00"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-8
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay=\":[\"00"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 8
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay=`>6fbdec2"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-9
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay=`>6fbdec2"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 9
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay='][0]]), strtolower($b[$GLOBALS['"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-10
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay='][0]]), strtolower($b[$GLOBALS['"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 10
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay=', 2, 1"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-11
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay=', 2, 1"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 11
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "`>9e7"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-12
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "`>9e7"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 12
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay=\":\"65"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-13
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay=\":\"65"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 13
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay='\\2nq5"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-14
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay='\\2nq5"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 14
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay=` < 0) AND `"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-15
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay=` < 0) AND `"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 15
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay='0:0:6"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-16
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay='0:0:6"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 16
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "\":60"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-17
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "\":60"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 17
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay=\">%5 - type_submit_reset_5"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-18
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay=\">%5 - type_submit_reset_5"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 18
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "\":35"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-19
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "\":35"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 19
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay='3085'='30"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-20
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay='3085'='30"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 20
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "\":\"[0,\\x22"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-21
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "\":\"[0,\\x22"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 21
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "pay='16/17"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
-  - test_title: 942490-22
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay='16/17"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]
+  - test_id: 22
     desc: "classic SQL injection probings 3/3"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "\";}7b6"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942490"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "\";}7b6"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [942490]

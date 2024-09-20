@@ -1,891 +1,889 @@
 ---
 meta:
   author: "fzipitria, Max Leske, azurit"
-  enabled: true
-  name: "934120.yaml"
-  description: "Description"
+rule_id: 934120
 tests:
-  - test_title: 934120-1
+  - test_id: 1
     desc: SSRF - IPv4, Dotless decimal
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://2852039166/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-2
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://2852039166/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 2
     desc: SSRF - IPv4, Dotless decimal with overflow
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://7147006462/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-3
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://7147006462/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 3
     desc: SSRF - IPv4, Dotted hexadecimal
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://0xA9.0xFE.0xA9.0xFE/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-4
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://0xA9.0xFE.0xA9.0xFE/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 4
     desc: SSRF - IPv4, Dotless hexadecimal
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://0xA9FEA9FE/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-5
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://0xA9FEA9FE/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 5
     desc: SSRF - IPv4, Dotless hexadecimal with overflow
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://0x41414141A9FEA9FE/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-6
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://0x41414141A9FEA9FE/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 6
     desc: SSRF - IPv4, Dotted octal
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://0251.0376.0251.0376/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-7
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://0251.0376.0251.0376/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 7
     desc: SSRF - IPv4, Dotted octal with padding
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://0251.00376.000251.0000376/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-8
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://0251.00376.000251.0000376/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 8
     desc: SSRF - IPv4, dotted, two bytes decimal, two bytes octal
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://169.254.43518/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-9
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://169.254.43518/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 9
     desc: SSRF - IPv4, dotted, one byte decimal, three bytes octal
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://169.16689662/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-10
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://169.16689662/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 10
     desc: SSRF - IPv6, first 10 bytes compressed
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://[::ffff:a9fe:a9fe]"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-11
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://[::ffff:a9fe:a9fe]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 11
     desc: SSRF - IPV6 Expanded
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://[0:0:0:0:0:ffff:a9fe:a9fe]"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-12
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://[0:0:0:0:0:ffff:a9fe:a9fe]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 12
     desc: SSRF - IPV6 Expanded - Negative tests
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=[0:0:0:0:0:ffff:a9fe:a9fe]"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "934120"
-  - test_title: 934120-13
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=[0:0:0:0:0:ffff:a9fe:a9fe]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934120]
+  - test_id: 13
     desc: SSRF - Dotless decimal - Negative tests
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=2852039166"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "934120"
-  - test_title: 934120-14
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=2852039166"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934120]
+  - test_id: 14
     desc: SSRF - Dotless hexadecimal with overflow - Negative tests
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=0x41414141A9FEA9FE"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "934120"
-  - test_title: 934120-15
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=0x41414141A9FEA9FE"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934120]
+  - test_id: 15
     desc: SSRF - Negative tests - IPv4, dotted, one byte decimal, three bytes octal
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=169.16689662"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "934120"
-  - test_title: 934120-16
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=169.16689662"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934120]
+  - test_id: 16
     desc: SSRF - Negative tests - IPV6 Compressed
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=[::ffff:a9fe:a9fe"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "934120"
-  - test_title: 934120-17
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=[::ffff:a9fe:a9fe"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934120]
+  - test_id: 17
     desc: SSRF - Negative tests - IPV6 Compressed
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=[::ffff:a9fe:a9fe]"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "934120"
-  - test_title: 934120-18
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=[::ffff:a9fe:a9fe]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934120]
+  - test_id: 18
     desc: SSRF - Negative tests - IPV6 Expanded
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=[0:0:0:0:0:ffff:a9fe:a9fe]"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "934120"
-  - test_title: 934120-19
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=[0:0:0:0:0:ffff:a9fe:a9fe]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934120]
+  - test_id: 19
     desc: SSRF - Negative tests - IPV6/IPV4
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=[0:0:0:0:0:ffff:169.254.169.254]"
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: id "934120"
-  - test_title: 934120-20
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=[0:0:0:0:0:ffff:169.254.169.254]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934120]
+  - test_id: 20
     desc: SSRF - Evasion technique 1
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http%3A%2F%2Fgoogle.com%3A80%20%26%40google.com%3A80%23%20%40127.88.23.245%3A22%2F"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-21
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http%3A%2F%2Fgoogle.com%3A80%20%26%40google.com%3A80%23%20%40127.88.23.245%3A22%2F"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 21
     desc: SSRF - Weird protocol scheme 1
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=xri://[0:0:0:0:0:ffff:169.254.169.254]"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-22
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=xri://[0:0:0:0:0:ffff:169.254.169.254]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 22
     desc: SSRF - Weird protocol scheme 2
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=rsync://[0:0:0:0:0:ffff:169.254.169.254]"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-23
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=rsync://[0:0:0:0:0:ffff:169.254.169.254]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 23
     desc: SSRF - Enclosed alphanumerics 1 - digits
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=acap://①②⑦.⓪.⓪.①"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-24
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=acap://①②⑦.⓪.⓪.①"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 24
     desc: SSRF - Enclosed alphanumerics 2 - digits
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=imap://①⑥⑨.②⑤④.①⑥⑨.②⑤④"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-25
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=imap://①⑥⑨.②⑤④.①⑥⑨.②⑤④"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 25
     desc: SSRF - Enclosed alphanumerics 3 - text
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=irc://ⓛⓞⓒⓐⓛⓗⓞⓢⓣ"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-26
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=irc://ⓛⓞⓒⓐⓛⓗⓞⓢⓣ"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 26
     desc: SSRF - Enclosed alphanumerics 3 - text
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=pop3://ⓁⓄⒸⒶⓁⒽⓄⓈⓉ"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-27
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=pop3://ⓁⓄⒸⒶⓁⒽⓄⓈⓉ"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 27
     desc: SSRF - 8-Bit Octal conversion
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=ssh://0177.00.00.01"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-28
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=ssh://0177.00.00.01"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 28
     desc: SSRF - 32-Bit Octal conversion
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=rtmp://017700000001"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-29
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=rtmp://017700000001"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 29
     desc: SSRF - 32-Bit Hex conversion
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=gopher://0x7f000001"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-30
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=gopher://0x7f000001"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 30
     desc: SSRF - IPv6, first byte full, rest compressed
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://[a::]"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-31
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://[a::]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 31
     desc: SSRF - IPv6, first byte full, last byte full, rest compressed
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://[a::b]"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-32
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://[a::b]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 32
     desc: SSRF - IPv6, compressed in the middle
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://[dead:beef:dead::beef:dead:beef:dead]"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-33
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://[dead:beef:dead::beef:dead:beef:dead]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 33
     desc: SSRF - IPv6, link-local unicast with zone ID, compressed
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://[fe80::%zone1]"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-34
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://[fe80::%zone1]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 34
     desc: SSRF - IPv6, link-local unicast with zone ID, full
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://[fe80::dead:beef:dead:beef:dead:beef%zone1]"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-35
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://[fe80::dead:beef:dead:beef:dead:beef%zone1]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 35
     desc: SSRF - IPv6, IPv4 mapped
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://[0:0:0:0:0:ffff:169.254.169.254]"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-36
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://[0:0:0:0:0:ffff:169.254.169.254]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 36
     desc: SSRF - IPv6, IPv4 compatible
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://[0:0:0:0:0:0:169.254.169.254]"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-37
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://[0:0:0:0:0:0:169.254.169.254]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 37
     desc: SSRF - URL bypass, IP + domain
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://google.com%3A80%20%26%40127.88.23.245%3A22%2F%23%20%40google.com%3A80%2F"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-38
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://google.com%3A80%20%26%40127.88.23.245%3A22%2F%23%20%40google.com%3A80%2F"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 38
     desc: SSRF - URL bypass, domain + IP
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://google.com%3A80%20%26%40google.com%3A80%23%20%40127.88.23.245%3A22%2F"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-39
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://google.com%3A80%20%26%40google.com%3A80%23%20%40127.88.23.245%3A22%2F"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 39
     desc: SSRF - Enclosed alphanumerics, dots
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://169。254。169。254/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-40
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://169。254。169。254/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 40
     desc: SSRF - IPv6, the unspecified address
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://[::]/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-41
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://[::]/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 41
     desc: SSRF - Glibc NSS features
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: '/get?ssrf=http://\\l\\o\\c\\a\\l\\h\\o\\s\\t/'
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-42
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: '/get?ssrf=http://\\l\\o\\c\\a\\l\\h\\o\\s\\t/'
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 42
     desc: SSRF - Glibc NSS features
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: '/get?ssrf=http://\\g\\o\\o\\g\\l\\e.\\c\\o\\m/'
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-43
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: '/get?ssrf=http://\\g\\o\\o\\g\\l\\e.\\c\\o\\m/'
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 43
     desc: SSRF - Input variable coverage test (Dotless decimal)
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Cookie: ssrf=http://2852039166/
-            method: "GET"
-            uri: "/get"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Cookie: http://2852039166/
-            method: "GET"
-            uri: "/get"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: POST
-            uri: "/post"
-            data: |
-              ----------397236876
-              Content-Disposition: form-data; name="file"; filename="http://2852039166/?.txt"
-              Content-Type: text/plain
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Cookie: ssrf=http://2852039166/
+          method: "GET"
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Cookie: http://2852039166/
+          method: "GET"
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: POST
+          uri: "/post"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="file"; filename="http://2852039166/?.txt"
+            Content-Type: text/plain
 
-              My epic SSRF attempt
+            My epic SSRF attempt
 
-              ----------397236876--
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?http://2852039166/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=http://2852039166/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-              Content-Type: application/xml
-            method: POST
-            uri: "/post"
-            data: "<?xml version=\"1.0\"?><xml><ssrf>http://2852039166/</ssrf></xml>"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
-  - test_title: 934120-44
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?http://2852039166/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http://2852039166/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: application/xml
+          method: POST
+          uri: "/post"
+          data: "<?xml version=\"1.0\"?><xml><ssrf>http://2852039166/</ssrf></xml>"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 44
     desc: SSRF - local_file:// url scheme - Dotless decimal
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip,deflate
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            uri: "/get?ssrf=local_file://2852039166/"
-            version: "HTTP/1.1"
-          output:
-            log_contains: id "934120"
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=local_file://2852039166/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]

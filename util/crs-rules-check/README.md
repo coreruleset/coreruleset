@@ -51,6 +51,10 @@ Second, the script loops over each of the parsed structures. Each iteration cons
 * **Check rule tags** - only tags listed in `util/APPROVED_TAGS` may be used as tags in rules
     * to use a new tag on a rule, it **must** first be registered in the util/APPROVED_TAGS file
 * **Check t:lowercase and (?i) flag** - No combination of t:lowercase and (?i) should appear in the same rule.
+* **Check rule has a tag with value `OWASP_CRS`** - Every rule must have a tag with value `OWASP_CRS`
+* **Check rule has a `ver` action with correct version** - Every rule must have `ver` action with correct value
+    * script accepts `-v` or `--version` argument if you want to pass it manually
+    * if no `-v` was given, the script tries to extract the version from result of `git describe --tags`
 
 Finally, the script prints a report of all unused TX variables. Usually, unused TX variables occur when a rule creates a TX variable (e.g., `setvar:tx.foo=1`) but the value of the variable is never used anywhere else. This will only be revealed after the script has checked all rules.
 
@@ -449,6 +453,99 @@ examples/test10.conf
  No new tags added.
  There are one or more combinations of t:lowercase and (?i) flag.
   file=examples/test10.conf, line=5, endLine=5, title=t:lowercase and (?i): rule uses (?i) in combination with t:lowercase: 'lowercase'; rule id: 1
+End of checking parsed rules
+Cumulated report about unused TX variables
+ No unused TX variable
+```
+
+### Test 11 - Check rule has a tag with value OWASP_CRS
+
+
+```
+# no tag with OWASP_CRS
+SecRule REQUEST_URI "@rx index.php" \
+    "id:1,\
+    phase:1,\
+    deny,\
+    t:none,\
+    nolog,\
+    tag:attack-xss"
+```
+
+Rule 1 does not have `tag:OWASP_CRS`
+
+```
+$ ./rules-check.py -r examples/test11.conf -t ../APPROVED_TAGS
+Config file: examples/test11.conf
+ Parsing ok.
+Checking parsed rules...
+examples/test11.conf
+ Ignore case check ok.
+ Action order check ok.
+ Indentation check ok.
+ no 'ctl:auditLogParts' action found.
+ no duplicate id's
+ paranoia-level tags are correct.
+ PL anomaly_scores are correct.
+ All TX variables are set.
+ No new tags added.
+ No t:lowercase and (?i) flag used.
+ There are one or more rules without OWASP_CRS tag.
+  file=examples/test11.conf, line=8, endLine=8, title=tag:OWASP_CRS is missing: rule does not have tag with value 'OWASP_CRS'; rule id: 1
+ There are one or more rules without ver action.
+  file=examples/test11.conf, line=8, endLine=8, title=ver is missing / incorrect: rule does not have 'ver' action; rule id: 1
+End of checking parsed rules
+Cumulated report about unused TX variables
+ No unused TX variable
+```
+
+### Test 12 - Check rule has a ver action with correct version
+
+
+```
+# no 'ver' action
+SecRule REQUEST_URI "@rx index.php" \
+    "id:1,\
+    phase:1,\
+    deny,\
+    t:none,\
+    nolog,\
+    tag:OWASP_CRS"
+
+# 'ver' action has invalid value
+SecRule REQUEST_URI "@rx index.php" \
+    "id:1,\
+    phase:1,\
+    deny,\
+    t:none,\
+    nolog,\
+    tag:OWASP_CRS,\
+    ver:OWASP_CRS/1.0.0-dev"
+```
+
+Rule 1 does not have `ver`.
+Rule 2 has incorrect `ver` value.
+
+```
+$ ./rules-check.py -r examples/test12.conf -t ../APPROVED_TAGS
+Config file: examples/test12.conf
+ Parsing ok.
+Checking parsed rules...
+examples/test12.conf
+ Ignore case check ok.
+ Action order check ok.
+ Indentation check ok.
+ no 'ctl:auditLogParts' action found.
+ no duplicate id's
+ paranoia-level tags are correct.
+ PL anomaly_scores are correct.
+ All TX variables are set.
+ No new tags added.
+ No t:lowercase and (?i) flag used.
+ No rule without OWASP_CRS tag.
+ There are one or more rules without ver action.
+  file=examples/test12.conf, line=8, endLine=8, title=ver is missing / incorrect: rule does not have 'ver' action; rule id: 1
+  file=examples/test12.conf, line=18, endLine=18, title=ver is missing / incorrect: rule's 'ver' action has incorrect value; rule id: 2, version: 'OWASP_CRS/1.0.0-dev', expected: 'OWASP_CRS/4.6.0-dev'
 End of checking parsed rules
 Cumulated report about unused TX variables
  No unused TX variable

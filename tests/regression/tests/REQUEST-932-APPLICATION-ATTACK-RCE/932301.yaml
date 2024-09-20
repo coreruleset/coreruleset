@@ -2,124 +2,123 @@
 meta:
   author: "fzipi, azurit"
   description: "Remote Command Execution: SMTP Command Injection test cases PL3"
-  enabled: true
-  name: 932301.yaml
+rule_id: 932301
 tests:
-  - test_title: 932301-1
+  - test_id: 1
     desc: "SMTP DATA Command injection positive test"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "*/*"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get?test=%0d%0aDATA"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932301"
-  - test_title: 932301-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?test=%0d%0aDATA"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932301]
+  - test_id: 2
     desc: "SMTP DATA Command Injection true negative test"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "*/*"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get?text=We%20need%20that%20data%20now"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "932301"
-  - test_title: 932301-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?text=We%20need%20that%20data%20now"
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [932301]
+  - test_id: 3
     desc: "SMTP Command Injection negative test 2"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "*/*"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: POST
-            port: 80
-            uri: "/post"
-            data: |
-              textarea=Hello%21%20World.%0adata%20not%20found.
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "932301"
-  - test_title: 932301-4
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            textarea=Hello%21%20World.%0adata%20not%20found.
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [932301]
+  - test_id: 4
     desc: "SMTP QUIT Command injection positive test"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "*/*"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get?attackme=%0d%0aQUIT"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932301"
-  - test_title: 932301-5
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?attackme=%0d%0aQUIT"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932301]
+  - test_id: 5
     desc: "SMTP Command QUIT Injection negative test"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "*/*"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: POST
-            port: 80
-            uri: "/post"
-            data: |
-              textarea=Hey%20please%20do%20not%20quit
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "932301"
-  - test_title: 932301-6
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            textarea=Hey%20please%20do%20not%20quit
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [932301]
+  - test_id: 6
     desc: "SMTP HELP Command injection positive test"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "*/*"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get?attackme=%0d%0aHELP%20Postmaster"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932301"
-  - test_title: 932301-7
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?attackme=%0d%0aHELP%20Postmaster"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932301]
+  - test_id: 7
     desc: "SMTP HELP Command Injection true negative test"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "*/*"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: POST
-            port: 80
-            uri: "/post"
-            data: |
-              textarea=Hello%21%20This%20text%20needs%20help%20now
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "932301"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            textarea=Hello%21%20This%20text%20needs%20help%20now
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [932301]

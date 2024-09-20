@@ -1,236 +1,234 @@
 ---
 meta:
   author: "Paul Beckett, Esad Cetiner, azurit"
-  enabled: true
-  name: "932160.yaml"
-  description: "Tests to trigger or not trigger rule 932160"
+rule_id: 932160
 tests:
-  - test_title: 932160-1
+  - test_id: 1
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get?932160-1=cat%20/etc/passwd"
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"932160\""
-  - test_title: 932160-2
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932160-1=cat%20/etc/passwd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 2
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "POST"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/post"
-            data: "932160-2=/usr/bin/perl -e 'print readline' some-file.txt"
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"932160\""
-  - test_title: 932160-3
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: "932160-2=/usr/bin/perl -e 'print readline' some-file.txt"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 3
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Cookie: "931120-3=/usr/bin/python3 -m http.server"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get"
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"932160\""
-  - test_title: 932160-4
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Cookie: "931120-3=/usr/bin/python3 -m http.server"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 4
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "POST"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/post"
-            data: '932160-2=dont match commands that are not fully qualified like bash python and perl.'
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"932160\""
-  - test_title: 932160-5
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: '932160-2=dont match commands that are not fully qualified like bash python and perl.'
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932160]
+  - test_id: 5
     desc: "Positive test: Match against bin/gunzip"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "POST"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/post"
-            data: 'cmd=/bin/gunzip -c /var/log/something_sensitive.gz'
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"932160\""
-  - test_title: 932160-6
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: 'cmd=/bin/gunzip -c /var/log/something_sensitive.gz'
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 6
     desc: "Positive test: Match against bin/unxz"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "POST"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/post"
-            data: 'cmd=/bin/unxz -c /var/log/something_sensitive.xz'
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"932160\""
-  - test_title: 932160-7
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: 'cmd=/bin/unxz -c /var/log/something_sensitive.xz'
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 7
     desc: "Negative test: Don't match against the word zip"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "POST"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/post"
-            data: 'sentence=The zip on my coat is stuck'
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: "id \"932160\""
-  - test_title: 932160-8
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: 'sentence=The zip on my coat is stuck'
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932160]
+  - test_id: 8
     desc: "Positive test: Triggering only this rule and no other one"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "POST"
-            uri: "/post"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            data: 'cmd=/bin/ab'
-            version: "HTTP/1.1"
-          output:
-            log_contains: "id \"932160\""
-  - test_title: 932160-9
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          uri: "/post"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: 'cmd=/bin/ab'
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 9
     desc: "Positive test: Unix Command Injection - $SHELL test"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            # code=$SHELL -c "echo hi"
-            uri: "/get?code=%24SHELL%20-c%20%22echo%20hi%22"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932160"
-  - test_title: 932160-10
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          # code=$SHELL -c "echo hi"
+          uri: "/get?code=%24SHELL%20-c%20%22echo%20hi%22"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 10
     desc: "Positive test: Unix Command Injection - ${SHELL} test"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            # code=${SHELL} -c "echo hi"
-            uri: "/get?code=%24%7BSHELL%7D%20-c%20%22echo%20hi%22"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932160"
-  - test_title: 932160-11
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          # code=${SHELL} -c "echo hi"
+          uri: "/get?code=%24%7BSHELL%7D%20-c%20%22echo%20hi%22"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 11
     desc: "Positive test: Match against bin/ansible"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get?a=bin/ansible"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932160"
-  - test_title: 932160-12
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?a=bin/ansible"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 12
     desc: "Positive test: Match against bin/chef"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get?a=bin/chef"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932160"
-  - test_title: 932160-13
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?a=bin/chef"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 13
     desc: "Positive test: Match against bin/cscli"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get?a=bin/cscli"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932160"
-  - test_title: 932160-14
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?a=bin/cscli"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932160]
+  - test_id: 14
     desc: "Positive test: Match against bin/visudo"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get?a=bin/visudo"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932160"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?a=bin/visudo"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932160]

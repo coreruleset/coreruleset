@@ -15,22 +15,22 @@ The OWASP CRS project was part of the effort to develop the Web Application Fire
 ---
 meta:
   author: "csanders-git"
-  enabled: true
   name: "911100.yaml"
-  description: "Description"
+  description: "A meaningful description"
+rule_id: 911100
 tests:
-  - test_title: 911100-1
+  - test_id: 1
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          output:
-            no_log_contains: "id \"911100\""
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+        output:
+          log:
+            expect_id: 911100
 ```
 
 For go-ftw, please check out from [go-ftw releases page](https://github.com/coreruleset/go-ftw/releases).

