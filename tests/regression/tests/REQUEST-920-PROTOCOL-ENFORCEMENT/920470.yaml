@@ -306,3 +306,19 @@ tests:
         output:
           log:
             expect_ids: [920470]
+  - test_id: 19
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: 'multipart/related;    boundary="----=_part_224_386771358.1725612529970";    type="application/soap+xml"'
+            Content-Length: 0
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920470]
