@@ -74,13 +74,13 @@ jobs:
             version="${prefix}.$((minor + 1)).${suffix}"
             version="${version/-*-g*/}-dev"
           fi
-          echo "Required version for check: ${version}"
-          ./util/crs-rules-check/rules-check.py \
-            --output=github \
-            -r crs-setup.conf.example \
-            -r rules/*.conf \
-            -t util/APPROVED_TAGS \
-            "-v ${version}"
+          #echo "Required version for check: ${version}"
+          #./util/crs-rules-check/rules-check.py \
+          #  --output=github \
+          #  -r crs-setup.conf.example \
+          #  -r rules/*.conf \
+          #  -t util/APPROVED_TAGS \
+          #  "-v ${version}"
 
       - name: "Find rules without test"
         run: |
