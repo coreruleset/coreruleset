@@ -44,6 +44,7 @@ jobs:
 
       - name: "Check CRS syntax"
         run: |
+          pip install -U setuptools
           pip install secrules-parsing==${{ env.SECRULES_PARSING_VERSION }}
           secrules-parser -c --output-type github -f rules/*.conf
 
@@ -59,6 +60,7 @@ jobs:
 
       - name: "Check CRS formatting"
         run: |
+          pip install -U setuptools
           pip install -r ./util/crs-rules-check/requirements.txt
           # Use the target branch to look up the latest tag, e.g., `v3.3/master`, fall back
           # to main branch.
@@ -91,6 +93,7 @@ jobs:
 
       - name: "Find rules without test"
         run: |
+          pip install -U setuptools
           pip install -r ./util/find-rules-without-test/requirements.txt
           ./util/find-rules-without-test/find-rules-without-test.py --output=github .
 
