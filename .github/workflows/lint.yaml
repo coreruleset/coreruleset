@@ -7,6 +7,10 @@ env:
   CRS_TOOLCHAIN_VERSION: '2.1.0'
   SECRULES_PARSING_VERSION: '0.2.9'
 
+concurrency:
+  group: ${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   check-syntax:
     runs-on: ubuntu-latest

@@ -18,6 +18,10 @@ on:
 env:
   GO_FTW_VERSION: '1.0.3'
 
+concurrency:
+  group: ${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   regression:
     runs-on: ubuntu-latest
