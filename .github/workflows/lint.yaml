@@ -1,15 +1,22 @@
 name: Lint
 
-on: [push, pull_request, merge_group]
+on:
+  push:
+    branches:
+      - main
+      - v3.3/dev
+      - v3.3/master
+  pull_request:
+    branches:
+      - main
+      - v3.3/dev
+      - v3.3/master
+  merge_group:
 
 # Pin versions to not disrupt test pipelines
 env:
   CRS_TOOLCHAIN_VERSION: '2.1.0'
   SECRULES_PARSING_VERSION: '0.2.9'
-
-concurrency:
-  group: ${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: true
 
 jobs:
   check-syntax:
@@ -71,7 +78,7 @@ jobs:
           fi
           version="$(cut -dv -f2 <<<"${version}")"
           echo "Detected version ${version}"
-          if $(grep -q -- "-g" <<<"${version}"); then
+          if grep -q -- "-g" <<<"${version}"; then
             prefix="$(cut -d. -f1 <<<"${version}")"
             minor="$(cut -d. -f2 <<<"${version}")"
             suffix="$(cut -d. -f3 <<<"${version}")"
