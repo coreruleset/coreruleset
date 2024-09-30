@@ -903,6 +903,21 @@ tests:
           log:
             expect_ids: [932239]
   - test_id: 54
+    desc: "False positive test with legitimate browser containing ; PGT"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (Linux; Android 14; PGT-N19 Build/HONORPGT-N49; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/124.0.6367.180 Mobile Safari/537.36"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+        output:
+          no_log_contains: id "932239"
+- test_id: 55
     desc: |
       False positive with Nextcloud iOS user-agent.
       Should not match `ip`.
@@ -920,7 +935,7 @@ tests:
         output:
           log:
             no_expect_ids: [932239]
-  - test_id: 55
+  - test_id: 56
     desc: |
       False positive with token in referrer.
       Should not match `df`.
@@ -932,24 +947,6 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             referer: https://www.example.com/xyz/?abc=dfc987c2-72e2-4a8e-ad98-e0bf1bc3a01c
-          method: POST
-          port: 80
-          uri: "/post"
-          version: HTTP/1.1
-        output:
-          log:
-            no_expect_ids: [932239]
-  - test_id: 56
-    desc: |
-      False positive with Android user-agent.
-      Should not match `pg`.
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            Host: localhost
-            User-Agent: "Mozilla/5.0 (Linux; Android 14; PGT-N19 Build/HONORPGT-N49; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/124.0.6367.180 Mobile Safari/537.36"
           method: POST
           port: 80
           uri: "/post"
