@@ -431,7 +431,7 @@ class Check(object):
                                 if has_disruptive == True:
                                     self.globtxvars[v['variable_part'].lower()]['used'] = True
                                 if len(self.undef_txvars) > 0 and self.undef_txvars[-1]['var'] == v['variable_part'].lower():
-                                    del(self.undef_txvars[-1])
+                                    del self.undef_txvars[-1]
                 if chained == False:
                     check_exists   = None
                     has_disruptive = False

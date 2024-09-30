@@ -87,10 +87,12 @@ class FileHandler(object):
 if len(sys.argv) < 4:
     print("Argument missing!")
     print("Use: %s rule.conf /path/to/output/directory version" % sys.argv[0])
-    print("     %s \"/path/to/rules/*.conf\" /path/to/output/directory version [comment_version]" % sys.argv[0])
+    print("     %s \"/path/to/rules/*.conf\" /path/to/output/directory version [comment_version]"
+          % sys.argv[0])
     print("Example:")
     print("     mkdir ../../rulestmp")
-    print("     %s \"../../rules/*.conf\" ../../rulestmp \"OWASP_CRS/3.4.0-dev\" \"3.4.0-dev\"" % sys.argv[0])
+    print("     %s \"../../rules/*.conf\" ../../rulestmp \"OWASP_CRS/3.4.0-dev\" \"3.4.0-dev\""
+          % sys.argv[0])
     sys.exit(1)
 
 args = {
