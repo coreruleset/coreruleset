@@ -1,0 +1,65 @@
+---
+meta:
+  author: highpingblorg
+rule_id: 913110
+tests:
+  - test_id: 1
+    desc: "Request Indicates a ClaudeBot AI Scraper is requesting the page"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; ClaudeBot/1.0; claudebot@anthropic.com)
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [913110]
+  - test_id: 2
+    desc: "Request Indicates a incomplete AI Scraper User-agent"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: Bytespider
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [913110]
+  - test_id: 3
+    desc: "Request indicates bot used by Google for SEO"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36 (compatible; GoogleOther)
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [913110]
