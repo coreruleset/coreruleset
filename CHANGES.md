@@ -124,7 +124,11 @@ Changes without direct rule impact:
 
 ## Version 4.0.0 - 2024-02-14
 
-Important changes:
+
+ Important changes:
+
+Backport fix for 3MU-240701-1 - catch invalid character in multipart headers via new rule 922130 (Ervin Hegedus, Felipe Zipitría)
+Backport fix for 3MU-240701-2 - prevent using backslash in file names from v4 - updated rule 920120 - pl1, 920121 - pl2 (Felipe Zipitria)
  * feat: introduce plugin architecture for extending CRS and minimizing attack surface. (Christian Folini, Max Leske, Jozef Sudolský, Andrew Howe) [#2038, #2448, #2404]
  * feat: migrate application exclusions and less-used functionality to plugins (Christian Folini, Max Leske, Jozef Sudolský, Andrew Howe)
  * feat: introduce early blocking option (Christian Folini) [#1955]
