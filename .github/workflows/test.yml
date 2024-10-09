@@ -2,11 +2,19 @@ name: Regression Tests
 
 on:
   push:
+    branches:
+      - main
+      - v3.3/dev
+      - v3.3/master
     paths:
       - 'rules/**'
       - 'tests/**'
       - '.github/**'
   pull_request:
+    branches:
+      - main
+      - v3.3/dev
+      - v3.3/master
     paths:
       - 'rules/**'
       - 'tests/**'
