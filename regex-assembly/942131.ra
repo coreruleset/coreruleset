@@ -1,8 +1,6 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
-##!> define quotes-brackets [\s'\"`()]*?
-
 ##! General comments:
 ##!
 ##! The idea behind this expressions is to capture simple logic based (un)equalities that
@@ -10,7 +8,11 @@
 
 ##! Prefix: captures the initial part that will be unmatched on the right hand side of the logical construct.
 
-##!^ [\s'\"`()]*?\b([\d\w]+)\b[\s'\"`()]*?
+##!^ [\s'\"`()]*?\b(\w+)\b[\s'\"`()]*?
+
+##! Suffix: captures the ending part that will be unmatched on the left hand side of the logical construct.
+
+##!$ [\s'\"`()]*?\b(\w+)\b
 
 ##!+ i
 
@@ -24,20 +26,20 @@
 ##!
 ##! SQL Comparison Operators: !=, <=, >=, <>, <, >, !>, !<, ^
 
-\!={{quotes-brackets}}\b(\w+)\b
-<>{{quotes-brackets}}\b(\w+)\b
-<{{quotes-brackets}}\b(\w+)\b
-\!<{{quotes-brackets}}\b(\w+)\b
->{{quotes-brackets}}\b(\w+)\b
-\!>{{quotes-brackets}}\b(\w+)\b
-<={{quotes-brackets}}\b(\w+)\b
->={{quotes-brackets}}\b(\w+)\b
-\^{{quotes-brackets}}\b(\w+)\b
+\!=
+<>
+<
+\!<
+>
+\!>
+<=
+>=
+\^
 
-is\s+not{{quotes-brackets}}\b(\w+)\b
-not\s+like{{quotes-brackets}}\b(\w+)\b
+is\s+not
+not\s+like
 
 ##! String based regexp.
 
-not\s+rlike{{quotes-brackets}}\b(\w+)\b
-not\s+regexp{{quotes-brackets}}\b(\w+)\b
+not\s+rlike
+not\s+regexp
