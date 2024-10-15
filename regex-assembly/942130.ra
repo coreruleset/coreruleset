@@ -26,19 +26,19 @@
 ##! 'f' like 'f'
 
 ##! This one will also match the "equal" part of '<=' and '>='
-={{quotes-brackets}}\b\w+\b
+={{quotes-brackets}}\b(\w+)\b
 
 ##! <=> NULL-safe equal to operator in MySQL
-<=>{{quotes-brackets}}\b\w+\b
+<=>{{quotes-brackets}}\b(\w+)\b
 
 ##! Like queries allow you to use wilcards: '%'
 
-like{{quotes-brackets}}\b\w+\b
-sounds\s+like{{quotes-brackets}}\b\w+\b
+like{{quotes-brackets}}\b(\w+)\b
+sounds\s+like{{quotes-brackets}}\b(\w+)\b
 
 ##! GLOB operator is used to match text values against a pattern
-glob{{quotes-brackets}}\b\w+\b
+glob{{quotes-brackets}}\b(\w+)\b
 
 ##! String based regexp. These don't use % as wildcard.
-rlike{{quotes-brackets}}\b\w+\b
-regexp{{quotes-brackets}}\b\w+\b
+rlike{{quotes-brackets}}\b(\w+)\b
+regexp{{quotes-brackets}}\b(\w+)\b
