@@ -165,3 +165,20 @@ tests:
         output:
           log:
             expect_ids: [933120]
+  - test_id: 10
+    desc: "FP PHP Injection Attack: prevent matching base64 encoded requests"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            Cache-Control: "no-cache, no-store, must-revalidate"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          uri: "/get?SAMLRequest=mhXNy9pMlFhTjBlRkkzSkpia1Y2cSMtPEE9PTwvc2FtbDpBdHRyaWJ1dGVWYWx1ZT48L3NhbWw6QXR0cmlidXRlPjwvc2FtbDpBdHRyaWJ1dGVTdGF0ZW1lbnQ+PC9zYW1sOkFzc2VydGlvbj48L3NhbWxwOlJlc3BvbnNlPg=="
+          port: 80
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933120]
