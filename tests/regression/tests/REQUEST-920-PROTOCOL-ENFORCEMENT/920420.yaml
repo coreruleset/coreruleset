@@ -352,3 +352,27 @@ tests:
         output:
           log:
             expect_ids: [920420]
+  - test_id: 18
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          method: POST
+          headers:
+            User-Agent: OWASP CRS test agent
+            Host: localhost
+            Content-Type: multipart/mixed; boundary=xyz
+            Accept: multipart/mixed
+          uri: "/OData/OData.svc/$batch"
+          data: |
+            --xxx
+            Content-Type:application/http
+            Content-Transfer-Encoding:binary
+            
+            GET Categories HTTP/1.1
+            
+            --xxx--
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
