@@ -627,6 +627,13 @@ Functionality that has been moved to plugins for this release:
  * fix: wordPress: fix FPs in Site Health page (now a plugin) (Robert de Boer, Fregf, Walter Hop) [#1895, #1920]
  * fix: xenForo: fix FPs (now a plugin) (Walter Hop, ThanhPT) [#1844, #1865, #1894, #1998, #2421]
 
+## Version 3.3.6 - 2024-08-27
+
+Important changes:
+
+* Backport fix for 3MU-240701-1 - catch invalid character in multipart headers via new rule 922130 (Ervin Hegedus, Felipe Zipitría)
+* Backport fix for 3MU-240701-2 - prevent using backslash in file names from v4 - updated rule 920120 - pl1, 920121 - pl2 (Felipe Zipitria)
+
 ## Version 3.3.5 - 2023-07-18
 
 Important changes:
