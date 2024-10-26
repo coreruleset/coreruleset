@@ -467,4 +467,4 @@ Former versions of CRS dynamically included the HTTP response body in the audit 
 * Remove trailing spaces from files (if they're not needed). This will make linters happy.
 * EOF should have an EOL.
 
-The `pre-commit` framework can be used to check for and fix these issues automatically. First, go to the [pre-commit](https://pre-commit.com/) website and download the framework. Then, after installing, use the command `pre-commit install` so that the tools are installed and run each time a commit is made. CRS provides a config file that will keep the repository clean.
+The `pre-commit` framework can be used to check for and fix these issues automatically. First, go to the [pre-commit](https://pre-commit.com/) website and download the framework. Then, after installing, use the command `pre-commit install` so that the tools are installed and run each time a commit is made. CRS provides a config file that will keep the repository clean. We are also running `pre-commit` in our pipeline, so it will catch common errors.
