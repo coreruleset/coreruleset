@@ -26,7 +26,7 @@ We strive to make the OWASP CRS accessible to a wide audience of beginner and ex
 
 [Join the #coreruleset channel on OWASP Slack](https://owasp.slack.com/) to chat about the CRS. ([Click here](https://owasp.org/slack/invite) to get an invitation if you are not yet registered on the OWASP slack. It's open to non-members too.)
 
-Read also our [how to contribute documentation](./CONTRIBUTING.md).
+Read also our documentation on [how to contribute](./CONTRIBUTING.md).
 
 ## License
 
