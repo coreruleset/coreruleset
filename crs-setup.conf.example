@@ -405,6 +405,15 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # content type may still be interpreted as JSON by a backend application but would not trigger the
 # JSON body parser at the WAF, leading to a bypass.
 #
+# When additional JSON content types are legitimately used in a deployment,
+# e.g. application/cloudevents+json, it is extremely important to ensure that a
+# rule exists to enable the engine's JSON body processor for these additional
+# JSON content types. Failure to do so can lead to a request body bypass. The
+# default JSON rule in modsecurity.conf-recommended (200001) will only activate
+# the JSON body processor for the specific content type application/json. The
+# optional modsecurity.conf-recommended rule 200006 can be used to enable the
+# JSON body processor for a wide variety of JSON content types.
+#
 # To prevent blocking request with not allowed content-type by default, you can create an exclusion
 # rule that removes rule 920420. For example:
 # SecRule REQUEST_HEADERS:Content-Type "@rx ^text/plain" \
