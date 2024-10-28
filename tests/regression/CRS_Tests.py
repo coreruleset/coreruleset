@@ -33,7 +33,7 @@ class FooLogChecker(logchecker.LogChecker):
             self.mark_and_flush_log(stage_id)
             self.backwards_reader.reset()
             return self.backwards_reader.readline() or b''
-            
+
         line = try_once()
         while not (header_bytes in line and stage_id_bytes in line):
             line = try_once()
@@ -66,7 +66,7 @@ class FooLogChecker(logchecker.LogChecker):
 
     @staticmethod
     def find_log_location(config):
-        key = 'log_location_linux' 
+        key = 'log_location_linux'
         # First, try to find the log configuration from config.ini
         if key in config:
             return config[key]
@@ -132,7 +132,7 @@ class BackwardsReader:
       while line:
           yield line
           line = self.readline()
-        
+
   def reset(self):
     # get the file size
     self.size = os.stat(self.file)[6]
