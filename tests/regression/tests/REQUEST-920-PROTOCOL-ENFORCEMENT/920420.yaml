@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, Franziska Bühler, azurit"
+  author: "csanders-git, Franziska Bühler, azurit, Andrew Howe"
 rule_id: 920420
 tests:
   - test_id: 1
@@ -248,6 +248,7 @@ tests:
           log:
             expect_ids: [920420]
   - test_id: 12
+    desc: "Positive test: Ensure that the content type multipart/related is not allowed by the default configuration (ref.: 9EA-241022)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -263,8 +264,9 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [920420]
+            expect_ids: [920420]
   - test_id: 13
+    desc: "Positive test: Ensure that the content type multipart/related is not allowed by the default configuration (ref.: 9EA-241022)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -280,7 +282,7 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [920420]
+            expect_ids: [920420]
   - test_id: 14
     stages:
       - input:
@@ -349,6 +351,60 @@ tests:
           uri: "/"
           version: HTTP/1.0
           data: "{\"foo\" : \";+cat+/e\\\\t\\\\*/pa\\\\?s\\\\wd\"}"
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 18
+    desc: "Positive test: Ensure that the content type multipart/related is not allowed by the default configuration (ref.: 9EA-241022)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: multipart/related
+          method: POST
+          port: 80
+          uri: "/"
+          data: "foo"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 19
+    desc: "Positive test: Ensure that the content type application/cloudevents+json is not allowed by the default configuration (ref.: 9EA-241022)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/cloudevents+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 20
+    desc: "Positive test: Ensure that the content type application/cloudevents-batch+json is not allowed by the default configuration (ref.: 9EA-241022)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/cloudevents-batch+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [920420]
