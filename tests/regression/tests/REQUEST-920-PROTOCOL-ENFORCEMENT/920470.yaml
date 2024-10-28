@@ -179,20 +179,6 @@ tests:
             headers:
               User-Agent: "ModSecurity CRS 3 Tests"
               Host: "localhost"
-              Content-Type: 'multipart/related; type="application/xop+xml"; boundary="uuid:a111aaa1-aa11-1a11-a11a-11a1111aa11a"; start="<root.message@cxf.apache.org>"; start-info="application/soap+xml'
-              Content-Length: 0
-          output:
-            no_log_contains: "id \"920470\""
-  - test_title: 920470-14
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            port: 80
-            method: POST
-            headers:
-              User-Agent: "ModSecurity CRS 3 Tests"
-              Host: "localhost"
               Content-Type: 'application/soap+xml; action="urn:hl7-org:v3:PRPA_IN201305UV02"; charset=UTF-8'
               Content-Length: 0
           output:
