@@ -248,6 +248,7 @@ tests:
           log:
             expect_ids: [920420]
   - test_id: 12
+    desc: "Positive test: Ensure that the content type multipart/related is not allowed by the default configuration (ref.: 9EA-241022)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -263,8 +264,9 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [920420]
+            expect_ids: [920420]
   - test_id: 13
+    desc: "Positive test: Ensure that the content type multipart/related is not allowed by the default configuration (ref.: 9EA-241022)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -280,7 +282,7 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [920420]
+            expect_ids: [920420]
   - test_id: 14
     stages:
       - input:
