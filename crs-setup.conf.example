@@ -389,8 +389,8 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  setvar:'tx.allowed_methods=GET HEAD POST OPTIONS'"
 
 # Content-Types that a client is allowed to send in a request.
-# Default: |application/x-www-form-urlencoded| |multipart/form-data| |multipart/related|
-# |text/xml| |application/xml| |application/soap+xml| |application/json|
+# Default: |application/x-www-form-urlencoded| |multipart/form-data| |text/xml|
+# |application/xml| |application/soap+xml| |application/json|
 # |application/cloudevents+json| |application/cloudevents-batch+json|
 #
 # Please note, that the rule where CRS uses this variable (920420) evaluates it with operator
@@ -425,7 +425,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #  nolog,\
 #  pass,\
 #  t:none,\
-#  setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |multipart/related| |text/xml| |application/xml| |application/soap+xml| |application/json| |application/cloudevents+json| |application/cloudevents-batch+json|'"
+#  setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |text/xml| |application/xml| |application/soap+xml| |application/json| |application/cloudevents+json| |application/cloudevents-batch+json|'"
 
 # Allowed HTTP versions.
 # Default: HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0
