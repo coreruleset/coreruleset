@@ -233,6 +233,7 @@ tests:
           output:
             log_contains: "id \"920420\""
   - test_title: 920420-12
+    desc: "Positive test: Ensure that the content type multipart/related is not allowed by the default configuration (ref.: 9EA-241022)"
     stages:
       - stage:
           input:
@@ -246,8 +247,9 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: "test"
           output:
-            no_log_contains: "id \"920420\""
+            log_contains: "id \"920420\""
   - test_title: 920420-13
+    desc: "Positive test: Ensure that the content type multipart/related is not allowed by the default configuration (ref.: 9EA-241022)"
     stages:
       - stage:
           input:
@@ -261,7 +263,7 @@ tests:
               Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             data: "test"
           output:
-            no_log_contains: "id \"920420\""
+            log_contains: "id \"920420\""
   - test_title: 920420-14
     stages:
       - stage:
@@ -330,5 +332,56 @@ tests:
             uri: /
             version: HTTP/1.0
             data: "{\"foo\" : \";+cat+/e\\\\t\\\\*/pa\\\\?s\\\\wd\"}"
+          output:
+            log_contains: "id \"920420\""
+  - test_title: 920420-18
+    desc: "Positive test: Ensure that the content type multipart/related is not allowed by the default configuration (ref.: 9EA-241022)"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            method: "POST"
+            uri: /
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Content-Type: "multipart/related"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: "foo"
+          output:
+            log_contains: "id \"920420\""
+  - test_title: 920420-19
+    desc: "Positive test: Ensure that the content type application/cloudevents+json is not allowed by the default configuration (ref.: 9EA-241022)"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            method: "POST"
+            uri: /
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Content-Type: "application/cloudevents+json"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: '{"foo":"bar"}'
+          output:
+            log_contains: "id \"920420\""
+  - test_title: 920420-20
+    desc: "Positive test: Ensure that the content type application/cloudevents-batch+json is not allowed by the default configuration (ref.: 9EA-241022)"
+    stages:
+      - stage:
+          input:
+            dest_addr: "127.0.0.1"
+            port: 80
+            method: "POST"
+            uri: /
+            headers:
+              User-Agent: "OWASP ModSecurity Core Rule Set"
+              Host: "localhost"
+              Content-Type: "application/cloudevents-batch+json"
+              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            data: '{"foo":"bar"}'
           output:
             log_contains: "id \"920420\""
