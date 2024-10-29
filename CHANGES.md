@@ -6,6 +6,11 @@
   or the CRS Google Group at
 * <https://groups.google.com/a/owasp.org/forum/#!forum/modsecurity-core-rule-set-project>
 
+## Version 3.3.7 - 2024-10-28
+
+### ⭐ Important changes
+
+* fix: 9EA-241022 v3 by @RedXanadu in https://github.com/coreruleset/coreruleset/pull/3906
 
 ## Version 3.3.6 - 2024-08-27
 
