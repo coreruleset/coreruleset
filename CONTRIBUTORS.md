@@ -108,6 +108,7 @@
 - [Timo](https://github.com/ntimo)
 - [Juan-Pablo Tosso](https://github.com/jptosso)
 - [vijayasija99](https://github.com/vijayasija99)
+- [Dany Volk](https://github.com/OhMyVolk)
 - [Ben Williams](https://github.com/benwilliams)
 - [Anna Winkler](https://github.com/annawinkler)
 - [Avery Wong](https://github.com/4v3r9)
