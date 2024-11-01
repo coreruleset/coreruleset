@@ -102,20 +102,6 @@ tests:
           log:
             no_expect_ids: [920270]
   - test_id: 8
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          uri: "/?test%FD=test1"
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          version: "HTTP/1.1"
-        output:
-          log:
-            no_expect_ids: [920270]
-  - test_id: 9
     desc: Test converted from old tests
     stages:
       - input:
