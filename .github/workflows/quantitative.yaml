@@ -1,0 +1,43 @@
+name: Quantitative tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  merge_group:
+
+# Pin tool versions to prevent problems
+env:
+  GO_FTW_VERSION: '1.1.0'
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: ["eng"]
+        year: ["2023"]
+        size: ["10K"]
+        paranoia_level: ["1"]
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.2
+
+      - name: "Install dependencies"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download -R coreruleset/go-ftw "v${{ env.GO_FTW_VERSION }}" \
+            -p "ftw_${{ env.GO_FTW_VERSION }}_linux_amd64.tar.gz" -O - | tar -xzvf - ftw
+
+      - name: "Run tests for language: ${{ matrix.language }}, year: ${{ matrix.year}}, size: ${{ matrix.size }}, paranoia level: ${{ matrix.paranoia_level }}"
+        id: quantitative
+        run: |
+          ./ftw quantitative \
+            -L ${{ matrix.language }} \
+            -y ${{ matrix.year }} \
+            -s ${{ matrix.size }} \
+            -P ${{ matrix.paranoia_level }}
