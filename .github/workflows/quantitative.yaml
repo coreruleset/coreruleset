@@ -40,4 +40,24 @@ jobs:
             -L ${{ matrix.language }} \
             -y ${{ matrix.year }} \
             -s ${{ matrix.size }} \
-            -P ${{ matrix.paranoia_level }}
+            -P ${{ matrix.paranoia_level }} \
+            -o json > results.json
+          echo "results=\'$(cat results.json | jq -r -c)\'" >> $GITHUB_OUTPUT
+
+      - uses: buildingcash/json-to-markdown-table-action@v1
+        id: table
+        with:
+          json: ${{ steps.quantitative.outputs.results.falsePositivesPerRule }}
+
+      # {"count":10000,"falsePositives":408,"falsePositivesPerRule":{"920220":198,"920221":198,"932235":4,"932270":2,"932380":2,"933160":1,"942100":1,"942230":1,"942360":1},"totalTime":4356441750}
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            # Quantitative testing results
+
+            Time to run tests: ${{ steps.quantitative.outputs.results.totalTime }} ms
+            Total tests: ${{ steps.quantitative.outputs.results.count }}
+            False positives: ${{ steps.quantitative.outputs.results.falsePositives }}
+
+            ${{ steps.table.outputs.table }}
