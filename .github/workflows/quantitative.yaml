@@ -63,17 +63,18 @@ jobs:
           OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old_results.json)
           NEW_FALSE_POSITIVES=$(jq -r '.falsePositives' new_results.json)
 
-          echo -e "\n📊 Quantitative test results:" > pr_comment.md
+
+          echo -e "\n📊 Quantitative test results for language: \`${{ matrix.language }}\`, year: \`${{ matrix.year}}\`, size: \`${{ matrix.size }}\`, paranoia level: \`${{ matrix.paranoia_level }}\`:" > pr_comment.md
           if [ "$NEW_FALSE_POSITIVES" -gt "$OLD_FALSE_POSITIVES" ]; then
             echo -e " ⚠️ Quantitative testing detected new false positives" >> pr_comment.md
+            echo -e "📝 Total false positives: \`$OLD_FALSE_POSITIVES\` -> \`$NEW_FALSE_POSITIVES\`\n<details>\n" >> pr_comment.md
+            echo -e "" >> pr_comment.md
+            echo -e "  <summary>Diff details</summary>\n\n\`\`\`\n" >> pr_comment.md
+            diff <(jq . old_results.json) <(jq . new_results.json) >> pr_comment.md || true
+            echo -e "\n\`\`\`\n</details>" >> pr_comment.md
           else
             echo -e " 🚀 Quantitative testing did not detect new false positives" >> pr_comment.md
           fi
-          echo -e "📝 Total false positives: \`$OLD_FALSE_POSITIVES\` -> \`$NEW_FALSE_POSITIVES\`\n<details>\n" >> pr_comment.md
-          echo -e "" >> pr_comment.md
-          echo -e "  <summary>Diff details</summary>\n\n\`\`\`\n" >> pr_comment.md
-          diff <(jq . old_results.json) <(jq . new_results.json) >> pr_comment.md || true
-          echo -e "\n\`\`\`\n</details>" >> pr_comment.md
 
       - name: "Comment PR"
         uses: thollander/actions-comment-pull-request@v3
