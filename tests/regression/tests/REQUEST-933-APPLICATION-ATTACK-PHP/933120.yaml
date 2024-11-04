@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, azurit"
+  author: "Christian S.J. Peron, azurit, Esad Cetiner"
 rule_id: 933120
 tests:
   - test_id: 1
@@ -182,3 +182,37 @@ tests:
         output:
           log:
             no_expect_ids: [933120]
+  - test_id: 11
+    desc: "PHP Injection Attack: Block config directive with whitespace"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            Cache-Control: "no-cache, no-store, must-revalidate"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          uri: "/get?code=memory_limit%20=%20512M"
+          port: 80
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933120]
+  - test_id: 12
+    desc: "PHP Injection Attack: Block config directive with a path"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            Cache-Control: "no-cache, no-store, must-revalidate"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          uri: "/get?code=extension_dir=/path/to/example"
+          port: 80
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933120]
