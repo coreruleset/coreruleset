@@ -71,9 +71,9 @@ jobs:
           fi
           echo -e "Total false positives: $OLD_FALSE_POSITIVES -> $NEW_FALSE_POSITIVES\n<details>\n" >> pr_comment.md
           echo -e "" >> pr_comment.md
-          echo -e "  <summary>Diff details</summary>\`\`\`bash\n" >> pr_comment.md
+          echo -e "  <summary>Diff details</summary>\n\n\`\`\`\n" >> pr_comment.md
           diff <(jq . old_results.json) <(jq . new_results.json) >> pr_comment.md || true
-          echo -e "  \`\`\`\n</details>" >> pr_comment.md
+          echo -e "\n\`\`\`\n</details>" >> pr_comment.md
 
       - name: "Comment PR"
         uses: thollander/actions-comment-pull-request@v3
