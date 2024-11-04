@@ -69,7 +69,7 @@ jobs:
           else
             echo -e " 🚀 Quantitative testing did not detect new false positives\n" >> pr_comment.md
           fi
-          echo -e "Total false positives: $OLD_FALSE_POSITIVES -> $NEW_FALSE_POSITIVES\n<details>\n" >> pr_comment.md
+          echo -e "Total false positives: \`$OLD_FALSE_POSITIVES\` -> \`$NEW_FALSE_POSITIVES\`\n<details>\n" >> pr_comment.md
           echo -e "" >> pr_comment.md
           echo -e "  <summary>Diff details</summary>\n\n\`\`\`\n" >> pr_comment.md
           diff <(jq . old_results.json) <(jq . new_results.json) >> pr_comment.md || true
