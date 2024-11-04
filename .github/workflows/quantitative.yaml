@@ -11,7 +11,7 @@ on:
 
 # Pin tool versions to prevent problems
 env:
-  GO_FTW_VERSION: '1.1.0'
+  GO_FTW_VERSION: '1.1.1'
 
 jobs:
   regression:
@@ -26,6 +26,12 @@ jobs:
       - name: "Checkout repo"
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.2
 
+      - name: "Checkout main repo"
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.2
+        with:
+          repository: coreruleset/coreruleset
+          ref: 'main'
+          path: 'mainBranchFolder'
       - name: "Install dependencies"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -40,4 +46,23 @@ jobs:
             -L ${{ matrix.language }} \
             -y ${{ matrix.year }} \
             -s ${{ matrix.size }} \
-            -P ${{ matrix.paranoia_level }}
+            -P ${{ matrix.paranoia_level }} \
+            -o json -f new_results.json
+          ./ftw quantitative \
+            -C ./mainBranchFolder \
+            -L ${{ matrix.language }} \
+            -y ${{ matrix.year }} \
+            -s ${{ matrix.size }} \
+            -P ${{ matrix.paranoia_level }} \
+            -o json -f old_results.json
+          # CAT the results
+          echo -e "\n📊 New Results"
+          cat new_results.json | jq .
+          echo -e "\n📊 Old Results"
+          cat old_results.json | jq .
+          echo -e "\n"
+          # Show the Diff
+          diff <(jq . old_results.json) <(jq . new_results.json) || true
+          # Compare the results
+          jq -e --slurp '.[0].falsePositives > .[1].falsePositives' new_results.json old_results.json && echo -e "\n⚠️ Quantitative testing detected new false positives. Look above for Diff details" && exit 1
+          echo -e "\n🚀 Quantitative testing did not detect new false positives"
