@@ -11,7 +11,7 @@ on:
 
 # Pin tool versions to prevent problems
 env:
-  GO_FTW_VERSION: '1.1.0'
+  GO_FTW_VERSION: '1.1.1'
 
 jobs:
   regression:
@@ -36,27 +36,25 @@ jobs:
       - name: "Run tests for language: ${{ matrix.language }}, year: ${{ matrix.year}}, size: ${{ matrix.size }}, paranoia level: ${{ matrix.paranoia_level }}"
         id: quantitative
         run: |
-          touch results.json
           ./ftw quantitative \
             -L ${{ matrix.language }} \
             -y ${{ matrix.year }} \
             -s ${{ matrix.size }} \
             -P ${{ matrix.paranoia_level }} \
             -o json -f results.json
-          echo "RESULTS:"
-          cat results.json
-          echo "VARIABLE:"
-          echo "results=\'$(cat results.json)\'"
-          echo "results=\'$(cat results.json)\'" >> $GITHUB_OUTPUT
-
-      - uses: buildingcash/json-to-markdown-table-action@v1
-        id: table
-        with:
-          json: ${{ steps.quantitative.outputs.results.falsePositivesPerRule }}
+          echo "results=$(cat results.json | sed 's/"/\\"/g')" >> $GITHUB_OUTPUT
+          echo "totalTime=$(jq '.totalTime' results.json)" >> $GITHUB_OUTPUT
+          echo "count=$(jq '.count' results.json)" >> $GITHUB_OUTPUT
+          echo "falsePositives=$(jq '.falsePositives' results.json)" >> $GITHUB_OUTPUT
+          echo "falsePositivesPerRule<<EOF" >> $GITHUB_OUTPUT
+          yq e -o csv '.falsePositivesPerRule | to_entries' results.json | \
+            awk -F',' 'NR==1 { printf "| %-10s | %-10s |\n|---|---|\n", $1, $2 } NR>1 { printf "| %-10s | %-10s |\n", $1, $2 }' >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         with:
+          comment-tag: execution
           message: |
             # Quantitative testing results
 
@@ -64,4 +62,5 @@ jobs:
             Total tests: ${{ steps.quantitative.outputs.results.count }}
             False positives: ${{ steps.quantitative.outputs.results.falsePositives }}
 
-            ${{ steps.table.outputs.table }}
+            False positives per rule:
+            ${{ steps.quantitative.outputs.falsePositivesPerRule }}
