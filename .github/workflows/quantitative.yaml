@@ -36,20 +36,24 @@ jobs:
       - name: "Run tests for language: ${{ matrix.language }}, year: ${{ matrix.year}}, size: ${{ matrix.size }}, paranoia level: ${{ matrix.paranoia_level }}"
         id: quantitative
         run: |
+          touch results.json
           ./ftw quantitative \
             -L ${{ matrix.language }} \
             -y ${{ matrix.year }} \
             -s ${{ matrix.size }} \
             -P ${{ matrix.paranoia_level }} \
-            -o json > results.json
-          echo "results=\'$(cat results.json | jq -r -c)\'" >> $GITHUB_OUTPUT
+            -o json -f results.json
+          echo "RESULTS:"
+          cat results.json
+          echo "VARIABLE:"
+          echo "results=\'$(cat results.json)\'"
+          echo "results=\'$(cat results.json)\'" >> $GITHUB_OUTPUT
 
       - uses: buildingcash/json-to-markdown-table-action@v1
         id: table
         with:
           json: ${{ steps.quantitative.outputs.results.falsePositivesPerRule }}
 
-      # {"count":10000,"falsePositives":408,"falsePositivesPerRule":{"920220":198,"920221":198,"932235":4,"932270":2,"932380":2,"933160":1,"942100":1,"942230":1,"942360":1},"totalTime":4356441750}
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
