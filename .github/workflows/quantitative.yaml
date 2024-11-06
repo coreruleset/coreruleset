@@ -45,6 +45,12 @@ jobs:
           gh release download -R coreruleset/go-ftw "v${{ env.GO_FTW_VERSION }}" \
             -p "ftw_${{ env.GO_FTW_VERSION }}_linux_amd64.tar.gz" -O - | tar -xzvf - ftw
 
+      - name: "Restore Cache"
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.ftw
+          key: ${{ matrix.language }}_news_${{ matrix.year }}_${{ matrix.size }}-sentences.txt
+
       - name: "Run tests for language: ${{ matrix.language }}, year: ${{ matrix.year}}, size: ${{ matrix.size }}, paranoia level: ${{ matrix.paranoia_level }}"
         id: quantitative
         run: |
@@ -53,7 +59,7 @@ jobs:
             -y ${{ matrix.year }} \
             -s ${{ matrix.size }} \
             -P ${{ matrix.paranoia_level }} \
-            -o json -f new_results.json
+            -o json -f new_results.json --debug
           ./ftw quantitative \
             -C ./mainBranchFolder \
             -L ${{ matrix.language }} \
@@ -69,7 +75,6 @@ jobs:
           OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old_results.json)
           NEW_FALSE_POSITIVES=$(jq -r '.falsePositives' new_results.json)
 
-
           echo -e "\n📊 Quantitative test results for language: \`${{ matrix.language }}\`, year: \`${{ matrix.year}}\`, size: \`${{ matrix.size }}\`, paranoia level: \`${{ matrix.paranoia_level }}\`:" > pr_comment.md
           if [ "$NEW_FALSE_POSITIVES" -gt "$OLD_FALSE_POSITIVES" ]; then
             echo -e " ⚠️ Quantitative testing detected new false positives" >> pr_comment.md
@@ -81,6 +86,12 @@ jobs:
           else
             echo -e " 🚀 Quantitative testing did not detect new false positives" >> pr_comment.md
           fi
+
+      - name: "Cache Corpus file"
+        uses: actions/cache@v4
+        with:
+          path: ~/.ftw
+          key: ${{ matrix.language }}_news_${{ matrix.year }}_${{ matrix.size }}-sentences.txt
 
       - name: "Comment PR"
         uses: thollander/actions-comment-pull-request@v3
