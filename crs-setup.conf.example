@@ -459,6 +459,11 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # Example: for WebDAV, add the following methods: CHECKOUT COPY DELETE LOCK
 #          MERGE MKACTIVITY MKCOL MOVE PROPFIND PROPPATCH PUT UNLOCK
 # Uncomment this rule to change the default.
+#
+# GET, HEAD, POST and OPTIONS are seen as the minimal set of HTTP methods
+# from a security perspective. For static sites, removing the POST is
+# recommended. Add other HTTP methods as see fit (see above).
+#
 #SecAction \
 #    "id:900200,\
 #    phase:1,\
