@@ -44,7 +44,6 @@ jobs:
         run: |
           gh release download -R coreruleset/go-ftw "v${{ env.GO_FTW_VERSION }}" \
             -p "ftw_${{ env.GO_FTW_VERSION }}_linux_amd64.tar.gz" -O - | tar -xzvf - ftw
-
       - name: "Restore Cache"
         uses: actions/cache/restore@v4
         with:
@@ -92,7 +91,6 @@ jobs:
         with:
           path: ~/.ftw
           key: ${{ matrix.language }}_news_${{ matrix.year }}_${{ matrix.size }}-sentences.txt
-
       - name: "Comment PR"
         uses: thollander/actions-comment-pull-request@v3
         with:
