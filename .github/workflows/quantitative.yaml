@@ -47,7 +47,7 @@ jobs:
       - name: "Restore Cache"
         uses: actions/cache/restore@v4
         with:
-          path: ~/.ftw
+          path: ~/.ftw/*.txt
           key: ${{ matrix.language }}_news_${{ matrix.year }}_${{ matrix.size }}-sentences.txt
 
       - name: "Run tests for language: ${{ matrix.language }}, year: ${{ matrix.year}}, size: ${{ matrix.size }}, paranoia level: ${{ matrix.paranoia_level }}"
@@ -89,7 +89,7 @@ jobs:
       - name: "Cache Corpus file"
         uses: actions/cache@v4
         with:
-          path: ~/.ftw
+          path: ~/.ftw/*.txt
           key: ${{ matrix.language }}_news_${{ matrix.year }}_${{ matrix.size }}-sentences.txt
       - name: "Comment PR"
         uses: thollander/actions-comment-pull-request@v3
