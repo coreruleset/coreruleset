@@ -13,9 +13,11 @@ patterns:
     windows: |
       [\"\^]*
   anti_evasion_suffix:
+    # - \s$: end of word
     # - <>: redirection, e.g., `cat<foo`
     # - ,: brace expansion, e.g., `""{nc,-p,777}`
-    ## - &|: logical operators in headers, e.g., `a=nc&&$a -nlvp 555`
+    # - &|: logical operators in headers, e.g., `a=nc&&$a -nlvp 555`
+    # - ): subshell, e.g, `(ifconfig)`
     unix: |
       (?:[\s<>&|),]|$).*
     # "more foo", "more,foo", "more;foo", "more.com", "more/e",
