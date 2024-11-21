@@ -8,6 +8,7 @@ jobs:
   nightly:
     name: Nightly Release
     runs-on: ubuntu-latest
+    if: github.repository_owner == 'coreruleset' # do not run for forks
     steps:
       - name: Check GH API rate limits
         run: |

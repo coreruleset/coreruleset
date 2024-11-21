@@ -30,6 +30,8 @@
 
 ## Contributors:
 
+- [evidencebp](https://github.com/evidencebp)
+- [mtaket](https://github.com/mtaket)
 - [luelueking](https://github.com/luelueking)
 - [agusmu](https://github.com/agusmu)
 - [Amir Hosein Aliakbarian](https://github.com/AmirHoseinAliakbarian)
@@ -80,6 +82,7 @@
 - [na1ex](https://github.com/na1ex)
 - [Jose Nazario](https://github.com/paralax)
 - [Scott O'Neil](https://github.com/cPanelScott)
+- [Lucas Ostmann](https://github.com/lostmann-owl-it)
 - [NiceYouKnow](https://github.com/NiceYouKnow)
 - [nobletrout](https://github.com/nobletrout)
 - [Fernando Outeda](https://github.com/fog94)
@@ -105,6 +108,7 @@
 - [Timo](https://github.com/ntimo)
 - [Juan-Pablo Tosso](https://github.com/jptosso)
 - [vijayasija99](https://github.com/vijayasija99)
+- [Dany Volk](https://github.com/OhMyVolk)
 - [Ben Williams](https://github.com/benwilliams)
 - [Anna Winkler](https://github.com/annawinkler)
 - [Avery Wong](https://github.com/4v3r9)
