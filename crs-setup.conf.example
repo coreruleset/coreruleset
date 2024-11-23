@@ -808,6 +808,25 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    ver:'OWASP_CRS/4.9.0-dev',\
 #    setvar:tx.crs_validate_utf8_encoding=1"
 
+# -- [[ Skip Checking Responses ]] ------------------------------------------------
+#
+# CRS will perform analysis of the response contents if this is enabled and you have
+# the directive `SecResponseBodyAccess On`.
+#
+# Warning: this feature is _enabled_ by default, but depending on your applications
+# you might be targeted in a Request Filter Denied of Service attack.
+#
+# Uncomment this rule to _skip checking responses_.
+#
+#SecAction \
+#    "id:900500,\
+#    phase:1,\
+#    pass,\
+#    t:none,\
+#    nolog,\
+#    tag:'OWASP_CRS',\
+#    ver:'OWASP_CRS/4.9.0-dev',\
+#    setvar:tx.crs_skip_response_analysis=1"
 
 #
 # -- [[ End of setup ]] --------------------------------------------------------
