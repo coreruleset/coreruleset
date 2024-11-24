@@ -19,6 +19,22 @@ on:
 env:
   GO_FTW_VERSION: '1.1.1'
 
+permissions:
+  actions: none
+  attestations: none
+  checks: none
+  contents: none
+  deployments: none
+  discussions: none
+  id-token: none
+  issues: none
+  packages: none
+  pages: none
+  pull-requests: none
+  repository-projects: none
+  security-events: none
+  statuses: none
+  
 jobs:
   regression:
     runs-on: ubuntu-latest
@@ -28,6 +44,8 @@ jobs:
         year: ["2023"]
         size: ["10K"]
         paranoia_level: ["1"]
+    permissions:
+      pull-requests: write
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.2
