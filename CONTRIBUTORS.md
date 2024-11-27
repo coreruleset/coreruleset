@@ -11,7 +11,6 @@
 - [Esad Cetiner](https://github.com/esadcetiner)
 - [Ervin Hegedus](https://github.com/airween)
 - [Andrew Howe](https://github.com/RedXanadu)
-- [Karel Knibbe](https://github.com/karelorigin)
 - [Max Leske](https://github.com/theseion)
 - [Matteo Pace](https://github.com/M4tteoP)
 - [Jitendra Patro](https://github.com/Xhoenix)
@@ -27,9 +26,11 @@
 - [Chaim Sanders](https://github.com/csanders-git)
 - [Federico G. Schwindt](https://github.com/fgsch)
 - [Simon Studer](https://github.com/studersi)
+- [Karel Knibbe](https://github.com/karelorigin)
 
 ## Contributors:
 
+- [OhMyVolk](https://github.com/OhMyVolk)
 - [evidencebp](https://github.com/evidencebp)
 - [mtaket](https://github.com/mtaket)
 - [luelueking](https://github.com/luelueking)
