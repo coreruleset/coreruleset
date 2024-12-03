@@ -64,6 +64,10 @@
 ##! EOF
 ##! echo "${result}" | sort | uniq >> regex-assembly/exclude/unix-shell-fps-pl1.ra
 
+##! Note: As part of the effort to reduce FPs mid-term (https://github.com/coreruleset/coreruleset/pull/3735)
+##!       we've decided to exclude some commands for which only the exact match is an issure
+##!       (mostly for 933236).
+
 GET
 GET@
 GET~
@@ -735,8 +739,12 @@ tic@
 tic~
 time
 time@
-timedatectl
 time~
+timedatectl
+##! excluded as part of PR #3735
+timeout
+timeout@
+timeout~
 tmux
 top
 top@
@@ -749,6 +757,10 @@ tshark
 ul
 ul@
 ulimit@
+##! excluded as part of PR #3735
+uname
+uname@
+uname~
 uncompress
 uncompress@
 uncompress~
