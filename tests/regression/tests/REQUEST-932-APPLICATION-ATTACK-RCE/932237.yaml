@@ -601,3 +601,21 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
+  - test_id: 38
+    desc: |
+      False positive with Pashto Afghanistan User-Agent
+      Should not match `ps` in `ps-af`.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_10_1 rv:5.0; ps-AF) AppleWebKit/534.28.2 (KHTML, like Gecko) Version/4.0 Safari/534.28.2"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932237]
