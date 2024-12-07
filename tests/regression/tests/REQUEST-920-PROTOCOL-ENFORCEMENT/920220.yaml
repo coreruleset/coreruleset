@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, Max Leske, azurit"
+  author: "csanders-git, Max Leske, azurit, Esad Cetiner"
   description: "Detect invalid URI encoding in the request URI"
 rule_id: 920220
 tests:
@@ -126,3 +126,19 @@ tests:
         output:
           log:
             no_expect_ids: [920220]
+  - test_id: 9
+    desc: Make sure the correct parameter name is being logged
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/get?parm=%62%61%64%"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920220]
+            match_regex: [REQUEST_URI_RAW]
