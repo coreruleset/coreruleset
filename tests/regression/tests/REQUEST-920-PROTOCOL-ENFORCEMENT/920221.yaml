@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Max Leske, azurit"
+  author: "Max Leske, azurit, TimDiam0nd"
   description: "Detect invalid URI encoding in the last path segment of the URI"
 rule_id: 920221
 tests:
@@ -40,10 +40,10 @@ tests:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          uri: /get/
+          uri: "/get/"
           headers:
             User-Agent: "OWASP CRS test agent"
-            Host: localhost
+            Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           version: "HTTP/1.1"
         output:
