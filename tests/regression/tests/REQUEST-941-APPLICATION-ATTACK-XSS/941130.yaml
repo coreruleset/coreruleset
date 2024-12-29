@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, Christian Folini, azurit"
+  author: "csanders-git, Christian Folini, azurit, Max Leske"
 rule_id: 941130
 tests:
   - test_id: 1
@@ -323,3 +323,37 @@ tests:
         output:
           log:
             expect_ids: [941130]
+  - test_id: 20
+    desc: "True positive for `pattern` attribute"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: 'var=<input pattern="^a regex$">'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941130]
+  - test_id: 21
+    desc: "False positive for `pattern` with `=` following at an arbitrary position later"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: "var=There's a pattern in the dark background. Here's a video: <a href=\\x22https://www.youtube.com/watch?v="
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941130]
