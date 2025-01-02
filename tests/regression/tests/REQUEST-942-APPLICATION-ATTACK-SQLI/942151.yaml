@@ -73,7 +73,7 @@ tests:
           log:
             expect_ids: [942151]
   - test_id: 5
-    desc: "SQL injection using 'likelihood' function"
+    desc: "SQL injection using 'substring' function"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -84,7 +84,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "email=1'%20%2B%201%20is%20likelihood(0.0%2C0.0)%20is%201--"
+          data: "email=%27%20AND%20SUBSTRING%28%28SELECT%20Password%20FROM%20Users%20WHERE%20Username%20%3D%20%27Administrator%27%29%2C%201%2C%201%29%20%3E%20%27m"
           version: HTTP/1.0
         output:
           log:
