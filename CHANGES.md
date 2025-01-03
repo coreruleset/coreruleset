@@ -5,6 +5,70 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
+## Version 4.11.0 - TBD
+
+## Version 4.10.0 - 2024-12-29
+
+## What's Changed
+### 🆕 New features and detections 🎉
+* feat: block CVE-2023-5003 by @azurit in https://github.com/coreruleset/coreruleset/pull/3955
+* feat: prevent accessing PHP variables by @azurit in https://github.com/coreruleset/coreruleset/pull/3965
+### 🧰 Other Changes
+* fix: FP against `pattern` with `=` following at arbitrary position by @theseion in https://github.com/coreruleset/coreruleset/pull/3963
+
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.9.0...v4.10.0
+
+## Version 4.9.0 - 2024-11-29
+
+## What's Changed
+### ⭐ Important changes
+* feat: add variable to skip response rules by @fzipi in https://github.com/coreruleset/coreruleset/pull/3944
+### 🆕 New features and detections 🎉
+* feat: add fish shell files to restricted-files.data by @OhMyVolk in https://github.com/coreruleset/coreruleset/pull/3915
+* feat: add quantitative testing to Git workflow by @airween in https://github.com/coreruleset/coreruleset/pull/3924
+### 🧰 Other Changes
+* feat: added support for new web shells by @azurit in https://github.com/coreruleset/coreruleset/pull/3898
+* fix(security): remove double URL decode (921151 PL2, 932190 PL3, 942441 PL2, 942442 PL2, 942460 PL3) by @azurit in https://github.com/coreruleset/coreruleset/pull/3741
+* docs: extended rule documentation (900200) by @dune73 in https://github.com/coreruleset/coreruleset/pull/3934
+
+## New Contributors
+* @OhMyVolk made their first contribution in https://github.com/coreruleset/coreruleset/pull/3915
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.8.0...v4.9.0
+
+## Version 4.8.0 - 2024-10-28
+
+## What's Changed
+### ⭐ Important changes
+* fix: 9EA-241022 v4 by @RedXanadu in https://github.com/coreruleset/coreruleset/pull/3905
+### 🆕 New features and detections 🎉
+* chore: set up nginx tests by @theseion in https://github.com/coreruleset/coreruleset/pull/3856
+### 🧰 Other Changes
+* fix: remove unnecessary capture groups by @TimDiam0nd in https://github.com/coreruleset/coreruleset/pull/3849
+* fix(942120): update operators by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/3841
+* fix(933120): do not match on base64 encoded strings by @fzipi in https://github.com/coreruleset/coreruleset/pull/3863
+* fix(refactor): 942130 and 942131 regex-assembly by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/3862
+* fix(942520):  SQL operators can be one or more characters by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/3845
+* chore: remove verify id-range by @fzipi in https://github.com/coreruleset/coreruleset/pull/3885
+* chore: remove find-max-datalen-in-tests by @fzipi in https://github.com/coreruleset/coreruleset/pull/3891
+* chore: remove honeypot sensor by @fzipi in https://github.com/coreruleset/coreruleset/pull/3883
+* chore: remove browser tools by @fzipi in https://github.com/coreruleset/coreruleset/pull/3887
+* chore: remove send-payload-pls by @fzipi in https://github.com/coreruleset/coreruleset/pull/3879
+* chore: remove geo-location by @fzipi in https://github.com/coreruleset/coreruleset/pull/3875
+* chore: remove crs2 renumbering by @fzipi in https://github.com/coreruleset/coreruleset/pull/3873
+* chore: remove change-version script by @fzipi in https://github.com/coreruleset/coreruleset/pull/3869
+* chore: remove join multiline rules by @fzipi in https://github.com/coreruleset/coreruleset/pull/3877
+* chore: remove av-scanning by @fzipi in https://github.com/coreruleset/coreruleset/pull/3871
+* chore: remove util virtual patching by @fzipi in https://github.com/coreruleset/coreruleset/pull/3889
+* chore: remove fp-finder by @fzipi in https://github.com/coreruleset/coreruleset/pull/3893
+
+## New Contributors
+* @evidencebp made their first contribution in https://github.com/coreruleset/coreruleset/pull/3837
+* @mtaket made their first contribution in https://github.com/coreruleset/coreruleset/pull/3855
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.7.0...v4.8.0
+
 ## Version 4.7.0 - 2024-09-23
 
 ### 🆕 New features and detections 🎉
@@ -626,6 +690,11 @@ Functionality that has been moved to plugins for this release:
  * fix: wordPress: fix FPs and improve performance (now a plugin) (Walter Hop) [#1997, #2311]
  * fix: wordPress: fix FPs in Site Health page (now a plugin) (Robert de Boer, Fregf, Walter Hop) [#1895, #1920]
  * fix: xenForo: fix FPs (now a plugin) (Walter Hop, ThanhPT) [#1844, #1865, #1894, #1998, #2421]
+
+## Version 3.3.7 - 2024-10-28
+
+### ⭐ Important changes
+* fix: 9EA-241022 v3 by @RedXanadu in https://github.com/coreruleset/coreruleset/pull/3906
 
 ## Version 3.3.6 - 2024-08-27
 

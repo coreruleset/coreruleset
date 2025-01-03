@@ -1,0 +1,185 @@
+---
+meta:
+  author: "azurit"
+rule_id: 933135
+tests:
+  - test_id: 1
+    desc: "${'ff'}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%24%7B%27ff%27%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933135]
+  - test_id: 2
+    desc: "$ {'fdf'}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%24%20%7B%27fdf%27%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933135]
+  - test_id: 3
+    desc: "$              {$a}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%24%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%24a%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933135]
+  - test_id: 4
+    desc: "$ {'_VAR'.'IABLE_NAME'}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%24%20%7B%27_VAR%27.%27IABLE_NAME%27%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933135]
+  - test_id: 5
+    desc: "$              {         $a}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%24%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%20%20%20%20%20%20%20%20%20%24a%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933135]
+  - test_id: 6
+    desc: "$     {   CONSTANT   }"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%24%20%20%20%20%20%7B%20%20%20CONSTANT%20%20%20%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933135]
+  - test_id: 7
+    desc: "${}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%24%7B%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933135]
+  - test_id: 8
+    desc: "$ { }"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%24%20%7B%20%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933135]
+  - test_id: 9
+    desc: "${a}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: '300'
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%24%7Ba%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933135]
