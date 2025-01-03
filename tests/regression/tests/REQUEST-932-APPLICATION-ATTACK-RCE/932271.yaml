@@ -1,7 +1,7 @@
 ---                                                                                                                                                                                                                
 meta:
 author: "Xhoenix"
-rule_id: 932270
+rule_id: 932271
 tests:
   - test_id: 1
     desc: "Bash Tilde Expansion - ~0"
@@ -14,11 +14,11 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/get?932270-1=%7E0"
+          uri: "/get?932271-1=%7E0"
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [932270]
+            expect_ids: [932271]
   - test_id: 2
     desc: "Bash Tilde Expansion - ~0"
     stages:
@@ -31,8 +31,8 @@ tests:
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
-          data: 932270-2=%7E0
+          data: 932271-2=%7E0
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [932270]
+            expect_ids: [932271]
