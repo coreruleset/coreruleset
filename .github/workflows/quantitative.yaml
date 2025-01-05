@@ -1,13 +1,7 @@
 name: Quantitative tests
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'rules/**'
-      - '.github/workflows/quantitative.yaml'
-  pull_request:
+  pull_request_target:
     branches:
       - main
     paths:
@@ -17,8 +11,9 @@ on:
 
 # Pin tool versions to prevent problems
 env:
-  GO_FTW_VERSION: '1.1.1'
+  GO_FTW_VERSION: '1.1.2'
 
+permissions: {}
 jobs:
   regression:
     runs-on: ubuntu-latest
@@ -28,6 +23,8 @@ jobs:
         year: ["2023"]
         size: ["10K"]
         paranoia_level: ["1"]
+    permissions:
+      pull-requests: write
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.2
