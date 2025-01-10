@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian Folini, azurit"
+  author: "Christian Folini, azurit, Franziska Bühler"
   description: Various SQL injection tests
 rule_id: 942151
 tests:
@@ -17,7 +17,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=foo'||(select extractvalue(xmltype('<?xml version=\"1.1\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % tocob SYSTEM \"https://unit'||'tests.coreruleset.org/\">%tocob;"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942151]
@@ -34,7 +34,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=/config.txt' (select load_file('\\\\\\\\unittests.coreruleset.org\\\\zow')) '"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942151]
@@ -51,7 +51,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=(select load_file('\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\unitests.corerule'||'set.org\\\\\\\\\\\\\\\\hvs'))"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942151]
@@ -68,12 +68,12 @@ tests:
           port: 80
           uri: "/post"
           data: "var=, FIND_IN_SET('22', Category )"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942151]
   - test_id: 5
-    desc: "SQL injection using 'likelihood' function"
+    desc: "SQL injection using 'substring' function"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -84,8 +84,8 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "email=1'%20%2B%201%20is%20likelihood(0.0%2C0.0)%20is%201--"
-          version: HTTP/1.0
+          data: "email=%27%20AND%20SUBSTRING%28%28SELECT%20Password%20FROM%20Users%20WHERE%20Username%20%3D%20%27Administrator%27%29%2C%201%2C%201%29%20%3E%20%27m"
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942151]
@@ -102,7 +102,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email=admin%40example.com'%20or%20sqlite_compileoption_used%20(id)--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942151]
@@ -119,7 +119,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email=admin%40example.com'and%20not%20sqlite_compileoption_get%20(id)--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942151]
@@ -135,7 +135,7 @@ tests:
           method: GET
           port: 80
           uri: "/get/index.php?id=starts_with(password,'a')::int"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942151]
@@ -151,7 +151,7 @@ tests:
           method: GET
           port: 80
           uri: "/get/index.php?id=jsonb_pretty(...(1,password)::jsonb)::int"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942151]
@@ -167,7 +167,7 @@ tests:
           method: GET
           port: 80
           uri: "/get/index.php?id=...(json_build_object(1,password)::jsonb)::int"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942151]
@@ -183,7 +183,194 @@ tests:
           method: GET
           port: 80
           uri: "/get/index.php?id=unistr(password)::int"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942151]
+  - test_id: 12
+    desc: "False positive with elt ("
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "payload=Weitere überlieferte Bezeichnungen sind Harsle (1319), Crucesignati in Herslo (1475) und Haßelt (1599)."
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942151]
+  - test_id: 13
+    desc: "False positive with left ("
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "payload=Left (WA, RR), following wood edge south (‘Restrictive Byway’/RB) for ½ mile to Pangfield Farm (564719)."
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942151]
+  - test_id: 14
+    desc: "False positive with quarter ("
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "payload=One quarter (24%) of people have had an affair and cheated on a partner at some point in their lives, according to results released today."
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942151]
+  - test_id: 15
+    desc: "False positive with space ("
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "payload=You can choose between front up to maximise space (ideal for art and drawing), left up (for right handed users) and right up (for left handed users)."
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942151]
+  - test_id: 16
+    desc: "False positive with likelihood ("
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: 'payload=A maximum of the likelihood function occurs at the same parameter-value as a maximum of the logarithm of the likelihood (the "log likelihood"), because the logarithm is an increasing function.'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942151]
+  - test_id: 17
+    desc: "False positive with lower ("
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "payload=Below the rank of species he sometimes recognized taxa of a lower (unnamed) rank ; these have since acquired standardised names such as variety in botany and subspecies in zoology."
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942151]
+  - test_id: 18
+    desc: "False positive with convert ("
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "payload=Grasshopper v1.0 made its eighth, and final, test flight on October 7, 2013, flying to an altitude of convert (0.46 miles) before making its eighth successful VTVL landing."
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942151]
+  - test_id: 19
+    desc: "False positive with position ("
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "payload=In older texts printed down to c. 1630, v was used in initial position (even when it represented a vowel, e.g. in vt, later printed ut) and u was used elsewhere, e.g. in nouus, later printed novus."
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942151]
+  - test_id: 20
+    desc: "False positive with degrees ("
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "payload=The measures of the interior angles of the triangle always add up to 180 degrees (same color to point out they are equal)."
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942151]
+  - test_id: 21
+    desc: "False positive with unlikely ("
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "payload=There are numerous causes of asystole that may be reversible if determined quickly enough, however, survival is very unlikely (~2% if not in a hospital)."
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942151]
+  - test_id: 22
+    desc: "False positive with left, ("
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "payload=The script is written from right to left, (Lal 1966) and sometimes follows a boustrophedonic style."
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942151]
