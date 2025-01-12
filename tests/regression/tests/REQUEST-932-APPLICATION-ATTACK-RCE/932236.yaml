@@ -1628,3 +1628,57 @@ tests:
         output:
           log:
             expect_ids: [932236]
+  - test_id: 90
+    desc: "Don't match very long comands with pip~"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=pipaaaaaaaaaaaaaaaaaa
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 91
+    desc: "Block Execution of pip3 command"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=pip3 install something
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 92
+    desc: "Block Execution of pipx command"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=pipx install something
+        output:
+          log:
+            expect_ids: [932236]
