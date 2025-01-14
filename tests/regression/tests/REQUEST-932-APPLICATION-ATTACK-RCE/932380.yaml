@@ -173,3 +173,83 @@ tests:
         output:
           log:
             no_expect_ids: [932380]
+  - test_id: 10
+    desc: False positive against '; vol'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            payload=El primer avión de la aerolínea fue en Curtiss Robin; voló rutas domésticas como transporte de correos y pasajeros.
+        output:
+          log:
+            no_expect_ids: [932380]
+  - test_id: 11
+    desc: False positive against '; where'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            payload=This street is the home of the Foreign Office, Mycroft's place of work; where the Mazarin Stone was stolen, and Percy Phelps chased the thief of the naval treaty.
+        output:
+          log:
+            no_expect_ids: [932380]
+  - test_id: 12
+    desc: False positive against '; for'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            payload=A brief overview of methods is presented here; for detailed coverage, see the cross-referenced articles.
+        output:
+          log:
+            no_expect_ids: [932380]
+  - test_id: 13
+    desc: False positive against '; if'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            payload=I have no money, but I’m gonna push through; if nothing happens by the end of next year, it’s a sign I need to move back home.
+        output:
+          log:
+            no_expect_ids: [932380]
