@@ -460,6 +460,14 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #          MERGE MKACTIVITY MKCOL MOVE PROPFIND PROPPATCH PUT UNLOCK
 # Uncomment this rule to change the default.
 #
+# The HTTP PUT method is normally used to upload data that is saved on the server at a user-supplied URL.
+# If enabled, an attacker may be able to place arbitrary, and potentially malicious, content into the application.
+# Depending on the server's configuration, this may lead to compromise of other users(by uploading
+# client-executable scripts), compromise of the server (by uploading server-executable code), or other attacks.
+# Reference:-
+# https://www.hackingarticles.in/multiple-ways-to-exploiting-put-method/
+# https://beaglesecurity.com/blog/vulnerability/put-method-enabled.html
+#
 # GET, HEAD, POST and OPTIONS are seen as the minimal set of HTTP methods
 # from a security perspective. For static sites, removing the POST is
 # recommended. Add other HTTP methods as see fit (see above).
