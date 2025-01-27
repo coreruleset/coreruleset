@@ -16,13 +16,13 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "TEST=echo | php7.4"
+          data: "TEST=echo | gcc7.4"
           version: HTTP/1.0
         output:
           log:
             expect_ids: [932220]
   - test_id: 2
-    desc: "TEST=echo | ${php7.4}php7.4"
+    desc: "TEST=echo | ${gcc7.4}gcc7.4"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -33,7 +33,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "TEST=echo | ${php7.4}php7.4"
+          data: "TEST=echo | ${gcc7.4}gcc7.4"
           version: HTTP/1.0
         output:
           log:
