@@ -36,24 +36,7 @@ tests:
         output:
           log:
             expect_ids: [932271]
-  - test_id: 3
-    desc: "Bash Tilde expansion - ~+5"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          method: "POST"
-          port: 80
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/post"
-          data: 932270-11=%7E%2B5
-          version: "HTTP/1.1"
-        output:
-          log:
-            expect_ids: [932271]
-  - test_id: 4
+   test_id: 3
     desc: "Bash Tilde expansion(Negative test) - ~+z"
     stages:
       - input:
@@ -65,7 +48,7 @@ tests:
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
-          data: 932270-12=%7E%2Bz
+          data: 932271-3=%7E%2Bz
           version: "HTTP/1.1"
         output:
           log:
