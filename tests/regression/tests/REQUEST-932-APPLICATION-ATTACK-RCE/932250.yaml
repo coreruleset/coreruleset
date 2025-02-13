@@ -4,7 +4,7 @@ meta:
   description: |
     Tests to trigger or not trigger rule 932250.
     - commands used must be less than 4 chars
-    - [\s<>&|)] is required after a command to reduce FPs
+    - Invalid command matches (i.e sudoaaaa) aren't allowed to prevent false positives
 rule_id: 932250
 tests:
   - test_id: 1
@@ -57,7 +57,7 @@ tests:
           log:
             no_expect_ids: [932250]
   - test_id: 4
-    desc: Negative test for excluded command `c99`
+    desc: "Positive test: c99 command"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -72,7 +72,7 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [932250]
+            expect_ids: [932250]
   - test_id: 5
     desc: "Positive test: Unix Command Injection - ksh test"
     stages:

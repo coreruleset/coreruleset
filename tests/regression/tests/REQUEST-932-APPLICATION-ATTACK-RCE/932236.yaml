@@ -1086,7 +1086,7 @@ tests:
           log:
             expect_ids: [932236]
   - test_id: 60
-    desc: "Known false positive with `Wall` at start of string (expected failure)"
+    desc: "Known false positive with `Wall` at start of string"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1102,7 +1102,7 @@ tests:
             sentence=Wall Street\\xe2\\x80\\x99s benchmark stock index struck an all-time high on Tuesday.
         output:
           log:
-            expect_ids: [932236]
+            no_expect_ids: [932236]
   - test_id: 61
     desc: "Known false positive with `Mount` at start of string (expected failure)"
     stages:
@@ -1460,6 +1460,225 @@ tests:
           version: HTTP/1.0
           data: |
             code=cscli alerts list
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 81
+    desc: "False positive with session cookie, invalid command match with sudo"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            cookie: example=SUDoLongRandomString
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 82
+    desc: "False positive with session cookie, invalid command match with fd"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            cookie: example=fd01bfcfdbe02
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 83
+    desc: "False positive with UUID"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            uuid=dfc987c2-72e2-4a8e-ad98-e0bf1bc3a01c
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 84
+    desc: "False positive with word identity"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            uuid=identity
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 85
+    desc: "False positive with word unique"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            uuid=unique
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 86
+    desc: "False positive with common argument value/name `id`."
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            id=5
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 87
+    desc: |
+      false positive with Nextcloud Mail widget.
+      Should not match `mail`.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=mail-unread
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 88
+    desc: |
+      False positive with WordPress ordering posts by date.
+      Should not match `date`.
+      Make sure there is no trailing whitespace at the end, only date with no arguments is excluded
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/wp-json/wp/v2/posts"
+          version: HTTP/1.1
+          data: |-
+            orderby=date
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 89
+    desc: "Block execution of shutdown command."
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=shutdown
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 90
+    desc: "Don't match very long permutations of commands when using ~"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=pipaaaaaaaaaaaaaaaaaa
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 91
+    desc: "Block Execution of pip3 command"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=pip3 install something
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 92
+    desc: "Block Execution of pipx command"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=pipx install something
         output:
           log:
             expect_ids: [932236]
