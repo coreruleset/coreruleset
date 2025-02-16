@@ -644,6 +644,11 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 # Content-Types charsets that a client is allowed to send in a request.
 # The content-types are enclosed by |pipes| as delimiters to guarantee exact matches.
+#
+# You can add additional character sets if something more exotic is required. One caveat: you will also need to edit 'regex-assembly/include/allowed-charsets.ra' and rebuild all the associated regular expressions using `crs-toolchain regex update --all`.
+#
+# Warning: If the WAF engine is unable to fully and correctly decode a newly added character encoding then this can lead to a full request body or response body bypass. Additional permitted character encodings should be added with caution and tested to ensure inspection is not affected.
+#
 # Default: |utf-8| |iso-8859-1| |iso-8859-15| |windows-1252|
 # Uncomment this rule to change the default.
 #SecAction \
