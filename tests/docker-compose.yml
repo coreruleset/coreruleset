@@ -84,7 +84,8 @@ services:
 
   modsec3-nginx-debug:
     <<: *nginx
-    environment:  
+    environment:
+      <<: *nginx-env
       MODSEC_DEBUG_LOG: "/var/log/nginx/modsec_debug.log"
       MODSEC_DEBUG_LOGLEVEL: 9
     
