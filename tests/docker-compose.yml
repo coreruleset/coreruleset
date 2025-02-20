@@ -43,7 +43,7 @@ services:
     user: root
     environment:
       <<: *apache-env
-    volumes: 
+    volumes:
       - ./logs/modsec2-apache:/var/log/apache2:rw
       - ../rules:/opt/owasp-crs/rules:ro
       - ../plugins:/opt/owasp-crs/plugins:ro
@@ -88,7 +88,7 @@ services:
       <<: *nginx-env
       MODSEC_DEBUG_LOG: "/var/log/nginx/modsec_debug.log"
       MODSEC_DEBUG_LOGLEVEL: 9
-    
+
   backend:
     image: ghcr.io/coreruleset/albedo:0.0.16@sha256:0961035bb0ecce95f9b485e1ab1cfc89b626925699576495cfa4287f6fd1cda4
     command: ["--port", "80"]
