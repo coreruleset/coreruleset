@@ -56,8 +56,10 @@ services:
 
   modsec2-apache-debug:
     <<: *apache
+    container_name: modsec2-apache-debug
     environment:
       <<: *apache-env
+      LOGLEVEL: "debug"
       MODSEC_DEBUG_LOG: "/var/log/apache2/modsec_debug.log"
       MODSEC_DEBUG_LOGLEVEL: 9
 
@@ -84,9 +86,11 @@ services:
 
   modsec3-nginx-debug:
     <<: *nginx
-    command: ["nginx-debug", "-g", "daemon-off;"]
+    container_name: modsec3-nginx-debug
+    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh nginx-debug -g 'daemon off;'"]
     environment:
       <<: *nginx-env
+      LOGLEVEL: "debug"
       MODSEC_DEBUG_LOG: "/var/log/nginx/modsec_debug.log"
       MODSEC_DEBUG_LOGLEVEL: 9
 
