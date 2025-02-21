@@ -84,6 +84,7 @@ services:
 
   modsec3-nginx-debug:
     <<: *nginx
+    command: ["nginx-debug", "-g", "daemon-off;"]
     environment:
       <<: *nginx-env
       MODSEC_DEBUG_LOG: "/var/log/nginx/modsec_debug.log"
