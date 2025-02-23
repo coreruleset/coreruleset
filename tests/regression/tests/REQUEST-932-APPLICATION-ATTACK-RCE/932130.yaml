@@ -280,3 +280,131 @@ tests:
         output:
           log:
             expect_ids: [932130]
+  - test_id: 18
+    desc: "Positive test: echo $(echo $(cat /etc/passwd))"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-18=echo%20%24%28echo%20%24%28cat%20%2Fetc%2Fpasswd%29%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 19
+    desc: "Positive test: cat /etc/[p//]asswd"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-19=cat%20%2Fetc%2F%5Bp%2F%2F%5Dasswd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 20
+    desc: "Positive test: cat /[e//]tc/[p//]asswd"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-20=cat%20%2F%5Be%2F%2F%5Dtc%2F%5Bp%2F%2F%5Dasswd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 21
+    desc: "Positive test: cat /[e/////////]tc/[p//]asswd"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-21=cat%20%2F%5Be%2F%2F%2F%2F%2F%2F%2F%2F%2F%5Dtc%2F%5Bp%2F%2F%5Dasswd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 22
+    desc: "Positive test: ls a[b///]c"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-22=ls%20a%5Bb%2F%2F%2F%5Dc"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 23
+    desc: "Positive test: ls *[a//]c"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-23=ls%20%2A%5Ba%2F%2F%5Dc"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 24
+    desc: "Negative test: take this math expression: 1/[a/-1]"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-24=take%20this%20math%20expression%3A%201%2F%5Ba%2F-1%5D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932130]
+  - test_id: 25
+    desc: "Negative test: plase calculate the following a/[b/1234*c]"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-24=plase%20calculate%20the%20following%20a%2F%5Bb%2F1234%2Ac%5D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932130]
