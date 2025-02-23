@@ -12,5 +12,8 @@
 
 ##! Find wordlist bypasses using [ ] glob characters, like: /e[t]c
 ##! Require a / in front to prevent false positives like [text in brackets]
-/\w*\[![^\]\/]+?\]
-/\w*\[[^\]\/]+?\]
+/\w*\[![^\]/]+\]
+/\w*\[[^\]/]+\]
+
+##! Catch subdirectory globbing, example: cat /etc/[p//]asswd
+\[\w/+\]
