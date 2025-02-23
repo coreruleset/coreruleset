@@ -1,0 +1,95 @@
+name: Quantitative tests
+
+on:
+  pull_request_target:
+    branches:
+      - main
+    paths:
+      - 'rules/**'
+      - '.github/workflows/quantitative.yaml'
+  merge_group:
+
+# Pin tool versions to prevent problems
+env:
+  GO_FTW_VERSION: '1.2.0'
+
+permissions: {}
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: ["eng"]
+        year: ["2023"]
+        size: ["10K"]
+        paranoia_level: ["1"]
+    permissions:
+      pull-requests: write
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.2
+
+      - name: "Checkout main repo"
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.2
+        with:
+          repository: coreruleset/coreruleset
+          ref: 'main'
+          path: 'mainBranchFolder'
+      - name: "Install dependencies"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download -R coreruleset/go-ftw "v${{ env.GO_FTW_VERSION }}" \
+            -p "ftw_${{ env.GO_FTW_VERSION }}_linux_amd64.tar.gz" -O - | tar -xzvf - ftw
+      - name: "Restore Cache"
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.ftw/*.txt
+          key: ${{ matrix.language }}_news_${{ matrix.year }}_${{ matrix.size }}-sentences.txt
+
+      - name: "Run tests for language: ${{ matrix.language }}, year: ${{ matrix.year}}, size: ${{ matrix.size }}, paranoia level: ${{ matrix.paranoia_level }}"
+        id: quantitative
+        run: |
+          ./ftw quantitative \
+            -L ${{ matrix.language }} \
+            -y ${{ matrix.year }} \
+            -s ${{ matrix.size }} \
+            -P ${{ matrix.paranoia_level }} \
+            -o json -f new_results.json
+          ./ftw quantitative \
+            -C ./mainBranchFolder \
+            -L ${{ matrix.language }} \
+            -y ${{ matrix.year }} \
+            -s ${{ matrix.size }} \
+            -P ${{ matrix.paranoia_level }} \
+            -o json -f old_results.json
+          echo -e "\n📊 New Results"
+          cat new_results.json | jq .
+          echo -e "\n📊 Old Results"
+          cat old_results.json | jq .
+
+          OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old_results.json)
+          NEW_FALSE_POSITIVES=$(jq -r '.falsePositives' new_results.json)
+
+          echo -e "\n📊 Quantitative test results for language: \`${{ matrix.language }}\`, year: \`${{ matrix.year}}\`, size: \`${{ matrix.size }}\`, paranoia level: \`${{ matrix.paranoia_level }}\`:" > pr_comment.md
+          if [ "$NEW_FALSE_POSITIVES" -gt "$OLD_FALSE_POSITIVES" ]; then
+            echo -e " ⚠️ Quantitative testing detected new false positives" >> pr_comment.md
+            echo -e "📝 Total false positives: \`$OLD_FALSE_POSITIVES\` -> \`$NEW_FALSE_POSITIVES\`\n<details>\n" >> pr_comment.md
+            echo -e "" >> pr_comment.md
+            echo -e "  <summary>Diff details</summary>\n\n\`\`\`\n" >> pr_comment.md
+            diff <(jq . old_results.json) <(jq . new_results.json) >> pr_comment.md || true
+            echo -e "\n\`\`\`\n</details>" >> pr_comment.md
+          else
+            echo -e " 🚀 Quantitative testing did not detect new false positives" >> pr_comment.md
+          fi
+
+      - name: "Cache Corpus file"
+        uses: actions/cache@v4
+        with:
+          path: ~/.ftw/*.txt
+          key: ${{ matrix.language }}_news_${{ matrix.year }}_${{ matrix.size }}-sentences.txt
+      - name: "Comment PR"
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          comment-tag: execution
+          file-path: pr_comment.md

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "0xInfection"
+  author: "0xInfection, Franziska Bühler"
 rule_id: 932125
 tests:
   - test_id: 1
@@ -51,3 +51,54 @@ tests:
         output:
           log:
             expect_ids: [932125]
+  - test_id: 4
+    desc: "Test for fp issue with ;man x"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: "payload=Ihre kleine Schwester ist französisches Esskulturgut; man gönnt sie sich."
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932125]
+  - test_id: 5
+    desc: "Test for fp issue with ;mi x"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: "payload=Mi szép, mi édes azt szeretni a’ kinek kifolyása mind az a’ szép a’ mit itten látunk! ezt mondád, ’s mellyedre szorítál engemet, ’s könyűkre fakadtál; mi szép az, midőn tetteinknek mindeggyike megnyeri az azokat szemlélő Angyalok’ javalásaikat!"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932125]
+  - test_id: 6
+    desc: "Test for fp issue with ;si x"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: "payload=C’est simple: si les feux sont au vert sur la carrosserie, l’assistance peut intervenir sur un véhicule accidenté; si cela vire au rouge et qu’une alarme résonne, un danger électrique haute tension subsiste."
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932125]

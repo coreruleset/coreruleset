@@ -15,8 +15,8 @@ on:
 
 # Pin versions to not disrupt test pipelines
 env:
-  CRS_TOOLCHAIN_VERSION: '2.1.0'
-  SECRULES_PARSING_VERSION: '0.2.9'
+  CRS_TOOLCHAIN_VERSION: '2.3.3'
+  SECRULES_PARSING_VERSION: '0.2.11'
 
 jobs:
   check-syntax:
@@ -81,7 +81,13 @@ jobs:
             minor="$(cut -d. -f2 <<<"${version}")"
             suffix="$(cut -d. -f3 <<<"${version}")"
             version="${prefix}.$((minor + 1)).${suffix}"
-            version="${version/-*-g*/}-dev"
+            release_ref="${{ github.head_ref }}"
+            if [[ "${release_ref}" =~ ^release/v ]]
+            then
+              version="${release_ref/release\/v/}"
+            else
+              version="${version/-*-g*/}-dev"
+            fi
           fi
           echo "Required version for check: ${version}"
           ./util/crs-rules-check/rules-check.py \
