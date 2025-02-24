@@ -3,15 +3,30 @@
 
 ##!+ i
 
-\bor\b\s?\d{1,10}\s?[=<>]+
-\bor\b\s?[\'\"][^=]{1,10}[\'\"]\s?[=<>]+
-'\s+or\s+.{1,20}[+\-!<>=]
-'\s+xor\s+.{1,20}[+\-!<>=]
-\bor\b\s+\d{1,10}
-\bor\b\s+'[^=]{1,10}'
-\bxor\b\s+\d{1,10}
-\bxor\b\s+'[^=]{1,10}'
-\bor\b\s+\d{1,10}\s*?[=<>]
-\bxor\b\s+\d{1,10}\s*?[=<>]
-\bor\b\s+'[^=]{1,10}'\s*?[=<>]
-\bxor\b\s+'[^=]{1,10}'\s*?[=<>]
+##! These expressions try to match the logic using the or and xor logic operators.
+##!
+##! Examples:
+##!
+##! or 1 <
+##! or 1 >
+##! or 1 =
+##! xor 2 <
+##! xor 2 >
+##! xor 2 =
+##! or 'a' <
+##! or 'a' >
+##! or 'a' =
+##! xor 'b' <
+##! xor 'b' >
+##! xor 'b' =
+##! '   or    chars_less_than_20+
+
+##!> define x_or_xor \bx?or\b
+
+{{x_or_xor}}\s+\d{1,10}\s?[=<>]+
+{{x_or_xor}}\s+[\'\"][^=]{1,10}[\'\"]\s?[=<>]+
+{{x_or_xor}}\s+\d{1,10}\s*?[=<>]
+{{x_or_xor}}\s+'[^=]{1,10}'\s*?[=<>]
+{{x_or_xor}}\s+\d{1,10}
+{{x_or_xor}}\s+'[^=]{1,10}'
+'\s+{{x_or_xor}}\s+.{1,20}[+\-!<>=]
