@@ -32,3 +32,68 @@ tests:
         output:
           log:
             expect_ids: [942390]
+  - test_id: 3
+    desc: "Positive test: SQL Injection Attack using xor 2 <"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          uri: "/get?var=xor%202%20%3C"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 4
+    desc: "Positive test: SQL Injection Attack using or 'a' <"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          uri: "/get?var=or%20%27a%27%20%3C"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 5
+    desc: "Positive test: SQL Injection Attack using xor 'b' >"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          uri: "/get?var=xor%20%27b%27%20%3E"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 6
+    desc: "Positive test: SQL Injection Attack using 'or     12356789<'"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          uri: "/get?var=or%20%20%20%20%2012356789%3C"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 7
+    desc: "Positive test: SQL Injection Attack using '  or 3,4,2@!"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          uri: "/get?var=%27%20%20or%203%2C4%2C2%40%21"
+        output:
+          log:
+            expect_ids: [942390]
