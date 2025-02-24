@@ -21,12 +21,17 @@
 ##! xor 'b' =
 ##! '   or    chars_less_than_20+
 
-##!> define x_or_xor \bx?or\b
+##!> define x_or \bx?or\b
+##!> define quotes [\'\"]
+##!> define spaces \s+
+##!> define optional_spaces \s*
+##!> define comparision_operators [><=]
+##!> define unary_operators [+\-!<>=]
+##!> define digits \d{1,10}
+##!> define not_equal [^=]{1,10}
+##!> define different_than_unary_operators [^+\-!<=>]{1,20}
 
-{{x_or_xor}}\s+\d{1,10}\s?[=<>]+
-{{x_or_xor}}\s+[\'\"][^=]{1,10}[\'\"]\s?[=<>]+
-{{x_or_xor}}\s+\d{1,10}\s*?[=<>]
-{{x_or_xor}}\s+'[^=]{1,10}'\s*?[=<>]
-{{x_or_xor}}\s+\d{1,10}
-{{x_or_xor}}\s+'[^=]{1,10}'
-'\s+{{x_or_xor}}\s+.{1,20}[+\-!<>=]
+{{x_or}}{{spaces}}{{digits}}{{optional_spaces}}{{comparision_operators}}
+{{x_or}}{{spaces}}{{quotes}}{{not_equal}}{{quotes}}
+{{x_or}}{{spaces}}{{digits}}
+{{quotes}}{{spaces}}{{x_or}}{{spaces}}{{different_than_unary_operators}}{{unary_operators}}
