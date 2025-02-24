@@ -676,3 +676,20 @@ tests:
         output:
           log:
             expect_ids: [933160]
+  - test_id: 38
+    desc: |
+      Positive test: eval('runExploit()')
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?933160-38=eval%28%27runExploit%28%29%27%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933160]
