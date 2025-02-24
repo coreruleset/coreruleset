@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "lifeforms, azurit"
+  author: "lifeforms, azurit, Esad Cetiner"
 rule_id: 933150
 tests:
   - test_id: 1
@@ -552,8 +552,7 @@ tests:
             expect_ids: [933150]
   - test_id: 33
     desc: |
-      PHP function call with multiple whitespaces.
-      payload: fopen  (blah)
+      False positive with filename matching `fopen`
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -563,8 +562,8 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?foo=fopen%20%20%28blah%29"
+          uri: "/get?foo=RootAndLeafOpenCamera.jpg"
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [933150]
+            no_expect_ids: [933150]
