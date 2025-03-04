@@ -1,10 +1,13 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
+##! The meaning of this rule is.. uncertain.
+##! Description doesn't help: "Detects basic SQL authentication bypass attempts 3/3"
+
 ##!+ i
 
 ##!> define space_or_word \s*[\s\w+]+
-##!> define quotes [\"'`]\s*
+##!> define quotes [\"'`]
 ##!> define digits \d+
 ##!> define space \s+
 ##!> define optional_space \s*
@@ -22,7 +25,6 @@
   ##!=< logical_operators
 ##!<
 
-
 ##!> assemble
   &
   <
@@ -39,7 +41,6 @@
   >=
   ##!=< sql_operators
 ##!<
-
 
 in\s*?\(+\s*?select
 
@@ -63,8 +64,12 @@ in\s*?\(+\s*?select
 ##! (?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\s\w+]+[=\d]+x
 ##!
 
-{{quotes}}{{optional_space}}{{digits}}{{optional_space}}--
-{{quotes}}{{optional_space}}{{digits}}{{optional_space}}#
+##!> assemble
+  {{quotes}}{{optional_space}}{{digits}}{{optional_space}}
+  ##!=>
+  --
+  #
+##!<
 
 ##! ORIGINAL: :up:
 ##! [\"'`]\s*?\d\s*?--
@@ -72,18 +77,21 @@ in\s*?\(+\s*?select
 ##!
 
 ##!> assemble
-  {{quotes}}
+  {{quotes}}{{optional_space}}
   ##!=>
 
   ##!> assemble
-    ##!=> sql_operators
-    {{space}}
-  ##!<
+    ##!> assemble
+      ##!=> sql_operators
+      {{space}}
+    ##!<
 
-  ##!> assemble
-    ##!=> logical_operators
-    {{optional_space}}
+    ##!> assemble
+      ##!=> logical_operators
+      {{optional_space}}
+    ##!<
   ##!<
+  ##!=>
 
   array{{optional_space}}\[
   true\b
@@ -100,58 +108,69 @@ in\s*?\(+\s*?select
       {{space}}to{{space}}
     ##!<
   ##!<
+##!<
 
-  ##! ORIGINAL :up:
-  ##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)array\s*\[
-  ##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\w]+\s*!?~
-  ##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\w]+\s+(?:not\s+)?similar\s+to\s+
-  ##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)(?:true|false)\b
-  ##!
+##! ORIGINAL :up:
+##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)array\s*\[
+##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\w]+\s*!?~
+##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\w]+\s+(?:not\s+)?similar\s+to\s+
+##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)(?:true|false)\b
+##!
+
+##!> assemble
+  {{quotes}}{{optional_space}}
+  ##!=>
+  ##!=> sql_operators
+  {{digits}}
+  ##!=>
+  {{optional_space}}
+  ##!=>
+  ##!=> logical_operators
+##!<
+
+##! ORIGINAL :up:
+##! [\"'`][\%&<>^=]+\d\s*?=
+##! [\"'`][\%&<>^=]+\d\s*?or
+##! [\"'`][\%&<>^=]+\d\s*?xor
+##! [\"'`][\%&<>^=]+\d\s*?div
+##! [\"'`][\%&<>^=]+\d\s*?like
+##! [\"'`][\%&<>^=]+\d\s*?between
+##! [\"'`][\%&<>^=]+\d\s*?and
+##!
+
+##!> assemble
+  {{quotes}}{{optional_space}}
+  ##!=>
 
   ##!> assemble
-    {{quotes}}
+    is{{optional_space}}
     ##!=>
-    ##!=> sql_operators
-    {{digits}}
-    ##!=>
-    {{optional_space}}
-    ##!=>
-    ##!=> logical_operators
+    \d.+{{quotes}}?\w
+    [\d.]+{{optional_space}}\W.*?{{quotes}}
   ##!<
 
-  ##! ORIGINAL :up:
-  ##! [\"'`][\%&<>^=]+\d\s*?=
-  ##! [\"'`][\%&<>^=]+\d\s*?or
-  ##! [\"'`][\%&<>^=]+\d\s*?xor
-  ##! [\"'`][\%&<>^=]+\d\s*?div
-  ##! [\"'`][\%&<>^=]+\d\s*?like
-  ##! [\"'`][\%&<>^=]+\d\s*?between
-  ##! [\"'`][\%&<>^=]+\d\s*?and
-  ##!
+  \W+[\w+-]+\s*?={{optional_space}}\d\W+{{quotes}}
+  \|?[\w-]{3,}[^\w\s.,]+{{quotes}}
+##!<
 
-  {{quotes}}\W+[\w+-]+\s*?={{optional_space}}\d\W+{{quotes}}
-  {{quotes}}is{{optional_space}}\d.+{{quotes}}?\w
-  {{quotes}}is{{optional_space}}[\d.]+{{optional_space}}\W.*?{{quotes}}
-  {{quotes}}\|?[\w-]{3,}[^\w\s.,]+{{quotes}}
+##! ORIGINAL :up:
 
+##! [\"'`]\W+[\w+-]+\s*?=\s*?\d\W+[\"'`]
+##! [\"'`]\s*?is\s*?\d.+[\"'`]?\w
+##! [\"'`]\|?[\w-]{3,}[^\w\s.,]+[\"'`]
+##! [\"'`]\s*?is\s*?[\d.]+\s*?\W.*?[\"'`][\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)array\s*\[
+
+##!> assemble
+  \b
+  ##!=>
+  except{{space}}
   ##!> assemble
-    \b
-    ##!=>
-    except{{space}}
-    ##!> assemble
-      select\b
-      values\b{{optional_space}}\(
-    ##!<
+    select\b
+    values\b{{optional_space}}\(
   ##!<
+##!<
 
-  ##! ORIGINAL :up:
-  ##! \bexcept\s+select\b
-  ##! \bexcept\s+values\s*?\(
-  ##!
-
-  ##! ORIGINAL
-
-  [\"'`]\W+[\w+-]+\s*?=\s*?\d\W+[\"'`]
-  [\"'`]\s*?is\s*?\d.+[\"'`]?\w
-  [\"'`]\|?[\w-]{3,}[^\w\s.,]+[\"'`]
-  [\"'`]\s*?is\s*?[\d.]+\s*?\W.*?[\"'`][\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)array\s*\[
+##! ORIGINAL :up:
+##! \bexcept\s+select\b
+##! \bexcept\s+values\s*?\(
+##!
