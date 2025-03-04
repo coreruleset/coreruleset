@@ -10,15 +10,15 @@
 ##!> define quotes [\"'`]
 ##!> define digits \d+
 ##!> define space \s+
-##!> define optional_space \s*
+##!> define optional_space \s*?
 
 ##! ^ is the same as xor in major databases
 ##!> assemble
-  \^
   and
   nand
   or
   xor
+  xxor
   div
   like
   between
@@ -27,19 +27,12 @@
 ##!<
 
 ##!> assemble
+  %
   &
   <
   >
   ^
   =
-  ->
-  \*
-  /
-  %
-  ==
-  <>
-  <=
-  >=
   ##!=< sql_operators
 ##!<
 
@@ -54,12 +47,10 @@ in\s*?\(+\s*?select
 ##!> assemble
   ##!=> logical_operators
   ##!> assemble
-    \|\|
-    &&
-    ##!=>
+    ##!=> alternative_logical_operators
     {{space_or_word}}
     ##!=>
-    regexp{{optional_space}}?\(
+    regexp{{optional_space}}\(
     sounds{{space}}like{{optional_space}}{{quotes}}
     [=\d]+x
   ##!<
@@ -173,7 +164,7 @@ in\s*?\(+\s*?select
   ##!=>
   ##!> assemble
     select\b
-    values\b{{optional_space}}\(
+    values{{optional_space}}\(
   ##!<
 ##!<
 
