@@ -46,13 +46,13 @@ in\s*?\(+\s*?select
 ##!> assemble
   ##!=> logical_operators
   ##!> assemble
-    ||
+    \|\|
     &&
     ##!=>
     {{space_or_word}}
     ##!=>
-    regexp\s*?\(
-    sounds\s+like\s*?{{quotes}}
+    regexp{{optional_space}}?\(
+    sounds{{space}}like{{optional_space}}{{quotes}}
     [=\d]+x
   ##!<
 ##!<
@@ -102,10 +102,10 @@ in\s*?\(+\s*?select
   ##!<
 
   ##! ORIGINAL :up:
-  ##! {{quotes}}(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)array\s*\[
-  ##! {{quotes}}(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\w]+\s*!?~
-  ##! {{quotes}}(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\w]+\s+(?:not\s+)?similar\s+to\s+
-  ##! {{quotes}}(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)(?:true|false)\b
+  ##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)array\s*\[
+  ##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\w]+\s*!?~
+  ##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\w]+\s+(?:not\s+)?similar\s+to\s+
+  ##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)(?:true|false)\b
   ##!
 
   ##!> assemble
@@ -129,9 +129,9 @@ in\s*?\(+\s*?select
   ##! [\"'`][\%&<>^=]+\d\s*?and
   ##!
 
-  {{quotes}}\W+[\w+-]+\s*?=\s*?\d\W+{{quotes}}
-  {{quotes}}is\s*?\d.+{{quotes}}?\w
-  {{quotes}}is\s*?[\d.]+\s*?\W.*?{{quotes}}
+  {{quotes}}\W+[\w+-]+\s*?={{optional_space}}\d\W+{{quotes}}
+  {{quotes}}is{{optional_space}}\d.+{{quotes}}?\w
+  {{quotes}}is{{optional_space}}[\d.]+{{optional_space}}\W.*?{{quotes}}
   {{quotes}}\|?[\w-]{3,}[^\w\s.,]+{{quotes}}
 
   ##!> assemble
