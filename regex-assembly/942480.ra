@@ -3,33 +3,57 @@
 
 ##!+ i
 
-\bdbms_\w+\.\b
-\bdelete\b\W*?\bfrom\b
-\bgroup\b.*?\bby\b.{1,100}?\bhaving\b
-\binner\b\W*?\bjoin\b
-\binsert\b\W*?\binto\b
-\binto\b\W*?\bdumpfile\b
-\binto\b\W*?\boutfile\b
-\bload\b\W*?\bdata\b.*?\binfile\b
-\boverlay\b\W*?\(.*?\b\W*?placing\b
-\bprint\b\W*?\@\@
-\bselect\b.{1,100}?\b.*?\bdump\b.*\bfrom\b
-\bselect\b.{1,100}?\bcount\b.{1,100}?\bfrom\b
-\bselect\b.{1,100}?\bdata_type\b
-\bselect\b.{1,100}?\bfrom\b.{1,100}?\bwhere\b
-\bselect\b.{1,100}?\binstr\b
-\bselect\b.{1,100}?\blength\b.{1,100}?\bfrom\b
-\bselect\b.{1,100}?\bto_char\b
-\bselect\b.{1,100}?\bto_number\b
-\bselect\b.{1,100}?\btop\b.{1,100}?\bfrom\b
-\bsys_context\b
-\bunion\b.{1,100}?\bselect\b
-\butl_inaddr\b
-collation\W*?\(a\b
+##!> define optional_non_word \b\W*?\b
+##!> define less_than_100_chars \b.{1,100}?\b
+
+##!> assemble
+  \b
+  ##!=>
+  ##!> assemble
+    dbms_\w+\.
+    delete{{optional_non_word}}from
+    group\b.*?\bby{{less_than_100_chars}}having
+    inner{{optional_non_word}}join
+    insert{{optional_non_word}}into
+    into{{optional_non_word}}dumpfile
+    into{{optional_non_word}}outfile
+    load{{optional_non_word}}data\b.*?\binfile
+    overlay\b\W*?\(.*?\b\W*?placing
+    print\b\W*?\@\@
+    collation\b\W*?\(a
+  ##!<
+  ##!=>
+  \b
+##!<
+##!=>
+
+##!> assemble
+  \b
+  ##!=>
+  ##!> assemble
+    select{{less_than_100_chars}}.*?\bdump\b.*\bfrom
+    select{{less_than_100_chars}}count{{less_than_100_chars}}from
+    select{{less_than_100_chars}}data_type
+    select{{less_than_100_chars}}from{{less_than_100_chars}}where
+    select{{less_than_100_chars}}instr
+    select{{less_than_100_chars}}length{{less_than_100_chars}}from
+    select{{less_than_100_chars}}to_char
+    select{{less_than_100_chars}}to_number
+    select{{less_than_100_chars}}top{{less_than_100_chars}}from
+    sys_context
+    union{{less_than_100_chars}}select
+    utl_inaddr
+  ##!<
+  ##!=>
+  \b
+##!<
+##!=>
+
 'dbo'
 'msdasql'
 'sa'
 'sqloledb'
+
 \@\@version\b
 ;\W*?\bdrop\b
 ;\W*?\bshutdown\b
