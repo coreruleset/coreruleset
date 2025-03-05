@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Ervin Hegedus"
+  author: "Ervin Hegedus, TimDiam0nd"
   description: Test Multipart/form-data
 rule_id: 922130
 tests:
@@ -26,7 +26,7 @@ tests:
           log:
             # The rule will match when an older version of the engine doesn't fail parsing. In newer versions of the engine,
             # parsing will fail and the body will be considered invalid.
-            match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
+            match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\].*\[msg "Multipart header contains characters outside of valid range"\]'
   - test_id: 2
     desc: |
       Positive test: special character in multipart header.
@@ -49,7 +49,7 @@ tests:
           log:
             # The rule will match when an older version of the engine doesn't fail parsing. In newer versions of the engine,
             # parsing will fail and the body will be considered invalid.
-            match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
+            match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\].*\[msg "Multipart header contains characters outside of valid range"\]'
   - test_id: 3
     desc: "Negative test: no special character in multipart header"
     stages:
@@ -72,7 +72,7 @@ tests:
             --boundary--
         output:
           log:
-            no_match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
+            no_match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\].*\[msg "Multipart header contains characters outside of valid range"\]'
   - test_id: 4
     desc: |
       Positive test: special character in multipart header.
@@ -95,7 +95,7 @@ tests:
           log:
             # The rule will match when an older version of the engine doesn't fail parsing. In newer versions of the engine,
             # parsing will fail and the body will be considered invalid.
-            match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
+            match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\].*\[msg "Multipart header contains characters outside of valid range"\]'
   - test_id: 5
     desc: "Negative test: no character from outside of range in multipart header; '!' is allowed (\x21, the first character in the range of valid characters))"
     stages:
@@ -118,7 +118,7 @@ tests:
             --boundary--
         output:
           log:
-            no_match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
+            no_match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\].*\[msg "Multipart header contains characters outside of valid range"\]'
   - test_id: 6
     desc: "Negative test: no character from outside of range in multipart header; '~' is allowed (\x7E, the last valid character in the range of valid characters)"
     stages:
@@ -142,7 +142,7 @@ tests:
             --boundary--
         output:
           log:
-            no_match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
+            no_match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\].*\[msg "Multipart header contains characters outside of valid range"\]'
   - test_id: 7
     desc: |
       Positive test: special character in multipart header.
@@ -165,4 +165,27 @@ tests:
           log:
             # The rule will match when an older version of the engine doesn't fail parsing. In newer versions of the engine,
             # parsing will fail and the body will be considered invalid.
-            match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\] \[msg "Multipart header contains characters outside of valid range"\]'
+            match_regex: 'Multipart parsing error: Multipart: Invalid part header \(contains invalid character\)|\[id "922130"\].*\[msg "Multipart header contains characters outside of valid range"\]'
+  - test_id: 8
+    desc: Negative test - do not match when there are no multipart headers.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=boundary123
+            Accept: "*/*"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: |
+            --boundary123
+            test
+            --boundary123
+            yet another test
+            --boundary123--
+        output:
+          log:
+            no_expect_ids: [922130]

@@ -213,3 +213,21 @@ tests:
         output:
           log:
             expect_ids: [930121]
+  - test_id: 11
+    desc: |
+      False positive test.
+      Don't match `.env`
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            User-Agent: "/test.environment"
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930121]

@@ -52,7 +52,7 @@ tests:
           log:
             no_expect_ids: [941120]
   - test_id: 4
-    desc: "XSS Filter - Category 2: Event Handler Vector"
+    desc: "XSS Filter - Category 2: Event Handler Vector - now a positive test after updating lenght to 50"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -66,7 +66,7 @@ tests:
           version: HTTP/1.0
         output:
           log:
-            no_expect_ids: [941120]
+            expect_ids: [941120]
   - test_id: 5
     desc: "XSS Filter - Category 2: Event Handler Vector"
     stages:
@@ -100,3 +100,35 @@ tests:
         output:
           log:
             expect_ids: [941120]
+  - test_id: 7
+    desc: "Test longer event name onwebkitplaybacktargetavailabilitychanged"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?%20%20onwebkitplaybacktargetavailabilitychanged%3d%20=vardata"
+          version: HTTP/1.0
+        output:
+          log:
+            expect_ids: [941120]
+  - test_id: 8
+    desc: "Negative test: word longer than 50 chars - onthisisaverylongwordthathasmorethanfiftycharacters (51 chars)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?%20%20onthisisaverylongwordthathasmorethanfiftycharacters%20=vardata"
+          version: HTTP/1.0
+        output:
+          log:
+            no_expect_ids: [941120]

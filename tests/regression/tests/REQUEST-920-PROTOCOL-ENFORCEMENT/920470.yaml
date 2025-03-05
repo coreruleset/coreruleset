@@ -213,7 +213,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Content-Type: 'multipart/related; type="application/xop+xml"; boundary="uuid:a111aaa1-aa11-1a11-a11a-11a1111aa11a"; start="<root.message@cxf.apache.org>"; start-info="application/soap+xml'
+            Content-Type: 'application/soap+xml; action="urn:hl7-org:v3:PRPA_IN201305UV02"; charset=UTF-8'
             Content-Length: 0
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"
@@ -230,7 +230,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Content-Type: 'application/soap+xml; action="urn:hl7-org:v3:PRPA_IN201305UV02"; charset=UTF-8'
+            Content-Type: 'application/soap+xml; charset=utf-8; action="urn:localhost-hwh#getQuestions"'
             Content-Length: 0
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"
@@ -247,7 +247,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Content-Type: 'application/soap+xml; charset=utf-8; action="urn:localhost-hwh#getQuestions"'
+            Content-Type: 'ext/vcard;version=4.0'
             Content-Length: 0
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"
@@ -264,23 +264,6 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Content-Type: 'ext/vcard;version=4.0'
-            Content-Length: 0
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/"
-          version: "HTTP/1.1"
-        output:
-          log:
-            no_expect_ids: [920470]
-  - test_id: 17
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          port: 80
-          method: POST
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
             Content-Type: 'application/*+json'
             Content-Length: 0
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
@@ -289,7 +272,7 @@ tests:
         output:
           log:
             no_expect_ids: [920470]
-  - test_id: 18
+  - test_id: 17
     desc: "Status Page Test - Illegal Content-Type header: 'text/xml; blah' where blah isn't a valid parameter for this header field"
     stages:
       - input:

@@ -216,3 +216,19 @@ tests:
         output:
           log:
             expect_ids: [934130]
+  - test_id: 14
+    desc: "Detect example payload [constructor][prototype]"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?x=x&a[constructor][prototype]=image&a[constructor][prototype][onerror]=a"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934130]

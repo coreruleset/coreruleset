@@ -357,40 +357,6 @@ tests:
           log:
             expect_ids: [942520]
   - test_id: 21
-    desc: "Integration test: 942521 blocks foo'or'oof"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "var=foo'or'oof"
-          version: HTTP/1.0
-        output:
-          log:
-            expect_ids: [942521]
-  - test_id: 22
-    desc: "Integration test: 942522 blocks foo\\''or'oof"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "var=foo%5c''or'oof"
-          version: HTTP/1.0
-        output:
-          log:
-            expect_ids: [942522]
-  - test_id: 23
     desc: "Detect auth bypass email=' is not?--"
     stages:
       - input:
