@@ -3,6 +3,7 @@
 
 x-common-env: &common-env
   ARG_LENGTH: 400
+  TOTAL_ARG_LENGTH: 6400
   BACKEND: http://backend
   BLOCKING_PARANOIA: 4
   COMBINED_FILE_SIZES: "65535"
@@ -36,6 +37,7 @@ services:
   modsec2-apache: &apache
     container_name: modsec2-apache
     image: owasp/modsecurity-crs:apache@sha256:36fc67d66f7761a6cb532c4855901a41792efa6e58303833c03aeed285c9c961 # pin v4.3.0
+
     # NOTE: The user used to run the container process is explicitly set to
     # 'root'. This fixes issues with permissions on the logging directories used
     # as bind mounts. This is done as *a convenience for running the CRS testing
