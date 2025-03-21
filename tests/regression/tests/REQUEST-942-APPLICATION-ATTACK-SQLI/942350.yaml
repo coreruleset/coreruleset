@@ -16,7 +16,7 @@ tests:
           port: 80
           # ; insert INTO table (word) VALUES('dfsd')
           uri: "/get?var=%3bINSERT%20INTO%20table%20%28col%29%20VALUES"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942350]
@@ -33,7 +33,7 @@ tests:
           port: 80
           # ;insertion_424242
           uri: "/get?var=%3Binsertion_424242"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942350]
@@ -50,7 +50,7 @@ tests:
           port: 80
           # CREATE FUNCTION hello (s CHAR(20)) RETURNS CHAR(50) DETERMINISTIC RETURN CONCAT('Hello, ',s,'!');
           uri: "/get?var=CREATE+FUNCTION+hello+%28s+CHAR%2820%29%29+RETURNS+CHAR%2850%29+DETERMINISTIC+RETURN+CONCAT%28%27Hello%2C+%27%2Cs%2C%27%21%27%29%3B"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942350]
@@ -66,7 +66,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?test=;truncate[xx"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942350]

@@ -16,7 +16,7 @@ tests:
           port: 80
           # in ( select * from
           uri: "/get?var=in%20%28%20select%20%2a%20from"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942340]
@@ -33,7 +33,7 @@ tests:
           port: 80
           # except \tselect.1,2
           uri: "/get?var=except%20%09select.1%2C2"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942340]
@@ -50,7 +50,7 @@ tests:
           port: 80
           # except values (1,2)
           uri: "/get?var=except%20values(1%2C2)"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942340]
@@ -67,7 +67,7 @@ tests:
           port: 80
           # except selecting
           uri: "/get?var=except%20selecting"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942340]
@@ -84,7 +84,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email=x'%20or%20array[id]%20is%20not%20null--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942340]
@@ -101,7 +101,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email=x'%20or%20email~all(array[email]);analyze--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942340]
@@ -118,7 +118,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email='%20and%20email%20not%20similar%20to%20id--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942340]
@@ -135,7 +135,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email='%20or%20true;%20foo"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942340]
@@ -149,7 +149,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email='%20or%20false;%20foo"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942340]
@@ -166,7 +166,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email='||true"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942340]
@@ -183,7 +183,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email='ortrue"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942340]

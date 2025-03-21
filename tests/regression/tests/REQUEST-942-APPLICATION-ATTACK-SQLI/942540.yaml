@@ -17,7 +17,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email=admin%40juice-sh.op';"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942540]
@@ -34,7 +34,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email=admin%40juice-sh.op\";"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942540]
@@ -51,7 +51,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email=admin%40juice-sh.op`;"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942540]
@@ -68,7 +68,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email='foo';'bar';'def'"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942540]
@@ -85,7 +85,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email=`foo`;`bar`;`def`"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942540]
@@ -129,7 +129,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email=root%40example.com%27%2F%2A%20comment%20%2A%2F%3B"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942540]
