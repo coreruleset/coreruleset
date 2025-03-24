@@ -17,7 +17,7 @@ tests:
           port: 80
           uri: "/get"
           data: "email=1.e(ascii+1.e(substring(1.e(select+password+from+users+limit+1+1.e,1+1.e)+1.e,1+1.e,1+1.e)1.e)1.e)+=+70+or'1'='2"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942560]
@@ -34,7 +34,7 @@ tests:
           port: 80
           uri: "/post"
           data: "foo=1.e(ascii)"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942560]

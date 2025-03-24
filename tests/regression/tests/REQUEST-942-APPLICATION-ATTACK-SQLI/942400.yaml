@@ -17,7 +17,7 @@ tests:
           uri: "/post"
           # variable name boundary attacks
           data: "and '5'orig_var_datavarname=whatever"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942400]
@@ -35,7 +35,7 @@ tests:
           uri: "/post"
           # variable name boundary attacks
           data: "and 7 oranges"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942400]
