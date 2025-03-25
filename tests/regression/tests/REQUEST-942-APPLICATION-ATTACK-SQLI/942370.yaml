@@ -28,7 +28,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=' * from = 1 or '9"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942370]
@@ -46,7 +46,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=' * from = 1 id '9"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942370]
@@ -64,7 +64,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=' = # '"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942370]
@@ -82,7 +82,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=' ? # = #"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942370]
@@ -100,7 +100,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var='? # = --"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942370]
@@ -123,7 +123,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=' or homer 9"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942370]
@@ -141,7 +141,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=^'"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942370]
@@ -159,7 +159,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=\"` * 12344"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942370]
@@ -177,7 +177,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=>foo##'."
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942370]
@@ -192,7 +192,7 @@ tests:
           method: GET
           port: 80
           uri: "/get"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942370]
@@ -208,7 +208,7 @@ tests:
           method: GET
           port: 80
           uri: "/get"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942370]

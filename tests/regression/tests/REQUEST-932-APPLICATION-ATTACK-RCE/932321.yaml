@@ -16,7 +16,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?attackme=%0d%0aQUIT"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932321]
@@ -32,7 +32,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?text=Don't%20quit"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932321]
@@ -50,7 +50,7 @@ tests:
           uri: "/post"
           data: |
             textarea=we%20do%20not%20have%20that%20capability
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932321]
@@ -68,7 +68,7 @@ tests:
           uri: "/post"
           data: |
             textarea=Hi%20lestat!
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932321]
@@ -84,7 +84,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?attackme=%0aSeriously%2C%20noop"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932321]
@@ -102,7 +102,7 @@ tests:
           uri: "/post"
           data: |
             textarea=Someone%20bought%20this%20nice%20lerset
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932321]

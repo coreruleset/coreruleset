@@ -16,7 +16,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?test=%0d%0aDATA"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932301]
@@ -32,7 +32,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?text=We%20need%20that%20data%20now"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932301]
@@ -50,7 +50,7 @@ tests:
           uri: "/post"
           data: |
             textarea=Hello%21%20World.%0adata%20not%20found.
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932301]
@@ -66,7 +66,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?attackme=%0d%0aQUIT"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932301]
@@ -84,7 +84,7 @@ tests:
           uri: "/post"
           data: |
             textarea=Hey%20please%20do%20not%20quit
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932301]
@@ -100,7 +100,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?attackme=%0d%0aHELP%20Postmaster"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932301]
@@ -118,7 +118,7 @@ tests:
           uri: "/post"
           data: |
             textarea=Hello%21%20This%20text%20needs%20help%20now
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932301]
