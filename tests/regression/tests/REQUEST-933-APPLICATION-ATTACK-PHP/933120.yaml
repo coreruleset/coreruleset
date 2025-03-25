@@ -17,7 +17,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=opcache.jit_max_polymorphic_calls%3d50"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [933120]
@@ -35,7 +35,7 @@ tests:
           uri: "/post"
           port: 80
           data: "var=session.referer_check%3dtrue"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             match_regex: 'session.referer_check found within ARGS:var:'
@@ -53,7 +53,7 @@ tests:
           uri: "/post"
           port: 80
           data: "var=engine%3dtrue"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [933120]
@@ -71,7 +71,7 @@ tests:
           uri: "/post"
           port: 80
           data: "var=extension%3dtrue"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [933120]
@@ -89,7 +89,7 @@ tests:
           uri: "/post"
           port: 80
           data: "var=mbstring.regex_retry_limit%3dtrue"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [933120]
@@ -107,7 +107,7 @@ tests:
           uri: "/post"
           port: 80
           data: "var=mbstring.regex_stack_limit%3dtrue"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [933120]
@@ -125,7 +125,7 @@ tests:
           uri: "/post"
           port: 80
           data: "var=precision%3dtrue"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [933120]
@@ -143,7 +143,7 @@ tests:
           uri: "/post"
           port: 80
           data: "var=smtp%3dtrue"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [933120]
@@ -161,7 +161,7 @@ tests:
           uri: "/post"
           port: 80
           data: "var=unserialize_max_depth%3dtrue"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [933120]
