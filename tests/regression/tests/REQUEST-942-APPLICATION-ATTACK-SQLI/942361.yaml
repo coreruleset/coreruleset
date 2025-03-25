@@ -16,7 +16,7 @@ tests:
           port: 80
           uri: "/post"
           data: "'alter a"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942361]
@@ -33,7 +33,7 @@ tests:
           port: 80
           uri: "/post"
           data: "\" ALTER A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942361]
@@ -50,7 +50,7 @@ tests:
           port: 80
           uri: "/post"
           data: "'ALTER A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942361]
@@ -67,7 +67,7 @@ tests:
           port: 80
           uri: "/post"
           data: "' alter/"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942361]
@@ -84,7 +84,7 @@ tests:
           port: 80
           uri: "/post"
           data: "\" UNION A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942361]
@@ -101,7 +101,7 @@ tests:
           port: 80
           uri: "/post"
           data: "'UNION A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942361]
@@ -118,7 +118,7 @@ tests:
           port: 80
           uri: "/post"
           data: "' union/"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942361]
