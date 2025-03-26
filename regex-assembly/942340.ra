@@ -47,9 +47,11 @@ in\s*?\(+\s*?select
 ##!> assemble
   ##!=> logical_operators
   ##!> assemble
-    ##!=> alternative_logical_operators
-    {{space_or_word}}
-    ##!=>
+    ##!> assemble
+        ##!=> alternative_logical_operators
+        {{space_or_word}}
+        ##!=>
+     ##!<
     regexp{{optional_space}}\(
     sounds{{space}}like{{optional_space}}{{quotes}}
     [=\d]+x
