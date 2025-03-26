@@ -15,7 +15,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=%29%20like%20%28"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942230]
@@ -31,7 +31,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=%29like%28"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942230]
@@ -47,7 +47,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=I%20like%20you%21"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942230]
@@ -63,7 +63,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=%20case%20when%20condition1%20then%20result1"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942230]
@@ -79,7 +79,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=having%20pain%21"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942230]
@@ -95,7 +95,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=SELECT%20x%20GROUP%20BY%20SOMETHING%20HAVING%20COUNT%28Id%29%20%3E%3D%209"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942230]
@@ -111,7 +111,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=SELECT%20%2A%20FROM%20%60movies%60%20GROUP%20BY%20%60category_id%60%2C%60year_released%60%20HAVING%20%60category_id%60%20%3D%208%3B"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942230]
@@ -127,7 +127,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=behaving%20badly%2F"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942230]
@@ -143,7 +143,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=o.havingu%40gmail.com"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942230]
@@ -159,7 +159,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=if%282%3D"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942230]
@@ -175,7 +175,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=Just%20in%20case%20%28abc%29"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942230]
@@ -191,7 +191,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=if%281234%3D"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942230]

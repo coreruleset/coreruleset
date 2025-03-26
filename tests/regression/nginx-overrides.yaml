@@ -88,12 +88,6 @@ test_overrides:
     output:
      log:
       expect_ids: [920620]
-  - rule_id: 930110
-    test_ids: [7]
-    reason: "nginx does not strip the dots from the URL (which httpd apparently does), hence ModSecurity sees them and the rule matches"
-    output:
-      log:
-        expect_ids: [930110]
   - rule_id: 933110
     test_ids: [3, 13, 14, 20, 21, 22, 24, 25, 26, 27]
     reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"

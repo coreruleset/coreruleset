@@ -19,7 +19,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?view%3Dimage.jpg%26bcdboot%20%3C%20file.txt"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932380]
@@ -38,7 +38,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?view%3Dimage.jpg%26bcdboot%20%2Fr%20file.txt"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932380]
@@ -57,7 +57,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?view%3Dimage.jpg%26bcdboot%2Fr%20file.txt"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932380]
@@ -76,7 +76,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?view%3Dimage.jpg%26bcdboot%20%20%2Fr%20file.txt"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932380]
@@ -95,7 +95,7 @@ tests:
           method: GET
           port: 80
           uri: "/get/www/delivery/lg.php?bannerid=18&campaignid=1&zoneid=4&loc=https%3A%2F%2Fwww.example.com%2Ffoo%2Fbar%2Fx-x%2Fx%3Fs%3D2014-11-01%26e%3D2020-10-31%26ex%3D7%26page%3D1%26sort%3Dex%26sort%3Ddescending&referer=https%3A%2F%2Fwww.example.com%2Ffoo%2Fbar%2Fx-x%2Fx%3Fs%3D2014-11-01%26e%3D2020-10-31%26ex%3D7%26page%3D1%26sort%3Dex%26sort%3Dascending&cb=7de91ea349"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932380]
@@ -114,7 +114,7 @@ tests:
           method: GET
           port: 80
           uri: "/get/url%2Fbla%3Ftest%3D1%26sort%3D0"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932380]
@@ -131,7 +131,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=test@coreruleset.org\"|bcdboot %SYSTEMROOT%\\win.ini"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932380]

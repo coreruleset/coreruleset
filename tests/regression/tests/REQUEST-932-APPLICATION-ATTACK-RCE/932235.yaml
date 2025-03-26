@@ -18,7 +18,7 @@ tests:
           uri: "/post"
           data: |
             code=;find /etc -name passwd -exec cat {} +
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932235]
@@ -36,7 +36,7 @@ tests:
           uri: "/post"
           data: |
             code=cd /;cd etc;column passwd
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932235]
@@ -54,7 +54,7 @@ tests:
           uri: "/post"
           data: |
             code=cd /;cd etc;bridge -b passwd
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932235]
@@ -72,7 +72,7 @@ tests:
           uri: "/post"
           data: |
             code=cd /;cd etc;fold passwd
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932235]
@@ -90,7 +90,7 @@ tests:
           uri: "/post"
           data: |
             code=;flock -u / whoami
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932235]
@@ -108,7 +108,7 @@ tests:
           uri: "/post"
           data: |
             code=;cd /;cd etc;base32 passwd|base32 -d
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932235]
@@ -124,7 +124,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;cpulimit -l 100 -f whoami
         output:
@@ -142,7 +142,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             cd /;cd etc;comm passwd passwd
         output:
@@ -160,7 +160,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             CD /;CD ETC;COMM PASSWD PASSWD
         output:
@@ -178,7 +178,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?args=comment"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932235]
@@ -194,7 +194,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?args=;performance"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932235]
@@ -227,7 +227,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<ifconfig`
         output:
@@ -245,7 +245,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<< ifconfig`
         output:
@@ -263,7 +263,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<'ifconfig'`
         output:
@@ -281,7 +281,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<"ifconfig"`
         output:
@@ -299,7 +299,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<$(ifconfig)`
         output:
@@ -317,7 +317,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time ifconfig
         output:
@@ -335,7 +335,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=strace ifconfig
         output:
@@ -391,7 +391,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=nohup ifconfig
         output:
@@ -409,7 +409,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible all -m ping
         output:
@@ -427,7 +427,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-config dump
         output:
@@ -445,7 +445,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-galaxy collection install community.general
         output:
@@ -463,7 +463,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-console
         output:
@@ -481,7 +481,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-doc plugin ping
         output:
@@ -499,7 +499,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-inventory --list
         output:
@@ -517,7 +517,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-pull --url example.com
         output:
@@ -535,7 +535,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-vault decrypt secret
         output:
@@ -553,7 +553,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-playbook site.yml
         output:
@@ -571,7 +571,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; chef-vault -i secret
         output:
@@ -589,7 +589,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; chef-shell
         output:
@@ -607,7 +607,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; chef-run all recipie.rb
         output:
@@ -625,7 +625,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; chef-client -t 1.1.1.1
         output:
@@ -643,7 +643,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; visudo
         output:
@@ -661,7 +661,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; cscli alerts list
         output:

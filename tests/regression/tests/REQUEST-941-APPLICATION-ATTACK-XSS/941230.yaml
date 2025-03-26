@@ -16,7 +16,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=<embed src=\"deuce.swf\">&var2=whatever"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941230]
@@ -33,7 +33,7 @@ tests:
           port: 80
           uri: "/post"
           data: "payload=<embed src=\"javascript:alert(1)\"></a>"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941230]

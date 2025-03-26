@@ -18,7 +18,7 @@ tests:
           method: GET
           port: 80
           uri: "/get"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932180]
@@ -36,7 +36,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
             Content-Disposition: form-data; name="config"; filename="config.yml"
@@ -66,7 +66,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
             Content-Disposition: form-data; name="image"; filename="test.jpg"

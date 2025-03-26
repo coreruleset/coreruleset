@@ -725,7 +725,7 @@ tests:
           uri: "/post"
           data: |
             code=;c89 -wrapper sh,-c,id .
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932230]
@@ -743,7 +743,7 @@ tests:
           uri: "/post"
           data: |
             code=;c89 -wrapper sh,-c,curl\ google.com .
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932230]
@@ -761,7 +761,7 @@ tests:
           uri: "/post"
           data: |
             code=;vi dddd +silent\\ \!whoami +wq
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932230]
@@ -779,7 +779,7 @@ tests:
           uri: "/post"
           data: |
             code=;vim dddd +silent\\ \!whoami +wq
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932230]
@@ -797,7 +797,7 @@ tests:
           uri: "/post"
           data: |
             code=;ex dddd +silent\\ \!whoami +wq
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932230]
@@ -815,7 +815,7 @@ tests:
           uri: "/post"
           data: |
             code=;vi -c:\!pwd
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932230]
@@ -833,7 +833,7 @@ tests:
           uri: "/post"
           data: |
             code=;vim -c:\!pwd
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932230]
@@ -851,7 +851,7 @@ tests:
           uri: "/post"
           data: |
             code=;ex -c:\!pwd
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932230]
@@ -869,7 +869,7 @@ tests:
           uri: "/post"
           data: |
             code=;gdb -nx -ex \!whoami -ex quit
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932230]
@@ -885,7 +885,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;cat /path/file.gz
         output:
@@ -903,7 +903,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?args=;environment"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932230]
@@ -919,7 +919,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?args=;performance"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932230]
@@ -952,7 +952,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<sh -c whoami`
         output:
@@ -970,7 +970,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<< sh -c whoami`
         output:
@@ -988,7 +988,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<'sh -c whoami'`
         output:
@@ -1006,7 +1006,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<"sh -c whoami"`
         output:
@@ -1024,7 +1024,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<$(sh -c whoami)`
         output:
@@ -1042,7 +1042,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time sh -c whoami
         output:
@@ -1060,7 +1060,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=strace sh -c whoami
         output:
@@ -1078,7 +1078,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=nohup sh -c whoami
         output:

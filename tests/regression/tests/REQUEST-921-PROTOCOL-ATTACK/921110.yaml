@@ -16,8 +16,8 @@ tests:
           method: POST
           port: 80
           uri: "/"
-          data: "var=%0aPOST / HTTP/1.0"
-          version: HTTP/1.0
+          data: "var=%0aPOST / HTTP/1.1"
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [921110]
@@ -35,7 +35,7 @@ tests:
           port: 80
           uri: "/"
           data: "var=aaa%0aGET+/+HTTP/1.1"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [921110]
@@ -53,12 +53,12 @@ tests:
           port: 80
           uri: "/"
           data: "var=aaa%0dHEAD+http://example.com/+HTTP/1.1"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [921110]
   - test_id: 4
-    desc: "HTTP Response Splitting - pre-HTTP/1.0"
+    desc: "HTTP Response Splitting - pre-HTTP/1.1"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -71,7 +71,7 @@ tests:
           port: 80
           uri: "/"
           data: "var=aaa%0d%0aGet+/foo%0d"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [921110]
@@ -89,7 +89,7 @@ tests:
           port: 80
           uri: "/"
           data: "var=aaa%0d%0aGet+foo+bar"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [921110]

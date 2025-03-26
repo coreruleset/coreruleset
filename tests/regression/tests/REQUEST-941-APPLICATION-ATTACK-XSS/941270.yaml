@@ -15,7 +15,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=%3clink%20%2f%20asdf%20href%20%20%2f%3d%20"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941270]
@@ -31,7 +31,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: 'payload=<link href="xss.js" rel=stylesheet type="text/javascript"></a>'
         output:
           log:

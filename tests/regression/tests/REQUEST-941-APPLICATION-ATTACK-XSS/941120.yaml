@@ -15,7 +15,7 @@ tests:
           method: POST
           port: 80
           uri: "/post?%20%20onload%3d%20=vardata"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941120]
@@ -31,7 +31,7 @@ tests:
           method: POST
           port: 80
           uri: "/post?%20%20onabcdefgh%3d%20=vardata"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941120]
@@ -47,7 +47,7 @@ tests:
           method: POST
           port: 80
           uri: "/post?%20%20onab%3d%20=vardata"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [941120]
@@ -63,7 +63,7 @@ tests:
           method: POST
           port: 80
           uri: "/post?%20%20onabcdefghijklmnopqrstuvwxyz%3d%20=vardata"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941120]
@@ -96,7 +96,7 @@ tests:
           method: GET
           port: 80
           uri: "/get/index.php/%3Csvg/onload=alert()"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941120]
@@ -112,7 +112,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?%20%20onwebkitplaybacktargetavailabilitychanged%3d%20=vardata"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941120]
@@ -128,7 +128,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?%20%20onthisisaverylongwordthathasmorethanfiftycharacters%20=vardata"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [941120]

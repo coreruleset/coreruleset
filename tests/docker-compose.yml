@@ -3,6 +3,7 @@
 
 x-common-env: &common-env
   ARG_LENGTH: 400
+  TOTAL_ARG_LENGTH: 6400
   BACKEND: http://backend
   BLOCKING_PARANOIA: 4
   COMBINED_FILE_SIZES: "65535"
@@ -35,7 +36,8 @@ x-nginx-env: &nginx-env
 services:
   modsec2-apache: &apache
     container_name: modsec2-apache
-    image: owasp/modsecurity-crs:apache@sha256:36fc67d66f7761a6cb532c4855901a41792efa6e58303833c03aeed285c9c961 # pin v4.3.0
+    image: owasp/modsecurity-crs:apache@sha256:d6aba0e515b5129fc3f6d77eaf8a8273500cc59e91758edd77f852e841d1993f
+
     # NOTE: The user used to run the container process is explicitly set to
     # 'root'. This fixes issues with permissions on the logging directories used
     # as bind mounts. This is done as *a convenience for running the CRS testing
@@ -64,7 +66,7 @@ services:
 
   modsec3-nginx: &nginx
     container_name: modsec3-nginx
-    image: owasp/modsecurity-crs:nginx@sha256:44b6e45fdc9eb9fdd34bb62f91f51513a87116e1445222cff7f4018bed7d42eb # pin v4.3.0
+    image: owasp/modsecurity-crs:nginx@sha256:90949799edb8c7c490e5ac04a7c2b26984091234d8c0b7ed5938e0edc2dfd392
     # NOTE: The user used to run the container process is explicitly set to
     # 'root'. This fixes issues with permissions on the logging directories used
     # as bind mounts. This is done as *a convenience for running the CRS testing
@@ -93,5 +95,5 @@ services:
       MODSEC_DEBUG_LOGLEVEL: 9
 
   backend:
-    image: ghcr.io/coreruleset/albedo:0.0.16@sha256:0961035bb0ecce95f9b485e1ab1cfc89b626925699576495cfa4287f6fd1cda4
+    image: ghcr.io/coreruleset/albedo:0.1.0@sha256:36c937116ff58cf419d476fb0ebcef95dc188de1c15dfa97d0a7f01532cf20e5
     command: ["--port", "80"]
