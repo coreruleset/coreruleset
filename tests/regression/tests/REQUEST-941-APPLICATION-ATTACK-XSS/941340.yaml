@@ -16,7 +16,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var='  infoo.bar=&var2=whatever"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941340]
@@ -33,7 +33,7 @@ tests:
           port: 80
           uri: "/post"
           data: "payload=<a href=# language=\"JScript.Encode\" onclick=\"#@~^CAAAAA==C^+.D`8#mgIAAA==^#~@\">XSS</a>"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941340]

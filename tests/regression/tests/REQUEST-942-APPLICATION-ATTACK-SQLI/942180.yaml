@@ -16,7 +16,7 @@ tests:
           port: 80
           # something simple like 3' ' 1
           uri: "/get?var=3%27%20%27%201"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942180]
@@ -32,7 +32,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: "javascript:\"/*'/*`/*--></noscript></title></textarea></style></template></noembed></script><html \""
         output:
           log:
@@ -49,7 +49,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=%27%3b"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942180]
@@ -65,7 +65,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=%27glob%201%3b"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942180]
@@ -81,7 +81,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=%27%3bprint%27"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942180]
@@ -97,7 +97,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=%27%3b%23"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942180]
@@ -113,7 +113,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=%27or%28id%20glob%201%29--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942180]
@@ -129,7 +129,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=%27or%28glob%201%29--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942180]
