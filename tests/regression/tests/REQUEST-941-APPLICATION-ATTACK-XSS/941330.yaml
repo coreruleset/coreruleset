@@ -15,7 +15,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=%22in%20\\u0076\\u0061l\\u0075e\\u004F\\u0066%3d"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941330]
@@ -31,7 +31,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: "payload=<iframe srcdoc=\"<img src=1 onerror=alert(1)>\"></iframe></a>"
         output:
           log:

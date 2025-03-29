@@ -16,7 +16,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?host=www.google.com;/bin/ca?+/et*/passwd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -32,7 +32,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?host=www.google.com;cat+/etc/%24%7Ba%7Dpasswd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -48,7 +48,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?host=www.google.com;cat+/etc/%24%28echo%29passwd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -64,7 +64,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?host=www.google.com;c%24%40at%2B%2Fet%24%40c%2Fpas%24%40swd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -80,7 +80,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?host=www.google.com;c%24%21at%2B%2Fet%24%21c%2Fpas%24%21swd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -96,7 +96,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?host=www.google.com;c%24%2Aat%2B%2Fet%24%2Ac%2Fpas%24%2Aswd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -112,7 +112,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?host=www.google.com;c%24%3Fat%2B%2Fet%24%3Fc%2Fpas%24%3Fswd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -128,7 +128,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?host=www.google.com;c%24-at%2B%2Fet%24-c%2Fpas%24-swd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -144,7 +144,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?host=www.google.com;c%24_at%2B%2Fet%24_c%2Fpas%24_swd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -160,7 +160,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?host=www.google.com;c%24%24at%2B%2Fet%24%24c%2Fpas%24%24swd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -177,7 +177,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?host=www.google.com;c%5Cat%20%2Fetc%2Fpasswd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -194,7 +194,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?host=www.google.com;cat%20%2Fetc%2Fp%5Casswd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -210,7 +210,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?host=www.google.com;/bin/ca?+/et*/passwd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             match_regex: 'found within ARGS:host:'
@@ -227,7 +227,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -244,7 +244,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
@@ -261,7 +261,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932200]
