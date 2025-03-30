@@ -2,7 +2,7 @@
 name: 'New Issue'
 about: Report something that doesn't fit into above categories
 title: ''
-labels: 'New Issue'
+labels: 'Something else'
 assignees: ''
 ---
 
