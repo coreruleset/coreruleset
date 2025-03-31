@@ -17,7 +17,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=SKLJDRTZWS89E450W49NQB0W45BN\"=sleep(12)=\""
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -34,7 +34,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=1' and sleep(9) #"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -51,7 +51,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=1(select*from(select(sleep(5)))d)"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -68,7 +68,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=unittests@coreruleset.org' (function(){if(typeof foo===\"undefined\"){var a=new Date();do{var b=new Date();}while(b-a<20000);foo=1;}}()) '"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -84,7 +84,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=test')and (select*from(select(sleep(10)))d)--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -101,7 +101,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=config.ini' and sleep(91) #"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -118,7 +118,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=None')and (select*from(select(sleep(10)))a)--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -135,7 +135,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=eval(compile('for x in range(1):\\n import time\\n time.sleep(12)','a','single'))"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -152,7 +152,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=file:/init.ini'.sleep(12).'"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -169,7 +169,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=1)and (select*from(select(sleep(12)))a)-- : 1)and (select*from(select(sleep(12)))a)--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -186,7 +186,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=/path/to/file/config.ini')and (select*from(select(sleep(12)))a)--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -203,7 +203,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=${@print(chr(122).chr(97).chr(112).chr(95).chr(116).chr(111).chr(107).chr(101).chr(110))}"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -220,7 +220,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=test{${sleep(12)}}"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -237,7 +237,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=test\"+eval(compile('for x in range(1):\\n import time\\n time.sleep(12)','a','single'))+\""
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -254,7 +254,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=test\"+(function(){if(typeof gs78r==='undefined'){var a=new Date();do{var b=new Date();}while(b-a<20000);gs78r=1;}}())+\""
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -271,7 +271,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=\\foobar.txt\" or sleep(4) #"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -288,7 +288,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email=admin%40juice-sh.op%5C'%20or%20json%20(id);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -305,7 +305,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email=admin%40juice-sh.op%5C'%20or%20json_valid%20(id);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]
@@ -322,7 +322,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email=admin%40juice-sh.op%5C'%20or%20glob%20(id,id);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942150]

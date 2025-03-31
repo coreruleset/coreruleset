@@ -113,7 +113,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=0.84622338492032948`echo${IFS}crs312``echo${IFS}34test`"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932130]
@@ -130,7 +130,7 @@ tests:
           port: 80
           # cat /etc/pa[s]swd
           uri: "/get?cmd=cat%20/etc/pa%5Bs%5Dswd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932130]
@@ -147,7 +147,7 @@ tests:
           port: 80
           # cat /[?]tc/pa[?]swd
           uri: "/get?cmd=cat%20/%5B%3F%5Dtc/pa%5B%3F%5Dswd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932130]
@@ -164,7 +164,7 @@ tests:
           port: 80
           # hello [text in brackets]
           uri: "/get?cmd=hello%20%5Btext%20in%20brackets%5D"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932130]
@@ -180,7 +180,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?s=/etc/pas[s]wd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932130]
@@ -196,7 +196,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?s=/etc/%5Bp%5Dasswd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932130]
@@ -212,7 +212,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?s=/etc/%5B!q%5Dasswd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932130]
@@ -228,7 +228,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?s=/etc/%5Bm-z%5Dasswd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932130]
@@ -244,7 +244,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?s=/usr/bin/%5Bu%5Dname+-a"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932130]
@@ -260,7 +260,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?exec=/bi%5Bn%5D/bash"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932130]
