@@ -17,7 +17,7 @@ on:
 env:
   CRS_TOOLCHAIN_VERSION: '2.3.3'
   SECRULES_PARSING_VERSION: '0.2.11'
-  CRS_LINTER_VERSION: '0.1.0'
+  CRS_LINTER_VERSION: '0.1.1'
 
 jobs:
   check-syntax:
@@ -92,7 +92,8 @@ jobs:
           fi
           echo "Required version for check: ${version}"
           crs-linter \
-            --output=github \
+            --output=native \
+            --debug \
             -r crs-setup.conf.example \
             -r 'rules/*.conf' \
             -t util/APPROVED_TAGS \
