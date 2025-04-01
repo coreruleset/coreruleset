@@ -167,3 +167,23 @@ tests:
         output:
           log:
             expect_ids: [941390]
+  - test_id: 11
+    desc: |
+      True Positive:
+      Detect import method with curly brackets
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.>"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |-
+            code=import { sayHi, sayBye } from "./greeting.js";
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941390]
