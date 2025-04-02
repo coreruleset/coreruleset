@@ -17,7 +17,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=id'is%20not-id--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -34,7 +34,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=id'is%20notes"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942520]
@@ -51,7 +51,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=id'not%20like%20id--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -68,7 +68,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=id'not%20glob-id--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -85,7 +85,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=id'not%20glob-id--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -103,7 +103,7 @@ tests:
           uri: "/post"
           # x'|email--
           data: "var=x'%7Cemail--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -121,7 +121,7 @@ tests:
           uri: "/post"
           # x'-email--
           data: "var=x'-email--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -139,7 +139,7 @@ tests:
           uri: "/post"
           # x'+email-- (there seem to be a bug with double encoding in tests)
           data: "var=x'%252Bemail--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -157,7 +157,7 @@ tests:
           uri: "/post"
           # x'^email--
           data: "var=x'%5Eemail--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -175,7 +175,7 @@ tests:
           uri: "/post"
           # x'@email--
           data: "var=x'%40email--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942520]
@@ -193,7 +193,7 @@ tests:
           uri: "/post"
           # x'&email--
           data: "var=x'%26email--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -211,7 +211,7 @@ tests:
           uri: "/post"
           # x'<email--
           data: "var=x'%3Cemail--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -229,7 +229,7 @@ tests:
           uri: "/post"
           # x'>email--
           data: "var=x'%3Eemail--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -247,7 +247,7 @@ tests:
           uri: "/post"
           # x'=email--
           data: "var=x'%3Demail--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -265,7 +265,7 @@ tests:
           uri: "/post"
           # x'/email--
           data: "var=x'%2Femail--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -283,7 +283,7 @@ tests:
           uri: "/post"
           # x'%email--
           data: "var=x'%25email--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -301,7 +301,7 @@ tests:
           uri: "/post"
           # x'~email--
           data: "var=x'~email--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942520]
@@ -318,7 +318,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=x'%20mod%20id--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -335,7 +335,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var='sounds%20like%20rowid--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
@@ -352,45 +352,11 @@ tests:
           port: 80
           uri: "/post"
           data: "var='%2F**%2F*2--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]
   - test_id: 21
-    desc: "Integration test: 942521 blocks foo'or'oof"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "var=foo'or'oof"
-          version: HTTP/1.0
-        output:
-          log:
-            expect_ids: [942521]
-  - test_id: 22
-    desc: "Integration test: 942522 blocks foo\\''or'oof"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "var=foo%5c''or'oof"
-          version: HTTP/1.0
-        output:
-          log:
-            expect_ids: [942522]
-  - test_id: 23
     desc: "Detect auth bypass email=' is not?--"
     stages:
       - input:
@@ -403,7 +369,7 @@ tests:
           port: 80
           uri: "/post"
           data: "email=%27%20is%20not%3F--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942520]

@@ -693,3 +693,38 @@ tests:
         output:
           log:
             expect_ids: [933160]
+  - test_id: 39
+    desc: |
+      PHP function call with multiple whitespaces.
+      payload: fopen  (blah)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=fopen%20%20%28blah%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933160]
+  - test_id: 40
+    desc: |
+      False positive with filename matching `fopen`
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=RootAndLeafOpenCamera.jpg"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933160]

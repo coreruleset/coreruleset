@@ -15,7 +15,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=DROP%20sampletable%3b--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942440]
@@ -30,7 +30,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=' or 1=1;%00"
         output:
@@ -47,7 +47,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=OR 1# "
         output:
@@ -64,7 +64,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=admin'--"
         output:
@@ -81,7 +81,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=DROP/*comment*/sampletable"
         output:
@@ -98,7 +98,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=DR/**/OP/*bypass deny listing*/sampletable"
         output:
@@ -115,7 +115,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=SELECT/*avoid-spaces*/password/**/FROM/**/Members"
         output:
@@ -132,7 +132,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=SELECT /*!32302 1/0, */ 1 FROM tablename"
         output:
@@ -149,7 +149,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=' or 1=1# "
         output:
@@ -166,7 +166,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=‘ or 1=1-- -"
         output:
@@ -183,7 +183,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=‘ or 1=1/*"
         output:
@@ -200,7 +200,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=1='1' or-- -"
         output:
@@ -217,7 +217,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=' /*!50000or*/1='1"
         output:
@@ -234,7 +234,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=' /*!or*/1='1"
         output:
@@ -251,7 +251,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: "POST"
           port: 80
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           uri: "/post"
           data: "test=0/**/union/*!50000select*/table_name`foo`/**/"
         output:

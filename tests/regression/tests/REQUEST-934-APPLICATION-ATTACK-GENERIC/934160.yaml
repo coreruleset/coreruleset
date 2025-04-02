@@ -15,7 +15,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?text=while%20(foo)%20is%20bar."
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [934160]
@@ -31,7 +31,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!false)"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -47,7 +47,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!-0);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -63,7 +63,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!%2B0);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -79,7 +79,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!0);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -95,7 +95,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!-0);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -111,7 +111,7 @@ tests:
           method: GET
           port: 80
           uri: '/get?eval=while(!"");'
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -127,7 +127,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!'');"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -143,7 +143,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!``);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -159,7 +159,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(true);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -175,7 +175,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(Infinity);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -191,7 +191,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(-Infinity);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -207,7 +207,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(%2BInfinity);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -223,7 +223,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(-1);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -239,7 +239,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(%2B1);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -255,7 +255,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(new%20Date);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -271,7 +271,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(this);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -287,7 +287,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(String);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -303,7 +303,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!true);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [934160]
@@ -319,7 +319,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!!{});"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -335,7 +335,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!![]);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -351,7 +351,7 @@ tests:
           method: GET
           port: 80
           uri: '/get?eval=while(!!"");'
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -367,7 +367,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!!'');"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -383,7 +383,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!!``);"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -399,7 +399,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!null)"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -415,7 +415,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!undefined)"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -431,7 +431,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while(!NaN)"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]
@@ -447,7 +447,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?eval=while((true)))"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934160]

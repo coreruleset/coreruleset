@@ -17,6 +17,7 @@ on:
 env:
   CRS_TOOLCHAIN_VERSION: '2.3.3'
   SECRULES_PARSING_VERSION: '0.2.11'
+  CRS_LINTER_VERSION: '0.1.0'
 
 jobs:
   check-syntax:
@@ -61,7 +62,7 @@ jobs:
       - name: "Check CRS formatting"
         run: |
           pip install -U setuptools
-          pip install -r ./util/crs-rules-check/requirements.txt
+          pip install crs-linter==${{ env.CRS_LINTER_VERSION }}
           # Use the target branch to look up the latest tag, e.g., `v3.3/master`, fall back
           # to main branch.
           # The version is either a tag, if the current commit is tagged, or a string of the form
@@ -90,12 +91,12 @@ jobs:
             fi
           fi
           echo "Required version for check: ${version}"
-          ./util/crs-rules-check/rules-check.py \
+          crs-linter \
             --output=github \
             -r crs-setup.conf.example \
-            -r rules/*.conf \
+            -r 'rules/*.conf' \
             -t util/APPROVED_TAGS \
-            "-v ${version}"
+            -v "${version}"
 
       - name: "Find rules without test"
         run: |
