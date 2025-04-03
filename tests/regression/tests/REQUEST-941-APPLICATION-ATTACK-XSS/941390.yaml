@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Buehler, Xhoenix, azurit"
+  author: "Franziska Buehler, Xhoenix, azurit, Esad Cetiner"
 rule_id: 941390
 tests:
   - test_id: 1
@@ -143,6 +143,46 @@ tests:
           method: GET
           port: 80
           uri: "/get?arg=confirm%28%29"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941390]
+  - test_id: 10
+    desc: |
+      Known False positive:
+      Matching `import (` in `if you’re willing to import (and perhaps wait around`
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.>"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |-
+            fp=If you’re looking for a personal recommendation, if you’re willing to import (and perhaps wait around, as they often sell out line has been consistently excellent so far.
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941390]
+  - test_id: 11
+    desc: |
+      True Positive:
+      Detect import method with curly brackets
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.>"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |-
+            code=import { sayHi, sayBye } from "./greeting.js";
           version: HTTP/1.1
         output:
           log:
