@@ -227,7 +227,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var='\"><svg/onload=(new(Image)).src='//m8vzjd10riomx3yxblmcnvaskjghsdz8xorciu7\\56coreruleset.org'>"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941160]
@@ -243,7 +243,7 @@ tests:
           method: GET
           port: 80
           uri: "/get/index.php/%3Csvg/onload=alert()"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941160]
