@@ -36,11 +36,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/post"
-          data: "NameError (undefined local variable or method `unexistent_variable' for #&lt;PostsController:0x00007f...>"
+          data: |-
+            {"body": "NameError (undefined local variable or method `unexistent_variable' for #&lt;PostsController:0x00007f...>"}
         output:
           log:
             expect_ids: [956100]
@@ -56,11 +57,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/post"
-          data: "ActiveRecord::RecordNotFound (Couldn't find Post with 'id'=999)"
+          data: |-
+            {"body": "ActiveRecord::RecordNotFound (Couldn't find Post with 'id'=999)"}
         output:
           log:
             expect_ids: [956100]
@@ -76,11 +78,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/post"
-          data: "ActionView::Template::Error (undefined method 'name' for nil:NilClass)"
+          data: |-
+            {"body": "ActionView::Template::Error (undefined method 'name' for nil:NilClass)"}
         output:
           log:
             expect_ids: [956100]
@@ -96,11 +99,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/post"
-          data: "TypeError: no implicit conversion of String into Integer"
+          data: |-
+            {"body": "TypeError: no implicit conversion of String into Integer"}
         output:
           log:
             expect_ids: [956100]
@@ -116,11 +120,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/post"
-          data: "NoMethodError: undefined method 'author_name' for #<User:0x00007f...>"
+          data: |-
+            {"body": "NoMethodError: undefined method 'author_name' for #<User:0x00007f...>"}
         output:
           log:
             expect_ids: [956100]
@@ -136,11 +141,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/post"
-          data: "ArgumentError: wrong number of arguments (given 0, expected 1)"
+          data: |-
+            {"body": "ArgumentError: wrong number of arguments (given 0, expected 1)"}
         output:
           log:
             expect_ids: [956100]
@@ -156,11 +162,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/post"
-          data: 'ActionController::RoutingError: No route matches [GET] "/nonexistent_page"'
+          data: |-
+            {"body": 'ActionController::RoutingError: No route matches [GET] "/nonexistent_page"'}
         output:
           log:
             expect_ids: [956100]
@@ -176,11 +183,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/post"
-          data: "ActionController::ParameterMissing: param is missing or the value is empty: comment"
+          data: |-
+            {"body": "ActionController::ParameterMissing: param is missing or the value is empty: comment"}
         output:
           log:
             expect_ids: [956100]
