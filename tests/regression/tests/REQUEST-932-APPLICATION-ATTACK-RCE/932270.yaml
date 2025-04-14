@@ -200,3 +200,36 @@ tests:
         output:
           log:
             no_expect_ids: [932270]
+  - test_id: 13
+    desc: "Bash Tilde Expansion - ~0"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932271-13=%7E0"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
+  - test_id: 14
+    desc: "Bash Tilde Expansion - ~0"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: 932271-14=%7E0
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
