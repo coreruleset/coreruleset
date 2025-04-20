@@ -50,6 +50,7 @@ jobs:
           docker compose -f ./tests/docker-compose.yml up -d "${{ matrix.modsec_version }}"
           echo "Waiting for container to become ready"
           curl --retry 5 --retry-connrefused --retry-delay 2 localhost || true
+          sleep 5
           docker compose -f ./tests/docker-compose.yml logs
           if ! [ "$(docker inspect ${{ matrix.modsec_version }} --format='{{.State.Running}}')" = "true" ]; then
             echo "Web server failed to start. Aborting."
