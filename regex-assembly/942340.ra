@@ -6,7 +6,8 @@
 
 ##!+ i
 
-##!> define space_or_word \s*[\s\w+]+
+##! Definitions and reusables
+##!> define space_or_word_or_plus [\s\w+]+
 ##!> define quotes [\"'`]
 ##!> define digits \d+
 ##!> define space \s+
@@ -35,6 +36,7 @@
   =
   ##!=< sql_operators
 ##!<
+##! End definitions and reusables
 
 ##!> assemble
   \|\|
@@ -51,15 +53,15 @@ in\s*?\(+\s*?select
   ##!<
 
   ##!> assemble
-    ##!> assemble
-      ##!=> alternative_logical_operators
-      {{space_or_word}}
-      ##!=>
-    ##!<
-    regexp{{optional_space}}\(
-    sounds{{space}}like{{optional_space}}{{quotes}}
-    [=\d]+x
+    ##!=> alternative_logical_operators
+    {{optional_space}}
   ##!<
+  ##!=>
+  {{space_or_word_or_plus}}
+  ##!=>
+  regexp{{optional_space}}\(
+  sounds{{space}}like{{optional_space}}{{quotes}}
+  [=\d]+x
 ##!<
 
 ##! ORIGINAL :up:
@@ -68,21 +70,33 @@ in\s*?\(+\s*?select
 ##! (?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\s\w+]+[=\d]+x
 ##!
 
-##!> assemble
-  {{quotes}}{{optional_space}}{{digits}}{{optional_space}}
-  ##!=>
-  --
-  #
-##!<
-
-##! ORIGINAL: :up:
-##! [\"'`]\s*?\d\s*?--
-##! [\"'`]\s*?\d\s*?#
-##!
-
+##! Prefix: [\"'`]\s*?
 ##!> assemble
   {{quotes}}{{optional_space}}
   ##!=>
+
+  ##!> assemble
+    {{digits}}{{optional_space}}
+    ##!=>
+    --
+    #
+  ##!<
+
+  ##! ORIGINAL: :up:
+  ##! [\"'`]\s*?\d\s*?--
+  ##! [\"'`]\s*?\d\s*?#
+  ##!
+
+  ##!> assemble
+    is{{optional_space}}
+    ##!=>
+    \d.+{{quotes}}?\w
+    [\d.]+{{optional_space}}\W.*?{{quotes}}
+  ##!<
+
+  ##! ORIGINAL: :up:
+  ##! [\"'`]\s*?is\s*?\d.+[\"'`]?\w
+  ##! [\"'`]\s*?is\s*?[\d.]+\s*?\W.*?[\"'`]
 
   ##!> assemble
     ##!> assemble
@@ -97,40 +111,48 @@ in\s*?\(+\s*?select
   ##!<
   ##!=>
 
-  array{{optional_space}}\[
-  true\b
-  false\b
-
   ##!> assemble
-    \w+{{optional_space}}
-    ##!=>
-    !?~
+    array{{optional_space}}\[
+    true\b
+    false\b
+
     ##!> assemble
-      not{{space}}similar
-      similar
+      \w+
       ##!=>
-      {{space}}to{{space}}
+      {{optional_space}}!?~
+      ##!> assemble
+        {{space}}
+
+        ##!=>
+        not{{space}}similar
+        similar
+        ##!=>
+        {{space}}to{{space}}
+      ##!<
     ##!<
   ##!<
-##!<
 
-##! ORIGINAL :up:
-##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)array\s*\[
-##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\w]+\s*!?~
-##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\w]+\s+(?:not\s+)?similar\s+to\s+
-##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)(?:true|false)\b
-##!
+  ##! ORIGINAL :up:
+  ##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)array\s*\[
+  ##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\w]+\s*!?~
+  ##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)[\w]+\s+(?:not\s+)?similar\s+to\s+
+  ##! [\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)(?:true|false)\b
+  ##!
+##!<
+##! End prefix: [\"'`]\s*?
 
 ##!> assemble
   {{quotes}}{{optional_space}}
   ##!=>
   ##!=> sql_operators
-  {{digits}}
+  +{{digits}}
   ##!=>
   {{optional_space}}
   ##!=>
-  ##!=> logical_operators
-  =
+  ##!> assemble
+    ##!=> logical_operators
+    =
+  ##!<
 ##!<
 
 ##! ORIGINAL :up:
@@ -141,29 +163,23 @@ in\s*?\(+\s*?select
 ##! [\"'`][\%&<>^=]+\d\s*?like
 ##! [\"'`][\%&<>^=]+\d\s*?between
 ##! [\"'`][\%&<>^=]+\d\s*?and
-##!
 
 ##!> assemble
-  {{quotes}}{{optional_space}}
+  {{quotes}}
   ##!=>
 
   ##!> assemble
-    is{{optional_space}}
-    ##!=>
-    \d.+{{quotes}}?\w
-    [\d.]+{{optional_space}}\W.*?{{quotes}}
+    \W+[\w+-]+\s*?={{optional_space}}\d\W+
+    \|?[\w-]{3,}[^\w\s.,]+
   ##!<
-
-  \W+[\w+-]+\s*?={{optional_space}}\d\W+{{quotes}}
-  \|?[\w-]{3,}[^\w\s.,]+{{quotes}}
+  ##!=>
+  {{quotes}}
+  ##!=>
 ##!<
 
 ##! ORIGINAL :up:
-
 ##! [\"'`]\W+[\w+-]+\s*?=\s*?\d\W+[\"'`]
-##! [\"'`]\s*?is\s*?\d.+[\"'`]?\w
 ##! [\"'`]\|?[\w-]{3,}[^\w\s.,]+[\"'`]
-##! [\"'`]\s*?is\s*?[\d.]+\s*?\W.*?[\"'`][\"'`]\s*(?i:(?:n?and|x?x?or|div|like|between|not)\s+|(?:\|\||\&\&)\s*)array\s*\[
 
 ##!> assemble
   \bexcept{{space}}
@@ -177,4 +193,3 @@ in\s*?\(+\s*?select
 ##! ORIGINAL :up:
 ##! \bexcept\s+select\b
 ##! \bexcept\s+values\s*?\(
-##!
