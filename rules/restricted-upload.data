@@ -1,27 +1,12 @@
-# This list can be generated from restricted-files.data by running the following shell command:
-# body_start=$(grep -n -E -m 1 '^[^#$]' rules/restricted-upload.data | cut -d: -f1)
-# ed -s rules/restricted-upload.data <<EOF
-# $((body_start - 1)),\$d
-# w
-# q
-# EOF
-# words="$(awk ' !/^#/ && NF {
-#  n = split($0, segments, "/");
-#  word = segments[n];
-#  if (length(word) > 3) print word
-# }' rules/restricted-files.data | sort | uniq)"
-# while read -r word; do
-#   if [ "$(util/fp-finder/spell.sh -m -e - <<<"${word}")" != "${word}" ]; then
-#     echo "${word}" >> rules/restricted-upload.data
-#   fi
-# done <<<"${words}"
+# This list can be generated from restricted-files.data
+# Check util/restricted-upload-data-gen folder for instructions
+.DS_Store
 .addressbook
 .bash_
 .bashrc
 .boto
 .bowerrc
 .cshrc
-.DS_Store
 .env
 .envrc
 .eslintignore
@@ -33,8 +18,8 @@
 .gitconfig
 .gitignore
 .gitkeep
-.gitmodules
 .gitlab-ci.yml
+.gitmodules
 .google_authenticator
 .hgignore
 .htaccess
@@ -75,6 +60,38 @@
 .rhosts
 .selected_editor
 .sh_history
+.sql.001
+.sql.7z
+.sql.ace
+.sql.arj
+.sql.bz
+.sql.cpio
+.sql.gz
+.sql.lha
+.sql.lz
+.sql.pa
+.sql.pea
+.sql.r00
+.sql.r01
+.sql.r02
+.sql.r03
+.sql.r04
+.sql.r05
+.sql.r06
+.sql.r07
+.sql.r08
+.sql.r09
+.sql.rar
+.sql.rev
+.sql.tar
+.sql.taz
+.sql.tbz
+.sql.tgz
+.sql.txz
+.sql.uha
+.sql.xz
+.sql.yz1
+.sql.z
 .sqlite_history
 .svnignore
 .tcshrc
@@ -94,14 +111,17 @@
 .zsh_history
 .zshenv
 .zshrc
+BlockCypher.log
+Desktop.ini
+Thumbs.db
+Web.config
 acpi
 asound
 auth.json
-aws.yaml
-aws.yml
 aws-key.yaml
 aws-key.yml
-BlockCypher.log
+aws.yaml
+aws.yml
 bootconfig
 bower.json
 buddyinfo
@@ -112,21 +132,19 @@ compose.yaml
 compose.yml
 composer.json
 composer.lock
-config_dev.yml
-config_prod.yml
-config_test.yml
 config.gz
 config.inc.php
 config.php
 config.sample.php
 config.yml
+config_dev.yml
+config_prod.yml
+config_test.yml
 cpuinfo
 database.yml
 default.settings.php
 defaults.inc.php
-Desktop.ini
 diskstats
-Dockerfile
 dynamic_debug
 execdomains
 filesystems
@@ -161,14 +179,15 @@ packages.json
 pagetypeinfo
 parameters.php
 parameters.yml
+php.ini
 php_error.log
 php_errors.log
-php.ini
 phpcs.xml
 phpcs.xml.dist
 routing.yml
 sched_debug
 schedstat
+scsi
 secrets.json
 security.yml
 sendgrid.env
@@ -184,7 +203,6 @@ sslvpn_websession
 sysrq-trigger
 sysvipc
 thread-self
-Thumbs.db
 timer_list
 timer_stats
 tsconfig.json
@@ -192,11 +210,10 @@ user_secrets.yml
 version_signature
 vmallocinfo
 vmstat
-Web.config
 weblogic.xml
 webpack.config.js
-wp-config.copy
 wp-config.bak
+wp-config.copy
 wp-config.old
 wp-config.php
 wp-config.temp
