@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "lifeforms, Franziska Bühler, Max Leske, azurit"
+  author: "lifeforms, Franziska Bühler, Max Leske, azurit, Esad Cetiner"
 rule_id: 933160
 tests:
   - test_id: 1
@@ -728,3 +728,38 @@ tests:
         output:
           log:
             no_expect_ids: [933160]
+  - test_id: 41
+    desc: |
+      SEO Framework false positive
+      matching 'strip_tags' in 'title_strip_tags'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=autodescription-site-settings[title_strip_tags]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933160]
+  - test_id: 42
+    desc: |
+      Block strip_tags function
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=strip_tags()"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933160]
