@@ -792,7 +792,7 @@ tests:
           log:
             no_expect_ids: [932260]
   - test_id: 47
-    desc: "Don't block non-existant self command"
+    desc: "False Positive: matching pipe `self`"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -805,7 +805,7 @@ tests:
           uri: "/post"
           version: HTTP/1.1
           data: |
-            code=self something
+            code=Compra a MODULAR ALUMINIO ESTRUCTURAL, STRUT PROFILE PG30 30X30 4 SLOTS | SELF TAPPING SCREW PG30 M1
         output:
           log:
             no_expect_ids: [932260]
