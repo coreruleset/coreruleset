@@ -15,7 +15,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=proto"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [934130]
@@ -32,7 +32,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             {"text":"a","title":{"__proto__":{"where":{"name":"sqlinjection","where":null}}}}
         output:
@@ -50,7 +50,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?__proto__[test]=test"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934130]
@@ -66,7 +66,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?__proto__.test=test"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934130]
@@ -82,7 +82,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?constructor.prototype.test=test"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934130]
@@ -98,7 +98,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?constructor.prototype.%20test=test"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934130]
@@ -114,7 +114,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?__proto__[context]=<img/src/onerror%3dalert(1)>"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934130]
@@ -130,7 +130,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?__proto__%5Btest%5D%3D%7B%22json%22%3A%22value%22%7D"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934130]
@@ -146,7 +146,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?constructor%5Bprototype%5D%5Btest%5D%3Dtest"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934130]
@@ -162,7 +162,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?__proto__[jquery]=x"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934130]
@@ -178,7 +178,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?__proto__%5Bv-bind%3Aclass%5D%3D%27%27.constructor.constructor%28%27alert%281%29%27%29%28%29"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934130]
@@ -212,6 +212,22 @@ tests:
           method: GET
           port: 80
           uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934130]
+  - test_id: 14
+    desc: "Detect example payload [constructor][prototype]"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?x=x&a[constructor][prototype]=image&a[constructor][prototype][onerror]=a"
           version: HTTP/1.1
         output:
           log:

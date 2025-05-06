@@ -5,6 +5,119 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
+## Version 4.14.0 - 2025-04-29
+
+## What's Changed
+### 🆕 New features and detections 🎉
+* feat: detect ASP web shells by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4063
+* feat: detect compressed database dumps by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4082
+* feat: detect javascript methods import fetch console.log `console.dir` by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4076
+### 🧰 Other Changes
+* fix: fixing FPs related to rule 951220 by @azurit in https://github.com/coreruleset/coreruleset/pull/4079
+* fix: don't block ttf font files by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4081
+* fix: 932270 FP by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/3917
+* fix(954100): detect forward slash in path by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4094
+* fix: remove `.application` from restricted extensions by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4103
+* fix: 44J-250329 by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4107
+
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.13.0...v.4.14.0
+
+## Version 4.13.0 - 2025-03-31
+
+## What's Changed
+### ⭐ Important changes
+* fix(security): fixing double URL decode of REQUEST_URI by @azurit in https://github.com/coreruleset/coreruleset/pull/4047
+### 🆕 New features and detections 🎉
+* feat: block header related to CVE-2025-29927 (Next.js) by @azurit in https://github.com/coreruleset/coreruleset/pull/4053
+* feat: added new XSS payloads by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4055
+* feat: add potential malicious file extensions into tx.restricted_extensions by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4068
+* feat: add additional files commonly accessed by bots by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4069
+### 🪦 Rule removals
+* feat: remove rule 952100 for detecting Java Source Code Leakage by @S0obi in https://github.com/coreruleset/coreruleset/pull/4052
+### 🧰 Other Changes
+* fix(934130): extend prototype pollution payload by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4036
+* fix: rule 930110 is not supposed to match bare '..' without (back)slashes by @azurit in https://github.com/coreruleset/coreruleset/pull/4050
+* fix: use boundary to fix false positive with email `firstname.dockery@host.tld` by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4045
+* feat: refresh restricted-upload.data by @S0obi in https://github.com/coreruleset/coreruleset/pull/4046
+* fix: tag inconsistency per file by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4031
+* feat: adding .dist and .dpkg-dist into tx.restricted_extensions by @azurit in https://github.com/coreruleset/coreruleset/pull/4057
+* feat: add more default session cookie names by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4062
+* fix: added pre-check of unset TX variable by @airween in https://github.com/coreruleset/coreruleset/pull/4066
+* fix: false positive found in quantitative testing round 2 for unix rce rules (932230 PL-1, 932235 PL-1, 932250 PL-1, 932260 PL-1, 932231 PL-2, 932220 PL-2, 932236 PL-2, 932239 PL-2, 932232 PL-3, 932238 PL-3) by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4019
+
+## New Contributors
+* @daum3ns made their first contribution in https://github.com/coreruleset/coreruleset/pull/4043
+* @S0obi made their first contribution in https://github.com/coreruleset/coreruleset/pull/4046
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.12.0...v4.13.0
+
+## Version 4.12.0 - 2025-03-01
+
+## What's Changed
+### 🆕 New features and detections 🎉
+* feat: prevent V1 cookie format use by @fzipi in https://github.com/coreruleset/coreruleset/pull/4006
+* feat: added new restricted files for openstack and docker compose by @azurit in https://github.com/coreruleset/coreruleset/pull/4021
+### 🧰 Other Changes
+* fix: multipart header tag consistency by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/3992
+* fix: prevent invalid commands matches on 5 characters or less (932220 PL-2, 932230 PL-1, 932232 PL-3, 932235 PL-1, 932236 PL-2, 932237 PL-3, 932238 PL-3, 932239 PL-2, 932250 PL-1, 932260 PL-1) by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/3735
+* docs: add warning about default charsets modification by @fzipi in https://github.com/coreruleset/coreruleset/pull/4003
+* fix: response splitting rules and tests by @theseion in https://github.com/coreruleset/coreruleset/pull/4009
+* fix(933160): use better regex by @fzipi in https://github.com/coreruleset/coreruleset/pull/4010
+* fix: move fopen to 933160 to resolve fp with `RootAndLeafOpenCamera.jpg` (933150 PL-1, 933160 PL-1) by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4016
+* fix(941210): update log message to reflect rule javascript word detection by @fzipi in https://github.com/coreruleset/coreruleset/pull/4023
+* fix: remove .env from lfi-os-files.data by @theseion in https://github.com/coreruleset/coreruleset/pull/4024
+
+## New Contributors
+* @renovate made their first contribution in https://github.com/coreruleset/coreruleset/pull/4000
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.11.0...v4.12.0
+
+## Version 4.11.0 - 2025-01-27
+
+## What's Changed
+### 🪦 Rule removals
+* feat: Remove rules for lack of viable attack scenario (920220 PL1, 920221 PL1) by @dune73 in https://github.com/coreruleset/coreruleset/pull/3969
+### 🧰 Other Changes
+* fix: remove aliases man, mi, si and resolve positives (932125 PL1) by @franbuehler in https://github.com/coreruleset/coreruleset/pull/3971
+* fix: remove where, if, for and vol and resolve false positives (932380 PL1) by @franbuehler in https://github.com/coreruleset/coreruleset/pull/3972
+* fix: make 932300 actually case-insensitive by @theseion in https://github.com/coreruleset/coreruleset/pull/3977
+* fix: remove sql function names to resolve false positives (942151 PL1) by @franbuehler in https://github.com/coreruleset/coreruleset/pull/3973
+* fix: issue 3809 by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/3983
+
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.10.0...v4.11.0
+
+## Version 4.10.0 - 2024-12-29
+
+## What's Changed
+### 🆕 New features and detections 🎉
+* feat: block CVE-2023-5003 by @azurit in https://github.com/coreruleset/coreruleset/pull/3955
+* feat: prevent accessing PHP variables by @azurit in https://github.com/coreruleset/coreruleset/pull/3965
+### 🧰 Other Changes
+* fix: FP against `pattern` with `=` following at arbitrary position by @theseion in https://github.com/coreruleset/coreruleset/pull/3963
+
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.9.0...v4.10.0
+
+## Version 4.9.0 - 2024-11-29
+
+## What's Changed
+### ⭐ Important changes
+* feat: add variable to skip response rules by @fzipi in https://github.com/coreruleset/coreruleset/pull/3944
+### 🆕 New features and detections 🎉
+* feat: add fish shell files to restricted-files.data by @OhMyVolk in https://github.com/coreruleset/coreruleset/pull/3915
+* feat: add quantitative testing to Git workflow by @airween in https://github.com/coreruleset/coreruleset/pull/3924
+### 🧰 Other Changes
+* feat: added support for new web shells by @azurit in https://github.com/coreruleset/coreruleset/pull/3898
+* fix(security): remove double URL decode (921151 PL2, 932190 PL3, 942441 PL2, 942442 PL2, 942460 PL3) by @azurit in https://github.com/coreruleset/coreruleset/pull/3741
+* docs: extended rule documentation (900200) by @dune73 in https://github.com/coreruleset/coreruleset/pull/3934
+
+## New Contributors
+* @OhMyVolk made their first contribution in https://github.com/coreruleset/coreruleset/pull/3915
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.8.0...v4.9.0
+
 ## Version 4.8.0 - 2024-10-28
 
 ## What's Changed

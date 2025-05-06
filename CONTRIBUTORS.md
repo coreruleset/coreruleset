@@ -2,17 +2,16 @@
 
 ## Project Co-Leads:
 
-- [Christian Folini](https://github.com/dune73)
 - [Felipe Zipitría](https://github.com/fzipi)
+- [Max Leske](https://github.com/theseion)
 
 ## Developers:
 
 - [Franziska Bühler](https://github.com/franbuehler)
 - [Esad Cetiner](https://github.com/esadcetiner)
+- [Christian Folini](https://github.com/dune73)
 - [Ervin Hegedus](https://github.com/airween)
 - [Andrew Howe](https://github.com/RedXanadu)
-- [Karel Knibbe](https://github.com/karelorigin)
-- [Max Leske](https://github.com/theseion)
 - [Matteo Pace](https://github.com/M4tteoP)
 - [Jitendra Patro](https://github.com/Xhoenix)
 - [Jozef Sudolský](https://github.com/azurit)
@@ -27,9 +26,12 @@
 - [Chaim Sanders](https://github.com/csanders-git)
 - [Federico G. Schwindt](https://github.com/fgsch)
 - [Simon Studer](https://github.com/studersi)
+- [Karel Knibbe](https://github.com/karelorigin)
 
 ## Contributors:
 
+- [Thibault Soubiran](https://github.com/S0obi)
+- [OhMyVolk](https://github.com/OhMyVolk)
 - [evidencebp](https://github.com/evidencebp)
 - [mtaket](https://github.com/mtaket)
 - [luelueking](https://github.com/luelueking)

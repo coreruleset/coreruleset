@@ -18,7 +18,7 @@ tests:
           uri: "/post"
           data: |
             code=;find /etc -name passwd -exec cat {} +
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932235]
@@ -36,7 +36,7 @@ tests:
           uri: "/post"
           data: |
             code=cd /;cd etc;column passwd
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932235]
@@ -54,7 +54,7 @@ tests:
           uri: "/post"
           data: |
             code=cd /;cd etc;bridge -b passwd
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932235]
@@ -72,7 +72,7 @@ tests:
           uri: "/post"
           data: |
             code=cd /;cd etc;fold passwd
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932235]
@@ -90,7 +90,7 @@ tests:
           uri: "/post"
           data: |
             code=;flock -u / whoami
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932235]
@@ -108,7 +108,7 @@ tests:
           uri: "/post"
           data: |
             code=;cd /;cd etc;base32 passwd|base32 -d
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932235]
@@ -124,7 +124,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;cpulimit -l 100 -f whoami
         output:
@@ -142,7 +142,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             cd /;cd etc;comm passwd passwd
         output:
@@ -160,7 +160,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             CD /;CD ETC;COMM PASSWD PASSWD
         output:
@@ -178,7 +178,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?args=comment"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932235]
@@ -194,7 +194,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?args=;performance"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932235]
@@ -227,7 +227,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<ifconfig`
         output:
@@ -245,7 +245,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<< ifconfig`
         output:
@@ -263,7 +263,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<'ifconfig'`
         output:
@@ -281,7 +281,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<"ifconfig"`
         output:
@@ -299,7 +299,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<$(ifconfig)`
         output:
@@ -317,7 +317,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time ifconfig
         output:
@@ -335,7 +335,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=strace ifconfig
         output:
@@ -391,7 +391,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=nohup ifconfig
         output:
@@ -409,7 +409,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible all -m ping
         output:
@@ -427,7 +427,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-config dump
         output:
@@ -445,7 +445,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-galaxy collection install community.general
         output:
@@ -463,7 +463,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-console
         output:
@@ -481,7 +481,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-doc plugin ping
         output:
@@ -499,7 +499,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-inventory --list
         output:
@@ -517,7 +517,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-pull --url example.com
         output:
@@ -535,7 +535,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-vault decrypt secret
         output:
@@ -553,7 +553,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; ansible-playbook site.yml
         output:
@@ -571,7 +571,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; chef-vault -i secret
         output:
@@ -589,7 +589,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; chef-shell
         output:
@@ -607,7 +607,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; chef-run all recipie.rb
         output:
@@ -625,7 +625,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; chef-client -t 1.1.1.1
         output:
@@ -643,7 +643,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; visudo
         output:
@@ -661,7 +661,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time; cscli alerts list
         output:
@@ -679,6 +679,184 @@ tests:
           method: GET
           port: 80
           uri: "/get?test=Times%20%26%20Schedule"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expectids: [932235]
+  - test_id: 39
+    desc: "FP against time express"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?test=time%20express"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 40
+    desc: "FP against `Straße; links Haus Nr. 104` matching `; links`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            payload=Die untere Dortmunder Straße; links Haus Nr. 104, das stadteinwärts (rechts) längere Zeit ohne Nachbarhaus geblieben war.
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 41
+    desc: "FP against `three full-time jobs` matching `full-time jobs`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            payload=He was working three full-time jobs at Meta, IBM, and Tinder.
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 42
+    desc: "FP against `a timeless cinematic icon` matching `timeless`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            payload=now-legendary take on Catwoman turned the character into a timeless cinematic icon.
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 43
+    desc: "FP against `some playing time last year` matching `time last`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            payload=Sophomore Deon King Jr. received some playing time last year as a freshman and totaled 12 tackles.
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 44
+    desc: "FP against `annulla le ultime date` matching `ultime date`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            payload=La cantante veneta annulla le ultime date del suo tour estivo.
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 45
+    desc: "FP against `The best time to watch local birds` matching `time to watch local`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            payload=The best time to watch local birds is June–August and the best time for migratory birds is November–February.
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 46
+    desc: "FP against `real time source of data` matching `time source`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            payload=Search data can thus provide an alternative, real time source of data on migration intentions.
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 47
+    desc: "FP against `in record time (less than 1 minute!)` matching `time (less`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            payload=Back in the UK, we sped through the UK Border at Stansted in record time (less than 1 minute!) and uploaded this report from the rather flatter rocks of Stansted Airport train station platform (but thankfully they are still sunny!
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 48
+    desc: "FP against `privé – le Swatch Group – de` matching `swatch group`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            payload=Elle interdit à une société de droit privé – le Swatch Group – de livrer ses concurrents après l’avoir forcé pendant des années à livrer ces mêmes clients.
           version: HTTP/1.1
         output:
           log:

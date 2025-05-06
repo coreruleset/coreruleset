@@ -20,7 +20,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: ;cp /var/log/apache2/error.log evil.php
         output:
           log:
@@ -77,7 +77,7 @@ tests:
           uri: "/post"
           data: |
             code=;c89 -wrapper sh,-c,id .
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932236]
@@ -95,7 +95,7 @@ tests:
           uri: "/post"
           data: |
             code=;c89 -wrapper sh,-c,curl\ google.com .
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932236]
@@ -113,7 +113,7 @@ tests:
           uri: "/post"
           data: |
             code=;vi dddd +silent\\ \!whoami +wq
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932236]
@@ -131,7 +131,7 @@ tests:
           uri: "/post"
           data: |
             code=;vim dddd +silent\\ \!whoami +wq
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932236]
@@ -149,7 +149,7 @@ tests:
           uri: "/post"
           data: |
             code=;ex dddd +silent\\ \!whoami +wq
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932236]
@@ -167,7 +167,7 @@ tests:
           uri: "/post"
           data: |
             code=;vi -c:\!pwd
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932236]
@@ -185,7 +185,7 @@ tests:
           uri: "/post"
           data: |
             code=;vim -c:\!pwd
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932236]
@@ -203,7 +203,7 @@ tests:
           uri: "/post"
           data: |
             code=;ex -c:\!pwd
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932236]
@@ -221,7 +221,7 @@ tests:
           uri: "/post"
           data: |
             code=;gdb -nx -ex \!whoami -ex quit
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932236]
@@ -237,7 +237,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;cat /path/file.gz
         output:
@@ -255,7 +255,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             find /etc -name passwd -exec cat {} +
         output:
@@ -273,7 +273,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=flock -u / whoami
         output:
@@ -291,7 +291,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=cat /path/file.gz
         output:
@@ -309,7 +309,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=cpulimit -l 100 -f whoami
         output:
@@ -327,7 +327,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?field_metatags[0][advanced][rights]=somevalue"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932236]
@@ -343,7 +343,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?args=MailerUI"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932236]
@@ -359,7 +359,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?args=tasksListView"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932236]
@@ -817,7 +817,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?args=comment"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932236]
@@ -833,7 +833,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?args=settings"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932236]
@@ -887,7 +887,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?args=environment"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932236]
@@ -903,7 +903,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?args=performance"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932236]
@@ -953,7 +953,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<ifconfig`
         output:
@@ -971,7 +971,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<< ifconfig`
         output:
@@ -989,7 +989,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<'ifconfig'`
         output:
@@ -1007,7 +1007,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<"ifconfig"`
         output:
@@ -1025,7 +1025,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=;`cat<<<$(ifconfig)`
         output:
@@ -1043,7 +1043,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time ifconfig
         output:
@@ -1061,7 +1061,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=strace ifconfig
         output:
@@ -1079,14 +1079,14 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             sentence=Cut orange quarters into crosswise slices about 1/8-inch thick.
         output:
           log:
             expect_ids: [932236]
   - test_id: 60
-    desc: "Known false positive with `Wall` at start of string (expected failure)"
+    desc: "Known false positive with `Wall` at start of string"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1097,12 +1097,12 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             sentence=Wall Street\\xe2\\x80\\x99s benchmark stock index struck an all-time high on Tuesday.
         output:
           log:
-            expect_ids: [932236]
+            no_expect_ids: [932236]
   - test_id: 61
     desc: "Known false positive with `Mount` at start of string (expected failure)"
     stages:
@@ -1115,7 +1115,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             sentence=Mount Airy basketball coach Bryan Hayes lectures his team during a third-quarter timeout.
         output:
@@ -1133,7 +1133,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             sentence=As you near your last year of trick or treating, though, sometimes jokes aren't enough.
         output:
@@ -1151,7 +1151,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             sentence=At any moment we can make a decision to change.
         output:
@@ -1169,7 +1169,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=nohup ifconfig
         output:
@@ -1187,7 +1187,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=ansible all -m ping
         output:
@@ -1205,7 +1205,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=ansible-config dump
         output:
@@ -1223,7 +1223,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=ansible-galaxy collection install community.general
         output:
@@ -1241,7 +1241,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=ansible-console
         output:
@@ -1259,7 +1259,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=ansible-doc plugin ping
         output:
@@ -1277,7 +1277,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=ansible-inventory --list
         output:
@@ -1295,7 +1295,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=ansible-pull --url example.com
         output:
@@ -1313,7 +1313,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=ansible-vault decrypt secret
         output:
@@ -1331,7 +1331,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=ansible-playbook site.yml
         output:
@@ -1349,7 +1349,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=chef-vault -i secret
         output:
@@ -1367,7 +1367,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=chef-shell
         output:
@@ -1385,7 +1385,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=chef-run all recipie.rb
         output:
@@ -1403,7 +1403,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=chef-client -t 1.1.1.1
         output:
@@ -1421,7 +1421,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=chef report nodes
         output:
@@ -1439,7 +1439,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=visudo
         output:
@@ -1457,9 +1457,228 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=cscli alerts list
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 81
+    desc: "False positive with session cookie, invalid command match with sudo"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            cookie: example=SUDoLongRandomString
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 82
+    desc: "False positive with session cookie, invalid command match with fd"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            cookie: example=fd01bfcfdbe02
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 83
+    desc: "False positive with UUID"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            uuid=dfc987c2-72e2-4a8e-ad98-e0bf1bc3a01c
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 84
+    desc: "False positive with word identity"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            uuid=identity
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 85
+    desc: "False positive with word unique"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            uuid=unique
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 86
+    desc: "False positive with common argument value/name `id`."
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            id=5
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 87
+    desc: |
+      false positive with Nextcloud Mail widget.
+      Should not match `mail`.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=mail-unread
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 88
+    desc: |
+      False positive with WordPress ordering posts by date.
+      Should not match `date`.
+      Make sure there is no trailing whitespace at the end, only date with no arguments is excluded
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/wp-json/wp/v2/posts"
+          version: HTTP/1.1
+          data: |-
+            orderby=date
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 89
+    desc: "Block execution of shutdown command."
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=shutdown
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 90
+    desc: "Don't match very long permutations of commands when using ~"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=pipaaaaaaaaaaaaaaaaaa
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 91
+    desc: "Block Execution of pip3 command"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=pip3 install something
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 92
+    desc: "Block Execution of pipx command"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=pipx install something
         output:
           log:
             expect_ids: [932236]

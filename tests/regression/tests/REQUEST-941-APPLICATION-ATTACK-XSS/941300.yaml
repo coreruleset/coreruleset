@@ -15,7 +15,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?%3cOBJECT%20data%20%3d=sdffdsa"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941300]
@@ -31,7 +31,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: "payload=<object data=\"javascript:alert(1)\"></a>"
         output:
           log:
