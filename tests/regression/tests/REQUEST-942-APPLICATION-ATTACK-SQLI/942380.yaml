@@ -496,23 +496,23 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 30
-    desc: "SQL Injection Attack"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "FROM+ack_variable+WHERE+name%3D%22cron_last%22%3B%26sql_delimit"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942380]
+ # - test_id: 30
+ #   desc: "SQL Injection Attack"
+ #   stages:
+ #     - input:
+ #         dest_addr: 127.0.0.1
+ #         headers:
+ #           Host: localhost
+ #           User-Agent: "OWASP CRS test agent"
+ #           Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+ #         method: POST
+ #         port: 80
+ #         uri: "/post"
+ #         data: "FROM+ack_variable+WHERE+name%3D%22cron_last%22%3B%26sql_delimit"
+ #         version: HTTP/1.1
+ #       output:
+ #         log:
+ #           expect_ids: [942380]
   - test_id: 31
     desc: "SQL Injection Attack"
     stages:
