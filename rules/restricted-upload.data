@@ -1,20 +1,19 @@
 # This list can be generated from restricted-files.data by running the following shell command:
 # body_start=$(grep -n -E -m 1 '^[^#$]' rules/restricted-upload.data | cut -d: -f1)
 # ed -s rules/restricted-upload.data <<EOF
-# $((body_start - 1)),\$d
+# $((body_start)),\$d
 # w
 # q
 # EOF
-# words="$(awk ' !/^#/ && NF {
+# wget -O english-extended.txt https://raw.githubusercontent.com/coreruleset/coreruleset/refs/tags/v4.0.0/util/fp-finder/english-extended.txt
+# tmpfile="$(mktemp)"
+# awk ' !/^#/ && NF {
 #  n = split($0, segments, "/");
 #  word = segments[n];
 #  if (length(word) > 3) print word
-# }' rules/restricted-files.data | sort | uniq)"
-# while read -r word; do
-#   if [ "$(util/fp-finder/spell.sh -m -e - <<<"${word}")" != "${word}" ]; then
-#     echo "${word}" >> rules/restricted-upload.data
-#   fi
-# done <<<"${words}"
+# }' rules/restricted-files.data | sort | uniq > "$tmpfile"
+# crs-toolchain util fp-finder "$tmpfile" -e english-extended.txt >> rules/restricted-upload.data
+# rm -f "$tmpfile"
 .addressbook
 .bash_
 .bashrc
@@ -33,8 +32,8 @@
 .gitconfig
 .gitignore
 .gitkeep
-.gitmodules
 .gitlab-ci.yml
+.gitmodules
 .google_authenticator
 .hgignore
 .htaccess
@@ -75,6 +74,38 @@
 .rhosts
 .selected_editor
 .sh_history
+.sql.001
+.sql.7z
+.sql.ace
+.sql.arj
+.sql.bz
+.sql.cpio
+.sql.gz
+.sql.lha
+.sql.lz
+.sql.pa
+.sql.pea
+.sql.r00
+.sql.r01
+.sql.r02
+.sql.r03
+.sql.r04
+.sql.r05
+.sql.r06
+.sql.r07
+.sql.r08
+.sql.r09
+.sql.rar
+.sql.rev
+.sql.tar
+.sql.taz
+.sql.tbz
+.sql.tgz
+.sql.txz
+.sql.uha
+.sql.xz
+.sql.yz1
+.sql.z
 .sqlite_history
 .svnignore
 .tcshrc
@@ -97,10 +128,10 @@
 acpi
 asound
 auth.json
-aws.yaml
-aws.yml
 aws-key.yaml
 aws-key.yml
+aws.yaml
+aws.yml
 BlockCypher.log
 bootconfig
 bower.json
@@ -169,6 +200,7 @@ phpcs.xml.dist
 routing.yml
 sched_debug
 schedstat
+scsi
 secrets.json
 security.yml
 sendgrid.env
@@ -195,8 +227,8 @@ vmstat
 Web.config
 weblogic.xml
 webpack.config.js
-wp-config.copy
 wp-config.bak
+wp-config.copy
 wp-config.old
 wp-config.php
 wp-config.temp
