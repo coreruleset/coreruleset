@@ -336,17 +336,51 @@ tests:
           log:
             expect_ids: [932240]
   - test_id: 20
-    desc: "False positive against Googles GS2 cookie format"
+    desc: "False positive against Google Analytics legacy cookies"
     stages:
       - input:
           dest_addr: "127.0.0.1"
-          method: "POST"
+          method: "GET"
           port: 80
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            Cookies: _ga=GA1.1.859495864.1741097619; _ga_SM37QL5J42=GS2.1.s1747402925$o58$g1$t1747403211$j0$l0$h0
+            Cookie: acookie=somevalue; __utma=111872281.191903162.1338926615.1339098439.1339100387.4
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932240]
+  - test_id: 21
+    desc: "False positive against Googles GA1 cookie"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: acookie=somevalue; _ga=GA1.1.859495864.1741097619
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932240]
+  - test_id: 22
+    desc: "False positive against Googles GS2 cookie"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: acookie=somevalue; _ga_SM37QL5J42=GS2.1.s1747402925$o58$g1$t1747403211$j0$l0$h0
           uri: "/get"
           version: "HTTP/1.1"
         output:
