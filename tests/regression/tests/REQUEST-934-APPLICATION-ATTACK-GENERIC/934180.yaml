@@ -1,0 +1,37 @@
+---
+meta:
+  author: "Ayman, Muhammad"
+rule_id: 934180
+tests:
+  - test_id: 1
+    desc: Python SSTI attack
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x={{ 7*7 }}"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934180]
+  - test_id: 2
+    desc: Python SSTI attack while adding whitespaces
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x={         { 7*7 }   }"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934180]
