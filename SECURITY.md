@@ -80,6 +80,7 @@ Do this before submitting a vulnerability using our email:
 1) Verify that you have the latest version of OWASP CRS.
 2) Validate which Paranoia Level this bypass applies to. If it works in PL4, please send us an email.
 3) If you detected anything that causes unexpected behavior of the engine via manipulation of existing CRS provided rules, please send it by email.
+4) Check whether the exploit/vulnerability is covered at a higher paranoia level by testing it against the [CRS Sandbox](https://coreruleset.org/docs/6-development/6-4-using-the-crs-sandbox/) at a higher paranoia level.
 
 We also provide you with the [Sandbox project](https://coreruleset.org/docs/development/sandbox/), where you can test your bypass and report back to us. If testing using the sandbox, please include the `X-Unique-ID` from the response in your email.
 
