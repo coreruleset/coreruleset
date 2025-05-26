@@ -85,7 +85,7 @@ tests:
           log:
             no_expect_ids: [933153]
   - test_id: 6
-    desc: "rule should not trigger when there are other words before parenthesis"
+    desc: "rule should not trigger when there are other words before parenthesis (`sodium_add` should not be matched)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -95,7 +95,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?a=ceiling%20scandir(9ft)"
+          uri: "/get?a=sodium_add_to_recipe(foo)"
           version: "HTTP/1.1"
         output:
           log:
