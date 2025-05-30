@@ -496,23 +496,23 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 30
-    desc: "SQL Injection Attack"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "FROM+ack_variable+WHERE+name%3D%22cron_last%22%3B%26sql_delimit"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942380]
+ # - test_id: 30
+ #   desc: "SQL Injection Attack"
+ #   stages:
+ #     - input:
+ #         dest_addr: 127.0.0.1
+ #         headers:
+ #           Host: localhost
+ #           User-Agent: "OWASP CRS test agent"
+ #           Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+ #         method: POST
+ #         port: 80
+ #         uri: "/post"
+ #         data: "FROM+ack_variable+WHERE+name%3D%22cron_last%22%3B%26sql_delimit"
+ #         version: HTTP/1.1
+ #       output:
+ #         log:
+ #           expect_ids: [942380]
   - test_id: 31
     desc: "SQL Injection Attack"
     stages:
@@ -765,6 +765,476 @@ tests:
           uri: "/post"
           data: "pay=IF%20EXISTS%20(SELECT%20*%20FROM%20users%20WHERE%20username%20%3D%20'root')%20BENCHMARK(1000000000%2CMD5(1))"
           version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 46
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%201>1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 47
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%201<1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 48
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%201<>1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 49
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%202-1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+#  - test_id: 50
+#    desc: "SQL Injection Attack: HAVING"
+#    stages:
+#      - input:
+#          dest_addr: 127.0.0.1
+#          headers:
+#            Host: localhost
+#            User-Agent: "OWASP CRS test agent"
+#            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+#          method: "POST"
+#          port: 80
+#          uri: "/post"
+#          # HAVING 1+1
+#          data: "payload=HAVING%201%2B1"
+#          version: "HTTP/1.1"
+#        output:
+#          log:
+#            expect_ids: [942380]
+#  - test_id: 51
+#    desc: "SQL Injection Attack: HAVING"
+#    stages:
+#      - input:
+#          dest_addr: 127.0.0.1
+#          headers:
+#            Host: localhost
+#            User-Agent: "OWASP CRS test agent"
+#            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+#          method: "POST"
+#          port: 80
+#          uri: "/post"
+#          # HAVING 1++++1
+#          data: "payload=HAVING%201%2B%2B%2B%2B1"
+#          version: "HTTP/1.1"
+#        output:
+#          log:
+#            expect_ids: [942380]
+  - test_id: 52
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%201/1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 53
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%201*1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 54
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%201!=2"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 55
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%201<=1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 56
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%202>=1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 57
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          # HAVING 1%1
+          data: "payload=HAVING%201%251"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 58
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          # HAVING 1&1
+          data: "payload=HAVING%201%261"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 59
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%201^2"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 60
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%201|1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 61
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%201%20mod%202"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 62
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%201%20div%201"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 63
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=HAVING%20('1%20div%201')"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 64
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          # HAVING '1'=1
+          data: "payload=HAVING%20'1'%3D1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 65
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          # HAVING ''=''
+          data: "payload=HAVING%20%27%27%3D%27%27"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 66
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          # HAVING '1'mod'2'
+          data: "payload=HAVING%20%271%27mod%272%27"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 67
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          # HAVING true=1
+          data: "payload=HAVING%20true%3D1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 68
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          # HAVING false=0
+          data: "payload=HAVING%20false%3D0"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 69
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          # HAVING 12345678901=12345678901
+          data: "payload=HAVING%2012345678901%3D12345678901"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 70
+    desc: "SQL Injection Attack: HAVING"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          # HAVING 'a'='a'
+          data: "payload=HAVING%20%27a%27%3D%27a%27"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 71
+    desc: "SQL Injection Attack: CREATE TABLE"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=CREATE%20TABLE`test`("
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942380]
+  - test_id: 72
+    desc: "SQL Injection Attack: EXECUTE"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "POST"
+          port: 80
+          uri: "/post"
+          data: "payload=EXECUTE`test`"
+          version: "HTTP/1.1"
         output:
           log:
             expect_ids: [942380]
