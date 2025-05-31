@@ -1682,3 +1682,37 @@ tests:
         output:
           log:
             expect_ids: [932236]
+  - test_id: 93
+    desc: "False Positive: matching pipe `self`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=Compra a MODULAR ALUMINIO ESTRUCTURAL, STRUT PROFILE PG30 30X30 4 SLOTS | SELF TAPPING SCREW PG30 M1
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 94
+    desc: "Ensure that `rc` is matched PL 2"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?param=rc"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932236]
