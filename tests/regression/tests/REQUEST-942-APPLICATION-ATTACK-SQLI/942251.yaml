@@ -15,7 +15,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=%20HAVING%20COUNT%28CustomerID%29%20%3E%205"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942251]
@@ -31,7 +31,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=having%20fun"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942251]

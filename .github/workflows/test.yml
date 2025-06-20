@@ -24,12 +24,13 @@ on:
 
 # Pin tool versions to prevent problems
 env:
-  GO_FTW_VERSION: '1.2.0'
+  GO_FTW_VERSION: '1.3.0'
 
 jobs:
   regression:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         modsec_version: [modsec2-apache, modsec3-nginx]
     steps:
@@ -47,6 +48,9 @@ jobs:
         run: |
           mkdir -p "tests/logs/${{ matrix.modsec_version }}/{nginx,apache2}"
           docker compose -f ./tests/docker-compose.yml up -d "${{ matrix.modsec_version }}"
+          echo "Waiting for container to become ready"
+          curl --retry 5 --retry-connrefused --retry-delay 2 localhost || true
+          sleep 5
           docker compose -f ./tests/docker-compose.yml logs
           if ! [ "$(docker inspect ${{ matrix.modsec_version }} --format='{{.State.Running}}')" = "true" ]; then
             echo "Web server failed to start. Aborting."

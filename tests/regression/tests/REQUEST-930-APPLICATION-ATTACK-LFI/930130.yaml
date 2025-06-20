@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Andrew Howe, azurit"
+  author: "Andrew Howe, azurit, Esad Cetiner"
 rule_id: 930130
 tests:
   - test_id: 1
@@ -31,6 +31,24 @@ tests:
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/get/proc/interrupts"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930130]
+  - test_id: 3
+    desc: |
+      True positive test.
+      Accessing compressed database dump
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get/backup.sql.zip"
           version: "HTTP/1.1"
         output:
           log:

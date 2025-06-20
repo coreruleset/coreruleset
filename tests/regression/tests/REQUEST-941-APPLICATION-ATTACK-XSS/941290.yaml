@@ -16,7 +16,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=<applet code%3d\"deuce.class\">&var=whatever"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941290]
@@ -33,7 +33,7 @@ tests:
           port: 80
           uri: "/post"
           data: "payload=<applet onreadystatechange=alert(1)></applet></a>"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [941290]
