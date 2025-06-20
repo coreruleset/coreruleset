@@ -36,7 +36,7 @@ x-nginx-env: &nginx-env
 services:
   modsec2-apache: &apache
     container_name: modsec2-apache
-    image: owasp/modsecurity-crs:apache@sha256:0dd859b4f1eadfc15b56fcfad7c956b378f36546bb5fb1da66a9afc78c9d4029
+    image: owasp/modsecurity-crs:apache@sha256:235c15df33e9a40ffc8ce304279cf8b0fbcef4f1abf5c6488f425876b69b42dd
 
     # NOTE: The user used to run the container process is explicitly set to
     # 'root'. This fixes issues with permissions on the logging directories used
@@ -66,7 +66,7 @@ services:
 
   modsec3-nginx: &nginx
     container_name: modsec3-nginx
-    image: owasp/modsecurity-crs:nginx@sha256:d048c353b1a50f78e3df6007ca9fb32de57b13c0be80177bbc384e48eb0ac6fe
+    image: owasp/modsecurity-crs:nginx@sha256:daaa96773ab4bfa3676a3e45865c44ac1bdc36ddc058ceae059565c29008ad30
     # NOTE: The user used to run the container process is explicitly set to
     # 'root'. This fixes issues with permissions on the logging directories used
     # as bind mounts. This is done as *a convenience for running the CRS testing
@@ -95,5 +95,5 @@ services:
       MODSEC_DEBUG_LOGLEVEL: 9
 
   backend:
-    image: ghcr.io/coreruleset/albedo:0.1.0@sha256:36c937116ff58cf419d476fb0ebcef95dc188de1c15dfa97d0a7f01532cf20e5
+    image: ghcr.io/coreruleset/albedo:0.2.0@sha256:bc9b7e4f83a5268ccd2b4d1d26e926b6324e20ff1d91281c339ad82e55f5bab2
     command: ["--port", "80"]
