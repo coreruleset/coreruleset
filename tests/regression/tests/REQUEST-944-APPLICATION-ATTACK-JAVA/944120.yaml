@@ -19,7 +19,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.clonetransformer"
         output:
           log:
@@ -39,7 +39,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "ProcessBuilder.evil.clonetransformer=test"
         output:
           log:
@@ -60,7 +60,7 @@ tests:
             Cookie: test=ProcessBuilder.evil.clonetransformer
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -81,7 +81,7 @@ tests:
             Cookie: ProcessBuilder.evil.clonetransformer=test
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -102,7 +102,7 @@ tests:
             test: ProcessBuilder.evil.clonetransformer
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -122,7 +122,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.clonetransformer attribute_name=\"attribute_value\">value</ProcessBuilder.evil.clonetransformer></xml>"
         output:
           log:
@@ -142,7 +142,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.clonetransformer=\"attribute_value\">element_value</element></xml>"
         output:
           log:
@@ -162,7 +162,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.clonetransformer\">element_value</element></xml>"
         output:
           log:
@@ -182,7 +182,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.clonetransformer</element></xml>"
         output:
           log:
@@ -202,7 +202,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.clonetransformer</element></l3></l2></l1></xml>"
         output:
           log:
@@ -222,7 +222,7 @@ tests:
             Content-Type: "text/plain"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.clonetransformer"
         output:
           log:
@@ -242,7 +242,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"test\": \"ProcessBuilder.evil.clonetransformer\"}"
         output:
           log:
@@ -262,7 +262,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"ProcessBuilder.evil.clonetransformer\": \"test\"}"
         output:
           log:
@@ -282,7 +282,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -308,7 +308,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -334,7 +334,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -360,7 +360,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -386,7 +386,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.forclosure"
         output:
           log:
@@ -406,7 +406,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "ProcessBuilder.evil.forclosure=test"
         output:
           log:
@@ -427,7 +427,7 @@ tests:
             Cookie: test=ProcessBuilder.evil.forclosure
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -448,7 +448,7 @@ tests:
             Cookie: ProcessBuilder.evil.forclosure=test
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -469,7 +469,7 @@ tests:
             test: ProcessBuilder.evil.forclosure
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -489,7 +489,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.forclosure attribute_name=\"attribute_value\">value</ProcessBuilder.evil.forclosure></xml>"
         output:
           log:
@@ -509,7 +509,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.forclosure=\"attribute_value\">element_value</element></xml>"
         output:
           log:
@@ -529,7 +529,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.forclosure\">element_value</element></xml>"
         output:
           log:
@@ -549,7 +549,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.forclosure</element></xml>"
         output:
           log:
@@ -569,7 +569,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.forclosure</element></l3></l2></l1></xml>"
         output:
           log:
@@ -589,7 +589,7 @@ tests:
             Content-Type: "text/plain"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.forclosure"
         output:
           log:
@@ -609,7 +609,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"test\": \"ProcessBuilder.evil.forclosure\"}"
         output:
           log:
@@ -629,7 +629,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"ProcessBuilder.evil.forclosure\": \"test\"}"
         output:
           log:
@@ -649,7 +649,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -675,7 +675,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -701,7 +701,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -727,7 +727,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -753,7 +753,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.instantiatefactory"
         output:
           log:
@@ -773,7 +773,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "ProcessBuilder.evil.instantiatefactory=test"
         output:
           log:
@@ -794,7 +794,7 @@ tests:
             Cookie: test=ProcessBuilder.evil.instantiatefactory
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -815,7 +815,7 @@ tests:
             Cookie: ProcessBuilder.evil.instantiatefactory=test
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -836,7 +836,7 @@ tests:
             test: ProcessBuilder.evil.instantiatefactory
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -856,7 +856,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.instantiatefactory attribute_name=\"attribute_value\">value</ProcessBuilder.evil.instantiatefactory></xml>"
         output:
           log:
@@ -876,7 +876,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.instantiatefactory=\"attribute_value\">element_value</element></xml>"
         output:
           log:
@@ -896,7 +896,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.instantiatefactory\">element_value</element></xml>"
         output:
           log:
@@ -916,7 +916,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.instantiatefactory</element></xml>"
         output:
           log:
@@ -936,7 +936,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.instantiatefactory</element></l3></l2></l1></xml>"
         output:
           log:
@@ -956,7 +956,7 @@ tests:
             Content-Type: "text/plain"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.instantiatefactory"
         output:
           log:
@@ -976,7 +976,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"test\": \"ProcessBuilder.evil.instantiatefactory\"}"
         output:
           log:
@@ -996,7 +996,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"ProcessBuilder.evil.instantiatefactory\": \"test\"}"
         output:
           log:
@@ -1016,7 +1016,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -1042,7 +1042,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -1068,7 +1068,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -1094,7 +1094,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -1120,7 +1120,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.instantiatetransformer"
         output:
           log:
@@ -1140,7 +1140,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "ProcessBuilder.evil.instantiatetransformer=test"
         output:
           log:
@@ -1161,7 +1161,7 @@ tests:
             Cookie: test=ProcessBuilder.evil.instantiatetransformer
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -1182,7 +1182,7 @@ tests:
             Cookie: ProcessBuilder.evil.instantiatetransformer=test
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -1203,7 +1203,7 @@ tests:
             test: ProcessBuilder.evil.instantiatetransformer
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -1223,7 +1223,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.instantiatetransformer attribute_name=\"attribute_value\">value</ProcessBuilder.evil.instantiatetransformer></xml>"
         output:
           log:
@@ -1243,7 +1243,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.instantiatetransformer=\"attribute_value\">element_value</element></xml>"
         output:
           log:
@@ -1263,7 +1263,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.instantiatetransformer\">element_value</element></xml>"
         output:
           log:
@@ -1283,7 +1283,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.instantiatetransformer</element></xml>"
         output:
           log:
@@ -1303,7 +1303,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.instantiatetransformer</element></l3></l2></l1></xml>"
         output:
           log:
@@ -1323,7 +1323,7 @@ tests:
             Content-Type: "text/plain"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.instantiatetransformer"
         output:
           log:
@@ -1343,7 +1343,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"test\": \"ProcessBuilder.evil.instantiatetransformer\"}"
         output:
           log:
@@ -1363,7 +1363,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"ProcessBuilder.evil.instantiatetransformer\": \"test\"}"
         output:
           log:
@@ -1383,7 +1383,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -1409,7 +1409,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -1435,7 +1435,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -1461,7 +1461,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -1487,7 +1487,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.invokertransformer"
         output:
           log:
@@ -1507,7 +1507,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "ProcessBuilder.evil.invokertransformer=test"
         output:
           log:
@@ -1528,7 +1528,7 @@ tests:
             Cookie: test=ProcessBuilder.evil.invokertransformer
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -1549,7 +1549,7 @@ tests:
             Cookie: ProcessBuilder.evil.invokertransformer=test
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -1570,7 +1570,7 @@ tests:
             test: ProcessBuilder.evil.invokertransformer
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -1590,7 +1590,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.invokertransformer attribute_name=\"attribute_value\">value</ProcessBuilder.evil.invokertransformer></xml>"
         output:
           log:
@@ -1610,7 +1610,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.invokertransformer=\"attribute_value\">element_value</element></xml>"
         output:
           log:
@@ -1630,7 +1630,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.invokertransformer\">element_value</element></xml>"
         output:
           log:
@@ -1650,7 +1650,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.invokertransformer</element></xml>"
         output:
           log:
@@ -1670,7 +1670,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.invokertransformer</element></l3></l2></l1></xml>"
         output:
           log:
@@ -1690,7 +1690,7 @@ tests:
             Content-Type: "text/plain"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.invokertransformer"
         output:
           log:
@@ -1710,7 +1710,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"test\": \"ProcessBuilder.evil.invokertransformer\"}"
         output:
           log:
@@ -1730,7 +1730,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"ProcessBuilder.evil.invokertransformer\": \"test\"}"
         output:
           log:
@@ -1750,7 +1750,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -1776,7 +1776,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -1802,7 +1802,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -1828,7 +1828,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -1854,7 +1854,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.prototypeclonefactory"
         output:
           log:
@@ -1874,7 +1874,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "ProcessBuilder.evil.prototypeclonefactory=test"
         output:
           log:
@@ -1895,7 +1895,7 @@ tests:
             Cookie: test=ProcessBuilder.evil.prototypeclonefactory
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -1916,7 +1916,7 @@ tests:
             Cookie: ProcessBuilder.evil.prototypeclonefactory=test
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -1937,7 +1937,7 @@ tests:
             test: ProcessBuilder.evil.prototypeclonefactory
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -1957,7 +1957,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.prototypeclonefactory attribute_name=\"attribute_value\">value</ProcessBuilder.evil.prototypeclonefactory></xml>"
         output:
           log:
@@ -1977,7 +1977,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.prototypeclonefactory=\"attribute_value\">element_value</element></xml>"
         output:
           log:
@@ -1997,7 +1997,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.prototypeclonefactory\">element_value</element></xml>"
         output:
           log:
@@ -2017,7 +2017,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.prototypeclonefactory</element></xml>"
         output:
           log:
@@ -2037,7 +2037,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.prototypeclonefactory</element></l3></l2></l1></xml>"
         output:
           log:
@@ -2057,7 +2057,7 @@ tests:
             Content-Type: "text/plain"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.prototypeclonefactory"
         output:
           log:
@@ -2077,7 +2077,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"test\": \"ProcessBuilder.evil.prototypeclonefactory\"}"
         output:
           log:
@@ -2097,7 +2097,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"ProcessBuilder.evil.prototypeclonefactory\": \"test\"}"
         output:
           log:
@@ -2117,7 +2117,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -2143,7 +2143,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -2169,7 +2169,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -2195,7 +2195,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -2221,7 +2221,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.prototypeserializationfactory"
         output:
           log:
@@ -2241,7 +2241,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "ProcessBuilder.evil.prototypeserializationfactory=test"
         output:
           log:
@@ -2262,7 +2262,7 @@ tests:
             Cookie: test=ProcessBuilder.evil.prototypeserializationfactory
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -2283,7 +2283,7 @@ tests:
             Cookie: ProcessBuilder.evil.prototypeserializationfactory=test
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -2304,7 +2304,7 @@ tests:
             test: ProcessBuilder.evil.prototypeserializationfactory
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -2324,7 +2324,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.prototypeserializationfactory attribute_name=\"attribute_value\">value</ProcessBuilder.evil.prototypeserializationfactory></xml>"
         output:
           log:
@@ -2344,7 +2344,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.prototypeserializationfactory=\"attribute_value\">element_value</element></xml>"
         output:
           log:
@@ -2364,7 +2364,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.prototypeserializationfactory\">element_value</element></xml>"
         output:
           log:
@@ -2384,7 +2384,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.prototypeserializationfactory</element></xml>"
         output:
           log:
@@ -2404,7 +2404,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.prototypeserializationfactory</element></l3></l2></l1></xml>"
         output:
           log:
@@ -2424,7 +2424,7 @@ tests:
             Content-Type: "text/plain"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.prototypeserializationfactory"
         output:
           log:
@@ -2444,7 +2444,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"test\": \"ProcessBuilder.evil.prototypeserializationfactory\"}"
         output:
           log:
@@ -2464,7 +2464,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "{\"ProcessBuilder.evil.prototypeserializationfactory\": \"test\"}"
         output:
           log:
@@ -2484,7 +2484,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -2510,7 +2510,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -2536,7 +2536,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -2562,7 +2562,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -2588,7 +2588,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.whileclosure"
         output:
           log:
@@ -2608,7 +2608,7 @@ tests:
             Content-Type: "application/x-www-form-urlencoded"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "ProcessBuilder.evil.whileclosure=test"
         output:
           log:
@@ -2629,7 +2629,7 @@ tests:
             Cookie: test=ProcessBuilder.evil.whileclosure
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -2650,7 +2650,7 @@ tests:
             Cookie: ProcessBuilder.evil.whileclosure=test
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -2671,7 +2671,7 @@ tests:
             test: ProcessBuilder.evil.whileclosure
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=value"
         output:
           log:
@@ -2691,7 +2691,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><ProcessBuilder.evil.whileclosure attribute_name=\"attribute_value\">value</ProcessBuilder.evil.whileclosure></xml>"
         output:
           log:
@@ -2711,7 +2711,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element ProcessBuilder.evil.whileclosure=\"attribute_value\">element_value</element></xml>"
         output:
           log:
@@ -2731,7 +2731,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"ProcessBuilder.evil.whileclosure\">element_value</element></xml>"
         output:
           log:
@@ -2751,7 +2751,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><element attribute_name=\"attribute_value\">ProcessBuilder.evil.whileclosure</element></xml>"
         output:
           log:
@@ -2771,7 +2771,7 @@ tests:
             Content-Type: "application/xml"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "<?xml version=\"1.0\"?><xml><l1><l2><l3><element attribute_name=\"attribute_value\">ProcessBuilder.evil.whileclosure</element></l3></l2></l1></xml>"
         output:
           log:
@@ -2791,7 +2791,7 @@ tests:
             Content-Type: "text/plain"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: "test=ProcessBuilder.evil.whileclosure"
         output:
           log:
@@ -2811,7 +2811,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             {"test": "ProcessBuilder.evil.whileclosure"}
         output:
@@ -2832,7 +2832,7 @@ tests:
             Content-Type: "application/json"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             {"ProcessBuilder.evil.whileclosure": "test"}
         output:
@@ -2853,7 +2853,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -2879,7 +2879,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -2905,7 +2905,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"
@@ -2931,7 +2931,7 @@ tests:
             Content-Type: "multipart/form-data; boundary=---------------------------thisissparta"
           method: "POST"
           uri: "/post"
-          version: "HTTP/1.0"
+          version: "HTTP/1.1"
           data: |
             -----------------------------thisissparta
             Content-Disposition: form-data; name="payload"

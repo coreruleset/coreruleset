@@ -17,7 +17,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?id=cat%2B%2Fet*%2F*wd"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932190]
@@ -34,7 +34,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?id=cat%2B%2FET*%2F*WD"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932190]
@@ -51,7 +51,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?id=%2F%3F%3F%3F%2F%3Fs"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932190]
@@ -68,7 +68,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?id=Does%20the%20%2A%20shine%20bright%3F"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932190]
@@ -86,7 +86,7 @@ tests:
           method: GET
           port: 80
           uri: "/get"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: "{\"foo\" : \";+cat+/e't'*/pa'?s'wd\"}"
         output:
           log:
@@ -105,7 +105,7 @@ tests:
           method: GET
           port: 80
           uri: "/get"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: "{\"foo\" : \";+cat+/e\\\\t\\\\*/pa\\\\?s\\\\wd\"}"
         output:
           log:
