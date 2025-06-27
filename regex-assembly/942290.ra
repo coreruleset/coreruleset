@@ -1,6 +1,11 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
-
+##! 
+##! The following curl commands can be used to get the operators:
+##! curl -s https://www.mongodb.com/docs/manual/reference/operator/update.md | grep -oP '\[\`\$.*\`\]' | cut -d\` -f2 | sort -u
+##! curl -s https://www.mongodb.com/docs/manual/reference/operator/aggregation.md | grep -oP '\[\`\$.*\`\]' | cut -d\` -f2 | sort -u
+##! curl -s https://www.mongodb.com/docs/manual/reference/operator/query.md | grep -oP '\[\`\$.*\`\]' | cut -d\` -f2 | sort -u
+##!
 ##!+ i
 
 ##!> define operator_syntax_start \[?\$
