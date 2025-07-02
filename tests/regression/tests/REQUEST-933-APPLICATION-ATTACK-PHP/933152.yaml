@@ -1,0 +1,134 @@
+---
+meta:
+  author: "lifeforms, ssigwart, azurit"
+rule_id: 933152
+tests:
+  - test_id: 1
+    desc: "pmf + chain"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/pg_enter_pipeline_mode%20%28"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933152]
+  - test_id: 2
+    desc: "pmf + chain"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?ldap_get_entries%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933152]
+  - test_id: 3
+    desc: "non-dangerous PHP functions, removed to reduce FP"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=filemtime%28%24foo%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933152]
+  - test_id: 4
+    desc: "pmf + chain"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "odbc_connection_string_should_quote("
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933152]
+  - test_id: 5
+    desc: "No parenthesis after keyword"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=mb_stristr"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933152]
+  - test_id: 6
+    desc: "rule should not trigger when there are other words before parenthesis (`openlog` should not be matched)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?a=openlogfile(foo)"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933152]
+  - test_id: 7
+    desc: "snippets of Eng words (like prev) should not be matched, requiring regex match with word boundaries (e.g. 933160)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?a=preview"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933152]
+  - test_id: 8
+    desc: "snippets of Eng words (like exp) should not be matched, requiring regex match with word boundaries (e.g. 933160)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?a=exploration"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933152]
