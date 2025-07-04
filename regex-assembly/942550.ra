@@ -3,28 +3,39 @@
 
 ##! Referring to https://claroty.com/team82/research/js-on-security-off-abusing-json-based-sql-to-bypass-waf
 ##! this rule tries to match the following payloads:
-##! 
+##!
+##! PostgreSQL reference: https://www.postgresql.org/docs/current/functions-json.html
 ##! PostgreSQL: '{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb
 ##! PostgreSQL: '{"b":2}'::jsonb @> '{"a":1, "b":2}'::jsonb
 ##! PostgreSQL: '{"b":2}'::jsonb @ '{"a":1, "b":2}'::jsonb
 ##! PostgreSQL: '{"b":2}'::jsonb < '{"a":1, "b":2}'::jsonb
 ##! PostgreSQL: '{"b":2}'::jsonb > '{"a":1, "b":2}'::jsonb
+
+##! SQLite reference: https://www.sqlite.org/json1.html
 ##! SQLite: '{"a":2,"c":[4,5,{"f":7}]}' -> '$.c[2].f' = 7
 ##! SQLite: '{"a":2,"c":[4,5,{"f":7}]}' <- '$.c[2].f' = 7
 ##! SQLite: '{"a":2,"c":[4,5,{"f":7}]}' < '$.c[2].f' = 7
 ##! SQLite: '{"a":2,"c":[4,5,{"f":7}]}' > '$.c[2].f' = 7
+
+##! MySQL reference: https://dev.mysql.com/doc/refman/8.4/en/json-function-reference.html
 ##! MySQL: JSON_EXTRACT('{"id": 14, "name": "Aztalan"}', '$.name') = 'Aztalan'
 
+##!> define optional_spacing \s*?
 ##!> define quotes [\"'`]
 ##!> define operators (?:@>|<@|\?|\?\||\?&|#>|#>>|->>|<|>|->|<-)
-##!> define json_ending_brackets [\]\}]
 ##!> define json_starting_brackets [\[\{]
+##!> define something_except_json_ending_brackets [^\}\]#]*
+##!> define json_ending_brackets [\]\}]+
+##!> define sql_comment (/\*[^*]*\*/)?
+##!> define sql_comment_evasion {{optional_spacing}}{{sql_comment}}{{optional_spacing}}
+##!> define non_greedy_jsonb (?:::{{sql_comment_evasion}}jsonb?)?
 
 ##!> assemble
-  ##! https://regex101.com/r/mzG5Fg/1
-  {{quotes}}{{json_starting_brackets}}.*{{json_ending_brackets}}{{quotes}}.*(::.*jsonb?)?.*{{operators}}
-  {{operators}}{{quotes}}{{json_starting_brackets}}.*{{json_ending_brackets}}{{quotes}}
+  ##! SQLite + PostgreSQL
+  {{non_greedy_jsonb}}{{optional_spacing}}{{operators}}
+  {{quotes}}{{json_starting_brackets}}{{something_except_json_ending_brackets}}{{json_ending_brackets}}{{quotes}}
+  {{operators}}{{quotes}}{{json_starting_brackets}}{{something_except_json_ending_brackets}}{{json_ending_brackets}}{{quotes}}
 
   ##! example: SELECT id FROM users WHERE id=JsoN_EXTraCT/**/(/**/'  {"a":1}  '/**/,/**/' $.a '/**/);
-  json_extract.*\(.*\)
+  \bjson_extract\b[\(\)]*\([^(]*\)
 ##!<
