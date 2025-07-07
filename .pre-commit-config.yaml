@@ -15,6 +15,7 @@ repos:
   hooks:
     - id: run-crs-toolchain
       name: run-crs-toolchain
-      entry: ghcr.io/coreruleset/crs-toolchain:2.4.0 regex update --all
-      language: docker_image
-      files: '^regex-assembly/.*\.ra$'
+      entry: crs-toolchain regex update
+      additional_dependencies: ['github.com/coreruleset/crs-toolchain/v2@v2.4.0']
+      language: golang
+      files: '^regex-assembly/.*\.ra'
