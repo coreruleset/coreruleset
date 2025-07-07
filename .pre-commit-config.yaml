@@ -11,3 +11,10 @@ repos:
     - id: trailing-whitespace
       exclude: '^regex-assembly/'
       args: [--markdown-linebreak-ext=md]
+- repo: local
+  hooks:
+    - id: run-crs-toolchain
+      name: run-crs-toolchain
+      entry: crs-toolchain regex update --all
+      language: system
+      files: '^regex-assembly/.*\.ra$'
