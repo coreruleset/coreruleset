@@ -15,7 +15,8 @@ repos:
   hooks:
     - id: run-crs-toolchain
       name: run-crs-toolchain
-      entry: crs-toolchain regex update
+      entry: crs-toolchain regex update --all -l error
       additional_dependencies: ['github.com/coreruleset/crs-toolchain/v2@v2.4.0']
       language: golang
-      files: '^regex-assembly/.*\.ra'
+      pass_filenames: false
+      files: '^regex-assembly/'
