@@ -29,19 +29,10 @@ jobs:
           # required for version detection using `git describe`
           fetch-depth: 50
 
-      - name: Lint Yaml
-        uses: ibiqlik/action-yamllint@2576378a8e339169678f9939646ee3ee325e845c # v3.1.1
-        with:
-          format: github
-          file_or_dir: tests/regression/tests
-          config_file: .yamllint.yml
-
       - name: Set up Python 3
         uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
         with:
           python-version: 3.x
-
-      - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
 
       - name: "Check CRS syntax"
         run: |

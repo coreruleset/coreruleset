@@ -11,6 +11,11 @@ repos:
     - id: trailing-whitespace
       exclude: '^regex-assembly/'
       args: [--markdown-linebreak-ext=md]
+- repo: https://github.com/adrienverge/yamllint.git
+  rev: v1.29.0
+  hooks:
+    - id: yamllint
+      args: [-f=github, -c=.yamllint.yml, tests/regression/tests]
 - repo: local
   hooks:
     - id: run-crs-toolchain
