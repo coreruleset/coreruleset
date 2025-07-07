@@ -17,14 +17,15 @@
 
 ##!> define quotes [\"'`]
 ##!> define operators (?:@>|<@|\?|\?\||\?&|#>|#>>|->>|<|>|->|<-)
-##!> define json_ending_brackets [\]\}]
-##!> define json_starting_brackets [\[\{]
+##!> define json_ending_brackets [\]}]
+##!> define json_starting_brackets [\[{]
+##!> define anything_but_square_and_curly_brackets [^\]}]
 
 ##!> assemble
   ##! https://regex101.com/r/mzG5Fg/1
-  {{quotes}}{{json_starting_brackets}}[^\]\}]*{{json_ending_brackets}}*{{quotes}}.*(::.*jsonb?)?.*{{operators}}
-  {{operators}}{{quotes}}{{json_starting_brackets}}[^\]\}]*{{json_ending_brackets}}{{quotes}}
+  {{quotes}}{{json_starting_brackets}}{{anything_but_square_and_curly_brackets}}*{{json_ending_brackets}}*{{quotes}}.*(::.*jsonb?)?.*{{operators}}
+  {{operators}}{{quotes}}{{json_starting_brackets}}{{anything_but_square_and_curly_brackets}}*{{json_ending_brackets}}{{quotes}}
 
   ##! example: SELECT id FROM users WHERE id=JsoN_EXTraCT/**/(/**/'  {"a":1}  '/**/,/**/' $.a '/**/);
-  json_extract[^\(]*\([^\)]*\)
+  json_extract[^(]*\([^)]*\)
 ##!<
