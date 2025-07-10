@@ -1,22 +1,29 @@
 ##! Please refer to the documentation at
-##! https://coreruleset.org/docs/development/regex_assembly/.
+##! https://coreruleset.org/docs/development/regex_assembly/
 
-##! This is a list of schemes that can be used for RFI/SSRF (from https://en.wikipedia.org/wiki/List_of_URI_schemes):
+##! Comprehensive list of URI schemes potentially used for RFI/SSRF:
+##! Original source: https://en.wikipedia.org/wiki/List_of_URI_schemes
+##! Extended with common additional protocols useful for security testing
 
 acap
 afp
 afs
+afs3
 attachment
-beshare
 bitcoin
+bitcoincash
 blob
 callto
 cap
 cid
+chrome
+chrome-extension
+content
 cvs
 dav
 data
 dict
+dis
 dns
 dntp
 ed2k
@@ -24,17 +31,23 @@ expect
 fd
 feed
 file
+filesystem
 finger
+fax
 fish
 ftp
 ftps
 git
 go
 gopher
+geo
 h323
 http
 https
+hxxp
+hxxps
 iax
+iax2
 icap
 imap
 imaps
@@ -45,48 +58,67 @@ irc6
 ircs
 jabber
 jar
+jdbc
 ldap
 ldapi
 ldaps
 local_file
 mailto
 maven
+magnet
+ms-help
+ms-settings
+ms-windows-store
 mms
+mmsql
+mongodb
 mumble
 netdoc
 news
 nfs
+nfs4
 nntp
 nntps
 ogg
+oracle
 paparazzi
 phar
+pop
 pop2
 pop3
 pop3s
+postgresql
 pres
 proxy
 psyc
 rmi
+redis
+rediss
 rsync
 rtm
 rtmfp
 rtmp
+rtsp
+rtsps
 s3
 sftp
 sip
 sips
 smb
+smbs
 smtp
 smtps
 sms
 snews
 snmp
+socks4
+socks5
 ssh
 ssh2
 svn
 svn\+ssh
 teamspeak
+tel
 telnet
 tftp
 turn
@@ -102,8 +134,11 @@ ws
 wss
 xmpp
 xri
+ymsgr
+urn
 
-##! Adding also the list of PHP (sub)schemes that can be used for RFI/SSRF (from https://www.php.net/manual/en/wrappers.php):
+##! List of PHP wrappers (sub-schemes) that can be used for RFI/SSRF:
+##! Source: https://www.php.net/manual/en/wrappers.php
 
 ssh2.shell
 ssh2.exec
