@@ -1,10 +1,10 @@
 ---
 meta:
-  author: "Xhoenix, Esad Cetiner"
-rule_id: 952110
+  author: "Xhoenix"
+rule_id: 950150
 tests:
   - test_id: 1
-    desc: "javax.servlet.ServletException"
+    desc: "ASP.NET ViewStateException"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -20,12 +20,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "javax.servlet.ServletException: Error occurred during request processing"}
+            {"body": "ViewStateException: Invalid viewstate detected."}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [950150]
   - test_id: 2
-    desc: "org.springframework.web.client.HttpClientErrorException"
+    desc: "ASP.NET HttpRequestValidationException"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -41,12 +41,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "org.springframework.web.client.HttpClientErrorException: 400 Bad Request"}
+            {"body": "HttpRequestValidationException: A potentially dangerous Request.Form value was detected."}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [950150]
   - test_id: 3
-    desc: "org.hibernate.exception.ConstraintViolationException"
+    desc: "ASP.NET HttpCompileException"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -62,12 +62,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "org.hibernate.exception.ConstraintViolationException: could not execute statement"}
+            {"body": "HttpCompileException: Compilation error occurred while processing the request."}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [950150]
   - test_id: 4
-    desc: "java.net.SocketTimeoutException"
+    desc: "ASP.NET HttpParseException"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -83,12 +83,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "java.net.SocketTimeoutException: Read timed out"}
+            {"body": "HttpParseException: Error parsing the HTTP request."}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [950150]
   - test_id: 5
-    desc: "org.springframework.security.access.AccessDeniedException"
+    desc: "ASP.NET HttpUnhandledException"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -104,12 +104,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "org.springframework.security.access.AccessDeniedException: Access is denied"}
+            {"body": "HttpUnhandledException: An unexpected error occurred."}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [950150]
   - test_id: 6
-    desc: "java.lang.NullPointerException"
+    desc: "ASP.NET HttpRequestWrapper"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -125,12 +125,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "java.lang.NullPointerException"}
+            {"body": "HttpRequestWrapper: Error handling HTTP request wrapper."}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [950150]
   - test_id: 7
-    desc: "com.fasterxml.jackson.databind.JsonMappingException"
+    desc: "ASP.NET HttpServerUtilityWrapper"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -146,12 +146,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "com.fasterxml.jackson.databind.JsonMappingException: Unexpected character ('}' (code 125)): was expecting double-quote to start field name"}
+            {"body": "HttpServerUtilityWrapper: Error handling server utility wrapper."}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [950150]
   - test_id: 8
-    desc: "org.apache.jasper.JasperException"
+    desc: "ASP.NET HttpSessionStateWrapper"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -167,12 +167,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "org.apache.jasper.JasperException: Unable to compile class for JSP"}
+            {"body": "HttpSessionStateWrapper: Error handling session state wrapper."}
         output:
           log:
-            expect_ids: [952110]
+            expect_ids: [950150]
   - test_id: 9
-    desc: "org.apache.catalina.LifecycleException"
+    desc: "ASP.NET HttpStaticObjectsCollectionWrapper"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -188,28 +188,7 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "org.apache.catalina.LifecycleException: Failed to start component [StandardEngine[Catalina]]"}
+            {"body": "HttpStaticObjectsCollectionWrapper: Error handling static objects collection wrapper."}
         output:
           log:
-            expect_ids: [952110]
-  - test_id: 10
-    desc: "False Positive matching 'at com'"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          headers:
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            Accept-Encoding: "gzip,deflate"
-            Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "application/json"
-          method: "POST"
-          version: "HTTP/1.1"
-          uri: "/reflect"
-          data: |-
-            {"body": "Clicking on the date/time link will take you to that comment on your live site."}
-        output:
-          log:
-            no_expect_ids: [952110]
+            expect_ids: [950150]
