@@ -17,7 +17,7 @@ on:
 env:
   CRS_TOOLCHAIN_VERSION: '2.3.4'
   SECRULES_PARSING_VERSION: '0.2.11'
-  CRS_LINTER_VERSION: '0.1.0'
+  CRS_LINTER_VERSION: '0.1.2'
 
 jobs:
   check-syntax:
@@ -41,7 +41,6 @@ jobs:
         with:
           python-version: 3.x
 
-      - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
 
       - name: "Check CRS syntax"
         run: |
@@ -96,6 +95,7 @@ jobs:
             -r crs-setup.conf.example \
             -r 'rules/*.conf' \
             -t util/APPROVED_TAGS \
+            -f util/FILENAME_EXCLUSIONS \
             -v "${version}"
 
       - name: "Find rules without test"
