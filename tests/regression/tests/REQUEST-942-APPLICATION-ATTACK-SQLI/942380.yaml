@@ -496,24 +496,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
- # - test_id: 30
- #   desc: "SQL Injection Attack"
- #   stages:
- #     - input:
- #         dest_addr: 127.0.0.1
- #         headers:
- #           Host: localhost
- #           User-Agent: "OWASP CRS test agent"
- #           Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
- #         method: POST
- #         port: 80
- #         uri: "/post"
- #         data: "FROM+ack_variable+WHERE+name%3D%22cron_last%22%3B%26sql_delimit"
- #         version: HTTP/1.1
- #       output:
- #         log:
- #           expect_ids: [942380]
-  - test_id: 31
+  - test_id: 30
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -530,7 +513,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 32
+  - test_id: 31
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -547,7 +530,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 33
+  - test_id: 32
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -564,7 +547,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 34
+  - test_id: 33
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -581,7 +564,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 35
+  - test_id: 34
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -598,7 +581,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 36
+  - test_id: 35
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -615,7 +598,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 37
+  - test_id: 36
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -632,7 +615,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 38
+  - test_id: 37
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -649,7 +632,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 39
+  - test_id: 38
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -666,7 +649,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 40
+  - test_id: 39
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -683,7 +666,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 41
+  - test_id: 40
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -700,7 +683,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 42
+  - test_id: 41
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -717,7 +700,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 43
+  - test_id: 42
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -734,7 +717,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 44
+  - test_id: 43
     desc: "SQL Injection Attack"
     stages:
       - input:
@@ -751,7 +734,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 45
+  - test_id: 44
     desc: "SQL Injection Attack: EXISTS"
     stages:
       - input:
@@ -768,7 +751,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 46
+  - test_id: 45
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -785,7 +768,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 47
+  - test_id: 46
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -802,7 +785,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 48
+  - test_id: 47
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -819,7 +802,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 49
+  - test_id: 48
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -836,43 +819,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-#  - test_id: 50
-#    desc: "SQL Injection Attack: HAVING"
-#    stages:
-#      - input:
-#          dest_addr: 127.0.0.1
-#          headers:
-#            Host: localhost
-#            User-Agent: "OWASP CRS test agent"
-#            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-#          method: "POST"
-#          port: 80
-#          uri: "/post"
-#          # HAVING 1+1
-#          data: "payload=HAVING%201%2B1"
-#          version: "HTTP/1.1"
-#        output:
-#          log:
-#            expect_ids: [942380]
-#  - test_id: 51
-#    desc: "SQL Injection Attack: HAVING"
-#    stages:
-#      - input:
-#          dest_addr: 127.0.0.1
-#          headers:
-#            Host: localhost
-#            User-Agent: "OWASP CRS test agent"
-#            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-#          method: "POST"
-#          port: 80
-#          uri: "/post"
-#          # HAVING 1++++1
-#          data: "payload=HAVING%201%2B%2B%2B%2B1"
-#          version: "HTTP/1.1"
-#        output:
-#          log:
-#            expect_ids: [942380]
-  - test_id: 52
+  - test_id: 49
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -889,7 +836,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 53
+  - test_id: 50
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -906,7 +853,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 54
+  - test_id: 51
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -923,7 +870,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 55
+  - test_id: 52
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -940,7 +887,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 56
+  - test_id: 53
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -957,7 +904,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 57
+  - test_id: 54
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -975,7 +922,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 58
+  - test_id: 55
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -993,7 +940,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 59
+  - test_id: 56
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -1010,7 +957,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 60
+  - test_id: 57
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -1027,7 +974,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 61
+  - test_id: 58
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -1044,7 +991,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 62
+  - test_id: 59
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -1061,7 +1008,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 63
+  - test_id: 60
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -1078,7 +1025,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 64
+  - test_id: 61
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -1096,7 +1043,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 65
+  - test_id: 62
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -1114,7 +1061,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 66
+  - test_id: 63
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -1132,7 +1079,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 67
+  - test_id: 64
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -1150,7 +1097,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 68
+  - test_id: 65
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -1168,7 +1115,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 69
+  - test_id: 66
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -1186,7 +1133,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 70
+  - test_id: 67
     desc: "SQL Injection Attack: HAVING"
     stages:
       - input:
@@ -1204,7 +1151,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 71
+  - test_id: 68
     desc: "SQL Injection Attack: CREATE TABLE"
     stages:
       - input:
@@ -1221,7 +1168,7 @@ tests:
         output:
           log:
             expect_ids: [942380]
-  - test_id: 72
+  - test_id: 69
     desc: "SQL Injection Attack: EXECUTE"
     stages:
       - input:
