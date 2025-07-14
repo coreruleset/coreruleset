@@ -101,3 +101,19 @@ tests:
         output:
           log:
             no_expect_ids: [932281]
+  - test_id: 7
+    desc: "Bash Brace expansion - {/?s?/?i?/c?t,}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932281-7=%7B%2F%3Fs%3F%2F%3Fi%3F%2Fc%3Ft%2C%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932281]
