@@ -1,0 +1,60 @@
+---
+meta:
+  author: "Xhoenix"
+  description: "Tests for rule 934190 - LaTeX injection detection"
+rule_id: 934190
+tests:
+  - test_id: 1
+    desc: 'LaTeX injection detection - \input{/etc/passwd}'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ltxi=%5Cinput%7B%2Fetc%2Fpasswd%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 2
+    desc: 'LaTeX injection detection - \openin\file=/etc/issue'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ltxi=%5Copenin%5Cfile%3D%2Fetc%2Fissue"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 3
+    desc: 'LaTeX injection detection - \input|ls|base64'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ltxi=%5Cinput%7Cls%7Cbase64"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
