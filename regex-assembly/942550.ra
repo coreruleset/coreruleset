@@ -21,6 +21,7 @@
 
 ##! MySQL reference: https://dev.mysql.com/doc/refman/8.4/en/json-function-reference.html
 ##! MySQL: JSON_EXTRACT('{"id": 14, "name": "Aztalan"}', '$.name') = 'Aztalan'
+##! MySQL: SELECT id FROM users WHERE id=JsoN_EXTraCT/**/(/**/'  {"a":1}  '/**/,/**/' $.a '/**/);
 
 ##!> define optional_spacing \s*?
 ##!> define quotes [\"'`]
@@ -38,6 +39,6 @@
   {{quotes}}{{json_starting_brackets}}{{something_except_json_ending_brackets}}{{json_ending_brackets}}{{quotes}}
   {{operators}}{{quotes}}{{json_starting_brackets}}{{something_except_json_ending_brackets}}{{json_ending_brackets}}{{quotes}}
 
-  ##! example: SELECT id FROM users WHERE id=JsoN_EXTraCT/**/(/**/'  {"a":1}  '/**/,/**/' $.a '/**/);
+  ##! MySQL
   \bjson_extract\b[^\(]*\([^)]*\)
 ##!<
