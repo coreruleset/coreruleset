@@ -1,0 +1,38 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: "Remote Command Execution: Windows Command Injection test cases"
+rule_id: 932371
+tests:
+  - test_id: 1
+    desc: "Windows Command Injection: at command injection scheduling a command"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: '/get?cmd=;at%202:00%20"echo%20test"'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932371]
+  - test_id: 2
+    desc: "Known false positive: matching `at` after newline"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?cmd=Go%20to%20store.%0AAt%20the%20store%2C%20shop."
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932371]

@@ -1,0 +1,215 @@
+---
+meta:
+  author: "Xhoenix, Esad Cetiner"
+rule_id: 952110
+tests:
+  - test_id: 1
+    desc: "javax.servlet.ServletException"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "javax.servlet.ServletException: Error occurred during request processing"}
+        output:
+          log:
+            expect_ids: [952110]
+  - test_id: 2
+    desc: "org.springframework.web.client.HttpClientErrorException"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "org.springframework.web.client.HttpClientErrorException: 400 Bad Request"}
+        output:
+          log:
+            expect_ids: [952110]
+  - test_id: 3
+    desc: "org.hibernate.exception.ConstraintViolationException"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "org.hibernate.exception.ConstraintViolationException: could not execute statement"}
+        output:
+          log:
+            expect_ids: [952110]
+  - test_id: 4
+    desc: "java.net.SocketTimeoutException"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "java.net.SocketTimeoutException: Read timed out"}
+        output:
+          log:
+            expect_ids: [952110]
+  - test_id: 5
+    desc: "org.springframework.security.access.AccessDeniedException"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "org.springframework.security.access.AccessDeniedException: Access is denied"}
+        output:
+          log:
+            expect_ids: [952110]
+  - test_id: 6
+    desc: "java.lang.NullPointerException"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "java.lang.NullPointerException"}
+        output:
+          log:
+            expect_ids: [952110]
+  - test_id: 7
+    desc: "com.fasterxml.jackson.databind.JsonMappingException"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "com.fasterxml.jackson.databind.JsonMappingException: Unexpected character ('}' (code 125)): was expecting double-quote to start field name"}
+        output:
+          log:
+            expect_ids: [952110]
+  - test_id: 8
+    desc: "org.apache.jasper.JasperException"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "org.apache.jasper.JasperException: Unable to compile class for JSP"}
+        output:
+          log:
+            expect_ids: [952110]
+  - test_id: 9
+    desc: "org.apache.catalina.LifecycleException"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "org.apache.catalina.LifecycleException: Failed to start component [StandardEngine[Catalina]]"}
+        output:
+          log:
+            expect_ids: [952110]
+  - test_id: 10
+    desc: "False Positive matching 'at com'"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "Clicking on the date/time link will take you to that comment on your live site."}
+        output:
+          log:
+            no_expect_ids: [952110]

@@ -1,0 +1,101 @@
+---
+meta:
+  author: "Xhoenix"
+rule_id: 932280
+tests:
+  - test_id: 1
+    desc: "Bash Brace expansion - {l,-lh}s"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932280-1=%7b%6c%2c%2d%6c%68%7d%73"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932280]
+  - test_id: 2
+    desc: "Bash Brace expansion - c{a,oun}t"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932280-2=%63%7b%61%2c%6f%75%6e%7d%74"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932280]
+  - test_id: 3
+    desc: "Bash Brace expansion - {,ip,a}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932280-3=%7b%2c%69%70%2c%61%7d"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932280]
+  - test_id: 4
+    desc: "Bash Brace expansion - {,ifconfig}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932280-4=%7b%2c%69%66%63%6f%6e%66%69%67%7d"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932280]
+  - test_id: 5
+    desc: "Bash Brace expansion - {,ifconfig,eth0}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932280-5=%7b%2c%69%66%63%6f%6e%66%69%67%2c%65%74%68%30%7d"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932280]
+  - test_id: 6
+    desc: "Bash Brace expansion - {id,}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932280-6=%7Bid%2C%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932280]

@@ -1,0 +1,119 @@
+---
+meta:
+  author: "Xhoenix, Esad Cetiner"
+rule_id: 932281
+tests:
+  - test_id: 1
+    desc: "Bash Brace expansion - {,echo,#test}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932281-1=%7B%2Cecho%2C%23test%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932281]
+  - test_id: 2
+    desc: "Bash Brace expansion - {,cd,/etc,}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932281-2=%7B%2Ccd%2C%2Fetc%2C%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932281]
+  - test_id: 3
+    desc: "Bash Brace expansion - {,$'whoami',}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932281-3=%7B%2C%24%27whoami%27%2C%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932281]
+  - test_id: 4
+    desc: 'Bash Brace expansion - {,$"whoami",}'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932281-4=%7B%2C%24%22whoami%22%2C%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932281]
+  - test_id: 5
+    desc: "Bash Brace expansion - {,/?s?/?i?/c?t,/e??/p??s??,}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932281-5=%7B%2C%2F%3Fs%3F%2F%3Fi%3F%2Fc%3Ft%2C%2Fe%3F%3F%2Fp%3F%3Fs%3F%3F%2C%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932281]
+  - test_id: 6
+    desc: |
+      False Positive: json payload with no spaces
+      payload: `[{"value":true,"key":"enabled","scope":"fileRequest"}]`
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: '/get?932281-6=[{"value":true,"key":"enabled","scope":"fileRequest"}]'
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932281]
+  - test_id: 7
+    desc: "Bash Brace expansion - {/?s?/?i?/c?t,}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932281-7=%7B%2F%3Fs%3F%2F%3Fi%3F%2Fc%3Ft%2C%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932281]
