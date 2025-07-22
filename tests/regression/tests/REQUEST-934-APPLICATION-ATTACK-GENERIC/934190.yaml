@@ -58,3 +58,21 @@ tests:
         output:
           log:
             expect_ids: [934190]
+  - test_id: 4
+    desc: 'LaTeX injection detection - \usepackage[T1]{fontenc}'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ltxi=%5Cusepackage%5BT1%5D%7Bfontenc%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
