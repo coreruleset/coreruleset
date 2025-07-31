@@ -4,7 +4,20 @@
     "local>coreruleset/renovate-config",
     "schedule:weekly"
   ],
+  "ignorePaths": [],
   "enabledManagers": [
     "docker-compose"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "addLabels": ["release:ignore"]
+    }
   ]
 }

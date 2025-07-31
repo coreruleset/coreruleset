@@ -16,13 +16,13 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "TEST=echo | php7.4"
-          version: HTTP/1.0
+          data: "TEST=echo | gcc7.4"
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932220]
   - test_id: 2
-    desc: "TEST=echo | ${php7.4}php7.4"
+    desc: "TEST=echo | ${gcc7.4}gcc7.4"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -33,8 +33,8 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "TEST=echo | ${php7.4}php7.4"
-          version: HTTP/1.0
+          data: "TEST=echo | ${gcc7.4}gcc7.4"
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932220]
@@ -51,7 +51,7 @@ tests:
           port: 80
           uri: "/post"
           data: "whxami|sh+``"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932220]
@@ -68,7 +68,7 @@ tests:
           port: 80
           uri: "/post"
           data: "whxami|fish+``"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932220]
@@ -85,7 +85,7 @@ tests:
           port: 80
           uri: "/post"
           data: "echo | curx"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932220]
@@ -121,7 +121,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=cat<<<ifconfig | sh
         output:
@@ -139,7 +139,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=cat<<< ifconfig | sh
         output:
@@ -157,7 +157,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=cat<<<'ifconfig' | sh
         output:
@@ -175,7 +175,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=cat<<<"ifconfig" | sh
         output:
@@ -193,7 +193,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=cat<<<$(whoami | sh)
         output:
@@ -211,7 +211,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=time whoami | sh
         output:
@@ -229,7 +229,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=strace whoami | sh
         output:
@@ -247,7 +247,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          version: HTTP/1.0
+          version: HTTP/1.1
           data: |
             code=nohup whoami | sh
         output:

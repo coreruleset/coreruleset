@@ -15,8 +15,9 @@ on:
 
 # Pin versions to not disrupt test pipelines
 env:
-  CRS_TOOLCHAIN_VERSION: '2.3.3'
+  CRS_TOOLCHAIN_VERSION: '2.3.4'
   SECRULES_PARSING_VERSION: '0.2.11'
+  CRS_LINTER_VERSION: '0.1.2'
 
 jobs:
   check-syntax:
@@ -40,7 +41,6 @@ jobs:
         with:
           python-version: 3.x
 
-      - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
 
       - name: "Check CRS syntax"
         run: |
@@ -61,7 +61,7 @@ jobs:
       - name: "Check CRS formatting"
         run: |
           pip install -U setuptools
-          pip install -r ./util/crs-rules-check/requirements.txt
+          pip install crs-linter==${{ env.CRS_LINTER_VERSION }}
           # Use the target branch to look up the latest tag, e.g., `v3.3/master`, fall back
           # to main branch.
           # The version is either a tag, if the current commit is tagged, or a string of the form
@@ -90,12 +90,13 @@ jobs:
             fi
           fi
           echo "Required version for check: ${version}"
-          ./util/crs-rules-check/rules-check.py \
+          crs-linter \
             --output=github \
             -r crs-setup.conf.example \
-            -r rules/*.conf \
+            -r 'rules/*.conf' \
             -t util/APPROVED_TAGS \
-            "-v ${version}"
+            -f util/FILENAME_EXCLUSIONS \
+            -v "${version}"
 
       - name: "Find rules without test"
         run: |

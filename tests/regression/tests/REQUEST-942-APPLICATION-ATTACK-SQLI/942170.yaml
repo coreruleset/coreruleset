@@ -15,7 +15,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=SELECT%20BENCHMARK%281000000%2C1%2B1%29%3B"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942170]
@@ -31,7 +31,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=%3B%20sleep%280%29"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942170]
@@ -47,7 +47,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?var=I%20sleep%20well%21"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942170]
@@ -63,7 +63,7 @@ tests:
           method: GET
           port: 80
           uri: "/get?test=select+if(x"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942170]

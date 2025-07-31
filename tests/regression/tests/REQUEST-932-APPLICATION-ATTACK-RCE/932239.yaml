@@ -918,3 +918,58 @@ tests:
         output:
           log:
             no_expect_ids: [932239]
+  - test_id: 55
+    desc: |
+      False positive with Nextcloud iOS user-agent.
+      Should not match `ip`.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "iPhone (Nextcloud iOS)"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932239]
+  - test_id: 56
+    desc: |
+      False positive with token in referrer.
+      Should not match `df`.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            referer: https://www.example.com/xyz/?abc=dfc987c2-72e2-4a8e-ad98-e0bf1bc3a01c
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932239]
+  - test_id: 57
+    desc: |
+      False positive with Pashto Afghanistan User-Agent
+      Should not match `ps` in `ps-af`.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_10_1 rv:5.0; ps-AF) AppleWebKit/534.28.2 (KHTML, like Gecko) Version/4.0 Safari/534.28.2"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932239]

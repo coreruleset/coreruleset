@@ -70,13 +70,6 @@ test_overrides:
       status: 200
       log:
         no_expect_ids: [920280]
-  - rule_id: 920390
-    test_ids: [1]
-    reason: Exceeds PCRE limits
-    output:
-      status: 200
-      log:
-        no_expect_ids: [920390]
   - rule_id: 920430
     test_ids: [8]
     reason: "If the HTTP Protocol Version is invalid, Nginx take action before modsecurity sending a 505 response code."
@@ -95,12 +88,6 @@ test_overrides:
     output:
      log:
       expect_ids: [920620]
-  - rule_id: 930110
-    test_ids: [7]
-    reason: "nginx does not strip the dots from the URL (which httpd apparently does), hence ModSecurity sees them and the rule matches"
-    output:
-      log:
-        expect_ids: [930110]
   - rule_id: 933110
     test_ids: [3, 13, 14, 20, 21, 22, 24, 25, 26, 27]
     reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"

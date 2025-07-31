@@ -5,7 +5,132 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
-## Version 4.11.0 - TBD
+## Version 4.16.0 - 2025-06-29
+
+## What's Changed
+### 🆕 New features and detections 🎉
+* feat: remediation for Python SSTI by @TheRubick in https://github.com/coreruleset/coreruleset/pull/4145
+* fix: update rule 942560 by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4161
+* feat: detect generic config filenames by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4102
+* feat: update `java-errors.data` by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4113
+* feat: added rule to detect Bash Brace Expansion by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/3780
+* feat: added MongoDB operators by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4162
+### 🧰 Other Changes
+* fix(941160): remove dot star by @fzipi in https://github.com/coreruleset/coreruleset/pull/4155
+* fix(934140): remove dot star by @fzipi in https://github.com/coreruleset/coreruleset/pull/4165
+* fix(932370): remove dot star by @fzipi in https://github.com/coreruleset/coreruleset/pull/4166
+* fix(955xxx): remove dot star by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4169
+* fix(933150): moving printf to 933160 for additional php syntax check (933150 PL-1, 933160 PL-1) by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/3840
+* fix: create a stricter sibling to 932370 and move `at` to PL-2 (932370 PL-1, 932371 PL-2) by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4015
+* fix(942340): remove dot star by @fzipi in https://github.com/coreruleset/coreruleset/pull/4164
+* refactor(942340): move to regex assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4014
+* fix(933160): remove dot star by @fzipi in https://github.com/coreruleset/coreruleset/pull/4167
+
+## New Contributors
+* @TheRubick made their first contribution in https://github.com/coreruleset/coreruleset/pull/4145
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.15.0...v4.16.0
+
+## Version 4.15.0 - 2025-06-03
+
+## What's Changed
+### 🆕 New features and detections 🎉
+* feat: add User-Agent and Referer into targets (942280 PL1) by @azurit in https://github.com/coreruleset/coreruleset/pull/4115
+* feat: update `java-classes.data` by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4080
+* feat: block database yaml files by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4130
+### 🧰 Other Changes
+* fix: false positive with `title_strip_tags` by moving `strip_tags` to 933160 by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4105
+* fix: remove  `self` command by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4111
+* fix: remove rc shell to reduce FPs by @theseion in https://github.com/coreruleset/coreruleset/pull/4125
+* feat: remove unnecessary character class from 933151 by @TimDiam0nd in https://github.com/coreruleset/coreruleset/pull/4135
+* fix: false positives with session tokens/cookies 933150 by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4142
+* fix: add word ending to unix command sendmail (932235 PL1, 932236 PL2, 932239 PL2, 932260 PL1) by @franbuehler in https://github.com/coreruleset/coreruleset/pull/4141
+* feat: 933151 change from capture and double `pmf` to regex by @TimDiam0nd in https://github.com/coreruleset/coreruleset/pull/4139
+* feat: 933120 change from capture and double `pmf` to regex by @TimDiam0nd in https://github.com/coreruleset/coreruleset/pull/4138
+* feat: remove exclusion of deprecated `__utm` cookies by @theseion in https://github.com/coreruleset/coreruleset/pull/4151
+
+## Version 4.14.0 - 2025-04-29
+
+## What's Changed
+### 🆕 New features and detections 🎉
+* feat: detect ASP web shells by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4063
+* feat: detect compressed database dumps by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4082
+* feat: detect javascript methods import fetch console.log `console.dir` by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4076
+### 🧰 Other Changes
+* fix: fixing FPs related to rule 951220 by @azurit in https://github.com/coreruleset/coreruleset/pull/4079
+* fix: don't block ttf font files by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4081
+* fix: 932270 FP by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/3917
+* fix(954100): detect forward slash in path by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4094
+* fix: remove `.application` from restricted extensions by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4103
+* fix: 44J-250329 by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4107
+
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.13.0...v.4.14.0
+
+## Version 4.13.0 - 2025-03-31
+
+## What's Changed
+### ⭐ Important changes
+* fix(security): fixing double URL decode of REQUEST_URI by @azurit in https://github.com/coreruleset/coreruleset/pull/4047
+### 🆕 New features and detections 🎉
+* feat: block header related to CVE-2025-29927 (Next.js) by @azurit in https://github.com/coreruleset/coreruleset/pull/4053
+* feat: added new XSS payloads by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4055
+* feat: add potential malicious file extensions into tx.restricted_extensions by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4068
+* feat: add additional files commonly accessed by bots by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4069
+### 🪦 Rule removals
+* feat: remove rule 952100 for detecting Java Source Code Leakage by @S0obi in https://github.com/coreruleset/coreruleset/pull/4052
+### 🧰 Other Changes
+* fix(934130): extend prototype pollution payload by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4036
+* fix: rule 930110 is not supposed to match bare '..' without (back)slashes by @azurit in https://github.com/coreruleset/coreruleset/pull/4050
+* fix: use boundary to fix false positive with email `firstname.dockery@host.tld` by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4045
+* feat: refresh restricted-upload.data by @S0obi in https://github.com/coreruleset/coreruleset/pull/4046
+* fix: tag inconsistency per file by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4031
+* feat: adding .dist and .dpkg-dist into tx.restricted_extensions by @azurit in https://github.com/coreruleset/coreruleset/pull/4057
+* feat: add more default session cookie names by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4062
+* fix: added pre-check of unset TX variable by @airween in https://github.com/coreruleset/coreruleset/pull/4066
+* fix: false positive found in quantitative testing round 2 for unix rce rules (932230 PL-1, 932235 PL-1, 932250 PL-1, 932260 PL-1, 932231 PL-2, 932220 PL-2, 932236 PL-2, 932239 PL-2, 932232 PL-3, 932238 PL-3) by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4019
+
+## New Contributors
+* @daum3ns made their first contribution in https://github.com/coreruleset/coreruleset/pull/4043
+* @S0obi made their first contribution in https://github.com/coreruleset/coreruleset/pull/4046
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.12.0...v4.13.0
+
+## Version 4.12.0 - 2025-03-01
+
+## What's Changed
+### 🆕 New features and detections 🎉
+* feat: prevent V1 cookie format use by @fzipi in https://github.com/coreruleset/coreruleset/pull/4006
+* feat: added new restricted files for openstack and docker compose by @azurit in https://github.com/coreruleset/coreruleset/pull/4021
+### 🧰 Other Changes
+* fix: multipart header tag consistency by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/3992
+* fix: prevent invalid commands matches on 5 characters or less (932220 PL-2, 932230 PL-1, 932232 PL-3, 932235 PL-1, 932236 PL-2, 932237 PL-3, 932238 PL-3, 932239 PL-2, 932250 PL-1, 932260 PL-1) by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/3735
+* docs: add warning about default charsets modification by @fzipi in https://github.com/coreruleset/coreruleset/pull/4003
+* fix: response splitting rules and tests by @theseion in https://github.com/coreruleset/coreruleset/pull/4009
+* fix(933160): use better regex by @fzipi in https://github.com/coreruleset/coreruleset/pull/4010
+* fix: move fopen to 933160 to resolve fp with `RootAndLeafOpenCamera.jpg` (933150 PL-1, 933160 PL-1) by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4016
+* fix(941210): update log message to reflect rule javascript word detection by @fzipi in https://github.com/coreruleset/coreruleset/pull/4023
+* fix: remove .env from lfi-os-files.data by @theseion in https://github.com/coreruleset/coreruleset/pull/4024
+
+## New Contributors
+* @renovate made their first contribution in https://github.com/coreruleset/coreruleset/pull/4000
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.11.0...v4.12.0
+
+## Version 4.11.0 - 2025-01-27
+
+## What's Changed
+### 🪦 Rule removals
+* feat: Remove rules for lack of viable attack scenario (920220 PL1, 920221 PL1) by @dune73 in https://github.com/coreruleset/coreruleset/pull/3969
+### 🧰 Other Changes
+* fix: remove aliases man, mi, si and resolve positives (932125 PL1) by @franbuehler in https://github.com/coreruleset/coreruleset/pull/3971
+* fix: remove where, if, for and vol and resolve false positives (932380 PL1) by @franbuehler in https://github.com/coreruleset/coreruleset/pull/3972
+* fix: make 932300 actually case-insensitive by @theseion in https://github.com/coreruleset/coreruleset/pull/3977
+* fix: remove sql function names to resolve false positives (942151 PL1) by @franbuehler in https://github.com/coreruleset/coreruleset/pull/3973
+* fix: issue 3809 by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/3983
+
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.10.0...v4.11.0
 
 ## Version 4.10.0 - 2024-12-29
 

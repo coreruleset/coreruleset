@@ -18,7 +18,7 @@ tests:
           # uri: "/?var=\" sleep(120\""  # triggers 942330
           # NB: match with %20 but no bare byte match?
           uri: "/get?var=%20exec%20xp_cmdshell"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -35,7 +35,7 @@ tests:
           port: 80
           uri: "/post"
           data: "%22%21%22%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -52,7 +52,7 @@ tests:
           port: 80
           uri: "/post"
           data: "%22+union+select%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -69,7 +69,7 @@ tests:
           port: 80
           uri: "/post"
           data: "current_user%28%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -86,7 +86,7 @@ tests:
           port: 80
           uri: "/post"
           data: "FROM+INFORMATION_SCHEMA.%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -103,7 +103,7 @@ tests:
           port: 80
           uri: "/post"
           data: "%27%3BSELECT+P%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -120,7 +120,7 @@ tests:
           port: 80
           uri: "/post"
           data: "UnIon+seleCt%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -137,7 +137,7 @@ tests:
           port: 80
           uri: "/post"
           data: "%27union%20select%2F%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -154,7 +154,7 @@ tests:
           port: 80
           uri: "/post"
           data: "from+information_schema.%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -171,7 +171,7 @@ tests:
           port: 80
           uri: "/post"
           data: "select%5D%3Dpolygon%28%28%2F%2A%2100000select%2A%2F%2A%2F%2A%2100000from%2A%2F%28%2F%2A%2100000select%2A%2F%2A%2F%2A%2100000from%2A%2F%28%2F%2A%2100000select%2A%2Fconcat_ws%280x7e3a%2C0x6d616b6d616e%2Cversion%28%29%2Cuser%28%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -188,7 +188,7 @@ tests:
           port: 80
           uri: "/post"
           data: "user%28%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -205,7 +205,7 @@ tests:
           port: 80
           uri: "/post"
           data: "database%28%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -222,7 +222,7 @@ tests:
           port: 80
           uri: "/post"
           data: "select%28user%28%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -239,7 +239,7 @@ tests:
           port: 80
           uri: "/post"
           data: "SeLect%2A%2F+1%2C2%2C3%2Cuser%28%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -256,7 +256,7 @@ tests:
           port: 80
           uri: "/post"
           data: "select%5D%3D%28ExtractValue%281%2C%28select%2520concat_ws%280x3a%2Cuser%28%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -273,7 +273,7 @@ tests:
           port: 80
           uri: "/post"
           data: "from+%60information_schema%60%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -290,7 +290,7 @@ tests:
           port: 80
           uri: "/post"
           data: "%27select+H%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -307,7 +307,7 @@ tests:
           port: 80
           uri: "/post"
           data: "%27%3Bselect+p%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -324,7 +324,7 @@ tests:
           port: 80
           uri: "/post"
           data: "FROM+INFORMATION_SCHEMA.%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -341,7 +341,7 @@ tests:
           port: 80
           uri: "/post"
           data: "+EXEC+xp_cmdshell%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -358,7 +358,7 @@ tests:
           port: 80
           uri: "/post"
           data: "%22%21+Y%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -375,7 +375,7 @@ tests:
           port: 80
           uri: "/post"
           data: "exec+master.%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -392,7 +392,7 @@ tests:
           port: 80
           uri: "/post"
           data: "into+outfile+%27%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -409,7 +409,7 @@ tests:
           port: 80
           uri: "/post"
           data: "Union+sElect%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -426,7 +426,7 @@ tests:
           port: 80
           uri: "/post"
           data: "selectect%2520user%28%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -443,7 +443,7 @@ tests:
           port: 80
           uri: "/post"
           data: "+exec+master..xp_cmdshell%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -460,7 +460,7 @@ tests:
           port: 80
           uri: "/post"
           data: "selectect%252520user%28%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -477,7 +477,7 @@ tests:
           port: 80
           uri: "/post"
           data: "execution%3De1s1%26OlyH%3D9767+AND+1%3D1+UNION+ALL+SELECT+1%2CNULL%2C%27%3Cscript%3Ealert%28%22XSS%22%29%3C%2Fscript%3E%27%2Ctable_name+FROM+information_schema.tables+WHERE+2%3E1--%2F%2A%2A%2F%3B+EXEC+xp_cmdshell%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -494,7 +494,7 @@ tests:
           port: 80
           uri: "/post"
           data: "%27%21%60%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -511,7 +511,7 @@ tests:
           port: 80
           uri: "/post"
           data: "%22%20UNION%20ALL%20SELECT%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -528,7 +528,7 @@ tests:
           port: 80
           uri: "/post"
           data: "EXec+xp_cmdshell%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -545,7 +545,7 @@ tests:
           port: 80
           uri: "/post"
           data: "FrOM+information_schema.%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -562,7 +562,7 @@ tests:
           port: 80
           uri: "/post"
           data: "select+1+FROM%28select+count%28%2A%29%2Cconcat%28%28select+%28select+concat%28user%28%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -579,7 +579,7 @@ tests:
           port: 80
           uri: "/post"
           data: "%60%211%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -596,7 +596,7 @@ tests:
           port: 80
           uri: "/post"
           data: "uNioN++sElecT%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -613,7 +613,7 @@ tests:
           port: 80
           uri: "/post"
           data: "%22%3BSELECT+P%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -630,7 +630,7 @@ tests:
           port: 80
           uri: "/post"
           data: "pay=UnIoN+SeLeCt%0A"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -647,7 +647,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=1);declare @q varchar(99);set @q='\\\\j0kwbatxjfgjp0qu3ibonwovamgmkq8h05unittests.corerule' 'set.org\\kph'; exec master.dbo.xp_dirtree @q;--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -664,7 +664,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=content.ini);declare @q varchar(99);set @q='\\\\i1kvc9uwkehiqzrt4hcnovpublhunittests.corerule' 'set.org\\lri'; exec master.dbo.xp_dirtree @q;--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -681,7 +681,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=EmptyValue', '4', '2', '7');declare @q varchar(99);set @q='\\\\h5nug8yvodlhuyvs8ggmsuttfklkcjunittests.corerule'+'set.org\\vcr'; exec master.dbo.xp_dirtree @q;--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -698,7 +698,7 @@ tests:
           port: 80
           uri: "/post"
           data: "var=test));declare @q varchar(99);set @q='\\\\zwzc7qpdfvczlgmazy74jckb62cunittests.corrule'+'set.org\\gej'; exec master.dbo.xp_dirtree @q;--"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -715,7 +715,7 @@ tests:
           port: 80
           uri: "/get"
           data: "id=@.:=right(right((select+user_login+from+wordpress.wp_users+limit+1,1),1111),1111)+union%23%0adistinctrow%0bselect@."
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -732,7 +732,7 @@ tests:
           port: 80
           uri: "/get"
           data: "arg=Die%20%22Union%20von%20Europa%22"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942190]
@@ -749,7 +749,7 @@ tests:
           port: 80
           uri: "/get"
           data: "arg=SELECT%20IIF(1%20%3E%201%2C%20'TRUE'%2C%20'FALSE'%20)"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
@@ -766,7 +766,7 @@ tests:
           port: 80
           uri: "/get"
           data: "arg=it%20is%20my%20beliif%20%28stemming%20from%20personal%20experience%29%2C%20that"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942190]
@@ -783,7 +783,7 @@ tests:
           port: 80
           uri: "/get"
           data: "arg=appUser(sitename,user)"
-          version: HTTP/1.0
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [942190]
