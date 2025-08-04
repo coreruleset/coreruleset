@@ -4,7 +4,8 @@
 ##!+ i
 
 ##!> define backslash (?:\x5c|%5c)
+##!> define latex_commands (?:write18|input|include|catcode|openout|openin|read|write|usepackage|def|edef|gdef|xdef|newcommand|renewcommand|immediate|csname|message|readline|loop|repeat|makeatletter|makeatother|special)
 
-{{backslash}}[^{\[]+(?:\[[^\]]+])?\{
-{{backslash}}[^=]+=
-{{backslash}}[^|]+\|
+{{backslash}}{{latex_commands}}[^{\[]+(?:\[[^\]]+\])?\{
+{{backslash}}{{latex_commands}}[^=]+=
+{{backslash}}{{latex_commands}}[^|]+\|
