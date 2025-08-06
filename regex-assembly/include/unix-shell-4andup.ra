@@ -52,7 +52,10 @@
 
 ##! # Suffix all English words or words shorter than 5 characters with `@`
 ##! original="${result}"
-##! english="$(util/fp-finder/spell.sh -m -e - <<<"${result}")"
+##! tmpfile="$(mktemp)"
+##! wget https://raw.githubusercontent.com/coreruleset/coreruleset/refs/tags/v4.0.0/util/fp-finder/english-extended.txt
+##! english="$(crs-toolchain util fp-finder "$tmpfile" -e english-extended.txt <<<"${result}")"
+##! rm -f "$tmpfile" english-extended.txt
 ##! result=""
 ##! while read -r oword; do
 ##!   found=0
@@ -90,6 +93,7 @@ agetty
 alias@
 alpine@
 ansible
+apparmor_
 apt-get
 aptitude@
 arch@
@@ -100,6 +104,9 @@ ascii-xfr
 ascii85
 aspell
 atobm@
+auditctl
+aurepot
+ausearch
 axel@
 base32
 base64
@@ -111,6 +118,7 @@ blkid@
 bpftrace
 breaksw
 bridge@
+brwap@
 bsdcat
 bsdiff
 bsdtar
@@ -157,8 +165,8 @@ chown@
 chpass
 chroot@
 chsh@
-clang@
 clang\+\+
+clang@
 cobc@
 cobcrun
 column@
@@ -189,8 +197,8 @@ dmesg@
 dmidecode
 dmsetup
 doas@
-docker@
 docker-
+docker@
 done@
 dosbox
 dpkg-
@@ -237,6 +245,7 @@ gawk@
 gcore@
 genie@
 genisoimage
+getcap
 getfacl@
 ghc-@
 ghci-
@@ -394,8 +403,8 @@ passwd
 paste@
 patch@
 pdb2mb
-pdb3@
 pdb3\.
+pdb3@
 pdflatex
 pdftex
 pdksh@
@@ -412,6 +421,7 @@ php7@
 pico@
 pidstat
 pigz@
+ping6@
 ping@
 pkexec
 pkg_info
@@ -438,8 +448,8 @@ rake@
 raku@
 rbash@
 readelf
-reboot@
 realpath
+reboot@
 redcarpet@
 rename@
 repeat@
@@ -459,6 +469,7 @@ rsync@
 ruby~
 run-mailcap
 run-parts
+runc@
 rview@
 rvim@
 sash@
@@ -469,6 +480,7 @@ sdiff@
 sendmail@
 service@
 setarch
+setcap
 setenv
 setfacl@
 setsid
