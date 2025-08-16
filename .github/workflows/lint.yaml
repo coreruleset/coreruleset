@@ -60,10 +60,8 @@ jobs:
             echo "Base ref is empty, skip fetching fro 'upstream'"
           fi
           set +x
-          echo "${{ github.base_ref }}"
-          echo "${{ github.head_ref }}"
-          echo "${{ github.ref }}"
-          echo "${{ github.ref_name }}"
+          echo "${{ github.sha }}"
+          git log -5
 
       - name: "Check CRS formatting"
         run: |
