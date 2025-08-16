@@ -62,32 +62,52 @@ jobs:
         run: |
           pip install -U setuptools
           pip install crs-linter==${{ env.CRS_LINTER_VERSION }}
+          # First, check the commit message. This might be a release.
+          echo "Checking for release commit message ('...release vx.y.z')..."
+          if [ -n "${{ github.base_ref }}" ]; then
+            echo "Found base ref '${{ github.base_ref }}'..."
+            message="$(git log -1 --format='format:%s')"
+            if grep -iq release <<< "${message}"; then
+              version="$(grep -Po "v\d+\.\d+\.\d+" <<< "${message}")"
+              echo "Detected version from commit message: ${version}"
+            else
+              echo "Commit message doesn't appear to be for a release"
+            fi
+          fi
+          # Second, see if the branch name has the version information
+          if [ -z "${version}" ]; then
+            echo "Checking for version information in branch name ('release/vx.y.z')..."
+            release_ref="${{ github.head_ref }}"
+            if [[ "${release_ref}" =~ ^release/v ]]; then
+              version="${release_ref/release\/v/}"
+            else
+              echo "Branch name doesn't match release branch pattern: '${{ github.head_ref }}'"
+            fi
+          fi
+          # Finally, fall back to looking at the last tag.
           # Use the target branch to look up the latest tag, e.g., `v3.3/master`, fall back
           # to main branch.
           # The version is either a tag, if the current commit is tagged, or a string of the form
           # v<major>.<minor>.<patch>-<nr of commits>-g<hash>.
           # In the former case we simply use that as the version, in the latter we construct
           # v<major>.<minor + 1>.<patch>-dev.
-          if [ -z "${{ github.base_ref }}" ]; then
-            # e.g., force push
-            version="$(git describe --tags --match "v*.*.*")"
-          else
-            version="$(git describe --tags --match "v*.*.*" "upstream/${{ github.base_ref }}")"
+          if [ -z "${version}" ]; then
+            echo "Looking up last tag to determine version..."
+            if [ -z "${{ github.base_ref }}" ]; then
+              # e.g., force push
+              version="$(git describe --tags --match "v*.*.*")"
+            else
+              version="$(git describe --tags --match "v*.*.*" "upstream/${{ github.base_ref }}")"
+            fi
+            version="$(cut -dv -f2 <<<"${version}")"
+            echo "Detected version from last tag: ${version}"
           fi
-          version="$(cut -dv -f2 <<<"${version}")"
-          echo "Detected version ${version}"
           if grep -q -- "-g" <<<"${version}"; then
             prefix="$(cut -d. -f1 <<<"${version}")"
             minor="$(cut -d. -f2 <<<"${version}")"
-            suffix="$(cut -d. -f3 <<<"${version}")"
-            version="${prefix}.$((minor + 1)).${suffix}"
-            release_ref="${{ github.head_ref }}"
-            if [[ "${release_ref}" =~ ^release/v ]]
-            then
-              version="${release_ref/release\/v/}"
-            else
-              version="${version/-*-g*/}-dev"
-            fi
+            # ignore the patch version and set it to zero
+            version="${prefix}.$((minor + 1)).0"
+            version="${version/-*-g*/}-dev"
           fi
           echo "Required version for check: ${version}"
           crs-linter \
