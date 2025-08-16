@@ -59,6 +59,8 @@ jobs:
           else
             echo "Base ref is empty, skip fetching fro 'upstream'"
           fi
+          ls .git/refs/heads
+          git log -3
 
       - name: "Check CRS formatting"
         run: |
