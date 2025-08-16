@@ -59,8 +59,9 @@ jobs:
           else
             echo "Base ref is empty, skip fetching fro 'upstream'"
           fi
-          ls .git/refs/heads
-          git log -3
+          set +x
+          find .git/refs
+          git log use-new-linter-version
 
       - name: "Check CRS formatting"
         run: |
