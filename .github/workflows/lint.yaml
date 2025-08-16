@@ -60,8 +60,10 @@ jobs:
             echo "Base ref is empty, skip fetching fro 'upstream'"
           fi
           set +x
-          find .git/refs
-          git log use-new-linter-version
+          echo "${{ github.base_ref }}"
+          echo "${{ github.head_ref }}"
+          echo "${{ github.ref }}"
+          echo "${{ github.ref_name }}"
 
       - name: "Check CRS formatting"
         run: |
