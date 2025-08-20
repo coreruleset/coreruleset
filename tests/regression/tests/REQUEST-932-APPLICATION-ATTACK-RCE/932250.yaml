@@ -237,7 +237,7 @@ tests:
           log:
             no_expect_ids: [932250]
   - test_id: 15
-    desc: "False Negative: Block aa-disable"
+    desc: "True Positive: Block aa-disable"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -251,4 +251,4 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [932250]
+            expect_ids: [932250]
