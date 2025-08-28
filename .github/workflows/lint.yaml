@@ -70,15 +70,11 @@ jobs:
             -r 'rules/*.conf' \
             -t util/APPROVED_TAGS \
             -f util/FILENAME_EXCLUSIONS \
+            -T 'tests/regression/tests/' \
+            -E 'tests/TESTS_EXCLUSIONS' \
             -d "$(pwd)" \
             --head-ref "${{ github.head_ref }}" \
             --commit-message "${{ github.event.head_commit.message }}"
-
-      - name: "Find rules without test"
-        run: |
-          pip install -U setuptools
-          pip install -r ./util/find-rules-without-test/requirements.txt
-          ./util/find-rules-without-test/find-rules-without-test.py --output=github .
 
       - name: "Install crs-toolchain ${{ env.CRS_TOOLCHAIN_VERSION }}"
         env:
