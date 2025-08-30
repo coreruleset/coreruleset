@@ -1,8 +1,6 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
-##!+ i
-
 ##! Referring to https://claroty.com/team82/research/js-on-security-off-abusing-json-based-sql-to-bypass-waf
 ##! this rule tries to match the following payloads:
 ##!
@@ -24,6 +22,8 @@
 ##! MySQL: SELECT id FROM users WHERE id=JsoN_EXTraCT/**/(/**/'  {"a":1}  '/**/,/**/' $.a '/**/);
 
 ##! This regex relies on the `removeWhitespace` transformation.
+
+##!+ i
 
 ##!> define quotes [\"'`]
 ##!> define operators (?:@>|<@|\?|\?\||\?&|#>|#>>|->>|<|>|->|<-)
