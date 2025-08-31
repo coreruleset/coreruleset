@@ -1732,3 +1732,20 @@ tests:
         output:
           log:
             expect_ids: [932236]
+  - test_id: 96
+    desc: "Match `ssh-copy-id`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: "arg=;ssh-copy-id%20user@server"
+        output:
+          log:
+            expect_ids: [932236]
