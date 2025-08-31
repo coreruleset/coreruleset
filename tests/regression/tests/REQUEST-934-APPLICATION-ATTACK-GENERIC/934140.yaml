@@ -4,7 +4,7 @@ meta:
 rule_id: 934140
 tests:
   - test_id: 1
-    desc: Perl interpolation attack
+    desc: "Perl interpolation attack: @{[system 'whoami']}"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -14,7 +14,327 @@ tests:
             User-Agent: "OWASP CRS test agent"
           method: GET
           port: 80
-          uri: "/get?x=@{[system+whoami]}"
+          uri: "/get?x=%40%7B%5Bsystem%20%27whoami%27%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 2
+    desc: "Perl interpolation attack: @{[getpwuid($>)]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5Bgetpwuid%28%24%3E%29%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 3
+    desc: "Perl interpolation attack: @{[rand 100]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5Brand%20100%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 4
+    desc: "Perl interpolation attack: @{[$$]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5B%24%24%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 5
+    desc: "Perl interpolation attack: @{[keys %ENV]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5Bkeys%20%25ENV%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 6
+    desc: "Perl interpolation attack: @{[crypt($passwd, 'xx')]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5Bcrypt%28%24passwd%2C%20%27xx%27%29%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 7
+    desc: "Perl interpolation attack: @{[CORE::time()]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5BCORE%3A%3Atime%28%29%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 8
+    desc: "Perl interpolation attack: @{[uc 'hello']}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5Buc%20%27hello%27%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 9
+    desc: "Perl interpolation attack: @{[sort { $a <=> $b } (3,2,1)]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5Bsort%20%7B%20%24a%20%3C%3D%3E%20%24b%20%7D%20%283%2C2%2C1%29%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 10
+    desc: "Perl interpolation attack: @{   [   uc   'hello'   ]   }"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%20%20%20%5B%20%20%20uc%20%20%20%27hello%27%20%20%20%5D%20%20%20%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 11
+    desc: "Perl interpolation (parens before call): @{[ (system 'id') ]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5B%20%28system%20%27id%27%29%20%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 12
+    desc: "Perl interpolation (ampersand call): @{[ &system 'id' ]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5B%20%26system%20%27id%27%20%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 13
+    desc: "Perl interpolation (double negation unary): @{[ !!system 'id' ]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5B%20%21%21system%20%27id%27%20%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 14
+    desc: "Perl interpolation (CORE namespace): @{[ CORE::system 'id' ]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5B%20CORE%3A%3Asystem%20%27id%27%20%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 15
+    desc: "Perl interpolation (do{} block): @{[ do { system 'id' } ]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5B%20do%20%7B%20system%20%27id%27%20%7D%20%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 16
+    desc: "Perl interpolation (qq{} string arg): @{[ system qq{whoami} ]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5B%20system%20qq%7Bwhoami%7D%20%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 17
+    desc: "Perl interpolation (string concatenation arg): @{[ system ('who'.'ami') ]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5B%20system%20%28%27who%27.%27ami%27%29%20%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 18
+    desc: "Perl interpolation (whitespace & tabs): @{[\tsystem\t'id'\t]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5B%09system%09%27id%27%09%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 19
+    desc: "Perl interpolation (newline before ]): @{[ system 'id' # cmt \\n ]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5Bsystem%20%27id%27%20%23cmt%0A%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 20
+    desc: "Perl interpolation (ampersand + namespace, no args): @{[ &CORE::time ]}"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%5B%20%26CORE%3A%3Atime%20%5D%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934140]
+  - test_id: 21
+    desc: "Perl interpolation (extra spaces everywhere): @{    [    system    \"id\"    ]    }"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%40%7B%20%20%20%20%5B%20%20%20%20system%20%20%20%20%22id%22%20%20%20%20%5D%20%20%20%20%7D"
           version: HTTP/1.1
         output:
           log:
