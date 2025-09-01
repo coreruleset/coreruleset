@@ -4,7 +4,7 @@
 ##!+ i
 
 ##! Helpers
-##!> define punctuation-hexnumbers ,\S*?[)\da-f\"'`]
+##!> define punctuation-hexnumbers ,.*?[)\da-f\"'`]
 
 ##!> define ticks [\"'`]
 
@@ -14,9 +14,9 @@
 ##!> assemble
   {{punctuation-hexnumbers}}{{ticks}}
   ##!=>
-  {{ticks}}.*?{{ticks}}
+  \)
   (?:\r?\n)?\z
-  [^\"'`]+
+  [^\"'`]+{{ticks}}
   ##!=>
 ##!<
 
