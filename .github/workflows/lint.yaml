@@ -61,6 +61,8 @@ jobs:
           fi
 
       - name: "Check CRS formatting"
+        env:
+          TITLE: ${{ github.event.issue.title }}
         run: |
           pip install -U setuptools
           pip install crs-linter==${{ env.CRS_LINTER_VERSION }}
@@ -74,7 +76,7 @@ jobs:
             -E 'tests/TESTS_EXCLUSIONS' \
             -d "$(pwd)" \
             --head-ref "${{ github.head_ref }}" \
-            --commit-message "${{ github.event.head_commit.message }}"
+            --commit-message "$TITLE"
 
       - name: "Install crs-toolchain ${{ env.CRS_TOOLCHAIN_VERSION }}"
         env:
