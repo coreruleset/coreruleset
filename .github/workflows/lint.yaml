@@ -18,7 +18,6 @@ env:
   CRS_TOOLCHAIN_VERSION: '2.3.4'
   SECRULES_PARSING_VERSION: '0.2.11'
   CRS_LINTER_VERSION: '0.2.1'
-  TITLE: ${{ github.event.issue.title }}
 
 jobs:
   check-syntax:
@@ -62,6 +61,8 @@ jobs:
           fi
 
       - name: "Check CRS formatting"
+        env:
+          TITLE: ${{ github.event.issue.title }}
         run: |
           pip install -U setuptools
           pip install crs-linter==${{ env.CRS_LINTER_VERSION }}
