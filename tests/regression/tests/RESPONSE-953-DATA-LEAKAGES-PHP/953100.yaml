@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "M4tteoP, Esad Cetiner, azurit, elnadrion.dev"
+  author: "M4tteoP, Esad Cetiner, azurit"
 rule_id: 953100
 tests:
   - test_id: 1
@@ -100,69 +100,6 @@ tests:
           version: "HTTP/1.1"
           uri: "/post"
           data: "Field cannot be empty."
-        output:
-          log:
-            no_expect_ids: [953100]
-  - test_id: 6
-    desc: "TP: (HY000/NNNN) variant seen in PDO/MySQL messages"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          version: "HTTP/1.1"
-          method: "POST"
-          uri: "/reflect"
-          headers:
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-            Accept: "application/json"
-            Content-Type: "application/json"
-          data: |
-            {
-              "body": "mysqli::real_connect(): (HY000/2002): No such file or directory"
-            }
-        output:
-          log:
-            expect_ids: [953100]
-  - test_id: 7
-    desc: "TP: SQLSTATE[HY000] in response body should trigger 953100"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          version: "HTTP/1.1"
-          method: "POST"
-          uri: "/reflect"
-          headers:
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-            Accept: "application/json"
-            Content-Type: "application/json"
-          data: |
-            {
-              "body": "SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed"
-            }
-        output:
-          log:
-            expect_ids: [953100]
-  - test_id: 8
-    desc: "FP regression: random token containing 'hy000' must NOT trigger (after php-errors.data patch)"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          version: "HTTP/1.1"
-          method: "POST"
-          uri: "/reflect"
-          headers:
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-            Accept: "application/json"
-            Content-Type: "application/json"
-          data: |
-            {
-              "body": "{\"tablet\":\"ipad\",\"field\":\"number\",\"token\":\"493000hazhhy0004\"}"
-            }
         output:
           log:
             no_expect_ids: [953100]
