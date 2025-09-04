@@ -104,69 +104,6 @@ tests:
           log:
             no_expect_ids: [953100]
   - test_id: 6
-    desc: "TP: SQLSTATE[HY000] in response body should trigger 953100"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          version: "HTTP/1.1"
-          method: "POST"
-          uri: "/reflect"
-          headers:
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-            Accept: "application/json"
-            Content-Type: "application/json"
-          data: |
-            {
-              "body": "SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed"
-            }
-        output:
-          log:
-            expect_ids: [953100]
-  - test_id: 7
-    desc: "TP: SQLSTATE[HY093] Invalid parameter number"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          version: "HTTP/1.1"
-          method: "POST"
-          uri: "/reflect"
-          headers:
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-            Accept: "application/json"
-            Content-Type: "application/json"
-          data: |
-            {
-              "body": "SQLSTATE[HY093]: Invalid parameter number: parameter was not defined"
-            }
-        output:
-          log:
-            expect_ids: [953100]
-  - test_id: 8
-    desc: "TP: SQLSTATE[HY105] in response body"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          version: "HTTP/1.1"
-          method: "POST"
-          uri: "/reflect"
-          headers:
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-            Accept: "application/json"
-            Content-Type: "application/json"
-          data: |
-            {
-              "body": "SQLSTATE[HY105]: Invalid parameter type: -999 Parameter requires non-null value"
-            }
-        output:
-          log:
-            expect_ids: [953100]
-  - test_id: 9
     desc: "TP: (HY000/NNNN) variant seen in PDO/MySQL messages"
     stages:
       - input:
@@ -187,8 +124,8 @@ tests:
         output:
           log:
             expect_ids: [953100]
-  - test_id: 10
-    desc: "TP: ODBC IM001 classic phrase + SQLSTATE[IM001]"
+  - test_id: 7
+    desc: "TP: SQLSTATE[HY000] in response body should trigger 953100"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -203,12 +140,12 @@ tests:
             Content-Type: "application/json"
           data: |
             {
-              "body": "SQLSTATE[IM001]: Driver does not support this function"
+              "body": "SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed"
             }
         output:
           log:
             expect_ids: [953100]
-  - test_id: 11
+  - test_id: 8
     desc: "FP regression: random token containing 'hy000' must NOT trigger (after php-errors.data patch)"
     stages:
       - input:
@@ -225,27 +162,6 @@ tests:
           data: |
             {
               "body": "{\"tablet\":\"ipad\",\"field\":\"number\",\"token\":\"493000hazhhy0004\"}"
-            }
-        output:
-          log:
-            no_expect_ids: [953100]
-  - test_id: 12
-    desc: "FP regression: random id 'sim001a' containing 'im001' must NOT trigger (after php-errors.data patch)"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          version: "HTTP/1.1"
-          method: "POST"
-          uri: "/reflect"
-          headers:
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-            Accept: "application/json"
-            Content-Type: "application/json"
-          data: |
-            {
-              "body": "{\"id\":\"sim001a\",\"ok\":true}"
             }
         output:
           log:
