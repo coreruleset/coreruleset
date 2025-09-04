@@ -17,7 +17,7 @@ on:
 env:
   CRS_TOOLCHAIN_VERSION: '2.3.4'
   SECRULES_PARSING_VERSION: '0.2.11'
-  CRS_LINTER_VERSION: '0.2.1'
+  CRS_LINTER_VERSION: '0.2.2'
 
 jobs:
   check-syntax:
@@ -64,6 +64,12 @@ jobs:
         env:
           TITLE: ${{ github.event.issue.title }}
         run: |
+          # Debug messages for next release. Remove once issues with version
+          # detection have been resolved.
+          echo "event: ${{ github.event}}"
+          echo "head_commit: ${{ github.event.head_commit }}"
+          echo "message: ${{ github.event.head_commit.message }}"
+
           pip install -U setuptools
           pip install crs-linter==${{ env.CRS_LINTER_VERSION }}
           crs-linter \
