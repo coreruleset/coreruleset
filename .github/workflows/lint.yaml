@@ -61,15 +61,7 @@ jobs:
           fi
 
       - name: "Check CRS formatting"
-        env:
-          TITLE: ${{ github.event.issue.title }}
         run: |
-          # Debug messages for next release. Remove once issues with version
-          # detection have been resolved.
-          echo "event: ${{ github.event}}"
-          echo "head_commit: ${{ github.event.head_commit }}"
-          echo "message: ${{ github.event.head_commit.message }}"
-
           pip install -U setuptools
           pip install crs-linter==${{ env.CRS_LINTER_VERSION }}
           crs-linter \
@@ -81,8 +73,8 @@ jobs:
             -T 'tests/regression/tests/' \
             -E 'tests/TESTS_EXCLUSIONS' \
             -d "$(pwd)" \
-            --head-ref "${{ github.head_ref }}" \
-            --commit-message "$TITLE"
+            --head-ref '${{ github.head_ref }}' \
+            --commit-message '${{ github.event.head_commit.message }}'
 
       - name: "Install crs-toolchain ${{ env.CRS_TOOLCHAIN_VERSION }}"
         env:
