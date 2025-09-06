@@ -1,0 +1,41 @@
+---
+meta:
+  author: "Andrew Howe, Xhoenix, Franziska Bühler"
+rule_id: 954101
+tests:
+  - test_id: 1
+    desc: 'Returns \inetpub in the response body'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"body\": \"\\\\inetpub \\n\"}"
+        output:
+          log:
+            expect_ids: [954101]
+  - test_id: 2
+    desc: 'Returns /inetpub in the response body'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"body\": \"/inetpub \\n\"}"
+        output:
+          log:
+            expect_ids: [954101]
