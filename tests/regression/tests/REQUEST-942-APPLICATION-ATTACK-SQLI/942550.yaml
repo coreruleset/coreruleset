@@ -670,3 +670,21 @@ tests:
         output:
           log:
             expect_ids: [942550]
+  - test_id: 37
+    desc: |
+      SQL Comment in payload
+      decoded payload: OR '{"a":1}'::jsonb #> /* Some * comment */'{a,b}' ? 'c'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=OR%20%27%7B%22a%22%3A1%7D%27%3A%3Ajsonb%20%23%3E%20%2F%2A%20Some%20%2A%20comment%20%2A%2F%27%7Ba%2Cb%7D%27%20%3F%20%27c%27"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
