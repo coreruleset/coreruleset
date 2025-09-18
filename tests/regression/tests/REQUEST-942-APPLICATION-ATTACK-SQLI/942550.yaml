@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Andrea Menin (theMiddle), azurit"
+  author: "Andrea Menin (theMiddle), azurit, Esad Cetiner"
   description: JSON in SQL bypass technique
 rule_id: 942550
 tests:
@@ -684,6 +684,96 @@ tests:
           method: GET
           port: 80
           uri: "/get?q=OR%20%27%7B%22a%22%3A1%7D%27%3A%3Ajsonb%20%23%3E%20%2F%2A%20Some%20%2A%20comment%20%2A%2F%27%7Ba%2Cb%7D%27%20%3F%20%27c%27"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 38
+    desc: |
+      False Positive: Matching ? in natural english
+      decoded payload: how was your day today?
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=how%20was%20your%20day%20today?"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 39
+    desc: |
+      PostgreSQL
+      decoded payload: '{"b":2}'::jsonb @ '{"a":1, "b":2}'::jsonb
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q='%7B%22b%22:2%7D'::jsonb%20@%20'%7B%22a%22:1,%20%22b%22:2%7D'::jsonb"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 40
+    desc: |
+      SQLite
+      decoded payload: '{"a":2,"c":[4,5,{"f":7}]}' < '$.c[2].f' = 7
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q='%7B%22a%22:2,%22c%22:%5B4,5,%7B%22f%22:7%7D%5D%7D'%20%3C%20'$.c%5B2%5D.f'%20=%207"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 41
+    desc: |
+      SQLite
+      decoded payload: '{"a":2,"c":[4,5,{"f":7}]}' > '$.c[2].f' = 7
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q='%7B%22a%22:2,%22c%22:%5B4,5,%7B%22f%22:7%7D%5D%7D'%20%3E%20'$.c%5B2%5D.f'%20=%207"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 42
+    desc: |
+      MySQL
+      decoded payload: SELECT id FROM users WHERE id=JsoN_EXTraCT/**/(/**/'  {"a":1}  '/**/,/**/' $.a '/**/);
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=SELECT%20id%20FROM%20users%20WHERE%20id=JsoN_EXTraCT/**/(/**/'%20%20%7B%22a%22:1%7D%20%20'/**/,/**/'%20$.a%20'/**/);"
           version: HTTP/1.1
         output:
           log:
