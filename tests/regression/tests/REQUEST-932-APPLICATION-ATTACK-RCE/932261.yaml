@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Esad Cetiner, FIXME"
+  author: "Esad Cetiner, Max Leske, Franziska Bühler"
 rule_id: 932261
 tests:
   - test_id: 1
@@ -34,7 +34,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [932261]
+            expect_ids: [932261]
   - test_id: 3
     stages:
       - input:
@@ -50,7 +50,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [932261]
+            expect_ids: [932261]
   - test_id: 4
     stages:
       - input:
@@ -66,7 +66,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [932261]
+            expect_ids: [932261]
   - test_id: 5
     stages:
       - input:
@@ -81,7 +81,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [932261]
+            expect_ids: [932261]
   - test_id: 6
     desc: RCE ;top with html entities two digit decimal of 59 (;)
     stages:
@@ -101,7 +101,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [932261]
+            expect_ids: [932261]
   - test_id: 7
     desc: "/?arg=&aptitude"
     stages:
@@ -140,8 +140,8 @@ tests:
             no_expect_ids: [932261]
   - test_id: 9
     desc: |
-      Block 'rc' command
-      FIXME: Maybe match only at PL-3?
+      False Positive with `id` command
+      `id` is a very common parameter name
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -149,10 +149,11 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Host: localhost
             User-Agent: "OWASP CRS test agent"
-          method: GET
+          method: POST
           port: 80
-          uri: "/get?param=rc"
+          uri: "/post"
+          data: "id=4"
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [932261]
+            no_expect_ids: [932261]

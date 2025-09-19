@@ -12,51 +12,7 @@
 
 ##!> assemble
   ##!> include unix-shell-evasion-prefix-start-of-string
-  ##! FIXME: Define ~
 
-  ##! PL-1
-  mysql
-  mysql~
-  set
-  env
-  ls
-  su
-  dmesg
-  psql
-  df
-  ps
-  aptitude
-  dir
-
-  ##! PL-3 (FIXME Maybe, might not be worth it, some entries need to be double checked)
-  id
-  pwd
-  who
-  whois
-  whoami
-  rc
-  sh
-  history
-  screen
-  tmux
-  login
-  bash
-  zsh
-  fish
-  python
-  perl
-  uname
-  iostat
-  reset
-  vmstat
-  uptime
-  w
-  cal
-  date
-  hostname
-  free
-  uptime
-  htop
-  top
-
+  ##! The `@` processor is not defined since we're matching the execution of commands with no arguments.
+  ##!> include-except unix-shell-noarguments unix-shell-noarguments-fps-pl1 -- ~ \S{1,10}\b
 ##!<
