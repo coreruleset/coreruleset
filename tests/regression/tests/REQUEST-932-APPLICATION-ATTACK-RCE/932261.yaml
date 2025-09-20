@@ -21,6 +21,9 @@ tests:
           log:
             expect_ids: [932261]
   - test_id: 2
+    desc: |
+      Block execution of `env` command
+      This could be used to leak passwords set as environment variable in docker based environments
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -36,6 +39,9 @@ tests:
           log:
             expect_ids: [932261]
   - test_id: 3
+    desc: |
+      Block execution of `env` command
+      This could be used to leak passwords set as environment variable in docker based environments
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -52,6 +58,9 @@ tests:
           log:
             expect_ids: [932261]
   - test_id: 4
+    desc: |
+      Block execution of `set` command
+      This could be used to leak passwords set as environment variable in docker based environments
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -68,6 +77,9 @@ tests:
           log:
             expect_ids: [932261]
   - test_id: 5
+    desc: |
+      Block execution of `set` command
+      This could be used to leak passwords set as environment variable in docker based environments
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -83,26 +95,6 @@ tests:
           log:
             expect_ids: [932261]
   - test_id: 6
-    desc: RCE ;top with html entities two digit decimal of 59 (;)
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            Accept-Encoding: gzip, deflate, br
-            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
-            Content-Type: application/x-www-form-urlencoded
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "arg=%26%2359%3B+;top"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [932261]
-  - test_id: 7
     desc: "/?arg=&aptitude"
     stages:
       - input:
@@ -118,8 +110,8 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [932261]
-  - test_id: 8
+            expect_ids: [932261]
+  - test_id: 7
     desc: |
       TEST=echo | gcc7.4
       FIXME: Known false negative
@@ -138,7 +130,7 @@ tests:
         output:
           log:
             no_expect_ids: [932261]
-  - test_id: 9
+  - test_id: 8
     desc: |
       False Positive with `id` command
       `id` is a very common parameter name

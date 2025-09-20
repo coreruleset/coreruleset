@@ -4,22 +4,6 @@ meta:
 rule_id: 932237
 tests:
   - test_id: 1
-    desc: FIXME: Move to new rule
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          method: "GET"
-          port: 80
-          headers:
-            User-Agent: id
-            Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/get"
-          version: HTTP/1.1
-        output:
-          log:
-            no_expect_ids: [932237]
-  - test_id: 2
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -34,7 +18,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 3
+  - test_id: 2
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -49,7 +33,7 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
-  - test_id: 4
+  - test_id: 3
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -64,24 +48,7 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
-  - test_id: 5
-    desc: FIXME: Move to new rule
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          method: "GET"
-          port: 80
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Referer: id
-            Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/get"
-          version: HTTP/1.1
-        output:
-          log:
-            no_expect_ids: [932237]
-  - test_id: 6
+  - test_id: 4
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -97,7 +64,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 7
+  - test_id: 5
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -113,7 +80,7 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
-  - test_id: 8
+  - test_id: 6
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -129,7 +96,7 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
-  - test_id: 9
+  - test_id: 7
     desc: "9323HNQU - should not be detected at PL 2"
     stages:
       - input:
@@ -147,7 +114,7 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
-  - test_id: 10
+  - test_id: 8
     desc: "9323HNQU - should not be detected at PL 2"
     stages:
       - input:
@@ -165,7 +132,7 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
-  - test_id: 11
+  - test_id: 9
     desc: "FP with word comment"
     stages:
       - input:
@@ -181,7 +148,7 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
-  - test_id: 12
+  - test_id: 10
     desc: "FP with word settings"
     stages:
       - input:
@@ -197,7 +164,7 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
-  - test_id: 13
+  - test_id: 11
     desc: "Block env command with arguments"
     stages:
       - input:
@@ -213,7 +180,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 14
+  - test_id: 12
     desc: "Block env command with arguments"
     stages:
       - input:
@@ -230,7 +197,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 15
+  - test_id: 13
     desc: "Block ad-hoc ansible commands"
     stages:
       - input:
@@ -246,7 +213,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 16
+  - test_id: 14
     desc: "Block ansible config dump command"
     stages:
       - input:
@@ -262,7 +229,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 17
+  - test_id: 15
     desc: "Block installing collections from ansible galaxy"
     stages:
       - input:
@@ -278,7 +245,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 18
+  - test_id: 16
     desc: "Block ad-hoc ansible commands using ansible-console"
     stages:
       - input:
@@ -294,7 +261,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 19
+  - test_id: 17
     desc: "Block ansible-doc command"
     stages:
       - input:
@@ -310,7 +277,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 20
+  - test_id: 18
     desc: "Block dumping ansible inventory file and variables"
     stages:
       - input:
@@ -326,7 +293,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 21
+  - test_id: 19
     desc: "Block ansible pull from remote repository"
     stages:
       - input:
@@ -342,7 +309,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 22
+  - test_id: 20
     desc: "Block decrypting ansible secrets"
     stages:
       - input:
@@ -358,7 +325,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 23
+  - test_id: 21
     desc: "Block execution of ansible playbooks"
     stages:
       - input:
@@ -374,7 +341,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 24
+  - test_id: 22
     desc: "Block decryption of secrets with chef-vault"
     stages:
       - input:
@@ -390,7 +357,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 25
+  - test_id: 23
     desc: "Block execution of chef-shell command"
     stages:
       - input:
@@ -406,7 +373,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 26
+  - test_id: 24
     desc: "Block execution chef recipie book"
     stages:
       - input:
@@ -422,7 +389,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 27
+  - test_id: 25
     desc: "Block execution chef recipie book against a specific node"
     stages:
       - input:
@@ -438,7 +405,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 28
+  - test_id: 26
     desc: "Block execution chef command"
     stages:
       - input:
@@ -454,7 +421,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 29
+  - test_id: 27
     desc: "Block execution of visudo"
     stages:
       - input:
@@ -470,7 +437,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 30
+  - test_id: 28
     desc: "Block execution of CrowdSec cscli"
     stages:
       - input:
@@ -486,7 +453,7 @@ tests:
         output:
           log:
             expect_ids: [932237]
-  - test_id: 31
+  - test_id: 29
     desc: |
       False positive with Nextcloud iOS user-agent.
       Should not match `ip`.
@@ -504,7 +471,7 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
-  - test_id: 32
+  - test_id: 30
     desc: |
       False positive with token in referrer.
       Should not match `df`.
@@ -523,7 +490,7 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
-  - test_id: 33
+  - test_id: 31
     desc: |
       False positive with Android user-agent.
       Should not match `pg`.
@@ -541,7 +508,7 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
-  - test_id: 34
+  - test_id: 32
     desc: |
       False positive with Pashto Afghanistan User-Agent
       Should not match `ps` in `ps-af`.
@@ -559,7 +526,7 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
-  - test_id: 35
+  - test_id: 33
     desc: "Negative test on known user-agent"
     stages:
       - input:
