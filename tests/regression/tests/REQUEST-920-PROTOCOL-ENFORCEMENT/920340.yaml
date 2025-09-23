@@ -4,8 +4,8 @@ meta:
   description: "920340 must detect requests that have a `Content-Length` header but no `Content-Type` header"
 rule_id: 920340
 tests:
-  - # Standard POST request with length 4 and no content-type
-    test_id: 1
+  - test_id: 1
+     desc: Standard POST request with "Content-Length" header and no "Content-Type" header
     stages:
       - input:
           dest_addr: "127.0.0.1"
