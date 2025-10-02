@@ -5,7 +5,31 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
-## Version 4.18.0-dev - 2025-MM-DD
+## Version 4.20.0-dev - 2025-MM-DD
+
+## Version 4.19.0 - 2025-10-02
+
+## What's Changed
+### ⭐ Important changes
+* refactor: 920340 - delete 920341 by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4268
+### 🆕 New features and detections 🎉
+* fix: update lfi-os-files.data by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4240
+### 🧰 Other Changes
+* fix: dont block `.url` file extension by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4259
+* fix(933135): wrong score variable by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4262
+* fix(933153): missing inbound_anomaly_score by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4260
+* fix(953100): remove generic SQLSTATE error codes causing false positives by @Elnadrion in https://github.com/coreruleset/coreruleset/pull/4257
+* feat: add stricter sibling 954101 to 954100 by @franbuehler in https://github.com/coreruleset/coreruleset/pull/4258
+* fix(942550): cleanup regex by @fzipi in https://github.com/coreruleset/coreruleset/pull/3767
+* fix: reduce false positives with php response rules by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4272
+* fix: don't block on all question marks (942550 PL-1) by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4264
+* feat: whitelist application/csp-report content-type header by @Elnadrion in https://github.com/coreruleset/coreruleset/pull/4274
+
+## New Contributors
+* @touchweb-vincent made their first contribution in https://github.com/coreruleset/coreruleset/pull/4262
+* @Elnadrion made their first contribution in https://github.com/coreruleset/coreruleset/pull/4257
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.18.0...v4.19.0
 
 ## Version 4.18.0 - 2025-09-03
 
