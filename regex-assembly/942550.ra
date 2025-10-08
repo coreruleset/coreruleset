@@ -35,7 +35,7 @@
 
 ##!> assemble
   ##! SQLite + PostgreSQL
-  {{non_greedy_jsonb}}{{operators}}
+  {{quotes}}{{json_starting_brackets}}[\s\S]*?{{quotes}}[\s\S]*?{{json_ending_brackets}}{{non_greedy_jsonb}}{{operators}}
   {{quotes}}{{json_starting_brackets}}{{something_except_json_ending_brackets}}{{json_ending_brackets}}{{quotes}}
   {{operators}}{{quotes}}{{json_starting_brackets}}{{something_except_json_ending_brackets}}{{json_ending_brackets}}{{quotes}}
 
