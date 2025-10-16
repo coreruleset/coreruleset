@@ -778,3 +778,39 @@ tests:
         output:
           log:
             expect_ids: [942550]
+- test_id: 43
+    desc: |
+      False Positive: Matching orphan operator
+      decoded payload: I Love you <3
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?gift_message=%20I%20Love%20you%20%3C3"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+- test_id: 44
+    desc: |
+      False Positive: Matching -> sequence
+      decoded payload: Find your solution here -> link
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?message=Find%20your%20solution%20here%20-%3E%20link"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
