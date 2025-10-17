@@ -330,7 +330,7 @@ tests:
   - test_id: 20
     desc: |
       SQL Injection Attack: Time-Based Payload Detected via Sleep Function
-      decoded payload: sELecT slEep ('10@#={},~2');
+      decoded payload: sELecT slEep ('10€@#={},~2');
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -348,7 +348,7 @@ tests:
   - test_id: 21
     desc: |
       SQL Injection Attack: Time-Based Payload Detected via Sleep Function
-      decoded payload: sELecT slEep ('10')
+      decoded payload: sELecT slEep ("10")
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -358,7 +358,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?sql_table=sELecT%20slEep%20%28%2710%27%29"
+          uri: "/get?sql_table=sELecT%20slEep%20%28%2210%22%29"
           version: HTTP/1.1
         output:
           log:
