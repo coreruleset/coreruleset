@@ -220,7 +220,9 @@ tests:
           log:
             expect_ids: [942160]
   - test_id: 14
-    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    desc: |
+      SQL Injection Attack: Time-Based Payload Detected via Sleep Function
+      decoded payload: sELecT slEep (20 dIv 3)
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -230,13 +232,15 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?sql_table=sELecT%20slEep%20%2820%20dIv%203%29%3B"
+          uri: "/get?sql_table=sELecT%20slEep%20%2820%20dIv%203%29"
           version: HTTP/1.1
         output:
           log:
             expect_ids: [942160]
   - test_id: 15
-    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    desc: |
+      SQL Injection Attack: Time-Based Payload Detected via Sleep Function
+      decoded payload: SeleCT sLeEp (mOD(10,5))
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -246,13 +250,15 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?sql_table=SeleCT%20sLeEp%20%28mOD%2810%2C5%29%29%3B"
+          uri: "/get?sql_table=SeleCT%20sLeEp%20%28mOD%2810%2C5%29%29"
           version: HTTP/1.1
         output:
           log:
             expect_ids: [942160]
   - test_id: 16
-    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    desc: |
+      SQL Injection Attack: Time-Based Payload Detected via Sleep Function
+      decoded payload: sELecT slEep (5 ^ 2)
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -262,13 +268,15 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?sql_table=sELecT%20slEep%20%285%20%5E%202%29%3B"
+          uri: "/get?sql_table=sELecT%20slEep%20%285%20%5E%202%29"
           version: HTTP/1.1
         output:
           log:
             expect_ids: [942160]
   - test_id: 17
-    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    desc: |
+      SQL Injection Attack: Time-Based Payload Detected via Sleep Function
+      decoded payload: sELecT slEep (3 * 2)
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -278,13 +286,15 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?sql_table=sELecT%20slEep%20%283%20%2A%202%29%3B"
+          uri: "/get?sql_table=sELecT%20slEep%20%283%20%2A%202%29"
           version: HTTP/1.1
         output:
           log:
             expect_ids: [942160]
   - test_id: 18
-    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    desc: |
+      SQL Injection Attack: Time-Based Payload Detected via Sleep Function
+      decoded payload: sELecT slEep (-3 * -2)
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -294,13 +304,15 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?sql_table=sELecT%20slEep%20%28-3%20%2A%20-2%29%3B"
+          uri: "/get?sql_table=sELecT%20slEep%20%28-3%20%2A%20-2%29"
           version: HTTP/1.1
         output:
           log:
             expect_ids: [942160]
   - test_id: 19
-    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    desc: |
+      SQL Injection Attack: Time-Based Payload Detected via Sleep Function
+      decoded payload: sELecT slEep (10 /6)
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -310,13 +322,15 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?sql_table=sELecT%20slEep%20%2810%20%2F6%29%3B"
+          uri: "/get?sql_table=sELecT%20slEep%20%2810%20%2F6%29"
           version: HTTP/1.1
         output:
           log:
             expect_ids: [942160]
   - test_id: 20
-    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    desc: |
+      SQL Injection Attack: Time-Based Payload Detected via Sleep Function
+      decoded payload: sELecT slEep ("10")
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -326,13 +340,15 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?sql_table=sELecT%20slEep%20%28%2210%22%29%3B"
+          uri: "/get?sql_table=sELecT%20slEep%20%28%2210%22%29"
           version: HTTP/1.1
         output:
           log:
             expect_ids: [942160]
   - test_id: 21
-    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    desc: |
+      SQL Injection Attack: Time-Based Payload Detected via Sleep Function
+      decoded payload: sELecT slEep ('10')
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -342,13 +358,15 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?sql_table=sELecT%20slEep%20%28%2710%27%29%3B"
+          uri: "/get?sql_table=sELecT%20slEep%20%28%2710%27%29"
           version: HTTP/1.1
         output:
           log:
             expect_ids: [942160]
   - test_id: 22
-    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    desc: |
+      SQL Injection Attack: Time-Based Payload Detected via Sleep Function
+      decoded payload: sELecT slEep (10 +6)
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -358,13 +376,15 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?sql_table=sELecT%20slEep%20%2810%20%2B6%29%3B"
+          uri: "/get?sql_table=sELecT%20slEep%20%2810%20%2B6%29"
           version: HTTP/1.1
         output:
           log:
             expect_ids: [942160]
   - test_id: 23
-    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    desc: |
+      SQL Injection Attack: Time-Based Payload Detected via Sleep Function
+      decoded payload: sELecT slEep (10 -6)
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -374,13 +394,15 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?sql_table=sELecT%20slEep%20%2810%20-6%29%3B"
+          uri: "/get?sql_table=sELecT%20slEep%20%2810%20-6%29"
           version: HTTP/1.1
         output:
           log:
             expect_ids: [942160]
   - test_id: 24
-    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    desc: |
+      SQL Injection Attack: Time-Based Payload Detected via Sleep Function
+      decoded payload: sELecT slEep ("10,2")
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -390,13 +412,15 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?sql_table=sELecT%20slEep%20%28%2210%2C2%22%29%3B"
+          uri: "/get?sql_table=sELecT%20slEep%20%28%2210%2C2%22%29"
           version: HTTP/1.1
         output:
           log:
             expect_ids: [942160]
   - test_id: 25
-    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    desc: |
+      SQL Injection Attack: Time-Based Payload Detected via Sleep Function
+      decoded payload: sELecT slEep (10.2)
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -406,7 +430,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?sql_table=sELecT%20slEep%20%2810.2%29%3B"
+          uri: "/get?sql_table=sELecT%20slEep%20%2810.2%29"
           version: HTTP/1.1
         output:
           log:
