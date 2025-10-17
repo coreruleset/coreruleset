@@ -188,22 +188,6 @@ tests:
           log:
             expect_ids: [942160]
   - test_id: 12
-    desc: "Detect blind SQLi attack in REQUEST_FILENAME. Issue #3779 - Negative test (invalid sleep syntax)"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/get/if(now()=sysdate(),sleep(12,0)/"
-          version: HTTP/1.1
-        output:
-          log:
-            no_expect_ids: [942160]
-  - test_id: 13
     desc: "Detect blind SQLi attack in REQUEST_FILENAME. Issue #3779 - Negative test (invalid benchmark syntax)"
     stages:
       - input:
@@ -219,7 +203,7 @@ tests:
         output:
           log:
             no_expect_ids: [942160]
-  - test_id: 14
+  - test_id: 13
     desc: "Detect blind SQLi attack in REQUEST_FILENAME. Issue #3779"
     stages:
       - input:
@@ -235,7 +219,7 @@ tests:
         output:
           log:
             expect_ids: [942160]
-  - test_id: 15
+  - test_id: 14
     desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
     stages:
       - input:
@@ -251,7 +235,7 @@ tests:
         output:
           log:
             expect_ids: [942160]
-  - test_id: 16
+  - test_id: 15
     desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
     stages:
       - input:
@@ -267,7 +251,7 @@ tests:
         output:
           log:
             expect_ids: [942160]
-  - test_id: 17
+  - test_id: 16
     desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
     stages:
       - input:
@@ -283,7 +267,7 @@ tests:
         output:
           log:
             expect_ids: [942160]
-  - test_id: 18
+  - test_id: 17
     desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
     stages:
       - input:
@@ -299,7 +283,7 @@ tests:
         output:
           log:
             expect_ids: [942160]
-  - test_id: 19
+  - test_id: 18
     desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
     stages:
       - input:
@@ -315,7 +299,7 @@ tests:
         output:
           log:
             expect_ids: [942160]
-  - test_id: 20
+  - test_id: 19
     desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
     stages:
       - input:
@@ -331,7 +315,7 @@ tests:
         output:
           log:
             expect_ids: [942160]
-  - test_id: 21
+  - test_id: 20
     desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
     stages:
       - input:
@@ -347,7 +331,7 @@ tests:
         output:
           log:
             expect_ids: [942160]
-  - test_id: 22
+  - test_id: 21
     desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
     stages:
       - input:
@@ -363,7 +347,7 @@ tests:
         output:
           log:
             expect_ids: [942160]
-  - test_id: 23
+  - test_id: 22
     desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
     stages:
       - input:
@@ -379,7 +363,7 @@ tests:
         output:
           log:
             expect_ids: [942160]
-  - test_id: 24
+  - test_id: 23
     desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
     stages:
       - input:
@@ -395,3 +379,36 @@ tests:
         output:
           log:
             expect_ids: [942160]
+  - test_id: 24
+    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?sql_table=sELecT%20slEep%20%28%2210%2C2%22%29%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942160]
+  - test_id: 25
+    desc: "SQL Injection Attack: Time-Based Payload Detected via Sleep Function"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?sql_table=sELecT%20slEep%20%2810.2%29%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942160]
+
