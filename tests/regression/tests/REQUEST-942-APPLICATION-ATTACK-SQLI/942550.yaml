@@ -303,7 +303,7 @@ tests:
   - test_id: 17
     desc: |
       JSON in SQL (ARGS)
-      decoded payload: OR '{"a":2,"c":[4,5,{"f":7}]}' -> '$.c[2].f' = 7
+      decoded payload: OR '{"a":2,"c":[4,5,{"f":7}]}' -> '$.c[2].f' = '7'
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -322,7 +322,7 @@ tests:
   - test_id: 18
     desc: |
       JSON in SQL (REQUEST_FILENAME)
-      decoded payload: OR '{"a":2,"c":[4,5,{"f":7}]}' -> '$.c[2].f' = 7
+      decoded payload: OR '{"a":2,"c":[4,5,{"f":7}]}' -> '$.c[2].f' = '7'
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -338,43 +338,6 @@ tests:
           log:
             expect_ids: [942550]
   - test_id: 19
-    desc: |
-      JSON in SQL (ARGS)
-      decoded payload: OR '{"a":2,"c":[4,5,{"f":7}]}' <- '$.c[2].f' = 7
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "id=OR%20%27%7B%22a%22%3A2%2C%22c%22%3A%5B4%2C5%2C%7B%22f%22%3A7%7D%5D%7D%27%20%3C-%20%27%24.c%5B2%5D.f%27%20%3D%207"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942550]
-  - test_id: 20
-    desc: |
-      JSON in SQL (REQUEST_FILENAME)
-      decoded payload: OR '{"a":2,"c":[4,5,{"f":7}]}' <- '$.c[2].f' = 7
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/get/OR%20%27%7B%22a%22%3A2%2C%22c%22%3A%5B4%2C5%2C%7B%22f%22%3A7%7D%5D%7D%27%20%3C-%20%27%24.c%5B2%5D.f%27%20%3D%207"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942550]
-  - test_id: 21
     desc: |
       JSON in SQL (ARGS)
       decoded payload: OR json_extract('{"id": 14, "name": "Aztalan"}', '$.name') = 'Aztalan'
@@ -393,7 +356,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 22
+  - test_id: 20
     desc: |
       JSON in SQL (REQUEST_FILENAME)
       decoded payload: OR json_extract('{"id": 14, "name": "Aztalan"}', '$.name') = 'Aztalan'
@@ -411,7 +374,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 23
+  - test_id: 21
     desc: |
       JSON in SQL (ARGS)
       decoded payload: blah/"}' and data @> '{"a":"a"}' union select ASCII(s.token) from unnset(string_to_array((select cookie from cookie limit 1 ),NULL)) s(token)--/state
@@ -430,7 +393,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 24
+  - test_id: 22
     desc: |
       JSON in SQL (REQUEST_FILENAME)
       decoded payload: blah/"}' and data @> '{"a":"a"}' union select ASCII(s.token) from unnset(string_to_array((select cookie from cookie limit 1 ),NULL)) s(token)--/state
@@ -448,7 +411,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 25
+  - test_id: 23
     desc: |
       JSON in SQL (ARGS)
       decoded payload: OR '{"a":"b"}' ? 'a'
@@ -467,7 +430,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 26
+  - test_id: 24
     desc: |
       JSON in SQL (REQUEST_FILENAME)
       decoded payload: OR '{"a":"b"}' ? 'a'
@@ -485,7 +448,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 27
+  - test_id: 25
     desc: |
       JSON in SQL (ARGS)
       decoded payload: OR '[1,2]' ? '1'
@@ -504,7 +467,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 28
+  - test_id: 26
     desc: |
       JSON in SQL (REQUEST_FILENAME)
       decoded payload: OR '[1,2]' ? '1'
@@ -522,7 +485,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 29
+  - test_id: 27
     desc: |
       JSON in SQL (ARGS)
       decoded payload: OR '{"name":"asd"}' ?| array['a','name']
@@ -541,7 +504,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 30
+  - test_id: 28
     desc: |
       JSON in SQL (REQUEST_FILENAME)
       decoded payload: OR '{"name":"asd"}' ?| array['a','name']
@@ -559,7 +522,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 31
+  - test_id: 29
     desc: |
       JSON in SQL (ARGS)
       decoded payload: OR '{"name":"asd"}' ?& array['a','name']
@@ -578,7 +541,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 32
+  - test_id: 30
     desc: |
       JSON in SQL (REQUEST_FILENAME)
       decoded payload: OR '{"name":"asd"}' ?& array['a','name']
@@ -596,7 +559,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 33
+  - test_id: 31
     desc: |
       JSON in SQL (ARGS)
       decoded payload: OR '[1,2,3]'::json ->> 2='3'
@@ -615,7 +578,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 34
+  - test_id: 32
     desc: |
       JSON in SQL (REQUEST_FILENAME)
       decoded payload: OR '[1,2,3]'::json ->> 2='3'
@@ -633,7 +596,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 35
+  - test_id: 33
     desc: |
       JSON in SQL (ARGS)
       decoded payload: OR '{"a":1}'::jsonb #> '{a,b}' ? 'c'
@@ -652,7 +615,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 36
+  - test_id: 34
     desc: |
       JSON in SQL (REQUEST_FILENAME)
       decoded payload: OR '{"a":1}'::jsonb #> '{a,b}' ? 'c'
@@ -670,7 +633,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 37
+  - test_id: 35
     desc: |
       SQL Comment in payload
       decoded payload: OR '{"a":1}'::jsonb #> /* Some * comment */'{a,b}' ? 'c'
@@ -684,6 +647,42 @@ tests:
           method: GET
           port: 80
           uri: "/get?q=OR%20%27%7B%22a%22%3A1%7D%27%3A%3Ajsonb%20%23%3E%20%2F%2A%20Some%20%2A%20comment%20%2A%2F%27%7Ba%2Cb%7D%27%20%3F%20%27c%27"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 36
+    desc: |
+      SQL Comment in payload
+      decoded payload: '{"a": {"b": ["foo","bar"]}}'::json #>> '{a,b,1}'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q='%7B%22a%22%3A%20%7B%22b%22%3A%20%5B%22foo%22%2C%22bar%22%5D%7D%7D'%3A%3Ajson%20%23%3E%3E%20'%7Ba%2Cb%2C1%7D'"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 37
+    desc: |
+      SQL Comment in payload
+      decoded payload: '["a", {"b":1}]'::jsonb #- '{1,b}'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q='%5B%22a%22%2C%20%7B%22b%22%3A1%7D%5D'%3A%3Ajsonb%20%23-%20'%7B1%2Cb%7D'"
           version: HTTP/1.1
         output:
           log:
@@ -774,6 +773,114 @@ tests:
           method: GET
           port: 80
           uri: "/get?q=SELECT%20id%20FROM%20users%20WHERE%20id=JsoN_EXTraCT/**/(/**/'%20%20%7B%22a%22:1%7D%20%20'/**/,/**/'%20$.a%20'/**/);"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 43
+    desc: |
+      False Positive: Matching orphan operator
+      decoded payload: I Love you <3
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?gift_message=%20I%20Love%20you%20%3C3"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 44
+    desc: |
+      False Positive: Matching -> sequence
+      decoded payload: Find your solution here -> link
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?message=Find%20your%20solution%20here%20-%3E%20link"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 45
+    desc: |
+      JSON in SQL (ARGS)
+      decoded payload: '{"a":[1,2,3,4,5]}'::jsonb @? '$.a[*]'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/payload='%7B%22a%22%3A%5B1%2C2%2C3%2C4%2C5%5D%7D'%3A%3Ajsonb%20%40%3F%20'%24.a%5B*%5D'"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 46
+    desc: |
+      JSON in SQL (ARGS)
+      decoded payload: '{"a":[1,2,3,4,5]}'::jsonb @@ '$.a[*]'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/payload='%7B%22a%22%3A%5B1%2C2%2C3%2C4%2C5%5D%7D'%3A%3Ajsonb%20%40%40%20'%24.a%5B*%5D'"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 47
+    desc: |
+      JSON in SQL (ARGS)
+      decoded payload: '["a", "b"]'::jsonb - 1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/payload='%5B%22a%22%2C%20%22b%22%5D'%3A%3Ajsonb%20-%201"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 48
+    desc: |
+      JSON in SQL (ARGS)
+      decoded payload: '[1, 2]'::jsonb || '3'::jsonb
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/payload='%5B1%2C%202%5D'%3A%3Ajsonb%20%7C%7C%20'3'%3A%3Ajsonb"
           version: HTTP/1.1
         output:
           log:
