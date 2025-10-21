@@ -88,6 +88,12 @@ test_overrides:
     output:
      log:
       expect_ids: [920620]
+  - rule_id: 920630
+    test_ids: [1]
+    reason: "Nginx returns a 400 bad request"
+    output:
+     log:
+      expect_ids: [920630]
   - rule_id: 933110
     test_ids: [3, 13, 14, 20, 21, 22, 24, 25, 26, 27]
     reason: "Nginx ignore by default request header with invalid characters (like X_Filename)"
