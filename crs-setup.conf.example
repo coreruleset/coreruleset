@@ -586,7 +586,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # [ Basic ]
 # Includes deprecated headers and headers with known security risks. Always
 # forbidden.
-# Default: /content-encoding/ /proxy/ /lock-token/ /content-range/ /if/ /x-http-method-override/ /x-http-method/ /x-method-override/ /x-middleware-subrequest/
+# Default: /content-encoding/ /proxy/ /lock-token/ /content-range/ /if/ /x-http-method-override/ /x-http-method/ /x-method-override/ /x-middleware-subrequest/ /expect/
 #
 # /content-encoding/
 #   Used to list any encodings that have been applied to the original payload.
@@ -615,6 +615,10 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # /x-middleware-subrequest/
 #   CVE-2025-29927 (Next.js)
 #
+# /expect/
+#   Blocking this header prevents Expect-based desync attacks
+#   https://portswigger.net/research/http1-must-die#expect-based-desync-attacks
+#
 # Uncomment this rule to change the default.
 #SecAction \
 #    "id:900250,\
@@ -624,7 +628,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    nolog,\
 #    tag:'OWASP_CRS',\
 #    ver:'OWASP_CRS/4.20.0-dev',\
-#    setvar:'tx.restricted_headers_basic=/content-encoding/ /proxy/ /lock-token/ /content-range/ /if/ /x-http-method-override/ /x-http-method/ /x-method-override/ /x-middleware-subrequest/'"
+#    setvar:'tx.restricted_headers_basic=/content-encoding/ /proxy/ /lock-token/ /content-range/ /if/ /x-http-method-override/ /x-http-method/ /x-method-override/ /x-middleware-subrequest/ /expect/'"
 #
 # [ Extended ]
 # Includes deprecated headers that are still in use (so false positives are
