@@ -16,8 +16,8 @@ on:
 # Pin versions to not disrupt test pipelines
 env:
   CRS_TOOLCHAIN_VERSION: '2.3.4'
-  SECRULES_PARSING_VERSION: '0.2.11'
-  CRS_LINTER_VERSION: '0.2.1'
+  SECRULES_PARSING_VERSION: '0.2.12'
+  CRS_LINTER_VERSION: '0.2.2'
 
 jobs:
   check-syntax:
@@ -73,8 +73,8 @@ jobs:
             -T 'tests/regression/tests/' \
             -E 'tests/TESTS_EXCLUSIONS' \
             -d "$(pwd)" \
-            --head-ref "${{ github.head_ref }}" \
-            --commit-message "${{ github.event.head_commit.message }}"
+            --head-ref '${{ github.head_ref }}' \
+            --commit-message '${{ github.event.head_commit.message }}'
 
       - name: "Install crs-toolchain ${{ env.CRS_TOOLCHAIN_VERSION }}"
         env:
