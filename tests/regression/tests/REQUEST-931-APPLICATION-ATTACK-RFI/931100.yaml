@@ -65,7 +65,7 @@ tests:
           log:
             expect_ids: [931100]
   - test_id: 4
-    desc: Remote File Inclusion Attack (931100) - This form should never exist, see comment of the rule.
+    desc: Remote File Inclusion Attack (931100) - This form should not exist per RFC 2732 but may occur due to non-standard implementation.
     stages:
       - input:
           dest_addr: 127.0.0.1
