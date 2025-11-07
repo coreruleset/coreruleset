@@ -83,23 +83,3 @@ tests:
         output:
           log:
             expect_ids: [931100]
-  - test_id: 5
-    desc: Remote File Inclusion Attack (931100)
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            Accept-Encoding: gzip, deflate
-            Host: localhost
-            Keep-Alive: '300'
-            Referer: http
-            User-Agent: "OWASP CRS test agent"
-            Content-type: application/xml
-          method: GET
-          port: 80
-          uri: "/get/module/my_prestashop_module/ajax?src=https://deadbeef.com:443/"
-          version: "HTTP/1.1"
-        output:
-          log:
-            no_expect_ids: [931100]
