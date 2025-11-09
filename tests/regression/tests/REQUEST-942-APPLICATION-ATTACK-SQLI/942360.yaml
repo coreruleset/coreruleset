@@ -683,3 +683,19 @@ tests:
         output:
           log:
             expect_ids: [942360]
+  - test_id: 41
+    desc: "MySQL insert function injection with comment evasion - cannot be catched by this rule"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?test=%2F%2A%27%3BINSERT%20INTO%20categoriy%28id%29%20VALUES%20%283%29--%20-%2A%2F"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942360]
