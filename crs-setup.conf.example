@@ -527,16 +527,16 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # See: https://github.com/owasp-modsecurity/ModSecurity/wiki/Reference-Manual-(v3.x)#ctl
 #
 # Uncomment this rule to change the default.
-#
-#SecAction \
-#    "id:900220,\
-#    phase:1,\
-#    pass,\
-#    t:none,\
-#    nolog,\
-#    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.21.0-dev',\
-#    setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |text/xml| |application/xml| |application/soap+xml| |application/json| |application/reports+json| |application/csp-report|'"
+
+SecAction \
+    "id:900220,\
+    phase:1,\
+    pass,\
+    t:none,\
+    nolog,\
+    tag:'OWASP_CRS',\
+    ver:'OWASP_CRS/4.21.0-dev',\
+    setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |text/xml| |application/xml| |application/soap+xml| |application/json| |application/reports+json| |application/csp-report| |application/x-protobuf|'"
 
 # Allowed HTTP versions.
 # Default: HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0 HTTP/3 HTTP/3.0
