@@ -303,8 +303,12 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # You should not set a blocking threshold higher than 10 - and ideally, you should
 # do everything possible to block at 5.
 #
+# If you don't, keep in mind that you will, at the very least, neutralize most of 
+# the LFI/RFI protection, including safeguards against severe data leakage vulnerabilities,
+# which could likely cause you serious harm.
+#
 # The fact that some providers - such as Cloudflare in 2025 - set a default blocking
-# level of 60 and consider 25 a "high" value is a security absurdity.
+# level of 60 and consider 25 a "high" value is a security nonsense.
 #
 # [ New deployment strategy: Starting high and decreasing ]
 # It is a common practice to start a fresh CRS installation with elevated
