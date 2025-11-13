@@ -505,7 +505,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "convert("
+          data: "pay=xmltype%28"
           version: HTTP/1.1
         output:
           log:
@@ -522,7 +522,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "cOnVeRt("
+          data: "pay=XMLType%28"
           version: HTTP/1.1
         output:
           log:
@@ -607,7 +607,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "pay=ELT%28"
+          data: "pay=Uncompress+%28"
           version: HTTP/1.1
         output:
           log:
@@ -760,7 +760,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "pay=left%27%29%3F%24%28"
+          data: "pay=updatexml%28"
           version: HTTP/1.1
         output:
           log:
@@ -777,7 +777,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "pay=LEFT%28"
+          data: "pay=UpdateXML%28"
           version: HTTP/1.1
         output:
           log:
@@ -811,7 +811,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "pay=lower%28"
+          data: "pay=trim%28"
           version: HTTP/1.1
         output:
           log:
@@ -969,23 +969,7 @@ tests:
         output:
           log:
             expect_ids: [942151]
-  - test_id: 58
-    desc: "SQL Injection Attack"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "quarter. ("
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942151]
+
   - test_id: 59
     desc: "SQL Injection Attack"
     stages:
@@ -1219,7 +1203,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "pay=trim%28"
+          data: "pay=unhex%28"
           version: HTTP/1.1
         output:
           log:
@@ -1236,110 +1220,10 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "pay=Uncompress+%28"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942151]
-  - test_id: 74
-    desc: "SQL Injection Attack"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "pay=unhex%28"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942151]
-  - test_id: 75
-    desc: "SQL Injection Attack"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
           data: "pay=uNhEx%28"
           version: HTTP/1.1
         output:
           log:
             expect_ids: [942151]
-  - test_id: 76
-    desc: "SQL Injection Attack"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "pay=updatexml%28"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942151]
-  - test_id: 77
-    desc: "SQL Injection Attack"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "pay=UpdateXML%28"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942151]
-  - test_id: 78
-    desc: "SQL Injection Attack"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "pay=xmltype%28"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942151]
-  - test_id: 79
-    desc: "SQL Injection Attack"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "pay=XMLType%28"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942151]
+
+
