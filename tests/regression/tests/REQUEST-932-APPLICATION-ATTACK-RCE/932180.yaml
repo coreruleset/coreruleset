@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler, azurit"
+  author: "Franziska Bühler, azurit, Esad Cetiner"
   description: "Restricted File Upload Attempt"
 rule_id: 932180
 tests:
@@ -77,6 +77,60 @@ tests:
 
             BINARYDATA
             --0000--
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 4
+    desc: "False Positive: Matching substring `.boto`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: abc.botox.jpg
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 5
+    desc: "False Positive: Matching substring `mtrr`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: amtrra.jpg
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 6
+    desc: "False Positive: Matching substring `acpi`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: JACpic.jpg
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
         output:
           log:
             no_expect_ids: [932180]
