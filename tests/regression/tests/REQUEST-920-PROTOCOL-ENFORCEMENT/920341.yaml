@@ -1,0 +1,25 @@
+---
+meta:
+  author: "touchweb_vincent"
+  description: "920341 must detect requests that have a `Transfer-Encoding` header but no `Content-Type` header"
+rule_id: 920341
+tests:
+  - test_id: 1
+    desc: Standard POST request with "Transfer-Encoding" header and no "Content-Type" header
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Transfer-Encoding: "chunked"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/module/my_prestashop_module/ajax"
+          version: "HTTP/1.1"
+          data: '{"id_order":"select(sleep(10));"}'
+          autocomplete_headers: false
+        output:
+          log:
+            expect_ids: [920341]
