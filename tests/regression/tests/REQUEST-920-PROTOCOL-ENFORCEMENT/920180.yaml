@@ -60,7 +60,7 @@ tests:
           log:
             expect_ids: [920180]
   - test_id: 4
-    desc: Ignore check of CT header if protocol is HTTP/2
+    desc: Ignore check of CT header if protocol is HTTP/2 - Without content-length header.
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -70,6 +70,7 @@ tests:
             Content-Type: application/x-www-form-urlencoded
             Host: localhost
             Keep-Alive: '300'
+            Content-length:
             Proxy-Connection: keep-alive
             User-Agent: "OWASP CRS test agent"
           method: POST
