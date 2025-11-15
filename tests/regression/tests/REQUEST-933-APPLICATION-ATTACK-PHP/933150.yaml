@@ -14,7 +14,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get/base64_decode"
+          uri: "/get/?test=base64_decode()"
           version: "HTTP/1.1"
         output:
           log:
@@ -126,7 +126,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?I%20don%27t%20like%20gzuncompress"
+          uri: "/get?test=I%20don%27t%20like%20gzuncompress/*comment*/()"
           version: "HTTP/1.1"
         output:
           log:
