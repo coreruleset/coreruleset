@@ -30,7 +30,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?base64_deCOde"
+          uri: "/get?base64_deCOde()"
           version: "HTTP/1.1"
         output:
           log:
@@ -46,7 +46,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?foo=bzdecomprEss"
+          uri: "/get?foo=bzdecomprEss()"
           version: "HTTP/1.1"
         output:
           log:
@@ -62,7 +62,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?foo=FOOcall_user_func"
+          uri: "/get?foo=FOOcall_user_func()"
           version: "HTTP/1.1"
         output:
           log:
@@ -78,7 +78,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?foo=FOOfsockopen"
+          uri: "/get?foo=FOOfsockopen()"
           version: "HTTP/1.1"
         output:
           log:
@@ -94,7 +94,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?foo=FOOgzdecode"
+          uri: "/get?foo=FOOgzdecode()"
           version: "HTTP/1.1"
         output:
           log:
@@ -110,7 +110,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?foo=FOOGzInFlAtE"
+          uri: "/get?foo=FOOGzInFlAtE()"
           version: "HTTP/1.1"
         output:
           log:
@@ -166,7 +166,7 @@ tests:
     desc: shell_exec
     stages:
       - input:
-          data: Shell%5fexec=bla
+          data: test=Shell%5fexec=(bla)
           dest_addr: 127.0.0.1
           headers:
             Host: localhost
@@ -183,7 +183,7 @@ tests:
     desc: ZlIb_DeCoDe
     stages:
       - input:
-          data: ZlIb%5fDeCoDe=bla
+          data: test=ZlIb%5fDeCoDe=(bla)
           dest_addr: 127.0.0.1
           headers:
             Host: localhost
