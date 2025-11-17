@@ -7,14 +7,21 @@
 ##! JWTs consist of base64-urlencoded encoded JSON, and a JSON structure 
 ##! just starts with '{"', which becomes 'ey' when encoded with a base64-urlencoded encoder.
 
-##!> define base64-urlencoded-charset [a-zA-Z0-9_-]+
+##!> define base64-urlencoded-charset [\w\-]+
 ##!> define dot [.]
+##!> define operator_syntax_start ^(
+##!> define operator_syntax_end )$
 
 
 ##!^ ^(
 ##!$ )$
 
 ##!> assemble
+  {{operator_syntax_start}}
+  ##!=>
   ey{{base64-urlencoded-charset}}{{dot}}ey{{base64-urlencoded-charset}}{{dot}}{{base64-urlencoded-charset}}
-  [\w\-]+
+  {{base64-urlencoded-charset}}
+  ##!=>
+  {{operator_syntax_end}}
+  ##!=>
 ##!<
