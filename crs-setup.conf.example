@@ -297,15 +297,14 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # before blocking) or 10 (which would require at least two critical alerts - or
 # a combination of many lesser alerts), or even higher.
 #
-# Increasing the thresholds will inevitably allow certain attacks to slip through,
-# effectively bypassing CRS protections and weakening your overall security posture.
+# Increasing the anomaly score threshold will not only allow some attacks to bypass CRS; 
+# it will also disable a substantial portion of the most critical WAF protections. 
+# In particular, thresholds higher than 5 effectively neutralize many high-severity 
+# rules - including major LFI/RFI safeguards and several protections against severe 
+# data-exfiltration vulnerabilities - which can significantly compromise your system's 
+# overall security.
 #
-# The blocking threshold should never exceed 5, except temporarily during testing.
-#
-# If you set a blocking threshold higher than 5, keep in mind that you will disable
-# more than half of the WAF's critical rules, including most of the LFI/RFI protections
-# and safeguards against severe data leakage vulnerabilities - which could seriously
-# compromise your system's security.
+# The blocking threshold should NEVER exceed 5, except temporarily during testing.
 #
 # The fact that some providers - such as Cloudflare in 2025 - set a default blocking
 # level of 60 and consider 25 a "high" value is a security nonsense.
