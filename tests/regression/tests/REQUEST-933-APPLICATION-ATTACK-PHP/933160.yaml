@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "lifeforms, Franziska Bühler, Max Leske, azurit, Esad Cetiner"
+  author: "lifeforms, Franziska Bühler, Max Leske, azurit, Esad Cetiner, touchweb_vincent"
 rule_id: 933160
 tests:
   - test_id: 1
@@ -792,6 +792,23 @@ tests:
           port: 80
           uri: "/post/?test=printf(foo)"
           version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933160]
+  - test_id: 45
+    desc: Json with a urlencoded payload
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-type: application/json
+          method: GET
+          port: 80
+          uri: '{"payload":"%3C%3Fphp%20eval%2F%2Atest%2A%2F%28%27%3F%3E%3C%3Fphp%20%27.eval%2F%2Atest%2A%2F%28%27return%20base64%27.%27_decode%28eval%2F%2Atest%2A%2F%28base64%27.%27_%27.%27dec%27.%27ode%27.%27%28%22cmV0dXJuICRfR0VUWyd0ZXN0J107%22%29%29%29%3B%27%29%29%3B"}'
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [933160]
