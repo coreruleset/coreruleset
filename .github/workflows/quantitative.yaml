@@ -63,9 +63,9 @@ jobs:
             -s ${{ matrix.size }} \
             -P ${{ matrix.paranoia_level }} \
             -o json -f old_results.json
-          echo -e "\n📊 New Results"
+          echo -e "\n📊 New Foobar Results"
           cat new_results.json | jq .
-          echo -e "\n📊 Old Results"
+          echo -e "\n📊 Old Foobar Results"
           cat old_results.json | jq .
 
           OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old_results.json)
