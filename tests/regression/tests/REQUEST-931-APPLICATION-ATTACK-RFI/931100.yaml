@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, azurit"
+  author: "csanders-git, azurit, touchweb_vincent"
 rule_id: 931100
 tests:
   - test_id: 1
@@ -20,6 +20,65 @@ tests:
           method: GET
           port: 80
           uri: "/get/wp-content/themes/thedawn/lib/scripts/timthumb.php?src=http://66.240.183.75/crash.php"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [931100]
+  - test_id: 2
+    desc: Remote File Inclusion Attack (931100)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate
+            Host: localhost
+            Keep-Alive: '300'
+            Referer: http
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get/module/my_prestashop_module/ajax?src=https://[2001:41d0:701:1100::29c8]/gecko.php"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [931100]
+  - test_id: 3
+    desc: Remote File Inclusion Attack (931100) - POST XML
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate
+            Host: localhost
+            Keep-Alive: '300'
+            Referer: http
+            User-Agent: "OWASP CRS test agent"
+            Content-type: application/xml
+          method: POST
+          uri: "/api/"
+          data: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><catalog><tag>ftp%3A%2F%2F1.1.1.1</tag></catalog>"
+          port: 80
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [931100]
+  - test_id: 4
+    desc: Remote File Inclusion Attack (931100) - This form should not exist per RFC 2732 but may occur due to non-standard implementation.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate
+            Host: localhost
+            Keep-Alive: '300'
+            Referer: http
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get/module/my_prestashop_module/ajax?src=https://2001:41d0:701:1100::29c8/gecko.php"
           version: "HTTP/1.1"
         output:
           log:

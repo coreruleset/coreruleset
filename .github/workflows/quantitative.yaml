@@ -27,10 +27,12 @@ jobs:
       pull-requests: write
     steps:
       - name: "Checkout repo"
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.2
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: "Checkout main repo"
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.2
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
           repository: coreruleset/coreruleset
           ref: 'main'
