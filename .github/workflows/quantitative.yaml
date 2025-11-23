@@ -1,7 +1,7 @@
 name: Quantitative tests
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - main
     paths:
@@ -28,6 +28,8 @@ jobs:
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: "Checkout main repo"
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.2
