@@ -50,6 +50,8 @@ jobs:
       - name: "Run tests for language: ${{ matrix.language }}, year: ${{ matrix.year}}, size: ${{ matrix.size }}, paranoia level: ${{ matrix.paranoia_level }}"
         id: quantitative
         run: |
+          ls
+          pwd
           ./ftw quantitative \
             -L ${{ matrix.language }} \
             -y ${{ matrix.year }} \
