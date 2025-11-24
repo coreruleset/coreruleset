@@ -295,8 +295,20 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # If you want to make the CRS less sensitive, you can increase the blocking
 # thresholds, for instance to 7 (which would require multiple rule matches
 # before blocking) or 10 (which would require at least two critical alerts - or
-# a combination of many lesser alerts), or even higher. However, increasing the
-# thresholds might cause some attacks to bypass the CRS rules or your policies.
+# a combination of many lesser alerts), or even higher.
+#
+# Increasing the anomaly score threshold will not only allow some attacks to bypass CRS;
+# it will also disable a substantial portion of the most critical WAF protections.
+# In particular, thresholds higher than 5 effectively neutralize many high-severity
+# rules - including major LFI/RFI safeguards and several protections against severe
+# data-exfiltration vulnerabilities - which can significantly compromise your system's
+# overall security.
+#
+# The blocking threshold should NEVER be increased beyond the default
+# (5 for for requests, 4 for responses), except temporarily during testing.
+#
+# The fact that some providers - such as Cloudflare in 2025 - set a default blocking
+# level of 60 and consider 25 a "high" value is a security nonsense.
 #
 # [ New deployment strategy: Starting high and decreasing ]
 # It is a common practice to start a fresh CRS installation with elevated
