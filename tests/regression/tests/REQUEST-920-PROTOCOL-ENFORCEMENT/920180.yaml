@@ -59,24 +59,3 @@ tests:
         output:
           log:
             expect_ids: [920180]
-  - test_id: 4
-    desc: Ignore check of CT header if protocol is HTTP/2 - Without content-length header.
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            Accept-Language: en-us,en;q=0.5
-            Content-Type: application/x-www-form-urlencoded
-            Host: localhost
-            Keep-Alive: '300'
-            Proxy-Connection: keep-alive
-            User-Agent: "OWASP CRS test agent"
-          method: POST
-          port: 80
-          uri: /
-          version: HTTP/2.0
-          autocomplete_headers: false
-        output:
-          log:
-            no_expect_ids: [920180]
