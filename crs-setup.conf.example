@@ -617,7 +617,11 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #
 # /expect/
 #   Blocking this header prevents Expect-based desync attacks
-#   https://portswigger.net/research/http1-must-die#expect-based-desync-attacks
+#   https://portswigger.net/research/http1-must-die#expect-based-desync-attacks.
+#
+#   The `System.Net.HttpWebRequest` library in .Net uses this header. Use of the header
+#   can be disabled by setting `ServicePointManager.Expect100Continue` to `false`
+#   (see https://learn.microsoft.com/en-us/dotnet/api/system.net.servicepointmanager.expect100continue?view=net-10.0).
 #
 # Uncomment this rule to change the default.
 #SecAction \
