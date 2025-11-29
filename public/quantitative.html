@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Quantitative Test Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        // Initialize theme immediately to avoid flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            } else {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+            }
+        })();
+    </script>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --header-bg: #0366d6;
+            --header-text: #ffffff;
+            --info-bg: #f4f4f4;
+            --table-border: #ddd;
+            --hover-bg: #f5f5f5;
+            --code-bg: #f4f4f4;
+            --details-bg: #fafafa;
+            --diff-bg: #f5f5f5;
+            --timestamp-color: #666;
+            --table-header-bg: #e8e8e8;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --header-bg: #0366d6;
+            --header-text: #ffffff;
+            --info-bg: #2d2d2d;
+            --table-border: #444;
+            --hover-bg: #2d2d2d;
+            --code-bg: #2d2d2d;
+            --details-bg: #252525;
+            --diff-bg: #2d2d2d;
+            --timestamp-color: #999;
+            --table-header-bg: #333;
+        }
+        
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 1400px; 
+            margin: 50px auto; 
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        h1 { 
+            color: var(--text-color);
+            margin: 0;
+        }
+        .info { background: var(--info-bg); padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .info strong { color: var(--header-bg); }
+        .theme-btn { 
+            padding: 4px 8px; 
+            border: 1px solid var(--table-border); 
+            background: var(--info-bg); 
+            color: var(--text-color);
+            border-radius: 4px; 
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        .theme-btn:hover { 
+            background: var(--hover-bg);
+        }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid var(--table-border); padding: 12px; text-align: center; }
+        th { background-color: var(--header-bg); color: var(--header-text); position: sticky; top: 0; }
+        tbody tr:hover { background-color: var(--hover-bg); }
+        .change-increase { background-color: #ffebee; color: #c62828; font-weight: bold; padding: 8px; border-radius: 4px; }
+        .change-decrease { background-color: #e8f5e9; color: #2e7d32; font-weight: bold; padding: 8px; border-radius: 4px; }
+        .change-same { background-color: var(--hover-bg); color: #757575; padding: 8px; border-radius: 4px; }
+        .timestamp { color: var(--timestamp-color); font-size: 0.9em; }
+        code { background: var(--code-bg); padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+        .details-row { display: none; }
+        .details-row.show { display: table-row; }
+        .details-cell { background-color: var(--details-bg); padding: 20px; border: 1px solid var(--table-border); text-align: left;}
+        .diff-content { background: var(--diff-bg); padding: 15px; border-radius: 4px; overflow-x: auto; white-space: pre; font-family: monospace; font-size: 12px; }
+        .details-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .details-table th, .details-table td { border: 1px solid var(--table-border); padding: 8px; text-align: left; }
+        .details-table th { background-color: var(--table-header-bg); font-weight: bold; }
+        a { color: var(--header-bg); }
+        .chart-container { background: var(--info-bg); padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .chart-container canvas { max-height: 400px; }
+    </style>
+    <script>
+        function toggleDetails(rowId) {
+            const detailsRow = document.getElementById('details-' + rowId);
+            const link = document.getElementById('link-' + rowId);
+            if (detailsRow) {
+                detailsRow.classList.toggle('show');
+                if (link) {
+                    link.textContent = detailsRow.classList.contains('show') ? 'Hide' : 'Show';
+                }
+            }
+        }
+        
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update chart colors when theme changes
+            if (window.fpChart) {
+                updateChartTheme();
+            }
+        }
+        
+        let fpChart = null;
+        
+        function updateChartTheme() {
+            if (!fpChart) return;
+            
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const gridColor = isDark ? '#444' : '#ddd';
+            const textColor = isDark ? '#e0e0e0' : '#333333';
+            
+            fpChart.options.scales.x.ticks.color = textColor;
+            fpChart.options.scales.x.grid.color = gridColor;
+            fpChart.options.scales.y.ticks.color = textColor;
+            fpChart.options.scales.y.grid.color = gridColor;
+            fpChart.options.plugins.legend.labels.color = textColor;
+            fpChart.update();
+        }
+        
+        async function loadTrendChart() {
+            console.log('loadTrendChart called');
+            
+            // Check if canvas exists
+            const canvas = document.getElementById('fpTrendChart');
+            if (!canvas) {
+                console.error('Canvas element not found');
+                return;
+            }
+            
+            // Get report data from embedded JSON
+            const reportDataElement = document.getElementById('report-data');
+            if (!reportDataElement) {
+                console.error('Report data element not found');
+                return;
+            }
+            
+            let reports = [];
+            try {
+                reports = JSON.parse(reportDataElement.textContent);
+                console.log('Loaded reports from embedded data:', reports.length);
+            } catch (e) {
+                console.error('Failed to parse report data:', e);
+                return;
+            }
+            
+            // If no reports found, skip chart rendering
+            if (reports.length === 0) {
+                console.log('No reports found, skipping chart rendering');
+                return;
+            }
+            
+            // If chart already exists, destroy it first
+            if (fpChart) {
+                fpChart.destroy();
+                fpChart = null;
+            }
+            
+            // Sort by date/time (oldest first)
+            reports.sort((a, b) => {
+                const aKey = `${a.date}_${a.time}`;
+                const bKey = `${b.date}_${b.time}`;
+                return aKey.localeCompare(bKey);
+            });
+            
+            // Extract data for chart
+            const labels = reports.map(r => r.timestamp || r.date || 'Unknown');
+            const totalFPs = reports.map(r => Number(r.falsePositives) || 0);
+            const pl1Data = reports.map(r => Number(r.falsePositivesPerParanoiaLevel?.["1"]) || 0);
+            const pl2Data = reports.map(r => Number(r.falsePositivesPerParanoiaLevel?.["2"]) || 0);
+            const pl3Data = reports.map(r => Number(r.falsePositivesPerParanoiaLevel?.["3"]) || 0);
+            const pl4Data = reports.map(r => Number(r.falsePositivesPerParanoiaLevel?.["4"]) || 0);
+            
+            console.log('Chart data:', { labels, totalFPs, pl1Data, pl2Data, pl3Data, pl4Data });
+            
+            // Determine theme colors
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const gridColor = isDark ? '#444' : '#ddd';
+            const textColor = isDark ? '#ffffff' : '#333333';
+            const axisColor = isDark ? '#ffffff' : '#000000';
+            
+            // Define theme-aware colors with high contrast
+            const colors = isDark ? {
+                total: { border: '#58b4ff', bg: 'rgba(88, 180, 255, 0.25)' },
+                pl1: { border: '#ff6b6b', bg: 'rgba(255, 107, 107, 0.25)' },
+                pl2: { border: '#ffa94d', bg: 'rgba(255, 169, 77, 0.25)' },
+                pl3: { border: '#ffd93d', bg: 'rgba(255, 217, 61, 0.25)' },
+                pl4: { border: '#6bcf7f', bg: 'rgba(107, 207, 127, 0.25)' }
+            } : {
+                total: { border: '#0052cc', bg: 'rgba(0, 82, 204, 0.12)' },
+                pl1: { border: '#cb2431', bg: 'rgba(203, 36, 49, 0.12)' },
+                pl2: { border: '#d5651d', bg: 'rgba(213, 101, 29, 0.12)' },
+                pl3: { border: '#9a6b38', bg: 'rgba(154, 107, 56, 0.12)' },
+                pl4: { border: '#1a7f37', bg: 'rgba(26, 127, 55, 0.12)' }
+            };
+            
+            // Create chart
+            const ctx = document.getElementById('fpTrendChart').getContext('2d');
+            fpChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Total False Positives',
+                            data: totalFPs,
+                            borderColor: colors.total.border,
+                            backgroundColor: colors.total.bg,
+                            borderWidth: 3,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'PL1',
+                            data: pl1Data,
+                            borderColor: colors.pl1.border,
+                            backgroundColor: colors.pl1.bg,
+                            borderWidth: 2,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'PL2',
+                            data: pl2Data,
+                            borderColor: colors.pl2.border,
+                            backgroundColor: colors.pl2.bg,
+                            borderWidth: 2,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'PL3',
+                            data: pl3Data,
+                            borderColor: colors.pl3.border,
+                            backgroundColor: colors.pl3.bg,
+                            borderWidth: 2,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'PL4',
+                            data: pl4Data,
+                            borderColor: colors.pl4.border,
+                            backgroundColor: colors.pl4.bg,
+                            borderWidth: 2,
+                            tension: 0.1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: textColor,
+                                usePointStyle: true,
+                                padding: 15
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'False Positives Trend Over Time',
+                            color: textColor,
+                            font: {
+                                size: 16
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: isDark ? '#2d2d2d' : '#ffffff',
+                            titleColor: textColor,
+                            bodyColor: textColor,
+                            borderColor: gridColor,
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: axisColor,
+                                maxRotation: 45,
+                                minRotation: 45,
+                                font: {
+                                    size: 12,
+                                    weight: isDark ? 'bold' : 'normal'
+                                }
+                            },
+                            grid: {
+                                color: gridColor
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date',
+                                color: axisColor,
+                                font: {
+                                    size: 13,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: axisColor,
+                                stepSize: 1,
+                                font: {
+                                    size: 12,
+                                    weight: isDark ? 'bold' : 'normal'
+                                }
+                            },
+                            grid: {
+                                color: gridColor
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10,
+                            title: {
+                                display: true,
+                                text: 'False Positives',
+                                color: axisColor,
+                                font: {
+                                    size: 13,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Load chart when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            // Try loading chart immediately
+            loadTrendChart();
+            
+            // Also try after a short delay in case DOM is still being parsed
+            setTimeout(loadTrendChart, 100);
+        });
+    </script>
+</head>
+<body>
+    <div class="header-container">
+        <h1>📊 Weekly Quantitative Test Results</h1>
+        <button class="theme-btn" onclick="toggleTheme()">🌓</button>
+    </div>
+    <p class="timestamp">Last updated: 2025-11-29 10:26:19 UTC</p>
+    
+    <div class="info">
+        <strong>Configuration:</strong> Language: eng | Year: 2023 | Size: 10K | Paranoia Level: 2
+    </div>
+    
+    <div class="chart-container">
+        <canvas id="fpTrendChart"></canvas>
+    </div>
+    
+    <h2>Test History</h2>
+    
+    <script id="report-data" type="application/json">
+    [{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583,"date":"2025-11-29","time":"102619","timestamp":"2025-11-29 10:26"},{"count":100000,"falsePositives":6059,"falsePositivesPerParanoiaLevel":{"1":869,"2":5190},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":92},"932200":{"paranoiaLevel":2,"falsePositives":168},"932230":{"paranoiaLevel":1,"falsePositives":254},"932231":{"paranoiaLevel":2,"falsePositives":52},"932235":{"paranoiaLevel":1,"falsePositives":298},"932236":{"paranoiaLevel":2,"falsePositives":2071},"932240":{"paranoiaLevel":2,"falsePositives":115},"932250":{"paranoiaLevel":1,"falsePositives":256},"932260":{"paranoiaLevel":1,"falsePositives":5},"932271":{"paranoiaLevel":2,"falsePositives":17},"932371":{"paranoiaLevel":2,"falsePositives":3},"933160":{"paranoiaLevel":1,"falsePositives":8},"934101":{"paranoiaLevel":2,"falsePositives":1},"941320":{"paranoiaLevel":2,"falsePositives":6},"941390":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":23},"942120":{"paranoiaLevel":2,"falsePositives":7},"942130":{"paranoiaLevel":2,"falsePositives":4},"942131":{"paranoiaLevel":2,"falsePositives":649},"942140":{"paranoiaLevel":1,"falsePositives":1},"942150":{"paranoiaLevel":2,"falsePositives":60},"942151":{"paranoiaLevel":1,"falsePositives":1},"942180":{"paranoiaLevel":2,"falsePositives":22},"942190":{"paranoiaLevel":1,"falsePositives":6},"942200":{"paranoiaLevel":2,"falsePositives":1252},"942210":{"paranoiaLevel":2,"falsePositives":48},"942260":{"paranoiaLevel":2,"falsePositives":16},"942300":{"paranoiaLevel":2,"falsePositives":6},"942310":{"paranoiaLevel":2,"falsePositives":17},"942330":{"paranoiaLevel":2,"falsePositives":7},"942340":{"paranoiaLevel":2,"falsePositives":20},"942360":{"paranoiaLevel":1,"falsePositives":16},"942362":{"paranoiaLevel":2,"falsePositives":5},"942370":{"paranoiaLevel":2,"falsePositives":41},"942380":{"paranoiaLevel":2,"falsePositives":50},"942390":{"paranoiaLevel":2,"falsePositives":131},"942400":{"paranoiaLevel":2,"falsePositives":14},"942410":{"paranoiaLevel":2,"falsePositives":61},"942430":{"paranoiaLevel":2,"falsePositives":22},"942440":{"paranoiaLevel":2,"falsePositives":203},"942480":{"paranoiaLevel":2,"falsePositives":2},"942520":{"paranoiaLevel":2,"falsePositives":23},"942521":{"paranoiaLevel":2,"falsePositives":5}},"skipped":0,"totalTimeSeconds":26.556619166,"date":"2025-11-29","time":"102621","timestamp":"2025-11-29 10:26"},{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583,"date":"2025-11-29","time":"102651","timestamp":"2025-11-29 10:26"},{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583,"date":"2025-11-29","time":"104106","timestamp":"2025-11-29 10:41"}]
+    </script>
+    
+    <table id="results-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Commit</th>
+                <th>Duration</th>
+                <th>False Positives</th>
+                <th>Change</th>
+                <th>PL1</th>
+                <th>PL2</th>
+                <th>PL3</th>
+                <th>PL4</th>
+                <th>Diff</th>
+                <th>Raw</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2025-11-29</td>
+                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillbethere2" target="_blank"><code>shawillb</code></a></td>
+                <td>0.04 min</td>
+                <td>572</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td><a href="javascript:void(0);" id="link-2025-11-29_104106_shawillb" onclick="toggleDetails('2025-11-29_104106_shawillb'); return false;">Show</a></td>
+                <td><a href="reports/2025-11-29_104106_shawillb.json" target="_blank">📄</a></td>
+            </tr>
+            <tr id="details-2025-11-29_104106_shawillb" class="details-row">
+                <td colspan="11" class="details-cell">
+                    <h3>Diff from Previous Run</h3>
+                    <p><em>No previous run available for comparison</em></p>
+                </td>
+            </tr>
+            <tr>
+                <td>2025-11-29</td>
+                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillbethere2" target="_blank"><code>shawillb</code></a></td>
+                <td>0.04 min</td>
+                <td>572</td>
+                <td class="change-decrease">▼ -5487</td>
+                <td class="change-decrease">▼ -785</td>
+                <td class="change-decrease">▼ -4702</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td><a href="javascript:void(0);" id="link-2025-11-29_102651_shawillb" onclick="toggleDetails('2025-11-29_102651_shawillb'); return false;">Show</a></td>
+                <td><a href="reports/2025-11-29_102651_shawillb.json" target="_blank">📄</a></td>
+            </tr>
+            <tr id="details-2025-11-29_102651_shawillb" class="details-row">
+                <td colspan="11" class="details-cell">
+                    <h3>Diff from Previous Run</h3>
+                    <div class="diff-content">2,3c2,3
+&lt;   &quot;count&quot;: 100000,
+&lt;   &quot;falsePositives&quot;: 6059,
+---
+&gt;   &quot;count&quot;: 10000,
+&gt;   &quot;falsePositives&quot;: 572,
+5,6c5,6
+&lt;     &quot;1&quot;: 869,
+&lt;     &quot;2&quot;: 5190
+---
+&gt;     &quot;1&quot;: 84,
+&gt;     &quot;2&quot;: 488
+11c11
+&lt;       &quot;falsePositives&quot;: 92
+---
+&gt;       &quot;falsePositives&quot;: 12
+15c15
+&lt;       &quot;falsePositives&quot;: 168
+---
+&gt;       &quot;falsePositives&quot;: 14
+19c19
+&lt;       &quot;falsePositives&quot;: 254
+---
+&gt;       &quot;falsePositives&quot;: 28
+23c23
+&lt;       &quot;falsePositives&quot;: 52
+---
+&gt;       &quot;falsePositives&quot;: 6
+27c27
+&lt;       &quot;falsePositives&quot;: 298
+---
+&gt;       &quot;falsePositives&quot;: 24
+31c31
+&lt;       &quot;falsePositives&quot;: 2071
+---
+&gt;       &quot;falsePositives&quot;: 203
+35c35
+&lt;       &quot;falsePositives&quot;: 115
+---
+&gt;       &quot;falsePositives&quot;: 9
+39c39
+&lt;       &quot;falsePositives&quot;: 256
+---
+&gt;       &quot;falsePositives&quot;: 28
+41,44d40
+&lt;     &quot;932260&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 1,
+&lt;       &quot;falsePositives&quot;: 5
+&lt;     },
+47c43
+&lt;       &quot;falsePositives&quot;: 17
+---
+&gt;       &quot;falsePositives&quot;: 2
+49,52d44
+&lt;     &quot;932371&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 2,
+&lt;       &quot;falsePositives&quot;: 3
+&lt;     },
+55,58d46
+&lt;       &quot;falsePositives&quot;: 8
+&lt;     },
+&lt;     &quot;934101&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 2,
+61,65c49
+&lt;     &quot;941320&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 2,
+&lt;       &quot;falsePositives&quot;: 6
+&lt;     },
+&lt;     &quot;941390&quot;: {
+---
+&gt;     &quot;942100&quot;: {
+69,80d52
+&lt;     &quot;942100&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 1,
+&lt;       &quot;falsePositives&quot;: 23
+&lt;     },
+&lt;     &quot;942120&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 2,
+&lt;       &quot;falsePositives&quot;: 7
+&lt;     },
+&lt;     &quot;942130&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 2,
+&lt;       &quot;falsePositives&quot;: 4
+&lt;     },
+83c55
+&lt;       &quot;falsePositives&quot;: 649
+---
+&gt;       &quot;falsePositives&quot;: 52
+85,88d56
+&lt;     &quot;942140&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 1,
+&lt;       &quot;falsePositives&quot;: 1
+&lt;     },
+91c59
+&lt;       &quot;falsePositives&quot;: 60
+---
+&gt;       &quot;falsePositives&quot;: 6
+93,96d60
+&lt;     &quot;942151&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 1,
+&lt;       &quot;falsePositives&quot;: 1
+&lt;     },
+99c63
+&lt;       &quot;falsePositives&quot;: 22
+---
+&gt;       &quot;falsePositives&quot;: 1
+101,104d64
+&lt;     &quot;942190&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 1,
+&lt;       &quot;falsePositives&quot;: 6
+&lt;     },
+107c67
+&lt;       &quot;falsePositives&quot;: 1252
+---
+&gt;       &quot;falsePositives&quot;: 121
+111c71
+&lt;       &quot;falsePositives&quot;: 48
+---
+&gt;       &quot;falsePositives&quot;: 3
+113,115c73,75
+&lt;     &quot;942260&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 2,
+&lt;       &quot;falsePositives&quot;: 16
+---
+&gt;     &quot;942230&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 1,
+&gt;       &quot;falsePositives&quot;: 1
+117,132d76
+&lt;     &quot;942300&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 2,
+&lt;       &quot;falsePositives&quot;: 6
+&lt;     },
+&lt;     &quot;942310&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 2,
+&lt;       &quot;falsePositives&quot;: 17
+&lt;     },
+&lt;     &quot;942330&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 2,
+&lt;       &quot;falsePositives&quot;: 7
+&lt;     },
+&lt;     &quot;942340&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 2,
+&lt;       &quot;falsePositives&quot;: 20
+&lt;     },
+135c79
+&lt;       &quot;falsePositives&quot;: 16
+---
+&gt;       &quot;falsePositives&quot;: 1
+137,140d80
+&lt;     &quot;942362&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 2,
+&lt;       &quot;falsePositives&quot;: 5
+&lt;     },
+143c83
+&lt;       &quot;falsePositives&quot;: 41
+---
+&gt;       &quot;falsePositives&quot;: 2
+147c87
+&lt;       &quot;falsePositives&quot;: 50
+---
+&gt;       &quot;falsePositives&quot;: 5
+151c91
+&lt;       &quot;falsePositives&quot;: 131
+---
+&gt;       &quot;falsePositives&quot;: 15
+155c95
+&lt;       &quot;falsePositives&quot;: 14
+---
+&gt;       &quot;falsePositives&quot;: 2
+159c99
+&lt;       &quot;falsePositives&quot;: 61
+---
+&gt;       &quot;falsePositives&quot;: 7
+163c103
+&lt;       &quot;falsePositives&quot;: 22
+---
+&gt;       &quot;falsePositives&quot;: 4
+167c107
+&lt;       &quot;falsePositives&quot;: 203
+---
+&gt;       &quot;falsePositives&quot;: 20
+169,172d108
+&lt;     &quot;942480&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 2,
+&lt;       &quot;falsePositives&quot;: 2
+&lt;     },
+175c111
+&lt;       &quot;falsePositives&quot;: 23
+---
+&gt;       &quot;falsePositives&quot;: 3
+179c115
+&lt;       &quot;falsePositives&quot;: 5
+---
+&gt;       &quot;falsePositives&quot;: 1
+183c119
+&lt;   &quot;totalTimeSeconds&quot;: 26.556619166
+---
+&gt;   &quot;totalTimeSeconds&quot;: 2.638741583</div>
+                </td>
+            </tr>
+            <tr>
+                <td>2025-11-29</td>
+                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillbethere2" target="_blank"><code>shawillb</code></a></td>
+                <td>0.44 min</td>
+                <td>6059</td>
+                <td class="change-increase">▲ +5487</td>
+                <td class="change-increase">▲ +785</td>
+                <td class="change-increase">▲ +4702</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td><a href="javascript:void(0);" id="link-2025-11-29_102621_shawillb" onclick="toggleDetails('2025-11-29_102621_shawillb'); return false;">Show</a></td>
+                <td><a href="reports/2025-11-29_102621_shawillb.json" target="_blank">📄</a></td>
+            </tr>
+            <tr id="details-2025-11-29_102621_shawillb" class="details-row">
+                <td colspan="11" class="details-cell">
+                    <h3>Diff from Previous Run</h3>
+                    <div class="diff-content">2,3c2,3
+&lt;   &quot;count&quot;: 10000,
+&lt;   &quot;falsePositives&quot;: 572,
+---
+&gt;   &quot;count&quot;: 100000,
+&gt;   &quot;falsePositives&quot;: 6059,
+5,6c5,6
+&lt;     &quot;1&quot;: 84,
+&lt;     &quot;2&quot;: 488
+---
+&gt;     &quot;1&quot;: 869,
+&gt;     &quot;2&quot;: 5190
+11c11
+&lt;       &quot;falsePositives&quot;: 12
+---
+&gt;       &quot;falsePositives&quot;: 92
+15c15
+&lt;       &quot;falsePositives&quot;: 14
+---
+&gt;       &quot;falsePositives&quot;: 168
+19c19
+&lt;       &quot;falsePositives&quot;: 28
+---
+&gt;       &quot;falsePositives&quot;: 254
+23c23
+&lt;       &quot;falsePositives&quot;: 6
+---
+&gt;       &quot;falsePositives&quot;: 52
+27c27
+&lt;       &quot;falsePositives&quot;: 24
+---
+&gt;       &quot;falsePositives&quot;: 298
+31c31
+&lt;       &quot;falsePositives&quot;: 203
+---
+&gt;       &quot;falsePositives&quot;: 2071
+35c35
+&lt;       &quot;falsePositives&quot;: 9
+---
+&gt;       &quot;falsePositives&quot;: 115
+39c39
+&lt;       &quot;falsePositives&quot;: 28
+---
+&gt;       &quot;falsePositives&quot;: 256
+40a41,44
+&gt;     &quot;932260&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 1,
+&gt;       &quot;falsePositives&quot;: 5
+&gt;     },
+43c47
+&lt;       &quot;falsePositives&quot;: 2
+---
+&gt;       &quot;falsePositives&quot;: 17
+44a49,52
+&gt;     &quot;932371&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 2,
+&gt;       &quot;falsePositives&quot;: 3
+&gt;     },
+46a55,58
+&gt;       &quot;falsePositives&quot;: 8
+&gt;     },
+&gt;     &quot;934101&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 2,
+49c61,65
+&lt;     &quot;942100&quot;: {
+---
+&gt;     &quot;941320&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 2,
+&gt;       &quot;falsePositives&quot;: 6
+&gt;     },
+&gt;     &quot;941390&quot;: {
+52a69,80
+&gt;     &quot;942100&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 1,
+&gt;       &quot;falsePositives&quot;: 23
+&gt;     },
+&gt;     &quot;942120&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 2,
+&gt;       &quot;falsePositives&quot;: 7
+&gt;     },
+&gt;     &quot;942130&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 2,
+&gt;       &quot;falsePositives&quot;: 4
+&gt;     },
+55c83
+&lt;       &quot;falsePositives&quot;: 52
+---
+&gt;       &quot;falsePositives&quot;: 649
+56a85,88
+&gt;     &quot;942140&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 1,
+&gt;       &quot;falsePositives&quot;: 1
+&gt;     },
+59c91
+&lt;       &quot;falsePositives&quot;: 6
+---
+&gt;       &quot;falsePositives&quot;: 60
+60a93,96
+&gt;     &quot;942151&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 1,
+&gt;       &quot;falsePositives&quot;: 1
+&gt;     },
+63c99
+&lt;       &quot;falsePositives&quot;: 1
+---
+&gt;       &quot;falsePositives&quot;: 22
+64a101,104
+&gt;     &quot;942190&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 1,
+&gt;       &quot;falsePositives&quot;: 6
+&gt;     },
+67c107
+&lt;       &quot;falsePositives&quot;: 121
+---
+&gt;       &quot;falsePositives&quot;: 1252
+71c111
+&lt;       &quot;falsePositives&quot;: 3
+---
+&gt;       &quot;falsePositives&quot;: 48
+73,75c113,115
+&lt;     &quot;942230&quot;: {
+&lt;       &quot;paranoiaLevel&quot;: 1,
+&lt;       &quot;falsePositives&quot;: 1
+---
+&gt;     &quot;942260&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 2,
+&gt;       &quot;falsePositives&quot;: 16
+76a117,132
+&gt;     &quot;942300&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 2,
+&gt;       &quot;falsePositives&quot;: 6
+&gt;     },
+&gt;     &quot;942310&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 2,
+&gt;       &quot;falsePositives&quot;: 17
+&gt;     },
+&gt;     &quot;942330&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 2,
+&gt;       &quot;falsePositives&quot;: 7
+&gt;     },
+&gt;     &quot;942340&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 2,
+&gt;       &quot;falsePositives&quot;: 20
+&gt;     },
+79c135
+&lt;       &quot;falsePositives&quot;: 1
+---
+&gt;       &quot;falsePositives&quot;: 16
+80a137,140
+&gt;     &quot;942362&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 2,
+&gt;       &quot;falsePositives&quot;: 5
+&gt;     },
+83c143
+&lt;       &quot;falsePositives&quot;: 2
+---
+&gt;       &quot;falsePositives&quot;: 41
+87c147
+&lt;       &quot;falsePositives&quot;: 5
+---
+&gt;       &quot;falsePositives&quot;: 50
+91c151
+&lt;       &quot;falsePositives&quot;: 15
+---
+&gt;       &quot;falsePositives&quot;: 131
+95c155
+&lt;       &quot;falsePositives&quot;: 2
+---
+&gt;       &quot;falsePositives&quot;: 14
+99c159
+&lt;       &quot;falsePositives&quot;: 7
+---
+&gt;       &quot;falsePositives&quot;: 61
+103c163
+&lt;       &quot;falsePositives&quot;: 4
+---
+&gt;       &quot;falsePositives&quot;: 22
+107c167
+&lt;       &quot;falsePositives&quot;: 20
+---
+&gt;       &quot;falsePositives&quot;: 203
+108a169,172
+&gt;     &quot;942480&quot;: {
+&gt;       &quot;paranoiaLevel&quot;: 2,
+&gt;       &quot;falsePositives&quot;: 2
+&gt;     },
+111c175
+&lt;       &quot;falsePositives&quot;: 3
+---
+&gt;       &quot;falsePositives&quot;: 23
+115c179
+&lt;       &quot;falsePositives&quot;: 1
+---
+&gt;       &quot;falsePositives&quot;: 5
+119c183
+&lt;   &quot;totalTimeSeconds&quot;: 2.638741583
+---
+&gt;   &quot;totalTimeSeconds&quot;: 26.556619166</div>
+                </td>
+            </tr>
+            <tr>
+                <td>2025-11-29</td>
+                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillbethere2" target="_blank"><code>shawillb</code></a></td>
+                <td>0.04 min</td>
+                <td>572</td>
+                <td class="change-increase">▲ +572</td>
+                <td class="change-increase">▲ +84</td>
+                <td class="change-increase">▲ +488</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td><a href="javascript:void(0);" id="link-2025-11-29_102619_shawillb" onclick="toggleDetails('2025-11-29_102619_shawillb'); return false;">Show</a></td>
+                <td><a href="reports/2025-11-29_102619_shawillb.json" target="_blank">📄</a></td>
+            </tr>
+            <tr id="details-2025-11-29_102619_shawillb" class="details-row">
+                <td colspan="11" class="details-cell">
+                    <h3>Diff from Previous Run</h3>
+                    <p><em>No previous run available for comparison</em></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

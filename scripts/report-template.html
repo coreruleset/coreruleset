@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Quantitative Test Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        // Initialize theme immediately to avoid flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            } else {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+            }
+        })();
+    </script>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --header-bg: #0366d6;
+            --header-text: #ffffff;
+            --info-bg: #f4f4f4;
+            --table-border: #ddd;
+            --hover-bg: #f5f5f5;
+            --code-bg: #f4f4f4;
+            --details-bg: #fafafa;
+            --diff-bg: #f5f5f5;
+            --timestamp-color: #666;
+            --table-header-bg: #e8e8e8;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --header-bg: #0366d6;
+            --header-text: #ffffff;
+            --info-bg: #2d2d2d;
+            --table-border: #444;
+            --hover-bg: #2d2d2d;
+            --code-bg: #2d2d2d;
+            --details-bg: #252525;
+            --diff-bg: #2d2d2d;
+            --timestamp-color: #999;
+            --table-header-bg: #333;
+        }
+        
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 1400px; 
+            margin: 50px auto; 
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        h1 { 
+            color: var(--text-color);
+            margin: 0;
+        }
+        .info { background: var(--info-bg); padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .info strong { color: var(--header-bg); }
+        .theme-btn { 
+            padding: 4px 8px; 
+            border: 1px solid var(--table-border); 
+            background: var(--info-bg); 
+            color: var(--text-color);
+            border-radius: 4px; 
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        .theme-btn:hover { 
+            background: var(--hover-bg);
+        }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid var(--table-border); padding: 12px; text-align: center; }
+        th { background-color: var(--header-bg); color: var(--header-text); position: sticky; top: 0; }
+        tbody tr:hover { background-color: var(--hover-bg); }
+        .change-increase { background-color: #ffebee; color: #c62828; font-weight: bold; padding: 8px; border-radius: 4px; }
+        .change-decrease { background-color: #e8f5e9; color: #2e7d32; font-weight: bold; padding: 8px; border-radius: 4px; }
+        .change-same { background-color: var(--hover-bg); color: #757575; padding: 8px; border-radius: 4px; }
+        .timestamp { color: var(--timestamp-color); font-size: 0.9em; }
+        code { background: var(--code-bg); padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+        .details-row { display: none; }
+        .details-row.show { display: table-row; }
+        .details-cell { background-color: var(--details-bg); padding: 20px; border: 1px solid var(--table-border); text-align: left;}
+        .diff-content { background: var(--diff-bg); padding: 15px; border-radius: 4px; overflow-x: auto; white-space: pre; font-family: monospace; font-size: 12px; }
+        .details-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .details-table th, .details-table td { border: 1px solid var(--table-border); padding: 8px; text-align: left; }
+        .details-table th { background-color: var(--table-header-bg); font-weight: bold; }
+        a { color: var(--header-bg); }
+        .chart-container { background: var(--info-bg); padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .chart-container canvas { max-height: 400px; }
+    </style>
+    <script>
+        function toggleDetails(rowId) {
+            const detailsRow = document.getElementById('details-' + rowId);
+            const link = document.getElementById('link-' + rowId);
+            if (detailsRow) {
+                detailsRow.classList.toggle('show');
+                if (link) {
+                    link.textContent = detailsRow.classList.contains('show') ? 'Hide' : 'Show';
+                }
+            }
+        }
+        
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update chart colors when theme changes
+            if (window.fpChart) {
+                updateChartTheme();
+            }
+        }
+        
+        let fpChart = null;
+        
+        function updateChartTheme() {
+            if (!fpChart) return;
+            
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const gridColor = isDark ? '#444' : '#ddd';
+            const textColor = isDark ? '#e0e0e0' : '#333333';
+            
+            fpChart.options.scales.x.ticks.color = textColor;
+            fpChart.options.scales.x.grid.color = gridColor;
+            fpChart.options.scales.y.ticks.color = textColor;
+            fpChart.options.scales.y.grid.color = gridColor;
+            fpChart.options.plugins.legend.labels.color = textColor;
+            fpChart.update();
+        }
+        
+        async function loadTrendChart() {
+            console.log('loadTrendChart called');
+            
+            // Check if canvas exists
+            const canvas = document.getElementById('fpTrendChart');
+            if (!canvas) {
+                console.error('Canvas element not found');
+                return;
+            }
+            
+            // Get report data from embedded JSON
+            const reportDataElement = document.getElementById('report-data');
+            if (!reportDataElement) {
+                console.error('Report data element not found');
+                return;
+            }
+            
+            let reports = [];
+            try {
+                reports = JSON.parse(reportDataElement.textContent);
+                console.log('Loaded reports from embedded data:', reports.length);
+            } catch (e) {
+                console.error('Failed to parse report data:', e);
+                return;
+            }
+            
+            // If no reports found, skip chart rendering
+            if (reports.length === 0) {
+                console.log('No reports found, skipping chart rendering');
+                return;
+            }
+            
+            // If chart already exists, destroy it first
+            if (fpChart) {
+                fpChart.destroy();
+                fpChart = null;
+            }
+            
+            // Sort by date/time (oldest first)
+            reports.sort((a, b) => {
+                const aKey = `${a.date}_${a.time}`;
+                const bKey = `${b.date}_${b.time}`;
+                return aKey.localeCompare(bKey);
+            });
+            
+            // Extract data for chart
+            const labels = reports.map(r => r.timestamp || r.date || 'Unknown');
+            const totalFPs = reports.map(r => Number(r.falsePositives) || 0);
+            const pl1Data = reports.map(r => Number(r.falsePositivesPerParanoiaLevel?.["1"]) || 0);
+            const pl2Data = reports.map(r => Number(r.falsePositivesPerParanoiaLevel?.["2"]) || 0);
+            const pl3Data = reports.map(r => Number(r.falsePositivesPerParanoiaLevel?.["3"]) || 0);
+            const pl4Data = reports.map(r => Number(r.falsePositivesPerParanoiaLevel?.["4"]) || 0);
+            
+            console.log('Chart data:', { labels, totalFPs, pl1Data, pl2Data, pl3Data, pl4Data });
+            
+            // Determine theme colors
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const gridColor = isDark ? '#444' : '#ddd';
+            const textColor = isDark ? '#ffffff' : '#333333';
+            const axisColor = isDark ? '#ffffff' : '#000000';
+            
+            // Define theme-aware colors with high contrast
+            const colors = isDark ? {
+                total: { border: '#58b4ff', bg: 'rgba(88, 180, 255, 0.25)' },
+                pl1: { border: '#ff6b6b', bg: 'rgba(255, 107, 107, 0.25)' },
+                pl2: { border: '#ffa94d', bg: 'rgba(255, 169, 77, 0.25)' },
+                pl3: { border: '#ffd93d', bg: 'rgba(255, 217, 61, 0.25)' },
+                pl4: { border: '#6bcf7f', bg: 'rgba(107, 207, 127, 0.25)' }
+            } : {
+                total: { border: '#0052cc', bg: 'rgba(0, 82, 204, 0.12)' },
+                pl1: { border: '#cb2431', bg: 'rgba(203, 36, 49, 0.12)' },
+                pl2: { border: '#d5651d', bg: 'rgba(213, 101, 29, 0.12)' },
+                pl3: { border: '#9a6b38', bg: 'rgba(154, 107, 56, 0.12)' },
+                pl4: { border: '#1a7f37', bg: 'rgba(26, 127, 55, 0.12)' }
+            };
+            
+            // Create chart
+            const ctx = document.getElementById('fpTrendChart').getContext('2d');
+            fpChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Total False Positives',
+                            data: totalFPs,
+                            borderColor: colors.total.border,
+                            backgroundColor: colors.total.bg,
+                            borderWidth: 3,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'PL1',
+                            data: pl1Data,
+                            borderColor: colors.pl1.border,
+                            backgroundColor: colors.pl1.bg,
+                            borderWidth: 2,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'PL2',
+                            data: pl2Data,
+                            borderColor: colors.pl2.border,
+                            backgroundColor: colors.pl2.bg,
+                            borderWidth: 2,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'PL3',
+                            data: pl3Data,
+                            borderColor: colors.pl3.border,
+                            backgroundColor: colors.pl3.bg,
+                            borderWidth: 2,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'PL4',
+                            data: pl4Data,
+                            borderColor: colors.pl4.border,
+                            backgroundColor: colors.pl4.bg,
+                            borderWidth: 2,
+                            tension: 0.1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: textColor,
+                                usePointStyle: true,
+                                padding: 15
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'False Positives Trend Over Time',
+                            color: textColor,
+                            font: {
+                                size: 16
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: isDark ? '#2d2d2d' : '#ffffff',
+                            titleColor: textColor,
+                            bodyColor: textColor,
+                            borderColor: gridColor,
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: axisColor,
+                                maxRotation: 45,
+                                minRotation: 45,
+                                font: {
+                                    size: 12,
+                                    weight: isDark ? 'bold' : 'normal'
+                                }
+                            },
+                            grid: {
+                                color: gridColor
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date',
+                                color: axisColor,
+                                font: {
+                                    size: 13,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: axisColor,
+                                stepSize: 1,
+                                font: {
+                                    size: 12,
+                                    weight: isDark ? 'bold' : 'normal'
+                                }
+                            },
+                            grid: {
+                                color: gridColor
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10,
+                            title: {
+                                display: true,
+                                text: 'False Positives',
+                                color: axisColor,
+                                font: {
+                                    size: 13,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Load chart when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            // Try loading chart immediately
+            loadTrendChart();
+            
+            // Also try after a short delay in case DOM is still being parsed
+            setTimeout(loadTrendChart, 100);
+        });
+    </script>
+</head>
+<body>
+    <div class="header-container">
+        <h1>📊 Weekly Quantitative Test Results</h1>
+        <button class="theme-btn" onclick="toggleTheme()">🌓</button>
+    </div>
+    <p class="timestamp">Last updated: {{TIMESTAMP}}</p>
+    
+    <div class="info">
+        <strong>Configuration:</strong> Language: {{LANGUAGE}} | Year: {{YEAR}} | Size: {{SIZE}} | Paranoia Level: {{PARANOIA}}
+    </div>
+    
+    <div class="chart-container">
+        <canvas id="fpTrendChart"></canvas>
+    </div>
+    
+    <h2>Test History</h2>
+    
+    <script id="report-data" type="application/json">
+    []
+    </script>
+    
+    <table id="results-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Commit</th>
+                <th>Duration</th>
+                <th>False Positives</th>
+                <th>Change</th>
+                <th>PL1</th>
+                <th>PL2</th>
+                <th>PL3</th>
+                <th>PL4</th>
+                <th>Diff</th>
+                <th>Raw</th>
+            </tr>
+        </thead>
+        <tbody>
