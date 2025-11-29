@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Report - Recently CRS Opened Issues & PRs</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f6f8fa;
+            --text-primary: #24292e;
+            --text-secondary: #586069;
+            --border-color: #e1e4e8;
+            --link-color: #0366d6;
+            --link-hover: #0256c7;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --border-color: #30363d;
+            --link-color: #58a6ff;
+            --link-hover: #79c0ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap;
+            transition: background-color 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .content {
+            padding: 16px 24px;
+        }
+
+        .info-box {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .info-box strong {
+            color: var(--text-primary);
+        }
+
+        .tables-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .table-section {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            background-color: var(--bg-secondary);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table-header h2 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0;
+            display: inline;
+        }
+
+        .table-count {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-left: 8px;
+            display: inline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-primary);
+        }
+
+        thead tr {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            padding: 8px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+        }
+
+        td {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        tbody td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        tbody tr:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+
+.empty-state {
+            text-align: center;
+            padding: 32px 24px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .empty-state p {
+            margin: 0;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header-left {
+            flex: 1;
+        }
+
+        .copy-cmd-btn {
+            background: var(--link-color);
+            color: #ffffff;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .copy-cmd-btn:hover {
+            background-color: var(--link-hover);
+        }
+
+        .copy-cmd-btn.copied {
+            background-color: #28a745;
+        }
+
+        footer {
+            padding: 12px 24px;
+            border-top: 2px solid var(--border-color);
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .tables-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header-container {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+
+            .theme-toggle {
+                align-self: flex-end;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <h1>📋 Dev on Duty Report</h1>
+        <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    </div>
+
+    <div class="content">
+        <div class="info-box">
+            <strong>Time Period:</strong> Last {{DAYS}} day(s) (since {{CUTOFF_DATE}}) &nbsp; | &nbsp; <strong>Last Updated:</strong> {{TIMESTAMP}}
+            <br><a href="https://github.com/coreruleset/coreruleset/wiki/Dev-on-Duty" target="_blank">📖 Dev-on-Duty Wiki</a>
+            <br><a href="https://github.com/coreruleset/coreruleset/actions/workflows/duty-scheduler.yaml" target="_blank">⚙️ Manual Workflow Trigger</a>
+        </div>
+
+        <div class="tables-container">
+            <!-- Issues Section -->
+            <div class="table-section">
+                <div class="table-header">
+                    <div class="table-header-left">
+                        <h2>Issues</h2>
+                        <div class="table-count">{{ISSUES_COUNT}} open in the last {{DAYS}} day(s)</div>
+                    </div>
+                    <button class="copy-cmd-btn" onclick="copyIssuesCommand()">📋 Copy gh command</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">Number</th>
+                            <th>Title</th>
+                            <th style="width: 140px;">Repository</th>
+                            <th style="width: 110px;">Author</th>
+                            <th style="width: 65px;">Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody id="issues-tbody">
+                    </tbody>
+                </table>
+                <div id="issues-empty" class="empty-state" style="display: none;">
+                    <p>No issues opened in the last {{DAYS}} day(s)</p>
+                </div>
+            </div>
+
+            <!-- Pull Requests Section -->
+            <div class="table-section">
+                <div class="table-header">
+                    <div class="table-header-left">
+                        <h2>Pull Requests</h2>
+                        <div class="table-count">{{PRS_COUNT}} open in the last {{DAYS}} day(s)</div>
+                    </div>
+                    <button class="copy-cmd-btn" onclick="copyPRsCommand()">📋 Copy gh command</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">Number</th>
+                            <th>Title</th>
+                            <th style="width: 140px;">Repository</th>
+                            <th style="width: 110px;">Author</th>
+                            <th style="width: 65px;">Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody id="prs-tbody">
+                    </tbody>
+                </table>
+                <div id="prs-empty" class="empty-state" style="display: none;">
+                    <p>No pull requests opened in the last {{DAYS}} day(s)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Duty Report | <a href="https://github.com/coreruleset" target="_blank">CRS GitHub Activity</a> | Generated automatically</p>
+    </footer>
+
+    <script>
+        // Copy PRs command to clipboard
+        function copyPRsCommand() {
+            const cmd = `gh search prs --created=">=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v -1d +%Y-%m-%d 2>/dev/null)" --owner coreruleset --state open`;
+            copyToClipboard(cmd, event.target);
+        }
+
+        // Copy Issues command to clipboard
+        function copyIssuesCommand() {
+            const cmd = `gh search issues --created=">=$(date -d "yesterday" +%Y-%m-%d 2>/dev/null || date -v -1d +%Y-%m-%d 2>/dev/null)" --owner coreruleset --state open`;
+            copyToClipboard(cmd, event.target);
+        }
+
+        // Generic copy to clipboard with button feedback
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy command to clipboard');
+            });
+        }
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme preference
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+
+        // Check for system preference
+        function initTheme() {
+            loadTheme();
+            
+            // If no saved preference, use system preference
+            const savedTheme = localStorage.getItem('theme');
+            if (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        }
+
+        // Show empty states if tables are empty
+        function checkEmptyStates() {
+            const prsBody = document.getElementById('prs-tbody');
+            const issuesBody = document.getElementById('issues-tbody');
+            
+            if (prsBody && prsBody.children.length === 0) {
+                document.getElementById('prs-empty').style.display = 'block';
+            }
+            
+            if (issuesBody && issuesBody.children.length === 0) {
+                document.getElementById('issues-empty').style.display = 'block';
+            }
+        }
+
+        // Initialize theme and check empty states on load
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            checkEmptyStates();
+        });
+
+        // Listen for system theme changes
+        if (window.matchMedia) {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+                if (!localStorage.getItem('theme')) {
+                    document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
