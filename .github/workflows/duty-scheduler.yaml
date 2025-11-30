@@ -14,16 +14,18 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: "Checkout gh-pages branch"
+      - name: "Checkout gh-pages branch (sparse, only the files related to duty report)"
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
           ref: 'gh-pages'
+          sparse-checkout: |
+            scripts/generate-duty-report.sh
+            docs/duty.html
 
       - name: "Generate duty report"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          chmod +x scripts/generate-duty-report.sh
           ./scripts/generate-duty-report.sh ./docs/duty.html 1
 
       - name: "Commit and push"
