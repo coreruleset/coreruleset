@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, azurit"
+  author: "Christian S.J. Peron, azurit, touchweb_vincent"
 rule_id: 942431
 tests:
   - test_id: 1
@@ -20,3 +20,37 @@ tests:
         output:
           log:
             expect_ids: [942431]
+  - test_id: 2
+    desc: "Avoid blocking on three-dimensional arrays"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "order[filters][date_add][from]=1"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942431]
+  - test_id: 3
+    desc: "Avoid blocking on bi-dimensional arrays"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "order[add-to-cart][]=1"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942431]
