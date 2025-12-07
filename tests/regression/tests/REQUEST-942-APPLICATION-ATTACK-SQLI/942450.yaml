@@ -105,3 +105,20 @@ tests:
         output:
           log:
             expect_ids: [942450]
+  - test_id: 7
+    desc: "SQL Binary Encoding - self-adaptive blind SQL injection"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          uri: "/post"
+          data: "var=;SET%20%40a%3Db%270111001101100101011011000110010101100011011101000010000001110011011011000110010101100101011100000010100000110001001100000010100100111011%27%3Bprepare%20b%20from%20%40a%3Bexecute%20b%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942450]
