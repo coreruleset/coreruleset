@@ -297,18 +297,15 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # before blocking) or 10 (which would require at least two critical alerts - or
 # a combination of many lesser alerts), or even higher.
 #
-# Increasing the anomaly score threshold will not only allow some attacks to bypass CRS;
-# it will also disable a substantial portion of the most critical WAF protections.
-# In particular, thresholds higher than 5 effectively neutralize many high-severity
-# rules - including major LFI/RFI safeguards and several protections against severe
-# data-exfiltration vulnerabilities - which can significantly compromise your system's
-# overall security.
+# Increasing the anomaly score threshold above the defaults (5 for requests, 4 for responses) 
+# will allow a substantial number of attacks to bypass CRS and will impede the ability of
+# critical rules to function correctly - including major LFI/RFI safeguards and several
+# protections against severe data-exfiltration vulnerabilities. The anomaly score threshold
+# should only ever be increased temporarily during false-positive tuning.
 #
-# The blocking threshold should NEVER be increased beyond the default
-# (5 for for requests, 4 for responses), except temporarily during testing.
-#
-# The fact that some providers - such as Cloudflare in 2025 - set a default blocking
-# level of 60 and consider 25 a "high" value is a security nonsense.
+# Some WAF vendors (such as Cloudflare) set the default anomaly score well above our
+# defaults - 5 to 12 times higher than what we recommend. This is not a proper 
+# implementation of CRS, and you will neutralize entire sections of the WAF.
 #
 # [ New deployment strategy: Starting high and decreasing ]
 # It is a common practice to start a fresh CRS installation with elevated
