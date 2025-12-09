@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, azurit"
+  author: "csanders-git, azurit, touchweb_vincent"
 rule_id: 941110
 tests:
   - test_id: 1
@@ -173,3 +173,37 @@ tests:
         output:
           log:
             no_expect_ids: [941110]
+  - test_id: 11
+    desc: XSS in Custom HTTP header
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get"
+          headers:
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Remote-ip: "<script>alert(1);</script>"
+            User-Agent: "OWASP CRS test agent"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941110]
+  - test_id: 12
+    desc: XSS in Custom HTTP header
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get"
+          headers:
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Remote-ip: "<script src=//test.com>"
+            User-Agent: "OWASP CRS test agent"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941110]
