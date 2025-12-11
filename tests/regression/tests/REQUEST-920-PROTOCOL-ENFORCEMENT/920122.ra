@@ -1,0 +1,28 @@
+---
+meta:
+  author: "Paul-Beckett, azurit"
+  description: "Tests to trigger rule 920122"
+rule_id: 920122
+- test_id: 1
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "multipart/form-data; boundary=--------397236876"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="fileRap"; filename="te'st.txt"
+            Content-Type: text/plain
+
+            Some-file-text-here
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920121]
