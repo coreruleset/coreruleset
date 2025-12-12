@@ -295,8 +295,16 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # If you want to make the CRS less sensitive, you can increase the blocking
 # thresholds, for instance to 7 (which would require multiple rule matches
 # before blocking) or 10 (which would require at least two critical alerts - or
-# a combination of many lesser alerts), or even higher. However, increasing the
-# thresholds might cause some attacks to bypass the CRS rules or your policies.
+# a combination of many lesser alerts), or even higher.
+#
+# Increasing the anomaly score threshold above the defaults (5 for requests,
+# 4 for responses), will allow a substantial number of attacks to bypass CRS and
+# will impede the ability of critical rules to function correctly, such as LFI,
+# RFI, RCE, and data-exfiltration rules. The anomaly score threshold should only
+# ever be increased temporarily during false-positive tuning.
+#
+# Some WAF vendors (such as Cloudflare) set the default anomaly score well above
+# our defaults. This is not a proper implementation of CRS, and will result in bypasses.
 #
 # [ New deployment strategy: Starting high and decreasing ]
 # It is a common practice to start a fresh CRS installation with elevated
