@@ -795,3 +795,99 @@ tests:
         output:
           log:
             expect_ids: [933160]
+  - test_id: 45
+    desc: "False Positive: `unserialize` substring false positive"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post/?test=A%20loaded%20ghost%20gun%20(unserialized)%20was%20recovered%20in%20the%20car."
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933160]
+  - test_id: 46
+    desc: "False Positive: phpinfo being used in english sentence"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post/?test=Moreover,%20phpinfo%20can%20potentially%20leak%20sensitive%20configuration%20details%20that%20an%20attacker%20can%20exploit%20to%20gain%20information%20about%20the%20server."
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933160]
+  - test_id: 47
+    desc: "False Positive: `intval` substring false positive"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post/?test=PaintValdosta"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933160]
+  - test_id: 48
+    desc: "True Positive: Block intval function"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post/?test=intval(foo)"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933160]
+  - test_id: 49
+    desc: "True Positive: Block phpinfo function"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post/?test=phpinfo(foo)"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933160]
+  - test_id: 50
+    desc: "True Positive: Block unserialize function"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post/?test=unserialize(foo)"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933160]
