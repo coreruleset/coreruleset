@@ -435,3 +435,21 @@ tests:
         output:
           log:
             expect_ids: [942160]
+  - test_id: 26
+    desc: |
+      SQL Injection Attack: Time-Based Payload Detected via Sleep Function with comments
+      decoded payload: selEct(/*te"$%st*/sleep(/*te'e*st2*/10));
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?sql_table=selEct%28%2F%2Ate%22%24%25st%2A%2Fsleep%28%2F%2Ate%27e%2Ast2%2A%2F10%29%29%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942160]
