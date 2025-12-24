@@ -1746,3 +1746,41 @@ tests:
         output:
           log:
             expect_ids: [932236]
+  - test_id: 97
+    desc: |
+      Block execution of date command `;date -f secrets.txt`
+      The error message from the date command can be abused to leak the contents of an file
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: "arg=;date%20-f%20secrets.txt"
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 98
+    desc: |
+      Block execution of date command `;date --file secrets.txt`
+      The error message from the date command can be abused to leak the contents of an file
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: "arg=;date%20--file%20secrets.txt"
+        output:
+          log:
+            expect_ids: [932236]
