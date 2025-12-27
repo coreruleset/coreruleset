@@ -95,10 +95,10 @@ jobs:
             docs/reports
 
       # TODO: I bet they are already installed
-      - name: "Install dependencies"
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq bc
+      # - name: "Install dependencies"
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y jq bc
 
       - name: "Copy new results to reports directory"
         if: ${{ github.event_name == 'schedule' || (inputs.run_tests == true && inputs.rebuild != true) }}
