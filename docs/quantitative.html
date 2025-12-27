@@ -19,89 +19,236 @@
     </script>
     <style>
         :root {
-            --bg-color: #ffffff;
-            --text-color: #333333;
-            --header-bg: #0366d6;
-            --header-text: #ffffff;
-            --info-bg: #f4f4f4;
-            --table-border: #ddd;
-            --hover-bg: #f5f5f5;
-            --code-bg: #f4f4f4;
-            --details-bg: #fafafa;
-            --diff-bg: #f5f5f5;
-            --timestamp-color: #666;
-            --table-header-bg: #e8e8e8;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f6f8fa;
+            --text-primary: #24292e;
+            --text-secondary: #586069;
+            --border-color: #e1e4e8;
+            --link-color: #0366d6;
+            --link-hover: #0256c7;
         }
-        
+
         [data-theme="dark"] {
-            --bg-color: #1e1e1e;
-            --text-color: #e0e0e0;
-            --header-bg: #0366d6;
-            --header-text: #ffffff;
-            --info-bg: #2d2d2d;
-            --table-border: #444;
-            --hover-bg: #2d2d2d;
-            --code-bg: #2d2d2d;
-            --details-bg: #252525;
-            --diff-bg: #2d2d2d;
-            --timestamp-color: #999;
-            --table-header-bg: #333;
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --border-color: #30363d;
+            --link-color: #58a6ff;
+            --link-hover: #79c0ff;
         }
-        
-        body { 
-            font-family: Arial, sans-serif; 
-            max-width: 1400px; 
-            margin: 50px auto; 
-            padding: 20px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
             transition: background-color 0.3s, color 0.3s;
         }
+
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
         }
-        h1 { 
-            color: var(--text-color);
+
+        h1 {
+            font-size: 20px;
+            font-weight: 600;
             margin: 0;
         }
-        .info { background: var(--info-bg); padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .info strong { color: var(--header-bg); }
-        .theme-btn { 
-            padding: 4px 8px; 
-            border: 1px solid var(--table-border); 
-            background: var(--info-bg); 
-            color: var(--text-color);
-            border-radius: 4px; 
+
+        h2 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0;
+            padding: 10px 16px;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .theme-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 4px 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 12px;
             white-space: nowrap;
+            transition: background-color 0.2s;
         }
-        .theme-btn:hover { 
-            background: var(--hover-bg);
+
+        .theme-btn:hover {
+            background-color: var(--bg-secondary);
         }
-        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
-        th, td { border: 1px solid var(--table-border); padding: 12px; text-align: center; }
-        th { background-color: var(--header-bg); color: var(--header-text); position: sticky; top: 0; }
-        tbody tr:hover { background-color: var(--hover-bg); }
-        .change-increase { background-color: #ffebee; color: #c62828; font-weight: bold; padding: 8px; border-radius: 4px; }
-        .change-decrease { background-color: #e8f5e9; color: #2e7d32; font-weight: bold; padding: 8px; border-radius: 4px; }
-        .change-same { background-color: var(--hover-bg); color: #757575; padding: 8px; border-radius: 4px; }
-        .timestamp { color: var(--timestamp-color); font-size: 0.9em; }
-        code { background: var(--code-bg); padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+
+        .content {
+            padding: 16px 24px;
+        }
+
+        .info {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .info strong {
+            color: var(--text-primary);
+        }
+
+        .timestamp {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .table-section {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-primary);
+        }
+
+        thead tr {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            padding: 8px 10px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+        }
+
+        td {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 13px;
+            text-align: center;
+        }
+
+        tbody tr:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .change-increase { background-color: #ffebee; color: #c62828; font-weight: 600; padding: 2px 6px; border-radius: 3px; font-size: 12px; }
+        .change-decrease { background-color: #e8f5e9; color: #2e7d32; font-weight: 600; padding: 2px 6px; border-radius: 3px; font-size: 12px; }
+        .change-same { background-color: var(--bg-secondary); color: var(--text-secondary); padding: 2px 6px; border-radius: 3px; font-size: 12px; }
+
+        code {
+            background: var(--bg-secondary);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
         .details-row { display: none; }
         .details-row.show { display: table-row; }
-        .details-cell { background-color: var(--details-bg); padding: 20px; border: 1px solid var(--table-border); text-align: left;}
-        .diff-content { background: var(--diff-bg); padding: 15px; border-radius: 4px; overflow-x: auto; white-space: pre; font-family: monospace; font-size: 12px; }
-        .details-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        .details-table th, .details-table td { border: 1px solid var(--table-border); padding: 8px; text-align: left; }
-        .details-table th { background-color: var(--table-header-bg); font-weight: bold; }
-        a { color: var(--header-bg); }
-        .chart-container { background: var(--info-bg); padding: 20px; margin: 20px 0; border-radius: 5px; }
-        .chart-container canvas { max-height: 400px; }
+        .details-cell {
+            background-color: var(--bg-secondary);
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .diff-content {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        .details-table th, .details-table td {
+            border: 1px solid var(--border-color);
+            padding: 6px 10px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .details-table th {
+            background-color: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+
+        .chart-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .chart-container canvas {
+            max-height: 300px;
+        }
+
+        footer {
+            padding: 12px 24px;
+            border-top: 1px solid var(--border-color);
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 8px;
+                align-items: flex-start;
+            }
+            .theme-btn {
+                align-self: flex-end;
+            }
+            table {
+                font-size: 11px;
+            }
+            th, td {
+                padding: 4px 6px;
+            }
+        }
     </style>
     <script>
         function toggleDetails(rowId) {
@@ -133,8 +280,8 @@
             if (!fpChart) return;
             
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            const gridColor = isDark ? '#444' : '#ddd';
-            const textColor = isDark ? '#e0e0e0' : '#333333';
+            const gridColor = isDark ? '#30363d' : '#e1e4e8';
+            const textColor = isDark ? '#c9d1d9' : '#24292e';
             
             fpChart.options.scales.x.ticks.color = textColor;
             fpChart.options.scales.x.grid.color = gridColor;
@@ -199,25 +346,25 @@
             
             console.log('Chart data:', { labels, totalFPs, pl1Data, pl2Data, pl3Data, pl4Data });
             
-            // Determine theme colors
+            // Determine theme colors (matching duty template)
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            const gridColor = isDark ? '#444' : '#ddd';
-            const textColor = isDark ? '#ffffff' : '#333333';
-            const axisColor = isDark ? '#ffffff' : '#000000';
+            const gridColor = isDark ? '#30363d' : '#e1e4e8';
+            const textColor = isDark ? '#c9d1d9' : '#24292e';
+            const axisColor = isDark ? '#8b949e' : '#586069';
             
-            // Define theme-aware colors with high contrast
+            // Define theme-aware colors (GitHub-style)
             const colors = isDark ? {
-                total: { border: '#58b4ff', bg: 'rgba(88, 180, 255, 0.25)' },
-                pl1: { border: '#ff6b6b', bg: 'rgba(255, 107, 107, 0.25)' },
-                pl2: { border: '#ffa94d', bg: 'rgba(255, 169, 77, 0.25)' },
-                pl3: { border: '#ffd93d', bg: 'rgba(255, 217, 61, 0.25)' },
-                pl4: { border: '#6bcf7f', bg: 'rgba(107, 207, 127, 0.25)' }
+                total: { border: '#58a6ff', bg: 'rgba(88, 166, 255, 0.2)' },
+                pl1: { border: '#f85149', bg: 'rgba(248, 81, 73, 0.2)' },
+                pl2: { border: '#d29922', bg: 'rgba(210, 153, 34, 0.2)' },
+                pl3: { border: '#a371f7', bg: 'rgba(163, 113, 247, 0.2)' },
+                pl4: { border: '#3fb950', bg: 'rgba(63, 185, 80, 0.2)' }
             } : {
-                total: { border: '#0052cc', bg: 'rgba(0, 82, 204, 0.12)' },
-                pl1: { border: '#cb2431', bg: 'rgba(203, 36, 49, 0.12)' },
-                pl2: { border: '#d5651d', bg: 'rgba(213, 101, 29, 0.12)' },
-                pl3: { border: '#9a6b38', bg: 'rgba(154, 107, 56, 0.12)' },
-                pl4: { border: '#1a7f37', bg: 'rgba(26, 127, 55, 0.12)' }
+                total: { border: '#0366d6', bg: 'rgba(3, 102, 214, 0.1)' },
+                pl1: { border: '#cb2431', bg: 'rgba(203, 36, 49, 0.1)' },
+                pl2: { border: '#b08800', bg: 'rgba(176, 136, 0, 0.1)' },
+                pl3: { border: '#6f42c1', bg: 'rgba(111, 66, 193, 0.1)' },
+                pl4: { border: '#28a745', bg: 'rgba(40, 167, 69, 0.1)' }
             };
             
             // Create chart
@@ -282,23 +429,24 @@
                             labels: {
                                 color: textColor,
                                 usePointStyle: true,
-                                padding: 15
+                                padding: 10,
+                                font: { size: 11 }
                             }
                         },
                         title: {
                             display: true,
-                            text: 'False Positives Trend Over Time',
+                            text: 'False Positives Trend',
                             color: textColor,
-                            font: {
-                                size: 16
-                            }
+                            font: { size: 13, weight: '600' }
                         },
                         tooltip: {
-                            backgroundColor: isDark ? '#2d2d2d' : '#ffffff',
+                            backgroundColor: isDark ? '#161b22' : '#ffffff',
                             titleColor: textColor,
                             bodyColor: textColor,
                             borderColor: gridColor,
-                            borderWidth: 1
+                            borderWidth: 1,
+                            titleFont: { size: 11 },
+                            bodyFont: { size: 11 }
                         }
                     },
                     scales: {
@@ -307,22 +455,14 @@
                                 color: axisColor,
                                 maxRotation: 45,
                                 minRotation: 45,
-                                font: {
-                                    size: 12,
-                                    weight: isDark ? 'bold' : 'normal'
-                                }
+                                font: { size: 10 }
                             },
-                            grid: {
-                                color: gridColor
-                            },
+                            grid: { color: gridColor },
                             title: {
                                 display: true,
                                 text: 'Date',
                                 color: axisColor,
-                                font: {
-                                    size: 13,
-                                    weight: 'bold'
-                                }
+                                font: { size: 11, weight: '600' }
                             }
                         },
                         y: {
@@ -330,24 +470,16 @@
                             ticks: {
                                 color: axisColor,
                                 stepSize: 1,
-                                font: {
-                                    size: 12,
-                                    weight: isDark ? 'bold' : 'normal'
-                                }
+                                font: { size: 10 }
                             },
-                            grid: {
-                                color: gridColor
-                            },
+                            grid: { color: gridColor },
                             suggestedMin: 0,
                             suggestedMax: 10,
                             title: {
                                 display: true,
                                 text: 'False Positives',
                                 color: axisColor,
-                                font: {
-                                    size: 13,
-                                    weight: 'bold'
-                                }
+                                font: { size: 11, weight: '600' }
                             }
                         }
                     }
@@ -370,42 +502,139 @@
         <h1>📊 Weekly Quantitative Test Results</h1>
         <button class="theme-btn" onclick="toggleTheme()">🌓</button>
     </div>
-    <p class="timestamp">Last updated: 2025-11-29 10:26:19 UTC</p>
-    
-    <div class="info">
-        <strong>Configuration:</strong> Language: eng | Year: 2023 | Size: 10K | Paranoia Level: 2
-    </div>
-    
-    <div class="chart-container">
-        <canvas id="fpTrendChart"></canvas>
-    </div>
-    
-    <h2>Test History</h2>
-    
-    <script id="report-data" type="application/json">
-    [{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583,"date":"2025-11-29","time":"102619","timestamp":"2025-11-29 10:26"},{"count":100000,"falsePositives":6059,"falsePositivesPerParanoiaLevel":{"1":869,"2":5190},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":92},"932200":{"paranoiaLevel":2,"falsePositives":168},"932230":{"paranoiaLevel":1,"falsePositives":254},"932231":{"paranoiaLevel":2,"falsePositives":52},"932235":{"paranoiaLevel":1,"falsePositives":298},"932236":{"paranoiaLevel":2,"falsePositives":2071},"932240":{"paranoiaLevel":2,"falsePositives":115},"932250":{"paranoiaLevel":1,"falsePositives":256},"932260":{"paranoiaLevel":1,"falsePositives":5},"932271":{"paranoiaLevel":2,"falsePositives":17},"932371":{"paranoiaLevel":2,"falsePositives":3},"933160":{"paranoiaLevel":1,"falsePositives":8},"934101":{"paranoiaLevel":2,"falsePositives":1},"941320":{"paranoiaLevel":2,"falsePositives":6},"941390":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":23},"942120":{"paranoiaLevel":2,"falsePositives":7},"942130":{"paranoiaLevel":2,"falsePositives":4},"942131":{"paranoiaLevel":2,"falsePositives":649},"942140":{"paranoiaLevel":1,"falsePositives":1},"942150":{"paranoiaLevel":2,"falsePositives":60},"942151":{"paranoiaLevel":1,"falsePositives":1},"942180":{"paranoiaLevel":2,"falsePositives":22},"942190":{"paranoiaLevel":1,"falsePositives":6},"942200":{"paranoiaLevel":2,"falsePositives":1252},"942210":{"paranoiaLevel":2,"falsePositives":48},"942260":{"paranoiaLevel":2,"falsePositives":16},"942300":{"paranoiaLevel":2,"falsePositives":6},"942310":{"paranoiaLevel":2,"falsePositives":17},"942330":{"paranoiaLevel":2,"falsePositives":7},"942340":{"paranoiaLevel":2,"falsePositives":20},"942360":{"paranoiaLevel":1,"falsePositives":16},"942362":{"paranoiaLevel":2,"falsePositives":5},"942370":{"paranoiaLevel":2,"falsePositives":41},"942380":{"paranoiaLevel":2,"falsePositives":50},"942390":{"paranoiaLevel":2,"falsePositives":131},"942400":{"paranoiaLevel":2,"falsePositives":14},"942410":{"paranoiaLevel":2,"falsePositives":61},"942430":{"paranoiaLevel":2,"falsePositives":22},"942440":{"paranoiaLevel":2,"falsePositives":203},"942480":{"paranoiaLevel":2,"falsePositives":2},"942520":{"paranoiaLevel":2,"falsePositives":23},"942521":{"paranoiaLevel":2,"falsePositives":5}},"skipped":0,"totalTimeSeconds":26.556619166,"date":"2025-11-29","time":"102621","timestamp":"2025-11-29 10:26"},{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583,"date":"2025-11-29","time":"102651","timestamp":"2025-11-29 10:26"},{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583,"date":"2025-11-29","time":"104106","timestamp":"2025-11-29 10:41"}]
-    </script>
-    
-    <table id="results-table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Commit</th>
-                <th>Duration</th>
-                <th>False Positives</th>
-                <th>Change</th>
-                <th>PL1</th>
-                <th>PL2</th>
-                <th>PL3</th>
-                <th>PL4</th>
-                <th>Diff</th>
-                <th>Raw</th>
-            </tr>
-        </thead>
-        <tbody>
+
+    <div class="content">
+        <div class="info">
+            <strong>Configuration:</strong> Language: en | Year: 2024 | Size: 10k | Paranoia Level: 4
+            <br><span class="timestamp">Last updated: 2025-12-27 22:49:33 UTC</span>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="fpTrendChart"></canvas>
+        </div>
+        
+        <div class="table-section">
+            <h2>Test History</h2>
+            
+            <script id="report-data" type="application/json">
+    [{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583},{"count":100000,"falsePositives":6059,"falsePositivesPerParanoiaLevel":{"1":869,"2":5190},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":92},"932200":{"paranoiaLevel":2,"falsePositives":168},"932230":{"paranoiaLevel":1,"falsePositives":254},"932231":{"paranoiaLevel":2,"falsePositives":52},"932235":{"paranoiaLevel":1,"falsePositives":298},"932236":{"paranoiaLevel":2,"falsePositives":2071},"932240":{"paranoiaLevel":2,"falsePositives":115},"932250":{"paranoiaLevel":1,"falsePositives":256},"932260":{"paranoiaLevel":1,"falsePositives":5},"932271":{"paranoiaLevel":2,"falsePositives":17},"932371":{"paranoiaLevel":2,"falsePositives":3},"933160":{"paranoiaLevel":1,"falsePositives":8},"934101":{"paranoiaLevel":2,"falsePositives":1},"941320":{"paranoiaLevel":2,"falsePositives":6},"941390":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":23},"942120":{"paranoiaLevel":2,"falsePositives":7},"942130":{"paranoiaLevel":2,"falsePositives":4},"942131":{"paranoiaLevel":2,"falsePositives":649},"942140":{"paranoiaLevel":1,"falsePositives":1},"942150":{"paranoiaLevel":2,"falsePositives":60},"942151":{"paranoiaLevel":1,"falsePositives":1},"942180":{"paranoiaLevel":2,"falsePositives":22},"942190":{"paranoiaLevel":1,"falsePositives":6},"942200":{"paranoiaLevel":2,"falsePositives":1252},"942210":{"paranoiaLevel":2,"falsePositives":48},"942260":{"paranoiaLevel":2,"falsePositives":16},"942300":{"paranoiaLevel":2,"falsePositives":6},"942310":{"paranoiaLevel":2,"falsePositives":17},"942330":{"paranoiaLevel":2,"falsePositives":7},"942340":{"paranoiaLevel":2,"falsePositives":20},"942360":{"paranoiaLevel":1,"falsePositives":16},"942362":{"paranoiaLevel":2,"falsePositives":5},"942370":{"paranoiaLevel":2,"falsePositives":41},"942380":{"paranoiaLevel":2,"falsePositives":50},"942390":{"paranoiaLevel":2,"falsePositives":131},"942400":{"paranoiaLevel":2,"falsePositives":14},"942410":{"paranoiaLevel":2,"falsePositives":61},"942430":{"paranoiaLevel":2,"falsePositives":22},"942440":{"paranoiaLevel":2,"falsePositives":203},"942480":{"paranoiaLevel":2,"falsePositives":2},"942520":{"paranoiaLevel":2,"falsePositives":23},"942521":{"paranoiaLevel":2,"falsePositives":5}},"skipped":0,"totalTimeSeconds":26.556619166},{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583},{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583},{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583},{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583},{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583},{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583},{"count":10000,"falsePositives":572,"falsePositivesPerParanoiaLevel":{"1":84,"2":488},"falsePositivesPerRule":{"931130":{"paranoiaLevel":2,"falsePositives":12},"932200":{"paranoiaLevel":2,"falsePositives":14},"932230":{"paranoiaLevel":1,"falsePositives":28},"932231":{"paranoiaLevel":2,"falsePositives":6},"932235":{"paranoiaLevel":1,"falsePositives":24},"932236":{"paranoiaLevel":2,"falsePositives":203},"932240":{"paranoiaLevel":2,"falsePositives":9},"932250":{"paranoiaLevel":1,"falsePositives":28},"932271":{"paranoiaLevel":2,"falsePositives":2},"933160":{"paranoiaLevel":1,"falsePositives":1},"942100":{"paranoiaLevel":1,"falsePositives":1},"942131":{"paranoiaLevel":2,"falsePositives":52},"942150":{"paranoiaLevel":2,"falsePositives":6},"942180":{"paranoiaLevel":2,"falsePositives":1},"942200":{"paranoiaLevel":2,"falsePositives":121},"942210":{"paranoiaLevel":2,"falsePositives":3},"942230":{"paranoiaLevel":1,"falsePositives":1},"942360":{"paranoiaLevel":1,"falsePositives":1},"942370":{"paranoiaLevel":2,"falsePositives":2},"942380":{"paranoiaLevel":2,"falsePositives":5},"942390":{"paranoiaLevel":2,"falsePositives":15},"942400":{"paranoiaLevel":2,"falsePositives":2},"942410":{"paranoiaLevel":2,"falsePositives":7},"942430":{"paranoiaLevel":2,"falsePositives":4},"942440":{"paranoiaLevel":2,"falsePositives":20},"942520":{"paranoiaLevel":2,"falsePositives":3},"942521":{"paranoiaLevel":2,"falsePositives":1}},"skipped":0,"totalTimeSeconds":2.638741583}]
+            </script>
+            
+            <table id="results-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Commit</th>
+                        <th>Duration</th>
+                        <th>FP</th>
+                        <th>Change</th>
+                        <th>PL1</th>
+                        <th>PL2</th>
+                        <th>PL3</th>
+                        <th>PL4</th>
+                        <th>Diff</th>
+                        <th>Raw</th>
+                    </tr>
+                </thead>
+                <tbody>
             <tr>
                 <td>2025-11-29</td>
-                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillbethere2" target="_blank"><code>shawillb</code></a></td>
+                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillb" target="_blank"><code>shawillb</code></a></td>
+                <td>0.04 min</td>
+                <td>572</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td><a href="javascript:void(0);" id="link-2025-11-29_142725_shawillb" onclick="toggleDetails('2025-11-29_142725_shawillb'); return false;">Show</a></td>
+                <td><a href="reports/2025-11-29_142725_shawillb.json" target="_blank">📄</a></td>
+            </tr>
+            <tr id="details-2025-11-29_142725_shawillb" class="details-row">
+                <td colspan="11" class="details-cell">
+                    <h3>Diff from Previous Run</h3>
+                    <p><em>No changes from previous run</em></p>
+                </td>
+            </tr>
+            <tr>
+                <td>2025-11-29</td>
+                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillb" target="_blank"><code>shawillb</code></a></td>
+                <td>0.04 min</td>
+                <td>572</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td><a href="javascript:void(0);" id="link-2025-11-29_142703_shawillb" onclick="toggleDetails('2025-11-29_142703_shawillb'); return false;">Show</a></td>
+                <td><a href="reports/2025-11-29_142703_shawillb.json" target="_blank">📄</a></td>
+            </tr>
+            <tr id="details-2025-11-29_142703_shawillb" class="details-row">
+                <td colspan="11" class="details-cell">
+                    <h3>Diff from Previous Run</h3>
+                    <p><em>No changes from previous run</em></p>
+                </td>
+            </tr>
+            <tr>
+                <td>2025-11-29</td>
+                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillb" target="_blank"><code>shawillb</code></a></td>
+                <td>0.04 min</td>
+                <td>572</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td><a href="javascript:void(0);" id="link-2025-11-29_142356_shawillb" onclick="toggleDetails('2025-11-29_142356_shawillb'); return false;">Show</a></td>
+                <td><a href="reports/2025-11-29_142356_shawillb.json" target="_blank">📄</a></td>
+            </tr>
+            <tr id="details-2025-11-29_142356_shawillb" class="details-row">
+                <td colspan="11" class="details-cell">
+                    <h3>Diff from Previous Run</h3>
+                    <p><em>No changes from previous run</em></p>
+                </td>
+            </tr>
+            <tr>
+                <td>2025-11-29</td>
+                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillb" target="_blank"><code>shawillb</code></a></td>
+                <td>0.04 min</td>
+                <td>572</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td><a href="javascript:void(0);" id="link-2025-11-29_142307_shawillb" onclick="toggleDetails('2025-11-29_142307_shawillb'); return false;">Show</a></td>
+                <td><a href="reports/2025-11-29_142307_shawillb.json" target="_blank">📄</a></td>
+            </tr>
+            <tr id="details-2025-11-29_142307_shawillb" class="details-row">
+                <td colspan="11" class="details-cell">
+                    <h3>Diff from Previous Run</h3>
+                    <p><em>No changes from previous run</em></p>
+                </td>
+            </tr>
+            <tr>
+                <td>2025-11-29</td>
+                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillb" target="_blank"><code>shawillb</code></a></td>
+                <td>0.04 min</td>
+                <td>572</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td class="change-same">= 0</td>
+                <td><a href="javascript:void(0);" id="link-2025-11-29_110805_shawillb" onclick="toggleDetails('2025-11-29_110805_shawillb'); return false;">Show</a></td>
+                <td><a href="reports/2025-11-29_110805_shawillb.json" target="_blank">📄</a></td>
+            </tr>
+            <tr id="details-2025-11-29_110805_shawillb" class="details-row">
+                <td colspan="11" class="details-cell">
+                    <h3>Diff from Previous Run</h3>
+                    <p><em>No changes from previous run</em></p>
+                </td>
+            </tr>
+            <tr>
+                <td>2025-11-29</td>
+                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillb" target="_blank"><code>shawillb</code></a></td>
                 <td>0.04 min</td>
                 <td>572</td>
                 <td class="change-same">= 0</td>
@@ -419,12 +648,12 @@
             <tr id="details-2025-11-29_104106_shawillb" class="details-row">
                 <td colspan="11" class="details-cell">
                     <h3>Diff from Previous Run</h3>
-                    <p><em>No previous run available for comparison</em></p>
+                    <p><em>No changes from previous run</em></p>
                 </td>
             </tr>
             <tr>
                 <td>2025-11-29</td>
-                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillbethere2" target="_blank"><code>shawillb</code></a></td>
+                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillb" target="_blank"><code>shawillb</code></a></td>
                 <td>0.04 min</td>
                 <td>572</td>
                 <td class="change-decrease">▼ -5487</td>
@@ -439,208 +668,208 @@
                 <td colspan="11" class="details-cell">
                     <h3>Diff from Previous Run</h3>
                     <div class="diff-content">2,3c2,3
-&lt;   &quot;count&quot;: 100000,
-&lt;   &quot;falsePositives&quot;: 6059,
+<   "count": 100000,
+<   "falsePositives": 6059,
 ---
-&gt;   &quot;count&quot;: 10000,
-&gt;   &quot;falsePositives&quot;: 572,
+>   "count": 10000,
+>   "falsePositives": 572,
 5,6c5,6
-&lt;     &quot;1&quot;: 869,
-&lt;     &quot;2&quot;: 5190
+<     "1": 869,
+<     "2": 5190
 ---
-&gt;     &quot;1&quot;: 84,
-&gt;     &quot;2&quot;: 488
+>     "1": 84,
+>     "2": 488
 11c11
-&lt;       &quot;falsePositives&quot;: 92
+<       "falsePositives": 92
 ---
-&gt;       &quot;falsePositives&quot;: 12
+>       "falsePositives": 12
 15c15
-&lt;       &quot;falsePositives&quot;: 168
+<       "falsePositives": 168
 ---
-&gt;       &quot;falsePositives&quot;: 14
+>       "falsePositives": 14
 19c19
-&lt;       &quot;falsePositives&quot;: 254
+<       "falsePositives": 254
 ---
-&gt;       &quot;falsePositives&quot;: 28
+>       "falsePositives": 28
 23c23
-&lt;       &quot;falsePositives&quot;: 52
+<       "falsePositives": 52
 ---
-&gt;       &quot;falsePositives&quot;: 6
+>       "falsePositives": 6
 27c27
-&lt;       &quot;falsePositives&quot;: 298
+<       "falsePositives": 298
 ---
-&gt;       &quot;falsePositives&quot;: 24
+>       "falsePositives": 24
 31c31
-&lt;       &quot;falsePositives&quot;: 2071
+<       "falsePositives": 2071
 ---
-&gt;       &quot;falsePositives&quot;: 203
+>       "falsePositives": 203
 35c35
-&lt;       &quot;falsePositives&quot;: 115
+<       "falsePositives": 115
 ---
-&gt;       &quot;falsePositives&quot;: 9
+>       "falsePositives": 9
 39c39
-&lt;       &quot;falsePositives&quot;: 256
+<       "falsePositives": 256
 ---
-&gt;       &quot;falsePositives&quot;: 28
+>       "falsePositives": 28
 41,44d40
-&lt;     &quot;932260&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 1,
-&lt;       &quot;falsePositives&quot;: 5
-&lt;     },
+<     "932260": {
+<       "paranoiaLevel": 1,
+<       "falsePositives": 5
+<     },
 47c43
-&lt;       &quot;falsePositives&quot;: 17
+<       "falsePositives": 17
 ---
-&gt;       &quot;falsePositives&quot;: 2
+>       "falsePositives": 2
 49,52d44
-&lt;     &quot;932371&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 2,
-&lt;       &quot;falsePositives&quot;: 3
-&lt;     },
+<     "932371": {
+<       "paranoiaLevel": 2,
+<       "falsePositives": 3
+<     },
 55,58d46
-&lt;       &quot;falsePositives&quot;: 8
-&lt;     },
-&lt;     &quot;934101&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 2,
+<       "falsePositives": 8
+<     },
+<     "934101": {
+<       "paranoiaLevel": 2,
 61,65c49
-&lt;     &quot;941320&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 2,
-&lt;       &quot;falsePositives&quot;: 6
-&lt;     },
-&lt;     &quot;941390&quot;: {
+<     "941320": {
+<       "paranoiaLevel": 2,
+<       "falsePositives": 6
+<     },
+<     "941390": {
 ---
-&gt;     &quot;942100&quot;: {
+>     "942100": {
 69,80d52
-&lt;     &quot;942100&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 1,
-&lt;       &quot;falsePositives&quot;: 23
-&lt;     },
-&lt;     &quot;942120&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 2,
-&lt;       &quot;falsePositives&quot;: 7
-&lt;     },
-&lt;     &quot;942130&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 2,
-&lt;       &quot;falsePositives&quot;: 4
-&lt;     },
+<     "942100": {
+<       "paranoiaLevel": 1,
+<       "falsePositives": 23
+<     },
+<     "942120": {
+<       "paranoiaLevel": 2,
+<       "falsePositives": 7
+<     },
+<     "942130": {
+<       "paranoiaLevel": 2,
+<       "falsePositives": 4
+<     },
 83c55
-&lt;       &quot;falsePositives&quot;: 649
+<       "falsePositives": 649
 ---
-&gt;       &quot;falsePositives&quot;: 52
+>       "falsePositives": 52
 85,88d56
-&lt;     &quot;942140&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 1,
-&lt;       &quot;falsePositives&quot;: 1
-&lt;     },
+<     "942140": {
+<       "paranoiaLevel": 1,
+<       "falsePositives": 1
+<     },
 91c59
-&lt;       &quot;falsePositives&quot;: 60
+<       "falsePositives": 60
 ---
-&gt;       &quot;falsePositives&quot;: 6
+>       "falsePositives": 6
 93,96d60
-&lt;     &quot;942151&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 1,
-&lt;       &quot;falsePositives&quot;: 1
-&lt;     },
+<     "942151": {
+<       "paranoiaLevel": 1,
+<       "falsePositives": 1
+<     },
 99c63
-&lt;       &quot;falsePositives&quot;: 22
+<       "falsePositives": 22
 ---
-&gt;       &quot;falsePositives&quot;: 1
+>       "falsePositives": 1
 101,104d64
-&lt;     &quot;942190&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 1,
-&lt;       &quot;falsePositives&quot;: 6
-&lt;     },
+<     "942190": {
+<       "paranoiaLevel": 1,
+<       "falsePositives": 6
+<     },
 107c67
-&lt;       &quot;falsePositives&quot;: 1252
+<       "falsePositives": 1252
 ---
-&gt;       &quot;falsePositives&quot;: 121
+>       "falsePositives": 121
 111c71
-&lt;       &quot;falsePositives&quot;: 48
+<       "falsePositives": 48
 ---
-&gt;       &quot;falsePositives&quot;: 3
+>       "falsePositives": 3
 113,115c73,75
-&lt;     &quot;942260&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 2,
-&lt;       &quot;falsePositives&quot;: 16
+<     "942260": {
+<       "paranoiaLevel": 2,
+<       "falsePositives": 16
 ---
-&gt;     &quot;942230&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 1,
-&gt;       &quot;falsePositives&quot;: 1
+>     "942230": {
+>       "paranoiaLevel": 1,
+>       "falsePositives": 1
 117,132d76
-&lt;     &quot;942300&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 2,
-&lt;       &quot;falsePositives&quot;: 6
-&lt;     },
-&lt;     &quot;942310&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 2,
-&lt;       &quot;falsePositives&quot;: 17
-&lt;     },
-&lt;     &quot;942330&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 2,
-&lt;       &quot;falsePositives&quot;: 7
-&lt;     },
-&lt;     &quot;942340&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 2,
-&lt;       &quot;falsePositives&quot;: 20
-&lt;     },
+<     "942300": {
+<       "paranoiaLevel": 2,
+<       "falsePositives": 6
+<     },
+<     "942310": {
+<       "paranoiaLevel": 2,
+<       "falsePositives": 17
+<     },
+<     "942330": {
+<       "paranoiaLevel": 2,
+<       "falsePositives": 7
+<     },
+<     "942340": {
+<       "paranoiaLevel": 2,
+<       "falsePositives": 20
+<     },
 135c79
-&lt;       &quot;falsePositives&quot;: 16
+<       "falsePositives": 16
 ---
-&gt;       &quot;falsePositives&quot;: 1
+>       "falsePositives": 1
 137,140d80
-&lt;     &quot;942362&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 2,
-&lt;       &quot;falsePositives&quot;: 5
-&lt;     },
+<     "942362": {
+<       "paranoiaLevel": 2,
+<       "falsePositives": 5
+<     },
 143c83
-&lt;       &quot;falsePositives&quot;: 41
+<       "falsePositives": 41
 ---
-&gt;       &quot;falsePositives&quot;: 2
+>       "falsePositives": 2
 147c87
-&lt;       &quot;falsePositives&quot;: 50
+<       "falsePositives": 50
 ---
-&gt;       &quot;falsePositives&quot;: 5
+>       "falsePositives": 5
 151c91
-&lt;       &quot;falsePositives&quot;: 131
+<       "falsePositives": 131
 ---
-&gt;       &quot;falsePositives&quot;: 15
+>       "falsePositives": 15
 155c95
-&lt;       &quot;falsePositives&quot;: 14
+<       "falsePositives": 14
 ---
-&gt;       &quot;falsePositives&quot;: 2
+>       "falsePositives": 2
 159c99
-&lt;       &quot;falsePositives&quot;: 61
+<       "falsePositives": 61
 ---
-&gt;       &quot;falsePositives&quot;: 7
+>       "falsePositives": 7
 163c103
-&lt;       &quot;falsePositives&quot;: 22
+<       "falsePositives": 22
 ---
-&gt;       &quot;falsePositives&quot;: 4
+>       "falsePositives": 4
 167c107
-&lt;       &quot;falsePositives&quot;: 203
+<       "falsePositives": 203
 ---
-&gt;       &quot;falsePositives&quot;: 20
+>       "falsePositives": 20
 169,172d108
-&lt;     &quot;942480&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 2,
-&lt;       &quot;falsePositives&quot;: 2
-&lt;     },
+<     "942480": {
+<       "paranoiaLevel": 2,
+<       "falsePositives": 2
+<     },
 175c111
-&lt;       &quot;falsePositives&quot;: 23
+<       "falsePositives": 23
 ---
-&gt;       &quot;falsePositives&quot;: 3
+>       "falsePositives": 3
 179c115
-&lt;       &quot;falsePositives&quot;: 5
+<       "falsePositives": 5
 ---
-&gt;       &quot;falsePositives&quot;: 1
+>       "falsePositives": 1
 183c119
-&lt;   &quot;totalTimeSeconds&quot;: 26.556619166
+<   "totalTimeSeconds": 26.556619166
 ---
-&gt;   &quot;totalTimeSeconds&quot;: 2.638741583</div>
+>   "totalTimeSeconds": 2.638741583</div>
                 </td>
             </tr>
             <tr>
                 <td>2025-11-29</td>
-                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillbethere2" target="_blank"><code>shawillb</code></a></td>
+                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillb" target="_blank"><code>shawillb</code></a></td>
                 <td>0.44 min</td>
                 <td>6059</td>
                 <td class="change-increase">▲ +5487</td>
@@ -655,208 +884,208 @@
                 <td colspan="11" class="details-cell">
                     <h3>Diff from Previous Run</h3>
                     <div class="diff-content">2,3c2,3
-&lt;   &quot;count&quot;: 10000,
-&lt;   &quot;falsePositives&quot;: 572,
+<   "count": 10000,
+<   "falsePositives": 572,
 ---
-&gt;   &quot;count&quot;: 100000,
-&gt;   &quot;falsePositives&quot;: 6059,
+>   "count": 100000,
+>   "falsePositives": 6059,
 5,6c5,6
-&lt;     &quot;1&quot;: 84,
-&lt;     &quot;2&quot;: 488
+<     "1": 84,
+<     "2": 488
 ---
-&gt;     &quot;1&quot;: 869,
-&gt;     &quot;2&quot;: 5190
+>     "1": 869,
+>     "2": 5190
 11c11
-&lt;       &quot;falsePositives&quot;: 12
+<       "falsePositives": 12
 ---
-&gt;       &quot;falsePositives&quot;: 92
+>       "falsePositives": 92
 15c15
-&lt;       &quot;falsePositives&quot;: 14
+<       "falsePositives": 14
 ---
-&gt;       &quot;falsePositives&quot;: 168
+>       "falsePositives": 168
 19c19
-&lt;       &quot;falsePositives&quot;: 28
+<       "falsePositives": 28
 ---
-&gt;       &quot;falsePositives&quot;: 254
+>       "falsePositives": 254
 23c23
-&lt;       &quot;falsePositives&quot;: 6
+<       "falsePositives": 6
 ---
-&gt;       &quot;falsePositives&quot;: 52
+>       "falsePositives": 52
 27c27
-&lt;       &quot;falsePositives&quot;: 24
+<       "falsePositives": 24
 ---
-&gt;       &quot;falsePositives&quot;: 298
+>       "falsePositives": 298
 31c31
-&lt;       &quot;falsePositives&quot;: 203
+<       "falsePositives": 203
 ---
-&gt;       &quot;falsePositives&quot;: 2071
+>       "falsePositives": 2071
 35c35
-&lt;       &quot;falsePositives&quot;: 9
+<       "falsePositives": 9
 ---
-&gt;       &quot;falsePositives&quot;: 115
+>       "falsePositives": 115
 39c39
-&lt;       &quot;falsePositives&quot;: 28
+<       "falsePositives": 28
 ---
-&gt;       &quot;falsePositives&quot;: 256
+>       "falsePositives": 256
 40a41,44
-&gt;     &quot;932260&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 1,
-&gt;       &quot;falsePositives&quot;: 5
-&gt;     },
+>     "932260": {
+>       "paranoiaLevel": 1,
+>       "falsePositives": 5
+>     },
 43c47
-&lt;       &quot;falsePositives&quot;: 2
+<       "falsePositives": 2
 ---
-&gt;       &quot;falsePositives&quot;: 17
+>       "falsePositives": 17
 44a49,52
-&gt;     &quot;932371&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 2,
-&gt;       &quot;falsePositives&quot;: 3
-&gt;     },
+>     "932371": {
+>       "paranoiaLevel": 2,
+>       "falsePositives": 3
+>     },
 46a55,58
-&gt;       &quot;falsePositives&quot;: 8
-&gt;     },
-&gt;     &quot;934101&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 2,
+>       "falsePositives": 8
+>     },
+>     "934101": {
+>       "paranoiaLevel": 2,
 49c61,65
-&lt;     &quot;942100&quot;: {
+<     "942100": {
 ---
-&gt;     &quot;941320&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 2,
-&gt;       &quot;falsePositives&quot;: 6
-&gt;     },
-&gt;     &quot;941390&quot;: {
+>     "941320": {
+>       "paranoiaLevel": 2,
+>       "falsePositives": 6
+>     },
+>     "941390": {
 52a69,80
-&gt;     &quot;942100&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 1,
-&gt;       &quot;falsePositives&quot;: 23
-&gt;     },
-&gt;     &quot;942120&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 2,
-&gt;       &quot;falsePositives&quot;: 7
-&gt;     },
-&gt;     &quot;942130&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 2,
-&gt;       &quot;falsePositives&quot;: 4
-&gt;     },
+>     "942100": {
+>       "paranoiaLevel": 1,
+>       "falsePositives": 23
+>     },
+>     "942120": {
+>       "paranoiaLevel": 2,
+>       "falsePositives": 7
+>     },
+>     "942130": {
+>       "paranoiaLevel": 2,
+>       "falsePositives": 4
+>     },
 55c83
-&lt;       &quot;falsePositives&quot;: 52
+<       "falsePositives": 52
 ---
-&gt;       &quot;falsePositives&quot;: 649
+>       "falsePositives": 649
 56a85,88
-&gt;     &quot;942140&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 1,
-&gt;       &quot;falsePositives&quot;: 1
-&gt;     },
+>     "942140": {
+>       "paranoiaLevel": 1,
+>       "falsePositives": 1
+>     },
 59c91
-&lt;       &quot;falsePositives&quot;: 6
+<       "falsePositives": 6
 ---
-&gt;       &quot;falsePositives&quot;: 60
+>       "falsePositives": 60
 60a93,96
-&gt;     &quot;942151&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 1,
-&gt;       &quot;falsePositives&quot;: 1
-&gt;     },
+>     "942151": {
+>       "paranoiaLevel": 1,
+>       "falsePositives": 1
+>     },
 63c99
-&lt;       &quot;falsePositives&quot;: 1
+<       "falsePositives": 1
 ---
-&gt;       &quot;falsePositives&quot;: 22
+>       "falsePositives": 22
 64a101,104
-&gt;     &quot;942190&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 1,
-&gt;       &quot;falsePositives&quot;: 6
-&gt;     },
+>     "942190": {
+>       "paranoiaLevel": 1,
+>       "falsePositives": 6
+>     },
 67c107
-&lt;       &quot;falsePositives&quot;: 121
+<       "falsePositives": 121
 ---
-&gt;       &quot;falsePositives&quot;: 1252
+>       "falsePositives": 1252
 71c111
-&lt;       &quot;falsePositives&quot;: 3
+<       "falsePositives": 3
 ---
-&gt;       &quot;falsePositives&quot;: 48
+>       "falsePositives": 48
 73,75c113,115
-&lt;     &quot;942230&quot;: {
-&lt;       &quot;paranoiaLevel&quot;: 1,
-&lt;       &quot;falsePositives&quot;: 1
+<     "942230": {
+<       "paranoiaLevel": 1,
+<       "falsePositives": 1
 ---
-&gt;     &quot;942260&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 2,
-&gt;       &quot;falsePositives&quot;: 16
+>     "942260": {
+>       "paranoiaLevel": 2,
+>       "falsePositives": 16
 76a117,132
-&gt;     &quot;942300&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 2,
-&gt;       &quot;falsePositives&quot;: 6
-&gt;     },
-&gt;     &quot;942310&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 2,
-&gt;       &quot;falsePositives&quot;: 17
-&gt;     },
-&gt;     &quot;942330&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 2,
-&gt;       &quot;falsePositives&quot;: 7
-&gt;     },
-&gt;     &quot;942340&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 2,
-&gt;       &quot;falsePositives&quot;: 20
-&gt;     },
+>     "942300": {
+>       "paranoiaLevel": 2,
+>       "falsePositives": 6
+>     },
+>     "942310": {
+>       "paranoiaLevel": 2,
+>       "falsePositives": 17
+>     },
+>     "942330": {
+>       "paranoiaLevel": 2,
+>       "falsePositives": 7
+>     },
+>     "942340": {
+>       "paranoiaLevel": 2,
+>       "falsePositives": 20
+>     },
 79c135
-&lt;       &quot;falsePositives&quot;: 1
+<       "falsePositives": 1
 ---
-&gt;       &quot;falsePositives&quot;: 16
+>       "falsePositives": 16
 80a137,140
-&gt;     &quot;942362&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 2,
-&gt;       &quot;falsePositives&quot;: 5
-&gt;     },
+>     "942362": {
+>       "paranoiaLevel": 2,
+>       "falsePositives": 5
+>     },
 83c143
-&lt;       &quot;falsePositives&quot;: 2
+<       "falsePositives": 2
 ---
-&gt;       &quot;falsePositives&quot;: 41
+>       "falsePositives": 41
 87c147
-&lt;       &quot;falsePositives&quot;: 5
+<       "falsePositives": 5
 ---
-&gt;       &quot;falsePositives&quot;: 50
+>       "falsePositives": 50
 91c151
-&lt;       &quot;falsePositives&quot;: 15
+<       "falsePositives": 15
 ---
-&gt;       &quot;falsePositives&quot;: 131
+>       "falsePositives": 131
 95c155
-&lt;       &quot;falsePositives&quot;: 2
+<       "falsePositives": 2
 ---
-&gt;       &quot;falsePositives&quot;: 14
+>       "falsePositives": 14
 99c159
-&lt;       &quot;falsePositives&quot;: 7
+<       "falsePositives": 7
 ---
-&gt;       &quot;falsePositives&quot;: 61
+>       "falsePositives": 61
 103c163
-&lt;       &quot;falsePositives&quot;: 4
+<       "falsePositives": 4
 ---
-&gt;       &quot;falsePositives&quot;: 22
+>       "falsePositives": 22
 107c167
-&lt;       &quot;falsePositives&quot;: 20
+<       "falsePositives": 20
 ---
-&gt;       &quot;falsePositives&quot;: 203
+>       "falsePositives": 203
 108a169,172
-&gt;     &quot;942480&quot;: {
-&gt;       &quot;paranoiaLevel&quot;: 2,
-&gt;       &quot;falsePositives&quot;: 2
-&gt;     },
+>     "942480": {
+>       "paranoiaLevel": 2,
+>       "falsePositives": 2
+>     },
 111c175
-&lt;       &quot;falsePositives&quot;: 3
+<       "falsePositives": 3
 ---
-&gt;       &quot;falsePositives&quot;: 23
+>       "falsePositives": 23
 115c179
-&lt;       &quot;falsePositives&quot;: 1
+<       "falsePositives": 1
 ---
-&gt;       &quot;falsePositives&quot;: 5
+>       "falsePositives": 5
 119c183
-&lt;   &quot;totalTimeSeconds&quot;: 2.638741583
+<   "totalTimeSeconds": 2.638741583
 ---
-&gt;   &quot;totalTimeSeconds&quot;: 26.556619166</div>
+>   "totalTimeSeconds": 26.556619166</div>
                 </td>
             </tr>
             <tr>
                 <td>2025-11-29</td>
-                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillbethere2" target="_blank"><code>shawillb</code></a></td>
+                <td><a href="https://github.com/coreruleset/coreruleset/commit/shawillb" target="_blank"><code>shawillb</code></a></td>
                 <td>0.04 min</td>
                 <td>572</td>
                 <td class="change-increase">▲ +572</td>
@@ -870,10 +1099,16 @@
             <tr id="details-2025-11-29_102619_shawillb" class="details-row">
                 <td colspan="11" class="details-cell">
                     <h3>Diff from Previous Run</h3>
-                    <p><em>No previous run available for comparison</em></p>
+                    <p><em>First run - no previous data</em></p>
                 </td>
             </tr>
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <p>Quantitative Test Report | <a href="https://github.com/coreruleset" target="_blank">CRS GitHub</a> | Generated automatically</p>
+    </footer>
 </body>
 </html>
