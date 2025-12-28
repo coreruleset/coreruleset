@@ -24,6 +24,7 @@ env:
   SIZE: "1M"
   PARANOIA_LEVEL: "4"
   GO_FTW_VERSION: '1.3.0'
+  RESULTS_FILE: "results.json"
 
 permissions: {}
 jobs:
@@ -56,12 +57,8 @@ jobs:
 
       - name: "Run quantitative tests"
         if: ${{ github.event_name == 'schedule' || (inputs.run_tests == true && inputs.rebuild != true) }}
-        id: run-tests
         working-directory: main-repo
         run: |
-          TIMESTAMP=$(date -u +"%Y-%m-%d_%H%M%S")
-          RESULTS_FILE="${TIMESTAMP}_${{ github.actor }}.json"
-
           echo "Running quantitative tests: language=${{ env.LANGUAGE }}, year=${{ env.YEAR }}, size=${{ env.SIZE }}, paranoia=${{ env.PARANOIA_LEVEL }}"
 
           ../ftw quantitative \
@@ -69,12 +66,10 @@ jobs:
             -y "${{ env.YEAR }}" \
             -s "${{ env.SIZE }}" \
             -P "${{ env.PARANOIA_LEVEL }}" \
-            -o json -f "../$RESULTS_FILE"
+            -o json -f "../${{ env.RESULTS_FILE }}"
 
-          echo "📊 Test Results:"
-          cat "../$RESULTS_FILE" | jq .
-
-          echo "results_file=$RESULTS_FILE" >> "$GITHUB_OUTPUT"
+          echo "📊 Test Results stored in ${{ env.RESULTS_FILE }}:"
+          cat "../${{ env.RESULTS_FILE }}" | jq .
 
       - name: "Cache corpus file"
         if: ${{ github.event_name == 'schedule' || (inputs.run_tests == true && inputs.rebuild != true) }}
@@ -89,7 +84,7 @@ jobs:
           ref: 'gh-pages'
           path: 'gh-pages-repo'
           sparse-checkout: |
-            scripts/quant-weekly-report.sh
+            scripts/generate-quantitative-report.sh
             scripts/quantitative-template.html
             docs/quantitative.html
             docs/reports
@@ -100,26 +95,31 @@ jobs:
       #     sudo apt-get update
       #     sudo apt-get install -y jq bc
 
-      - name: "Copy new results to reports directory"
-        if: ${{ github.event_name == 'schedule' || (inputs.run_tests == true && inputs.rebuild != true) }}
-        run: |
-          mkdir -p gh-pages-repo/docs/reports
-          cp "${{ steps.run-tests.outputs.results_file }}" gh-pages-repo/docs/reports/
-          echo "📁 New results added:"
-          ls -la gh-pages-repo/docs/reports/*.json | tail -5
-
       - name: "Generate quantitative report"
         working-directory: gh-pages-repo
         run: |
-          echo "🔄 Generating report from all data..."
-          ./scripts/quant-weekly-report.sh --rebuild \
-            ./docs/quantitative.html \
-            "${{ env.LANGUAGE }}" \
-            "${{ env.YEAR }}" \
-            "${{ env.SIZE }}" \
-            "${{ env.PARANOIA_LEVEL }}" \
-            "${{ github.sha }}" \
-            "./docs/reports"
+          if [ "${{ inputs.rebuild }}" = "true" ]; then
+            echo "🔄 Rebuilding report from existing data..."
+            ./scripts/generate-quantitative-report.sh --rebuild \
+              ./docs/quantitative.html \
+              "${{ env.LANGUAGE }}" \
+              "${{ env.YEAR }}" \
+              "${{ env.SIZE }}" \
+              "${{ env.PARANOIA_LEVEL }}" \
+              "${{ github.sha }}" \
+              "./docs/reports"
+          else
+            echo "📊 Adding new results..."
+            ./scripts/generate-quantitative-report.sh \
+              "../${{ env.RESULTS_FILE }}" \
+              ./docs/quantitative.html \
+              "${{ env.LANGUAGE }}" \
+              "${{ env.YEAR }}" \
+              "${{ env.SIZE }}" \
+              "${{ env.PARANOIA_LEVEL }}" \
+              "${{ github.sha }}" \
+              "./docs/reports"
+          fi
 
       - name: "Commit and push"
         working-directory: gh-pages-repo
