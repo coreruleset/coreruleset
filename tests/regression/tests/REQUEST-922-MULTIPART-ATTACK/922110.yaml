@@ -60,3 +60,33 @@ tests:
         output:
           log:
             no_expect_ids: [922110]
+  - test_id: 3
+    desc: "Positive test: utf-7 is not allowed, even if there is another part"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=boundary
+            Accept: "*/*"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: |
+            --boundary
+            Content-disposition: form-data; name="username"
+            Content-Type: text/plain; charset=utf-7
+
+            +ADw-script src+AD0AIg-x+ACI /+AD4
+            --boundary
+            Content-disposition: form-data; name="username"
+            Content-Type: text/plain; charset=utf-8
+
+            I shold be allowed to get in.
+            --boundary--
+        output:
+          log:
+            expect_ids: [922110]
+
