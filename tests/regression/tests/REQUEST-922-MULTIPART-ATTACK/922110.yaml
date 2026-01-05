@@ -1,63 +1,885 @@
 ---
 meta:
-  author: "Felipe Zipitria"
-  description: Test Multipart/form-data
+  author: "fzipi, airween"
   enabled: true
   name: 922110.yaml
+  description: "Tests for rule 922110 - Illegal MIME Multipart Header content-type charset parameter"
+
 tests:
+  #
+  # Test 1: Single part with malicious charset (utf-7)
+  # This should be blocked
+  #
   - test_title: 922110-1
-    desc: "Positive test: utf-7 is not in allowed charsets"
+    desc: "Single multipart part with illegal charset=utf-7"
     stages:
       - stage:
           input:
-            dest_addr: 127.0.0.1
+            method: POST
+            uri: "/"
             headers:
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Content-Type: multipart/form-data; boundary=boundary
-              Accept: "*/*"
-            method: POST
-            port: 80
-            uri: "/post"
-            version: "HTTP/1.1"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
             data: |
-              --boundary
-              Content-disposition: form-data; name="_charset_"
-
-              utf-8
-              --boundary
-              Content-disposition: form-data; name="922110"
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="username"
               Content-Type: text/plain; charset=utf-7
 
-              Knock knock.
-              --boundary--
+              +ADw-img+ACA-src+AD0-x+AD4-
+              ------WebKitFormBoundary--
           output:
             log_contains: id "922110"
+
+  #
+  # Test 2: Malicious charset in FIRST part, legitimate in SECOND part (THE BUG CASE)
+  # This is the bypass scenario - should be blocked
+  #
   - test_title: 922110-2
-    desc: "Negative test: utf-8 is allowed"
+    desc: "Multipart with illegal charset=utf-7 in first part, legitimate utf-8 in second part (bypass scenario)"
     stages:
       - stage:
           input:
-            dest_addr: 127.0.0.1
+            method: POST
+            uri: "/"
             headers:
               Host: "localhost"
-              User-Agent: OWASP ModSecurity Core Rule Set
-              Content-Type: multipart/form-data; boundary=boundary
-              Accept: "*/*"
-            method: POST
-            port: 80
-            uri: "/post"
-            version: "HTTP/1.1"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
             data: |
-              --boundary
-              Content-disposition: form-data; name="_charset_"
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="username"
+              Content-Type: text/plain; charset=utf-7
 
-              utf-8
-              --boundary
-              Content-disposition: form-data; name="negative"
+              +ADw-img+ACA-src+AD0-x+AD4-
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="dummy"
               Content-Type: text/plain; charset=utf-8
 
-              I shold be allowed to get in.
-              --boundary--
+              test
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 3: Legitimate charset in FIRST part, malicious in SECOND part
+  # Should be blocked
+  #
+  - test_title: 922110-3
+    desc: "Multipart with legitimate utf-8 in first part, illegal charset=utf-7 in second part"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="dummy"
+              Content-Type: text/plain; charset=utf-8
+
+              test
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="username"
+              Content-Type: text/plain; charset=utf-7
+
+              +ADw-img+ACA-src+AD0-x+AD4-
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 4: DUPLICATE part names, first has malicious charset (EDGE CASE)
+  # This tests the scenario where both parts have the same name="username"
+  # Should be blocked
+  #
+  - test_title: 922110-4
+    desc: "Multipart with duplicate part names - first has illegal charset=utf-7, second has utf-8"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="username"
+              Content-Type: text/plain; charset=utf-7
+
+              +ADw-img+ACA-src+AD0-x+AD4-
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="username"
+              Content-Type: text/plain; charset=utf-8
+
+              legitimate
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 5: All legitimate charsets (utf-8)
+  # Should NOT be blocked
+  #
+  - test_title: 922110-5
+    desc: "Multipart with all legitimate charsets (utf-8)"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+              Content-Type: text/plain; charset=utf-8
+
+              value1
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field2"
+              Content-Type: text/plain; charset=utf-8
+
+              value2
+              ------WebKitFormBoundary--
+          output:
+            no_log_contains: id "922110"
+
+  #
+  # Test 6: Multiple legitimate charsets (iso-8859-1, utf-8, windows-1252)
+  # Should NOT be blocked
+  #
+  - test_title: 922110-6
+    desc: "Multipart with various legitimate charsets"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+              Content-Type: text/plain; charset=iso-8859-1
+
+              value1
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field2"
+              Content-Type: text/plain; charset=utf-8
+
+              value2
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field3"
+              Content-Type: text/plain; charset=windows-1252
+
+              value3
+              ------WebKitFormBoundary--
+          output:
+            no_log_contains: id "922110"
+
+  #
+  # Test 7: Three parts - malicious in the MIDDLE
+  # Should be blocked
+  #
+  - test_title: 922110-7
+    desc: "Multipart with illegal charset in middle part (between two legitimate parts)"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+              Content-Type: text/plain; charset=utf-8
+
+              value1
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="attack"
+              Content-Type: text/plain; charset=utf-7
+
+              +ADw-script+AD4-alert(1)+ADw-/script+AD4-
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field3"
+              Content-Type: text/plain; charset=utf-8
+
+              value3
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 8: Malicious charset=utf-16 (alternative attack)
+  # Should be blocked
+  #
+  - test_title: 922110-8
+    desc: "Multipart with illegal charset=utf-16"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="attack"
+              Content-Type: text/plain; charset=utf-16
+
+              malicious content
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 9: Multiple malicious charsets
+  # Should be blocked (and potentially could show count in logs)
+  #
+  - test_title: 922110-9
+    desc: "Multipart with multiple illegal charsets (utf-7 and utf-16)"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="attack1"
+              Content-Type: text/plain; charset=utf-7
+
+              +ADw-script+AD4-
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="attack2"
+              Content-Type: text/plain; charset=utf-16
+
+              attack
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 10: Part without Content-Type header
+  # Should NOT be blocked (no content-type to validate)
+  #
+  - test_title: 922110-10
+    desc: "Multipart with parts having no Content-Type header"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+
+              value1
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field2"
+
+              value2
+              ------WebKitFormBoundary--
+          output:
+            no_log_contains: id "922110"
+
+  #
+  # Test 11: Mixed - some parts with Content-Type, some without, one malicious
+  # Should be blocked
+  #
+  - test_title: 922110-11
+    desc: "Multipart with mixed parts - some with Content-Type (one malicious), some without"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+
+              no content type
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="attack"
+              Content-Type: text/html; charset=utf-7
+
+              +ADw-script+AD4-
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field3"
+              Content-Type: text/plain; charset=utf-8
+
+              legitimate
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 12: Charset with quotes (legitimate)
+  # Should NOT be blocked
+  #
+  - test_title: 922110-12
+    desc: "Multipart with quoted charset value (legitimate)"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+              Content-Type: text/plain; charset="utf-8"
+
+              value
+              ------WebKitFormBoundary--
+          output:
+            no_log_contains: id "922110"
+
+  #
+  # Test 13: Charset with whitespace variations (legitimate)
+  # Should NOT be blocked
+  #
+  - test_title: 922110-13
+    desc: "Multipart with whitespace around charset parameter"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+              Content-Type: text/plain;  charset = utf-8
+
+              value
+              ------WebKitFormBoundary--
+          output:
+            no_log_contains: id "922110"
+
+  #
+  # Test 14: Case variations in charset (UTF-8, Utf-8, etc.) - legitimate
+  # Should NOT be blocked
+  #
+  - test_title: 922110-14
+    desc: "Multipart with case variations in legitimate charset"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+              Content-Type: text/plain; charset=UTF-8
+
+              value1
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field2"
+              Content-Type: text/plain; charset=Utf-8
+
+              value2
+              ------WebKitFormBoundary--
+          output:
+            no_log_contains: id "922110"
+
+  #
+  # Test 15: Malicious charset=shift-jis
+  # Should be blocked
+  #
+  - test_title: 922110-15
+    desc: "Multipart with illegal charset=shift-jis"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="attack"
+              Content-Type: text/plain; charset=shift-jis
+
+              attack payload
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 16: Charset iso-8859-15 (legitimate, with variant)
+  # Should NOT be blocked
+  #
+  - test_title: 922110-16
+    desc: "Multipart with legitimate charset=iso-8859-15"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+              Content-Type: text/plain; charset=iso-8859-15
+
+              value
+              ------WebKitFormBoundary--
+          output:
+            no_log_contains: id "922110"
+
+  #
+  # Test 17: Wildcard content-type with charset (application/*)
+  # Legitimate charset should pass
+  #
+  - test_title: 922110-17
+    desc: "Multipart with wildcard content-type and legitimate charset"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+              Content-Type: application/*; charset=utf-8
+
+              value
+              ------WebKitFormBoundary--
+          output:
+            no_log_contains: id "922110"
+
+  #
+  # Test 18: Content-type with multiple parameters including charset
+  # Legitimate charset should pass
+  #
+  - test_title: 922110-18
+    desc: "Multipart with content-type having multiple parameters"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+              Content-Type: text/plain; charset=utf-8; boundary=inner
+
+              value
+              ------WebKitFormBoundary--
+          output:
+            no_log_contains: id "922110"
+
+  #
+  # Test 19: Empty multipart (no parts)
+  # Should NOT be blocked
+  #
+  - test_title: 922110-19
+    desc: "Empty multipart request"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary--
+          output:
+            no_log_contains: id "922110"
+
+  #
+  # Test 20: Five parts - malicious in position 3 of 5
+  # Tests that detection works regardless of position
+  #
+  - test_title: 922110-20
+    desc: "Multipart with 5 parts - illegal charset in middle (position 3)"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+              Content-Type: text/plain; charset=utf-8
+
+              value1
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field2"
+              Content-Type: text/plain; charset=utf-8
+
+              value2
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="attack"
+              Content-Type: text/plain; charset=utf-32
+
+              malicious
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field4"
+              Content-Type: text/plain; charset=utf-8
+
+              value4
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field5"
+              Content-Type: text/plain; charset=utf-8
+
+              value5
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 21: Malicious charset with uppercase
+  # Should be blocked (t:lowercase should normalize it)
+  #
+  - test_title: 922110-21
+    desc: "Multipart with illegal charset in uppercase (UTF-7)"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="attack"
+              Content-Type: text/plain; CHARSET=UTF-7
+
+              +ADw-script+AD4-
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 22: Content-type without charset parameter
+  # Should NOT be blocked (no charset to validate)
+  #
+  - test_title: 922110-22
+    desc: "Multipart with content-type but no charset parameter"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+              Content-Type: application/octet-stream
+
+              binary data
+              ------WebKitFormBoundary--
+          output:
+            no_log_contains: id "922110"
+
+  #
+  # Test 23: Malicious charset with additional parameters after it
+  # Should be blocked
+  #
+  - test_title: 922110-23
+    desc: "Multipart with illegal charset followed by other parameters"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="attack"
+              Content-Type: text/plain; charset=utf-7; boundary=inner
+
+              +ADw-script+AD4-
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 24: Very long multipart with many parts (stress test)
+  # Malicious charset in part 10 of 15
+  #
+  - test_title: 922110-24
+    desc: "Stress test - 15 parts with illegal charset in part 10"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+              Content-Type: text/plain; charset=utf-8
+
+              value1
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field2"
+              Content-Type: text/plain; charset=utf-8
+
+              value2
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field3"
+              Content-Type: text/plain; charset=utf-8
+
+              value3
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field4"
+              Content-Type: text/plain; charset=utf-8
+
+              value4
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field5"
+              Content-Type: text/plain; charset=utf-8
+
+              value5
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field6"
+              Content-Type: text/plain; charset=utf-8
+
+              value6
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field7"
+              Content-Type: text/plain; charset=utf-8
+
+              value7
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field8"
+              Content-Type: text/plain; charset=utf-8
+
+              value8
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field9"
+              Content-Type: text/plain; charset=utf-8
+
+              value9
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="ATTACK_HERE"
+              Content-Type: text/plain; charset=utf-7
+
+              +ADw-script+AD4-alert(1)+ADw-/script+AD4-
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field11"
+              Content-Type: text/plain; charset=utf-8
+
+              value11
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field12"
+              Content-Type: text/plain; charset=utf-8
+
+              value12
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field13"
+              Content-Type: text/plain; charset=utf-8
+
+              value13
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field14"
+              Content-Type: text/plain; charset=utf-8
+
+              value14
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field15"
+              Content-Type: text/plain; charset=utf-8
+
+              value15
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 25: Malicious charset=euc-jp
+  # Should be blocked
+  #
+  - test_title: 922110-25
+    desc: "Multipart with illegal charset=euc-jp"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="attack"
+              Content-Type: text/plain; charset=euc-jp
+
+              attack payload
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 26: Three duplicate part names, middle one has malicious charset
+  # This is a critical edge case
+  #
+  - test_title: 922110-26
+    desc: "Three parts with same name, middle has illegal charset"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="data"
+              Content-Type: text/plain; charset=utf-8
+
+              first
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="data"
+              Content-Type: text/plain; charset=utf-7
+
+              +ADw-attack+AD4-
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="data"
+              Content-Type: text/plain; charset=utf-8
+
+              third
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 27: Charset with non-standard but allowed value (iso-8859-1)
+  # Should NOT be blocked
+  #
+  - test_title: 922110-27
+    desc: "Multipart with legitimate charset=iso-8859-1"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="field1"
+              Content-Type: text/plain; charset=iso-8859-1
+
+              value
+              ------WebKitFormBoundary--
+          output:
+            no_log_contains: id "922110"
+
+  #
+  # Test 28: Malicious charset with obfuscation attempts (extra spaces)
+  # Should still be blocked after t:lowercase
+  #
+  - test_title: 922110-28
+    desc: "Multipart with illegal charset and spacing obfuscation"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="attack"
+              Content-Type: text/plain;  charset  =  utf-7
+
+              +ADw-script+AD4-
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 29: Content-Type header case variations (should work due to t:lowercase)
+  # Malicious charset should be blocked
+  #
+  - test_title: 922110-29
+    desc: "Multipart with Content-Type header in mixed case"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="attack"
+              CoNtEnT-TyPe: text/plain; charset=utf-7
+
+              +ADw-script+AD4-
+              ------WebKitFormBoundary--
+          output:
+            log_contains: id "922110"
+
+  #
+  # Test 30: Application/json with charset (legitimate)
+  # Should NOT be blocked
+  #
+  - test_title: 922110-30
+    desc: "Multipart with application/json and legitimate charset"
+    stages:
+      - stage:
+          input:
+            method: POST
+            uri: "/"
+            headers:
+              Host: "localhost"
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+            data: |
+              ------WebKitFormBoundary
+              Content-Disposition: form-data; name="jsondata"
+              Content-Type: application/json; charset=utf-8
+
+              {"test": "data"}
+              ------WebKitFormBoundary--
           output:
             no_log_contains: id "922110"
