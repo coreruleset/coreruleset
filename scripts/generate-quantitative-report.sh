@@ -243,8 +243,28 @@ if [ "$REBUILD_MODE" = true ]; then
     echo "Found ${#REPORT_FILES[@]} reports to process"
     
     # Build JSON array from all reports using jq for proper handling
+    # Extract date and time from filename and add to each report
     JSON_FILE=$(make_temp)
-    jq -s -c '.' "${REPORT_FILES[@]}" > "$JSON_FILE"
+    {
+        echo "["
+        FIRST=true
+        for REPORT_FILE in "${REPORT_FILES[@]}"; do
+            FILENAME=$(basename "$REPORT_FILE")
+            # Extract date and time from filename (format: YYYY-MM-DD_HHMMSS_commit.json)
+            FILE_DATE=$(echo "$FILENAME" | cut -d'_' -f1)
+            FILE_TIME=$(echo "$FILENAME" | cut -d'_' -f2)
+            FILE_TIMESTAMP="${FILE_DATE} ${FILE_TIME:0:2}:${FILE_TIME:2:2}"
+            
+            if [ "$FIRST" = false ]; then
+                echo ","
+            fi
+            FIRST=false
+            
+            # Add date, time, and timestamp fields to the report
+            jq -c ". + {date: \"${FILE_DATE}\", time: \"${FILE_TIME}\", timestamp: \"${FILE_TIMESTAMP}\"}" "$REPORT_FILE"
+        done
+        echo "]"
+    } > "$JSON_FILE"
     
     # Validate JSON
     if ! jq empty "$JSON_FILE" >/dev/null 2>&1; then
