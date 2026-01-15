@@ -1,0 +1,70 @@
+---
+meta:
+  author: "touchweb_vincent"
+  description: "Blocks non-standard URL-encoded to prevent exploit or evasion"
+rule_id: 921500
+tests:
+  - test_id: 1
+    desc: "Blocks %2F to prevent information leaks"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/html;q=0.9,*/*;q=0.8
+          uri: "/..%2F..%2Ftest.png"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921500]
+  - test_id: 2
+    desc: "Blocks %2F to prevent information leaks: negative test"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/html;q=0.9,*/*;q=0.8
+          uri: "/?test=..%2F...%2Ftest.png"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [921500]
+  - test_id: 3
+    desc: "Blocks %2e to prevent exploit such as CVE-2021-41773"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/html;q=0.9,*/*;q=0.8
+          uri: "/.%2e/test.html"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921500]
+  - test_id: 4
+    desc: "Blocks non-standard URL-encoded characters to prevent bypass of misconfigured phase-1 rules."
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/html;q=0.9,*/*;q=0.8
+          uri: "/phpinfo%2E%70%68%70"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921500]
