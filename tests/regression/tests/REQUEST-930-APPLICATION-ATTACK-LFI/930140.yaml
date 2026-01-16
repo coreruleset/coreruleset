@@ -1,0 +1,117 @@
+---
+meta:
+  author: "disisto"
+rule_id: 930140
+tests:
+  - test_id: 1
+    desc: "Vite.js /@fs/ path traversal - etc/passwd"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/@fs/etc/passwd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 2
+    desc: "Vite.js /@fs/ path traversal - .env file"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/@fs/.env"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 3
+    desc: "Vite.js /@fs/ path traversal - AWS credentials"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/@fs/.aws/credentials"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 4
+    desc: "Vite.js /@fs/ path traversal with query string"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/@fs/etc/passwd?import"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 5
+    desc: "Vite.js /@id/ module exploit"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/@id/__x00__?import"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 6
+    desc: "Legitimate request with @ in path"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/user/@admin/profile"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930140]
+  - test_id: 7
+    desc: "Legitimate request with fs in path"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/api/filesystem/list"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930140]
