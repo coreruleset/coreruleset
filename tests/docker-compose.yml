@@ -36,7 +36,7 @@ x-nginx-env: &nginx-env
 services:
   modsec2-apache: &apache
     container_name: modsec2-apache
-    image: owasp/modsecurity-crs:apache@sha256:f2523fbe1bc500399901f5e18ddd1b3cf1a653d7bfae4f12e80a077f3256dee5
+    image: owasp/modsecurity-crs:apache@sha256:fc147eb3e1ab626b0c693222d87005f6cf647cea58613b47e360c18943fed35f
 
     # NOTE: The user used to run the container process is explicitly set to
     # 'root'. This fixes issues with permissions on the logging directories used
@@ -66,7 +66,7 @@ services:
 
   modsec3-nginx: &nginx
     container_name: modsec3-nginx
-    image: owasp/modsecurity-crs:nginx@sha256:f7d39903fca30e5af4c741929de2c276e19bc63c91669ab8466c20a36dc9d9bd
+    image: owasp/modsecurity-crs:nginx@sha256:eb7fa46bea1fa2e2d83793058cea4152ca0895cf6ad15d52a6ebe7f26bef900c
     # NOTE: The user used to run the container process is explicitly set to
     # 'root'. This fixes issues with permissions on the logging directories used
     # as bind mounts. This is done as *a convenience for running the CRS testing
