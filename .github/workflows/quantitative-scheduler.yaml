@@ -1,0 +1,131 @@
+name: Quantitative Report
+
+on:
+  # Allows manual triggering of the workflow
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: 'Run quantitative tests before generating the report'
+        required: false
+        default: true
+        type: boolean
+      rebuild:
+        description: 'Full rebuild report from all existing reports (implies run_tests=false)'
+        required: false
+        default: false
+        type: boolean
+  # Runs weekly on Monday at 3:30 AM UTC
+  schedule:
+    - cron: '30 3 * * 1'
+
+env:
+  LANGUAGE: "eng"
+  YEAR: "2023"
+  SIZE: "1M"
+  PARANOIA_LEVEL: "4"
+  GO_FTW_VERSION: '1.3.0'
+  RESULTS_FILE: "results.json"
+
+permissions: {}
+jobs:
+  quantitative-report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: "Checkout main branch (for running quantitative tests with latest rules)"
+        if: ${{ github.event_name == 'schedule' || (inputs.run_tests == true && inputs.rebuild != true) }}
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          ref: 'main'
+          path: 'main-repo'
+
+      - name: "Install go-ftw"
+        if: ${{ github.event_name == 'schedule' || (inputs.run_tests == true && inputs.rebuild != true) }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download -R coreruleset/go-ftw "v${{ env.GO_FTW_VERSION }}" \
+            -p "ftw_${{ env.GO_FTW_VERSION }}_linux_amd64.tar.gz" -O - | tar -xzvf - ftw
+
+      - name: "Restore corpus cache"
+        if: ${{ github.event_name == 'schedule' || (inputs.run_tests == true && inputs.rebuild != true) }}
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.ftw/*.txt
+          key: ${{ env.LANGUAGE }}_news_${{ env.YEAR }}_${{ env.SIZE }}-sentences.txt
+
+      - name: "Run quantitative tests"
+        if: ${{ github.event_name == 'schedule' || (inputs.run_tests == true && inputs.rebuild != true) }}
+        working-directory: main-repo
+        run: |
+          echo "Running quantitative tests: language=${{ env.LANGUAGE }}, year=${{ env.YEAR }}, size=${{ env.SIZE }}, paranoia=${{ env.PARANOIA_LEVEL }}"
+
+          ../ftw quantitative \
+            -L "${{ env.LANGUAGE }}" \
+            -y "${{ env.YEAR }}" \
+            -s "${{ env.SIZE }}" \
+            -P "${{ env.PARANOIA_LEVEL }}" \
+            -o json -f "../${{ env.RESULTS_FILE }}"
+
+          echo "📊 Test Results stored in ${{ env.RESULTS_FILE }}:"
+          cat "../${{ env.RESULTS_FILE }}" | jq .
+
+      - name: "Cache corpus file"
+        if: ${{ github.event_name == 'schedule' || (inputs.run_tests == true && inputs.rebuild != true) }}
+        uses: actions/cache@v4
+        with:
+          path: ~/.ftw/*.txt
+          key: ${{ env.LANGUAGE }}_news_${{ env.YEAR }}_${{ env.SIZE }}-sentences.txt
+
+      - name: "Checkout gh-pages branch"
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          ref: 'gh-pages'
+          path: 'gh-pages-repo'
+          sparse-checkout: |
+            scripts/generate-quantitative-report.sh
+            scripts/quantitative-template.html
+            docs/quantitative.html
+            docs/reports
+
+      # TODO: I bet they are already installed
+      # - name: "Install dependencies"
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y jq bc
+
+      - name: "Generate quantitative report"
+        working-directory: gh-pages-repo
+        run: |
+          if [ "${{ inputs.rebuild }}" = "true" ]; then
+            echo "🔄 Rebuilding report from existing data..."
+            ./scripts/generate-quantitative-report.sh --rebuild \
+              ./docs/quantitative.html \
+              "${{ env.LANGUAGE }}" \
+              "${{ env.YEAR }}" \
+              "${{ env.SIZE }}" \
+              "${{ env.PARANOIA_LEVEL }}" \
+              "${{ github.sha }}" \
+              "./docs/reports"
+          else
+            echo "📊 Adding new results..."
+            ./scripts/generate-quantitative-report.sh \
+              "../${{ env.RESULTS_FILE }}" \
+              ./docs/quantitative.html \
+              "${{ env.LANGUAGE }}" \
+              "${{ env.YEAR }}" \
+              "${{ env.SIZE }}" \
+              "${{ env.PARANOIA_LEVEL }}" \
+              "${{ github.sha }}" \
+              "./docs/reports"
+          fi
+
+      - name: "Commit and push"
+        working-directory: gh-pages-repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ./docs/quantitative.html ./docs/reports/
+          git diff --staged --quiet || git commit -m "Quantitative report - $(date -u +"%Y-%m-%d %H:%M:%S")"
+          git push
