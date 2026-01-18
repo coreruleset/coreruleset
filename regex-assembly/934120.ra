@@ -11,7 +11,10 @@
 ##!> assemble
   ##!> include url-schemes
   ##!=>
-  ://
+##! Per https://github.com/coreruleset/coreruleset/issues/4384,
+##! some malformed urls can be normalized by parsers, creating a bypass.
+##! Changed to have optional slashes.
+  :/?/?
   ##!=>
 
   ##! http://425.510.425.510/ Dotted decimal with overflow (already covered by RFI rule 931100)
