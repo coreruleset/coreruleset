@@ -45,10 +45,10 @@
 ##!       regex escape sequences (such as \x3c and \x3e) still apply.
 ##!
 ##! Different positions in the original regex used different character sets:
-##! - ldap-prefix-chars: excludes : but NOT comma (used in prefix and pattern 3 suffix)
-##! - ldap-pattern-chars: excludes comma but NOT colon, also excludes = (used in patterns 1 and 3)
-##!> define ldap-prefix-chars \(\)&\|\!\x3c\x3e~:
-##!> define ldap-pattern-chars \(\),\x3c\x3d\x3e&\|\!~
+##! - ldap-prefix-chars: excludes colon (:) and special chars, but NOT comma (used in prefix and pattern 3 suffix)
+##! - ldap-pattern-chars: excludes comma (,) and equals (=), but NOT colon (used in patterns 1 and 3)
+##!> define ldap-prefix-chars :\(\)&\|\!\x3c\x3e~
+##!> define ldap-pattern-chars ,=\(\)&\|\!\x3c\x3e~
 ##!> define ldap-bool-ops &!\|
 ##!> define comparison-prefix \x3c\x3e~
 
