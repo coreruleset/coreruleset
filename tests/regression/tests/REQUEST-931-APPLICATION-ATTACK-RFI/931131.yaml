@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "emphazer, azurit"
+  author: "emphazer, azurit, touchweb_vincent"
 rule_id: 931131
 tests:
   - test_id: 1
@@ -15,6 +15,22 @@ tests:
           method: GET
           port: 80
           uri: "/get/file:%2f%2f/usr/src/blog/app/assets/javascripts/%252e%252e/%252e%252e/%252e%252e/%252e%252e/%252e%252e/%252e%252e/%252e%252e/%252e%252e/etc/passwd"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [931131]
+  - test_id: 2
+    desc: Remote File Inclusion Attack (931131) with same origin domain on REQUEST_FILENAME
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: example.com
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/https://example.com/"
           version: HTTP/1.1
         output:
           log:
