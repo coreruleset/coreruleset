@@ -40,14 +40,17 @@
 ##! Character class definitions for LDAP special characters
 ##! Note: Using \x3c for < and \x3e for > to prevent invalid range issues
 ##!       when the assembler reorders characters (< = 0x3c, = = 0x3d, > = 0x3e)
-##!       Definitions do NOT work in prefix/suffix markers - those are literal
+##!       Template variable definitions ({{...}}) do NOT work in prefix/suffix markers;
+##!       those markers are literal with respect to {{define}} substitution, but standard
+##!       regex escape sequences (such as \x3c and \x3e) still apply.
 ##!> define ldap-filter-special ,\(\)=&\|\!\x3c\x3e~
 ##!> define ldap-bool-ops &!\|
 ##!> define comparison-prefix \x3c\x3e~
 
 ##! Prefix: Match any characters that are NOT LDAP special characters at the start,
 ##! followed by a closing parenthesis. This represents breaking out of a filter value.
-##! Note: Must be literal here as define doesn't work with prefix marker
+##! Note: Must be literal here with respect to {{define}} substitutions, as template
+##!       variables cannot be used in the prefix marker (but normal regex escapes can)
 ##! ldap-special-chars = : ( ) & | ! < > ~
 ##!^ ^[^:\(\)&\|\!\x3c\x3e~]*\)\s*
 
