@@ -978,7 +978,7 @@ tests:
           log:
             expect_ids: [934120]
   - test_id: 50
-    desc: SSRF - Negative test - malformed URL with too few digits for dotless decimal
+    desc: SSRF - malformed URL with 9-digit dotless decimal (converts to 7.91.205.21)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -994,7 +994,7 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [934120]
+            expect_ids: [934120]
   - test_id: 51
     desc: SSRF - Negative test - malformed URL with invalid hex format (too short)
     stages:
