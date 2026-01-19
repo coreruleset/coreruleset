@@ -43,7 +43,12 @@
 ##!       Template variable definitions ({{...}}) do NOT work in prefix/suffix markers;
 ##!       those markers are literal with respect to {{define}} substitution, but standard
 ##!       regex escape sequences (such as \x3c and \x3e) still apply.
-##!> define ldap-filter-special ,\(\)=&\|\!\x3c\x3e~
+##!
+##! Different positions in the original regex used different character sets:
+##! - ldap-prefix-chars: excludes colon (:) and special chars, but NOT comma (used in prefix and pattern 3 suffix)
+##! - ldap-pattern-chars: excludes comma (,) and equals (=), but NOT colon (used in patterns 1 and 3)
+##!> define ldap-prefix-chars :\(\)&\|\!\x3c\x3e~
+##!> define ldap-pattern-chars ,=\(\)&\|\!\x3c\x3e~
 ##!> define ldap-bool-ops &!\|
 ##!> define comparison-prefix \x3c\x3e~
 
@@ -51,14 +56,15 @@
 ##! followed by a closing parenthesis. This represents breaking out of a filter value.
 ##! Note: Must be literal here with respect to {{define}} substitutions, as template
 ##!       variables cannot be used in the prefix marker (but normal regex escapes can)
-##! ldap-special-chars = : ( ) & | ! < > ~
+##! ldap-prefix-chars = : ( ) & | ! < > ~ (NO comma)
 ##!^ ^[^:\(\)&\|\!\x3c\x3e~]*\)\s*
 
 ##! Pattern 1: Opening parenthesis followed by either:
 ##!   a) An attribute name followed by optional comparison modifier and equals sign
 ##!   b) Whitespace and boolean operator with optional parenthesis
 ##! Example attacks: )(uid=*, )(&(objectClass=*), )(|(cn=admin
-\((?:[^{{ldap-filter-special}}]+[{{comparison-prefix}}]?=|\s*[{{ldap-bool-ops}}]\s*[\(\)]?\s*)
+##! Uses ldap-pattern-chars which excludes: , ( ) = & | ! < > ~ (NO colon)
+\((?:[^{{ldap-pattern-chars}}]+[{{comparison-prefix}}]?=|\s*[{{ldap-bool-ops}}]\s*[\(\)]?\s*)
 
 ##! Pattern 2: Closing parenthesis followed by opening parenthesis with boolean operator
 ##! Example attacks: ))((&, ))((|, ))((!
@@ -66,5 +72,6 @@
 
 ##! Pattern 3: Boolean operator followed by opening parenthesis and attribute with comparison
 ##! Example attacks: &(uid>=admin, |(cn<=test, !(sn~=value
-##! Note: Using literal for trailing char class as it matches ldap-special-chars
-[{{ldap-bool-ops}}]\s*\([^{{ldap-filter-special}}]+[{{comparison-prefix}}]?=[^:\(\)&\|\!\x3c\x3e~]*
+##! First char class uses ldap-pattern-chars (excludes comma, NOT colon)
+##! Second char class uses ldap-prefix-chars (excludes colon, NOT comma)
+[{{ldap-bool-ops}}]\s*\([^{{ldap-pattern-chars}}]+[{{comparison-prefix}}]?=[^{{ldap-prefix-chars}}]*
