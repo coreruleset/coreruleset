@@ -299,3 +299,51 @@ tests:
         output:
           log:
             no_expect_ids: [933220]
+  - test_id: 18
+    desc: "Should block: sess_ with commas in session ID (6-bit encoding)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: sess_abc123,def456,ghi789jkl
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 19
+    desc: "Should block: sess_ with uppercase letters (verify lowercase transformation)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: sess_ABC123def456ghi789jkl
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 20
+    desc: "Should block: SESS_ uppercase prefix (verify lowercase transformation)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: SESS_abc123def456ghi789jkl
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
