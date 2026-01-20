@@ -16,14 +16,14 @@ The OWASP CRS is a set of generic attack detection rules for use with ModSecurit
 
 Please see the [OWASP CRS page](https://coreruleset.org/) to get introduced to CRS and view resources on installation, configuration, and working with CRS. There you can also find a [list of projects related to CRS](https://coreruleset.org/) and a [list of tools](https://coreruleset.org/docs/6-development/6-6-useful_tools/) for both developers and users.
 
-## Prerequisites
+## Prerequisites for Code and Rule Contributors
 
-Before contributing to OWASP CRS, please ensure you have:
+Before contributing code or rules to OWASP CRS, please ensure you have:
 
 - Git installed
 - Basic familiarity with the command line
 - Docker installed (recommended for local testing)
-- General understanding of web application security concepts (helpful but not mandatory)
+- - General understanding of web application security concepts (helpful but not mandatory; not required for reporting issues or participating in discussions)
 
 ## Contributing to CRS
 
