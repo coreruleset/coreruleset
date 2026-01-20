@@ -3,23 +3,19 @@
 
 ##!+ i
 
-\bhaving\b\s+\d{1,10}\s*?[=<>]
-\bhaving\b\s+'[^=]{1,10}'\s*?[=<>]
-\bexecute\(
-\bexecute\s{1,5}[\w\.$]{1,5}\s{0,3}
-\bhaving\b ?\d{1,10} ?[=<>]+
-\bhaving\b ?[\'\"][^=]{1,10}[\'\" ?[=<>]+
-\bcreate\s+?table.{0,20}?\(
+\bhaving\s*\(?\s*(?:['"]?\s*\d+\s*['"]?|['"]\s*[^\d]*\s*['"]|true|false)\s*(?:[=<>+\-*/%^&!|]+|div|mod)
+\bexecute\s*\(
+\bexecute\b\s*`?\s*[\w\.$]+\s*`?
+\bcreate\b\s+\btable\b\s*`?\s*.+?\s*`?\s*\(
 \blike\W*?char\W*?\(
-select.*?case
-from.*?limit
-order\sby
-exists\s\sselect
-exists\sselect\Sif\s\(
-exists\sselect\Sifnull\s\(
-exists\sselect\Stop
-exists\sselect\Sconcat
-exists\ssystem\s\(
-exists\s\bhaving\b\s+\d{1,10}
-exists\s'[^=]{1,10}'
-\bexists\s*?\(\s*?select\b
+\bselect\b.*?\bcase\b
+\bfrom\b.*?\blimit\b
+\bfrom\b.*?\bgroup\b\s+\bby\b
+##! Commented out because it's prone to FPs.
+##! \bfrom\b.*?\bwhere\b
+\border\b\s+\bby\b
+\bexists\b\s+\bselect\b
+\bexists\b\s+\bsystem\s*\(
+\bexists\b\s+\bhaving\b\s+(?:\d+|true)
+\bexists\b\s+['"][^=]+['"]
+\bexists\s*\(\s*select\b
