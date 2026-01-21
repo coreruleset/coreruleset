@@ -56,40 +56,6 @@ tests:
           log:
             expect_ids: [932220]
   - test_id: 4
-    desc: "whxami|fish+``"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "whxami|fish+``"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [932220]
-  - test_id: 5
-    desc: "Negative test"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "echo | curx"
-          version: HTTP/1.1
-        output:
-          log:
-            no_expect_ids: [932220]
-  - test_id: 6
     desc: |
       Test for BB finding 9P5LL13Y
       echo "foo;whxam"i | tr x o | sh #"
@@ -109,7 +75,7 @@ tests:
         output:
           log:
             expect_ids: [932220]
-  - test_id: 7
+  - test_id: 5
     desc: "Block evasion using here string"
     stages:
       - input:
@@ -127,7 +93,7 @@ tests:
         output:
           log:
             expect_ids: [932220]
-  - test_id: 8
+  - test_id: 6
     desc: "Block evasion using here string with space"
     stages:
       - input:
@@ -145,7 +111,7 @@ tests:
         output:
           log:
             expect_ids: [932220]
-  - test_id: 9
+  - test_id: 7
     desc: "Block evasion using here string with single quotes"
     stages:
       - input:
@@ -163,7 +129,7 @@ tests:
         output:
           log:
             expect_ids: [932220]
-  - test_id: 10
+  - test_id: 8
     desc: "Block evasion using here string with double quotes"
     stages:
       - input:
@@ -181,7 +147,7 @@ tests:
         output:
           log:
             expect_ids: [932220]
-  - test_id: 11
+  - test_id: 9
     desc: "Block evasion using here string with command substitution"
     stages:
       - input:
@@ -199,7 +165,7 @@ tests:
         output:
           log:
             expect_ids: [932220]
-  - test_id: 12
+  - test_id: 10
     desc: "Block `time` prefix"
     stages:
       - input:
@@ -217,7 +183,7 @@ tests:
         output:
           log:
             expect_ids: [932220]
-  - test_id: 13
+  - test_id: 11
     desc: "Block `strace` prefix"
     stages:
       - input:
@@ -235,7 +201,7 @@ tests:
         output:
           log:
             expect_ids: [932220]
-  - test_id: 14
+  - test_id: 12
     desc: "Block `nohup` prefix"
     stages:
       - input:

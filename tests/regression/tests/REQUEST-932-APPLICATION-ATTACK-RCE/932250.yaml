@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Paul Beckett, Franziska Bühler, karelorigin, azurit"
+  author: "Paul Beckett, Franziska Bühler, karelorigin, azurit, Esad Cetiner"
   description: |
     Tests to trigger or not trigger rule 932250.
     - commands used must be less than 4 chars
@@ -236,3 +236,19 @@ tests:
         output:
           log:
             no_expect_ids: [932250]
+  - test_id: 15
+    desc: "True Positive: Block aa-disable"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?param=aa-disable%20php-fpm"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]

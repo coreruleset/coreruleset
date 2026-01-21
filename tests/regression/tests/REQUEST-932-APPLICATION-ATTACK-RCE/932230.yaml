@@ -1102,3 +1102,19 @@ tests:
         output:
           log:
             expect_ids: [932230]
+  - test_id: 59
+    desc: match "rmt"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+          data: "arg=;rmt"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932230]
