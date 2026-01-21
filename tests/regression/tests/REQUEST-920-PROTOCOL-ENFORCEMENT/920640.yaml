@@ -1,0 +1,196 @@
+---
+meta:
+  author: "fzipi"
+  description: "920640 must detect requests that have a request body but no `Content-Type` header"
+rule_id: 920640
+tests:
+  - test_id: 1
+    desc: POST request with body but no Content-Type header
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Length: "33"
+            Accept: "*/*"
+          uri: "/"
+          version: "HTTP/1.1"
+          data: '{"id_order":"select(sleep(10));"}'
+          autocomplete_headers: false
+        output:
+          log:
+            expect_ids: [920640]
+  - test_id: 2
+    desc: POST request with body and proper Content-Type header
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/json"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          version: "HTTP/1.1"
+          data: '{"id_order":"select(sleep(10));"}'
+        output:
+          log:
+            no_expect_ids: [920640]
+  - test_id: 3
+    desc: GET request without body (negative test)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920640]
+  - test_id: 4
+    desc: |
+      POST request with body but empty Content-Type header value.
+      For now, the test requires to have CL header for HTTP/1.1
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: ""
+            Content-Length: "33"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          version: "HTTP/1.1"
+          data: '{"id_order":"select(sleep(10));"}'
+          autocomplete_headers: false
+        output:
+          log:
+            expect_ids: [920640]
+  - test_id: 5
+    desc: |
+      POST request with body, no Content-Length and no Content-Type headers.
+      This will fail in the current HTTP/1.1 implementation,
+      but HTTP2 and up will work as the binary protocol will
+      have the proper length in the data.
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          version: "HTTP/1.1"
+          data: '{"id_order":"select(sleep(10));"}'
+          autocomplete_headers: false
+        output:
+          status: [400]
+  - test_id: 6
+    desc: POST request with simple text body and no Content-Type header
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Length: "9"
+          uri: "/test"
+          version: "HTTP/1.1"
+          data: "test_data"
+          autocomplete_headers: false
+        output:
+          log:
+            expect_ids: [920640]
+  - test_id: 7
+    desc: POST request with XML body but no Content-Type header
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Length: "46"
+          uri: "/api"
+          version: "HTTP/1.1"
+          data: '<?xml version="1.0"?><data><id>123</id></data>'
+          autocomplete_headers: false
+        output:
+          log:
+            expect_ids: [920640]
+  - test_id: 8
+    desc: PUT request with body but no Content-Type header
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "PUT"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Length: "18"
+          uri: "/resource/1"
+          version: "HTTP/1.1"
+          data: '{"name":"updated"}'
+          autocomplete_headers: false
+        output:
+          log:
+            expect_ids: [920640]
+  - test_id: 9
+    desc: POST request with Content-Length 0 (negative test - no actual body)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Length: 0
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/test"
+          version: "HTTP/1.1"
+          autocomplete_headers: false
+        output:
+          log:
+            no_expect_ids: [920640]
+  - test_id: 10
+    desc: PATCH request with body but no Content-Type header
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "PATCH"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Length: "46"
+          uri: "/resource/1"
+          version: "HTTP/1.1"
+          data: '{"op":"replace","path":"/name","value":"test"}'
+          autocomplete_headers: false
+        output:
+          log:
+            expect_ids: [920640]
