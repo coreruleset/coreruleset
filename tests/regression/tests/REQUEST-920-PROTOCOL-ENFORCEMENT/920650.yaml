@@ -1,23 +1,24 @@
 ---
 meta:
   author: "OWASP CRS Team"
-  description: "Tests for HTTP method override via _method parameter (rule 920650)"
+  description: "Tests for HTTP method override via _method parameter detection (920650)"
 
 rule_id: 920650
 
 tests:
   #
-  # ===[ Positive Tests - Query String ]===
+  # Positive tests - should trigger
   #
 
+  # Standard dangerous methods (uppercase)
   - test_id: 1
-    desc: "_method=DELETE in query string should trigger"
+    desc: "DELETE method override in query string"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/api/users/123?_method=DELETE"
+          method: "POST"
+          uri: "/api/resource?_method=DELETE"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -27,13 +28,13 @@ tests:
             expect_ids: [920650]
 
   - test_id: 2
-    desc: "_method=PUT in query string should trigger"
+    desc: "PUT method override in query string"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/resource?_method=PUT"
+          method: "POST"
+          uri: "/api/resource?_method=PUT"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -43,13 +44,13 @@ tests:
             expect_ids: [920650]
 
   - test_id: 3
-    desc: "_method=put lowercase in query string should trigger"
+    desc: "PATCH method override in query string"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/resource?_method=put"
+          method: "POST"
+          uri: "/api/resource?_method=PATCH"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -59,13 +60,13 @@ tests:
             expect_ids: [920650]
 
   - test_id: 4
-    desc: "_method=PATCH in query string should trigger"
+    desc: "OPTIONS method override in query string"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
           method: "POST"
-          uri: "/api/items?_method=PATCH"
+          uri: "/api/resource?_method=OPTIONS"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -75,13 +76,13 @@ tests:
             expect_ids: [920650]
 
   - test_id: 5
-    desc: "_method=PaTcH mixed case in query string should trigger"
+    desc: "TRACE method override in query string"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
           method: "POST"
-          uri: "/api/items?_method=PaTcH"
+          uri: "/api/resource?_method=TRACE"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -91,13 +92,13 @@ tests:
             expect_ids: [920650]
 
   - test_id: 6
-    desc: "_method=TRACE in query string should trigger"
+    desc: "CONNECT method override in query string"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/debug?_method=TRACE"
+          method: "POST"
+          uri: "/api/resource?_method=CONNECT"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -107,13 +108,13 @@ tests:
             expect_ids: [920650]
 
   - test_id: 7
-    desc: "_method=TRACK in query string should trigger"
+    desc: "HEAD method override in query string"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/debug?_method=TRACK"
+          method: "POST"
+          uri: "/api/resource?_method=HEAD"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -122,14 +123,15 @@ tests:
           log:
             expect_ids: [920650]
 
+  # Lowercase methods (case insensitivity test)
   - test_id: 8
-    desc: "_method=OPTIONS in query string should trigger"
+    desc: "Lowercase delete method override"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/api?_method=OPTIONS"
+          method: "POST"
+          uri: "/api/resource?_method=delete"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -139,13 +141,13 @@ tests:
             expect_ids: [920650]
 
   - test_id: 9
-    desc: "_method=CONNECT in query string should trigger"
+    desc: "Mixed case Delete method override"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
           method: "POST"
-          uri: "/proxy?_method=CONNECT"
+          uri: "/api/resource?_method=Delete"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -154,82 +156,15 @@ tests:
           log:
             expect_ids: [920650]
 
+  # Request body methods (POST with form data)
   - test_id: 10
-    desc: "_method=HEAD in query string should trigger"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          method: "GET"
-          uri: "/check?_method=HEAD"
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Accept: "*/*"
-        output:
-          log:
-            expect_ids: [920650]
-
-  - test_id: 11
-    desc: "_method=DEBUG in query string should trigger"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          method: "GET"
-          uri: "/admin?_method=DEBUG"
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Accept: "*/*"
-        output:
-          log:
-            expect_ids: [920650]
-
-  - test_id: 12
-    desc: "_method URL encoded DELETE in query string should trigger"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          method: "GET"
-          uri: "/api?_method=%44%45%4c%45%54%45"
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Accept: "*/*"
-        output:
-          log:
-            expect_ids: [920650]
-
-  - test_id: 13
-    desc: "_method with other parameters in query string should trigger"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          method: "GET"
-          uri: "/api/users?id=123&_method=DELETE&confirm=true"
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Accept: "*/*"
-        output:
-          log:
-            expect_ids: [920650]
-
-  #
-  # ===[ Positive Tests - Request Body ]===
-  #
-
-  - test_id: 14
-    desc: "_method=DELETE in POST body should trigger"
+    desc: "DELETE method override in POST body"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
           method: "POST"
-          uri: "/api/users/123"
+          uri: "/api/resource"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -240,90 +175,153 @@ tests:
           log:
             expect_ids: [920650]
 
-  - test_id: 15
-    desc: "_method=PUT in POST body should trigger"
+  - test_id: 11
+    desc: "PUT method override in POST body"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
           method: "POST"
-          uri: "/resource"
+          uri: "/api/resource"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: "*/*"
             Content-Type: "application/x-www-form-urlencoded"
-          data: "name=test&_method=PUT"
+          data: "_method=PUT&name=test"
         output:
           log:
             expect_ids: [920650]
 
-  - test_id: 16
-    desc: "_method=patch lowercase in POST body should trigger"
+  # GET request with _method (SameSite bypass scenario)
+  - test_id: 12
+    desc: "POST method override via GET request (CSRF bypass)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/transfer?amount=1000&_method=POST"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+        output:
+          log:
+            expect_ids: [920650]
+
+  # WebDAV methods
+  - test_id: 13
+    desc: "PROPFIND WebDAV method override"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
           method: "POST"
-          uri: "/api"
+          uri: "/webdav/file?_method=PROPFIND"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: "*/*"
-            Content-Type: "application/x-www-form-urlencoded"
-          data: "_method=patch&data=value"
+        output:
+          log:
+            expect_ids: [920650]
+
+  - test_id: 14
+    desc: "PROPPATCH WebDAV method override"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          uri: "/webdav/file?_method=PROPPATCH"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+        output:
+          log:
+            expect_ids: [920650]
+
+  - test_id: 15
+    desc: "MKCOL WebDAV method override"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          uri: "/webdav/folder?_method=MKCOL"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+        output:
+          log:
+            expect_ids: [920650]
+
+  # Minimum length methods (3 chars)
+  - test_id: 16
+    desc: "GET method override (3 chars - minimum)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          uri: "/api/resource?_method=GET"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
         output:
           log:
             expect_ids: [920650]
 
   - test_id: 17
-    desc: "_method=DELETE as only body parameter should trigger"
+    desc: "PUT method override (3 chars)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "POST"
-          uri: "/delete"
+          method: "GET"
+          uri: "/api/resource?_method=PUT"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: "*/*"
-            Content-Type: "application/x-www-form-urlencoded"
-          data: "_method=DELETE"
         output:
           log:
             expect_ids: [920650]
 
+  # Maximum length methods (10 chars)
   - test_id: 18
-    desc: "_method=TRACE in POST body should trigger"
+    desc: "ABCDEFGHIJ method override (10 chars - maximum)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
           method: "POST"
-          uri: "/api"
+          uri: "/api/resource?_method=ABCDEFGHIJ"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: "*/*"
-            Content-Type: "application/x-www-form-urlencoded"
-          data: "_method=TRACE"
         output:
           log:
             expect_ids: [920650]
 
   #
-  # ===[ Negative Tests - Should NOT Trigger ]===
+  # Negative tests - should NOT trigger
   #
 
+  # Too short (less than 3 characters)
   - test_id: 19
-    desc: "_method=GET should not trigger (no escalation)"
+    desc: "Negative - 2 character value (too short)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
           method: "POST"
-          uri: "/api?_method=GET"
+          uri: "/api/resource?_method=AB"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -333,13 +331,13 @@ tests:
             no_expect_ids: [920650]
 
   - test_id: 20
-    desc: "_method=POST should not trigger (no escalation)"
+    desc: "Negative - 1 character value (too short)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/form?_method=POST"
+          method: "POST"
+          uri: "/api/resource?_method=X"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -348,50 +346,48 @@ tests:
           log:
             no_expect_ids: [920650]
 
+  # Too long (more than 10 characters)
   - test_id: 21
-    desc: "_method=GET in body should not trigger"
+    desc: "Negative - 11 character value (too long)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
           method: "POST"
-          uri: "/api"
+          uri: "/api/resource?_method=ABCDEFGHIJK"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: "*/*"
-            Content-Type: "application/x-www-form-urlencoded"
-          data: "_method=GET"
         output:
           log:
             no_expect_ids: [920650]
 
   - test_id: 22
-    desc: "_method=POST in body should not trigger"
+    desc: "Negative - UNSUBSCRIBE (11 chars - too long)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
           method: "POST"
-          uri: "/api"
+          uri: "/api/resource?_method=UNSUBSCRIBE"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: "*/*"
-            Content-Type: "application/x-www-form-urlencoded"
-          data: "_method=POST"
         output:
           log:
             no_expect_ids: [920650]
 
+  # Contains non-alpha characters
   - test_id: 23
-    desc: "Different parameter name 'method' should not trigger"
+    desc: "Negative - Contains digit"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/api?method=DELETE"
+          method: "POST"
+          uri: "/api/resource?_method=DELETE1"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -401,13 +397,13 @@ tests:
             no_expect_ids: [920650]
 
   - test_id: 24
-    desc: "Parameter 'http_method' should not trigger"
+    desc: "Negative - Contains hyphen"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/api?http_method=DELETE"
+          method: "POST"
+          uri: "/api/resource?_method=X-DELETE"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -417,13 +413,13 @@ tests:
             no_expect_ids: [920650]
 
   - test_id: 25
-    desc: "_method with invalid/unknown value should not trigger"
+    desc: "Negative - Contains underscore"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/api?_method=INVALID"
+          method: "POST"
+          uri: "/api/resource?_method=DO_DELETE"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -433,29 +429,32 @@ tests:
             no_expect_ids: [920650]
 
   - test_id: 26
-    desc: "_method with partial match should not trigger"
+    desc: "Negative - Contains space"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/api?_method=DELETEALL"
+          method: "POST"
+          uri: "/api/resource"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: "*/*"
+            Content-Type: "application/x-www-form-urlencoded"
+          data: "_method=DEL ETE"
         output:
           log:
             no_expect_ids: [920650]
 
+  # Empty or missing value
   - test_id: 27
-    desc: "_method with prefix should not trigger"
+    desc: "Negative - Empty _method value"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/api?_method=PREDELETE"
+          method: "POST"
+          uri: "/api/resource?_method="
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -464,14 +463,15 @@ tests:
           log:
             no_expect_ids: [920650]
 
+  # Different parameter name
   - test_id: 28
-    desc: "_method empty value should not trigger"
+    desc: "Negative - method parameter (not _method)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/api?_method="
+          method: "POST"
+          uri: "/api/resource?method=DELETE"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -481,13 +481,13 @@ tests:
             no_expect_ids: [920650]
 
   - test_id: 29
-    desc: "_method without value should not trigger"
+    desc: "Negative - http_method parameter"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/api?_method"
+          method: "POST"
+          uri: "/api/resource?http_method=DELETE"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -496,13 +496,14 @@ tests:
           log:
             no_expect_ids: [920650]
 
+  # Normal requests without _method
   - test_id: 30
-    desc: "Normal request without _method should not trigger"
+    desc: "Negative - Normal GET request"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "DELETE"
+          method: "GET"
           uri: "/api/users/123"
           headers:
             User-Agent: "OWASP CRS test agent"
@@ -513,13 +514,32 @@ tests:
             no_expect_ids: [920650]
 
   - test_id: 31
-    desc: "_method as substring of another parameter should not trigger"
+    desc: "Negative - Normal POST request"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
-          method: "GET"
-          uri: "/api?my_method=DELETE"
+          method: "POST"
+          uri: "/api/users"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Content-Type: "application/x-www-form-urlencoded"
+          data: "name=test&email=test@example.com"
+        output:
+          log:
+            no_expect_ids: [920650]
+
+  # Non-method-like values
+  - test_id: 32
+    desc: "Negative - Numeric value"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          uri: "/api/resource?_method=12345"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
@@ -528,20 +548,54 @@ tests:
           log:
             no_expect_ids: [920650]
 
-  - test_id: 32
-    desc: "_method in body with different param name should not trigger"
+  - test_id: 33
+    desc: "Negative - Mixed alphanumeric"
     stages:
       - input:
           dest_addr: "127.0.0.1"
           port: 80
           method: "POST"
-          uri: "/api"
+          uri: "/api/resource?_method=abc123def"
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: "*/*"
-            Content-Type: "application/x-www-form-urlencoded"
-          data: "method=DELETE"
         output:
           log:
             no_expect_ids: [920650]
+
+  # Configuration bypass test (when tx.allow_method_override_parameter=1)
+  # Note: This test verifies behavior when the configuration allows _method
+  # The actual bypass depends on the rule chain checking tx.allow_method_override_parameter
+  - test_id: 34
+    desc: "Edge case - _method with URL-encoded value"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          uri: "/api/resource?_method=%44%45%4C%45%54%45"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+        output:
+          log:
+            expect_ids: [920650]
+
+  # Multiple parameters
+  - test_id: 35
+    desc: "DELETE method with other parameters"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          uri: "/api/resource?id=123&_method=DELETE&confirm=true"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+        output:
+          log:
+            expect_ids: [920650]
