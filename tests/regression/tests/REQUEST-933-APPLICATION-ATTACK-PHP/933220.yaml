@@ -1,0 +1,349 @@
+---
+meta:
+  author: "Felipe Zipitria"
+  description: "Tests for PHP Session File Upload Detection (CVE-2025-54236)"
+rule_id: 933220
+tests:
+  - test_id: 1
+    desc: "Should block: sess_ pattern via X-Filename"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: sess_d8ew88tqmabdcokhumchy8htqm
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 2
+    desc: "Should block: sess_ pattern with Unix path via X_Filename"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X_Filename: /tmp/sess_abc123def456ghi789jkl
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 3
+    desc: "Should block: sess_ pattern with Windows path via X-File-Name"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-File-Name: 'C:\temp\sess_malicious12345678901'
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 4
+    desc: "Should block: sess_ pattern via X.Filename"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X.Filename: sess_1234567890abcdefghij
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 5
+    desc: "Should block: sess_ pattern via multipart upload"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "multipart/form-data; boundary=--------397236876"
+          uri: "/post"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="file"; filename="sess_d8ew88tqmabdcokhumchy8htqm"
+            Content-Type: text/plain
+
+            _|O:32:"Monolog\Handler\SyslogUdpHandler":1:{S:6:"socket";O:29:"Monolog\Handler\BufferHandler":7:{}}
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 6
+    desc: "Should block: sess_ with hyphens in session ID"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: sess_abc-123-def-456-ghij
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 7
+    desc: "Should block: sess_ pattern with nested path"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-File-Name: /var/lib/php/sessions/sess_attackervector1234567890
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 8
+    desc: "Should pass: normal filename"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: document.pdf
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933220]
+  - test_id: 9
+    desc: "Should pass: sess_ in middle of filename"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: my_sess_data.txt
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933220]
+  - test_id: 10
+    desc: "Should pass: session as part of word"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: session_report.txt
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933220]
+  - test_id: 11
+    desc: "Should pass: sess_ with too short session ID"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: sess_short
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933220]
+  - test_id: 12
+    desc: "Should pass: file with .sess extension"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: mydata.sess
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933220]
+  - test_id: 13
+    desc: "Should pass: no file upload"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933220]
+  - test_id: 14
+    desc: "Should block: sess_ with maximum length session ID (64 chars)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: sess_abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwx
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 15
+    desc: "Should block: sess_ with minimum length session ID (20 chars)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: sess_12345678901234567890
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 16
+    desc: "Should block: sess_ via multipart with path"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "multipart/form-data; boundary=--------397236876"
+          uri: "/post"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="custom_attributes[vat_id]"; filename="/tmp/sess_d8ew88tqmabdcokhumchy8htqm"
+            Content-Type: text/plain
+
+            malicious payload
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 17
+    desc: "Should pass: multipart upload with safe filename"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "multipart/form-data; boundary=--------397236876"
+          uri: "/post"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="file"; filename="safe_document.txt"
+            Content-Type: text/plain
+
+            safe content
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933220]
+  - test_id: 18
+    desc: "Should block: sess_ with commas in session ID (6-bit encoding)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: sess_abc123,def456,ghi789jkl
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 19
+    desc: "Should block: sess_ with uppercase letters (verify lowercase transformation)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: sess_ABC123def456ghi789jkl
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
+  - test_id: 20
+    desc: "Should block: SESS_ uppercase prefix (verify lowercase transformation)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: SESS_abc123def456ghi789jkl
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933220]
