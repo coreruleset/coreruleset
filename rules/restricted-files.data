@@ -16,6 +16,7 @@
 .bashrc
 .boto
 .cache/notify-osd.log
+.cargo/
 .config/
 .cshrc
 .cups/
@@ -55,7 +56,10 @@
 .lhistory
 .lighttpdpassword
 .lldb-history
-.local/share/mc/
+.local/bin/
+.local/lib/
+.local/share/
+.local/state/
 .lynx_cookies
 .minikube/
 .my.cnf
@@ -83,6 +87,7 @@
 .rediscli_history
 .rhistory
 .rhosts
+.rustup
 .selected_editor
 .sh_history
 .sqlite_history
@@ -105,6 +110,7 @@
 .vimrc
 .vscode
 .vmware/
+.wget-hsts
 .www_acl
 .wwwacl
 .xauthority
@@ -312,6 +318,9 @@ aws-key.yml
 # October CMS credentials file
 /auth.json
 # Wordpress
+/debug.log
+/error.log
+/errors.log
 wp-config.
 wp-config-
 wp-config_
@@ -328,6 +337,7 @@ wp-config_
 /config/settings.inc.php
 /app/config/parameters.php
 # Magento
+/app/etc/env.php
 /app/etc/local.xml
 # ASP.NET
 /Web.config
@@ -503,3 +513,8 @@ sys/hypervisor
 sys/kernel
 sys/module
 sys/power
+
+# Vite.js development server endpoints (CVE-2025-30208)
+# These endpoints allow arbitrary file system access and should never be exposed
+/@fs/
+/@id/

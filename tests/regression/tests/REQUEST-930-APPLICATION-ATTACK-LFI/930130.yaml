@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Andrew Howe, azurit, Esad Cetiner"
+  author: "Andrew Howe, azurit, Esad Cetiner, Roberto Di Sisto, touchweb_vincent"
 rule_id: 930130
 tests:
   - test_id: 1
@@ -49,6 +49,102 @@ tests:
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/get/backup.sql.zip"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930130]
+  - test_id: 4
+    desc: "Vite.js /@fs/ path traversal (CVE-2025-30208)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/@fs/etc/passwd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930130]
+  - test_id: 5
+    desc: "Vite.js /@fs/ path traversal - .env file"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/@fs/.env"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930130]
+  - test_id: 6
+    desc: "Vite.js /@id/ module exploit"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/@id/__x00__?import"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930130]
+  - test_id: 7
+    desc: "Unauthorized attempt to access wp-content/debug.log"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/wp-content/debug.log"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930130]
+  - test_id: 8
+    desc: "Unauthorized attempt to access wp-content/error.log"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/wp-content/error.log"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930130]
+  - test_id: 9
+    desc: "Unauthorized attempt to access wp-content/errors.log"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/wp-content/errors.log"
           version: "HTTP/1.1"
         output:
           log:
