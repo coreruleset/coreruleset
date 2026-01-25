@@ -148,3 +148,247 @@ tests:
         output:
           log:
             no_expect_ids: [941120]
+  - test_id: 10
+    desc: "Negative test: Stripe webhook signature header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Stripe-Signature: "t=1614308115,v1=5257a869e7ecebeda32affa62cdca3fa51onabcd=6yJV_adQssw5c"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/webhook/stripe"
+          data: '{"id":"evt_test","type":"payment_intent.succeeded"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 11
+    desc: "Negative test: PayPal IPN callback with transaction hash"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "PayPal IPN"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/ipn/paypal"
+          data: "mc_gross=19.95&protection_eligibility=Eligible&payer_id=TESTBUYER&payment_date=12%3A34%3A56+Jan+25+2026&payment_status=Completed&txn_id=1AB23456CD789012E&transaction_subject=Payment&verify_sign=AFcWxV21C7fd0v3bYYYRCpSSRl31A.8h7mKqR9sT5wN%3D"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 12
+    desc: "Negative test: JWT token in Authorization header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Authorization: "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0onload=.POstGet_K5DGFLJrRyhshDZI"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/api/payment/status"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 13
+    desc: "Negative test: Square webhook signature with HMAC-SHA256"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Square Webhook"
+            X-Square-Signature: "1a2b3c4d5e6f7g8h9i0j1k2l3m4n5onabcde=6p7q8r9s0t"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/webhook/square"
+          data: '{"merchant_id":"MLEFBHHSJGVHD","type":"payment.updated","event_id":"c3c5b7de-8ac9-4f86-9c49-0b6dee85f7d8"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 14
+    desc: "Negative test: Adyen payment callback with merchant signature"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/webhook/adyen"
+          data: "merchantReference=TEST_ORDER_12345&skinCode=X7hsNDWp&shopperLocale=en_GB&paymentMethod=visa&authResult=AUTHORISED&pspReference=8535296475213845&merchantSig=h5xb3Qm7Yp9Lkd2Wf8Rg4Jv6Tn"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 15
+    desc: "Negative test: Braintree webhook with bt_signature containing base64url"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/webhook/braintree"
+          data: "bt_signature=MIIGSAIBAzCCBgwGCSqGSIb3DQEHAaCCBf0EggX5MIIF9TCCBfEGCSqonefgh%3Di"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 16
+    desc: "Negative test: OAuth2 access token in request body"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/payment/process"
+          data: "grant_type=authorization_code&code=xyz123&access_token=ya29.a0AfH6SMBx7QkVm3TpWz8RiPQzNsK1Dv%3D2DqE3F"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 17
+    desc: "Negative test: Merchant reference with session token base64"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/checkout"
+          data: "order_id=ORD-2026-01-25&confirmation_code=CONF-ABC123XYZ&session_token=sess_1a2b3c4Xm7Yp9Qn5Rt8Wk%3D"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 18
+    desc: "Negative test: RSA signature in PEM format URL-encoded"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/api/callback"
+          data: "signature=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2Xm7YpLk9Qw3Rt8Vf6Jn"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 19
+    desc: "Negative test: Payment gateway JSON webhook with nested transaction data"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/webhook/payment"
+          data: '{"event":"payment.succeeded","data":{"transaction_id":"txn_1ABC2Xm7YpLk9Qw3DEF4","amount":5000,"currency":"USD","signature":"hmac-sha256=5f7g8h9i0j1k2Wm3Rt5Vp9Ys"}}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 20
+    desc: "Negative test: Authorize.net SIM hash with MD5"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/payment/authnet/relay"
+          data: "x_response_code=1&x_response_reason_code=1&x_response_reason_text=Approved&x_trans_id=40011019799&x_MD5_Hash=8A7BCF1D2E3F4A5B6C7D8E9Xm3Yp7Wk1F2A"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 21
+    desc: "Negative test: Multiple payment parameters with base64 data ending in equals"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/payment/callback"
+          data: "merchant_id=12345&transaction_hash=aGVsbG93b3JsZA%3D%3D&verification_token=ZXhhbXBsZXRva2VuaGVyZQ%3D%3D&confirmation=Y29uZmlybWF0aW9uY29kZQ%3D%3D"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 22
+    desc: "Negative test: Apple Pay payment token with base64 encoded signature"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/payment/applepay"
+          data: '{"paymentData":{"version":"EC_v1","data":"encrypted_data_here","signature":"MIAGCSqGSIb3DQonabcdefgh=HIJAoGBAMIIBrTCCA","header":{"ephemeralPublicKey":"MFkwEwYHKoZIzj0CAQYonefghij=k"}}}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 23
+    desc: "Negative test: Google Pay encrypted payment data"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/payment/googlepay"
+          data: '{"signature":"MEUCIQDXm7Yp9Lk5Rt8Wf3Jn2Qv6Tn","protocolVersion":"ECv2","signedMessage":"{\"encryptedMessage\":\"Base64Encoded3RandStr1ng\"}"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
