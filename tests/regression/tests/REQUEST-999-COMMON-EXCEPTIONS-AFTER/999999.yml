@@ -1,0 +1,180 @@
+---
+meta:
+  author: "Esad Cetiner"
+  description: Tests for common rule exclusions, none of these requests should trigger a rule.
+# Note: Not a real rule-id, none of these rule exclusions use a runtime rule-exclusion.
+rule_id: 999999
+tests:
+  - test_id: 1
+    desc: Google Ads Cookie
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: __gpi=UID=000012d082717558:T=1764611074:RT=1764658644:S=ALNI_MZT8IYGZn-gzY4VcoZCUdj-puHO8g; __gads=ID=fc065971994d73ba:T=1764611074:RT=1764658644:S=ALNI_MbUmIY_O-ffMA8cghhdztYPrPoQxA
+          method: GET
+          version: HTTP/1.1
+          uri: /
+        output:
+          log:
+            no_match_regex: \[id "\d+"\]
+  - test_id: 2
+    desc: Google Funding Choices cookie
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: FCCDCF=%5Bnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2C%5B%5B32%2C%22%5B%5C%2217891cd2-fd1c-416b-a0c7-be2127c321b1%5C%22%2C%5B1764611074%2C138000000%5D%5D%22%5D%5D%5D
+          method: GET
+          version: HTTP/1.1
+          uri: /
+        output:
+          log:
+            no_match_regex: \[id "\d+"\]
+  - test_id: 3
+    desc: Security cookie for Google Ads
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: __eoi=ID=fde58d67738a756e:T=1764611074:RT=1764658644:S=AA-AfjY9P64oWMAGjBASJnvMPLRa
+          method: GET
+          version: HTTP/1.1
+          uri: /
+        output:
+          log:
+            no_match_regex: \[id "\d+"\]
+  - test_id: 4
+    desc: Google Analytics Funding Choices cookie
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: FCNEC=%5B%5B%22AKsRol_ideNgYUUm5zDfLNW5aUnVpEV35DrkuADzOiLkFzmmlwqbIY0ixljWzNrg-2OViaQ6PV6L009ApMHhoM2KBmqr9_WyP_JZsrXnVzK_afbQbxpcsgKPcHbzI7O9vScEZsE9oYTINJ4PdrioYYUI_IEprTkxUw%3D%3D%22%5D%5D
+          method: GET
+          version: HTTP/1.1
+          uri: /
+        output:
+          log:
+            no_match_regex: \[id "\d+"\]
+  - test_id: 5
+    desc: Prebid.js share cookie
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: sharedid=3a71909b-1723-4c47-bc2d-dbd9af426825
+          method: GET
+          version: HTTP/1.1
+          uri: /
+        output:
+          log:
+            no_match_regex: \[id "\d+"\]
+  - test_id: 6
+    desc: Microsoft Clarity tracking cookie
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: _clsk=w6bj73%5E1764658893198%5E1493%5E1%5Ei.clarity.ms%2Fcollect
+          method: GET
+          version: HTTP/1.1
+          uri: /
+        output:
+          log:
+            no_match_regex: \[id "\d+"\]
+  - test_id: 7
+    desc: Microsoft Clarity marketing cookie
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: _clck=1tmmozr%5E2%5Eg1i%5E0%5E2161
+          method: GET
+          version: HTTP/1.1
+          uri: /
+        output:
+          log:
+            no_match_regex: \[id "\d+"\]
+  - test_id: 8
+    desc: AWS Load balancer cookie
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: _awl=2.1764658902.5-f18ccc76569ad0b8e67406a3a3d634e0-6763652d6575726f70652d7765737431-0
+          method: GET
+          version: HTTP/1.1
+          uri: /
+        output:
+          log:
+            no_match_regex: \[id "\d+"\]
+  - test_id: 9
+    desc: Prebid.js Cookie
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: pbjs-id5id_last=Tue%2C%2002%20Dec%202025%2007%3A01%3A38%20GMT
+          method: GET
+          version: HTTP/1.1
+          uri: /
+        output:
+          log:
+            no_match_regex: \[id "\d+"\]
+  - test_id: 10
+    desc: Google Analytics Cookies
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: >-
+              _ga_5WLQM4K1ZX=GS2.2.s1764611073$o1$g1$t1764658893$j60$l0$h0;
+              _ga_PDLRJD5Q17=GS2.1.s1764611073$o1$g1$t1764658897$j56$l0$h0;
+              _ga_6DWPQ2Z1MY=GS2.1.s1764611073$o1$g1$t1764658897$j56$l0$h0
+          method: GET
+          version: HTTP/1.1
+          uri: /
+        output:
+          log:
+            no_match_regex: \[id "\d+"\]

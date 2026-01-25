@@ -148,3 +148,21 @@ tests:
         output:
           log:
             no_expect_ids: [934110]
+  - test_id: 9
+    desc: SSRF - check localhost bypass with malformed URL
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get/test?ssrf=http%3A127.0.0.1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934110]

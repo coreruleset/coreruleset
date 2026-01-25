@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Franziska Bühler, azurit"
+  author: "Christian S.J. Peron, Franziska Bühler, azurit, touchweb_vincent"
 rule_id: 942350
 tests:
   - test_id: 1
@@ -66,6 +66,40 @@ tests:
           method: GET
           port: 80
           uri: "/get?test=;truncate[xx"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942350]
+  - test_id: 5
+    desc: "Status Page Test - MySQL injection with REPLACE"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # REPLACE/*test*/test/*test*/(id, name) VALUES (1, 'test');
+          uri: "/get?test=;RePLAcE%2F%2Atest%2A%2Ftest%2F%2Atest%2A%2F%28id%2C%20name%29%20VALUES%20%281%2C%20%27test%27%29%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942350]
+  - test_id: 6
+    desc: "Status Page Test - MySQL injection with DROP TABLE"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # DROP TABLE/*test*/test;
+          uri: "/get?test=;DROP%2F%2Atest%2A%2FTABLE+test%3B"
           version: HTTP/1.1
         output:
           log:
