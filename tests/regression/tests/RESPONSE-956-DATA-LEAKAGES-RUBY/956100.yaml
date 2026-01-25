@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Xhoenix"
+  author: "Xhoenix, Esad Cetiner"
 rule_id: 956100
 tests:
   - test_id: 1
@@ -192,3 +192,45 @@ tests:
         output:
           log:
             expect_ids: [956100]
+  - test_id: 10
+    desc: "False Positive: Roundcube defining error message for frontend, matching `loaderror` in `fileuploaderror`"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "text/html"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"fileuploaderror":"File upload failed."}
+        output:
+          log:
+            no_expect_ids: [956100]
+  - test_id: 11
+    desc: "False Positive: SOGo defining error message for frontend, matching `scriptError` in `noJavascriptError`"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "text/html"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            { "noJavascriptError":"SOGo requires Javascript to run. Please make sure this option is available and activated within your browser preferences." }
+        output:
+          log:
+            no_expect_ids: [956100]

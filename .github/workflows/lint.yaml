@@ -15,19 +15,18 @@ on:
 
 # Pin versions to not disrupt test pipelines
 env:
-  CRS_TOOLCHAIN_VERSION: '2.3.4'
-  SECRULES_PARSING_VERSION: '0.2.11'
-  CRS_LINTER_VERSION: '0.1.2'
+  CRS_TOOLCHAIN_VERSION: '2.6.0'
+  SECRULES_PARSING_VERSION: '0.2.12'
+  CRS_LINTER_VERSION: '1.0.0'
 
 jobs:
   check-syntax:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.2
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
-          # required for version detection using `git describe`
-          fetch-depth: 50
+          fetch-depth: 0
 
       - name: Lint Yaml
         uses: ibiqlik/action-yamllint@2576378a8e339169678f9939646ee3ee325e845c # v3.1.1
@@ -53,76 +52,28 @@ jobs:
           git remote add upstream https://github.com/coreruleset/coreruleset
           git fetch --tags upstream
           git fetch upstream main
-          echo ${{ github.base_ref }}
           if [ -n "${{ github.base_ref }}" ]; then
+            echo "Fetching '${{ github.base_ref }}' from 'upstream'"
             git fetch upstream "${{ github.base_ref }}"
+          else
+            echo "Base ref is empty, skip fetching fro 'upstream'"
           fi
 
       - name: "Check CRS formatting"
         run: |
           pip install -U setuptools
           pip install crs-linter==${{ env.CRS_LINTER_VERSION }}
-          # First, check the commit message. This might be a release.
-          echo "Checking for release commit message ('...release vx.y.z')..."
-          if [ -n "${{ github.base_ref }}" ]; then
-            echo "Found base ref '${{ github.base_ref }}'..."
-            message="$(git log -1 --format='format:%s')"
-            if grep -iq release <<< "${message}"; then
-              version="$(grep -Po "v\d+\.\d+\.\d+" <<< "${message}")"
-              echo "Detected version from commit message: ${version}"
-            else
-              echo "Commit message doesn't appear to be for a release"
-            fi
-          fi
-          # Second, see if the branch name has the version information
-          if [ -z "${version}" ]; then
-            echo "Checking for version information in branch name ('release/vx.y.z')..."
-            release_ref="${{ github.head_ref }}"
-            if [[ "${release_ref}" =~ ^release/v ]]; then
-              version="${release_ref/release\/v/}"
-            else
-              echo "Branch name doesn't match release branch pattern: '${{ github.head_ref }}'"
-            fi
-          fi
-          # Finally, fall back to looking at the last tag.
-          # Use the target branch to look up the latest tag, e.g., `v3.3/master`, fall back
-          # to main branch.
-          # The version is either a tag, if the current commit is tagged, or a string of the form
-          # v<major>.<minor>.<patch>-<nr of commits>-g<hash>.
-          # In the former case we simply use that as the version, in the latter we construct
-          # v<major>.<minor + 1>.<patch>-dev.
-          if [ -z "${version}" ]; then
-            echo "Looking up last tag to determine version..."
-            if [ -z "${{ github.base_ref }}" ]; then
-              # e.g., force push
-              version="$(git describe --tags --match "v*.*.*")"
-            else
-              version="$(git describe --tags --match "v*.*.*" "upstream/${{ github.base_ref }}")"
-            fi
-            version="$(cut -dv -f2 <<<"${version}")"
-            echo "Detected version from last tag: ${version}"
-          fi
-          if grep -q -- "-g" <<<"${version}"; then
-            prefix="$(cut -d. -f1 <<<"${version}")"
-            minor="$(cut -d. -f2 <<<"${version}")"
-            # ignore the patch version and set it to zero
-            version="${prefix}.$((minor + 1)).0"
-            version="${version/-*-g*/}-dev"
-          fi
-          echo "Required version for check: ${version}"
           crs-linter \
             --output=github \
             -r crs-setup.conf.example \
             -r 'rules/*.conf' \
             -t util/APPROVED_TAGS \
             -f util/FILENAME_EXCLUSIONS \
-            -v "${version}"
-
-      - name: "Find rules without test"
-        run: |
-          pip install -U setuptools
-          pip install -r ./util/find-rules-without-test/requirements.txt
-          ./util/find-rules-without-test/find-rules-without-test.py --output=github .
+            -T 'tests/regression/tests/' \
+            -E 'tests/TESTS_EXCLUSIONS' \
+            -d "$(pwd)" \
+            --head-ref '${{ github.head_ref }}' \
+            --commit-message '${{ github.event.head_commit.message }}'
 
       - name: "Install crs-toolchain ${{ env.CRS_TOOLCHAIN_VERSION }}"
         env:
