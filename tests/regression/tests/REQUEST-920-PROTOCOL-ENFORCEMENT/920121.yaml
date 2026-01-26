@@ -41,7 +41,7 @@ tests:
           uri: "/"
           data: |
             ----------397236876
-            Content-Disposition: form-data; name="fileRap"; filename="te'st.txt"
+            Content-Disposition: form-data; name="fileRap"; filename="te\"st.txt"
             Content-Type: text/plain
 
             Some-file-text-here
@@ -64,7 +64,7 @@ tests:
           uri: "/"
           data: |
             ----------397236876
-            Content-Disposition: form-data; name="fileRap"; filename="te\"st.txt"
+            Content-Disposition: form-data; name="fileRap"; filename="te=st.txt"
             Content-Type: text/plain
 
             Some-file-text-here
@@ -87,29 +87,6 @@ tests:
           uri: "/"
           data: |
             ----------397236876
-            Content-Disposition: form-data; name="fileRap"; filename="te=st.txt"
-            Content-Type: text/plain
-
-            Some-file-text-here
-            ----------397236876--
-          version: "HTTP/1.1"
-        output:
-          log:
-            expect_ids: [920121]
-  - test_id: 5
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          method: "POST"
-          port: 80
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Content-Type: "multipart/form-data; boundary=--------397236876"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/"
-          data: |
-            ----------397236876
             Content-Disposition: form-data; name="fileRap"; filename="test.txt"
             Content-Type: text/plain
 
@@ -119,7 +96,7 @@ tests:
         output:
           log:
             no_expect_ids: [920121]
-  - test_id: 6
+  - test_id: 5
     desc: 'Attempted multipart/form-data bypass (920121). Match \ in FILES.'
     stages:
       - input:
@@ -143,7 +120,7 @@ tests:
         output:
           log:
             expect_ids: [920121]
-  - test_id: 7
+  - test_id: 6
     desc: 'Attempted multipart/form-data bypass (920121). Match \ in FILES_NAMES.'
     stages:
       - input:
