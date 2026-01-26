@@ -8,8 +8,8 @@
 ##! To regenerate this list from unix-shell.data, run the following:
 ##! NL=$'\n'
 ##! original="$(grep -vE '^[#$]' regex-assembly/include/unix-shell-4andup.ra)"
-##! # Exclude entries starting with `(dev|etc|proc|#)` and empty lines, they are not commands
-##! source="$(grep -vEh '^(dev|etc|proc|#|$)' rules/unix-{shell,shell-builtins}.data | \
+##! # Exclude entries starting with `(dev/|etc/|proc/|#)` and empty lines, they are not commands
+##! source="$(grep -vEh '^(dev/|etc/|proc/|#|$)' rules/unix-{shell,shell-builtins}.data | \
 ##!   awk '/^[^#$]/ {split($0,x,"/"); y=x[length(x)]} length(y) > 3 {print y}' | \
 ##!   sort | uniq)"
 ##! # retain all unmodified entries in this list and skip removed ones; ignore the manually added suffixes
