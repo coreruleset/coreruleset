@@ -345,13 +345,13 @@ tests:
       - input:
           dest_addr: 127.0.0.1
           headers:
-            Accept: "/"
+            Accept: "*/*"
             Host: localhost
             User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get?x=%40%40%7B%5BCORE%3A%3Atime%28%29%5D%7D"
-            version: HTTP/1.1
+          method: GET
+          port: 80
+          uri: "/get?x=%40%40%7B%5BCORE%3A%3Atime%28%29%5D%7D"
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934140]
@@ -361,13 +361,13 @@ tests:
       - input:
           dest_addr: 127.0.0.1
           headers:
-            Accept: "/"
+            Accept: "*/*"
             Host: localhost
             User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: "/get?x=%40%40%40%40%7B%5BCORE%3A%3Atime%28%29%5D%7D"
-            version: HTTP/1.1
+          method: GET
+          port: 80
+          uri: "/get?x=%40%40%40%40%7B%5BCORE%3A%3Atime%28%29%5D%7D"
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [934140]
