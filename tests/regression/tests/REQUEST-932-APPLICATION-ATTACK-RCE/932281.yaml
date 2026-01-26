@@ -96,7 +96,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: '/get?932281-6=[{"value":true,"key":"enabled","scope":"fileRequest"}]'
+          uri: '/get?932281-6=%5B%7B%22value%22:true,%22key%22:%22enabled%22,%22scope%22:%22fileRequest%22%7D%5D'
           version: "HTTP/1.1"
         output:
           log:
@@ -117,3 +117,21 @@ tests:
         output:
           log:
             expect_ids: [932281]
+  - test_id: 8
+    desc: |
+      False Positive: json payload with empty curly braces
+      payload: `{"single_blog_post_related_order_meta_first":[{},{}]}`
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932281-8=%7B%22single_blog_post_related_order_meta_first%22:%5B%7B%7D,%7B%7D%5D%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932281]
