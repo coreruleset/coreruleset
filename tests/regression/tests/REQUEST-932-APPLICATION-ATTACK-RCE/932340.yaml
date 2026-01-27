@@ -1,7 +1,7 @@
 ---
 meta:
   author: "Esad Cetiner, Max Leske, Franziska Bühler"
-rule_id: 932290
+rule_id: 932340
 tests:
   - test_id: 1
     desc: "/?arg=;ps"
@@ -19,7 +19,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [932290]
+            expect_ids: [932340]
   - test_id: 2
     desc: |
       Block execution of `env` command
@@ -37,7 +37,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [932290]
+            expect_ids: [932340]
   - test_id: 3
     desc: |
       Block execution of `env` command
@@ -56,7 +56,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [932290]
+            expect_ids: [932340]
   - test_id: 4
     desc: |
       Block execution of `set` command
@@ -75,7 +75,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [932290]
+            expect_ids: [932340]
   - test_id: 5
     desc: |
       Block execution of `set` command
@@ -93,7 +93,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [932290]
+            expect_ids: [932340]
   - test_id: 6
     desc: "/?arg=&aptitude"
     stages:
@@ -110,7 +110,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [932290]
+            expect_ids: [932340]
   - test_id: 7
     desc: |
       False Positive with `id` command
@@ -129,7 +129,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [932290]
+            no_expect_ids: [932340]
   - test_id: 8
     desc: |
       False Positive with `pwd` command
@@ -148,7 +148,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [932290]
+            no_expect_ids: [932340]
   - test_id: 9
     desc: |
       False Positive with `uname` command
@@ -167,4 +167,4 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [932290]
+            no_expect_ids: [932340]
