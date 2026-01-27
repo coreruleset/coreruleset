@@ -1,0 +1,103 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##! Rule 943110: Session Fixation - SessionID Parameter Names
+##!
+##! Description: Detects common session ID parameter names used in
+##! session fixation attacks. These are parameter names that appear in
+##! URLs or POST data that could be used to set session identifiers.
+##!
+##! Note: This rule uses t:lowercase transformation, so all patterns
+##! are in lowercase.
+
+##!^ ^
+##!$ $
+
+##! Java/J2EE Session IDs
+jsessionid
+jservsession
+jwsession
+
+##! ASP/ASP.NET Session IDs
+aspsessionid
+asp\.net_sessionid
+
+##! PHP Session IDs
+phpsession
+phpsessid
+
+##! Oracle WebLogic
+weblogicsession
+
+##! Generic Session IDs (various platforms)
+session_id
+session-id
+sessionid
+_session_id
+
+##! ColdFusion Session IDs
+cfid
+cftoken
+cfsid
+
+##! Python/Flask Session IDs
+_flask_session
+
+##! Node.js Session IDs
+connect\.sid
+sails\.sid
+
+##! Node.js Framework Session IDs
+##! Koa.js
+koa\.sess
+koa:sess
+
+##! Next.js / NextAuth.js
+next-auth\.session-token
+__secure-next-auth\.session-token
+__host-next-auth\.session-token
+
+##! Meteor
+meteor_login_token
+
+##! Ruby/Rails Session IDs
+_rails_session
+rack\.session
+
+##! Python Framework Session IDs
+##! Django (sessionid already covered in generic section)
+django_session
+
+##! Flask (already covered above: _flask_session)
+
+##! Java Framework Session IDs
+##! Spring Session
+spring_session
+
+##! Play Framework
+play_session
+
+##! PHP Framework Session IDs
+##! Laravel
+laravel_session
+
+##! Symfony
+symfony
+
+##! CakePHP
+cakephp
+
+##! CodeIgniter
+ci_session
+
+##! Zend
+zend_session_id
+
+##! Yii
+yiisession
+_yii
+
+##! Other Framework Session IDs
+
+##! Shiny (R)
+shiny-token
