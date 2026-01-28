@@ -1,0 +1,329 @@
+---
+meta:
+  author: "fzipitria"
+  description: "Test for SSRF scheme-less hostname detection in PL1"
+rule_id: 934190
+tests:
+  - test_id: 1
+    desc: SSRF - scheme-less localhost
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=localhost/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 2
+    desc: SSRF - scheme-less localhost.localdomain
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=localhost.localdomain/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 3
+    desc: SSRF - scheme-less localhost4
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=localhost4/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 4
+    desc: SSRF - scheme-less localhost4.localdomain4
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=localhost4.localdomain4/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 5
+    desc: SSRF - scheme-less ipv6-localhost
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=ipv6-localhost/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 6
+    desc: SSRF - scheme-less ip6-loopback
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=ip6-loopback/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 7
+    desc: SSRF - scheme-less host.docker.internal (Docker)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=host.docker.internal/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 8
+    desc: SSRF - scheme-less gateway.docker.internal (Docker)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=gateway.docker.internal/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 9
+    desc: SSRF - scheme-less kubernetes.docker.internal (Docker Desktop)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=kubernetes.docker.internal/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 10
+    desc: SSRF - scheme-less host.containers.internal (Podman)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=host.containers.internal/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 11
+    desc: SSRF - scheme-less kubernetes.default.svc.cluster.local (K8s)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=kubernetes.default.svc.cluster.local/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 12
+    desc: SSRF - scheme-less LOCALHOST (Windows case)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=LOCALHOST/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 13
+    desc: SSRF - scheme-less localtest.me (testing service)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=localtest.me/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 14
+    desc: SSRF - scheme-less lvh.me (testing service)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=lvh.me/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 15
+    desc: SSRF - scheme-less localhost in POST body
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          uri: "/post/test"
+          data: "url=localhost%2F"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 16
+    desc: SSRF - scheme-less host.docker.internal in cookie
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: "redirect=host.docker.internal/"
+          method: GET
+          uri: "/get/test"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934190]
+  - test_id: 17
+    desc: SSRF - localhost with scheme (overlaps with 934110)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=http%3A%2F%2Flocalhost%2F"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934110, 934190]
+  - test_id: 18
+    desc: SSRF - negative test - legitimate domain
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?url=example.com/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934190]
+  - test_id: 19
+    desc: SSRF - negative test - word containing localhost
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?server=mylocalhost"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934190]
+  - test_id: 20
+    desc: SSRF - negative test - localhost without trailing slash
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          uri: "/get/test?server=localhost"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934190]
