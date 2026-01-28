@@ -3,7 +3,6 @@
 # - https://book.hacktricks.xyz/pentesting-web/ssrf-server-side-request-forgery/cloud-ssrf
 # - https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Request%20Forgery
 # - https://github.com/assetnote/blind-ssrf-chains
-# - https://github.com/coreruleset/coreruleset/issues/4427
 
 ## AWS
 # from http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html#instancedata-data-categories
@@ -177,32 +176,3 @@ gopher://localhost
 
 # AWS Lambda
 http://localhost:9001/2018-06-01/runtime/
-
-# All these below are used _without scheme_, as
-# some frameworks add implicit 'http'
-
-# Standard hosts aliases
-localhost/
-localhost.localdomain/
-localhost4/
-localhost4.localdomain4/
-ipv6-localhost/
-ip6-loopback/
-
-# Docker based aliases
-host.docker.internal/
-gateway.docker.internal/
-kubernetes.docker.internal/
-
-# Podman
-host.containers.internal/
-
-# K8s API local service
-kubernetes.default.svc.cluster.local/
-
-# Windows specific
-LOCALHOST/
-
-# Testing services
-localtest.me/
-lvh.me/
