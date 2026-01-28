@@ -1,0 +1,170 @@
+---
+meta:
+  author: "Esad Cetiner, Max Leske, Franziska Bühler"
+rule_id: 932340
+tests:
+  - test_id: 1
+    desc: "/?arg=;ps"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?arg=%3Bps"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932340]
+  - test_id: 2
+    desc: |
+      Block execution of `env` command
+      This could be used to leak passwords set as environment variable in docker based environments
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: env
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932340]
+  - test_id: 3
+    desc: |
+      Block execution of `env` command
+      This could be used to leak passwords set as environment variable in docker based environments
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Referer: env
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932340]
+  - test_id: 4
+    desc: |
+      Block execution of `set` command
+      This could be used to leak passwords set as environment variable in docker based environments
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Referer: set
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932340]
+  - test_id: 5
+    desc: |
+      Block execution of `set` command
+      This could be used to leak passwords set as environment variable in docker based environments
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: set
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932340]
+  - test_id: 6
+    desc: "/?arg=&aptitude"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?arg=%26aptitude"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932340]
+  - test_id: 7
+    desc: |
+      False Positive with `id` command
+      `id` is a very common parameter name
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "id=4"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932340]
+  - test_id: 8
+    desc: |
+      False Positive with `pwd` command
+      `pwd` is a common parameter name for passwords
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pwd=supersecurepassword"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932340]
+  - test_id: 9
+    desc: |
+      False Positive with `uname` command
+      `uname` is a common parameter name for usernames
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "uname=john%20doe"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932340]
