@@ -81,3 +81,597 @@ tests:
         output:
           log:
             no_expect_ids: [943110]
+  - test_id: 5
+    desc: "ASP.NET session fixation with external referer"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: example.com
+            Referer: "https://attacker.com/malicious"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?asp.net_sessionid=abc123def456"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 6
+    desc: "Laravel session fixation with external referer"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: myapp.com
+            Referer: "https://evil.net/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/auth?laravel_session=eyJpdiI6IktmYw"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 7
+    desc: "Express.js connect.sid session fixation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: nodeapp.io
+            Referer: "http://phishing-site.com/fake-login"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/api/login?connect.sid=s%3Aj8jK9_xPq2"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 8
+    desc: "Flask session fixation with external referer"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: flaskapp.com
+            Referer: "https://badactor.org/redirect"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?_flask_session=eyJsb2dnZWRfaW4iOnRydWV9"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 9
+    desc: "NextAuth session token fixation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: nextjs-app.com
+            Referer: "https://compromised-site.net/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/api/auth/signin?next-auth.session-token=abc123"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 10
+    desc: "Meteor login token fixation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: meteorapp.com
+            Referer: "https://attacker.example/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?meteor_login_token=xyz789abc"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 11
+    desc: "Ruby Rack session fixation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: rubyapp.com
+            Referer: "http://evil-domain.com/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/authenticate?rack.session=BAh7CEkiD3Nlc3Npb25"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 12
+    desc: "Play Framework session fixation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: playapp.com
+            Referer: "http://phisher.org/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?play_session=eyJhbGciOiJIUzI1NiJ9"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 13
+    desc: "Sails.js session fixation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: sailsapp.com
+            Referer: "https://attacker-domain.com/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/auth?sails.sid=s%3Aabcdef123"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 14
+    desc: "CakePHP session fixation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: cakeapp.com
+            Referer: "http://malware-site.com/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/users/login?cakephp=abc123def456"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 15
+    desc: "CodeIgniter session fixation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: ciapp.com
+            Referer: "https://evil.example/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?ci_session=a%3A5%3A%7Bs%3A10"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 16
+    desc: "Koa.js session fixation (dot notation)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: koaapp.com
+            Referer: "http://badsite.net/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?koa.sess=eyJ1c2VySWQiOjF9"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 17
+    desc: "Koa.js session fixation (colon notation)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: koaapp.com
+            Referer: "https://attacker.example/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/api/auth?koa:sess=eyJ1c2VySWQiOjF9"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 18
+    desc: "ColdFusion CFID session fixation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: cfapp.com
+            Referer: "http://malicious-redirect.com/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login.cfm?cfid=12345&cftoken=67890"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 19
+    desc: "Zend Framework session fixation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: zendapp.com
+            Referer: "https://phishing.example/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/auth?zend_session_id=abc123xyz789"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 20
+    desc: "Shiny R session token fixation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: shinyapp.com
+            Referer: "http://attacker.org/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/app?shiny-token=abc123def"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 21
+    desc: "WebLogic session fixation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: weblogicapp.com
+            Referer: "http://evil-site.net/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/console/login?weblogicsession=abc123"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 22
+    desc: "Generic sessionid with POST method"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: webapp.com
+            Referer: "https://attacker.example/"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/login"
+          data: "sessionid=abc123&username=test&password=test123"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 23
+    desc: "Session-id with hyphen notation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: myapp.com
+            Referer: "http://badactor.com/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/auth?session-id=xyz789"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 24
+    desc: "Mixed case PHPSESSID should match (t:lowercase transformation)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: phpapp.com
+            Referer: "https://attacker.net/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?PHPSESSid=abc123"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 25
+    desc: "Secure NextAuth session token (__host- prefix)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: nextjs.example
+            Referer: "http://malicious.com/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/api/signin?__host-next-auth.session-token=secure123"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 26
+    desc: "Secure NextAuth session token (__secure- prefix)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: nextjs.example
+            Referer: "https://evil.org/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/api/signin?__secure-next-auth.session-token=token456"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 27
+    desc: "ASPSESSIONID with external referer"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: aspapp.com
+            Referer: "http://attacker-domain.com/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login.asp?aspsessionid=GKFPMNABCDLMNOP"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 28
+    desc: "Generic _session_id parameter"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: genericapp.com
+            Referer: "https://phisher.net/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?_session_id=abc123xyz"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 29
+    desc: "Rails session with underscore"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: railsapp.com
+            Referer: "http://evil-redirect.com/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/sessions/new?_rails_session=BAh7B0kiD3Nlc3Npb24"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 30
+    desc: "Negative test: legitimate same-domain HTTPS referer"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: myapp.com
+            Referer: "https://myapp.com/previous-page"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?sessionid=abc123"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [943110]
+  - test_id: 31
+    desc: "Negative test: subdomain should not match (different from host)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: app.example.com
+            Referer: "https://attacker.example.com/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?sessionid=abc123"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 32
+    desc: "Negative test: legitimate subdomain from same parent"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: api.example.com
+            Referer: "https://api.example.com/oauth"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?sessionid=abc123"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [943110]
+  - test_id: 33
+    desc: "Java jservsession parameter"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: javaapp.com
+            Referer: "http://malicious.org/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/servlet/login?jservsession=abc123"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 34
+    desc: "Java jwsession parameter"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: javaapp.com
+            Referer: "https://attacker.com/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?jwsession=xyz789"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 35
+    desc: "ColdFusion CFTOKEN"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: coldapp.com
+            Referer: "http://evil.net/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login.cfm?cftoken=abc123xyz"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 36
+    desc: "ColdFusion CFSID"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: coldapp.com
+            Referer: "https://badactor.org/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/app.cfm?cfsid=12345"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 37
+    desc: "PHP phpsession parameter (alternative spelling)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: phpapp.com
+            Referer: "http://attacker.example/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?phpsession=abc123"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 38
+    desc: "Negative test: no session parameter in URL"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: myapp.com
+            Referer: "http://attacker.com/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?username=test&password=test123"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [943110]
+  - test_id: 39
+    desc: "Negative test: legitimate same host with different path"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: example.com
+            Referer: "http://example.com/another-page"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?jsessionid=abc123"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [943110]
+  - test_id: 40
+    desc: "Session fixation with very long session value"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: myapp.com
+            Referer: "https://attacker.net/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?sessionid=abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
+  - test_id: 41
+    desc: "Session fixation with URL-encoded session parameter value"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: webapp.com
+            Referer: "http://malicious.example/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/auth?jsessionid=abc%3D%3D123%2Bxyz"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
