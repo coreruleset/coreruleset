@@ -585,26 +585,6 @@ tests:
           log:
             expect_ids: [932236]
   - test_id: 32
-    desc: RCE ;top with html entities two digit decimal of 59 (;)
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            Accept-Encoding: gzip, deflate, br
-            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
-            Content-Type: application/x-www-form-urlencoded
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "arg=%26%2359%3B+;top"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [932236]
-  - test_id: 33
     desc: Like rule True Negative Rule Integrity 9 but the html entity is concatenation with RCE at the end
     stages:
       - input:
@@ -624,7 +604,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 34
+  - test_id: 33
     desc: Like rule True Negative Rule Integrity 9 but the html entity is concatenation with RCE at the beginning
     stages:
       - input:
@@ -644,7 +624,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 35
+  - test_id: 34
     desc: Like rule True Negative Rule Integrity 10 but the html entity is concatenation with RCE at the end
     stages:
       - input:
@@ -664,7 +644,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 36
+  - test_id: 35
     desc: Like rule True Negative Rule Integrity 10 but the html entity is concatenation with RCE at the beginning
     stages:
       - input:
@@ -684,7 +664,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 37
+  - test_id: 36
     desc: Like rule True Negative Rule Integrity 11 but the html entity is concatenation with RCE at the beginning
     stages:
       - input:
@@ -704,7 +684,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 38
+  - test_id: 37
     desc: "Unix command injection"
     stages:
       - input:
@@ -721,7 +701,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 39
+  - test_id: 38
     desc: "Unix command injection"
     stages:
       - input:
@@ -738,7 +718,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 40
+  - test_id: 39
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -753,7 +733,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 41
+  - test_id: 40
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -769,7 +749,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 42
+  - test_id: 41
     desc: Remote Command Injection test for BB finding 935E1D91
     stages:
       - input:
@@ -787,7 +767,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 43
+  - test_id: 42
     desc: Remote Command Injection test for BB finding 935E1D91 - time evasion attempt
     stages:
       - input:
@@ -805,7 +785,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 44
+  - test_id: 43
     desc: "FP with word comment"
     stages:
       - input:
@@ -821,7 +801,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 45
+  - test_id: 44
     desc: "FP with word settings"
     stages:
       - input:
@@ -837,7 +817,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 46
+  - test_id: 45
     desc: False positive against "time"
     stages:
       - input:
@@ -856,7 +836,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 47
+  - test_id: 46
     desc: False positive against "more"
     stages:
       - input:
@@ -875,7 +855,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 48
+  - test_id: 47
     desc: "FP with word environment"
     stages:
       - input:
@@ -891,7 +871,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 49
+  - test_id: 48
     desc: "FP with word performance"
     stages:
       - input:
@@ -907,7 +887,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 50
+  - test_id: 49
     desc: "Block execution of env command with arguments"
     stages:
       - input:
@@ -924,7 +904,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 51
+  - test_id: 50
     desc: "Block execution of perf command with arguments"
     stages:
       - input:
@@ -941,7 +921,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 52
+  - test_id: 51
     desc: "Block evasion using here string"
     stages:
       - input:
@@ -959,7 +939,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 53
+  - test_id: 52
     desc: "Block evasion using here string with space"
     stages:
       - input:
@@ -977,7 +957,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 54
+  - test_id: 53
     desc: "Block evasion using here string with single quotes"
     stages:
       - input:
@@ -995,7 +975,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 55
+  - test_id: 54
     desc: "Block evasion using here string with double quotes"
     stages:
       - input:
@@ -1013,7 +993,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 56
+  - test_id: 55
     desc: "Block evasion using here string with command substitution"
     stages:
       - input:
@@ -1031,7 +1011,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 57
+  - test_id: 56
     desc: "Block `time` prefix"
     stages:
       - input:
@@ -1049,7 +1029,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 58
+  - test_id: 57
     desc: "Block `strace` prefix"
     stages:
       - input:
@@ -1067,7 +1047,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 59
+  - test_id: 58
     desc: "Known false positive with `Cut` at start of string (expected failure)"
     stages:
       - input:
@@ -1085,7 +1065,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 60
+  - test_id: 59
     desc: "Known false positive with `Wall` at start of string"
     stages:
       - input:
@@ -1102,8 +1082,8 @@ tests:
             sentence=Wall Street\\xe2\\x80\\x99s benchmark stock index struck an all-time high on Tuesday.
         output:
           log:
-            no_expect_ids: [932236]
-  - test_id: 61
+            expect_ids: [932236]
+  - test_id: 60
     desc: "Known false positive with `Mount` at start of string (expected failure)"
     stages:
       - input:
@@ -1121,7 +1101,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 62
+  - test_id: 61
     desc: "Fixed false positive with `As` at start of string"
     stages:
       - input:
@@ -1139,7 +1119,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 63
+  - test_id: 62
     desc: "Fixed false positive with `At` at start of string"
     stages:
       - input:
@@ -1157,7 +1137,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 64
+  - test_id: 63
     desc: "Block `nohup` prefix"
     stages:
       - input:
@@ -1175,7 +1155,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 65
+  - test_id: 64
     desc: "Block ad-hoc ansible commands"
     stages:
       - input:
@@ -1193,7 +1173,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 66
+  - test_id: 65
     desc: "Block ansible config dump command"
     stages:
       - input:
@@ -1211,7 +1191,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 67
+  - test_id: 66
     desc: "Block installing collections from ansible galaxy"
     stages:
       - input:
@@ -1229,7 +1209,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 68
+  - test_id: 67
     desc: "Block ad-hoc ansible commands using ansible-console"
     stages:
       - input:
@@ -1247,7 +1227,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 69
+  - test_id: 68
     desc: "Block ansible-doc command"
     stages:
       - input:
@@ -1265,7 +1245,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 70
+  - test_id: 69
     desc: "Block dumping ansible inventory file and variables"
     stages:
       - input:
@@ -1283,7 +1263,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 71
+  - test_id: 70
     desc: "Block ansible pull from remote repository"
     stages:
       - input:
@@ -1301,7 +1281,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 72
+  - test_id: 71
     desc: "Block decrypting ansible secrets"
     stages:
       - input:
@@ -1319,7 +1299,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 73
+  - test_id: 72
     desc: "Block execution of ansible playbooks"
     stages:
       - input:
@@ -1337,7 +1317,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 74
+  - test_id: 73
     desc: "Block decryption of secrets with chef-vault"
     stages:
       - input:
@@ -1355,7 +1335,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 75
+  - test_id: 74
     desc: "Block execution of chef-shell command"
     stages:
       - input:
@@ -1373,7 +1353,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 76
+  - test_id: 75
     desc: "Block execution chef recipie book"
     stages:
       - input:
@@ -1391,7 +1371,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 77
+  - test_id: 76
     desc: "Block execution chef recipie book against a specific node"
     stages:
       - input:
@@ -1409,7 +1389,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 78
+  - test_id: 77
     desc: "Block execution chef command"
     stages:
       - input:
@@ -1427,7 +1407,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 79
+  - test_id: 78
     desc: "Block execution of visudo"
     stages:
       - input:
@@ -1445,7 +1425,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 80
+  - test_id: 79
     desc: "Block execution of CrowdSec cscli"
     stages:
       - input:
@@ -1463,7 +1443,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 81
+  - test_id: 80
     desc: "False positive with session cookie, invalid command match with sudo"
     stages:
       - input:
@@ -1480,7 +1460,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 82
+  - test_id: 81
     desc: "False positive with session cookie, invalid command match with fd"
     stages:
       - input:
@@ -1497,7 +1477,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 83
+  - test_id: 82
     desc: "False positive with UUID"
     stages:
       - input:
@@ -1515,7 +1495,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 84
+  - test_id: 83
     desc: "False positive with word identity"
     stages:
       - input:
@@ -1533,7 +1513,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 85
+  - test_id: 84
     desc: "False positive with word unique"
     stages:
       - input:
@@ -1551,7 +1531,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 86
+  - test_id: 85
     desc: "False positive with common argument value/name `id`."
     stages:
       - input:
@@ -1569,7 +1549,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 87
+  - test_id: 86
     desc: |
       false positive with Nextcloud Mail widget.
       Should not match `mail`.
@@ -1589,7 +1569,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 88
+  - test_id: 87
     desc: |
       False positive with WordPress ordering posts by date.
       Should not match `date`.
@@ -1610,7 +1590,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 89
+  - test_id: 88
     desc: "Block execution of shutdown command."
     stages:
       - input:
@@ -1628,7 +1608,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 90
+  - test_id: 89
     desc: "Don't match very long permutations of commands when using ~"
     stages:
       - input:
@@ -1646,7 +1626,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 91
+  - test_id: 90
     desc: "Block Execution of pip3 command"
     stages:
       - input:
@@ -1664,7 +1644,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 92
+  - test_id: 91
     desc: "Block Execution of pipx command"
     stages:
       - input:
@@ -1682,7 +1662,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 93
+  - test_id: 92
     desc: "False Positive: matching pipe `self`"
     stages:
       - input:
@@ -1700,23 +1680,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 94
-    desc: "Ensure that `rc` is matched PL 2"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-          method: GET
-          port: 80
-          uri: "/get?param=rc"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [932236]
-  - test_id: 95
+  - test_id: 93
     desc: "True Positive: Block pip command"
     stages:
       - input:
@@ -1732,7 +1696,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 96
+  - test_id: 94
     desc: "Match `ssh-copy-id`"
     stages:
       - input:
@@ -1746,6 +1710,77 @@ tests:
           uri: "/post"
           version: HTTP/1.1
           data: "arg=;ssh-copy-id%20user@server"
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 95
+    desc: "Block 'rc' command"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?param=rc%20script.sh"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 96
+    desc: "TEST=echo | gcc7.4"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "TEST=echo | gcc7.4"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 97
+    desc: |
+      Block execution of date command `;date -f secrets.txt`
+      The error message from the date command can be abused to leak the contents of a file
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: "arg=;date%20-f%20secrets.txt"
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 98
+    desc: |
+      Block execution of date command `;date --file secrets.txt`
+      The error message from the date command can be abused to leak the contents of a file
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: "arg=;date%20--file%20secrets.txt"
         output:
           log:
             expect_ids: [932236]
