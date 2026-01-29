@@ -11,14 +11,14 @@
 ##! /e[t]c
 ##! /etc/[p//]asswd
 
-\$\([^()]+\)
-\$\{[^{}]+\}
-<\([^()]+\)
->\([^()]+\)
+\$\([^)]+\)
+\$\{[^}]+\}
+<\([^)]+\)
+>\([^)]+\)
 ##! arithmetic expansion
-\$\(\([^()]*\)\)
+\$\(\([^)]+\)\)
 ##! arithmetic expansion (deprecated in bash, but exists in other shells, like zsh)
-\$\[[^[\]]*\]
+\$\[[^\]]*\]
 
 ##! Find wordlist bypasses using [ ] glob characters, like: /e[t]c
 ##! Catches also subdirectory globbing, example: cat /etc/[p//]asswd
