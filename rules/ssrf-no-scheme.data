@@ -1,6 +1,10 @@
 # SSRF patterns without schemes
 # These are used _without scheme_, as some frameworks add implicit 'http'
 #
+# This file contains localhost and internal DNS names that are commonly used
+# in SSRF attacks. These patterns are checked without URI schemes to catch
+# cases where frameworks automatically prepend 'http://' or 'https://'.
+#
 # Sources:
 # - https://gist.githubusercontent.com/jhaddix/78cece26c91c6263653f31ba453e273b/raw/a4869d58a5ce337d1465c2d1b29777b9eecd371f/cloud_metadata.txt
 # - https://book.hacktricks.xyz/pentesting-web/ssrf-server-side-request-forgery/cloud-ssrf
