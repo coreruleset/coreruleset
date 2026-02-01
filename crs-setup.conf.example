@@ -479,6 +479,36 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    ver:'OWASP_CRS/4.23.0-dev',\
 #    setvar:'tx.allowed_methods=GET HEAD POST OPTIONS'"
 
+#
+# -- [[ HTTP Method Override Parameter ]] -------------------------------------
+#
+# Many web frameworks (Laravel, Rails, Symfony, CakePHP, Express.js, etc.)
+# support overriding the HTTP method via a _method parameter in the query
+# string or request body. This allows HTML forms to simulate PUT, PATCH,
+# and DELETE requests.
+#
+# While this is legitimate framework behavior, it can be abused for:
+# - WAF bypass (sending POST with _method=DELETE)
+# - CSRF attacks bypassing SameSite=Lax cookie restrictions
+# - Method-based ACL bypass
+#
+# By default, CRS blocks _method parameter usage at PL2+. If your application
+# legitimately uses the _method parameter for method override, you can allow
+# it by uncommenting the rule below.
+#
+# Note: The X-HTTP-Method-Override header is handled separately by rule 920450.
+#
+# Uncomment this rule to ALLOW _method parameter for method override:
+#
+#SecAction \
+#    "id:900210,\
+#    phase:1,\
+#    pass,\
+#    nolog,\
+#    tag:'OWASP_CRS',\
+#    ver:'OWASP_CRS/4.23.0-dev',\
+#    setvar:'tx.allow_method_override_parameter=1'"
+
 # Content-Types that a client is allowed to send in a request.
 # Default: |application/x-www-form-urlencoded| |multipart/form-data| |text/xml|
 # |application/xml| |application/soap+xml| |application/json|
