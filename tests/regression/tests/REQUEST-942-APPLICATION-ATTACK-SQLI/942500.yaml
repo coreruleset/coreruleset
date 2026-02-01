@@ -133,3 +133,359 @@ tests:
         output:
           log:
             no_expect_ids: [942500]
+  - test_id: 9
+    desc: "Simple inline comment"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?id=1+%2F*+comment+*%2F+OR+1%3D1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 10
+    desc: "Empty inline comment"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?id=1+%2F**%2F+OR+1%3D1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 11
+    desc: "Inline comment with only whitespace"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?id=1+%2F*+++*%2F+OR+1%3D1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 12
+    desc: "Multiline inline comment with newline characters"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?id=1+%2F*%0Aline1%0Aline2%0A*%2F+OR+1%3D1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 13
+    desc: "Multiple inline comments in single request"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?id=1+%2F*comment1*%2F+OR+%2F*comment2*%2F+1%3D1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 14
+    desc: "MySQL version-specific comment"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?id=1+%2F*!12345+SELECT+*%2F"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 15
+    desc: "Inline comment in POST body"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "username=admin%27+%2F*+comment+*%2F+OR+%271%27%3D%271"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 16
+    desc: "Inline comment in Cookie"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: "sessionid=abc123%2F*comment*%2F"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 17
+    desc: "Inline comment in ARGS_NAMES"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?id%2F*comment*%2F=1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 18
+    desc: "Double URL encoded inline comment"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?id=1+%252F%252A+comment+%252A%252F+OR+1%3D1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 19
+    desc: "Inline comment with SQL keywords"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?query=SELECT+%2F*+hidden+*%2F+*+FROM+users"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 20
+    desc: "Inline comment with tabs and special characters"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?id=1+%2F*%09%0D%0A%21%40%23*%2F"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 21
+    desc: "Negative test - incomplete comment start only"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?path=%2Fsome%2Fpath%2F*"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942500]
+  - test_id: 22
+    desc: "Negative test - incomplete comment end only"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?file=document*%2Ftxt"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942500]
+  - test_id: 23
+    desc: "Negative test - wildcard in file path"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?search=*.jpg"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942500]
+  - test_id: 24
+    desc: "Negative test - multiplication and division operators"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?calc=10%2F5*2"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942500]
+  - test_id: 25
+    desc: "Negative test - Cookie header should not trigger"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: "session=abc123; prefs=theme"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942500]
+  - test_id: 26
+    desc: "Inline comment breaking up UNION keyword"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?id=1+UNION%2F*comment*%2FSELECT"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 27
+    desc: "Comment with carriage return and line feed"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?id=1+%2F*%0D%0A*%2F+OR+1%3D1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 28
+    desc: "MySQL conditional comment with version number"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?id=1+%2F*!40000+AND+1%3D1*%2F"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 29
+    desc: "Comment in REQUEST_FILENAME"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/test%2F*comment*%2F.php"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 30
+    desc: "Inline comment with null byte"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?id=1+%2F*%00*%2F+OR+1%3D1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942500]
