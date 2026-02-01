@@ -10,16 +10,15 @@
 ##! Note: This rule uses t:lowercase transformation, so all patterns
 ##! are in lowercase.
 ##!
-##! Documentation: Each session ID name includes source documentation
-##! verifying the default or common usage of that parameter name in
-##! the respective framework or platform.
-
+Documentation: For each pattern, a comment documents the source / framework
+the pattern originates from, and any additional useful information.
+##!+ i
 ##!^ ^
 ##!$ $
 
 ##! Java/J2EE Session IDs
 ##! Source: Java Servlet Specification
-##! Default: 'JSESSIONID' (uppercase, matches as 'jsessionid' with t:lowercase)
+##! Default: 'JSESSIONID'
 jsessionid
 ##! Source: Oracle Application Server / JServ
 jservsession
@@ -45,6 +44,7 @@ phpsessid
 ##! Default: 'JSESSIONID' for standard servlets, 'WLSession' for some configurations
 ##! Note: 'weblogicsession' is a common variation
 weblogicsession
+wlsession
 
 ##! Generic Session IDs (various platforms)
 ##! Common generic session parameter names used across multiple frameworks
@@ -62,7 +62,7 @@ cfsid
 
 ##! Python/Flask Session IDs
 ##! Source: Flask-Session extension
-##! Default: 'session' cookie (secure), '_flask_session' for custom implementations
+##! Default: secure HTTP cookie named 'session', '_flask_session' for custom implementations
 _flask_session
 
 ##! Node.js Session IDs
@@ -117,7 +117,7 @@ rack\.session
 ##! Java Framework Session IDs
 ##! Play Framework
 ##! Source: https://www.playframework.com/documentation/latest/SettingsSession
-##! Default: 'PLAY_SESSION' (uppercase, matches as 'play_session' with t:lowercase)
+##! Default: 'PLAY_SESSION'
 play_session
 
 ##! PHP Framework Session IDs
@@ -128,7 +128,7 @@ laravel_session
 
 ##! CakePHP
 ##! Source: https://book.cakephp.org/3.x/development/sessions.html
-##! CakePHP 3.x default: 'CAKEPHP' (uppercase, matches as 'cakephp' with t:lowercase)
+##! CakePHP 3.x default: 'CAKEPHP'
 ##! Source: https://book.cakephp.org/4.x/development/sessions.html
 ##! CakePHP 4.x default: Uses PHP's session.name (typically 'PHPSESSID')
 cakephp
