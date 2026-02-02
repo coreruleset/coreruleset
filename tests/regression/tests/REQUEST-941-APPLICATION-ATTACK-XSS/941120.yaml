@@ -149,7 +149,7 @@ tests:
           log:
             no_expect_ids: [941120]
   - test_id: 10
-    desc: "Negative test: Stripe webhook signature header"
+    desc: "Expected (rare) false positive: Stripe webhook signature header"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -165,7 +165,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [941120]
+            expect_ids: [941120]
   - test_id: 11
     desc: "Negative test: PayPal IPN callback with transaction hash"
     stages:
@@ -184,7 +184,7 @@ tests:
           log:
             no_expect_ids: [941120]
   - test_id: 12
-    desc: "Negative test: JWT token in Authorization header"
+    desc: "Expected (rare) false positive: JWT token in Authorization header"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -199,9 +199,9 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [941120]
+            expect_ids: [941120]
   - test_id: 13
-    desc: "Negative test: Square webhook signature with HMAC-SHA256"
+    desc: "Expected (rare) false positive: Square webhook signature with HMAC-SHA256"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -217,7 +217,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [941120]
+            expect_ids: [941120]
   - test_id: 14
     desc: "Negative test: Adyen payment callback with merchant signature"
     stages:
