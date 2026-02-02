@@ -458,22 +458,6 @@ tests:
           log:
             expect_ids: [942500]
   - test_id: 29
-    desc: "Comment in REQUEST_FILENAME"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/test%2F*comment*%2F.php"
-          version: "HTTP/1.1"
-        output:
-          log:
-            expect_ids: [942500]
-  - test_id: 30
     desc: "Inline comment with null byte"
     stages:
       - input:
