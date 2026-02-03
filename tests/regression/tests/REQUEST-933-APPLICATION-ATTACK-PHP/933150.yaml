@@ -4,22 +4,6 @@ meta:
 rule_id: 933150
 tests:
   - test_id: 1
-    desc: phpinfo
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/get/phpinfo"
-          version: "HTTP/1.1"
-        output:
-          log:
-            expect_ids: [933150]
-  - test_id: 2
     desc: base64_decode
     stages:
       - input:
@@ -30,12 +14,12 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get/base64_decode"
+          uri: "/get/?test=base64_decode()"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [933150]
-  - test_id: 3
+  - test_id: 2
     desc: base64_decode mixed case
     stages:
       - input:
@@ -46,12 +30,12 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?base64_deCOde"
+          uri: "/get?base64_deCOde()"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [933150]
-  - test_id: 4
+  - test_id: 3
     desc: bzdecompress
     stages:
       - input:
@@ -62,12 +46,12 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?foo=bzdecomprEss"
+          uri: "/get?foo=bzdecomprEss()"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [933150]
-  - test_id: 5
+  - test_id: 4
     desc: call_user_func
     stages:
       - input:
@@ -78,12 +62,12 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?foo=FOOcall_user_func"
+          uri: "/get?foo=FOOcall_user_func()"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [933150]
-  - test_id: 6
+  - test_id: 5
     desc: fsockopen
     stages:
       - input:
@@ -94,12 +78,12 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?foo=FOOfsockopen"
+          uri: "/get?foo=FOOfsockopen()"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [933150]
-  - test_id: 7
+  - test_id: 6
     desc: gzdecode
     stages:
       - input:
@@ -110,12 +94,12 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?foo=FOOgzdecode"
+          uri: "/get?foo=FOOgzdecode()"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [933150]
-  - test_id: 8
+  - test_id: 7
     desc: GzInFlAtE
     stages:
       - input:
@@ -126,28 +110,12 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?foo=FOOGzInFlAtE"
+          uri: "/get?foo=FOOGzInFlAtE()"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [933150]
-  - test_id: 9
-    desc: pHpInFo mixed case
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: GET
-          port: 80
-          uri: "/get?foo=FOOpHpInFo"
-          version: "HTTP/1.1"
-        output:
-          log:
-            expect_ids: [933150]
-  - test_id: 10
+  - test_id: 8
     desc: gzuncompress
     stages:
       - input:
@@ -158,12 +126,12 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?I%20don%27t%20like%20gzuncompress"
+          uri: "/get?test=I%20don%27t%20like%20gzuncompress/*comment*/()"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [933150]
-  - test_id: 11
+  - test_id: 9
     desc: fsockopen
     stages:
       - input:
@@ -178,7 +146,7 @@ tests:
         output:
           log:
             expect_ids: [933150]
-  - test_id: 12
+  - test_id: 10
     desc: posix_getpwuiD
     stages:
       - input:
@@ -194,11 +162,11 @@ tests:
         output:
           log:
             expect_ids: [933150]
-  - test_id: 13
+  - test_id: 11
     desc: shell_exec
     stages:
       - input:
-          data: Shell%5fexec=bla
+          data: test=Shell%5fexec=(bla)
           dest_addr: 127.0.0.1
           headers:
             Host: localhost
@@ -211,11 +179,11 @@ tests:
         output:
           log:
             expect_ids: [933150]
-  - test_id: 14
+  - test_id: 12
     desc: ZlIb_DeCoDe
     stages:
       - input:
-          data: ZlIb%5fDeCoDe=bla
+          data: test=ZlIb%5fDeCoDe=(bla)
           dest_addr: 127.0.0.1
           headers:
             Host: localhost
@@ -228,7 +196,7 @@ tests:
         output:
           log:
             expect_ids: [933150]
-  - test_id: 15
+  - test_id: 13
     desc: get_defined_functions
     stages:
       - input:
@@ -245,7 +213,7 @@ tests:
         output:
           log:
             expect_ids: [933150]
-  - test_id: 16
+  - test_id: 14
     desc: get_defined_vars
     stages:
       - input:
@@ -262,7 +230,7 @@ tests:
         output:
           log:
             expect_ids: [933150]
-  - test_id: 17
+  - test_id: 15
     desc: |
       PHP function call in body, mixed case.
       payload: curl_iNit()
@@ -281,7 +249,7 @@ tests:
         output:
           log:
             expect_ids: [933150]
-  - test_id: 18
+  - test_id: 16
     desc: |
       PHP function call in body
       payload: posix_getegid()
@@ -300,7 +268,7 @@ tests:
         output:
           log:
             expect_ids: [933150]
-  - test_id: 19
+  - test_id: 17
     desc: |
       PHP function call in body, mixed case
       payload: Print_r()
@@ -319,7 +287,7 @@ tests:
         output:
           log:
             expect_ids: [933150]
-  - test_id: 20
+  - test_id: 18
     desc: |
       PHP function call in body.
       payload: strrev()
@@ -338,7 +306,7 @@ tests:
         output:
           log:
             expect_ids: [933150]
-  - test_id: 21
+  - test_id: 19
     desc: |
       False Positive test
       payload: the files (yep)
@@ -356,7 +324,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 22
+  - test_id: 20
     desc: |
       False Positive test, exec should be followed by parenthesis
       payload: exec (
@@ -374,7 +342,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 23
+  - test_id: 21
     desc: |
       False Positive test
       payload: executor()
@@ -392,7 +360,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 24
+  - test_id: 22
     desc: |
       False Positive test
       payload: cheval($foo)
@@ -410,7 +378,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 25
+  - test_id: 23
     desc: |
       False Positive test
       payload: audiofile($foo)
@@ -428,7 +396,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 26
+  - test_id: 24
     desc: |
       False Positive test
       payload: the system is down()
@@ -446,7 +414,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 27
+  - test_id: 25
     desc: |
       False Positive test
       payload: ecosystem()
@@ -464,7 +432,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 28
+  - test_id: 26
     desc: |
       False Positive test, function doesn't exist
       payload: systems()
@@ -482,7 +450,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 29
+  - test_id: 27
     desc: |
       False Positive test, function doesn't exist
       payload: system something()
@@ -500,7 +468,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 30
+  - test_id: 28
     desc: "Snippets of English words (like `prev`) should not be matched, requiring regex match with word boundaries (e.g. 933160)"
     stages:
       - input:
@@ -516,7 +484,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 31
+  - test_id: 29
     desc: "Snippets of English words (like `exp`) should not be matched, requiring regex match with word boundaries (e.g. 933160)"
     stages:
       - input:
@@ -532,7 +500,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 32
+  - test_id: 30
     desc: |
       PHP mixed case function call with space, LF between ().
       payload: file_ExistS (\n\n)
@@ -550,7 +518,7 @@ tests:
         output:
           log:
             expect_ids: [933150]
-  - test_id: 33
+  - test_id: 31
     desc: |
       False positive with filename matching `fopen`
     stages:
@@ -567,7 +535,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 34
+  - test_id: 32
     desc: |
       SEO Framework false positive
       matching 'strip_tags' in 'title_strip_tags'
@@ -585,7 +553,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 35
+  - test_id: 33
     desc: False positive with SprintForTheCause matching printf
     stages:
       - input:
@@ -601,7 +569,7 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
-  - test_id: 36
+  - test_id: 34
     desc: Don't block printf function (Handled by 933160)
     stages:
       - input:
@@ -617,3 +585,83 @@ tests:
         output:
           log:
             no_expect_ids: [933150]
+  - test_id: 35
+    desc: "False Positive: `unserialize` substring false positive"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post/?test=A%20loaded%20ghost%20gun%20(unserialized)%20was%20recovered%20in%20the%20car."
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 36
+    desc: "False Positive: phpinfo being used in english sentence"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post/?test=Moreover,%20phpinfo%20can%20potentially%20leak%20sensitive%20configuration%20details%20that%20an%20attacker%20can%20exploit%20to%20gain%20information%20about%20the%20server."
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 37
+    desc: "False Positive: `intval` substring false positive"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post/?test=PaintValdosta"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933150]
+  - test_id: 38
+    desc: "True Positive: match open parenthesis"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/?test=base64_decode("
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]
+  - test_id: 39
+    desc: "True Positive: match encoded parenthesis"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/?test=base64_decode%28"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933150]

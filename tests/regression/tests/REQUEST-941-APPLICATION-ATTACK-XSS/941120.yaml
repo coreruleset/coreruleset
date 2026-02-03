@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Walter Hop, azurit"
+  author: "Christian S.J. Peron, Walter Hop, azuri, touchweb_vincent"
 rule_id: 941120
 tests:
   - test_id: 1
@@ -132,3 +132,725 @@ tests:
         output:
           log:
             no_expect_ids: [941120]
+  - test_id: 9
+    desc: "Negative test: base64 - previous regex got false positive on these ones"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?sign=VGhhbmtzLCBmb3IgYWxsIHlvdXIgd29yayBzaW5jZSB5ZWFycyBvbiBDUlMuIEh1bQo%2Fonafe%3D"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 10
+    desc: "Expected (rare) false positive: Stripe webhook signature header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Stripe-Signature: "t=1614308115,v1=5257a869e7ecebeda32affa62cdca3fa51onabcd=6yJV_adQssw5c"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/webhook/stripe"
+          data: '{"id":"evt_test","type":"payment_intent.succeeded"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
+  - test_id: 11
+    desc: "Negative test: PayPal IPN callback with transaction hash"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "PayPal IPN"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/ipn/paypal"
+          data: "mc_gross=19.95&protection_eligibility=Eligible&payer_id=TESTBUYER&payment_date=12%3A34%3A56+Jan+25+2026&payment_status=Completed&txn_id=1AB23456CD789012E&transaction_subject=Payment&verify_sign=AFcWxV21C7fd0v3bYYYRCpSSRl31A.8h7mKqR9sT5wN%3D"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 12
+    desc: "Expected (rare) false positive: JWT token in Authorization header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Authorization: "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0onload=.POstGet_K5DGFLJrRyhshDZI"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/api/payment/status"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
+  - test_id: 13
+    desc: "Expected (rare) false positive: Square webhook signature with HMAC-SHA256"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Square Webhook"
+            X-Square-Signature: "1a2b3c4d5e6f7g8h9i0j1k2l3m4n5onabcde=6p7q8r9s0t"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/webhook/square"
+          data: '{"merchant_id":"MLEFBHHSJGVHD","type":"payment.updated","event_id":"c3c5b7de-8ac9-4f86-9c49-0b6dee85f7d8"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
+  - test_id: 14
+    desc: "Negative test: Adyen payment callback with merchant signature"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/webhook/adyen"
+          data: "merchantReference=TEST_ORDER_12345&skinCode=X7hsNDWp&shopperLocale=en_GB&paymentMethod=visa&authResult=AUTHORISED&pspReference=8535296475213845&merchantSig=h5xb3Qm7Yp9Lkd2Wf8Rg4Jv6Tn"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 15
+    desc: "Negative test: Braintree webhook with bt_signature containing base64url"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/webhook/braintree"
+          data: "bt_signature=MIIGSAIBAzCCBgwGCSqGSIb3DQEHAaCCBf0EggX5MIIF9TCCBfEGCSqonefgh%3Di"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 16
+    desc: "Negative test: OAuth2 access token in request body"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/payment/process"
+          data: "grant_type=authorization_code&code=xyz123&access_token=ya29.a0AfH6SMBx7QkVm3TpWz8RiPQzNsK1Dv%3D2DqE3F"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 17
+    desc: "Negative test: Merchant reference with session token base64"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/checkout"
+          data: "order_id=ORD-2026-01-25&confirmation_code=CONF-ABC123XYZ&session_token=sess_1a2b3c4Xm7Yp9Qn5Rt8Wk%3D"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 18
+    desc: "Negative test: RSA signature in PEM format URL-encoded"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/api/callback"
+          data: "signature=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2Xm7YpLk9Qw3Rt8Vf6Jn"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 19
+    desc: "Negative test: Payment gateway JSON webhook with nested transaction data"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/webhook/payment"
+          data: '{"event":"payment.succeeded","data":{"transaction_id":"txn_1ABC2Xm7YpLk9Qw3DEF4","amount":5000,"currency":"USD","signature":"hmac-sha256=5f7g8h9i0j1k2Wm3Rt5Vp9Ys"}}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 20
+    desc: "Negative test: Authorize.net SIM hash with MD5"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/payment/authnet/relay"
+          data: "x_response_code=1&x_response_reason_code=1&x_response_reason_text=Approved&x_trans_id=40011019799&x_MD5_Hash=8A7BCF1D2E3F4A5B6C7D8E9Xm3Yp7Wk1F2A"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 21
+    desc: "Negative test: Multiple payment parameters with base64 data ending in equals"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/payment/callback"
+          data: "merchant_id=12345&transaction_hash=aGVsbG93b3JsZA%3D%3D&verification_token=ZXhhbXBsZXRva2VuaGVyZQ%3D%3D&confirmation=Y29uZmlybWF0aW9uY29kZQ%3D%3D"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 22
+    desc: "Negative test: Apple Pay payment token with base64 encoded signature"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/payment/applepay"
+          data: '{"paymentData":{"version":"EC_v1","data":"encrypted_data_here","signature":"MIAGCSqGSIb3DQonabcdefgh=HIJAoGBAMIIBrTCCA","header":{"ephemeralPublicKey":"MFkwEwYHKoZIzj0CAQYonefghij=k"}}}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 23
+    desc: "Negative test: Google Pay encrypted payment data"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/payment/googlepay"
+          data: '{"signature":"MEUCIQDXm7Yp9Lk5Rt8Wf3Jn2Qv6Tn","protocolVersion":"ECv2","signedMessage":"{\"encryptedMessage\":\"Base64Encoded3RandStr1ng\"}"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 24
+    desc: "Test on HTTP header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Remote-ip: "' onselect=alert(1) '"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
+  - test_id: 25
+    desc: "Test on HTTP header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Remote-ip: "' onselect=$.getScript('//test.com') '"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
+  - test_id: 26
+    desc: "Negative test: Valid User-Agent with Chrome version number"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 27
+    desc: "Negative test: Valid User-Agent with Electron framework"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Electron/23.0.0"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 28
+    desc: "Negative test: Valid User-Agent with Amazon Silk browser"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (Linux; Android 4.4.3) AppleWebKit/537.36 (KHTML, like Gecko) Silk/89.4.7 like Chrome/89.0.4389.72 Safari/537.36"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 29
+    desc: "Negative test: Valid User-Agent with SamsungBrowser"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (Linux; Android 13; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/20.0 Chrome/106.0.5249.126 Mobile Safari/537.36"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 30
+    desc: "Negative test: Valid User-Agent with Version token (Safari)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 31
+    desc: "Negative test: Valid User-Agent with EdgiOS token"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 EdgiOS/116.0.1938.72 Mobile/15E148 Safari/605.1.15"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 32
+    desc: "Negative test: Valid User-Agent with CriOS (Chrome iOS)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.6099.119 Mobile/15E148 Safari/604.1"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 33
+    desc: "Negative test: Valid User-Agent with FxiOS (Firefox iOS)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/121.0 Mobile/15E148 Safari/605.1.15"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 34
+    desc: "Negative test: Valid User-Agent with Opera/OPR token"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 OPR/95.0.0.0"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 35
+    desc: "Negative test: Valid User-Agent with Monero-related bot"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Moneroprice/1.0 (+https://example.com/bot)"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 36
+    desc: "Negative test: Valid Referer with query parameters"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://example.com/page?version=1.0&action=view"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 37
+    desc: "Negative test: Valid Referer with version parameter"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://shop.example.com/products?version=premium&option=deluxe"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 38
+    desc: "Negative test: Valid Referer with amazon.com domain"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://www.amazon.com/products/electronics"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 39
+    desc: "Negative test: Valid Referer with section fragment"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://docs.example.com/guide#section=introduction"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 40
+    desc: "Negative test: Valid Referer with action parameter"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://app.example.com/dashboard?action=edit&id=123"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 41
+    desc: "Negative test: Valid Referer with position parameter"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://maps.example.com/location?position=center&zoom=10"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 42
+    desc: "Negative test: Valid Referer with session parameter"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://secure.example.com/checkout?session=abc123def456"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 43
+    desc: "Negative test: Valid Referer with common path"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://www.example.com/version/v2.0/documentation"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 44
+    desc: "Negative test: Valid User-Agent with Android version"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 45
+    desc: "Negative test: Valid Referer with addon parameter"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://store.example.com/checkout?addon=premium&option=monthly"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [941120]
+  - test_id: 46
+    desc: "Positive test: Malicious User-Agent with onclick XSS"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (Windows NT 10.0) <img onclick=alert(1)>"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
+  - test_id: 47
+    desc: "Positive test: Malicious User-Agent with onload XSS"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Test/1.0 (compatible; onload=alert(document.domain))"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
+  - test_id: 48
+    desc: "Positive test: Malicious User-Agent with onerror XSS"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "CustomBot/2.0 ' onerror=alert(1) '"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
+  - test_id: 49
+    desc: "Positive test: Malicious Referer with onclick XSS"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://evil.com/page?test=1' onclick=alert(1) '"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
+  - test_id: 50
+    desc: "Positive test: Malicious Referer with onmouseover XSS"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://evil.com/\" onmouseover=alert(document.cookie) \""
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
+  - test_id: 51
+    desc: "Positive test: Malicious Referer with onfocus XSS"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://evil.com/search?q=test;onfocus=eval(atob('YWxlcnQoMSk='))"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
