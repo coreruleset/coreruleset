@@ -582,14 +582,14 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # Default: .7z/ .br/ .bz/ .bz2/ .cab/ .cpio/ .gz/ .gzip/ .jar/ .json/ .lz/ .lzh/ .rar/ .tar/ .tbz/ .tbz2/ .tgz/ .txz/ .txt/ .wpress/ .xml/ .zst/ .xz/ .yaml/ .yml/ .zip/ .zst/
 # Example : database.zip | config.xml
 #
-# To additionally guard against configuration/install archive files from being
-# accidentally exposed, common archive file extensions can be added to the
-# restricted extensions list. An example list of common archive file extensions
-# is presented below:
-# .img/ .iso/
-# (Source: https://en.wikipedia.org/wiki/List_of_archive_formats)
+# This extended list already includes many common archive and other sensitive
+# file extensions that should not be directly exposed. You can customize it to
+# match your environment, for example by adding further archive types such as
+# .img/ or .iso/. For a non-exhaustive list of archive formats, see:
+# https://en.wikipedia.org/wiki/List_of_archive_formats
 #
 # Uncomment this rule to change the default.
+#SecAction \
 #SecAction \
 #    "id:900241,\
 #    phase:1,\
