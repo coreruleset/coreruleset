@@ -626,7 +626,20 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    nolog,\
 #    tag:'OWASP_CRS',\
 #    ver:'OWASP_CRS/4.24.0-dev',\
-#    setvar:'tx.restricted_extensions_extended=.7z/ .br/ .bz/ .bz2/ .cab/ .cpio/ .gz/ .gzip/ .jar/ .json/ .lz/ .lzh/ .rar/ .tar/ .tbz/ .tbz2/ .tgz/ .txz/ .txt/ .wpress/ .xml/ .xz/ .yaml/ .yml/ .zip/ .zst/'"
+#    setvar:'tx.restricted_extensions_archives=.7z/ .br/ .bz/ .bz2/ .cab/ .cpio/ .gz/ .gzip/ .jar/ .json/ .lz/ .lzh/ .rar/ .tar/ .tbz/ .tbz2/ .tgz/ .txz/ .txt/ .wpress/ .xml/ .xz/ .yaml/ .yml/ .zip/ .zst/'"
+
+#
+# Uncomment this rule to use this feature:
+#
+#SecAction \
+#    "id:900270,\
+#    phase:1,\
+#    pass,\
+#    t:none,\
+#    nolog,\
+#    tag:'OWASP_CRS',\
+#    ver:'OWASP_CRS/4.24.0-dev',\
+#    setvar:tx.block_archive_files=1"
 
 # Restricted request headers.
 # The HTTP request headers that CRS restricts are split into two categories:
