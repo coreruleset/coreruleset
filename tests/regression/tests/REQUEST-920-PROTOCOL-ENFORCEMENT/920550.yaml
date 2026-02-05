@@ -3,9 +3,9 @@ meta:
   author: "touchweb_vincent"
 rule_id: 920550
 tests:
-  - # crs-setup.conf needs to have BLOCK_ARCHIVE_AND_STRUCTURED_FILES set
+  - # crs-setup.conf needs to have CRS_VALIDATE_UTF8_ENCODING set
     # Taken from existing modsec regression
-  - test_id: 1
+    test_id: 1
     desc: URL file extension is restricted by policy (920550)
     stages:
       - input:
@@ -25,7 +25,8 @@ tests:
         output:
           log:
             expect_ids: [920550]
-  - test_id: 2
+  - # Taken from existing modsec regression
+    test_id: 2
     desc: |
       False Positive:
       Don't block robots.txt
@@ -47,7 +48,8 @@ tests:
         output:
           log:
             no_expect_ids: [920550]
-  - test_id: 3
+  - # Taken from existing modsec regression
+    test_id: 3
     desc: |
       Positive:
       Block .zip archive
@@ -69,7 +71,8 @@ tests:
         output:
           log:
             expect_ids: [920550]
-  - test_id: 4
+  - # Taken from existing modsec regression
+    test_id: 4
     desc: |
       Positive:
       Block .ZIP archive (uppercase)
@@ -91,7 +94,8 @@ tests:
         output:
           log:
             expect_ids: [920550]
-  - test_id: 5
+  - # Taken from existing modsec regression
+    test_id: 5
     desc: |
       Positive:
       Block .tar.gz archive
@@ -113,7 +117,8 @@ tests:
         output:
           log:
             expect_ids: [920550]
-  - test_id: 6
+  - # Taken from existing modsec regression
+    test_id: 6
     desc: |
       Positive:
       Block .Tar.Gz archive (mixed case)
@@ -135,7 +140,8 @@ tests:
         output:
           log:
             expect_ids: [920550]
-  - test_id: 7
+  - # Taken from existing modsec regression
+    test_id: 7
     desc: |
       Positive:
       Block .json file
@@ -157,7 +163,8 @@ tests:
         output:
           log:
             expect_ids: [920550]
-  - test_id: 8
+  - # Taken from existing modsec regression
+    test_id: 8
     desc: |
       Positive:
       Block .XML file (uppercase)
@@ -179,7 +186,8 @@ tests:
         output:
           log:
             expect_ids: [920550]
-  - test_id: 9
+  - # Taken from existing modsec regression
+    test_id: 9
     desc: |
       Positive:
       Block .yaml file
@@ -201,7 +209,8 @@ tests:
         output:
           log:
             expect_ids: [920550]
-  - test_id: 10
+  - # Taken from existing modsec regression
+    test_id: 10
     desc: |
       Positive:
       Block .yml file
