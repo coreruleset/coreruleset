@@ -1,0 +1,322 @@
+---
+meta:
+  author: "touchweb_vincent"
+rule_id: 920550
+tests:
+  - # crs-setup.conf needs to have CRS_VALIDATE_UTF8_ENCODING set
+    # Taken from existing modsec regression
+    test_id: 1
+    desc: URL file extension is restricted by policy (920550)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get/database.zip"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920550]
+  - # Taken from existing modsec regression
+    test_id: 2
+    desc: |
+      False Positive:
+      Don't block robots.txt
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/robots.txt"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920550]
+  - # Taken from existing modsec regression
+    test_id: 3
+    desc: |
+      Positive:
+      Block .zip archive
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/backup.zip"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920550]
+  - # Taken from existing modsec regression
+    test_id: 4
+    desc: |
+      Positive:
+      Block .ZIP archive (uppercase)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/BACKUP.ZIP"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920550]
+  - # Taken from existing modsec regression
+    test_id: 5
+    desc: |
+      Positive:
+      Block .tar.gz archive
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/backup.tar.gz"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920550]
+  - # Taken from existing modsec regression
+    test_id: 6
+    desc: |
+      Positive:
+      Block .Tar.Gz archive (mixed case)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/Backup.Tar.Gz"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920550]
+  - # Taken from existing modsec regression
+    test_id: 7
+    desc: |
+      Positive:
+      Block .json file
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/export.json"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920550]
+  - # Taken from existing modsec regression
+    test_id: 8
+    desc: |
+      Positive:
+      Block .XML file (uppercase)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/dump.XML"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920550]
+  - # Taken from existing modsec regression
+    test_id: 9
+    desc: |
+      Positive:
+      Block .yaml file
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/config.yaml"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920550]
+  - # Taken from existing modsec regression
+    test_id: 10
+    desc: |
+      Positive:
+      Block .yml file
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/config.yml"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920550]
+  - test_id: 11
+    desc: |
+      Positive:
+      Block .wpress archive
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/site.wpress"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920550]
+  - test_id: 12
+    desc: |
+      Positive:
+      Block encoded dot .zip (%2e)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/backup%2ezip"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920550]
+  - test_id: 13
+    desc: |
+      Positive:
+      Block encoded dot .tar.gz (%2e)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/backup%2etar%2egz"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920550]
+  - test_id: 14
+    desc: |
+      Positive:
+      Block encoded dot mixed case archive
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Host: localhost
+            Keep-Alive: "300"
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/Backup%2eTAR%2eGZ"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920550]

@@ -593,8 +593,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # To additionally guard against configuration/install archive files from being
 # accidentally exposed, common archive file extensions can be added to the
 # restricted extensions list. An example list of common archive file extensions
-# is presented below:
-# .7z/ .br/ .bz/ .bz2/ .cab/ .cpio/ .gz/ .img/ .iso/ .jar/ .rar/ .tar/ .tbz2/ .tgz/ .txz/ .xz/ .zip/ .zst/
+# is presented below: .img/ .iso/ .jar/
 # (Source: https://en.wikipedia.org/wiki/List_of_archive_formats)
 #
 # Uncomment this rule to change the default.
@@ -607,6 +606,40 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    tag:'OWASP_CRS',\
 #    ver:'OWASP_CRS/4.24.0-dev',\
 #    setvar:'tx.restricted_extensions=.ani/ .asa/ .asax/ .ascx/ .back/ .backup/ .bak/ .bck/ .bk/ .bkp/ .bat/ .cdx/ .cer/ .cfg/ .cmd/ .cnf/ .com/ .compositefont/ .config/ .conf/ .copy/ .crt/ .cs/ .csproj/ .csr/ .dat/ .db/ .dbf/ .dist/ .dll/ .dos/ .dpkg-dist/ .drv/ .gadget/ .hta/ .htr/ .htw/ .ida/ .idc/ .idq/ .inc/ .inf/ .ini/ .jks/ .jse/ .key/ .licx/ .lnk/ .log/ .mdb/ .msc/ .ocx/ .old/ .pass/ .pdb/ .pfx/ .pif/ .pem/ .pol/ .prf/ .printer/ .pwd/ .rdb/ .rdp/ .reg/ .resources/ .resx/ .sav/ .save/ .scr/ .sct/ .sh/ .shs/ .sql/ .sqlite/ .sqlite3/ .swap/ .swo/ .swp/ .sys/ .temp/ .tfstate/ .tlb/ .tmp/ .vb/ .vbe/ .vbs/ .vbproj/ .vsdisco/ .vxd/ .webinfo/ .ws/ .wsc/ .wsf/ .wsh/ .xsd/ .xsx/'"
+
+# Guards against data leaks
+# Default: .7z/ .br/ .bz/ .bz2/ .cab/ .cpio/ .gz/ .gzip/ .json/ .lz/ .lzh/ .rar/ .tar/ .tbz/ .tbz2/ .tgz/ .txz/ .txt/ .wpress/ .xml/ .xz/ .yaml/ .yml/ .zip/ .zst/
+# Example : database.zip | config.xml
+#
+# This extended list already includes many common archive and other sensitive
+# file extensions that should not be directly exposed. You can customize it to
+# match your environment, for example by adding further archive types such as
+# .img/ or .iso/. For a non-exhaustive list of archive formats, see:
+# https://en.wikipedia.org/wiki/List_of_archive_formats
+#
+# Uncomment this rule to change the default.
+#SecAction \
+#    "id:900260,\
+#    phase:1,\
+#    pass,\
+#    t:none,\
+#    nolog,\
+#    tag:'OWASP_CRS',\
+#    ver:'OWASP_CRS/4.24.0-dev',\
+#    setvar:'tx.restricted_extensions_extended=.7z/ .br/ .bz/ .bz2/ .cab/ .cpio/ .gz/ .gzip/ .json/ .lz/ .lzh/ .rar/ .tar/ .tbz/ .tbz2/ .tgz/ .txz/ .txt/ .wpress/ .xml/ .xz/ .yaml/ .yml/ .zip/ .zst/'"
+
+#
+# Uncomment this rule to use this feature:
+#
+#SecAction \
+#    "id:900270,\
+#    phase:1,\
+#    pass,\
+#    t:none,\
+#    nolog,\
+#    tag:'OWASP_CRS',\
+#    ver:'OWASP_CRS/4.24.0-dev',\
+#    setvar:tx.block_archive_and_structured_files=1"
 
 # Restricted request headers.
 # The HTTP request headers that CRS restricts are split into two categories:

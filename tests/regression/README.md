@@ -53,6 +53,7 @@ SecAction "id:900005,\
   ctl:ruleRemoveById=910000,\
   setvar:tx.blocking_paranoia_level=4,\
   setvar:tx.crs_validate_utf8_encoding=1,\
+  setvar:tx.block_archive_and_structured_files=1,\
   setvar:tx.arg_name_length=100,\
   setvar:tx.arg_length=400,\
   setvar:tx.total_arg_length=64000,\
