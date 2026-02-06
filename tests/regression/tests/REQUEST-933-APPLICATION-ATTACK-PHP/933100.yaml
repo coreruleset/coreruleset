@@ -147,7 +147,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 10
+  - test_id: 9
     desc: |
       PHP short echo tag injection payload
       decoded payload: <?=1;echo 1;
@@ -165,7 +165,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 11
+  - test_id: 10
     desc: |
       Non-PHP tag lookalike, not executable
       decoded payload: <?xpaquet
@@ -183,7 +183,7 @@ tests:
         output:
           no_log:
             no_expect_ids: [933100]
-  - test_id: 12
+  - test_id: 11
     desc: |
       Legitimate XML payload
       decoded payload: <?xml version="1.0" encoding="UTF-8"?><order><id>12345</id></order>
