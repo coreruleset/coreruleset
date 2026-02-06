@@ -185,6 +185,24 @@ tests:
             expect_ids: [933100]
   - test_id: 11
     desc: |
+      PHP short echo tag injection payload
+      decoded payload: <?=1;echo 1;
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3F%3D1%3Becho%201%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 12
+    desc: |
       PHP opening tag with explicit php keyword
       decoded payload: <?php echo "test"
     stages:
@@ -201,7 +219,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 12
+  - test_id: 13
     desc: |
       PHP opening tag with explicit php keyword, uppercase
       decoded payload: <?PHP echo "test"
@@ -219,7 +237,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 13
+  - test_id: 14
     desc: |
       PHP opening tag with mixed case
       decoded payload: <?pHp echo "test"
@@ -237,7 +255,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 14
+  - test_id: 15
     desc: |
       PHP opening tag with space before php keyword
       decoded payload: <? php echo "test"
@@ -255,7 +273,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 15
+  - test_id: 16
     desc: |
       Square bracket opening PHP tag
       decoded payload: [php]echo "test"
@@ -273,7 +291,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 16
+  - test_id: 17
     desc: |
       Square bracket opening PHP tag, uppercase
       decoded payload: [PHP]echo "test"
@@ -291,7 +309,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 17
+  - test_id: 18
     desc: |
       Curly brace opening PHP tag
       decoded payload: {php}echo "test"
@@ -309,7 +327,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 18
+  - test_id: 19
     desc: |
       Curly brace opening PHP tag, uppercase
       decoded payload: {PHP}echo "test"
@@ -327,7 +345,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 19
+  - test_id: 20
     desc: |
       Curly brace closing PHP tag
       decoded payload: echo "test"{/php}
@@ -345,7 +363,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 20
+  - test_id: 21
     desc: |
       Email containing 'php' should NOT match
       decoded payload: richard.php@my-email.com
@@ -363,7 +381,7 @@ tests:
         output:
           log:
             no_expect_ids: [933100]
-  - test_id: 21
+  - test_id: 22
     desc: |
       Square bracket closing PHP tag, uppercase
       decoded payload: echo "test"[/PHP]
@@ -381,7 +399,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 22
+  - test_id: 23
     desc: |
       PHP tag in POST parameter
       decoded payload: code=<?php system("ls")
@@ -401,7 +419,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 23
+  - test_id: 24
     desc: |
       PHP tag in cookie value
       decoded payload: session=<?php
@@ -420,7 +438,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 24
+  - test_id: 25
     desc: |
       PHP tag in parameter name
       decoded payload: parameter name contains <?php
@@ -438,7 +456,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 25
+  - test_id: 26
     desc: |
       PHP tag with tab character
       decoded payload: <?	php echo "test"
@@ -456,7 +474,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 26
+  - test_id: 27
     desc: |
       PHP tag with newline character
       decoded payload: <?%0aphp echo "test"
@@ -474,7 +492,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 27
+  - test_id: 28
     desc: |
       XML/PHP polyglot with namespace separator
       decoded payload: <?xml:echo 1;
@@ -492,7 +510,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 28
+  - test_id: 29
     desc: |
       PHP opening tag at end of input
       decoded payload: test<?
@@ -510,7 +528,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 29
+  - test_id: 30
     desc: |
       PHP tag with multiple spaces before function call
       decoded payload: <? 		echo test
@@ -528,7 +546,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 30
+  - test_id: 31
     desc: |
       Legitimate XML declaration should NOT match
       decoded payload: <?xml version="1.0" encoding="UTF-8"?>
@@ -546,7 +564,7 @@ tests:
         output:
           log:
             no_expect_ids: [933100]
-  - test_id: 31
+  - test_id: 32
     desc: |
       Legitimate XML declaration with tab after xml should NOT match
       decoded payload: <?xml	version="1.0"?>
@@ -564,7 +582,7 @@ tests:
         output:
           log:
             no_expect_ids: [933100]
-  - test_id: 32
+  - test_id: 33
     desc: |
       HTML entity with question mark should NOT match
       decoded payload: &lt;? should not trigger
@@ -582,7 +600,7 @@ tests:
         output:
           log:
             no_expect_ids: [933100]
-  - test_id: 33
+  - test_id: 34
     desc: |
       Square brackets in JSON should NOT match
       decoded payload: {"array":["php","test"]}
@@ -602,7 +620,7 @@ tests:
         output:
           log:
             no_expect_ids: [933100]
-  - test_id: 34
+  - test_id: 35
     desc: |
       Curly braces in regular expression should NOT match
       decoded payload: /[a-z]{1,5}/
@@ -619,4 +637,42 @@ tests:
           version: HTTP/1.1
         output:
           log:
+            no_expect_ids: [933100]
+  - test_id: 36
+    desc: |
+      Non-PHP tag lookalike, not executable
+      decoded payload: <?xpaquet
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3Fxpaquet"
+          version: HTTP/1.1
+        output:
+          no_log:
+            no_expect_ids: [933100]
+  - test_id: 37
+    desc: |
+      Legitimate XML payload
+      decoded payload: <?xml version="1.0" encoding="UTF-8"?><order><id>12345</id></order>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "application/xml"
+            Content-Type: "application/xml"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/api/orders"
+          version: HTTP/1.1
+          data: '<?xml version="1.0" encoding="UTF-8"?><order><id>12345</id></order>'
+        output:
+          no_log:
             no_expect_ids: [933100]
