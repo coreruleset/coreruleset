@@ -664,15 +664,13 @@ tests:
       - input:
           dest_addr: 127.0.0.1
           headers:
-            Accept: "application/xml"
-            Content-Type: "application/xml"
+            Accept: "*/*"
             Host: "localhost"
             User-Agent: "OWASP CRS test agent"
           method: POST
           port: 80
-          uri: "/api/orders"
+          uri: "/api/orders?flux=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Corder%3E%3Cid%3E12345%3C%2Fid%3E%3C%2Forder%3E"
           version: HTTP/1.1
-          data: '<?xml version="1.0" encoding="UTF-8"?><order><id>12345</id></order>'
         output:
           no_log:
             no_expect_ids: [933100]
