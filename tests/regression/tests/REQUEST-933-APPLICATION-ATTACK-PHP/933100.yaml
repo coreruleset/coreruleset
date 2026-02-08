@@ -147,3 +147,21 @@ tests:
         output:
           log:
             expect_ids: [933100]
+  - test_id: 9
+    desc: |
+      Smarty 3.1.19- {php} tag payload
+      decoded payload: {php}test{/php}
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%7Bphp%7Dtest%7B%2Fphp%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
