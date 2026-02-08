@@ -20,7 +20,7 @@ tests:
           log:
             expect_ids: [942390]
   - test_id: 2
-    desc: "Positive test: SQL Injection Attack using '   xor    chars_less_than_20+"
+    desc: "Positive test: SQL Injection Attack using '  xor  abcdefg!"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -28,7 +28,7 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: "*/*"
-          uri: "/get?var=%27%20%20%20xor%20%20%20%20chars_less_than_20%2B"
+          uri: "/get?var=%27%20%20xor%20%20abcdefg%21"
         output:
           log:
             expect_ids: [942390]
@@ -94,6 +94,345 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Accept: "*/*"
           uri: "/get?var=%27%20%20or%203%2C4%2C2%40%21"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 8
+    desc: "Positive test: SQL Injection with or 1="
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/search?q=test%27%20or%201%3D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 9
+    desc: "Positive test: SQL Injection with xor 99>"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/api?id=xor%2099%3E"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 10
+    desc: "Positive test: SQL Injection with xor 5-"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/page?filter=xor%205-"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 11
+    desc: "Positive test: SQL Injection in POST body with or 'x' <"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/x-www-form-urlencoded"
+            Accept: "*/*"
+          method: POST
+          port: 80
+          uri: "/login"
+          version: "HTTP/1.1"
+          data: "username=admin%27%20or%20%27x%27%20%3C&password=test"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 12
+    desc: "Positive test: SQL Injection with xor 'test'>"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/data?val=xor%20%27test%27%3E"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 13
+    desc: "Positive test: SQL Injection with multiple spaces or 123<"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/query?p=test%27%20%20%20%20or%20%20%20123%3C"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 14
+    desc: "Positive test: SQL Injection with 'or abc!"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/item?name=%27%20or%20abc%21"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 15
+    desc: "Positive test: SQL Injection with \"xor 456>"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/search?term=%22xor%20456%3E"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 16
+    desc: "Positive test: SQL Injection with 'or xyz!"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/products?cat=%27%20or%20xyz%21"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 17
+    desc: "Positive test: SQL Injection in cookie with xor 7<"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Cookie: "session_id=abc123%27xor%207%3C"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 18
+    desc: "Positive test: SQL Injection with or 88 (no comparison operator)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/check?id=or%2088"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 19
+    desc: "Positive test: SQL Injection with xor 1234567890<"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/view?num=xor%201234567890%3C"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 20
+    desc: "Positive test: SQL Injection with 'or xyz-"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/filter?val=%27%20or%20xyz-"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 21
+    desc: "Negative test: Legitimate code 'for' should not trigger"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/code?snippet=for%20loop%20in%20javascript"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942390]
+  - test_id: 22
+    desc: "Negative test: Word 'format' should not trigger"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/settings?format=json"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942390]
+  - test_id: 23
+    desc: "Negative test: Email with 'or' should not trigger"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/contact?email=support@organization.com"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942390]
+  - test_id: 24
+    desc: "Negative test: Normal comparison without or/xor should not trigger"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/compare?value=123%3C456"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942390]
+  - test_id: 25
+    desc: "Negative test: Word 'actor' should not trigger"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/search?q=famous%20actor"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942390]
+  - test_id: 26
+    desc: "Positive test: SQL Injection with tab characters xor\t5>"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/test?p=xor%09%09%09%09%09%095%3E"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 27
+    desc: "Positive test: SQL Injection with vertical tab xor\v3<"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/test?p=xor%0b3%3C"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 28
+    desc: "Positive test: SQL Injection with or 0>"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/endpoint?val=test%27or%200%3E"
+          version: "HTTP/1.1"
         output:
           log:
             expect_ids: [942390]
