@@ -25,7 +25,7 @@
 ##!> define quotes [\'\"]
 ##!> define spaces \s+
 ##!> define optional_spaces \s*
-##!> define comparision_operators [><=]
+##!> define comparison_operators [><=]
 ##!> define unary_operators [+\-!<>=]
 ##!> define digits \d{1,10}
 ##!> define not_equal [^=]{1,10}
@@ -33,6 +33,6 @@
 
 ##! The pattern below that matches 'or/xor' followed by digits without requiring a comparison operator is very prone to false positives.
 {{x_or}}{{spaces}}{{digits}}
-{{x_or}}{{spaces}}{{digits}}{{optional_spaces}}{{comparision_operators}}
+{{x_or}}{{spaces}}{{digits}}{{optional_spaces}}{{comparison_operators}}
 {{x_or}}{{spaces}}{{quotes}}{{not_equal}}{{quotes}}
 {{quotes}}{{spaces}}{{x_or}}{{spaces}}{{different_than_unary_operators}}{{unary_operators}}
