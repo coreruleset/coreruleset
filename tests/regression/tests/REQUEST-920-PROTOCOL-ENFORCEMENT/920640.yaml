@@ -60,7 +60,10 @@ tests:
   - test_id: 4
     desc: |
       POST request with body but empty Content-Type header value.
-      For now, the test requires to have CL header for HTTP/1.1
+      This test should trigger the rule, but currently doesn't work with HTTP/1.1
+      due to the requirement of Content-Length header. Cases with Content-Length are
+      covered in other tests. This test will primarily work when HTTP/2.0 support
+      is available in go-ftw.
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -77,14 +80,17 @@ tests:
           data: '{"id_order":"select(sleep(10));"}'
           autocomplete_headers: false
         output:
+          status: 200
           log:
-            expect_ids: [920640]
+            no_expect_ids: [920640]
   - test_id: 5
     desc: |
       POST request with body, no Content-Length and no Content-Type headers.
-      This will fail in the current HTTP/1.1 implementation,
-      but HTTP2 and up will work as the binary protocol will
-      have the proper length in the data.
+      This test should trigger the rule, but currently doesn't work with HTTP/1.1
+      due to the requirement of Content-Length header. Cases with Content-Length are
+      covered in other tests. This test will primarily work when HTTP/2.0 support
+      is available in go-ftw, as HTTP/2 and up use a binary protocol with proper
+      length encoding in the data frames.
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -99,7 +105,9 @@ tests:
           data: '{"id_order":"select(sleep(10));"}'
           autocomplete_headers: false
         output:
-          status: [400]
+          status: 200
+          log:
+            no_expect_ids: [920640]
   - test_id: 6
     desc: POST request with simple text body and no Content-Type header
     stages:
