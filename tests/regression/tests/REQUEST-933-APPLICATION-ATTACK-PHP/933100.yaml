@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, Franziska Bühler, azurit"
+  author: "csanders-git, Franziska Bühler, azurit, touchweb_vincent"
 rule_id: 933100
 tests:
   - test_id: 1
@@ -652,6 +652,24 @@ tests:
           method: GET
           port: 80
           uri: "/get?pattern=%2F%5Ba-z%5D%7B1%2C5%7D%2F"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 35
+    desc: |
+      Email containing 'php' should NOT match
+      decoded payload: richard.php@my-email.com
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?email=richard.php%40my-email.com"
           version: HTTP/1.1
         output:
           log:
