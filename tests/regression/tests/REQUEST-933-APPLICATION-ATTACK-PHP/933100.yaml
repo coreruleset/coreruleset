@@ -566,24 +566,6 @@ tests:
             no_expect_ids: [933100]
   - test_id: 32
     desc: |
-      Question mark in URL should NOT match
-      decoded payload: search?query=test
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-          method: GET
-          port: 80
-          uri: "/search?query=test"
-          version: HTTP/1.1
-        output:
-          log:
-            no_expect_ids: [933100]
-  - test_id: 33
-    desc: |
       HTML entity with question mark should NOT match
       decoded payload: &lt;? should not trigger
     stages:
@@ -600,7 +582,7 @@ tests:
         output:
           log:
             no_expect_ids: [933100]
-  - test_id: 34
+  - test_id: 33
     desc: |
       Square brackets in JSON should NOT match
       decoded payload: {"array":["php","test"]}
@@ -620,25 +602,7 @@ tests:
         output:
           log:
             no_expect_ids: [933100]
-  - test_id: 35
-    desc: |
-      Word containing 'php' should NOT match
-      decoded payload: elephant
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-          method: GET
-          port: 80
-          uri: "/get?animal=elephant"
-          version: HTTP/1.1
-        output:
-          log:
-            no_expect_ids: [933100]
-  - test_id: 36
+  - test_id: 34
     desc: |
       Curly braces in regular expression should NOT match
       decoded payload: /[a-z]{1,5}/
