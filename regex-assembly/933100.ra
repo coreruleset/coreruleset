@@ -7,20 +7,18 @@
   <\?
   ##!=>
   ##!> assemble
+    ##! Standard PHP tag
     php
-    ##! Match short echo tag <?=
+    ##! Short echo tag <?=
     =
-    ##! Match short tag with whitespace <? echo, <? system, etc.
+    ##! Short tag with whitespace <? echo, <? system, etc.
     \s
-    ##! Match x followed by anything except m, p, s (excludes <?xml, <?xpacket, <?xsl)
-    x[^mps]
-    ##! Match xm followed by anything except l (excludes <?xml)
-    xm[^l]
-    ##! Match xml followed by anything except hyphen, space, vtab (excludes <?xml-stylesheet)
-    xml[^-\s\x0b]
-    ##! With [^a-z] we are looking for `:` as in `<?xml :echo 1;`
+    ##! Short tag with vertical tab (evasion technique)
+    \x0b
+    ##! Polyglot attack: <?xml :echo 1; (whitespace + non-letter catches the colon)
+    ##! Excludes legitimate XML like <?xml version="1.0"?> where letter follows whitespace
     xml\s+[^a-z]
-    xml$
+    ##! Standalone <? at end of input (potential injection start)
     $
   ##!<
 ##!<

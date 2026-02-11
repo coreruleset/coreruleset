@@ -1490,7 +1490,7 @@ tests:
             no_expect_ids: [933100]
   - test_id: 82
     desc: |
-      PHP injection attack: Verify <?xa still triggers (not XMP, not XML)
+      Negative test: <?xa is not a valid PHP tag
       decoded payload: <?xa test
     stages:
       - input:
@@ -1505,10 +1505,10 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [933100]
+            no_expect_ids: [933100]
   - test_id: 83
     desc: |
-      PHP injection attack: Verify <?xb still triggers
+      Negative test: <?xb is not a valid PHP tag
       decoded payload: <?xb echo 1;
     stages:
       - input:
@@ -1523,4 +1523,133 @@ tests:
           version: HTTP/1.1
         output:
           log:
+            no_expect_ids: [933100]
+  - test_id: 84
+    desc: |
+      PHP injection attack: Polyglot with tab separator
+      decoded payload: <?xml	:echo 1;
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3C%3Fxml%09%3Aecho%201%3B"
+          version: HTTP/1.1
+        output:
+          log:
             expect_ids: [933100]
+  - test_id: 85
+    desc: |
+      PHP injection attack: Polyglot with newline separator
+      decoded payload: <?xml
+      :echo 1;
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3C%3Fxml%0A%3Aecho%201%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 86
+    desc: |
+      PHP injection attack: Short tag without space (<?echo)
+      decoded payload: <?echo "test";?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?code=%3C%3Fecho%20%22test%22%3B%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 87
+    desc: |
+      PHP injection attack: Short tag with tab
+      decoded payload: <?	echo "test";?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?code=%3C%3F%09echo%20%22test%22%3B%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 88
+    desc: |
+      PHP injection attack: Short tag with newline
+      decoded payload: <?
+      system('id');?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?cmd=%3C%3F%0Asystem%28%27id%27%29%3B%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 89
+    desc: |
+      PHP injection in cookie name
+      decoded payload: Cookie: <?php phpinfo(); ?>=value
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Cookie: "<?php phpinfo(); ?>=value"
+          method: GET
+          port: 80
+          uri: "/profile"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 90
+    desc: |
+      Negative test: <?xsl-stylesheet should not trigger
+      decoded payload: <?xsl-stylesheet type="text/xsl" href="style.xsl"?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?data=%3C%3Fxsl-stylesheet%20type%3D%22text%2Fxsl%22%20href%3D%22style.xsl%22%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
