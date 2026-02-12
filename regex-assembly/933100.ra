@@ -4,20 +4,21 @@
 ##!+ i
 
 ##!> assemble
+  ##! Always start with the short tag <?
   <\?
   ##!=>
   ##!> assemble
-    ##! Standard PHP tag
-    php
-    ##! Short echo tag <?=
+    ##! Standard PHP tag (requires whitespace per PHP spec)
+    php\s
+    ##! Short echo tag <?= (no whitespace required)
     =
-    ##! Short tag with whitespace <? echo, <? system, etc.
+    ##! Short tag with whitespace: <? echo, <? system
     \s
-    ##! Short tag with vertical tab (evasion technique)
-    \x0b
     ##! Polyglot attack: <?xml :echo 1; (whitespace + non-letter catches the colon)
     ##! Excludes legitimate XML like <?xml version="1.0"?> where letter follows whitespace
     xml\s+[^a-z]
+    ##! Polyglot attack: <?xml:echo 1; (colon without space)
+    xml:
     ##! Standalone <? at end of input (potential injection start)
     $
   ##!<
