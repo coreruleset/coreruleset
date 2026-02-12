@@ -149,3 +149,35 @@ tests:
         output:
           log:
             expect_ids: [930130]
+  - test_id: 10
+    desc: "Authorized attempt to access jquery.nivo.slider.pack.js"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/jquery.nivo.slider.pack.js"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930130]
+  - test_id: 11
+    desc: "Authorized attempt to access jquery.history.min.js"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/jquery.history.min.js"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930130]
