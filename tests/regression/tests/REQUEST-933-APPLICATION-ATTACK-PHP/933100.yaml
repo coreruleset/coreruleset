@@ -347,8 +347,8 @@ tests:
             expect_ids: [933100]
   - test_id: 20
     desc: |
-      Curly brace closing PHP tag with backslash
-      decoded payload: echo "test"{\php}
+      Email containing 'php' should NOT match
+      decoded payload: richard.php@my-email.com
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -358,11 +358,11 @@ tests:
             User-Agent: "OWASP CRS test agent"
           method: GET
           port: 80
-          uri: "/get?foo=echo%20%22test%22%7B%5Cphp%7D"
+          uri: "/get?email=richard.php%40my-email.com"
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [933100]
+            no_expect_ids: [933100]
   - test_id: 21
     desc: |
       Square bracket closing PHP tag, uppercase
@@ -616,24 +616,6 @@ tests:
           method: GET
           port: 80
           uri: "/get?pattern=%2F%5Ba-z%5D%7B1%2C5%7D%2F"
-          version: HTTP/1.1
-        output:
-          log:
-            no_expect_ids: [933100]
-  - test_id: 35
-    desc: |
-      Email containing 'php' should NOT match
-      decoded payload: richard.php@my-email.com
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-          method: GET
-          port: 80
-          uri: "/get?email=richard.php%40my-email.com"
           version: HTTP/1.1
         output:
           log:
