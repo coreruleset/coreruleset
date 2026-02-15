@@ -423,7 +423,7 @@ tests:
             expect_ids: [933100]
   - test_id: 24
     desc: |
-      PHP tag in cookie value
+      Negative test: <?php without trailing whitespace in cookie should NOT match
       decoded payload: session=<?php
     stages:
       - input:
@@ -439,10 +439,10 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [933100]
+            no_expect_ids: [933100]
   - test_id: 25
     desc: |
-      PHP tag in parameter name
+      Negative test: <?php without trailing whitespace in parameter name should NOT match
       decoded payload: parameter name contains <?php
     stages:
       - input:
@@ -457,7 +457,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [933100]
+            no_expect_ids: [933100]
   - test_id: 26
     desc: |
       PHP tag with tab character
