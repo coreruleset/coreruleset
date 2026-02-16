@@ -17,6 +17,8 @@ permissions: {}
 jobs:
   regression:
     runs-on: ubuntu-latest
+    outputs:
+      test_status: ${{ steps.quantitative.outcome }}
     strategy:
       matrix:
         language: ["eng"]
@@ -51,6 +53,7 @@ jobs:
 
       - name: "Run tests for language: ${{ matrix.language }}, year: ${{ matrix.year}}, size: ${{ matrix.size }}, paranoia level: ${{ matrix.paranoia_level }}"
         id: quantitative
+        continue-on-error: true
         run: |
           ./ftw quantitative \
             -L ${{ matrix.language }} \
@@ -81,6 +84,8 @@ jobs:
             echo -e "  <summary>Diff details</summary>\n\n\`\`\`\n" >> pr_comment.md
             diff <(jq . old_results.json) <(jq . new_results.json) >> pr_comment.md || true
             echo -e "\n\`\`\`\n</details>" >> pr_comment.md
+            echo -e " ⚠️ Manual approval needed" >> pr_comment.md
+            exit 1
           else
             echo -e " 🚀 Quantitative testing did not detect new false positives" >> pr_comment.md
           fi
@@ -95,3 +100,12 @@ jobs:
         with:
           comment-tag: execution
           file-path: pr_comment.md
+
+  manual_approval:
+    needs: regression
+    if: needs.regression.outputs.test_status != 'success'
+    runs-on: ubuntu-latest
+    environment: quantitative-testing-approval   # triggers manual approval
+    steps:
+      - run: |
+          echo "Quantitative tests detected new false positives — reviewer approval required"

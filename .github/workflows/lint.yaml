@@ -15,9 +15,9 @@ on:
 
 # Pin versions to not disrupt test pipelines
 env:
-  CRS_TOOLCHAIN_VERSION: '2.3.4'
-  SECRULES_PARSING_VERSION: '0.2.12'
-  CRS_LINTER_VERSION: '0.2.2'
+  CRS_TOOLCHAIN_VERSION: '2.6.0'
+  SECRULES_PARSING_VERSION: '0.3.0'
+  CRS_LINTER_VERSION: '1.0.0'
 
 jobs:
   check-syntax:
@@ -26,8 +26,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
-          # required for version detection using `git describe`
-          fetch-depth: 50
+          fetch-depth: 0
 
       - name: Lint Yaml
         uses: ibiqlik/action-yamllint@2576378a8e339169678f9939646ee3ee325e845c # v3.1.1
