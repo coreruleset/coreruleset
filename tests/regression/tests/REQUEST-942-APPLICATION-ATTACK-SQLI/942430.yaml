@@ -1,10 +1,11 @@
 ---
 meta:
-  author: "Christian S.J. Peron, azurit"
+  author: "Christian S.J. Peron, azurit, fzipitria"
+  description: "Tests for rule 942430 - SQL Character Anomaly Detection (12+ special chars)"
 rule_id: 942430
 tests:
   - test_id: 1
-    desc: "Restricted SQL Character Anomaly Detection (args): # of special characters exceeded (12)"
+    desc: "Basic SQL injection with 12 special characters (parentheses)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -15,8 +16,278 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "var=(((((())))))&var2=whatever"
-          version: HTTP/1.1
+          data: "var=%28%28%28%28%28%28%29%29%29%29%29%29&var2=whatever"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942430]
+
+  - test_id: 2
+    desc: "SQL injection with various special characters (12+)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "id=1%27%20OR%20%271%27%3d%27x%27%23%3b%2d%2d%28%29%21"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942430]
+
+  - test_id: 3
+    desc: "SQL injection with UTF-8 right single quotation mark (U+2019) and other special chars"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "id=1%E2%80%99%20OR%20%E2%80%991%E2%80%99%3d%E2%80%99x%E2%80%99%23%3b%2d%2d%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942430]
+
+  - test_id: 4
+    desc: "SQL injection with UTF-8 left single quotation mark (U+2018) and special chars"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "id=1%E2%80%98%20OR%20%E2%80%981%E2%80%98%3d%E2%80%98x%E2%80%98%23%3b%2d%2d%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942430]
+
+  - test_id: 5
+    desc: "SQL injection with UTF-8 acute accent (U+00B4) and special chars"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "id=1%C2%B4%20OR%20%C2%B41%C2%B4%3d%C2%B4x%C2%B4%23%3b%2d%2d%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942430]
+
+  - test_id: 6
+    desc: "Exactly 12 special characters (edge case - should match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=%21%40%23%24%25%5e%26%2a%28%29%2d%3d"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942430]
+
+  - test_id: 7
+    desc: "NEGATIVE: Only 11 special characters (just below threshold)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=%21%40%23%24%25%5e%26%2a%28%29%2d"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942430]
+
+  - test_id: 8
+    desc: "NEGATIVE: Chinese text (should not match - no false positives)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "comment=%e4%bd%a0%e5%a5%bd%e4%b8%96%e7%95%8c%e8%bf%99%e6%98%af%e4%b8%80%e6%ae%b5%e4%b8%ad%e6%96%87%e6%96%87%e6%9c%ac"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942430]
+
+  - test_id: 9
+    desc: "NEGATIVE: Japanese text (should not match - no false positives)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "comment=%e3%81%93%e3%82%93%e3%81%ab%e3%81%a1%e3%81%af%e4%b8%96%e7%95%8c%e3%81%93%e3%82%8c%e3%81%af%e6%97%a5%e6%9c%ac%e8%aa%9e%e3%81%ae%e3%83%86%e3%82%ad%e3%82%b9%e3%83%88%e3%81%a7%e3%81%99"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942430]
+
+  - test_id: 10
+    desc: "NEGATIVE: Arabic text (should not match - no false positives)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "comment=%d8%a7%d9%84%d8%b3%d9%84%d8%a7%d9%85%20%d8%b9%d9%84%d9%8a%d9%83%d9%85%20%d9%87%d8%b0%d8%a7%20%d9%86%d8%b5%20%d8%b9%d8%b1%d8%a8%d9%8a"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942430]
+
+  - test_id: 11
+    desc: "NEGATIVE: Hebrew text (should not match - no false positives)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "comment=%d7%a9%d7%9c%d7%95%d7%9d%20%d7%a2%d7%95%d7%9c%d7%9d%20%d7%96%d7%94%20%d7%98%d7%a7%d7%a1%d7%98%20%d7%91%d7%a2%d7%91%d7%a8%d7%99%d7%aa"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942430]
+
+  - test_id: 12
+    desc: "NEGATIVE: Korean text (should not match - no false positives)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "comment=%ec%95%88%eb%85%95%ed%95%98%ec%84%b8%ec%9a%94%20%ec%84%b8%ea%b3%84%20%ec%9d%b4%ea%b2%83%ec%9d%80%20%ed%95%9c%ea%b5%ad%ec%96%b4%20%ed%85%8d%ec%8a%a4%ed%8a%b8%ec%9e%85%eb%8b%88%eb%8b%a4"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942430]
+
+  - test_id: 13
+    desc: "NEGATIVE: High-entropy base64 data (should not match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "token=SGVsbG9Xb3JsZFRoaXNJc0FCYXNlNjRFbmNvZGVkU3RyaW5n"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942430]
+
+  - test_id: 14
+    desc: "NEGATIVE: SHA256 hash (should not match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "hash=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942430]
+
+  - test_id: 15
+    desc: "NEGATIVE: Normal English text with some punctuation"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "comment=Hello%2c%20world%21%20This%20is%20a%20test."
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942430]
+
+  - test_id: 16
+    desc: "Mixed special characters typical in SQL injection"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "query=%27%3bSELECT%2a%40%40version%23%2d%2d%28%29%7b%7d"
+          version: "HTTP/1.1"
         output:
           log:
             expect_ids: [942430]
