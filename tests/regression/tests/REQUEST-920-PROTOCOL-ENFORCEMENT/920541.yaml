@@ -1,1 +1,25 @@
 # This rule does not need any test, tests are added in 920540.yaml
+# ---
+# meta:
+#   author: "Franziska Bühler, azurit, Esad Cetiner"
+#   description: "Unicode character bypass"
+# rule_id: 920540
+# tests:
+#   - test_id: 1
+#     desc: 'Unicode character bypass issue #2512: alert() \u0061lert'
+#     stages:
+#       - input:
+#           dest_addr: "127.0.0.1"
+#           port: 80
+#           method: "POST"
+#           headers:
+#             User-Agent: "OWASP CRS test agent"
+#             Host: "localhost"
+#             Content-Type: "application/x-www-form-urlencoded; charset=utf-8"
+#             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+#           uri: "/"
+#           data: "testarg=%5Cu0061lert"
+#           version: "HTTP/1.1"
+#         output:
+#           log:
+#             expect_ids: [920540]
