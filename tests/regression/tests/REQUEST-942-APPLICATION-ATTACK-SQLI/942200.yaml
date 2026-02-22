@@ -36,3 +36,87 @@ tests:
         output:
           log:
             expect_ids: [942200]
+  - test_id: 3
+    desc: "Detect `SELECT * FROM users WHERE username = 'admin', '1'='1'`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "'admin', '1'='1'"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942200]
+  - test_id: 4
+    desc: "Detect `INSERT INTO logs (ip, comment) VALUES ('192.168.0.1', 'test')`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "VALUES ('192.168.0.1', 'test')"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942200]
+  - test_id: 5
+    desc: "Detect `SELECT * FROM data WHERE hash = 'abc', 0x1a`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "hash = 'abc', 0x1a"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942200]
+  - test_id: 6
+    desc: "Detect `SELECT * FROM orders WHERE product = 'item', (5)`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "product = 'item', (5)"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942200]
+  - test_id: 7
+    desc: "Fix for False Positive French addresses: 999, rue d'Arlon"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?varname=address%3D999%2C%20rue%20d%27Arlon"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942200]
