@@ -296,8 +296,15 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # If you want to make the CRS less sensitive, you can increase the blocking
 # thresholds, for instance to 7 (which would require multiple rule matches
 # before blocking) or 10 (which would require at least two critical alerts - or
-# a combination of many lesser alerts), or even higher. However, increasing the
-# thresholds might cause some attacks to bypass the CRS rules or your policies.
+# a combination of many lesser alerts), or even higher.
+#
+# Please be aware, however, that going beyond our recommendations will progressively
+# neutralize an increasing number of sensitive rules. Beyond a threshold of 5 for
+# requests and 4 for responses, you will disable entire parts of the WAF,
+# such as LFI, RFI, RCE, and data-exfiltration protections.
+#
+# As such, we strongly recommend that the recommended thresholds are only increased temporarily,
+# and solely for false-positive tuning purposes.
 #
 # [ New deployment strategy: Starting high and decreasing ]
 # It is a common practice to start a fresh CRS installation with elevated
