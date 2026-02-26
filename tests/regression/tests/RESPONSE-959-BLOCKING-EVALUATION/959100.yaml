@@ -26,6 +26,10 @@ tests:
           uri: "/reflect"
           data: "{\"body\": \"<?php echo \\\"Hello World!\\n\\\" ?>\"}"
         output:
+          # Phase 5 rules are prone to a race condition when parsing log output.
+          # Retry the test once if it fails to work around this issue.
+          # See https://github.com/coreruleset/go-ftw/issues/141.
+          retry_once: true
           log:
             expect_ids: [959100]
   - test_id: 2
@@ -67,5 +71,9 @@ tests:
           uri: "/reflect"
           data: "{\"body\": \"<?php echo \\\"Hello World!\\n\\\" ?>\"}"
         output:
+          # Phase 5 rules are prone to a race condition when parsing log output.
+          # Retry the test once if it fails to work around this issue.
+          # See https://github.com/coreruleset/go-ftw/issues/141.
+          retry_once: true
           log:
             match_regex: 'Outbound Anomaly Score Exceeded \(Total Score: '
