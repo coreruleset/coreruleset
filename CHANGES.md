@@ -5,6 +5,8 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
+## Version 4.25.0 - 2026-03-DD - LTS Release
+
 ## Version 4.24.0 - 2026-02-28
 
 ## What's Changed
