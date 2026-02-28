@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Christoph Hansen, Franziska Buehler, azurit"
+  author: "Christian S.J. Peron, Christoph Hansen, Franziska Buehler, azurit, Xhoenix"
 rule_id: 942360
 tests:
   - test_id: 1
@@ -667,3 +667,19 @@ tests:
         output:
           log:
             expect_ids: [942360]
+  - test_id: 40
+    desc: "Negative Test: Fix for Issue #3914"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=1.%20update%20your%20apps"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942360]
