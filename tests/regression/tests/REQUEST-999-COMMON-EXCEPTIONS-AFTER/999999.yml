@@ -178,3 +178,23 @@ tests:
         output:
           log:
             no_match_regex: \[id "\d+"\]
+  - test_id: 11
+    desc: |
+      libModSecurity3/Coraza false positive only
+      JSON variable called named `profile`
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          port: 80
+          headers:
+            Host: localhost
+            User-Agent: OWASP CRS test agent
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          method: POST
+          version: HTTP/1.1
+          uri: /
+          data: '{"profile":"test"}'
+        output:
+          log:
+            no_expect_ids: 930120
