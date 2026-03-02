@@ -1,0 +1,35 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##! Rule 942511: SQLi bypass attempt by ticks (single quotes) - PL3
+##!
+##! Detects SQL injection attempts using single-quote-enclosed content:
+##!   - SQL-like characters (2-29 chars) between quotes
+##!   - base64-encoded content between quotes
+##!
+##! Same pattern as 942510 (backticks, PL2) but with single quotes,
+##! which is more prone to false positives in natural text.
+
+##!> define b64 [A-Za-z0-9+/]
+
+##!^ '
+##!$ '
+
+##! base64 padding variants
+##!> assemble
+  {{b64}}{2}==
+  {{b64}}{3}=
+  ##!=< base64-padding
+##!<
+
+##!> assemble
+  ##! SQL-like characters (2-29 chars)
+  (?:[\w\s=_\-+{}()<@]){2,29}
+  ##! base64 blocks without padding
+  (?:{{b64}}{4})+
+  ##! base64 blocks with padding
+  ##!> assemble
+    (?:{{b64}}{4})+
+    ##!=> base64-padding
+  ##!<
+##!<
