@@ -7,10 +7,6 @@
 
 ## Version 4.25.0 - 2026-03-DD - LTS Release
 
-## What's Changed
-### 🆕 New features and detections 🎉
-* feat(930140): add AI coding assistant artifact protection by @etiennemunnich in https://github.com/coreruleset/coreruleset/pull/XXXX
-
 ## Version 4.24.0 - 2026-02-28
 
 ## What's Changed
