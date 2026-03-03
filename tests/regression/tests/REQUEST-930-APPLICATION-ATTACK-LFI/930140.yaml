@@ -1,0 +1,326 @@
+---
+meta:
+  author: "Etienne Munnich"
+  description: "Restricted AI artifact access"
+rule_id: 930140
+tests:
+  - test_id: 1
+    desc: "Block access to .claude/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.claude/settings.json"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 2
+    desc: "Block access to .cursor/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.cursor/mcp.json"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 3
+    desc: "Block access to .continue/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.continue/config.yaml"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 4
+    desc: "Block access to .aider/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.aider/chat.aider"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 5
+    desc: "Block access to .roo/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.roo/mcp.json"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 6
+    desc: "Block access to .zed/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.zed/settings.json"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 7
+    desc: "Block access to .cline/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.cline/rules.md"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 8
+    desc: "Block access to .kiro/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.kiro/hooks/preToolUse.sh"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 9
+    desc: "Block access to .windsurf/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.windsurf/rules/global.md"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 10
+    desc: "Block access to .rovodev/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.rovodev/.review-agent.md"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 11
+    desc: "Block access to .codex/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.codex/config.toml"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 12
+    desc: "Block access to .opencode/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.opencode/config.json"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 13
+    desc: "Block access to .a0proj/ directory (Agent Zero secrets)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.a0proj/secrets.env"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 14
+    desc: "Block access to .plandex/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.plandex/context.json"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 15
+    desc: "Block access to .fabric/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.fabric/fabric.env"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 16
+    desc: "Block access to .n8n/ directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/.n8n/config"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 17
+    desc: "Block .claude/ nested path (subdirectory traversal)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/app/.claude/settings.local.json"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930140]
+  - test_id: 18
+    desc: "Negative test: benign request to root"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930140]
+  - test_id: 19
+    desc: "Negative test: /api/continue/ without leading dot"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/api/continue/session"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930140]
+  - test_id: 20
+    desc: "Negative test: normal static asset"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/css/style.css"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930140]
