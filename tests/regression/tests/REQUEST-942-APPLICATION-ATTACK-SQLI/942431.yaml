@@ -1,10 +1,11 @@
 ---
 meta:
-  author: "Christian S.J. Peron, azurit, touchweb_vincent"
+  author: "Christian S.J. Peron, azurit, touchweb_vincent, fzipitria"
+  description: "Tests for rule 942431 - SQL Character Anomaly Detection (6+ special chars) - PL3"
 rule_id: 942431
 tests:
   - test_id: 1
-    desc: "Restricted SQL Character Anomaly Detection (args): # of special characters exceeded (6)"
+    desc: "Basic SQL injection with 6+ special characters"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -16,12 +17,13 @@ tests:
           port: 80
           uri: "/post"
           data: "var=-------------------&var2=whatever"
-          version: HTTP/1.1
+          version: "HTTP/1.1"
         output:
           log:
             expect_ids: [942431]
+
   - test_id: 2
-    desc: "Avoid blocking on three-dimensional arrays"
+    desc: "NEGATIVE: Avoid blocking on three-dimensional arrays"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -32,13 +34,14 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "order[filters][date_add][from]=1"
-          version: HTTP/1.1
+          data: "order%5bfilters%5d%5bdate_add%5d%5bfrom%5d=1"
+          version: "HTTP/1.1"
         output:
           log:
             no_expect_ids: [942431]
+
   - test_id: 3
-    desc: "Avoid blocking on bi-dimensional arrays"
+    desc: "NEGATIVE: Avoid blocking on bi-dimensional arrays"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -49,8 +52,116 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "order[add-to-cart][]=1"
-          version: HTTP/1.1
+          data: "order%5badd-to-cart%5d%5b%5d=1"
+          version: "HTTP/1.1"
         output:
           log:
             no_expect_ids: [942431]
+
+  - test_id: 4
+    desc: "SQL injection with UTF-8 right single quotation mark (U+2019)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "id=%E2%80%99%20OR%20%E2%80%991%3d1%23%3b%2d%2d"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942431]
+
+  - test_id: 5
+    desc: "Exactly 6 special characters (edge case - should match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=%21%40%23%24%25%5e"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942431]
+
+  - test_id: 6
+    desc: "NEGATIVE: Only 5 special characters (just below threshold)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=%21%40%23%24%25"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942431]
+
+  - test_id: 7
+    desc: "NEGATIVE: Chinese text (should not match - no false positives)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "comment=%e4%bd%a0%e5%a5%bd%e4%b8%96%e7%95%8c"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942431]
+
+  - test_id: 8
+    desc: "NEGATIVE: Japanese text (should not match - no false positives)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "comment=%e3%81%93%e3%82%93%e3%81%ab%e3%81%a1%e3%81%af"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942431]
+
+  - test_id: 9
+    desc: "SQL injection with mixed special characters"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "q=%27%3b%40%40%23%2d%2d"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942431]
