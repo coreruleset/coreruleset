@@ -1,0 +1,12 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##! XSS Filter - Category 2: Event Handler Vector.
+##! Detects XSS via HTML event handlers (e.g., onload=, onerror=).
+##! Matches "on" followed by 3-50 alphabetic characters and an equals sign.
+##! The equals sign must be followed by a non-equals character to avoid
+##! false positives with base64-encoded strings (which often end in = or ==).
+
+##!+ i
+
+[\s"'`;/0-9=\x0B\x09\x0C\x3B\x2C\x28\x3B]on[a-zA-Z]{3,50}[\s\x0B\x09\x0C\x3B\x2C\x28\x3B]*?=[^=]
