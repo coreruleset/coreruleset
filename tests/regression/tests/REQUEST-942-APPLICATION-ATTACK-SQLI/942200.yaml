@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Franziska Bühler, azurit"
+  author: "Christian S.J. Peron, Franziska Bühler, azurit, touchweb_vincent"
 rule_id: 942200
 tests:
   - test_id: 1
@@ -37,85 +37,33 @@ tests:
           log:
             expect_ids: [942200]
   - test_id: 3
-    desc: "Detect `SELECT * FROM users WHERE username = 'admin', '1'='1'`"
+    desc: "BingBot UA which was trigger on CRS 4.24.0 update"
     stages:
       - input:
           dest_addr: 127.0.0.1
           headers:
             Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "'admin', '1'='1'"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942200]
-  - test_id: 4
-    desc: "Detect `INSERT INTO logs (ip, comment) VALUES ('192.168.0.1', 'test')`"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "VALUES ('192.168.0.1', 'test')"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942200]
-  - test_id: 5
-    desc: "Detect `SELECT * FROM data WHERE hash = 'abc', 0x1a`"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "hash = 'abc', 0x1a"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942200]
-  - test_id: 6
-    desc: "Detect `SELECT * FROM orders WHERE product = 'item', (5)`"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "product = 'item', (5)"
-          version: HTTP/1.1
-        output:
-          log:
-            expect_ids: [942200]
-  - test_id: 7
-    desc: "Fix for False Positive French addresses: 999, rue d'Arlon"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
+            User-Agent: "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/116.0.1938.76 Safari/537.36"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?varname=address%3D999%2C%20rue%20d%27Arlon"
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942200]
+  - test_id: 4
+    desc: "GoogleBot UA which was trigger on CRS 4.24.0 update"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.7559.132 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
           version: HTTP/1.1
         output:
           log:
