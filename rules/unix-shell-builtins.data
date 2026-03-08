@@ -7,6 +7,7 @@ endif
 endsw
 esac
 eval
+exec
 export
 fg
 fi
@@ -18,3 +19,13 @@ repeat
 set
 setenv
 zmodload
+ulimit
+# Critical One, It can lead to RCE
+source
+# Critical Ones can leak external commands, That an attacker can use them to bypass rules entirely
+compgen
+complete
+# Used for DoS
+wait
+readarray
+read
