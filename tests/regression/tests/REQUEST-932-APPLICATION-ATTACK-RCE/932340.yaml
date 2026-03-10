@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Esad Cetiner, Max Leske, Franziska Bühler"
+  author: "Esad Cetiner, Max Leske, Franziska Bühler, Stephen Sigwart"
 rule_id: 932340
 tests:
   - test_id: 1
@@ -30,7 +30,7 @@ tests:
           method: "GET"
           port: 80
           headers:
-            User-Agent: env
+            User-Agent: ;env
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/get"
@@ -49,7 +49,7 @@ tests:
           port: 80
           headers:
             User-Agent: "OWASP CRS test agent"
-            Referer: env
+            Referer: ;env
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/get"
@@ -68,7 +68,7 @@ tests:
           port: 80
           headers:
             User-Agent: "OWASP CRS test agent"
-            Referer: set
+            Referer: ;set
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/get"
@@ -86,7 +86,7 @@ tests:
           method: "GET"
           port: 80
           headers:
-            User-Agent: set
+            User-Agent: ;set
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/get"
@@ -164,6 +164,82 @@ tests:
           port: 80
           uri: "/post"
           data: "uname=john%20doe"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932340]
+  - test_id: 10
+    desc: |
+      False Positive with `df` command
+      These are possible for an input for a person's initials, such as "David Foster"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "initials=DF"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932340]
+  - test_id: 11
+    desc: |
+      False Positive with `su` command
+      These are possible for an input for a person's initials, such as "Susan Underwood"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "initials=SU"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932340]
+  - test_id: 12
+    desc: |
+      False Positive with `ls` command
+      These are possible for an input for a person's initials, such as "Linda Smith"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "initials=LS"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932340]
+  - test_id: 13
+    desc: |
+      False Positive with `ps` command
+      These are possible for an input for a person's initials, such as "Paul Smith"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "initials=PS"
           version: HTTP/1.1
         output:
           log:
