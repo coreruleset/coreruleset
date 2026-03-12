@@ -414,6 +414,105 @@ softirqs
 sslvpn_websession
 sysrq-trigger
 system.ini
+
+# Those are html files with php templates
+.phtml
+.phtm
+.pht
+.shtml
+
+# HTML Files are common for XSS
+.html
+.htm
+
+# For erlang yaws server
+.yaws
+
+# Those can be used for RCE, via overwriting a cgi file after execution will cause RCE
+.cgi
+
+# That one associated with Flash, That one have no legitimate use and also Flash player deprecated
+.swf
+
+# ColdFusion
+.cfm
+.cfml
+.cfc
+.dbm
+
+# JSP (Those one are critical and must be previously in the list)
+.jsp
+.jspx
+.jsw
+.jsv
+.jspf
+.wss
+.do
+.action
+
+# ASP
+.asp
+.aspx
+.config
+.ashx
+.asmx
+.aspq
+.axd
+.cshtm
+.cshtml
+.rem
+.soap
+.vbhtm
+.vbhtml
+.asa
+.cer
+.shtml
+
+
+# That one must be blocked
+.phar
+
+# Windows Devices File names
+# TODO: Those are causing false positives most of them
+
+#CON
+#PRN
+#AUX
+#NUL
+
+# Those not, False Positives are low
+COM1
+COM2
+COM3
+COM4
+COM5
+COM6
+COM7
+COM8
+COM9
+LPT1
+LPT2
+LPT3
+LPT4
+LPT5
+LPT6
+LPT7
+LPT8
+LPT9
+
+# Used in uwsgi RCE
+uwsgi.ini
+
+# That one is an image format sometime but it is rarely used in legitimate reason, And in old systems sometime treated as php code
+.pgif
+
+
+# For Jinja Templates sometime used
+.jinja2
+.j2
+.jinja
+
+
 sysvipc
 thread-self
 Thumbs.db
