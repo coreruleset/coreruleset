@@ -5,7 +5,202 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
-## Version 4.18.0-dev - 2025-MM-DD
+## Version 4.25.0 - 2026-03-DD - LTS Release
+
+## Version 4.24.1 - 2026-03-09
+
+## What's Changed
+### 🆕 New features and detections 🎉
+* feat(930140): add AI coding assistant artifact protection by @etiennemunnich in https://github.com/coreruleset/coreruleset/pull/4519
+* feat: Expand Scanner Agents by @HackingRepo in https://github.com/coreruleset/coreruleset/pull/4532
+
+## Fixes
+* fix(942480): don't inspect cookies twice by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4524
+* fix(942200): prevent matches against user agent strings by @theseion in https://github.com/coreruleset/coreruleset/pull/4537
+
+### 🧰 Other Changes
+* refactor: create 934130 `.ra` file by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4487
+* refactor: create 941330 `.ra` file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4492
+* refactor: create 944300 `.ra` file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4490
+* refactor: create 941320 `.ra` file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4491
+* refactor: create 921160 `.ra` file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4497
+* refactor: create 921120 `.ra` file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4496
+* refactor: create 921110 `.ra` file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4495
+* feat: move 930110 to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4494
+* refactor: create 941190 .ra file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4499
+* refactor: create 941400 `.ra` file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4517
+* refactor: create 942250 .ra file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4512
+* refactor: create 941370 `.ra` file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4518
+* refactor: create 944260 .ra file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4510
+* feat: move 943100 to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4504
+* refactor: create 944120 .ra file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4508
+* refactor: create 942450 .ra file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4513
+* refactor: create 942510 and 942511 .ra files with shared include by @fzipi in https://github.com/coreruleset/coreruleset/pull/4516
+* refactor: create 944240 .ra file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4509
+* docs: comment on threshold should be more alarming by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4330
+* chore: add missing regex-assembly comment blocks to rules by @fzipi in https://github.com/coreruleset/coreruleset/pull/4523
+* fix(913100): adding OWASP Nettacker to known scanners list by @securestep9 in https://github.com/coreruleset/coreruleset/pull/4529
+* refactor: create 941300 `.ra` file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4521
+
+## New Contributors
+* @etiennemunnich made their first contribution in https://github.com/coreruleset/coreruleset/pull/4519
+* @securestep9 made their first contribution in https://github.com/coreruleset/coreruleset/pull/4529
+* @HackingRepo made their first contribution in https://github.com/coreruleset/coreruleset/pull/4532
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.24.0...v4.24.1
+
+## Version 4.24.0 - 2026-02-28
+
+## What's Changed
+### 🆕 New features and detections 🎉
+* feat(933100): add detection of smarty template php tag by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4447
+### 🧰 Other Changes
+* fix(932130): use lazy regex by @fzipi in https://github.com/coreruleset/coreruleset/pull/3730
+* chore(943110): move to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4431
+* fix(930130): reduce false positive by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4451
+* fix(920650): don't block on method override if it's not actually being overwritten by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4455
+* fix(932340): Add more UNIX FP commands by @ssigwart in https://github.com/coreruleset/coreruleset/pull/4454
+* refactor(951210): convert maxDB leakage rule to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4468
+* refactor(951190): convert Ingres leakage rule to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4466
+* refactor(951140): convert EMC leakage rule to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4464
+* refactor(951110): convert Access leakage rule to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4463
+* fix: handle multi-byte UTF-8 chars in SQL special char detection by @fzipi in https://github.com/coreruleset/coreruleset/pull/4458
+* refactor(951200): convert Interbase leakage rule to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4467
+* refactor(951180): convert Informix leakage rule to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4465
+* refactor(951220): convert MSSQL leakage rule to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4459
+* refactor(951250): convert SQLite leakage rule to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4460
+* refactor(951260): convert Sybase leakage rule to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4461
+* refactor(951130): convert DB2 leakage rule to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4462
+* fix: don't block json variable names called `profile` on libmodsecurity3/coraza by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4477
+* fix(933100): reduce false positive on Extensible Metadata Platform and xsl-stylesheets by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4445
+* feat: move 932190 to regex-assembly by @theseion in https://github.com/coreruleset/coreruleset/pull/4475
+* fix(942200): FP against comma and single quote in French addresses by @theseion in https://github.com/coreruleset/coreruleset/pull/4476
+
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.23.0...v4.24.0
+
+## Version 4.23.0 - 2026-03-04
+
+## What's Changed
+### ⭐ Important changes
+* feat(920640): add rule to enforce content-type if there is body by @fzipi in https://github.com/coreruleset/coreruleset/pull/4406
+### 🆕 New features and detections 🎉
+* feat(lfi): Add detection for Vite.js path traversal (CVE-2025-30208) by @disisto in https://github.com/coreruleset/coreruleset/pull/4407
+* feat: block fake `mozilla/5.g` user-agent by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4383
+* feat: resolve common false positives with ad and tracker cookies by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4378
+* fix(ssrf): catch malformed urls by @fzipi in https://github.com/coreruleset/coreruleset/pull/4410
+* feat: block 'trap' command by @azurit in https://github.com/coreruleset/coreruleset/pull/4422
+* feat: prevent php session files to be uploaded by @fzipi in https://github.com/coreruleset/coreruleset/pull/4412
+* feat(930130): improvement of the detection of common debug or error files across CMS platforms by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4426
+* feat(942450): add another hex + binary declaration pattern by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4374
+* feat: update restricted files and file extensions by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4299
+* feat(920650): add detection for framework method overrides by @fzipi in https://github.com/coreruleset/coreruleset/pull/4416
+* fix: remove Request-Range Header from rules by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4435
+* feat: block when Request-Range header is used by @fzipi in https://github.com/coreruleset/coreruleset/pull/4436
+### 🧰 Other Changes
+* fix: remove bypass-vulnerable content types from default allow lists by @RedXanadu in https://github.com/coreruleset/coreruleset/pull/4365
+* feat(931131): removing off domain check by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4379
+* chore(933120): cleaning obsolete variable by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4417
+* chore(941360,941370,941380): cleaning useless capture keyword by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4419
+* chore(933151,933152,933153): cleaning useless variables by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4420
+* feat(942350): added replace keyword + c-type comment evasion by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4373
+* fix(933111): regex should be the same as 933110 by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4395
+* fix: FPs related to maxDB information leakage by @azurit in https://github.com/coreruleset/coreruleset/pull/4382
+* fix: remove non-unix commands from unix rce rules (932230 PL-1, 932235 PL-1, 932250 PL-1, 932260 PL-1, 932220 PL-2, 932236 PL-2, 932239 PL-2, 932237 PL-3) by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4247
+* fix(941120): new regex is eligible for Paranoia Level 1 by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4291
+* fix(933150): reduce substring false positive matches by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4340
+* fix(942410): cleaning of duplicates with 942151 by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4336
+* fix: add separate rule to match unix commands with no arguments by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4273
+* fix(934140): update perl interpolation regex by @fzipi in https://github.com/coreruleset/coreruleset/pull/4250
+* feat(921200): move regexp to regex-assembly by @fzipi in https://github.com/coreruleset/coreruleset/pull/4409
+* fix(934190): add new rule to check localhost variants without scheme by @fzipi in https://github.com/coreruleset/coreruleset/pull/4429
+* feat(941110): all HTTP headers should be checked by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4326
+* feat(941120): all HTTP headers should be checked by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4327
+
+## New Contributors
+* @disisto made their first contribution in https://github.com/coreruleset/coreruleset/pull/4407
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.22.0...v4.23.0
+
+## Version 4.22.0 - 2026-01-05
+
+## What's Changed
+### CRITICAL
+* fix for 9AJ-260102
+
+### 🧰 Other Changes
+* feat(934100): added sequence for CVE-2025-55182 POCs by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4372
+* feat(942440): reduce false positive by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4346
+* fix(942431): reduce false positive with arrays in ARGS_NAMES by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4305
+* fix: make regexen Rust's regex compatible by @fgsch in https://github.com/coreruleset/coreruleset/pull/4385
+* refactor: drop older spelling variants by @fgsch in https://github.com/coreruleset/coreruleset/pull/4386
+
+Special thanks to @daytriftnewgen for responsible reporting 9AJ-260102
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.21.0...v4.22.0
+
+## Version 4.21.0 - 2025-12-01
+
+## What's Changed
+### 🆕 New features and detections 🎉
+* feat(931100): add IPv6 support / XML scan and SSH scheme. by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4321
+* feat(920440): add new restricted file extensions by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4322
+### 🧰 Other Changes
+* fix(942160): adding unit test for double comment by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4315
+* fix(920280, 920300, 920310, 920311, 920320, 920330): should be block by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4319
+* fix(942151,942152): wrong functions names by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4333
+* feat(942460): adding help for non-English folks by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4334
+* fix(932180): reduce substring false positives by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4338
+* fix(942151,942152): wrong functions names by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4337
+* fix(920180): wrong unit test - content-type evasion bypass by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4339
+* fix(956110): move rule to pl-2 by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4344
+* docs: comment on disabling `Expect` header in .Net by @theseion in https://github.com/coreruleset/coreruleset/pull/4348
+* fix: add missing capture action to affected rules by @airween in https://github.com/coreruleset/coreruleset/pull/4361
+
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.20.0...v4.21.0
+
+## Version 4.20.0 - 2025-11-02
+
+## What's Changed
+### 🆕 New features and detections 🎉
+* feat: update restricted file extensions by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4287
+* feat(930120): adding conf file for PrestaShop 1.6 / 1.7 / 8+ & Magento 2 by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4303
+* feat: add expect header to list of restricted headers by @franbuehler in https://github.com/coreruleset/coreruleset/pull/4298
+### 🧰 Other Changes
+* fix(942560): missing capture keyword by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4285
+* fix(932281): reduce false positive matches with json payload by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4288
+* fix(932240): reduce false positive matches with json payloads by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4290
+* fix(921180, 921210, 921220): should be block not pass by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4294
+* fix(942550): partial revert - too high risk of false positive by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4284
+* fix(942160): updating regex to deal with new payloads by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4292
+
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.19.0...v4.20.0
+
+## Version 4.19.0 - 2025-10-02
+
+## What's Changed
+### ⭐ Important changes
+* refactor: 920340 - delete 920341 by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4268
+### 🆕 New features and detections 🎉
+* fix: update lfi-os-files.data by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4240
+### 🧰 Other Changes
+* fix: dont block `.url` file extension by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4259
+* fix(933135): wrong score variable by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4262
+* fix(933153): missing inbound_anomaly_score by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4260
+* fix(953100): remove generic SQLSTATE error codes causing false positives by @Elnadrion in https://github.com/coreruleset/coreruleset/pull/4257
+* feat: add stricter sibling 954101 to 954100 by @franbuehler in https://github.com/coreruleset/coreruleset/pull/4258
+* fix(942550): cleanup regex by @fzipi in https://github.com/coreruleset/coreruleset/pull/3767
+* fix: reduce false positives with php response rules by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4272
+* fix: don't block on all question marks (942550 PL-1) by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4264
+* feat: whitelist application/csp-report content-type header by @Elnadrion in https://github.com/coreruleset/coreruleset/pull/4274
+
+## New Contributors
+* @touchweb-vincent made their first contribution in https://github.com/coreruleset/coreruleset/pull/4262
+* @Elnadrion made their first contribution in https://github.com/coreruleset/coreruleset/pull/4257
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.18.0...v4.19.0
 
 ## Version 4.18.0 - 2025-09-03
 
@@ -429,7 +624,7 @@ Changes with direct rule impact (sorted by lowest rule ID per change where avail
  * fix: remove initialization rules for redundant IP reputation variables (901150, 901152) (Andrew Howe) [#2833]
  * fix: initialize all variables used properly (901169) (Ervin Hegedus) [#2802]
  * feat: improve sampling mode efficiency (901410, 901420, 901440) (Paul Beckett) [#2094]
- * fix: replace uses of 'ctl:ruleEngine=Off' with "ctl:ruleRemoveByTag=OWASP_CRS" to accomodate more than one ruleset (901450, 905100, 905110) (Jozef Sudolský) [#2156]
+ * fix: replace uses of 'ctl:ruleEngine=Off' with "ctl:ruleRemoveByTag=OWASP_CRS" to accommodate more than one ruleset (901450, 905100, 905110) (Jozef Sudolský) [#2156]
  * feat: remove old, commented-out IP reputation check rule (910110 PL1) (Paul Beckett) [#2148]
  * feat: detect 'burpcollaborator' scanner (913100 PL1) (Amir Hosein Aliakbarian) [#2152]
  * feat: detect 'httpx' scanner (913100 PL1) (Will Woodson) [#2045]
@@ -784,7 +979,7 @@ Changes without direct rule impact:
  * feat: add timezone variable to docker-compose (Felipe Zipitría) [#1995]
  * fix: indentations (Ervin Hegedus) [#1851]
  * fix: link for docs/OWASP-CRS-Documentation submodule (Ervin Hegedus) [#1885]
- * fix: multiple fixes when generating changelog PR (Max Leske) [#3418], [#3420], [#3422], [#3424] [#3429]
+ * fix: multiple fixes when generating changelog PR (Max Leske) [#3418], [#3420], [#3422], [#3424], [#3429]
  * fix: nginx logging in docker-compose (Felipe Zipitría) [#2036]
  * fix: remove all whitespace at EOL (Felipe Zipitría) [#2405, #2406]
  * fix: remove full stop from end of log message (920181 PL1) (Federico G. Schwindt) [#2011]

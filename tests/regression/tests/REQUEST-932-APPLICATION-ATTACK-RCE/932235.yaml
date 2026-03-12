@@ -913,3 +913,40 @@ tests:
         output:
           log:
             expect_ids: [932235]
+  - test_id: 52
+    desc: "Match ;trap 'rm -rf file.txt' SIGEXIT"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: "arg=%3Btrap%20%27rm%20-rf%20file.txt%27%20SIGEXIT"
+        output:
+          log:
+            expect_ids: [932235]
+  - test_id: 53
+    desc: |
+      False Positive:
+      Don't block invalid command `null` (Might come from unix-shell.data)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=time null space
+        output:
+          log:
+            no_expect_ids: [932235]

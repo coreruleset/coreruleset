@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Max Leske, azurit"
+  author: "Christian S.J. Peron, Max Leske, azurit, touchweb_vincent"
 rule_id: 942440
 tests:
   - test_id: 1
@@ -332,6 +332,100 @@ tests:
           port: 80
           version: "HTTP/1.1"
           uri: "/get?gclid=j0KCQiA1NebBhDDARIsAANiDD3_RJeMv8zScF--mC1jf8fO8PDYJCxD9xdwT7iQ59QIIwL-86ncQtMaAh0lEALw_wcB"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 21
+    desc: "False positive against ReCaptcha Token - truncated at 1024 chars for the linter"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "POST"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get"
+          data: "recaptchaToken=0cAFcWeA5Q9qneoy5svp-ow9uyksp1u8sdCA2it1v80Rwl-bn0dpYRQ1btnvXVw5Im6Y_3pmpZe8MZrDhXYmHL0BejWDB3sFBRF1NG1FOR0jCDb3KMsIMwqZl-0x0LSotoGHaltCfASwYfm5lYf5g8tZA_IciJIesdbPZ3d8lxKAyRM-NQjCPBmyQAakve6wo0I52vKBUpju4ngxfbItIHoGE5pfBfncWTPsIMdHaXCzUs-SN298tv2LoHGb_cV1Xy91VmyiW79yRu-x3e176VYsQ404bMwv4mIf9ATJV_QI-ygbxIMHQ62hNNaZp8pVAX2TKRx5jqEyc2iNZGUlwPYKnHZn2AjSoKFNbxxCNAbdu_QV3aPN8RbudCLvXOwGRcX0mULEte8OMzkB8B8Ih5HT1AiOhLMAah2CM6533LHEDQRsK-8ykmZUN4m3qM9tcQBd7ZFQAy--_SV4qUOWZC8laMtDCIj4cnpZ8FF1RIizocdrE7YhOoSeB8XEYnr0A3WP-vpJ58Cdy5OtypswnizLTXUf1gMsgYfTr4PBc0rBq8_E54qinjHNxe1Y_MiMqXegVMsGS_llQjUws8NITFEetlBK0JuK9WH-0kuimcd4EF1ChzMRJV5Ps22QfAT5qIqPQGlVycL3FXrDZMWT1igkbU2hnLwJl6MD1SoZfeOSxt5nq6WxL2qYtWJd8w-dXQ3hQ5iz0WBldlntF2jOo13n6rraaD4h7JuDdqyBD_zr_WZ84n5CVf5myNcdaOu4r4tj5IHp4GBfXe5jIomtyuSqlPh_-9o9VWFW-9ReL5LrwArMAsHodADbfhu9AviIYIGCRAE2OnTGlbgREWDS8IWAuoeasA1ZmlVv6O3gzEl7W7tUlCmceMIjlyrUaPAGHSUgYJWQoIM1pW8lgmbZtaugbkA3DcfL5hW-AmTZg53-o0BQ"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 22
+    desc: "False positive against ReCaptcha Token - truncated at 1024 chars for the linter"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "POST"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get"
+          data: "g-recaptcha-response=0cAFcWeA5Q9qneoy5svp-ow9uyksp1u8sdCA2it1v80Rwl-bn0dpYRQ1btnvXVw5Im6Y_3pmpZe8MZrDhXYmHL0BejWDB3sFBRF1NG1FOR0jCDb3KMsIMwqZl-0x0LSotoGHaltCfASwYfm5lYf5g8tZA_IciJIesdbPZ3d8lxKAyRM-NQjCPBmyQAakve6wo0I52vKBUpju4ngxfbItIHoGE5pfBfncWTPsIMdHaXCzUs-SN298tv2LoHGb_cV1Xy91VmyiW79yRu-x3e176VYsQ404bMwv4mIf9ATJV_QI-ygbxIMHQ62hNNaZp8pVAX2TKRx5jqEyc2iNZGUlwPYKnHZn2AjSoKFNbxxCNAbdu_QV3aPN8RbudCLvXOwGRcX0mULEte8OMzkB8B8Ih5HT1AiOhLMAah2CM6533LHEDQRsK-8ykmZUN4m3qM9tcQBd7ZFQAy--_SV4qUOWZC8laMtDCIj4cnpZ8FF1RIizocdrE7YhOoSeB8XEYnr0A3WP-vpJ58Cdy5OtypswnizLTXUf1gMsgYfTr4PBc0rBq8_E54qinjHNxe1Y_MiMqXegVMsGS_llQjUws8NITFEetlBK0JuK9WH-0kuimcd4EF1ChzMRJV5Ps22QfAT5qIqPQGlVycL3FXrDZMWT1igkbU2hnLwJl6MD1SoZfeOSxt5nq6WxL2qYtWJd8w-dXQ3hQ5iz0WBldlntF2jOo13n6rraaD4h7JuDdqyBD_zr_WZ84n5CVf5myNcdaOu4r4tj5IHp4GBfXe5jIomtyuSqlPh_-9o9VWFW-9ReL5LrwArMAsHodADbfhu9AviIYIGCRAE2OnTGlbgREWDS8IWAuoeasA1ZmlVv6O3gzEl7W7tUlCmceMIjlyrUaPAGHSUgYJWQoIM1pW8lgmbZtaugbkA3DcfL5hW-AmTZg53-o0BQ"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 23
+    desc: "False positive against ReCaptcha v3 Token - truncated at 1024 chars for the linter"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "POST"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get"
+          data: "recaptcha-v3-token=0cAFcWeA5Q9qneoy5svp-ow9uyksp1u8sdCA2it1v80Rwl-bn0dpYRQ1btnvXVw5Im6Y_3pmpZe8MZrDhXYmHL0BejWDB3sFBRF1NG1FOR0jCDb3KMsIMwqZl-0x0LSotoGHaltCfASwYfm5lYf5g8tZA_IciJIesdbPZ3d8lxKAyRM-NQjCPBmyQAakve6wo0I52vKBUpju4ngxfbItIHoGE5pfBfncWTPsIMdHaXCzUs-SN298tv2LoHGb_cV1Xy91VmyiW79yRu-x3e176VYsQ404bMwv4mIf9ATJV_QI-ygbxIMHQ62hNNaZp8pVAX2TKRx5jqEyc2iNZGUlwPYKnHZn2AjSoKFNbxxCNAbdu_QV3aPN8RbudCLvXOwGRcX0mULEte8OMzkB8B8Ih5HT1AiOhLMAah2CM6533LHEDQRsK-8ykmZUN4m3qM9tcQBd7ZFQAy--_SV4qUOWZC8laMtDCIj4cnpZ8FF1RIizocdrE7YhOoSeB8XEYnr0A3WP-vpJ58Cdy5OtypswnizLTXUf1gMsgYfTr4PBc0rBq8_E54qinjHNxe1Y_MiMqXegVMsGS_llQjUws8NITFEetlBK0JuK9WH-0kuimcd4EF1ChzMRJV5Ps22QfAT5qIqPQGlVycL3FXrDZMWT1igkbU2hnLwJl6MD1SoZfeOSxt5nq6WxL2qYtWJd8w-dXQ3hQ5iz0WBldlntF2jOo13n6rraaD4h7JuDdqyBD_zr_WZ84n5CVf5myNcdaOu4r4tj5IHp4GBfXe5jIomtyuSqlPh_-9o9VWFW-9ReL5LrwArMAsHodADbfhu9AviIYIGCRAE2OnTGlbgREWDS8IWAuoeasA1ZmlVv6O3gzEl7W7tUlCmceMIjlyrUaPAGHSUgYJWQoIM1pW8lgmbZtaugbkA3DcfL5hW-AmTZg53-o0BQ"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 24
+    desc: "FYI : Turnstile token are still matched - truncated at 1024 chars for the linter"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "POST"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get"
+          data: "cf-turnstile-response=0.mhOs6JFXLHyE21dFS41Px17BxIjQ-2qlB17IBR0wpgtUrnn92qN-x2t-mpmTMZeQBZlZN2G06An5OfFsslwkkYBAGO7l6t-D-HVqMNj-GNTBGwf5G81d-NYlhnPZmWymFvh1TlMVDv9b-rnYm4WJP-dPhQTRphc1hWgZkRHS6XS6ecGCyNcNzezF0zp6owHNIneLlmTc7pVSbOByN7T12E5KMqpd-ppYnlfKG81zIj8Tl9p_KBe6g0FVstsDEwWC-GvHlWIpQRK_4FVxu7_cpX9DoHSsMHz6R8VYc4L7naYmC0yRL3BWDLEvSM5kEvTjrpXHwGJ8NJkghxRJcu94yuoZXEjl-S9PsoNe-1oom-AeG2-7RnPAb6a-E0pNXxFG8Qv2nEz6GGFnyjWsCMfJVtLeHlSx77U3srcO65_unYlWYCP-GfdanjgnfM8d2bv14yankU2OaFDg9ntjgbOBWT0_PpeAXm1MQTinYO8wj8AOJzIWi5jekHwEgqAicFnGQnHVnpmEoi-kipLYTcQW0fVhKAn-w7BhIJTdaGN-LbqKu8fPLy-j0hF_j4VZPSIEMCQcJ3dB-3QuUbz6DWtuGFGXOhD-B-fIaoEZOuQKToCvycxwXVH79mjZ655pDT9WEuzl85uWYBozMxiBrBhwZHVUm8dAi19tLsfYnu8VOvXI8sHOYH-aDIjYAUR9r4NY9YB8tx-EMGZif8DT4DUXn---eZ1xosWJE2TTxLr3JyN5Bn5OagrL2BAC9a_H4JZ14fl5hPfKl_Hx8raT8t7s03aaJZ-WLUMpujHUbAQZDmtuGQ89tr3KJDqwSvaG2ENB6B5kVv4gBwLbsTx4Apam6Grz4UkgQl81FzSGuU-VTOyxpUuUWq56QhOjdzhgjBxIUm2PkVenWYEJPJSnmZgBVGCje_uqtMSUteCBfWhkPxR"
+        output:
+          log:
+            expect_ids: [942440]
+  - test_id: 25
+    desc: "False positive against Facebook (2025 - brid) Token"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?brid=DLZJ9w0c--9DeBML6-QCPI_2g"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 26
+    desc: "False positive against PrestaShop / Wordpress URL slug"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?url_slug=my--slugified-url"
         output:
           log:
             no_expect_ids: [942440]

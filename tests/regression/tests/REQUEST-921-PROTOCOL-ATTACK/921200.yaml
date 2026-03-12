@@ -4,8 +4,13 @@ meta:
   description: "LDAP injection"
 rule_id: 921200
 tests:
+  #
+  # === Negative Tests (should NOT trigger rule 921200) ===
+  #
+
+  # --- Existing FP tests from original file ---
   - test_id: 1
-    desc: "Testing for FP, this should not trigger"
+    desc: "False positive: LDAP filter with objectCategory and userAccountControl attributes, valid query"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -17,12 +22,13 @@ tests:
           method: POST
           data: "foo=(%26(objectCategory=computer)  (userAccountControl:1.2.840.113556.1.4.803:=8192))"
           uri: "/"
-          version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [921200]
+            no_expect_ids:
+              - 921200
+
   - test_id: 2
-    desc: "Testing for FP, this should not trigger"
+    desc: "False positive: LDAP filter with objectSID, valid SID format"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -34,12 +40,13 @@ tests:
           method: POST
           data: "foo=(objectSID=S-1-5-21-73586283-152049171-839522115-1111)"
           uri: "/"
-          version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [921200]
+            no_expect_ids:
+              - 921200
+
   - test_id: 3
-    desc: "Testing for FP, this should not trigger"
+    desc: "False positive: LDAP filter with userAccountControl and groupType, valid group query"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -51,12 +58,173 @@ tests:
           method: POST
           data: "foo=(userAccountControl:1.2.840.113556.1.4.803:=67108864)(%26(objectCategory=group)(groupType:1.2.840.113556.1.4.803:=2147483648))"
           uri: "/"
-          version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [921200]
+            no_expect_ids:
+              - 921200
+
+  # --- Additional FP tests ---
   - test_id: 4
-    desc: "Testing for rule, this should trigger"
+    desc: "False positive: Simple alphanumeric query parameter, no LDAP syntax"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?username=johndoe"
+        output:
+          log:
+            no_expect_ids:
+              - 921200
+
+  - test_id: 5
+    desc: "False positive: Parentheses in mathematical expression, not LDAP related"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?formula=(a+b)*c"
+        output:
+          log:
+            no_expect_ids:
+              - 921200
+
+  - test_id: 6
+    desc: "False positive: Email address in query parameter, standard format"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?email=user@example.com"
+        output:
+          log:
+            no_expect_ids:
+              - 921200
+
+  - test_id: 7
+    desc: "False positive: Standard URL query parameters with ampersand, no LDAP syntax"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?a=1&b=2&c=3"
+        output:
+          log:
+            no_expect_ids:
+              - 921200
+
+  - test_id: 8
+    desc: "False positive: Pipe character in search term, not LDAP syntax"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?search=foo|bar"
+        output:
+          log:
+            no_expect_ids:
+              - 921200
+
+  - test_id: 9
+    desc: "False positive: Balanced parentheses in arithmetic expression"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?expr=(1+2)+(3+4)"
+        output:
+          log:
+            no_expect_ids:
+              - 921200
+
+  - test_id: 10
+    desc: "False positive: Exclamation mark in text, not LDAP related"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?message=Hello!World"
+        output:
+          log:
+            no_expect_ids:
+              - 921200
+
+  - test_id: 11
+    desc: "False positive: Tilde in file path, standard Unix path"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/~user/file.txt"
+        output:
+          log:
+            no_expect_ids:
+              - 921200
+
+  - test_id: 12
+    desc: "False positive: Colon in time format, not LDAP syntax"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?time=12:30:45"
+        output:
+          log:
+            no_expect_ids:
+              - 921200
+
+  #
+  # === Positive Tests (should trigger rule 921200) ===
+  #
+
+  # --- Existing positive tests from original file ---
+  # Pattern: )( with boolean operator
+  - test_id: 13
+    desc: "LDAP injection: close parenthesis followed by encoded AND operator, classic injection pattern"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -68,12 +236,14 @@ tests:
           data: "foo=bar)(%26)"
           uri: "/"
           port: 80
-          version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [921200]
-  - test_id: 5
-    desc: "Testing for rule, this should trigger"
+            expect_ids:
+              - 921200
+
+  # Pattern: )(attr=*
+  - test_id: 14
+    desc: "LDAP injection: close parenthesis followed by uid wildcard filter, filter manipulation"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -85,12 +255,14 @@ tests:
           data: "foo=printer)(uid=*)"
           uri: "/"
           port: 80
-          version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [921200]
-  - test_id: 6
-    desc: "Testing for rule, this should trigger"
+            expect_ids:
+              - 921200
+
+  # Pattern: complex injection with multiple filters
+  - test_id: 15
+    desc: "LDAP injection: complex filter manipulation using objectClass, multiple filters"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -102,12 +274,14 @@ tests:
           data: "foo=void)(objectClass=users))(%26(objectClass=void)"
           uri: "/"
           port: 80
-          version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [921200]
-  - test_id: 7
-    desc: "Testing for rule, this should trigger"
+            expect_ids:
+              - 921200
+
+  # Pattern: )!(attr=*
+  - test_id: 16
+    desc: "LDAP injection: NOT operator with sn wildcard, filter negation"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -119,12 +293,14 @@ tests:
           data: "foo=eb9adbd87d)!(sn=*"
           uri: "/"
           port: 80
-          version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [921200]
-  - test_id: 8
-    desc: "Testing for rule, this should trigger"
+            expect_ids:
+              - 921200
+
+  # Pattern: *)!(attr=*
+  - test_id: 17
+    desc: "LDAP injection: wildcard value followed by NOT operator, filter negation"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -136,12 +312,14 @@ tests:
           data: "foo=*)!(sn=*"
           uri: "/"
           port: 80
-          version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [921200]
-  - test_id: 9
-    desc: "Testing for rule, this should trigger"
+            expect_ids:
+              - 921200
+
+  # Pattern: )(uid=*))(|(uid=*
+  - test_id: 18
+    desc: "LDAP injection: complex OR injection with multiple uid filters, chaining filters"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -153,12 +331,14 @@ tests:
           data: "foo=*)(uid=*))(|(uid=*"
           uri: "/"
           port: 80
-          version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [921200]
-  - test_id: 10
-    desc: "Testing for rule, this should trigger"
+            expect_ids:
+              - 921200
+
+  # Pattern: )(cn>=value - greater-than-equals comparison
+  - test_id: 19
+    desc: "LDAP injection: greater-than-equals comparison operator in filter, privilege escalation attempt"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -170,7 +350,210 @@ tests:
           data: "foo=aaa*aaa)(cn>=bob)"
           uri: "/"
           port: 80
-          version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [921200]
+            expect_ids:
+              - 921200
+
+  # --- Additional positive tests for better coverage ---
+
+  # Pattern: )(attr<= - less-than-equals comparison
+  - test_id: 20
+    desc: "LDAP injection: less-than-equals comparison operator in filter, privilege restriction attempt"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?filter=value)(gidNumber%3C%3D100"
+        output:
+          log:
+            expect_ids:
+              - 921200
+
+  # Pattern: )(attr~= - approximate match
+  - test_id: 21
+    desc: "LDAP injection: approximate match operator in filter, fuzzy search manipulation"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?name=john)(sn~%3Dsmith"
+        output:
+          log:
+            expect_ids:
+              - 921200
+
+  # Pattern: )(| - OR operator injection
+  - test_id: 22
+    desc: "LDAP injection: OR operator injection, filter chaining for bypass"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?user=admin)(|"
+        output:
+          log:
+            expect_ids:
+              - 921200
+
+  # Pattern: ))((& - double close-open with AND
+  - test_id: 23
+    desc: "LDAP injection: double parenthesis escape with AND operator, advanced filter manipulation"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?q=test))(%26(objectClass%3D*"
+        output:
+          log:
+            expect_ids:
+              - 921200
+
+  # Pattern: &(attr= - direct AND with new filter
+  - test_id: 24
+    desc: "LDAP injection: AND operator with new filter attribute, filter expansion"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?param=val)%26(cn%3Dadmin"
+        output:
+          log:
+            expect_ids:
+              - 921200
+
+  # Pattern: |(attr= - direct OR with new filter
+  - test_id: 25
+    desc: "LDAP injection: OR operator with new filter attribute, filter expansion"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?param=val)%7C(uid%3D*"
+        output:
+          log:
+            expect_ids:
+              - 921200
+
+  # Real-world attack: Joomla CVE-2017-14596
+  - test_id: 26
+    desc: "LDAP injection: Joomla CVE-2017-14596 style attack, OR operator with password wildcard"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?username=admin)(%7C(password%3D*"
+        output:
+          log:
+            expect_ids:
+              - 921200
+
+  # Cookie-based injection
+  - test_id: 27
+    desc: "LDAP injection: attack via cookie value, filter manipulation in session"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Cookie: "session=value)(uid=*"
+          method: "GET"
+          port: 80
+          uri: "/"
+        output:
+          log:
+            expect_ids:
+              - 921200
+
+  # Whitespace evasion with URL encoding
+  - test_id: 28
+    desc: "LDAP injection: whitespace evasion using URL-encoded spaces between filters"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?q=test)%20(%20%26%20"
+        output:
+          log:
+            expect_ids:
+              - 921200
+
+  # Tab character evasion
+  - test_id: 29
+    desc: "LDAP injection: tab character as whitespace evasion between filters"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          uri: "/?q=test)%09(%09|"
+        output:
+          log:
+            expect_ids:
+              - 921200
+
+  # Authentication bypass attempt
+  - test_id: 30
+    desc: "LDAP injection: authentication bypass attempt via POST, AND operator with objectClass wildcard"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: "POST"
+          port: 80
+          uri: "/login"
+          data: "username=admin)(%26(objectClass%3D*)&password=anything"
+        output:
+          log:
+            expect_ids:
+              - 921200

@@ -1,0 +1,81 @@
+---
+meta:
+  author: "Esad Cetiner, Max Leske"
+rule_id: 932350
+tests:
+  - test_id: 1
+    desc: |
+      Block execution of `id` command
+      `id` is a very common parameter name so we only block at PL-3
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "id=4"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932350]
+  - test_id: 2
+    desc: |
+      Block execution of `id` command
+      `id` is a very common parameter name so we only block at PL-3
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Referer: id
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932350]
+  - test_id: 3
+    desc: |
+      Block execution of `id` command
+      `id` is a very common parameter name so we only block at PL-3
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: id
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932350]
+  - test_id: 4
+    desc: RCE ;top with html entities two digit decimal of 59 (;)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "arg=%26%2359%3B+;top"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932350]

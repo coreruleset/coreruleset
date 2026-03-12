@@ -1,62 +1,913 @@
 ---
 meta:
-  author: "Felipe Zipitria"
-  description: Test Multipart/form-data
+  author: "fzipi, airween"
+  description: "Tests for rule 922110 - Illegal MIME Multipart Header content-type charset parameter"
 rule_id: 922110
+
 tests:
+  #
+  # Test 1: Single part with malicious charset (utf-7)
+  #
   - test_id: 1
-    desc: "Positive test: utf-7 is not in allowed charsets"
+    desc: "Single multipart part with illegal charset=utf-7"
     stages:
       - input:
-          dest_addr: 127.0.0.1
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
           headers:
             Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-            Content-Type: multipart/form-data; boundary=boundary
-            Accept: "*/*"
-          method: POST
-          port: 80
-          uri: "/post"
-          version: "HTTP/1.1"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
           data: |
-            --boundary
-            Content-disposition: form-data; name="_charset_"
-
-            utf-8
-            --boundary
-            Content-disposition: form-data; name="922110"
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="username"
             Content-Type: text/plain; charset=utf-7
 
-            Knock knock.
-            --boundary--
+            +ADw-img+ACA-src+AD0-x+AD4-
+            ------WebKitFormBoundary--
         output:
           log:
             expect_ids: [922110]
+
+  #
+  # Test 2: THE BUG CASE - Malicious first, legitimate last
+  #
   - test_id: 2
-    desc: "Negative test: utf-8 is allowed"
+    desc: "Multipart bypass - illegal charset=utf-7 in first part, legitimate utf-8 in second (original bug)"
     stages:
       - input:
-          dest_addr: 127.0.0.1
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
           headers:
             Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-            Content-Type: multipart/form-data; boundary=boundary
-            Accept: "*/*"
-          method: POST
-          port: 80
-          uri: "/post"
-          version: "HTTP/1.1"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
           data: |
-            --boundary
-            Content-disposition: form-data; name="_charset_"
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="username"
+            Content-Type: text/plain; charset=utf-7
 
-            utf-8
-            --boundary
-            Content-disposition: form-data; name="negative"
+            +ADw-img+ACA-src+AD0-x+AD4-
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="dummy"
             Content-Type: text/plain; charset=utf-8
 
-            I shold be allowed to get in.
-            --boundary--
+            test
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 3: Legitimate first, malicious last
+  #
+  - test_id: 3
+    desc: "Multipart with legitimate utf-8 in first part, illegal charset=utf-7 in second"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="dummy"
+            Content-Type: text/plain; charset=utf-8
+
+            test
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="username"
+            Content-Type: text/plain; charset=utf-7
+
+            +ADw-img+ACA-src+AD0-x+AD4-
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 4: CRITICAL EDGE CASE - Duplicate part names
+  #
+  - test_id: 4
+    desc: "Duplicate part names - first has illegal charset=utf-7, second has utf-8"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="username"
+            Content-Type: text/plain; charset=utf-7
+
+            +ADw-img+ACA-src+AD0-x+AD4-
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="username"
+            Content-Type: text/plain; charset=utf-8
+
+            legitimate
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 5: All legitimate - should pass
+  #
+  - test_id: 5
+    desc: "Multipart with all legitimate charsets (utf-8)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+            Content-Type: text/plain; charset=utf-8
+
+            value1
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field2"
+            Content-Type: text/plain; charset=utf-8
+
+            value2
+            ------WebKitFormBoundary--
+        output:
+          log:
+            no_expect_ids: [922110]
+
+  #
+  # Test 6: Multiple legitimate charsets
+  #
+  - test_id: 6
+    desc: "Various legitimate charsets (iso-8859-1, utf-8, windows-1252)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+            Content-Type: text/plain; charset=iso-8859-1
+
+            value1
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field2"
+            Content-Type: text/plain; charset=utf-8
+
+            value2
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field3"
+            Content-Type: text/plain; charset=windows-1252
+
+            value3
+            ------WebKitFormBoundary--
+        output:
+          log:
+            no_expect_ids: [922110]
+
+  #
+  # Test 7: Malicious in middle position
+  #
+  - test_id: 7
+    desc: "Illegal charset in middle part between two legitimate parts"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+            Content-Type: text/plain; charset=utf-8
+
+            value1
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="attack"
+            Content-Type: text/plain; charset=utf-7
+
+            +ADw-script+AD4-alert(1)+ADw-/script+AD4-
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field3"
+            Content-Type: text/plain; charset=utf-8
+
+            value3
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 8: UTF-16 attack vector
+  #
+  - test_id: 8
+    desc: "Illegal charset=utf-16"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="attack"
+            Content-Type: text/plain; charset=utf-16
+
+            malicious content
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 9: Multiple malicious charsets
+  #
+  - test_id: 9
+    desc: "Multiple illegal charsets (utf-7 and utf-16)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="attack1"
+            Content-Type: text/plain; charset=utf-7
+
+            +ADw-script+AD4-
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="attack2"
+            Content-Type: text/plain; charset=utf-16
+
+            attack
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 10: No Content-Type headers
+  #
+  - test_id: 10
+    desc: "Parts without Content-Type headers"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+
+            value1
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field2"
+
+            value2
+            ------WebKitFormBoundary--
+        output:
+          log:
+            no_expect_ids: [922110]
+
+  #
+  # Test 11: Mixed Content-Type presence
+  #
+  - test_id: 11
+    desc: "Mixed parts - some with Content-Type (one malicious), some without"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+
+            no content type
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="attack"
+            Content-Type: text/html; charset=utf-7
+
+            +ADw-script+AD4-
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field3"
+            Content-Type: text/plain; charset=utf-8
+
+            legitimate
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 12: Quoted charset
+  #
+  - test_id: 12
+    desc: "Quoted charset value (legitimate)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+            Content-Type: text/plain; charset="utf-8"
+
+            value
+            ------WebKitFormBoundary--
+        output:
+          log:
+            no_expect_ids: [922110]
+
+  #
+  # Test 13: Whitespace variations
+  #
+  - test_id: 13
+    desc: "Whitespace around charset parameter"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+            Content-Type: text/plain;  charset = utf-8
+
+            value
+            ------WebKitFormBoundary--
+        output:
+          log:
+            no_expect_ids: [922110]
+
+  #
+  # Test 14: Case variations
+  #
+  - test_id: 14
+    desc: "Case variations in legitimate charset (UTF-8, Utf-8)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+            Content-Type: text/plain; charset=UTF-8
+
+            value1
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field2"
+            Content-Type: text/plain; charset=Utf-8
+
+            value2
+            ------WebKitFormBoundary--
+        output:
+          log:
+            no_expect_ids: [922110]
+
+  #
+  # Test 15: Shift-JIS attack
+  #
+  - test_id: 15
+    desc: "Illegal charset=shift-jis"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="attack"
+            Content-Type: text/plain; charset=shift-jis
+
+            attack payload
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 16: ISO-8859-15 legitimate
+  #
+  - test_id: 16
+    desc: "Legitimate charset=iso-8859-15"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+            Content-Type: text/plain; charset=iso-8859-15
+
+            value
+            ------WebKitFormBoundary--
+        output:
+          log:
+            no_expect_ids: [922110]
+
+  #
+  # Test 17: Wildcard content-type
+  #
+  - test_id: 17
+    desc: "Wildcard content-type with legitimate charset"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+            Content-Type: application/*; charset=utf-8
+
+            value
+            ------WebKitFormBoundary--
+        output:
+          log:
+            no_expect_ids: [922110]
+
+  #
+  # Test 18: Multiple parameters
+  #
+  - test_id: 18
+    desc: "Content-Type with multiple parameters"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+            Content-Type: text/plain; charset=utf-8; boundary=inner
+
+            value
+            ------WebKitFormBoundary--
+        output:
+          log:
+            no_expect_ids: [922110]
+
+  #
+  # Test 19: Empty multipart
+  #
+  - test_id: 19
+    desc: "Empty multipart request"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary--
+        output:
+          log:
+            no_expect_ids: [922110]
+
+  #
+  # Test 20: Five parts stress test
+  #
+  - test_id: 20
+    desc: "Five parts with illegal charset in middle (position 3 of 5)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+            Content-Type: text/plain; charset=utf-8
+
+            value1
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field2"
+            Content-Type: text/plain; charset=utf-8
+
+            value2
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="attack"
+            Content-Type: text/plain; charset=utf-32
+
+            malicious
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field4"
+            Content-Type: text/plain; charset=utf-8
+
+            value4
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field5"
+            Content-Type: text/plain; charset=utf-8
+
+            value5
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 21: Uppercase charset
+  #
+  - test_id: 21
+    desc: "Illegal charset in uppercase (CHARSET=UTF-7)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="attack"
+            Content-Type: text/plain; CHARSET=UTF-7
+
+            +ADw-script+AD4-
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 22: No charset parameter
+  #
+  - test_id: 22
+    desc: "Content-Type without charset parameter"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+            Content-Type: application/octet-stream
+
+            binary data
+            ------WebKitFormBoundary--
+        output:
+          log:
+            no_expect_ids: [922110]
+
+  #
+  # Test 23: Charset with additional parameters
+  #
+  - test_id: 23
+    desc: "Illegal charset followed by other parameters"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="attack"
+            Content-Type: text/plain; charset=utf-7; boundary=inner
+
+            +ADw-script+AD4-
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 24: Large stress test - 15 parts
+  #
+  - test_id: 24
+    desc: "Stress test - 15 parts with illegal charset in part 10"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+            Content-Type: text/plain; charset=utf-8
+
+            value1
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field2"
+            Content-Type: text/plain; charset=utf-8
+
+            value2
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field3"
+            Content-Type: text/plain; charset=utf-8
+
+            value3
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field4"
+            Content-Type: text/plain; charset=utf-8
+
+            value4
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field5"
+            Content-Type: text/plain; charset=utf-8
+
+            value5
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field6"
+            Content-Type: text/plain; charset=utf-8
+
+            value6
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field7"
+            Content-Type: text/plain; charset=utf-8
+
+            value7
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field8"
+            Content-Type: text/plain; charset=utf-8
+
+            value8
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field9"
+            Content-Type: text/plain; charset=utf-8
+
+            value9
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="ATTACK_HERE"
+            Content-Type: text/plain; charset=utf-7
+
+            +ADw-script+AD4-alert(1)+ADw-/script+AD4-
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field11"
+            Content-Type: text/plain; charset=utf-8
+
+            value11
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field12"
+            Content-Type: text/plain; charset=utf-8
+
+            value12
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field13"
+            Content-Type: text/plain; charset=utf-8
+
+            value13
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field14"
+            Content-Type: text/plain; charset=utf-8
+
+            value14
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field15"
+            Content-Type: text/plain; charset=utf-8
+
+            value15
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 25: EUC-JP attack
+  #
+  - test_id: 25
+    desc: "Illegal charset=euc-jp"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="attack"
+            Content-Type: text/plain; charset=euc-jp
+
+            attack payload
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 26: Three duplicate names
+  #
+  - test_id: 26
+    desc: "Three parts with same name, middle has illegal charset"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="data"
+            Content-Type: text/plain; charset=utf-8
+
+            first
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="data"
+            Content-Type: text/plain; charset=utf-7
+
+            +ADw-attack+AD4-
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="data"
+            Content-Type: text/plain; charset=utf-8
+
+            third
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 27: ISO-8859-1 legitimate
+  #
+  - test_id: 27
+    desc: "Legitimate charset=iso-8859-1"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="field1"
+            Content-Type: text/plain; charset=iso-8859-1
+
+            value
+            ------WebKitFormBoundary--
+        output:
+          log:
+            no_expect_ids: [922110]
+
+  #
+  # Test 28: Spacing obfuscation
+  #
+  - test_id: 28
+    desc: "Illegal charset with spacing obfuscation"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="attack"
+            Content-Type: text/plain;  charset  =  utf-7
+
+            +ADw-script+AD4-
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 29: Mixed case header name
+  #
+  - test_id: 29
+    desc: "Content-Type header in mixed case with illegal charset"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="attack"
+            CoNtEnT-TyPe: text/plain; charset=utf-7
+
+            +ADw-script+AD4-
+            ------WebKitFormBoundary--
+        output:
+          log:
+            expect_ids: [922110]
+
+  #
+  # Test 30: Application/json
+  #
+  - test_id: 30
+    desc: "Application/json with legitimate charset"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          uri: "/"
+          method: "POST"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS Tests"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary"
+          data: |
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="jsondata"
+            Content-Type: application/json; charset=utf-8
+
+            {"test": "data"}
+            ------WebKitFormBoundary--
         output:
           log:
             no_expect_ids: [922110]

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Felipe Zipitria, azurit"
+  author: "Felipe Zipitria, azurit, Esad Cetiner"
   description: Remote Command Execution Evasion Techniques
 rule_id: 932240
 tests:
@@ -335,3 +335,43 @@ tests:
         output:
           log:
             expect_ids: [932240]
+  - test_id: 20
+    desc: |
+      False Positive URL encoded JSON payloaded
+      {"name":"John Doe","age":"30","email":"johndoe@example.com"}
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: |
+            payload=%7B%22name%22:%22John%20Doe%22,%22age%22:%2230%22,%22email%22:%22johndoe@example.com%22%7D
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932240]
+  - test_id: 21
+    desc: |
+      Urlencoded form array
+      ["account","sharing"]
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/post"
+          data: |
+            payload=%5B%22account%22%2C%22sharing%22%5D
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932240]

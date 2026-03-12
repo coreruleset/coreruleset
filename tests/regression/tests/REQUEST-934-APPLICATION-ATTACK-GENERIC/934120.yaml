@@ -887,3 +887,147 @@ tests:
         output:
           log:
             expect_ids: [934120]
+  - test_id: 45
+    desc: SSRF - malformed URL with dotless decimal (missing slashes)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http%3A2852039166"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 46
+    desc: SSRF - malformed URL with dotless hexadecimal (missing slashes)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http%3A0xA9FEA9FE"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 47
+    desc: SSRF - malformed URL with IPv6 (missing slashes)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http%3A[::ffff:a9fe:a9fe]"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 48
+    desc: SSRF - malformed URL with one slash - dotless decimal
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http%3A%2F2852039166"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 49
+    desc: SSRF - malformed URL with dotted octal (missing slashes)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http%3A0251.0376.0251.0376"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 50
+    desc: SSRF - malformed URL with 9-digit dotless decimal (converts to 7.91.205.21)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http%3A123456789"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934120]
+  - test_id: 51
+    desc: SSRF - Negative test - malformed URL with invalid hex format (too short)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http%3A0xABCDEF"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934120]
+  - test_id: 52
+    desc: SSRF - Negative test - incomplete dotted hex (only 3 octets)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          uri: "/get?ssrf=http%3A0xA9.0xFE.0xA9"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934120]
