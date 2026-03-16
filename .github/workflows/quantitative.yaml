@@ -46,7 +46,7 @@ jobs:
           gh release download -R coreruleset/go-ftw "v${{ env.GO_FTW_VERSION }}" \
             -p "ftw_${{ env.GO_FTW_VERSION }}_linux_amd64.tar.gz" -O - | tar -xzvf - ftw
       - name: "Restore Cache"
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.ftw/*.txt
           key: ${{ matrix.language }}_news_${{ matrix.year }}_${{ matrix.size }}-sentences.txt
@@ -91,12 +91,12 @@ jobs:
           fi
 
       - name: "Cache Corpus file"
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.ftw/*.txt
           key: ${{ matrix.language }}_news_${{ matrix.year }}_${{ matrix.size }}-sentences.txt
       - name: "Comment PR"
-        uses: thollander/actions-comment-pull-request@v3
+        uses: thollander/actions-comment-pull-request@65f9e5c9a1f2cd378bd74b2e057c9736982a8e74 # v3.0.1
         with:
           comment-tag: execution
           file-path: pr_comment.md
