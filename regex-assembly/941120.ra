@@ -11,10 +11,10 @@
 
 ##! Characters that can precede an event handler attribute in an XSS context:
 ##! whitespace, quotes, backtick, semicolon, slash, digits, equals, comma, open paren
-##!> define prefix-chars [\s"'`;/0-9=\x0b\x09\x0c\x3b\x2c\x28\x3b]
+##!> define prefix-chars [\s"'`;/0-9=\x0b\x09\x0c\x3b\x2c\x28]
 
 ##! Characters that can appear between the handler name and the equals sign:
 ##! whitespace, comma, semicolon, open paren
-##!> define separator-chars [\s\x0b\x09\x0c\x3b\x2c\x28\x3b]
+##!> define separator-chars [\s\x0b\x09\x0c\x3b\x2c\x28]
 
 {{prefix-chars}}on[a-z]{3,50}{{separator-chars}}*?=[^=]
