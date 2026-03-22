@@ -16,7 +16,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: 'file_test=<?php%20@eval($_POST["hacker"]);%20?>&submit=1'
+          data: 'file_test=<?php echo "test";%20?>&submit=1'
           version: HTTP/1.1
         output:
           log:
