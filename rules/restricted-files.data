@@ -581,19 +581,20 @@ sys/power
 # These endpoints allow arbitrary file system access and should never be exposed
 /@fs/
 /@id/
-Cargo.toml
-# For ash shell
+
+cargo.toml
+# ash shell
 .ashrc
 .ash_history
-# For NuShell
+# NuShell
 config.nu
-# In CShell the history file is .history but sometime it can be
+# Cshell history file
 .csh_history
 # KornShell config file
 .kshrc
 # Fish Startup file
 config.fish
-# tcsh history file some .history but sometime
+# tcsh history file
 .tcsh_history
 
 
@@ -604,43 +605,35 @@ go.sum
 setup.py
 build.zig.zon
 
-# For GNU /bin/screen
+# GNU screen
 .screenrc
 
-# Chocolatey windows framework dir
-.chocolatey
-# Gradle framework dir
-.gradle
-# Python IDLE dir can leak info
-.idlerc
-# Kaggle configuration dir, That stores your api keys
-.kaggle
-# Deep Learning Dirs like Tensorflow
-.keras
-# MyPy type checker cache dir
-.mypy_cache
-# MiniTool Partition Wizard dir
-.partitionwizard
-# configuration and metadata directory used by Red Hat–based systems and tooling
-.redhat
-# Node Modules dir
+# Chocolatey package manager
+.chocolatey/
+# Gradle build tool
+.gradle/
+# Python IDLE
+.idlerc/
+# Kaggle config
+.kaggle/
+# Keras deep learning framework
+.keras/
+# MyPy type checker cache
+.mypy_cache/
+# Red Hat Subscription Manager config
+.redhat/
+# NPM node modules
 node_modules/
-# Project Config Deno files
-deno.json
 # Bun Dir
 .bun/
-# Global Config (Bun)
+# Bun global config
 .bunfig.toml
-# Flatpak dir
-.var/
-# LibreWolf config dir
-.librewolf
-# Config Dir for IRB (Interactive Ruby Shell)
-.irbrc
-# History for IRB
+# Ruby Shell config
+.irbrc/
+# Ruby Shell history
 .irb_history
-# For Pry REPL config dir
-.pryrc
+# Pry REPL config
+.pryrc/
 # RubyGems config
 .gemrc
 # RubyGems dir
@@ -653,7 +646,7 @@ deno.json
 .rvm/
 # RuboCop config file
 .rubocop.yml
-# PIP config dir
+# PIP config
 .pip/
 # Conda
 .condarc
@@ -669,13 +662,13 @@ miniconda3/
 .eclipse/
 # NPM Global Dir
 .npm-global/
-# New YarnRc file in new versions (Extremly Critical), The previous .yarnrc file is the old version, Must be blocked
+# YarnRc config file
 .yarnrc.yml
 # Prettier
 .prettierrc
 # Node-GYP
 .node-gyp
-# Curl Old Config File
+# Curl Config File
 .curlrc
 # Wget Config File
 .wgetrc
@@ -693,96 +686,83 @@ perl/
 .konan/
 # Kotlin REPL
 .kotlinc_history
-# Global Git Ignore File
-.gitignore_global
-# Extremly Critical Must Be blocked, It contains git credentials
+# git credentials
 .git-credentials
-# OpenVPN dirs (Those are not by default, But commonly created by users)
+# OpenVPN config
 .openvpn/
 openvpn/
-# WireGuards dirs (Those are not by default, But commonly created by users)
+# WireGuard config
 wg-clients/
 # gFTP dir
 .gftp/
-# LFTP Configuration File (Those are not by default, But commonly used)
+# LFTP Configuration File
 .lftprc
 # NCFTP Conf Dir
 .ncftp/
-# Rsync Exclude File and Logs (Created by most users)
+# Rsync Exclude File and Logs
 .rsync_exclude
 rsync.log
 # Wine dir
 .wine/
-# TODO: Common Text Editor Swap Files
-#.filename.swp
-#.swp
 # Nano Config Files & Dirs
 .nanorc
 .nano/
 # PostGresQL connection file
 .pg_service.conf
-# Extremly Critical MySQL Login file (Must be blocked)
+# MySQL Login file
 .mylogin.cnf
-# MongoDB files & dirs
+# MongoDB config
 .mongodb/
 .mongoshrc.js
-# (for Legacy mongo shell)
+# Mongo shell
 .dbshell
-# PGAdmin Dirs
+# PGAdmin config
 .pgadmin/
-# ProxyChains config dir
-.proxychains/
 # Most Config File
 .mostrc
-# Android Studio Config Dir
-.android/
-# Arduino IDE DIR
-.arduino
-# pm2 tool
+# pm2 configs/logs/database
 .pm2/
-# Stubby config file & config dirs
+# Stubby config
 .stubby.yml
 .getdns/
-# NextDNS config file
-.nextdns.conf
-# Dig config file
+# Dig config
 .digrc
-# Unbond config dir
+# Unbond config
 .unbound/
-# Mutt / NeoMutt config file & dir
-.muttrc
-.mut/
-# mb sync config files
+# mb sync config
 .mbsyncrc
-# OfflineIMAP config files
+# OfflineIMAP config
 .offlineimaprc
-# getmail config dir
+# getmail config
 .getmail/
-# usermin config dir
+# usermin config
 .usermin/
 # cpanel ssl cerificates configs
 .cpanel/
-# age (Alternative to GnuGPG)
-age/
 # OpenSSL
 .openssl.cnf
-# CodSpeed project benchmarking config
-codspeed.yml
-# pytest-benchmark dir
-.benchmarks/
 # Terraform plugin cache dir and config file
 .terraformrc
 .terraform.d/
 # Pulimi
 .pulumi/
-# Extremly Critical (Must be blocked), Dir contain linode cloud creds
 .linode-cli/
-# Extremly Critical (Must be blocked), Dir contain Oracle Cloud Creds
 .oci/
-# The old version cli use that
 .opc/
 # SQL*Plus startup files and history
 .sqlplus_history
 login.sql
-# Microsoft EditorConfig config file
+# Microsoft EditorConfig config
 .editorconfig
+# Ubuntu One config
+Ubuntu One/
+# Data Dog config
+.datadog-agent/
+# Hostinger CLI credentials
+.hapi.yaml
+# WP Cli config
+.wp-cli/
+# IBM Cloud Cli config
+.bluemix/
+.ibmcloud/
+
