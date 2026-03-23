@@ -173,6 +173,57 @@ tests:
           log:
             expect_ids: [932390]
   - test_id: 11
+    desc: "fork bomb with background only, no pipe"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "cmd=f%28%29%7B+f+%26+f%3B+%7D%3Bf"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 12
+    desc: "fork bomb with explicit recursive calls using pipe"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "cmd=f%28%29%7B+f%28%29+%7C+f%28%29%3B+%7D%3B+f"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 13
+    desc: "fork bomb with explicit recursive calls using background"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "cmd=f%28%29%7B+f%28%29+%26+f%28%29%3B+%7D%3B+f"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 14
     desc: "negative test - normal parentheses in value"
     stages:
       - input:
@@ -188,7 +239,7 @@ tests:
         output:
           log:
             no_expect_ids: [932390]
-  - test_id: 12
+  - test_id: 15
     desc: "negative test - normal function-like syntax without pipe and background"
     stages:
       - input:
@@ -205,24 +256,7 @@ tests:
         output:
           log:
             no_expect_ids: [932390]
-  - test_id: 13
-    desc: "negative test - pipe without background in function body"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-          method: POST
-          port: 80
-          uri: /
-          data: "code=greet%28%29%7B+echo+hello+%7C+cat+%7D"
-          version: "HTTP/1.1"
-        output:
-          log:
-            no_expect_ids: [932390]
-  - test_id: 14
+  - test_id: 16
     desc: "negative test - normal URL with colon"
     stages:
       - input:

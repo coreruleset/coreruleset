@@ -3,20 +3,21 @@
 
 ##! Detect shell fork bomb patterns.
 ##! A fork bomb defines a function whose body recursively calls itself
-##! via a pipe and backgrounds the process, causing exponential process
+##! via a pipe or background operator, causing exponential process
 ##! creation. The structural pattern is:
-##!   name() { name | name & }; name
+##!   name() { ... | or & ... }; name
 ##!
 ##! The function name can be any identifier including special bash
 ##! builtins like : (colon) or . (dot).
 ##!
-##! Examples:
-##!   :(){ :|:& };:
-##!   f(){ f|f& };f
-##!   test() { test | test & } test
+##! Either pipe (|) or background (&) is sufficient for a fork bomb:
+##!   :(){ :|:& };:         — classic (pipe + background)
+##!   f(){ f & f; };f       — background only
+##!   f(){ f() | f(); };f   — pipe with explicit calls
+##!   f(){ f() & f(); };f   — background with explicit calls
 
 ##! Function name: word chars plus : and . (bash builtins)
 ##!> define func-name [\w:.]+
 
-##! Match: name() { ... | ... & ... }
-{{func-name}}\s*\(\s*\)\s*\{[^}]*\|[^}]*&[^}]*\}
+##! Match: name() { ... (| or &) ... }
+{{func-name}}\s*\(\s*\)\s*\{[^}]*[|&][^}]*\}
