@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "fzipi"
+  author: "fzipi, Esad Cetiner"
   description: "Tests for HTTP method override via _method parameter detection (920650)"
 
 rule_id: 920650
@@ -599,3 +599,22 @@ tests:
         output:
           log:
             expect_ids: [920650]
+
+  - test_id: 36
+    desc: |
+      Logging out of GitLab, HTTP override method is same as actual request method.
+      This is usually harmless since no method is actually being overwritten.
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          uri: "/users/sign_out"
+          data: "_method=post&authenticity_token=something"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+        output:
+          log:
+            no_expect_ids: [920650]

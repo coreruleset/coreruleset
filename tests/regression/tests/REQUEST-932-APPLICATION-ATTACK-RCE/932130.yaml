@@ -280,3 +280,374 @@ tests:
         output:
           log:
             expect_ids: [932130]
+  - test_id: 18
+    desc: "Positive test: echo $(echo $(cat /etc/passwd))"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-18=echo%20%24%28echo%20%24%28cat%20%2Fetc%2Fpasswd%29%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 19
+    desc: "Positive test: cat /etc/[p//]asswd"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-19=cat%20%2Fetc%2F%5Bp%2F%2F%5Dasswd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 20
+    desc: "Positive test: cat /[e//]tc/[p//]asswd"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-20=cat%20%2F%5Be%2F%2F%5Dtc%2F%5Bp%2F%2F%5Dasswd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 21
+    desc: "Positive test: cat /[e/////////]tc/[p//]asswd"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-21=cat%20%2F%5Be%2F%2F%2F%2F%2F%2F%2F%2F%2F%5Dtc%2F%5Bp%2F%2F%5Dasswd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 22
+    desc: "Positive test: ls /a[b///]c"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-22=ls%20%2Fa%5Bb%2F%2F%2F%5Dc"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 23
+    desc: "Positive test: ls /a[a//]c"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-23=ls%20%2Fa%5Ba%2F%2F%5Dc"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 24
+    desc: "Negative test: take this math expression: 1[a/-1]"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-24=take%20this%20math%20expression%3A%201%5Ba%2F-1%5D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932130]
+  - test_id: 25
+    desc: "Negative test: plase calculate the following a[b/1234*c]"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?932130-25=plase%20calculate%20the%20following%20a%5Bb%2F1234%2Ac%5D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932130]
+  - test_id: 26
+    desc: "Positive test: nested empty subshell bypass - $(whoami$())"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?cmd=%24%28whoami%24%28%29%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 27
+    desc: "Positive test: nested empty subshell bypass - $(cat$())"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "932130-27=%24%28cat%24%28%29%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 28
+    desc: "Positive test: variable expansion with nested empty braces - ${x#{}}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?var=%24%7Bx%23%7B%7D%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 29
+    desc: "Positive test: variable expansion with nested empty braces - ${PATH#{}/}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?path=%24%7BPATH%23%7B%7D%2F%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 30
+    desc: "Positive test: arithmetic expansion with nested empty parens - $(($()42))"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?calc=%24%28%28%24%28%29%2042%29%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 31
+    desc: "Positive test: command substitution with backticks in variable expansion - ${`id`}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?cmd=%24%7B%60id%60%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 32
+    desc: "Positive test: process substitution with command - <(cat file)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?proc=%3C%28cat%20file%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 33
+    desc: "Positive test: output process substitution - >(tee log)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?out=%3E%28tee%20log%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 34
+    desc: "Positive test: deprecated arithmetic expansion - $[]"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?math=%24%5B%5D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 35
+    desc: "Positive test: multiple nested command substitutions - $(echo $(cat$(id)))"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=%24%28echo%20%24%28cat%24%28id%29%29%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 36
+    desc: "Positive test: glob pattern with negation - /etc/[!abc]asswd"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?file=%2Fetc%2F%5B%21abc%5Dasswd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 37
+    desc: "Positive test: glob with directory and multiple slashes - /[e///]tc"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?path=%2F%5Be%2F%2F%2F%5Dtc"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 38
+    desc: "Positive test: bracket globbing with range - /usr/[a-z]in/bash"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?shell=%2Fusr%2F%5Ba-z%5Din%2Fbash"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 39
+    desc: "Negative test: legitimate URL-encoded brackets without globbing pattern - page[1]"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?page=page%5B1%5D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932130]
+  - test_id: 40
+    desc: "Negative test: array notation in programming - data[index]"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "932130-40=data%5Bindex%5D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932130]
