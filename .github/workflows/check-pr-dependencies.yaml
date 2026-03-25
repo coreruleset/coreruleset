@@ -7,6 +7,8 @@ on:
       - edited
       - synchronize
 
+permissions: {}
+
 jobs:
   check_dependencies:
     runs-on: ubuntu-latest
@@ -14,6 +16,6 @@ jobs:
     permissions:
       pull-requests: read # Reason: To check PRs for dependencies.
     steps:
-      - uses: gregsdennis/dependencies-action@main
+      - uses: gregsdennis/dependencies-action@ae6e0529ef70f1366a21972f40b1ad0e1b5e3218 # v1.4.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
