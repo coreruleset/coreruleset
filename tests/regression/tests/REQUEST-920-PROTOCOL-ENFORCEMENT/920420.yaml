@@ -284,6 +284,7 @@ tests:
           log:
             expect_ids: [920420]
   - test_id: 14
+    desc: "Negative test: text/plain is now allowed by default configuration"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -299,8 +300,9 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [920420]
+            no_expect_ids: [920420]
   - test_id: 15
+    desc: "Negative test: text/plain is now allowed by default configuration"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -317,7 +319,7 @@ tests:
           data: "{\"foo\" : \";+cat+/e\\\\t\\\\*/pa\\\\?s\\\\wd\"}"
         output:
           log:
-            expect_ids: [920420]
+            no_expect_ids: [920420]
   - test_id: 16
     stages:
       - input:
@@ -409,7 +411,7 @@ tests:
           log:
             expect_ids: [920420]
   - test_id: 21
-    desc: "Positive test: Ensure that the content type application/csp-report is not allowed by the default configuration"
+    desc: "Negative test: application/csp-report is now allowed by default configuration"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -425,7 +427,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [920420]
+            no_expect_ids: [920420]
   - test_id: 22
     desc: "Positive test: Ensure that the content type application/reports+json is not allowed by the default configuration"
     stages:
