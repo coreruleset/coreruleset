@@ -1,0 +1,103 @@
+---
+meta:
+  author: "zoutjebot"
+rule_id: 934175
+tests:
+  - test_id: 1
+    desc: "Positive test: Jinja2/Twig SSTI with arithmetic"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/search?q={{7*7}}"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934175]
+  - test_id: 2
+    desc: "Positive test: Jinja2 SSTI with dunder access"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/search?q={{config.__class__.__init__}}"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934175]
+  - test_id: 3
+    desc: "Positive test: Ruby ERB SSTI with arithmetic"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/search?q=<%=7*7%>"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934175]
+  - test_id: 4
+    desc: "Positive test: Ruby string interpolation SSTI with function call"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/search?q=#{system('id')}"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934175]
+  - test_id: 5
+    desc: "Negative test: Normal template syntax without execution indicators"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/search?q={{username}}"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [934175]
+  - test_id: 6
+    desc: "Negative test: Normal curly braces in JSON"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/api/data"
+          data: '{"key": "value"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [934175]
