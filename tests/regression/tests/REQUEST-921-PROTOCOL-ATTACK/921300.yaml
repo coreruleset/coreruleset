@@ -1,0 +1,36 @@
+---
+meta:
+  author: "touchweb_vincent"
+  description: Detect ampersand in path before query string
+rule_id: 921300
+tests:
+  - test_id: 1
+    desc: Ampersand in path before query string
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/api/test&ws_key=123456"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921300]
+  - test_id: 2
+    desc: Known false positive
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/friend&family.png"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921300]
