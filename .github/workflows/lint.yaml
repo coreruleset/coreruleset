@@ -1,7 +1,15 @@
 ---
 name: Lint
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - v3.3/dev
+      - v3.3/master
+  pull_request:
+    branches:
+      - v3.3/dev
+      - v3.3/master
 
 jobs:
   check-syntax:
