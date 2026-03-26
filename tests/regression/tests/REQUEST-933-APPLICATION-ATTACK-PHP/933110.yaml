@@ -325,3 +325,103 @@ tests:
             uri: /
           output:
             no_log_contains: id "933110"
+  - test_title: 933110-24
+    desc: PHP .php upload with leading whitespace before extension via header
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: "photo. php"
+            port: 80
+            uri: /upload
+          output:
+            log_contains: id "933110"
+  - test_title: 933110-25
+    desc: PHP .php upload with trailing whitespace via header
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: "photo.php "
+            port: 80
+            uri: /upload
+          output:
+            log_contains: id "933110"
+  - test_title: 933110-26
+    desc: PHP .php upload with whitespace padding via multipart
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              Content-Type: "multipart/form-data; boundary=--------397236876"
+            uri: /post
+            data: |
+              ----------397236876
+              Content-Disposition: form-data; name="fileRap"; filename="photo. php"
+              Content-Type: text/plain
+
+              please block me
+              ----------397236876--
+          output:
+            log_contains: id "933110"
+  - test_title: 933110-27
+    desc: PHP .phtml upload with whitespace before extension via header
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: "dangerous. phtml"
+            port: 80
+            uri: /upload
+          output:
+            log_contains: id "933110"
+  - test_title: 933110-28
+    desc: PHP .phar upload with trailing whitespace via header
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: "dangerous.phar "
+            port: 80
+            uri: /upload
+          output:
+            log_contains: id "933110"
+  - test_title: 933110-29
+    desc: PHP .php upload with multiple spaces in filename via multipart
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              Content-Type: "multipart/form-data; boundary=--------397236876"
+            uri: /post
+            data: |
+              ----------397236876
+              Content-Disposition: form-data; name="fileRap"; filename="photo.php  "
+              Content-Type: application/x-httpd-php
+
+              <?php echo 'test'; ?>
+              ----------397236876--
+          output:
+            log_contains: id "933110"

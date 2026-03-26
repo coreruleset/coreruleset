@@ -1,0 +1,249 @@
+---
+meta:
+  author: "Franziska Bühler, azurit, Esad Cetiner"
+  description: Restricted File Upload Attempt
+  enabled: true
+  name: 932180.yaml
+tests:
+  - test_title: 932180-1
+    desc: Test file upload with request header X-Filename and filename settings.php
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: settings.php
+            port: 80
+            uri: /get
+          output:
+            log_contains: id "932180"
+  - test_title: 932180-2
+    desc: Test file upload with multipart/form-data and filename config.yml
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ"
+            uri: /post
+            data: |
+              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
+              Content-Disposition: form-data; name="config"; filename="config.yml"
+              Content-Type: text/yaml
+
+              ... Some content ...
+              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
+              Content-Disposition: form-data; name="image"; filename="test.png"
+              Content-Type: image/png
+
+              BINARYDATA
+              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
+          output:
+            log_contains: id "932180"
+  - test_title: 932180-3
+    desc: File upload - negative test
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ"
+            uri: /post
+            data: |
+              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
+              Content-Disposition: form-data; name="image"; filename="test.jpg"
+              Content-Type: image/jpeg
+
+              ... Some content ...
+              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
+
+              BINARYDATA
+              --0000--
+          output:
+            no_log_contains: id "932180"
+  - test_title: 932180-4
+    desc: "False Positive: Matching substring .boto"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: abc.botox.jpg
+            port: 80
+            uri: /get
+          output:
+            no_log_contains: id "932180"
+  - test_title: 932180-5
+    desc: "False Positive: Matching substring mtrr"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: amtrra.jpg
+            port: 80
+            uri: /get
+          output:
+            no_log_contains: id "932180"
+  - test_title: 932180-6
+    desc: "False Positive: Matching substring acpi"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: JACpic.jpg
+            port: 80
+            uri: /get
+          output:
+            no_log_contains: id "932180"
+  - test_title: 932180-7
+    desc: "True Positive: Block uploading .boto"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: .boto
+            port: 80
+            uri: /get
+          output:
+            log_contains: id "932180"
+  - test_title: 932180-8
+    desc: "True Positive: Block uploading mtrr (/proc/mtrr)"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: mtrr
+            port: 80
+            uri: /get
+          output:
+            log_contains: id "932180"
+  - test_title: 932180-9
+    desc: "True Positive: Block uploading acpi"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: acpi
+            port: 80
+            uri: /get
+          output:
+            log_contains: id "932180"
+  - test_title: 932180-10
+    desc: "True Positive: Match permutations of config files"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: wp-config.php
+            port: 80
+            uri: /get
+          output:
+            log_contains: id "932180"
+  - test_title: 932180-11
+    desc: "True Positive: Match permutations of config files"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: wp-config-php.bak
+            port: 80
+            uri: /get
+          output:
+            log_contains: id "932180"
+  - test_title: 932180-12
+    desc: "True Positive: Match permutations of config files"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: wp-config_php.txt
+            port: 80
+            uri: /get
+          output:
+            log_contains: id "932180"
+  - test_title: 932180-13
+    desc: Restricted upload with whitespace before extension via header
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: "settings. php"
+            port: 80
+            uri: /get
+          output:
+            log_contains: id "932180"
+  - test_title: 932180-14
+    desc: Restricted upload with trailing whitespace via header
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: "config.yml "
+            port: 80
+            uri: /get
+          output:
+            log_contains: id "932180"
+  - test_title: 932180-15
+    desc: Restricted upload with whitespace padding via multipart
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ"
+            uri: /post
+            data: |
+              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
+              Content-Disposition: form-data; name="config"; filename="wp-config. php"
+              Content-Type: text/plain
+
+              ... Some content ...
+              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
+          output:
+            log_contains: id "932180"

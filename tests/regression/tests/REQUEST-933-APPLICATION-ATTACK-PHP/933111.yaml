@@ -1,0 +1,136 @@
+---
+meta:
+  author: "NiceYouKnow, azurit, touchweb_vincent"
+  description: None
+  enabled: true
+  name: 933111.yaml
+tests:
+  - test_title: 933111-1
+    desc: PHP double-extension file upload (php.jpg)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryoRWIb3busvBrbttO"
+            uri: /post
+            data: |
+              ------WebKitFormBoundaryoRWIb3busvBrbttO
+              Content-Disposition: form-data; name="file"; filename="test.php.jpg"
+              Content-Type: image/jpeg
+
+              <?php @eval($_POST["hacker"]); ?>
+
+              ------WebKitFormBoundaryoRWIb3busvBrbttO--
+          output:
+            log_contains: id "933111"
+  - test_title: 933111-2
+    desc: PHP double-extension file upload (php7.gif)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryoRWIb3busvBrbttO"
+            uri: /post
+            data: |
+              ------WebKitFormBoundaryoRWIb3busvBrbttO
+              Content-Disposition: form-data; name="file"; filename="test.php7.gif"
+              Content-Type: image/gif
+
+              <?php @eval(base64_decode($_COOKIE["payload"])); ?>
+
+              ------WebKitFormBoundaryoRWIb3busvBrbttO--
+          output:
+            log_contains: id "933111"
+  - test_title: 933111-3
+    desc: PHP double-extension file upload (phar.png)
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryoRWIb3busvBrbttO"
+            uri: /post
+            data: |
+              ------WebKitFormBoundaryoRWIb3busvBrbttO
+              Content-Disposition: form-data; name="file"; filename="test.phar.png"
+              Content-Type: image/png
+
+              <?php @eval(base64_decode($_COOKIE["payload"])); ?>
+
+              ------WebKitFormBoundaryoRWIb3busvBrbttO--
+          output:
+            log_contains: id "933111"
+  - test_title: 933111-4
+    desc: PHP .php.jpg upload with whitespace before extension via multipart
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryoRWIb3busvBrbttO"
+            uri: /post
+            data: |
+              ------WebKitFormBoundaryoRWIb3busvBrbttO
+              Content-Disposition: form-data; name="file"; filename="test. php.jpg"
+              Content-Type: image/jpeg
+
+              please block me
+
+              ------WebKitFormBoundaryoRWIb3busvBrbttO--
+          output:
+            log_contains: id "933111"
+  - test_title: 933111-5
+    desc: PHP .phar.png upload with trailing whitespace before second extension via header
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: "test.phar .png"
+            port: 80
+            uri: /upload
+          output:
+            log_contains: id "933111"
+  - test_title: 933111-6
+    desc: PHP .php5.gif upload with whitespace before extension via multipart
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryoRWIb3busvBrbttO"
+            uri: /post
+            data: |
+              ------WebKitFormBoundaryoRWIb3busvBrbttO
+              Content-Disposition: form-data; name="file"; filename="test. php5.gif"
+              Content-Type: image/gif
+
+              please block me
+
+              ------WebKitFormBoundaryoRWIb3busvBrbttO--
+          output:
+            log_contains: id "933111"
