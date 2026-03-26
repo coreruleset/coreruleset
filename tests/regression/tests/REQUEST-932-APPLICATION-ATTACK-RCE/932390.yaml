@@ -1,0 +1,274 @@
+---
+meta:
+  author: "fzipitria"
+  description: "Shell fork bomb detection"
+rule_id: 932390
+tests:
+  - test_id: 1
+    desc: "classic fork bomb with colon function name"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "cmd=%3A%28%29%7B+%3A%7C%3A%26+%7D%3B%3A"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 2
+    desc: "fork bomb with single letter function name"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "cmd=f%28%29%7B+f%7Cf%26+%7D%3Bf"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 3
+    desc: "fork bomb with word function name and spaces"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "cmd=test%28%29+%7B+test+%7C+test+%26+%7D+test"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 4
+    desc: "fork bomb with dot function name (bash source builtin)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "cmd=.%28%29%7B+.%7C.%26+%7D%3B."
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 5
+    desc: "fork bomb with no spaces (compact form)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "cmd=%3A%28%29%7B%3A%7C%3A%26%7D%3B%3A"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 6
+    desc: "fork bomb in query string via GET"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?cmd=%3A%28%29%7B+%3A%7C%3A%26+%7D%3B%3A"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 7
+    desc: "fork bomb preceded by command separator"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "cmd=%3B+test%28%29+%7B+test+%7C+test+%26+%7D+test"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 8
+    desc: "fork bomb with longer function name"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "cmd=myfunc%28%29%7B+myfunc%7Cmyfunc%26+%7D%3Bmyfunc"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 9
+    desc: "fork bomb in Referer header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Referer: ":(){ :|:& };:"
+          method: GET
+          port: 80
+          uri: /
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 10
+    desc: "fork bomb in User-Agent header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "f(){ f|f& };f"
+          method: GET
+          port: 80
+          uri: /
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 11
+    desc: "fork bomb with background only, no pipe"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "cmd=f%28%29%7B+f+%26+f%3B+%7D%3Bf"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 12
+    desc: "fork bomb with explicit recursive calls using pipe"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "cmd=f%28%29%7B+f%28%29+%7C+f%28%29%3B+%7D%3B+f"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 13
+    desc: "fork bomb with explicit recursive calls using background"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "cmd=f%28%29%7B+f%28%29+%26+f%28%29%3B+%7D%3B+f"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932390]
+  - test_id: 14
+    desc: "negative test - normal parentheses in value"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?q=hello+world+(test)"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932390]
+  - test_id: 15
+    desc: "negative test - normal function-like syntax without pipe and background"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: /
+          data: "code=myfunction%28%29%7B+echo+hello+%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932390]
+  - test_id: 16
+    desc: "negative test - normal URL with colon"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?url=http%3A%2F%2Fexample.com%3A8080%2Fpath"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932390]
