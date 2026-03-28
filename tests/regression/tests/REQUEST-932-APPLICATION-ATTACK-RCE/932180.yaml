@@ -1,0 +1,59 @@
+---
+meta:
+  author: fzipi
+  description: Restricted file upload whitespace bypass tests
+  enabled: true
+  name: 932180.yaml
+tests:
+  - test_title: 932180-1
+    desc: "restricted upload with whitespace before extension via header"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: "settings. php"
+            method: GET
+            port: 80
+            uri: /get
+          output:
+            log_contains: id "932180"
+  - test_title: 932180-2
+    desc: "restricted upload with trailing whitespace via header"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            headers:
+              Host: localhost
+              User-Agent: ModSecurity CRS 3 Tests
+              X-Filename: "config.yml "
+            method: GET
+            port: 80
+            uri: /get
+          output:
+            log_contains: id "932180"
+  - test_title: 932180-3
+    desc: "restricted upload with whitespace padding via multipart"
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              User-Agent: ModSecurity CRS 3 Tests
+              Host: localhost
+              Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ"
+            uri: "/post"
+            data: |
+              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
+              Content-Disposition: form-data; name="config"; filename="wp-config. php"
+              Content-Type: text/plain
+
+              ... Some content ...
+              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
+          output:
+            log_contains: id "932180"
