@@ -444,3 +444,57 @@ tests:
         output:
           log:
             expect_ids: [920420]
+  - test_id: 23
+    desc: "Negative test: application/json is a valid Content-Type and should not trigger"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/json"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 24
+    desc: "Negative test: comma-separated Content-Type with valid first value should not trigger (RFC 9110 Section 8.3 defines Content-Type as a single media-type; comma-separated values are invalid but seen in the wild)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/json, text/html"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 25
+    desc: "Positive test: comma-separated Content-Type with invalid first value should trigger (comma splitting extracts the first media-type)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "evil/type, application/json"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920420]
