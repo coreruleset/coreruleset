@@ -372,7 +372,7 @@ tests:
           log:
             expect_ids: [943110]
   - test_id: 23
-    desc: "Session-id with hyphen notation"
+    desc: "Negative test: session-id with hyphen is too generic for PL1 (FP reduction)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -386,7 +386,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [943110]
+            no_expect_ids: [943110]
   - test_id: 24
     desc: "Mixed case PHPSESSID should match (t:lowercase transformation)"
     stages:
