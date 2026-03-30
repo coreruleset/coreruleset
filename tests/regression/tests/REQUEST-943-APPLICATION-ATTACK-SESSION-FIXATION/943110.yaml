@@ -675,3 +675,35 @@ tests:
         output:
           log:
             expect_ids: [943110]
+  - test_id: 42
+    desc: "Negative test: session_id with underscore is too generic for PL1 (FP reduction)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: myapp.com
+            Referer: "http://badactor.com/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/search?session_id=abc123&query=test"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [943110]
+  - test_id: 43
+    desc: "Positive test: PHPSESSID still triggers at PL1 after generic session-id removal"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: phpapp.com
+            Referer: "https://attacker.example/"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/login?PHPSESSID=fixated-session-value"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943110]
