@@ -252,3 +252,37 @@ tests:
         output:
           log:
             expect_ids: [932250]
+  - test_id: 16
+    desc: "Backslash-prefix evasion: \\id should trigger (start-of-string backslash bypass)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: 'param=\\id'
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 17
+    desc: "No FP: backslash mid-string should not trigger"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: 'param=C:\\Windows\\System32\\id'
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
