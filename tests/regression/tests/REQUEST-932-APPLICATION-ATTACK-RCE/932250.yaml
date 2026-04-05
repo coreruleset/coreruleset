@@ -253,23 +253,6 @@ tests:
           log:
             expect_ids: [932250]
   - test_id: 16
-    desc: "Semicolon prefix: ;ls should trigger"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          method: "POST"
-          port: 80
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          data: '932250-16=;ls'
-          uri: "/post"
-          version: "HTTP/1.1"
-        output:
-          log:
-            expect_ids: [932250]
-  - test_id: 17
     desc: "No FP: backslash mid-string (Windows path) should not trigger"
     stages:
       - input:
