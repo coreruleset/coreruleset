@@ -257,13 +257,14 @@ tests:
     stages:
       - input:
           dest_addr: "127.0.0.1"
-          method: "GET"
+          method: "POST"
           port: 80
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/get?q=%5Cawk%20%27%7Bprint%20%241%7D%27"
+          data: "\\env"
+          uri: "/post"
           version: "HTTP/1.1"
         output:
           log:
@@ -273,13 +274,14 @@ tests:
     stages:
       - input:
           dest_addr: "127.0.0.1"
-          method: "GET"
+          method: "POST"
           port: 80
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/get?q=C%3A%5CWindows%5CSystem32%5Cawk"
+          data: "C:\\\\Windows\\\\System32\\\\env"
+          uri: "/post"
           version: "HTTP/1.1"
         output:
           log:
