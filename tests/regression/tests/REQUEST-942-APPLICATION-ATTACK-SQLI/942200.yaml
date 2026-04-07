@@ -300,3 +300,22 @@ tests:
         output:
           log:
             no_expect_ids: [942200]
+  - test_id: 19
+    desc: |
+      Known FP Roundcube: Referrer for viewing an email
+      decoded payload: pdf=1,flash=0,tiff=0,webp=1,pgpmime=0
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://mail.example.com/mail/?_task=mail&_caps=pdf%3D1%2Cflash%3D0%2Ctiff%3D0%2Cwebp%3D1%2Cpgpmime%3D0&_uid=22859&_mbox=INBOX&_framed=1&_action=preview"
+          method: GET
+          port: 80
+          uri: "/"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942200]
