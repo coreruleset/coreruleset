@@ -20,7 +20,7 @@ tests:
           log:
             expect_ids: [921300]
   - test_id: 2
-    desc: Known false positive
+    desc: Known false positive - tagged as block expected.
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -34,3 +34,18 @@ tests:
         output:
           log:
             expect_ids: [921300]
+  - test_id: 3
+    desc: Common call with parameters
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/api/test?ws_key=test&order=ASC"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [921300]
