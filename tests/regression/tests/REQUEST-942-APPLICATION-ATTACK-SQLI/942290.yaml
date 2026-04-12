@@ -157,3 +157,56 @@ tests:
         output:
           log:
             expect_ids: [942290]
+  - test_id: 10
+    desc: "Word boundary: $exists as standalone operator still triggers"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          data: '{"user": {"$exists": true}}'
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942290]
+  - test_id: 11
+    desc: "Word boundary: $existingUser should NOT trigger (prefix match FP)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Cookie: "$existingUser=admin"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942290]
+  - test_id: 12
+    desc: "Word boundary: $existsor should NOT trigger (prefix match FP)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          data: '{"$existsor": "foo"}'
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942290]
