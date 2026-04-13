@@ -23,10 +23,10 @@ Describe the big picture of your changes here to communicate to the maintainers 
 
 <!-- Required per our AI-Assisted Contribution Policy (AI-CONTRIBUTIONS.md) -->
 
-- [ ] No AI tools were used in this contribution
-- [ ] AI tools were used (complete the details below)
+<!-- Select exactly one by deleting the option that does not apply. -->
+**AI usage for this contribution:** None / Used
 
-**If AI tools were used:**
+**If "Used", complete the details below:**
 
 | Detail | Response |
 |--------|----------|
