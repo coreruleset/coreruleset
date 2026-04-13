@@ -41,7 +41,7 @@ Rule writing and test generation carry elevated risk and are subject to addition
 
 - AI-generated regex patterns **must** be independently validated by the contributor against known attack payloads and legitimate traffic samples before submission.
 - Contributors must verify that AI-suggested patterns do not introduce catastrophic backtracking (ReDoS) or overly broad matching.
-- All rules must pass `crs-linter` checks. AI tools are not aware of CRS-specific linting constraints unless explicitly guided (see the project's `copilot-instructions.md` where available).
+- All rules must pass [crs-linter](https://github.com/coreruleset/crs-linter) checks. AI tools are not aware of CRS-specific linting constraints unless explicitly guided (see the project's `copilot-instructions.md` where available).
 - Do not rely on AI to determine paranoia levels, rule IDs, or phase assignments — these require project context that AI tools typically lack.
 
 ### Test Contributions
