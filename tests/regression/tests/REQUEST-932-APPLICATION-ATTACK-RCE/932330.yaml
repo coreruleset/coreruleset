@@ -52,3 +52,67 @@ tests:
         output:
           log:
             expect_ids: [932330]
+  - test_id: 4
+    desc: "Negation pattern at start of value should trigger (start-of-value boundary)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?rce=!-f"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932330]
+  - test_id: 5
+    desc: "Negation pattern preceded by space should trigger"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?rce=foo+!-d"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932330]
+  - test_id: 6
+    desc: "Product code with underscore prefix should not trigger (FP test)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?sku=SKU_!-1"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932330]
+  - test_id: 7
+    desc: "Negation pattern preceded by special character should trigger"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?rce=[!-2"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932330]
