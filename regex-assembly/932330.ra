@@ -1,0 +1,11 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##! Detect Unix shell history invocation / bash negation pattern (!-f, !-d, etc.)
+##! Require boundary prefix to avoid FP on product codes containing !-digits
+
+##!+ i
+
+##! Require non-word boundary prefix (start of value or after non-word char)
+##! This prevents false positives on strings like "abc!-1" or SKU codes
+(?:^|\W)!-\d
