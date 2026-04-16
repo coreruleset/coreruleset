@@ -254,3 +254,38 @@ tests:
         output:
           log:
             expect_ids: [930120]
+  - test_id: 15
+    desc: |
+      True positive test.
+      Accessing history file, usually via directory traversal
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?code=../.history"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930120]
+  - test_id: 16
+    desc: |
+      False Positive: matching `.history` in parameter name
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?history.history=test"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930120]
