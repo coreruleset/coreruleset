@@ -80,9 +80,3 @@ All pull requests include an AI disclosure section. Contributors must complete i
 ## Rationale
 
 This policy reflects the OWASP Foundation's broader direction on AI in contributions (see the [OWASP GSoC AI Usage Guidelines](https://owasp.org/www-community/initiatives/gsoc/gsoc_ai_usage_guidelines)) and adapts it to the specific risk profile of CRS, where rule accuracy directly impacts the security posture of downstream users.
-
-## Changelog
-
-| Date | Change |
-|------|--------|
-| YYYY-MM-DD | Initial version |
