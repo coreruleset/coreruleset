@@ -24,3 +24,6 @@
 ##! Catches also subdirectory globbing, example: cat /etc/[p//]asswd
 ##! Require a / in front to prevent false positives like [text in brackets]
 /\w*\[[^\]]+\]
+
+##! ANSI-C quoting hex-encoded commands ($'\x69\x64')
+\$(?:x[0-9a-f]{2}){3,}
