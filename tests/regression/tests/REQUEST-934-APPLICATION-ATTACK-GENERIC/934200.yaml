@@ -1,7 +1,7 @@
 ---
 meta:
   author: "zoutjebot"
-rule_id: 934175
+rule_id: 934200
 tests:
   # === Positive tests (should trigger) ===
   - test_id: 1
@@ -19,7 +19,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [934175]
+            expect_ids: [934200]
   - test_id: 2
     desc: "Jinja2/Twig SSTI - dunder access in double curly braces"
     stages:
@@ -35,7 +35,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [934175]
+            expect_ids: [934200]
   - test_id: 3
     desc: "Expression Language SSTI - function call in hash curly"
     stages:
@@ -51,7 +51,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [934175]
+            expect_ids: [934200]
   - test_id: 4
     desc: "ERB SSTI - arithmetic in angle bracket percent"
     stages:
@@ -67,7 +67,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [934175]
+            expect_ids: [934200]
   - test_id: 5
     desc: "ERB SSTI - function call with system command"
     stages:
@@ -83,7 +83,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [934175]
+            expect_ids: [934200]
   - test_id: 6
     desc: "Expression Language SSTI - arithmetic in hash curly"
     stages:
@@ -99,7 +99,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [934175]
+            expect_ids: [934200]
   # === Negative tests (should NOT trigger) ===
   - test_id: 7
     desc: "Legitimate template variable - no execution indicators"
@@ -116,7 +116,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [934175]
+            no_expect_ids: [934200]
   - test_id: 8
     desc: "Legitimate ERB output tag - simple variable"
     stages:
@@ -132,7 +132,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [934175]
+            no_expect_ids: [934200]
   - test_id: 9
     desc: "Legitimate EL variable - no execution indicators"
     stages:
@@ -148,4 +148,4 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [934175]
+            no_expect_ids: [934200]
