@@ -651,3 +651,37 @@ tests:
         output:
           log:
             no_expect_ids: [932130]
+  - test_id: 41
+    desc: "Positive test: ANSI-C hex quoting to encode command - $'\\x63\\x61\\x74' (cat)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=%24%27%5Cx63%5Cx61%5Cx74%27"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 42
+    desc: "Negative test: short hex-like string below ANSI-C detection threshold - $x63x61"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "932130-42=%24x63x61"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932130]
