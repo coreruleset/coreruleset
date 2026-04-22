@@ -578,9 +578,11 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 
 # Allowed HTTP versions.
 # Default: HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0 HTTP/3 HTTP/3.0
-# Example for legacy clients: HTTP/0.9 HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0 HTTP/3 HTTP/3.0
 # Note that some web server versions use 'HTTP/2', some 'HTTP/2.0', so
 # we include both version strings by default.
+# HTTP/0.9 is obsolete per RFC 9110 and no longer supported; rule 920100
+# will block request lines that lack a protocol suffix regardless of this
+# setting.
 # Uncomment this rule to change the default.
 #SecAction \
 #    "id:900230,\
