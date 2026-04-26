@@ -47,3 +47,5 @@ or the CRS Google Group at
   SecRule REQUEST_HEADERS:Content-Type "(?:application(?:/soap\+|/)|text/)xml" \
        "id:'200000',phase:1,t:none,t:lowercase,pass,nolog,ctl:requestBodyProcessor=XML"
   ```
+* For Command Injection Alias Based, it only detects default aliases like `l` and `ll` and `la` and default ls aliases detected,
+  however aliases like `py` and other custom aliases, An attacker can use them to bypass CRS, that is a known limitation because of FPs with those.
