@@ -233,3 +233,211 @@ tests:
         output:
           log:
             no_expect_ids: [932270]
+  - test_id: 15
+    desc: "Bash Tilde expansion(Negative test) - tilde mid-value without boundary (abc~+1)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932270-15=abc%7E%2B1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
+  - test_id: 16
+    desc: "Bash Tilde expansion - tilde after space boundary (foo ~+1)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932270-16=foo%20%7E%2B1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 17
+    desc: "Tilde after tab boundary"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?x=foo%09%7E%2B1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 18
+    desc: "Tilde after newline boundary"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?x=foo%0a%7E%2B1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 19
+    desc: "Tilde after semicolon boundary (command chaining)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?x=cmd%3B%7E%2B1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 20
+    desc: "Tilde after pipe boundary (command chaining)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?x=cmd%7C%7E%2D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 21
+    desc: "Tilde after ampersand boundary (background command)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?x=cmd%26%7E%2B1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 22
+    desc: "Tilde after backtick boundary (command substitution)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?x=%60%7E%2B1%60"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 23
+    desc: "Tilde after dollar-paren boundary (subshell)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?x=%24%28%7E%2B1%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 24
+    desc: "Tilde ~- after semicolon boundary"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?x=cmd%3B%7E%2D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 25
+    desc: "Tilde ~-3 after pipe boundary"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?x=cmd%7C%7E%2D3"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
+  - test_id: 26
+    desc: "Negative: tilde mid-value after letter (cookie=xyz~-3)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?x=xyz%7E%2D3"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
+  - test_id: 27
+    desc: "Negative: tilde mid-value after digit (123~+1)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?x=123%7E%2B1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
