@@ -4,10 +4,11 @@
 ##! Bash - Tilde Expansion
 ##! Detects the following patterns which are common in Unix shell scripts and one-liners
 
-##! Require start-of-string or whitespace before tilde to reduce FPs
-##! on values like "cookie=abc~+1"
+##! Require start-of-string or shell boundary before tilde to reduce FPs
+##! on values like "cookie=abc~+1" while preserving detection of
+##! shell-chained commands like "cmd;~+1", "cmd|~+1", "$(~+1)"
 
-##!^ (?:^|\s)
+##!^ (?:^|[\s;|&`$(<>])
 
 ~\+$
 ~\+\d+
