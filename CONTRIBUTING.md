@@ -373,6 +373,18 @@ Full documentation of the required formatting and available options of the YAML 
 
 Documentation on how to run the CRS test suite can be found in the [online documentation](https://coreruleset.org/docs/development/testing/).
 
+The simplest approach is to run the tests as containers using the bundled `docker-compose.yml` file:
+```bash
+docker compose -f tests/docker-compose.yml up -d modsec2-apache; \
+docker compose -f tests/docker-compose.yml run --rm ftw-modsec2-apache; \
+docker compose -f tests/docker-compose.yml down
+```
+```bash
+docker compose -f tests/docker-compose.yml up -d modsec3-nginx; \
+docker compose -f tests/docker-compose.yml run --rm ftw-modsec3-nginx; \
+docker compose -f tests/docker-compose.yml down
+```
+
 ### Positive Tests
 
 Example of a simple *positive test*:
