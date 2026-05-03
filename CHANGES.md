@@ -5,7 +5,35 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
-## Version 4.25.0 - 2026-03-DD - LTS Release
+## Version 4.25.0 - 2026-03-28 - LTS Release
+
+## What's Changed
+### 🆕 New features and detections 🎉
+* feat(930130,930140): expand AI-based paths by @Elnadrion in https://github.com/coreruleset/coreruleset/pull/4540
+* feat: add aws security agent in scanners-user-agents.data by @S0obi in https://github.com/coreruleset/coreruleset/pull/4562
+* feat(932390): add shell fork bomb detection rule at PL2 by @fzipi in https://github.com/coreruleset/coreruleset/pull/4563
+### 🧰 Other Changes
+* refactor: create 941250 `.ra` file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4520
+* refactor: create 942220 .ra file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4511
+* refactor: create rule 931100 and 931110 `.ra` files by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4489
+* feat: Adding critical ai dirs that previously not exist by @HackingRepo in https://github.com/coreruleset/coreruleset/pull/4535
+* refactor: create 933140 and 933180 `.ra` files by @Xhoenix in https://github.com/coreruleset/coreruleset/pull/4488
+* fix(944110,944120,944130,944150,944151,944200,944210,..): don't inspect cookies twice by @touchweb-vincent in https://github.com/coreruleset/coreruleset/pull/4526
+* refactor: create 943120 `.ra` file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4506
+* fix: false negative 932236 by @franbuehler in https://github.com/coreruleset/coreruleset/pull/4544
+* fix(933111): prevent whitespace padding bypass in PHP double-extension upload by @fzipi in https://github.com/coreruleset/coreruleset/pull/4547
+* fix(933110): prevent whitespace padding bypass in PHP upload detection by @fzipi in https://github.com/coreruleset/coreruleset/pull/4546
+* fix(944140): prevent whitespace padding bypass in JSP file upload detection by @fzipi in https://github.com/coreruleset/coreruleset/pull/4548
+* feat: update list of unix commands by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4446
+* fix(932180): prevent whitespace padding bypass in restricted file upload detection by @fzipi in https://github.com/coreruleset/coreruleset/pull/4549
+* fix: harden GitHub Actions workflows by @fzipi in https://github.com/coreruleset/coreruleset/pull/4553
+* refactor: create 941310 `.ra` files by @fzipi in https://github.com/coreruleset/coreruleset/pull/4522
+* docs: update README by @fzipi in https://github.com/coreruleset/coreruleset/pull/4556
+* refactor: create 941120 `.ra` file by @fzipi in https://github.com/coreruleset/coreruleset/pull/4498
+* fix(920540): allow rule exclusions for specific targets by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4405
+* fix(931130): ensure correct target is logged by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4577
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.24.1...v4.25.0
 
 ## Version 4.24.1 - 2026-03-09
 
