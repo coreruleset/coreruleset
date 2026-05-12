@@ -1,0 +1,85 @@
+---
+meta:
+  author: "Xhoenix"
+rule_id: 932290
+tests:
+  - test_id: 1
+    desc: "Bash Quote evasion - 'i'fconfig"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932290-1=%27i%27fconfig"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932290]
+  - test_id: 2
+    desc: "Bash Quote Evasion - 'wh'oami"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932290-2=%27wh%27oami"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932290]
+  - test_id: 3
+    desc: "Bash Quote Evasion - 'i'p a"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932290-3=%27i%27p%20a"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932290]
+  - test_id: 4
+    desc: "Bash Quote Evasion(single quotes) - 'c'url localhost"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932290-4=%27c%27url%20localhost"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932290]
+  - test_id: 5
+    desc: 'Bash Quote Evasion(double quotes) - "w"get localhost'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932290-5=%22w%22get%20localhost"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932290]
