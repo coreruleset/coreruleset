@@ -46,8 +46,10 @@
 
 ##!> assemble
   ##! SQLite + PostgreSQL
-  {{quotes}}{{json_starting_brackets}}{{something_except_json_ending_brackets}}{{json_ending_brackets}}{{quotes}}
-  {{operators}}{{quotes}}{{json_starting_brackets}}{{something_except_json_ending_brackets}}{{json_ending_brackets}}{{quotes}}
+  ##! Use only single-quote and backtick (not double-quote) for the first branch
+  ##! to reduce false positives from cookie values and JSON payloads  ['`]{{json_starting_brackets}}{{something_except_json_ending_brackets}}{{json_ending_brackets}}['`]
+  ##! Use only single-quote and backtick (not double-quote) for the first branch
+  ##! to reduce false positives from cookie values and JSON payloads  {{operators}}['`]{{json_starting_brackets}}{{something_except_json_ending_brackets}}{{json_ending_brackets}}['`]
   {{operators}}{{quotes}}{{sqlite_path}}
 
   ##! MySQL
