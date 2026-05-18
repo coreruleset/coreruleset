@@ -75,12 +75,23 @@ jobs:
 
           OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old_results.json)
           NEW_FALSE_POSITIVES=$(jq -r '.falsePositives' new_results.json)
+          NEW_FALSE_POSITIVES_PER_RULE=$(yq e -o csv '.falsePositivesPerRule | to_entries' new_results.json | \
+            awk -F',' 'NR==1 { printf "| %-10s | %-10s |\n|---|---|\n", $1, $2 } NR>1 { printf "| %-10s | %-10s |\n", $1, $2 }')
+          NEW_TOTAL_TIME=$(jq '.totalTime' new_results.json)
+          NEW_COUNT=$(jq '.count' new_results.json)
 
           echo -e "\n📊 Quantitative test results for language: \`${{ matrix.language }}\`, year: \`${{ matrix.year}}\`, size: \`${{ matrix.size }}\`, paranoia level: \`${{ matrix.paranoia_level }}\`:" > pr_comment.md
           if [ "$NEW_FALSE_POSITIVES" -gt "$OLD_FALSE_POSITIVES" ]; then
             echo -e " ⚠️ Quantitative testing detected new false positives" >> pr_comment.md
-            echo -e "📝 Total false positives: \`$OLD_FALSE_POSITIVES\` -> \`$NEW_FALSE_POSITIVES\`\n<details>\n" >> pr_comment.md
+            echo -e "📝 Total false positives: \`$OLD_FALSE_POSITIVES\` -> \`$NEW_FALSE_POSITIVES\`\n" >> pr_comment.md
+            echo -e "<details>\n" >> pr_comment.md
             echo -e "" >> pr_comment.md
+            echo -e "  <summary>Run details</summary>\n" >> pr_comment.md
+            echo -e "Time to run tests: ${NEW_TOTAL_TIME} ms" >> pr_comment.md
+            echo -e "Total tests: ${NEW_COUNT}" >> pr_comment.md
+            echo -e "False positives per rule:" >> pr_comment.md
+            echo -e "${NEW_FALSE_POSITIVES_PER_RULE}\n" >> pr_comment.md
+            echo -e "</details>\n<details>\n" >> pr_comment.md
             echo -e "  <summary>Diff details</summary>\n\n\`\`\`\n" >> pr_comment.md
             diff <(jq . old_results.json) <(jq . new_results.json) >> pr_comment.md || true
             echo -e "\n\`\`\`\n</details>" >> pr_comment.md
