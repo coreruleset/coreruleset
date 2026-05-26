@@ -83,3 +83,67 @@ tests:
         output:
           log:
             expect_ids: [932290]
+  - test_id: 6
+    desc: "Known False Positive - ''that's the joke''.jpeg"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?test=%27%27that%27s%20the%20joke%27%27.jpeg"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932290]
+  - test_id: 7
+    desc: "Known False Positive - O'keefe's"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?test=O%27keefe%27s"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932290]
+  - test_id: 8
+    desc: "Known False Positive - Size: 8\"x11\""
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?test=Size%3A%208%22x11%22"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932290]
+  - test_id: 9
+    desc: "Known False Positive - That's two \"O\"s in goose"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?test=That%27s%20two%20%22O%22s%20in%20goose"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932290]
