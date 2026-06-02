@@ -1,0 +1,14 @@
+rules:
+  dangerous-triggers:
+    ignore:
+      # Safe pull_request_target usage: these workflows do NOT check out PR
+      # code. They only read PR metadata via pinned actions with read-only
+      # token scopes. No untrusted code executes.
+      - check-pr-dependencies.yaml
+      - check-pr-title.yaml
+      # workflow_run is used here as the privileged half of the safe pattern
+      # that replaced pull_request_target + PR-head checkout in
+      # `quantitative.yaml`. This workflow consumes only artifact contents
+      # (markdown + numeric PR id, which is regex-validated) — it does not
+      # execute PR-supplied code.
+      - quantitative-comment.yaml
