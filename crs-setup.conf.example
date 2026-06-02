@@ -860,11 +860,14 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #
 # -- [[ Check UTF-8 encoding ]] ------------------------------------------------
 #
-# The CRS can optionally check request contents for invalid UTF-8 encoding.
-# We only want to apply this check if UTF-8 encoding is actually used by the
-# site; otherwise it will result in false positives.
+# The CRS validates request parameters (REQUEST_FILENAME, ARGS, ARGS_NAMES)
+# for invalid UTF-8 encoding. Only UTF-8 is checked; other encodings
+# (e.g. UTF-16) are not validated.
 #
-# Uncomment this rule to use this feature:
+# This check is _enabled_ by default.
+#
+# If your site sends request parameters in a non-UTF-8 encoding, this check
+# can cause false positives. Uncomment this rule to _disable_ the feature:
 #
 #SecAction \
 #    "id:900950,\
@@ -874,7 +877,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    nolog,\
 #    tag:'OWASP_CRS',\
 #    ver:'OWASP_CRS/4.28.0-dev',\
-#    setvar:tx.crs_validate_utf8_encoding=1"
+#    setvar:tx.crs_validate_utf8_encoding=0"
 
 # -- [[ Skip Checking Responses ]] ------------------------------------------------
 #
