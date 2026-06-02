@@ -16,7 +16,7 @@
 
 ##! javascript: payload - match followed by name keyword or escape
 ##!> assemble
-  [\s\S]*?
+  .*?
   ##!=> js-name-or-escape
   ##!=< js-payload-name-match
 ##!<
@@ -30,7 +30,7 @@
 
 ##! data: payload with encoding keyword
 ##!> assemble
-  [\s\S]*?;[\s\S]*?\b
+  .*?;.*?\b
   ##!=> data-encoding-keyword
   ##!=< data-payload-encoding
 ##!<
@@ -38,13 +38,13 @@
 ##! CSS @import target (quote or url function)
 ##!> assemble
   ["']
-  \W*?u\W*?r\W*?l[\s\S]*?\(
+  \W*?u\W*?r\W*?l.*?\(
   ##!=< import-target
 ##!<
 
 ##! javascript: URI - payload with special chars
 ##!> assemble
-  (?:\W|^)javascript:[\s\S]+[=\x5c\(\[\.<]
+  (?:\W|^)javascript:.+[=\x5c\(\[\.<]
 ##!<
 
 ##! javascript: URI - payload with name keyword or escape
@@ -66,14 +66,14 @@
 
 ##! data: URI - HTML-like content
 ##!> assemble
-  (?:\W|^)data:[\s\S]*?,[\s\S]*?<[\s\S]*?\w[\s\S]*?>
+  (?:\W|^)data:.*?,.*?<.*?\w.*?>
 ##!<
 
 ##! CSS @import
 ##!> assemble
-  @\W*?i\W*?m\W*?p\W*?o\W*?r\W*?t\W*?(?:/\*[\s\S]*?)?
+  @\W*?i\W*?m\W*?p\W*?o\W*?r\W*?t\W*?(?:/\*.*?)?
   ##!=> import-target
 ##!<
 
 ##! -moz-binding
-[^-]*?-\W*?m\W*?o\W*?z\W*?-\W*?b\W*?i\W*?n\W*?d\W*?i\W*?n\W*?g[^:]*?:\W*?u\W*?r\W*?l[\s\S]*?\(
+\W*?-\W*?m\W*?o\W*?z\W*?-\W*?b\W*?i\W*?n\W*?d\W*?i\W*?n\W*?g[^:]*?:\W*?u\W*?r\W*?l.*?\(
