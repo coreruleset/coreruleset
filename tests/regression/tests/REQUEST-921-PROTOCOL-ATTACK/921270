@@ -1,0 +1,35 @@
+---
+meta:
+  author: "touchweb_vincent"
+rule_id: 921270
+tests:
+  - test_id: 1
+    desc: "HTTP request with 63 cookies should not be blocked"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            Cookie: "c01=a; c02=a; c03=a; c04=a; c05=a; c06=a; c07=a; c08=a; c09=a; c10=a; c11=a; c12=a; c13=a; c14=a; c15=a; c16=a; c17=a; c18=a; c19=a; c20=a; c21=a; c22=a; c23=a; c24=a; c25=a; c26=a; c27=a; c28=a; c29=a; c30=a; c31=a; c32=a; c33=a; c34=a; c35=a; c36=a; c37=a; c38=a; c39=a; c40=a; c41=a; c42=a; c43=a; c44=a; c45=a; c46=a; c47=a; c48=a; c49=a; c50=a; c51=a; c52=a; c53=a; c54=a; c55=a; c56=a; c57=a; c58=a; c59=a; c60=a; c61=a; c62=a; c63=a"
+          method: GET
+          port: 80
+          uri: "/"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [921270]
+  - test_id: 2
+    desc: "HTTP request with 65 cookies should be blocked"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            Cookie: "c01=a; c02=a; c03=a; c04=a; c05=a; c06=a; c07=a; c08=a; c09=a; c10=a; c11=a; c12=a; c13=a; c14=a; c15=a; c16=a; c17=a; c18=a; c19=a; c20=a; c21=a; c22=a; c23=a; c24=a; c25=a; c26=a; c27=a; c28=a; c29=a; c30=a; c31=a; c32=a; c33=a; c34=a; c35=a; c36=a; c37=a; c38=a; c39=a; c40=a; c41=a; c42=a; c43=a; c44=a; c45=a; c46=a; c47=a; c48=a; c49=a; c50=a; c51=a; c52=a; c53=a; c54=a; c55=a; c56=a; c57=a; c58=a; c59=a; c60=a; c61=a; c62=a; c63=a; c64=a; c65=a"
+          method: GET
+          port: 80
+          uri: "/"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [921270]
