@@ -1819,3 +1819,35 @@ tests:
         output:
           log:
             expect_ids: [932236]
+  - test_id: 101
+    desc: "True Postitive: ll alias of ls `'ll' /var/www/` using quote evasion"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?test='ll'%20/var/www/"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 102
+    desc: 'True Postitive: ll alias of ls `"ll" /var/www/` using quote evasion'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?test=%22ll%22%20/var/www/"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932236]

@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler, azurit"
+  author: "Franziska Bühler, azurit, Esad Cetiner"
   description: "Remote Command Execution: Unix Command Injection"
 rule_id: 932232
 tests:
@@ -88,6 +88,42 @@ tests:
           method: GET
           port: 80
           uri: "/get?foo=ti''me+who"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932232]
+  - test_id: 6
+    desc: Remote Command Execution bypass with time quoted
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo='time'%20who"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932232]
+  - test_id: 7
+    desc: Remote Command Execution bypass with time quoted
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          port: 80
+          uri: '/get?foo=%22time%22%20who'
           version: HTTP/1.1
         output:
           log:
