@@ -4,12 +4,13 @@ meta:
 rule_id: 921260
 tests:
   - test_id: 1
-    desc: "HTTP request with 63 headers should not be blocked"
+    desc: "HTTP request with 62 headers should not be blocked"
     stages:
       - input:
           dest_addr: 127.0.0.1
           headers:
             Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
             X-Test-01: "a"
             X-Test-02: "a"
             X-Test-03: "a"
@@ -86,6 +87,7 @@ tests:
           dest_addr: 127.0.0.1
           headers:
             Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
             X-Test-01: "a"
             X-Test-02: "a"
             X-Test-03: "a"
@@ -186,6 +188,7 @@ tests:
             X-Test-98: "a"
             X-Test-99: "a"
             X-Test-100: "a"
+            X-Test-101: "a"
           method: GET
           port: 80
           uri: "/"
