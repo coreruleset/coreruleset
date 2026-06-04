@@ -84,3 +84,19 @@ tests:
         output:
           log:
             expect_ids: [941170]
+  - test_id: 6
+    desc: "CSS -moz-binding attribute injection (covers the moz-binding branch)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get?style=-moz-binding%3Aurl%28http%3A%2F%2Fexample.com%2Fxss.xml%23xss%29"
+          headers:
+            Accept: "*/*"
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941170]
