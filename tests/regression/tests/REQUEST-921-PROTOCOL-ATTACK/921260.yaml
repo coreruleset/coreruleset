@@ -81,7 +81,7 @@ tests:
           log:
             no_expect_ids: [921260]
   - test_id: 2
-    desc: "HTTP request with 101 headers should be blocked"
+    desc: "HTTP request with 99 headers should be blocked"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -185,10 +185,6 @@ tests:
             X-Test-95: "a"
             X-Test-96: "a"
             X-Test-97: "a"
-            X-Test-98: "a"
-            X-Test-99: "a"
-            X-Test-100: "a"
-            X-Test-101: "a"
           method: GET
           port: 80
           uri: "/"
