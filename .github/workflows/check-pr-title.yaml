@@ -3,6 +3,10 @@ name: Check PR title
 # default token permissions: none
 permissions: {}
 
+# Safe pull_request_target usage: this workflow does NOT check out PR code.
+# It only validates the PR title via a pinned action and uses the default
+# GITHUB_TOKEN with `pull-requests: read`. No untrusted code executes in this job.
+# See .github/zizmor.yml for the corresponding zizmor ignore.
 on:
   pull_request_target:
     types:
