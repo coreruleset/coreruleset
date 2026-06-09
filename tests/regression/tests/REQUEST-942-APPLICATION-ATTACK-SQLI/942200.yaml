@@ -337,3 +337,39 @@ tests:
         output:
           log:
             expect_ids: [942200]
+  - test_id: 21
+    desc: |
+      Referer header: presence of a comma within a parameter used to list multiple items, a common pattern in search engines and faceted navigation systems found in CMS platforms such as PrestaShop and WooCommerce.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Referer: https://www.test.fr/327-peintures-interieur?categories=peintures-de-decorations,peintures-de-finitions&page=2
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942200]
+  - test_id: 22
+    desc: |
+      Referer header: presence of a comma within a parameter used to list multiple items, a common pattern in search engines and faceted navigation systems found in CMS platforms such as PrestaShop and WooCommerce.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Referer: https://www.test.fr/?filter_product_brand=5432,5646,5380
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942200]
