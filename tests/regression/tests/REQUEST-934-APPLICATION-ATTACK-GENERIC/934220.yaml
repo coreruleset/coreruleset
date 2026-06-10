@@ -114,3 +114,19 @@ tests:
         output:
           log:
             expect_ids: [934220]
+  - test_id: 7
+    desc: "True positive - nested traversal + JSONField __has_keys lookup"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?user__metadata__has_keys=is_staff"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934220]
