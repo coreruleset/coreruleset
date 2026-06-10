@@ -171,3 +171,35 @@ tests:
         output:
           log:
             no_expect_ids: [934210]
+  - test_id: 10
+    desc: "True positive - case-insensitive lookup __istartswith"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?username__istartswith=p"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934210]
+  - test_id: 11
+    desc: "True positive - case-insensitive lookup __iendswith"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?email__iendswith=example.com"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934210]
