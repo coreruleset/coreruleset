@@ -950,3 +950,102 @@ tests:
         output:
           log:
             no_expect_ids: [932235]
+  - test_id: 54
+    desc: "False Positive: `base64` without arguments should not match"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/api/base64"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 55
+    desc: "Match `base64 --decode` with arguments"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: "arg=;base64 --decode /etc/passwd"
+        output:
+          log:
+            expect_ids: [932235]
+  - test_id: 56
+    desc: "False Positive: `lastlog` without arguments should not match"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?format=lastlog"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 57
+    desc: "Match `lastlog -u root` with arguments"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: "arg=;lastlog -u root"
+        output:
+          log:
+            expect_ids: [932235]
+  - test_id: 58
+    desc: "False Positive: `lastlogin` without arguments should not match"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?field=lastlogin"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 59
+    desc: "Match `lastlogin -u admin` with arguments"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: "arg=;lastlogin -u admin"
+        output:
+          log:
+            expect_ids: [932235]
