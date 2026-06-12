@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, azurit"
+  author: "Christian S.J. Peron, azurit, Esad Cetiner"
   description: "Tests for protocol based attacks"
 rule_id: 921140
 tests:
@@ -32,6 +32,44 @@ tests:
           headers:
             Host: "localhost"
             SomeHeader: "Headerdata%0dInjectedHeader: response_splitting_code"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921140]
+  - test_id: 3
+    desc: |
+      HTTP Header Injection Attack via headers: Cpanel Auth bypass CVE-2026-41940
+      decoded payload: root:x\nsuccessful_internal_auth_with_timestamp=999
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            Authorization: cm9vdDp4DQpzdWNjZXNzZnVsX2ludGVybmFsX2F1dGhfd2l0aF90aW1lc3RhbXA9OTk5
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921140]
+  - test_id: 4
+    desc: |
+      HTTP Header Injection Attack via headers: Cpanel Auth bypass CVE-2026-41940
+      decoded payload: 9999999\nuser=root\ntfa_verified=1\nhasroot=1
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            Authorization: OTk5OTk5OQ0KdXNlcj1yb290DQp0ZmFfdmVyaWZpZWQ9MQ0KaGFzcm9vdD0x
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/"
