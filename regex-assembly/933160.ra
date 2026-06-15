@@ -7,8 +7,12 @@
 ##! optional quotes
 ##!^ ['\"]*
 
-##! match comments: `/*...*/`, `//...`, `#...`
-##!$ (?:/\*.*?\*/|//[^\r\n]*|#[^\r\n]*
+##! match comments: `/*...*/` (unrolled to avoid exponential backtracking),
+##! and line comments `//...` / `#...`. Line comments must terminate at a line
+##! break: a line comment before `(` is only reachable across a newline,
+##! otherwise the `(` would be inside the comment. The branches are kept
+##! unambiguous to avoid exponential backtracking (ReDoS).
+##!$ (?:/\*[^*]*\*+(?:[^/*][^*]*\*+)*/|(?:#|//)[^\r\n]*[\r\n]
 ##! match white space and quotes
 ##!$ |\s|\")*
 

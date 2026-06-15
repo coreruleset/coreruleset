@@ -5,7 +5,14 @@
 
 ##!+ i
 ##!^ \b
-##!$ (?:\s|/\*.*\*/|#.*|//.*)*\(.*\)
+##! Suffix: optional whitespace and PHP comments between the function name and
+##! the opening parenthesis. The branches are kept unambiguous to avoid
+##! exponential backtracking (ReDoS):
+##!   - block comments use the unrolled (Friedl) form, not /\*.*\*/
+##!   - line comments (# and //) must terminate at a line break, because a
+##!     line comment before '(' is only reachable across a newline (otherwise
+##!     the '(' would be inside the comment and there is no function call)
+##!$ (?:\s|/\*[^*]*\*+(?:[^/*][^*]*\*+)*/|(?:#|//)[^\n\r]*[\n\r])*\(.*\)
 
 abs
 asin
