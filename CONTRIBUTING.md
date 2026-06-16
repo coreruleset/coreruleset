@@ -249,11 +249,21 @@ For example, this suffix (matching optional whitespace and PHP comments before a
 (?:\s|/\*.*\*/|(?:#|//).*)*\(.*\)
 ```
 
-The de-ambiguated version uses the unrolled (Friedl) form for block comments, so that whitespace inside a comment can only be consumed by the comment branch, and requires line comments to terminate at a line break (a `#` or `//` comment before `(` is only reachable across a newline):
+The de-ambiguated version uses the "unrolling-the-loop" form for block comments, so that whitespace inside a comment can only be consumed by the comment branch, and requires line comments to terminate at a line break (a `#` or `//` comment before `(` is only reachable across a newline):
 
 ```python
 (?:\s|/\*[^*]*\*+(?:[^/*][^*]*\*+)*/|(?:#|//)[^\n\r]*[\n\r])*\(.*\)
 ```
+
+The block-comment branch `/\*[^*]*\*+(?:[^/*][^*]*\*+)*/` is the "unrolling-the-loop" technique described by Jeffrey Friedl in [_Mastering Regular Expressions_](https://www.oreilly.com/library/view/mastering-regular-expressions/0596528124/) (O'Reilly). It replaces the ambiguous `/\*.*\*/` with an equivalent that matches the comment body in exactly one way. Read part by part:
+
+* `/\*` — the literal `/*` opener.
+* `[^*]*` — a run of characters that are not `*` (the bulk of the comment body).
+* `\*+` — one or more `*` (a candidate closer).
+* `(?:[^/*][^*]*\*+)*` — zero or more repeats of: a character that is _neither_ `/` nor `*` (so the preceding `*`s were not the closer), then more non-`*` characters, then one or more `*` again.
+* `/` — the literal `/` that finally closes the comment.
+
+Because every position is consumable by exactly one part, the engine never has two ways to match the same comment, so there is nothing to backtrack over. The general pattern — `START [^Q]* Q+ (?:[^EQ] [^Q]* Q+)* END`, where `Q` is the quote/terminator character — applies to any "delimited block" construct, not just C-style comments.
 
 When checking an expression for catastrophic backtracking, two points specific to CRS are worth keeping in mind:
 
