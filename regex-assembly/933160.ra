@@ -7,11 +7,24 @@
 ##! optional quotes
 ##!^ ['\"]*
 
-##! match comments: `/*...*/` (unrolled to avoid exponential backtracking),
-##! and line comments `//...` / `#...`. Line comments must terminate at a line
-##! break: a line comment before `(` is only reachable across a newline,
-##! otherwise the `(` would be inside the comment. The branches are kept
-##! unambiguous to avoid exponential backtracking (ReDoS).
+##! Comments and whitespace allowed between the command and its argument
+##! list. The branches are kept mutually unambiguous (no two branches can
+##! match the same character) to avoid exponential backtracking (ReDoS).
+##!
+##! Block comment, written using the "unrolling-the-loop" technique
+##! (Jeffrey Friedl, "Mastering Regular Expressions", O'Reilly) instead of
+##! the ambiguous `/\*.*\*/`:
+##!   /\*                 literal `/*` opener
+##!   [^*]*               run of non-`*` characters
+##!   \*+                 one or more `*`
+##!   (?:[^/*][^*]*\*+)*   repeat: a character that is neither `/` nor `*`
+##!                       (so not the closer), then more non-`*`, then `*`s
+##!   /                   literal `/` closer
+##!
+##! Line comments (`#` and `//`) must terminate at a line break (`[\r\n]`):
+##! everything from `#`/`//` up to the newline is the comment body, so only
+##! across a newline can the following tokens (quotes, the argument
+##! parentheses) be matched.
 ##!$ (?:/\*[^*]*\*+(?:[^/*][^*]*\*+)*/|(?:#|//)[^\r\n]*[\r\n]
 ##! match white space and quotes
 ##!$ |\s|\")*
