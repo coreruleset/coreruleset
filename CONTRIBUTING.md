@@ -263,7 +263,12 @@ The block-comment branch `/\*[^*]*\*+(?:[^/*][^*]*\*+)*/` is the "unrolling-the-
 * `(?:[^/*][^*]*\*+)*` — zero or more repeats of: a character that is _neither_ `/` nor `*` (so the preceding `*`s were not the closer), then more non-`*` characters, then one or more `*` again.
 * `/` — the literal `/` that finally closes the comment.
 
-Because every position is consumable by exactly one part, the engine never has two ways to match the same comment, so there is nothing to backtrack over. The general pattern — `START [^Q]* Q+ (?:[^EQ] [^Q]* Q+)* END`, where `Q` is the quote/terminator character — applies to any "delimited block" construct, not just C-style comments.
+Because every position is consumable by exactly one part, the engine never has two ways to match the same comment, so there is nothing to backtrack over. The general pattern — `START [^Q]* Q+ (?:[^EQ] [^Q]* Q+)* END` — applies to any "delimited block" construct, not just C-style comments, where:
+
+* `Q` is the inner terminator character — the character that signals a *candidate* end of the block (`*` here).
+* `E` is the closing-delimiter character that, following a run of `Q`, actually ends the block (`/` here; it is the same character as `END`).
+
+So `[^EQ]` matches a character that neither closes the block (`E`) nor extends the run of `Q`, which is what makes the preceding `Q+` unambiguously "not the closer".
 
 When checking an expression for catastrophic backtracking, two points specific to CRS are worth keeping in mind:
 
