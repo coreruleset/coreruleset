@@ -1,0 +1,30 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##! Detects CSS-based XSS that reaches `url(javascript:...)` inside a style
+##! declaration, e.g. <p style="background:url(javascript:alert(1))">.
+##! An optional list of `name:value;` declarations may precede the payload.
+##!
+##! The declaration value is bounded with `[^;]` instead of a free `.+` to
+##! avoid exponential backtracking (ReDoS): a free `.+` next to the `[^:=]+`
+##! key inside the `*`-quantified declaration list lets the same characters
+##! be consumed in more than one way. `[^;]` stops the value at the
+##! declaration separator, so each declaration is matched exactly once.
+
+##!+ i
+
+##! A declaration key contains no `:` (name/value separator) or `=`.
+##!> define decl-key [^:=]+
+##! A declaration value runs up to the `;` separator.
+##!> define decl-value [^;]+
+
+##!> assemble
+  ##! attribute/property assignment, e.g. `style=`
+  [a-z]+=
+  ##!=>
+  ##! optional, lazily-matched list of `key:value;` declarations
+  (?:{{decl-key}}:{{decl-value}};)*?
+  ##!=>
+  ##! the payload: a final `key:url(javascript`
+  {{decl-key}}:url\(javascript
+##!<
