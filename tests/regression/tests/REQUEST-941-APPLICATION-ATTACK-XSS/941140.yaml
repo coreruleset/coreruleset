@@ -199,7 +199,7 @@ tests:
           log:
             no_expect_ids: [941140]
   - test_id: 13
-    desc: "ReDoS regression: long declaration list, no payload"
+    desc: "regression sample for the bounded declaration value: a long key:value; list with no url(javascript payload must not match (no false positive). On PCRE2 (the engine under test) both the old and new patterns complete quickly, so this is a no-match canary for the unbounded-value shape, not a latency assertion"
     stages:
       - input:
           dest_addr: 127.0.0.1

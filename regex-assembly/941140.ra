@@ -6,10 +6,14 @@
 ##! An optional list of `name:value;` declarations may precede the payload.
 ##!
 ##! The declaration value is bounded with `[^;]` instead of a free `.+` to
-##! avoid exponential backtracking (ReDoS): a free `.+` next to the `[^:=]+`
-##! key inside the `*`-quantified declaration list lets the same characters
-##! be consumed in more than one way. `[^;]` stops the value at the
-##! declaration separator, so each declaration is matched exactly once.
+##! avoid exponential backtracking (ReDoS): inside the `*`-quantified
+##! declaration list, a free `.+` and the `[^:=]+` key can consume the same
+##! characters in more than one way. `[^;]` stops the value at the `;`
+##! separator, so each declaration is matched exactly once.
+##!
+##! The rule applies `t:removeWhitespace`, so the input is whitespace-free by
+##! the time the regex runs; the character classes here intentionally do not
+##! account for whitespace.
 
 ##!+ i
 
