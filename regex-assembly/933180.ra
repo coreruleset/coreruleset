@@ -26,8 +26,8 @@
 ##!     (otherwise the rest of the line, including `(`, is the comment body).
 ##!> assemble
   \s
-  \[(?:[^\[\]]|\[[^\]]*\])*\]
-  \{[^}]*\}
+  \[(?:[^[\]]|\[[^\]]+\])+\]
+  \{[^}]+\}
   /\*[^*]*\*+(?:[^/*][^*]*\*+)*/
   //[^\n\r]*[\n\r]
   #[^\n\r]*[\n\r]
@@ -43,7 +43,7 @@
   {{php-id-start}}{{php-id-chars}}*
   ##! Curly brace expression (e.g., ${expr}, ${'func'}); bounded body
   ##! ([^}] instead of a free `.+`) to avoid exponential backtracking.
-  \s*\{[^}]*\}
+  \s*\{[^}]+\}
   ##!=>
   ##!=> noise
   ##!=>
