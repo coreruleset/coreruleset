@@ -662,3 +662,51 @@ tests:
         output:
           log:
             no_expect_ids: [933180]
+  - test_id: 41
+    desc: "$a[]() empty array access body is not a call (no match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "GET"
+          port: 80
+          uri: "/get?x=%24a%5B%5D%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933180]
+  - test_id: 42
+    desc: "${}() empty curly brace expression is not a call (no match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "GET"
+          port: 80
+          uri: "/get?x=%24%7B%7D%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933180]
+  - test_id: 43
+    desc: "$a{}() empty curly brace body in noise is not a call (no match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "GET"
+          port: 80
+          uri: "/get?x=%24a%7B%7D%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933180]
