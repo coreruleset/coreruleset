@@ -79,3 +79,25 @@ tests:
         output:
           log:
             expect_ids: [932350]
+  - test_id: 5
+    desc: |
+      RCE ;top with html entities two digit decimal of 59 (;)
+      4RI-250413
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          data: '{ ";top":"foo" }'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932350]

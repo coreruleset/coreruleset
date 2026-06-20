@@ -44,29 +44,29 @@
 
 ##! javascript: URI - payload with special chars
 ##!> assemble
-  (?:\W|^)javascript:.+[=\x5c\(\[\.<]
+  (?:\W|^(?:json\.)?)javascript:.+[=\x5c\(\[\.<]
 ##!<
 
 ##! javascript: URI - payload with name keyword or escape
 ##!> assemble
-  (?:\W|^)javascript:
+  (?:\W|^(?:json\.)?)javascript:
   ##!=> js-payload-name-match
 ##!<
 
 ##! data: URI - optional MIME type followed by semicolon or comma
 ##!> assemble
-  (?:\W|^)data:(?:[a-z]\w+/\w[\w+-]+\w)?[;,]
+  (?:\W|^(?:json\.)?)data:(?:[a-z]\w+/\w[\w+-]+\w)?[;,]
 ##!<
 
 ##! data: URI - encoding keyword (base64 or charset)
 ##!> assemble
-  (?:\W|^)data:
+  (?:\W|^(?:json\.)?)data:
   ##!=> data-payload-encoding
 ##!<
 
 ##! data: URI - HTML-like content
 ##!> assemble
-  (?:\W|^)data:.*?,.*?<.*?\w.*?>
+  (?:\W|^(?:json\.)?)data:.*?,.*?<.*?\w.*?>
 ##!<
 
 ##! CSS @import

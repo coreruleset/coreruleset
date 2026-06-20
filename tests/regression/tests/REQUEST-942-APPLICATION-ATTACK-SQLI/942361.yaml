@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christoph Hansen, azurit"
+  author: "Christoph Hansen, azurit, Esad Cetiner"
 rule_id: 942361
 tests:
   - test_id: 1
@@ -118,6 +118,27 @@ tests:
           port: 80
           uri: "/post"
           data: "' union/"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942361]
+  - test_id: 8
+    desc: |
+      Detects basic SQL injection based on keyword alter or union
+      4RI-250413
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            { "' union/":"foo" }
           version: HTTP/1.1
         output:
           log:
