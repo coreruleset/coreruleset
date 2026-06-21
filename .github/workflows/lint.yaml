@@ -6,12 +6,17 @@ on:
       - main
       - v3.3/dev
       - v3.3/master
+      - lts/v4.25.x
   pull_request:
     branches:
       - main
       - v3.3/dev
       - v3.3/master
+      - lts/v4.25.x
   merge_group:
+
+permissions:
+  contents: read
 
 # Pin versions to not disrupt test pipelines
 env:
@@ -27,6 +32,7 @@ jobs:
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Lint Yaml
         uses: ibiqlik/action-yamllint@2576378a8e339169678f9939646ee3ee325e845c # v3.1.1
@@ -48,18 +54,23 @@ jobs:
           secrules-parser -c --output-type github -f rules/*.conf
 
       - name: Fetch upstream tags for version detection in next step
+        env:
+          BASE_REF: ${{ github.base_ref }}
         run: |
           git remote add upstream https://github.com/coreruleset/coreruleset
           git fetch --tags upstream
           git fetch upstream main
-          if [ -n "${{ github.base_ref }}" ]; then
-            echo "Fetching '${{ github.base_ref }}' from 'upstream'"
-            git fetch upstream "${{ github.base_ref }}"
+          if [ -n "$BASE_REF" ]; then
+            echo "Fetching '$BASE_REF' from 'upstream'"
+            git fetch upstream "$BASE_REF"
           else
             echo "Base ref is empty, skip fetching fro 'upstream'"
           fi
 
       - name: "Check CRS formatting"
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
           pip install -U setuptools
           pip install crs-linter==${{ env.CRS_LINTER_VERSION }}
@@ -72,8 +83,8 @@ jobs:
             -T 'tests/regression/tests/' \
             -E 'tests/TESTS_EXCLUSIONS' \
             -d "$(pwd)" \
-            --head-ref '${{ github.head_ref }}' \
-            --commit-message '${{ github.event.head_commit.message }}'
+            --head-ref "$HEAD_REF" \
+            --commit-message "$COMMIT_MESSAGE"
 
       - name: "Install crs-toolchain ${{ env.CRS_TOOLCHAIN_VERSION }}"
         env:

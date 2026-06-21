@@ -1,0 +1,151 @@
+---
+meta:
+  author: "zoutjebot"
+rule_id: 934200
+tests:
+  # === Positive tests (should trigger) ===
+  - test_id: 1
+    desc: "Jinja2/Twig SSTI - arithmetic in double curly braces"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%7b%7b7*7%7d%7d"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934200]
+  - test_id: 2
+    desc: "Jinja2/Twig SSTI - dunder access in double curly braces"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%7b%7b%27%27.__class__.__mro__%7d%7d"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934200]
+  - test_id: 3
+    desc: "Expression Language SSTI - function call in hash curly"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%23%7bruntime.exec(%27id%27)%7d"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934200]
+  - test_id: 4
+    desc: "ERB SSTI - arithmetic in angle bracket percent"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3c%25%3d7*7%25%3e"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934200]
+  - test_id: 5
+    desc: "ERB SSTI - function call with system command"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3c%25%20system(%27id%27)%20%25%3e"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934200]
+  - test_id: 6
+    desc: "Expression Language SSTI - arithmetic in hash curly"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%23%7b7*7%7d"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934200]
+  # === Negative tests (should NOT trigger) ===
+  - test_id: 7
+    desc: "Legitimate template variable - no execution indicators"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%7b%7busername%7d%7d"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [934200]
+  - test_id: 8
+    desc: "Legitimate ERB output tag - simple variable"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3c%25%3dtitle%25%3e"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [934200]
+  - test_id: 9
+    desc: "Legitimate EL variable - no execution indicators"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%23%7bname%7d"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [934200]

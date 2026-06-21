@@ -242,3 +242,61 @@ tests:
         output:
           log:
             expect_ids: [932180]
+  - test_id: 13
+    desc: "restricted upload with whitespace before extension via header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "settings. php"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 14
+    desc: "restricted upload with trailing whitespace via header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "config.yml "
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 15
+    desc: "restricted upload with whitespace padding via multipart"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: |
+            ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
+            Content-Disposition: form-data; name="config"; filename="wp-config. php"
+            Content-Type: text/plain
+
+            ... Some content ...
+            ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
+        output:
+          log:
+            expect_ids: [932180]

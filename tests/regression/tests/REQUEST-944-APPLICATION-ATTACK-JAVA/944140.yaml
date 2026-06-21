@@ -155,3 +155,85 @@ tests:
         output:
           log:
             no_expect_ids: [944140]
+  - test_id: 10
+    desc: "JSP upload with leading whitespace before extension via header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "shell. jsp"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: "GET"
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [944140]
+  - test_id: 11
+    desc: "JSP upload with trailing whitespace via header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "shell.jsp "
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          method: "GET"
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [944140]
+  - test_id: 12
+    desc: "JSPX upload with whitespace before extension via multipart"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "multipart/form-data; boundary=--------397236876"
+          uri: "/post"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="file"; filename="shell. jspx"
+            Content-Type: text/plain
+
+            please block me
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [944140]
+  - test_id: 13
+    desc: "JSP upload with trailing whitespace via multipart"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "multipart/form-data; boundary=--------397236876"
+          uri: "/post"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="file"; filename="shell.jsp  "
+            Content-Type: text/plain
+
+            please block me
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [944140]

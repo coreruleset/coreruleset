@@ -1784,3 +1784,38 @@ tests:
         output:
           log:
             expect_ids: [932236]
+  - test_id: 99
+    desc: |
+      False negative issue #4542
+      uconv -f utf-8 -t utf-8 /etc/?asswd
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: "arg=;uconv%20-f%20utf-8%20-t%20utf-8%20%2Fetc%2F%3Fasswd"
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 100
+    desc: "True Postitive: ll alias of ls `ll /var/www/`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?test=ll%20%2Fvar%2Fwww%2F"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932236]
