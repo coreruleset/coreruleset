@@ -49,12 +49,20 @@
     \r\n\z
     ##!=>
   ##!<
-  ##! comma followed by a quoted string, or by a single tick that
-  ##! terminates the input (unbalanced/terminating quote, e.g. `,varname"`)
+  ##! Balanced: comma followed by a quoted string (e.g. ,'value' or ,"value")
   ##!> assemble
     {{comma-plus}}{{ticks-class}}
     ##!=>
     {{not-ticks-class}}+{{ticks-class}}
+    ##!=>
+  ##!<
+  ##! Terminating: comma + compact non-space token + bare quote at end of input
+  ##! (e.g. `,varname"`) — `[^\s)]+` requires ≥1 non-whitespace char before the quote
+  ##! so natural-language sentences ending with a quote after a comma (`, words"`) are
+  ##! not matched
+  ##!> assemble
+    ,[^\s)]+{{ticks-class}}
+    ##!=>
     $
     \z
     \n\z
