@@ -3,138 +3,157 @@
 
 ##!+ i
 
-\balter\s+char\b\s*\(?
-\balter\s+group_concat\b\s*\(?
-\balter\s+load_file\b\s*\(?
-\bcreate\s+char\b\s*\(?
-\bcreate\s+group_concat\b\s*\(?
-\bcreate\s+load_file\b\s*\(?
-\bdelete\s+char\b\s*\(?
-\bdelete\s+group_concat\b\s*\(?
-\bdelete\s+load_file\b\s*\(?
-\bdesc\s+char\b\s*\(?
-\bdesc\s+group_concat\b\s*\(?
-\bdesc\s+load_file\b\s*\(?
-\binsert\s+char\b\s*\(?
-\binsert\s+group_concat\b\s*\(?
-\binsert\s+load_file\b\s*\(?
-\bload\s+char\b\s*\(?
-\bload\s+group_concat\b\s*\(?
-\bload\s+load_file\b\s*\(?
-\brename\s+char\b\s*\(?
-\brename\s+group_concat\b\s*\(?
-\brename\s+load_file\b\s*\(?
-\bselect\s+char\b\s*\(?
-\bselect\s+group_concat\b\s*\(?
-\bselect\s+load_file\b\s*\(?
-\btruncate\s+char\b\s*\(?
-\btruncate\s+group_concat\b\s*\(?
-\btruncate\s+load_file\b\s*\(?
-\bupdate\s+char\b\s*\(?
-\bupdate\s+group_concat\b\s*\(?
-\bupdate\s+load_file\b\s*\(?
-\bend\s*?\);
-[\s(]load_file\s*?\(
-[\"'`]\s+regexp\W
-[\"'`\w]\s+as\b\s*[\"'`\w]+\s*\bfrom
-^(?:json\.)?[\W\d]+\s*?create\s+\w+
-^(?:json\.)?[\W\d]+\s*?delete\s+\w+
-^(?:json\.)?[\W\d]+\s*?desc\s+\w+
-^(?:json\.)?[\W\d]+\s*?drop\s+\w+
-^(?:json\.)?[\W\d]+\s*?insert\s+\w+
-^(?:json\.)?[\W\d]+\s*?load\s+\w+
-^(?:json\.)?[\W\d]+\s*?rename\s+\w+
-^(?:json\.)?[\W\d]+\s*?select\s+\w+
-^(?:json\.)?[\W\d]+\s*?truncate\s+\w+
-^(?:json\.)?[\W\d]+\s*?update\s+\w+
-^(?:json\.)?[\W\d]+\s*?alter\s*aggregate\b
-^(?:json\.)?[\W\d]+\s*?alter\s*application\s*role\b
-^(?:json\.)?[\W\d]+\s*?alter\s*assembly\b
-^(?:json\.)?[\W\d]+\s*?alter\s*asymmetric\s*key\b
-^(?:json\.)?[\W\d]+\s*?alter\s*audit\b
-^(?:json\.)?[\W\d]+\s*?alter\s*authorization\b
-^(?:json\.)?[\W\d]+\s*?alter\s*availability\s*group\b
-^(?:json\.)?[\W\d]+\s*?alter\s*broker\s*priority\b
-^(?:json\.)?[\W\d]+\s*?alter\s*bufferpool\b
-^(?:json\.)?[\W\d]+\s*?alter\s*certificate\b
-^(?:json\.)?[\W\d]+\s*?alter\s*cluster\b
-^(?:json\.)?[\W\d]+\s*?alter\s*collation\b
-^(?:json\.)?[\W\d]+\s*?alter\s*column\b
-^(?:json\.)?[\W\d]+\s*?alter\s*conversion\b
-^(?:json\.)?[\W\d]+\s*?alter\s*credential\b
-^(?:json\.)?[\W\d]+\s*?alter\s*cryptographic\s*provider\b
-^(?:json\.)?[\W\d]+\s*?alter\s*database\b
-^(?:json\.)?[\W\d]+\s*?alter\s*default\b
-^(?:json\.)?[\W\d]+\s*?alter\s*dimension\b
-^(?:json\.)?[\W\d]+\s*?alter\s*diskgroup\b
-^(?:json\.)?[\W\d]+\s*?alter\s*domain\b
-^(?:json\.)?[\W\d]+\s*?alter\s*endpoint\b
-^(?:json\.)?[\W\d]+\s*?alter\s*extension\b
-^(?:json\.)?[\W\d]+\s*?alter\s*external\b
-^(?:json\.)?[\W\d]+\s*?alter\s*event\b
-^(?:json\.)?[\W\d]+\s*?alter\s*flashback\b
-^(?:json\.)?[\W\d]+\s*?alter\s*foreign\b
-^(?:json\.)?[\W\d]+\s*?alter\s*fulltext\b
-^(?:json\.)?[\W\d]+\s*?alter\s*function\b
-^(?:json\.)?[\W\d]+\s*?alter\s*hierarchy\b
-^(?:json\.)?[\W\d]+\s*?alter\s*group\b
-^(?:json\.)?[\W\d]+\s*?alter\s*histogram\b
-^(?:json\.)?[\W\d]+\s*?alter\s*index\b
-^(?:json\.)?[\W\d]+\s*?alter\s*indextype\b
-^(?:json\.)?[\W\d]+\s*?alter\s*inmemory\b
-^(?:json\.)?[\W\d]+\s*?alter\s*instance\b
-^(?:json\.)?[\W\d]+\s*?alter\s*java\b
-^(?:json\.)?[\W\d]+\s*?alter\s*language\b
-^(?:json\.)?[\W\d]+\s*?alter\s*large\b
-^(?:json\.)?[\W\d]+\s*?alter\s*library\b
-^(?:json\.)?[\W\d]+\s*?alter\s*lockdown\b
-^(?:json\.)?[\W\d]+\s*?alter\s*logfile\s*group\b
-^(?:json\.)?[\W\d]+\s*?alter\s*login\b
-^(?:json\.)?[\W\d]+\s*?alter\s*mask\b
-^(?:json\.)?[\W\d]+\s*?alter\s*master\s*key\b
-^(?:json\.)?[\W\d]+\s*?alter\s*materialized\b
-^(?:json\.)?[\W\d]+\s*?alter\s*message\s*type\b
-^(?:json\.)?[\W\d]+\s*?alter\s*method\b
-^(?:json\.)?[\W\d]+\s*?alter\s*module\b
-^(?:json\.)?[\W\d]+\s*?alter\s*nickname\b
-^(?:json\.)?[\W\d]+\s*?alter\s*operator\b
-^(?:json\.)?[\W\d]+\s*?alter\s*outline\b
-^(?:json\.)?[\W\d]+\s*?alter\s*package\b
-^(?:json\.)?[\W\d]+\s*?alter\s*partition\b
-^(?:json\.)?[\W\d]+\s*?alter\s*permission\b
-^(?:json\.)?[\W\d]+\s*?alter\s*procedure\b
-^(?:json\.)?[\W\d]+\s*?alter\s*profile\b
-^(?:json\.)?[\W\d]+\s*?alter\s*queue\b
-^(?:json\.)?[\W\d]+\s*?alter\s*remote\b
-^(?:json\.)?[\W\d]+\s*?alter\s*resource\b
-^(?:json\.)?[\W\d]+\s*?alter\s*role\b
-^(?:json\.)?[\W\d]+\s*?alter\s*rollback\b
-^(?:json\.)?[\W\d]+\s*?alter\s*route\b
-^(?:json\.)?[\W\d]+\s*?alter\s*schema\b
-^(?:json\.)?[\W\d]+\s*?alter\s*search\b
-^(?:json\.)?[\W\d]+\s*?alter\s*security\b
-^(?:json\.)?[\W\d]+\s*?alter\s*server\b
-^(?:json\.)?[\W\d]+\s*?alter\s*service\b
-^(?:json\.)?[\W\d]+\s*?alter\s*sequence\b
-^(?:json\.)?[\W\d]+\s*?alter\s*session\b
-^(?:json\.)?[\W\d]+\s*?alter\s*symmetric\s*key\b
-^(?:json\.)?[\W\d]+\s*?alter\s*synonym\b
-^(?:json\.)?[\W\d]+\s*?alter\s*stogroup\b
-^(?:json\.)?[\W\d]+\s*?alter\s*table\b
-^(?:json\.)?[\W\d]+\s*?alter\s*tablespace\b
-^(?:json\.)?[\W\d]+\s*?alter\s*text\b
-^(?:json\.)?[\W\d]+\s*?alter\s*threshold\b
-^(?:json\.)?[\W\d]+\s*?alter\s*trigger\b
-^(?:json\.)?[\W\d]+\s*?alter\s*trusted\b
-^(?:json\.)?[\W\d]+\s*?alter\s*type\b
-^(?:json\.)?[\W\d]+\s*?alter\s*usage\b
-^(?:json\.)?[\W\d]+\s*?alter\s*user\b
-^(?:json\.)?[\W\d]+\s*?alter\s*view\b
-^(?:json\.)?[\W\d]+\s*?alter\s*work\b
-^(?:json\.)?[\W\d]+\s*?alter\s*workload\b
-^(?:json\.)?[\W\d]+\s*?alter\s*wrapper\b
-^(?:json\.)?[\W\d]+\s*?alter\s*xml\s*schema\b
-^(?:json\.)?[\W\d]+\s*?alter\s*xsrobject\b
-^(?:json\.)?[\W\d]+\s*?union\s*all\b
-^(?:json\.)?[\W\d]+\s*?union\s*select\b
-^(?:json\.)?[\W\d]+\s*?union\s*distinct\b
+##! Helpers
+##!> define quotes [\"'`]
+
+##!> define json_prefix ^(?:json\.)?[\W\d]+\s*?
+
+##!> assemble
+
+  ##! Verb + function combinations with leading word boundary
+  ##!> assemble
+    \b
+    ##!=>
+    alter
+    create
+    delete
+    desc
+    insert
+    load
+    rename
+    select
+    truncate
+    update
+    ##!=>
+    \s+char\b\s*\(?
+    \s+group_concat\b\s*\(?
+    \s+load_file\b\s*\(?
+  ##!<
+
+  \bend\s*?\);
+  [\s(]load_file\s*?\(
+  {{quotes}}\s+regexp\W
+  [\"'`\w]\s+as\b\s*[\"'`\w]+\s*\bfrom
+
+  ##! DML/DDL keywords at start of string (with optional json. prefix)
+  ##!> assemble
+    {{json_prefix}}
+    ##!=>
+    create\s+\w+
+    delete\s+\w+
+    desc\s+\w+
+    drop\s+\w+
+    insert\s+\w+
+    load\s+\w+
+    rename\s+\w+
+    select\s+\w+
+    truncate\s+\w+
+    update\s+\w+
+    ##!> assemble
+      alter\s*
+      ##!=>
+      aggregate
+      application\s*role
+      assembly
+      asymmetric\s*key
+      audit
+      authorization
+      availability\s*group
+      broker\s*priority
+      bufferpool
+      certificate
+      cluster
+      collation
+      column
+      conversion
+      credential
+      cryptographic\s*provider
+      database
+      default
+      dimension
+      diskgroup
+      domain
+      endpoint
+      extension
+      external
+      event
+      flashback
+      foreign
+      fulltext
+      function
+      hierarchy
+      group
+      histogram
+      index
+      indextype
+      inmemory
+      instance
+      java
+      language
+      large
+      library
+      lockdown
+      logfile\s*group
+      login
+      mask
+      master\s*key
+      materialized
+      message\s*type
+      method
+      module
+      nickname
+      operator
+      outline
+      package
+      partition
+      permission
+      procedure
+      profile
+      queue
+      remote
+      resource
+      role
+      rollback
+      route
+      schema
+      search
+      security
+      server
+      service
+      sequence
+      session
+      symmetric\s*key
+      synonym
+      stogroup
+      table
+      tablespace
+      text
+      threshold
+      trigger
+      trusted
+      type
+      usage
+      user
+      view
+      work
+      workload
+      wrapper
+      xml\s*schema
+      xsrobject
+      ##!=>
+      \b
+      ##!=>
+    ##!<
+    ##!> assemble
+      union\s*
+      ##!=>
+      all
+      select
+      distinct
+      ##!=>
+      \b
+      ##!=>
+    ##!<
+  ##!<
+
+##!<
