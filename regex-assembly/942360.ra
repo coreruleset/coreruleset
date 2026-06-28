@@ -6,7 +6,7 @@
 ##! Helpers
 ##!> define quotes [\"'`]
 
-##!> define json_prefix ^(?:json\.)?[\W\d]+\s*?
+##!> define keyword_prefix ^(?:json\.)?[\W\d]+\s*?
 
 ##!> assemble
 
@@ -35,9 +35,9 @@
   {{quotes}}\s+regexp\W
   [\"'`\w]\s+as\b\s*[\"'`\w]+\s*\bfrom
 
-  ##! DML/DDL keywords at start of string (with optional json. prefix)
+  ##! DML/DDL keywords at start of string (with keyword prefix, also matching optional 'json.;\')
   ##!> assemble
-    {{json_prefix}}
+    {{keyword_prefix}}
     ##!=>
     create\s+\w+
     delete\s+\w+
