@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, azurit"
+  author: "csanders-git, azurit, Esad Cetiner"
 rule_id: 941170
 tests:
   - test_id: 1
@@ -96,6 +96,27 @@ tests:
             Accept: "*/*"
             User-Agent: "OWASP CRS test agent"
             Host: localhost
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941170]
+  - test_id: 7
+    desc: |
+      Note: This is not a real attack, this test is to just test for 4RI-250413
+      4RI-250413
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          uri: "/"
+          data: |
+            { "javascript:a=:,":"foo" }
+          headers:
+            Accept: "*/*"
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Content-Type: application/json
           version: "HTTP/1.1"
         output:
           log:

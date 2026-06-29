@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian Folini, azurit"
+  author: "Christian Folini, azurit, Esad Cetiner"
   description: "LDAP injection"
 rule_id: 921200
 tests:
@@ -553,6 +553,27 @@ tests:
           port: 80
           uri: "/login"
           data: "username=admin)(%26(objectClass%3D*)&password=anything"
+        output:
+          log:
+            expect_ids:
+              - 921200
+
+  - test_id: 31
+    desc: |
+      LDAP injection: authentication bypass attempt via POST, AND operator with objectClass wildcard
+      4RI-250413
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: "application/json"
+          method: "POST"
+          port: 80
+          uri: "/login"
+          data: '{ "session=value)(uid=*": "foo" }'
         output:
           log:
             expect_ids:

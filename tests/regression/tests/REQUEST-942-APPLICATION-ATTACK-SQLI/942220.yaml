@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, azurit"
+  author: "Christian S.J. Peron, azurit, Esad Cetiner"
 rule_id: 942220
 tests:
   - test_id: 1
@@ -31,6 +31,26 @@ tests:
           method: GET
           port: 80
           uri: "/get?i=2.2250738585072011e-308"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942220]
+  - test_id: 3
+    desc: |
+      PHP strtod infinite loop
+      4RI-250413
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{ "2.2250738585072011e-308":"foo" }'
           version: HTTP/1.1
         output:
           log:

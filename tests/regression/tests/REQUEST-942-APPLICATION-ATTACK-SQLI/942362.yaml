@@ -548,3 +548,24 @@ tests:
         output:
           log:
             expect_ids: [942362]
+  - test_id: 33
+    desc: |
+      Detects SQL injection keyword in JSON body ARGS_NAMES with nonword prefix
+      4RI-250413: libModSecurity3 prepends json. to ARGS_NAMES for JSON payloads
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            { "; select": "foo" }
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942362]
