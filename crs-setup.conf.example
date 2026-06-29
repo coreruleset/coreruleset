@@ -27,22 +27,21 @@
 #
 # -- [[ System Requirements ]] -------------------------------------------------
 #
-# CRS requires ModSecurity version 2.9.6 or above.
-# The recommended minimum version of libmodsecurity3 is 3.0.10.
-# We recommend to always use the newest ModSecurity version.
+# We recommend to always use the newest ModSecurity/Coraza version.
 #
 # The configuration directives/settings in this file are used to control
-# the OWASP ModSecurity CRS. These settings do **NOT** configure the main
-# ModSecurity settings (modsecurity.conf) such as SecRuleEngine,
+# CRS. These settings do **NOT** configure the main
+# ModSecurity/Coraza settings, such as SecRuleEngine,
 # SecRequestBodyAccess, SecAuditEngine, SecDebugLog, and XML processing.
 #
-# The CRS assumes that modsecurity.conf has been loaded. It is bundled with
-# ModSecurity. If you don't have it, you can get it from:
+# CRS assumes that the basic ModSecurity/Coraza has already been loaded.
+# If you don't have it, you can get it from:
 # 2.x: https://raw.githubusercontent.com/owasp-modsecurity/ModSecurity/v2/master/modsecurity.conf-recommended
 # 3.x: https://raw.githubusercontent.com/owasp-modsecurity/ModSecurity/v3/master/modsecurity.conf-recommended
+# Coraza: https://github.com/corazawaf/coraza/blob/main/coraza.conf-recommended
 #
 # The order of file inclusion in your webserver configuration should always be:
-# 1. modsecurity.conf
+# 1. modsecurity.conf | coraza.conf
 # 2. crs-setup.conf (this file)
 # 3. rules/*.conf (the CRS rule files)
 #
