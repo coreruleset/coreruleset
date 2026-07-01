@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------
-# OWASP ModSecurity Core Rule Set ver.3.3.9
+# OWASP ModSecurity Core Rule Set ver.3.3.10
 # Copyright (c) 2006-2020 Trustwave and contributors. All rights reserved.
 # Copyright (c) 2021-2026 Core Rule Set project. All rights reserved.
 #
@@ -671,7 +671,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # CRS detection at every paranoia level.
 #
 # This LTS branch ships the fix gated behind an opt-in transaction variable.
-# When `tx.crs_xml_attr_inspect` is not set, rule id:901180 strips
+# When `tx.crs_xml_attr_inspect` is not set, rule id:901181 strips
 # `XML://@*` from the affected rules for each transaction, preserving
 # legacy LTS behavior by default.
 #
@@ -679,12 +679,12 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 # value inspection.
 #
 #SecAction \
-# "id:900510,\
-#  phase:1,\
-#  nolog,\
-#  pass,\
-#  t:none,\
-#  setvar:'tx.crs_xml_attr_inspect=1'"
+#  "id:900510,\
+#   phase:1,\
+#   nolog,\
+#   pass,\
+#   t:none,\
+#   setvar:'tx.crs_xml_attr_inspect=1'"
 
 
 #
@@ -899,4 +899,4 @@ SecAction \
     pass,\
     t:none,\
     nolog,\
-    setvar:tx.crs_setup_version=339"
+    setvar:tx.crs_setup_version=3310"
