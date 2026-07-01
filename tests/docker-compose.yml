@@ -50,7 +50,7 @@ services:
       - ../rules:/opt/owasp-crs/rules:ro
       - ../plugins:/opt/owasp-crs/plugins:ro
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
-    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh httpd-foreground"]
+    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && printf '\\nSecAction \"id:900511,phase:1,pass,nolog,setvar:tx.crs_xml_attr_inspect=1\"\\n' >> /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh httpd-foreground"]
     ports:
       - "80:8080"
     depends_on:
@@ -79,7 +79,7 @@ services:
       - ../rules:/opt/owasp-crs/rules:ro
       - ../plugins:/opt/owasp-crs/plugins:ro
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
-    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh nginx -g 'daemon off;'"]
+    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && printf '\\nSecAction \"id:900511,phase:1,pass,nolog,setvar:tx.crs_xml_attr_inspect=1\"\\n' >> /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh nginx -g 'daemon off;'"]
     ports:
       - "80:8080"
     depends_on:
@@ -88,7 +88,7 @@ services:
   modsec3-nginx-debug:
     <<: *nginx
     container_name: modsec3-nginx-debug
-    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh nginx-debug -g 'daemon off;'"]
+    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && printf '\\nSecAction \"id:900511,phase:1,pass,nolog,setvar:tx.crs_xml_attr_inspect=1\"\\n' >> /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh nginx-debug -g 'daemon off;'"]
     environment:
       <<: *nginx-env
       MODSEC_DEBUG_LOG: "/var/log/nginx/modsec_debug.log"

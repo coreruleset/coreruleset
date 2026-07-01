@@ -897,6 +897,33 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    setvar:tx.crs_skip_response_analysis=1"
 
 #
+# -- [[ XML attribute value inspection (GHSA-6jp8-c2w2-x7wr) ]] ----------------
+#
+# CRS rules in the 921/930/931/932/933/934/941/942/943 families inspect XML
+# request bodies via `XML:/*`, which is an XPath that matches element text
+# only and not attribute values. As a result, attack payloads placed inside
+# an XML attribute (e.g. `<a href="javascript:alert(1)">`) are not inspected
+# by CRS at any paranoia level. The companion rules in
+# REQUEST-901-INITIALIZATION.conf add `XML://@*` to those families at
+# config-load time, but a runtime gate (rule id:901180) strips the new
+# target per-request unless this setup variable is set, so v4.25 LTS
+# behavior is preserved by default.
+#
+# Uncomment the SecAction below to enable XML attribute inspection. Test
+# in detection mode first to assess any false-positive impact on traffic
+# that places legitimate content inside XML attribute values.
+#
+#SecAction \
+# "id:900510,\
+#  phase:1,\
+#  nolog,\
+#  pass,\
+#  t:none,\
+#  tag:'OWASP_CRS',\
+#  ver:'OWASP_CRS/4.25.0',\
+#  setvar:'tx.crs_xml_attr_inspect=1'"
+
+#
 # -- [[ End of setup ]] --------------------------------------------------------
 #
 # The CRS checks the tx.crs_setup_version variable to ensure that the setup
