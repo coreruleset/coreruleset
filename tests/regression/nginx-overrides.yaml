@@ -8,9 +8,9 @@ meta:
 test_overrides:
   - rule_id: 920100
     test_ids: [4]
-    reason: "Nginx returns a 400 bad request"
+    reason: "Nginx (1.30.3+) rejects the CONNECT method with a 405 Not Allowed before CRS runs"
     output:
-      status: 400
+      status: 405
   - rule_id: 920100
     test_ids: [8]
     reason: |
