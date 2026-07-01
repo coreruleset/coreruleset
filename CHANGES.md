@@ -7,6 +7,9 @@
 
 ### v4.25.1 - 2026-07-01
 
+#### Breaking Changes
+- Requires libmodsecurity v3.0.16 or later. The XML attribute injection fix (`ctl:ruleRemoveTargetByTag=...;XML://@*` in rule 901180) depends on [owasp-modsecurity/ModSecurity#3589](https://github.com/owasp-modsecurity/ModSecurity/pull/3589), which fixes the lexer's rejection of `@` in `ctl:ruleRemoveTarget*` actions. On ModSecurity v3 versions older than v3.0.16, this `ctl` action fails to parse, breaking config load.
+
 #### Security Fixes
 - Backport fix for 4RI-250413 via hardening of JSON-encoded key/variable-assignment noise handling across LDAP injection, RCE, generic attack, and SQL injection detection rules (Esad Cetiner, cherry-pick of #4672)
 - Backport ReDoS hardening fix removing exponential backtracking in the PHP function-call comment/whitespace suffix (rules 933160, 933161) (Felipe Zipitría, cherry-pick of #4666)
