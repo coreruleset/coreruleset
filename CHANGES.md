@@ -9,9 +9,6 @@
 
 ## What's Changed
 
-### Breaking Change
-* this release requires libmodsecurity3 v3.0.16 because of https://github.com/owasp-modsecurity/ModSecurity/pull/3589.
-
 ### 🔒 Security
 * fix: inspect XML attribute values across attack-detection rules — https://github.com/coreruleset/coreruleset/security/advisories/GHSA-6jp8-c2w2-x7wr
 * fix: remove catastrophic backtracking in unix-shell-evasion prefix — https://github.com/coreruleset/coreruleset/security/advisories/GHSA-f5qm-3h4p-8qhg
