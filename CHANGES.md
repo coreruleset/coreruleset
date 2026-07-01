@@ -8,7 +8,8 @@
 ### v4.25.1 - 2026-07-01
 
 #### Breaking Changes
-- Requires libmodsecurity v3.0.16 or later. The XML attribute injection fix (`ctl:ruleRemoveTargetByTag=...;XML://@*` in rule 901180) depends on [owasp-modsecurity/ModSecurity#3589](https://github.com/owasp-modsecurity/ModSecurity/pull/3589), which fixes the lexer's rejection of `@` in `ctl:ruleRemoveTarget*` actions. On ModSecurity v3 versions older than v3.0.16, this `ctl` action fails to parse, breaking config load.
+- Requires libmodsecurity v3.0.16 or later. The XML attribute injection fix (`ctl:ruleRemoveTargetByTag=...;XML://@*` in rule 901181) depends on [owasp-modsecurity/ModSecurity#3589](https://github.com/owasp-modsecurity/ModSecurity/pull/3589), which fixes the lexer's rejection of `@` in `ctl:ruleRemoveTarget*` actions. On ModSecurity v3 versions older than v3.0.16, this `ctl` action fails to parse, breaking config load.
+- Fully opting out of XML attribute inspection (`tx.crs_xml_attr_inspect`) requires ModSecurity v2 >= v2.9.14, once <https://github.com/owasp-modsecurity/ModSecurity/issues/3591> is fixed upstream. Until then, `ctl:ruleRemoveTargetByTag` cannot remove the `XML://@*` target on ModSecurity v2, so rule 901181 cannot disable attribute inspection on that engine.
 
 #### Security Fixes
 - Backport fix for 4RI-250413 via hardening of JSON-encoded key/variable-assignment noise handling across LDAP injection, RCE, generic attack, and SQL injection detection rules (Esad Cetiner, cherry-pick of #4672)
