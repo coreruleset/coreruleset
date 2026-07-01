@@ -19,3 +19,19 @@ tests:
             version: HTTP/1.0
           output:
             log_contains: id "942431"
+  - test_title: 942431-2
+    desc: 'GHSA: 942431 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              User-Agent: ModSecurity CRS 3 Tests
+              Host: localhost
+              Content-Type: 'application/xml'
+            uri: '/'
+            data: '<?xml version="1.0"?><root><a probe="-------------------"></a></root>'
+          output:
+            log_contains: id "942431"

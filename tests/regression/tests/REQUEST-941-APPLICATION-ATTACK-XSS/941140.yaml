@@ -50,3 +50,19 @@ tests:
               Cookie: '%3Cp%20style%3D%22background%3Aurl(javascript%3Aalert(1))%22%3E=941140-2'
           output:
             log_contains: id "941140"
+  - test_title: 941140-4
+    desc: 'GHSA: 941140 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              User-Agent: ModSecurity CRS 3 Tests
+              Host: localhost
+              Content-Type: 'application/xml'
+            uri: '/'
+            data: '<?xml version="1.0"?><root><a probe="&lt;p style=&quot;background:url(javascript:alert(1))&quot;&gt;"></a></root>'
+          output:
+            log_contains: id "941140"

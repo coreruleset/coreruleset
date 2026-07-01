@@ -61,3 +61,19 @@ tests:
             data: var=\xbe\xbe
           output:
             no_log_contains: id "941310"
+  - test_title: 941310-5
+    desc: 'GHSA: 941310 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              User-Agent: ModSecurity CRS 3 Tests
+              Host: localhost
+              Content-Type: 'application/xml'
+            uri: '/'
+            data: '<?xml version="1.0"?><root><a probe="\xbcscript\xbealert(\xa2XSS\xa2)\xbc/script\xbe"></a></root>'
+          output:
+            log_contains: id "941310"

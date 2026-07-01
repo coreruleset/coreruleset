@@ -71,3 +71,19 @@ tests:
             uri: /?arg1=GET%20http%3A%2F%2Fwww.foo.bar%20HTTP%2F3.2
           output:
             log_contains: id "921130"
+  - test_title: 921130-5
+    desc: 'GHSA: 921130 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              User-Agent: ModSecurity CRS 3 Tests
+              Host: localhost
+              Content-Type: 'application/xml'
+            uri: '/'
+            data: '<?xml version="1.0"?><root><a probe="foobar&lt;meta http-equiv=&quot;Refresh&quot; content=&quot;0; url=http://www.hacker.com/&quot;&gt;"></a></root>'
+          output:
+            log_contains: id "921130"

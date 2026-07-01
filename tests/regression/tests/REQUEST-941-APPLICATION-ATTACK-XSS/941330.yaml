@@ -34,3 +34,19 @@ tests:
             data: "payload=<iframe srcdoc=\"<img src=1 onerror=alert(1)>\"></iframe></a>"
           output:
             log_contains: id "941330"
+  - test_title: 941330-3
+    desc: 'GHSA: 941330 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              User-Agent: ModSecurity CRS 3 Tests
+              Host: localhost
+              Content-Type: 'application/xml'
+            uri: '/'
+            data: '<?xml version="1.0"?><root><a probe="&quot;in \u0076\u0061l\u0075e\u004F\u0066="></a></root>'
+          output:
+            log_contains: id "941330"

@@ -27,7 +27,7 @@ services:
       - ./logs/modsec2-apache:/var/log/apache2:rw
       - ../rules:/opt/owasp-crs/rules:ro
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
-    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh httpd-foreground"]
+    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && printf '\\nSecAction \"id:900511,phase:1,pass,nolog,setvar:tx.crs_xml_attr_inspect=1\"\\n' >> /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh httpd-foreground"]
     ports:
       - "80:8080"
     depends_on:
@@ -62,7 +62,7 @@ services:
       - ./logs/modsec3-nginx:/var/log/nginx:rw
       - ../rules:/opt/owasp-crs/rules:ro
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
-    command: ["nginx", "-g", "daemon off;"]
+    entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && printf '\\nSecAction \"id:900511,phase:1,pass,nolog,setvar:tx.crs_xml_attr_inspect=1\"\\n' >> /etc/modsecurity.d/owasp-crs/crs-setup.conf && nginx -g 'daemon off;'"]
     ports:
       - "80:8080"
     depends_on:

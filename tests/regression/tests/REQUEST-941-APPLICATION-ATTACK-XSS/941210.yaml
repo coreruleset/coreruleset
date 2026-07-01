@@ -50,3 +50,19 @@ tests:
               Cookie: 'ja%26newline%3Bvascript%3A%20=941210-3'
           output:
             log_contains: id "941210"
+  - test_title: 941210-4
+    desc: 'GHSA: 941210 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              User-Agent: ModSecurity CRS 3 Tests
+              Host: localhost
+              Content-Type: 'application/xml'
+            uri: '/'
+            data: '<?xml version="1.0"?><root><a probe="ja&amp;tab;vascript: "></a></root>'
+          output:
+            log_contains: id "941210"

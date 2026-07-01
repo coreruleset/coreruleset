@@ -190,3 +190,19 @@ tests:
               Host: localhost
           output:
             log_contains: id "941160"
+  - test_title: 941160-13
+    desc: 'GHSA: 941160 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              User-Agent: ModSecurity CRS 3 Tests
+              Host: localhost
+              Content-Type: 'application/xml'
+            uri: '/'
+            data: '<?xml version="1.0"?><root><a probe="&lt;script xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;setTimeout(&quot;top.frame2.location=&quot;javascript:(function () &#x7B;var x = document.createElement(\\&quot;script\\&quot;);x.src = \\&quot;//sdl.me/popup.js?//\\&quot;;document.childNodes\\[0\\].appendChild(x);&#x7D;());&quot;&quot;,1000)&lt;/script&gt;"></a></root>'
+          output:
+            log_contains: id "941160"

