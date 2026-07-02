@@ -5,6 +5,28 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
+### v4.25.1 - 2026-07-01
+
+#### Breaking Changes
+- Requires libmodsecurity v3.0.16 or later. The XML attribute injection fix (`ctl:ruleRemoveTargetByTag=...;XML://@*` in rule 901181) depends on [owasp-modsecurity/ModSecurity#3589](https://github.com/owasp-modsecurity/ModSecurity/pull/3589), which fixes the lexer's rejection of `@` in `ctl:ruleRemoveTarget*` actions. On ModSecurity v3 versions older than v3.0.16, this `ctl` action fails to parse, breaking config load.
+- Fully opting out of XML attribute inspection (`tx.crs_xml_attr_inspect`) requires ModSecurity v2 >= v2.9.14, once <https://github.com/owasp-modsecurity/ModSecurity/issues/3591> is fixed upstream. Until then, `ctl:ruleRemoveTargetByTag` cannot remove the `XML://@*` target on ModSecurity v2, so rule 901181 cannot disable attribute inspection on that engine.
+
+#### Security Fixes
+- Backport fix for 4RI-250413 via hardening of JSON-encoded key/variable-assignment noise handling across LDAP injection, RCE, generic attack, and SQL injection detection rules (Esad Cetiner, cherry-pick of #4672)
+- Backport ReDoS hardening fix removing exponential backtracking in the PHP function-call comment/whitespace suffix (rules 933160, 933161) (Felipe Zipitría, cherry-pick of #4666)
+- Backport ReDoS hardening fix removing exponential backtracking in the PHP variable-function noise suffix (rule 933180) (Felipe Zipitría, cherry-pick of #4669)
+- Backport ReDoS hardening fix removing exponential backtracking in CSS `url(javascript:...)` detection (rule 941140) (Felipe Zipitría, cherry-pick of #4670)
+
+#### Bug Fixes
+- Backport false positive fix for payloads with commas but no whitespace in SQL comment detection (rule 942200) (Esad Cetiner, cherry-pick of #4608)
+- Backport false positive fix excluding the `pg` command from PL1 Unix command detection (Esad Cetiner, cherry-pick of #4613)
+- Backport false positive fix for parameter names containing `.history` (rule 930120) (Esad Cetiner, cherry-pick of #4614)
+- Backport fix dropping HTTP/0.9 GET support from request line validation for RFC 9110 compliance (rule 920100) (Felipe Zipitría, cherry-pick of #4621)
+- Backport fix so rules 920240 and 920400 use `REQBODY_PROCESSOR` instead of relying solely on the Content-Type header (Esad Cetiner, cherry-pick of #4639)
+
+#### Other Changes
+- Add default `SecDefaultAction` for phases 3-5 in `crs-setup.conf.example` for consistent logging behavior across engines (Prateek Saini, cherry-pick of #4675)
+
 ## Version 4.25.0 - 2026-03-28 - LTS Release
 
 ## What's Changed
