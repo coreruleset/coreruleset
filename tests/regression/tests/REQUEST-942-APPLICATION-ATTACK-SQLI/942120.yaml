@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Christoph Hansen, Franziska Bühler, azurit"
+  author: "Christian S.J. Peron, Christoph Hansen, Franziska Bühler, azurit, Esad Cetiner"
 rule_id: 942120
 tests:
   - test_id: 1
@@ -734,6 +734,43 @@ tests:
           uri: "/post"
           data: "->"
           version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 44
+    desc: |
+      SQL Injection Attack: SQL Operator Detected
+      4RI-250413
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          data: '{ "in (0,1)": "foo" }'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942120]
+  - test_id: 45
+    desc: 'GHSA: 942120 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="LIKE NULL"></a></root>'
+          version: 'HTTP/1.1'
         output:
           log:
             expect_ids: [942120]

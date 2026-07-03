@@ -950,3 +950,38 @@ tests:
         output:
           log:
             no_expect_ids: [932235]
+  - test_id: 54
+    desc: |
+      True positive issue #4568
+      Uninitialized variable spacer before a command word > 3 chars: |$u wget test
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?test=%7C%24u%20wget%20test"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932235]
+  - test_id: 55
+    desc: 'GHSA: 932235 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="code=;find /etc -name passwd -exec cat &#x7B;&#x7D; +&#10;"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932235]

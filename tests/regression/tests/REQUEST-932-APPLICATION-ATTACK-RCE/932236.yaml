@@ -1819,3 +1819,110 @@ tests:
         output:
           log:
             expect_ids: [932236]
+  - test_id: 101
+    desc: |
+      True positive issue #4568
+      Uninitialized variable used as a spacer: ;$a cat $a $at test.txt
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?ip=%3B%24a%20cat%20%24a%20%24at%20test.txt"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 102
+    desc: |
+      True positive issue #4568
+      Single uninitialized variable spacer: ;$a cat test.txt
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?ip=%3B%24a%20cat%20test.txt"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 103
+    desc: |
+      Negative test issue #4568
+      Separator followed by $var but no command (price list): red;$5 each
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?q=red%3B%245%20each"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 104
+    desc: |
+      Negative test issue #4568
+      CSV of separator-prefixed prices, no command follows: a;$3 b;$4 c;$5
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?q=a%3B%243%20b%3B%244%20c%3B%245"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 105
+    desc: |
+      Negative test issue #4568
+      Separator followed only by spacer variables, no command: ;$a $b $c
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?q=%3B%24a%20%24b%20%24c"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 106
+    desc: 'GHSA: 932236 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe=";cp /var/log/apache2/error.log evil.php"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932236]
