@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Christoph Hansen, Franziska Buehler, azurit"
+  author: "Christian S.J. Peron, Christoph Hansen, Franziska Buehler, azurit, Esad Cetiner"
 rule_id: 942360
 tests:
   - test_id: 1
@@ -664,6 +664,43 @@ tests:
           uri: "/post"
           data: "2759399466.1534185336 -6863 union all select 1,1,1,1,1,1,1,1,1,CONCAT"
           version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942360]
+  - test_id: 40
+    desc: |
+      GH issue 1816
+      4RI-250413
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          data: '{ "2759399466.1534185336 -6863 union all select 1,1,1,1,1,1,1,1,1,CONCAT":"foo" }'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942360]
+  - test_id: 41
+    desc: 'GHSA: 942360 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="1234 AS &quot;foobar&quot; FROM tablevar2=whatever"></a></root>'
+          version: 'HTTP/1.1'
         output:
           log:
             expect_ids: [942360]

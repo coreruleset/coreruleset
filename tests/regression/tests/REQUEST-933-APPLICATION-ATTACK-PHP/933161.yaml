@@ -90,3 +90,185 @@ tests:
         output:
           log:
             no_expect_ids: [933161]
+  - test_id: 6
+    desc: "block comment between function name and parens: checkdate/*x*/()"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?foo=checkdate%2f%2ax%2a%2f%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933161]
+  - test_id: 7
+    desc: "// line comment terminated by a newline before parens: symlink//c\\n()"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?foo=symlink%2f%2fc%0a%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933161]
+  - test_id: 8
+    desc: "# line comment terminated by a newline before parens: serialize#c\\n()"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?foo=serialize%23c%0a%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933161]
+  - test_id: 9
+    desc: "multi-line block comment between function name and parens: touch/*a\\r\\nb*/()"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?foo=touch%2f%2aa%0d%0ab%2a%2f%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933161]
+  - test_id: 10
+    desc: "vertical tab as separator before parens: pi\\x0b()"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?foo=pi%0b%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933161]
+  - test_id: 11
+    desc: "mixed whitespace and block comment before parens: range \\t/*x*/()"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?foo=range%20%09%2f%2ax%2a%2f%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933161]
+  - test_id: 12
+    desc: "function call with arguments inside the parens: crypt(abc)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?foo=crypt%28abc%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933161]
+  - test_id: 13
+    desc: |
+      Negative - function name as a substring without a word boundary
+      (xcheckdate) must not match
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?foo=xcheckdate%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933161]
+  - test_id: 14
+    desc: |
+      Negative - a # line comment without a trailing newline puts the parens
+      inside the comment, so it is not a function call: symlink#x()
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?foo=symlink%23x%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933161]
+  - test_id: 15
+    desc: |
+      Negative - bare function name without parentheses must not match
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?foo=checkdate"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933161]
+  - test_id: 16
+    desc: 'GHSA: 933161 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="system()"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [933161]

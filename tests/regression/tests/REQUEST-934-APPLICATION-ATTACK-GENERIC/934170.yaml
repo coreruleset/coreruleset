@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "fzipi, azurit"
+  author: "fzipi, azurit, Esad Cetiner"
   description: "Tests for rule 934170 - PHP data scheme support"
 rule_id: 934170
 tests:
@@ -55,6 +55,45 @@ tests:
           method: GET
           uri: "/get?ssrf=data:text/plain"
           version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934170]
+  - test_id: 4
+    desc: |
+      Status Page Test - SSRF - data: scheme test - simple trigger, isolated test
+      4RI-250413
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip,deflate
+            Accept-Language: en-us,en;q=0.5
+            Content-Type: application/json
+          method: POST
+          uri: "/post"
+          data: '{ "data:text/plain":"foo" }'
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934170]
+  - test_id: 5
+    desc: 'GHSA: 934170 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="data:text/plain;base64,SSBsb3ZlIFBIUAo="></a></root>'
+          version: 'HTTP/1.1'
         output:
           log:
             expect_ids: [934170]
