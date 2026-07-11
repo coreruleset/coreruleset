@@ -338,6 +338,23 @@ tests:
           log:
             no_expect_ids: [942200]
   - test_id: 21
+    desc: 'GHSA: 942200 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe=",varname&quot;"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [942200]
+  - test_id: 22
     desc: |
       Referer faceted navigation (PrestaShop/WooCommerce): comma-separated list values
     stages:
@@ -355,7 +372,7 @@ tests:
         output:
           log:
             no_expect_ids: [942200]
-  - test_id: 22
+  - test_id: 23
     desc: |
       Referer faceted navigation: numeric brand filter list
     stages:
@@ -373,7 +390,7 @@ tests:
         output:
           log:
             no_expect_ids: [942200]
-  - test_id: 23
+  - test_id: 24
     desc: "Do not match comma in user agent strings: Facebook on iOS"
     stages:
       - input:
@@ -389,7 +406,7 @@ tests:
         output:
           log:
             no_expect_ids: [942200]
-  - test_id: 24
+  - test_id: 25
     desc: "Do not match comma in user agent strings: Microsoft Office Outlook on Mac"
     stages:
       - input:
@@ -405,7 +422,7 @@ tests:
         output:
           log:
             no_expect_ids: [942200]
-  - test_id: 25
+  - test_id: 26
     desc: |
       Natural-language prose ending with a quote must not match even when a comma precedes it.
       Sentences like "And, of course, I was kidding." or quoted speech ending in ,' are
@@ -426,7 +443,7 @@ tests:
         output:
           log:
             no_expect_ids: [942200]
-  - test_id: 26
+  - test_id: 27
     desc: |
       Natural-language prose with single quote at end must not match.
       decoded payload: Alta Arsenault says she knits 'morning to night, every day.'
