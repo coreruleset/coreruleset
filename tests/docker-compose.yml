@@ -96,3 +96,25 @@ services:
   backend:
     image: ghcr.io/coreruleset/albedo:0.3.0@sha256:843ed01d28f48b594dcc0278ea9403175a0bf40ec065432040b796f589e89507
     command: ["--port", "80"]
+
+  ftw-modsec2-apache:
+    container_name: ftw-modsec2-apache
+    image: ghcr.io/coreruleset/go-ftw:2.1.1@sha256:f2e4eaf11861623f7fa20c7da47a67c1cba65363e1960f9eb56cf59ef0f16d54
+    profiles: ["manual"]
+    command: ["--config", "/tests/regression/ftw-modsec2-apache.yaml", "run", "-d", "/tests/regression/tests", "--show-failures-only"]
+    volumes:
+      - .:/tests:ro
+      - ./logs:/logs:ro
+    depends_on:
+      - modsec2-apache
+
+  ftw-modsec3-nginx:
+    container_name: ftw-modsec3-nginx
+    image: ghcr.io/coreruleset/go-ftw:2.1.1@sha256:f2e4eaf11861623f7fa20c7da47a67c1cba65363e1960f9eb56cf59ef0f16d54
+    profiles: ["manual"]
+    command: ["--config", "/tests/regression/ftw-modsec3-nginx.yaml", "run", "-d", "/tests/regression/tests", "--show-failures-only"]
+    volumes:
+      - .:/tests:ro
+      - ./logs:/logs:ro
+    depends_on:
+      - modsec3-nginx
