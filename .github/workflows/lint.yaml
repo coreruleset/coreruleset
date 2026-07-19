@@ -69,21 +69,44 @@ jobs:
       - name: "Check CRS formatting"
         env:
           HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: ${{ github.base_ref }}
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
           pip install -U setuptools
           pip install crs-linter==${{ env.CRS_LINTER_VERSION }}
-          crs-linter \
-            --output=github \
-            -r crs-setup.conf.example \
-            -r 'rules/*.conf' \
-            -t util/APPROVED_TAGS \
-            -f util/FILENAME_EXCLUSIONS \
-            -T 'tests/regression/tests/' \
-            -E 'tests/TESTS_EXCLUSIONS' \
-            -d "$(pwd)" \
-            --head-ref "$HEAD_REF" \
-            --commit-message "$COMMIT_MESSAGE"
+          # crs-linter's own version auto-detection (commit message, then a
+          # `release/vX.Y.Z` branch-name pattern, then falling back to the
+          # latest reachable git tag bumped one minor) has no pattern for
+          # this branch or its backport branches, so it falls through to the
+          # tag-based fallback and resolves to main's current dev version
+          # instead of this LTS line's own. Pass the real, already-declared
+          # version explicitly to bypass that auto-detection entirely.
+          if [[ "$BASE_REF" == lts/* || "$GITHUB_REF_NAME" == lts/* ]]; then
+            EXPECTED_VERSION=$(grep -ohP "ver:'OWASP_CRS/\K[^']+" rules/*.conf | sort | uniq -c | sort -rn | head -1 | awk '{print $2}')
+            echo "On an LTS branch: passing explicit --version $EXPECTED_VERSION to crs-linter"
+            crs-linter \
+              --output=github \
+              -r crs-setup.conf.example \
+              -r 'rules/*.conf' \
+              -t util/APPROVED_TAGS \
+              -f util/FILENAME_EXCLUSIONS \
+              -T 'tests/regression/tests/' \
+              -E 'tests/TESTS_EXCLUSIONS' \
+              -d "$(pwd)" \
+              --version "$EXPECTED_VERSION"
+          else
+            crs-linter \
+              --output=github \
+              -r crs-setup.conf.example \
+              -r 'rules/*.conf' \
+              -t util/APPROVED_TAGS \
+              -f util/FILENAME_EXCLUSIONS \
+              -T 'tests/regression/tests/' \
+              -E 'tests/TESTS_EXCLUSIONS' \
+              -d "$(pwd)" \
+              --head-ref "$HEAD_REF" \
+              --commit-message "$COMMIT_MESSAGE"
+          fi
 
       - name: "Install crs-toolchain ${{ env.CRS_TOOLCHAIN_VERSION }}"
         env:
