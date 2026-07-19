@@ -49,7 +49,7 @@ x-coraza-env: &coraza-env
   CORAZA_AUDIT_LOG_TYPE: Serial
   # Default only logs 4xx/5xx responses; in DetectionOnly mode the response
   # is always 200, so without this the audit log would stay empty.
-  CORAZA_AUDIT_LOG_RELEVANT_STATUS: ".*"
+  CORAZA_AUDIT_LOG_RELEVANT_STATUS: ".+"
   CORAZA_RESP_BODY_ACCESS: "On"
   CORAZA_RESP_BODY_MIMETYPE: "text/plain text/html text/xml application/json"
   CORAZA_RULE_ENGINE: DetectionOnly
