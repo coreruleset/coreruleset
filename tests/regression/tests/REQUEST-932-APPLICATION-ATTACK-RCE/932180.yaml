@@ -499,7 +499,7 @@ tests:
           log:
             expect_ids: [932180]
   - test_id: 27
-    desc: "Known False Positive: `asound` substring false positive"
+    desc: "False Positive: `asound` substring false positive"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -509,6 +509,60 @@ tests:
             Proxy-Connection: keep-alive
             User-Agent: "OWASP CRS test agent"
             X-Filename: "aSoundMind.jpg"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 28
+    desc: "True Positive: Block uploading `.boto`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: .boto.bak
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 29
+    desc: "True Positive: Replacing config files for Java apps"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "/WEB-INF/web.xml"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 30
+    desc: "True Positive: Blocking GitLab config backups"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "gitlab_config_1768144038_2026_01_12.tar"
           method: GET
           port: 80
           uri: "/get"
