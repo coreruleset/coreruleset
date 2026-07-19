@@ -5,6 +5,11 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
+### v4.25.2 - YYYY-MM-DD
+
+#### Security Fixes
+- Backport fix removing a bypassable length bound in the SQL `(X)OR` injection detection (rule 942390) (Felipe Zipitría, cherry-pick of #4713)
+
 ### v4.25.1 - 2026-07-01
 
 #### Breaking Changes
