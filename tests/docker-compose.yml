@@ -128,9 +128,6 @@ services:
       - ../rules:/opt/coraza/owasp-crs/rules:ro
       - ../plugins:/opt/coraza/owasp-crs/plugins:ro
       - ../crs-setup.conf.example:/opt/coraza/config/crs-setup.conf.example:ro
-    # activate-rules.sh runs `sed -i` on crs-setup.conf to apply the env vars
-    # above, which can't rename-over a bind-mounted file - copy it into place
-    # as a regular file first, same as the modsec targets' entrypoint override.
     entrypoint: ["/bin/sh", "-c", "cp /opt/coraza/config/crs-setup.conf.example /opt/coraza/config/crs-setup.conf && exec /entrypoint.sh caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
     ports:
       - "80:8080"
