@@ -1,0 +1,13 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##!+ i
+
+##! Matches a JWT Bearer token in the Authorization header and captures
+##! the base64url-encoded header segment (the part before the first dot).
+##! The capture group (TX:1) is consumed by the chain rule (see 934230-chain1.ra).
+##!
+##! JWT headers always start with 'eyJ' (base64url encoding of '{"').
+##! The base64url alphabet uses A-Z, a-z, 0-9, -, and _ (RFC 4648 §5).
+
+^Bearer\s+(eyJ[a-z0-9_-]+)\.
