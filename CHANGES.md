@@ -9,6 +9,8 @@
 
 #### Security Fixes
 - Backport fix removing a bypassable length bound in the SQL `(X)OR` injection detection (rule 942390) (Felipe Zipitría, cherry-pick of #4713)
+#### Other Changes
+- Formalize rule 932171 (Shellshock, CVE-2014-6271) into a `regex-assembly` file and apply the standard `[\s\x0b]` whitespace-class normalization; the `json.` ARGS_NAMES prefix detection itself was already present on this branch via an untracked fix, so this is a maintainability/consistency change, not a functional fix (partial cherry-pick of #4703)
 
 ### v4.25.1 - 2026-07-01
 

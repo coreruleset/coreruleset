@@ -38,3 +38,21 @@ tests:
         output:
           log:
             expect_ids: [932171]
+  - test_id: 3
+    desc: "Test for '() {' in JSON body key (ARGS_NAMES with 'json.' prefix)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Content-Type: application/json
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: '{ "() { :; }":"foo" }'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932171]
