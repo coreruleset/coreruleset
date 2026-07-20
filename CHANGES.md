@@ -5,6 +5,11 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
+### v4.25.2 - YYYY-MM-DD
+
+#### Other Changes
+- Formalize rule 932171 (Shellshock, CVE-2014-6271) into a `regex-assembly` file and apply the standard `[\s\x0b]` whitespace-class normalization; the `json.` ARGS_NAMES prefix detection itself was already present on this branch via an untracked fix, so this is a maintainability/consistency change, not a functional fix (partial cherry-pick of #4703)
+
 ### v4.25.1 - 2026-07-01
 
 #### Breaking Changes
