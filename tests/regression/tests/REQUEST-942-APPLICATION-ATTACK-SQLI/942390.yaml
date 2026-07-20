@@ -36,3 +36,37 @@ tests:
         output:
           log:
             expect_ids: [942390]
+  - test_id: 3
+    desc: "Positive test: quoted literal longer than 10 chars must still be caught (or 'aaaaaaaaaaaaaaaaaaaa' <)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=%27%20or%20%27aaaaaaaaaaaaaaaaaaaa%27%20%3C"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
+  - test_id: 4
+    desc: "Positive test: unquoted literal longer than 20 chars before a unary operator must still be caught"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=%27%20or%20aaaaaaaaaaaaaaaaaaaaaaaaa%3C"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942390]
