@@ -1,7 +1,12 @@
 name: Quantitative tests
 
+# Use the unprivileged `pull_request` trigger: this workflow checks out PR code
+# (potentially from a fork), so it must NOT have access to write tokens or
+# secrets. The companion workflow `quantitative-comment.yaml` runs on
+# `workflow_run` after this completes and posts the PR comment with the
+# elevated permissions required to write to PRs from forks.
 on:
-  pull_request_target:
+  pull_request:
     branches:
       - main
     paths:
@@ -26,25 +31,28 @@ jobs:
         size: ["10K"]
         paranoia_level: ["1"]
     permissions:
-      pull-requests: write
+      contents: read
     steps:
       - name: "Checkout repo"
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
 
       - name: "Checkout main repo"
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           repository: coreruleset/coreruleset
           ref: 'main'
           path: 'mainBranchFolder'
+          persist-credentials: false
+
       - name: "Install dependencies"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release download -R coreruleset/go-ftw "v${{ env.GO_FTW_VERSION }}" \
             -p "ftw_${{ env.GO_FTW_VERSION }}_linux_amd64.tar.gz" -O - | tar -xzvf - ftw
+
       - name: "Restore Cache"
         uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
@@ -54,19 +62,24 @@ jobs:
       - name: "Run tests for language: ${{ matrix.language }}, year: ${{ matrix.year}}, size: ${{ matrix.size }}, paranoia level: ${{ matrix.paranoia_level }}"
         id: quantitative
         continue-on-error: true
+        env:
+          LANGUAGE: ${{ matrix.language }}
+          YEAR: ${{ matrix.year }}
+          SIZE: ${{ matrix.size }}
+          PARANOIA_LEVEL: ${{ matrix.paranoia_level }}
         run: |
           ./ftw quantitative \
-            -L ${{ matrix.language }} \
-            -y ${{ matrix.year }} \
-            -s ${{ matrix.size }} \
-            -P ${{ matrix.paranoia_level }} \
+            -L "$LANGUAGE" \
+            -y "$YEAR" \
+            -s "$SIZE" \
+            -P "$PARANOIA_LEVEL" \
             -o json -f new_results.json
           ./ftw quantitative \
             -C ./mainBranchFolder \
-            -L ${{ matrix.language }} \
-            -y ${{ matrix.year }} \
-            -s ${{ matrix.size }} \
-            -P ${{ matrix.paranoia_level }} \
+            -L "$LANGUAGE" \
+            -y "$YEAR" \
+            -s "$SIZE" \
+            -P "$PARANOIA_LEVEL" \
             -o json -f old_results.json
           echo -e "\n📊 New Results"
           cat new_results.json | jq .
@@ -76,7 +89,7 @@ jobs:
           OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old_results.json)
           NEW_FALSE_POSITIVES=$(jq -r '.falsePositives' new_results.json)
 
-          echo -e "\n📊 Quantitative test results for language: \`${{ matrix.language }}\`, year: \`${{ matrix.year}}\`, size: \`${{ matrix.size }}\`, paranoia level: \`${{ matrix.paranoia_level }}\`:" > pr_comment.md
+          echo -e "\n📊 Quantitative test results for language: \`$LANGUAGE\`, year: \`$YEAR\`, size: \`$SIZE\`, paranoia level: \`$PARANOIA_LEVEL\`:" > pr_comment.md
           if [ "$NEW_FALSE_POSITIVES" -gt "$OLD_FALSE_POSITIVES" ]; then
             echo -e " ⚠️ Quantitative testing detected new false positives" >> pr_comment.md
             echo -e "📝 Total false positives: \`$OLD_FALSE_POSITIVES\` -> \`$NEW_FALSE_POSITIVES\`\n<details>\n" >> pr_comment.md
@@ -90,16 +103,28 @@ jobs:
             echo -e " 🚀 Quantitative testing did not detect new false positives" >> pr_comment.md
           fi
 
+      - name: "Save PR number for comment workflow"
+        if: github.event_name == 'pull_request'
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          echo "$PR_NUMBER" > pr_number.txt
+
+      - name: "Upload comment artifact"
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: quantitative-comment
+          path: |
+            pr_comment.md
+            pr_number.txt
+          retention-days: 1
+
       - name: "Cache Corpus file"
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.ftw/*.txt
           key: ${{ matrix.language }}_news_${{ matrix.year }}_${{ matrix.size }}-sentences.txt
-      - name: "Comment PR"
-        uses: thollander/actions-comment-pull-request@65f9e5c9a1f2cd378bd74b2e057c9736982a8e74 # v3.0.1
-        with:
-          comment-tag: execution
-          file-path: pr_comment.md
 
   manual_approval:
     needs: regression

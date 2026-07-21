@@ -19,6 +19,21 @@ Describe the big picture of your changes here to communicate to the maintainers 
 
 <!-- If this is a relatively large or complex change, kick off the discussion by explaining why you chose the solution you did and what alternatives you considered, etc... If there are no additional comments, you may remove this section. -->
 
+## AI Disclosure
+
+<!-- Required per our AI-Assisted Contribution Policy (AI-CONTRIBUTIONS.md) -->
+
+<!-- Select exactly one by deleting the option that does not apply. -->
+**AI usage for this contribution:** None / Used
+
+**If "Used", complete the details below:**
+
+| Detail | Response |
+|--------|----------|
+| Tool(s) used | <!-- e.g., GitHub Copilot, Claude 4, ChatGPT-4o --> |
+| What was AI-assisted | <!-- e.g., initial regex draft, test scaffolding, docs wording --> |
+| Review performed | <!-- e.g., validated against payload corpus, ran test suite, manual review --> |
+
 ## For the reviewer
 
 <!-- Don't remove this part. Reviewers will use it as guidance for the review process. -->
@@ -28,3 +43,4 @@ Describe the big picture of your changes here to communicate to the maintainers 
 - [ ] No usage of dangerous constructs like `ctl:requestBodyAccess=Off` were used in the rule
 - [ ] In case a regular expression was changed, [there is no ReDOS](https://github.com/coreruleset/coreruleset/wiki/Testing-for-Regular-Expresion-DoS)
 - [ ] Documentation is clear for the rule/change
+- [ ] If a contribution shows signs of unreviewed AI generation (e.g., plausible-but-broken regex, generic boilerplate comments, hallucinated SecLang directives), reviewers should ask about AI usage regardless of what was checked.

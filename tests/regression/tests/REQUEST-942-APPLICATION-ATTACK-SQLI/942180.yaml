@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, azurit"
+  author: "Christian S.J. Peron, azurit, Esad Cetiner"
 rule_id: 942180
 tests:
   - test_id: 1
@@ -113,6 +113,44 @@ tests:
           port: 80
           uri: "/get?var=%27or%28glob%201%29--"
           version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942180]
+  - test_id: 8
+    desc: |
+      SQL auth bypass with admin user
+      4RI-250413
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/"
+          data: |
+            { "admin '":"foo" }
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942180]
+  - test_id: 9
+    desc: 'GHSA: 942180 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="3'' '' 1"></a></root>'
+          version: 'HTTP/1.1'
         output:
           log:
             expect_ids: [942180]

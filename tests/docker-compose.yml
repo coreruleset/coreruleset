@@ -16,7 +16,6 @@ x-common-env: &common-env
   MODSEC_RULE_ENGINE: DetectionOnly
   MODSEC_TMP_DIR: "/tmp"
   PORT: "8080"
-  VALIDATE_UTF8_ENCODING: 1
 
 x-apache-env: &apache-env
   <<: *common-env
@@ -32,6 +31,30 @@ x-nginx-env: &nginx-env
   LOGLEVEL: "info"
   MODSEC_AUDIT_LOG: "/var/log/nginx/modsec_audit.log"
   SERVERNAME: modsec3-nginx
+
+# Coraza uses its own CORAZA_-prefixed env vars instead of MODSEC_-prefixed
+# ones; see https://github.com/coreruleset/coraza-crs-docker#env-variables.
+# ARG_LENGTH/TOTAL_ARG_LENGTH/COMBINED_FILE_SIZES/MAX_FILE_SIZE/
+# CRS_ENABLE_TEST_MARKER/BACKEND/PORT are consumed by crs-setup.conf.example
+# itself, so they're shared with the ModSecurity targets above unchanged.
+x-coraza-env: &coraza-env
+  ARG_LENGTH: 400
+  TOTAL_ARG_LENGTH: 6400
+  BACKEND: "backend:80"
+  BLOCKING_PARANOIA: 4
+  COMBINED_FILE_SIZES: "65535"
+  CRS_ENABLE_TEST_MARKER: 1
+  MAX_FILE_SIZE: "64100"
+  CORAZA_AUDIT_LOG_FORMAT: JSON
+  CORAZA_AUDIT_LOG_TYPE: Serial
+  # Default only logs 4xx/5xx responses; in DetectionOnly mode the response
+  # is always 200, so without this the audit log would stay empty.
+  CORAZA_AUDIT_LOG_RELEVANT_STATUS: ".+"
+  CORAZA_RESP_BODY_ACCESS: "On"
+  CORAZA_RESP_BODY_MIMETYPE: "text/plain text/html text/xml application/json"
+  CORAZA_RULE_ENGINE: DetectionOnly
+  CORAZA_TMP_DIR: "/tmp/coraza"
+  PORT: "8080"
 
 services:
   modsec2-apache: &apache
@@ -93,6 +116,32 @@ services:
       <<: *nginx-env
       MODSEC_DEBUG_LOG: "/var/log/nginx/modsec_debug.log"
       MODSEC_DEBUG_LOGLEVEL: 9
+
+  coraza-caddy: &coraza
+    container_name: coraza-caddy
+    image: ghcr.io/coreruleset/coraza-crs:caddy-alpine@sha256:d607eb5ebe110dceb88367ab4d0366536ba84b881d26d6772005ba3db1cbe163
+    environment:
+      <<: *coraza-env
+      CORAZA_AUDIT_LOG: "/var/log/coraza/audit.log"
+    volumes:
+      - ./logs/coraza-caddy:/var/log/coraza:rw
+      - ../rules:/opt/coraza/owasp-crs/rules:ro
+      - ../plugins:/opt/coraza/owasp-crs/plugins:ro
+      - ../crs-setup.conf.example:/opt/coraza/config/crs-setup.conf.example:ro
+    entrypoint: ["/bin/sh", "-c", "cp /opt/coraza/config/crs-setup.conf.example /opt/coraza/config/crs-setup.conf && exec /entrypoint.sh caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
+    ports:
+      - "80:8080"
+    depends_on:
+      - backend
+
+  coraza-caddy-debug:
+    <<: *coraza
+    container_name: coraza-caddy-debug
+    environment:
+      <<: *coraza-env
+      CORAZA_AUDIT_LOG: "/var/log/coraza/audit.log"
+      CORAZA_DEBUG_LOG: "/var/log/coraza/debug.log"
+      CORAZA_DEBUG_LOGLEVEL: 9
 
   backend:
     image: ghcr.io/coreruleset/albedo:0.3.0@sha256:843ed01d28f48b594dcc0278ea9403175a0bf40ec065432040b796f589e89507
