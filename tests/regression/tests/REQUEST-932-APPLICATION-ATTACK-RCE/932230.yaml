@@ -1137,6 +1137,23 @@ tests:
           log:
             no_expect_ids: [932230]
   - test_id: 61
+    desc: 'GHSA: 932230 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="() &#x7B; :;&#x7D;; /bin/sh -c &quot;sleep 6 "></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932230]
+  - test_id: 62
     desc: match "rmt" with quote evasion
     stages:
       - input:
@@ -1152,7 +1169,7 @@ tests:
         output:
           log:
             expect_ids: [932230]
-  - test_id: 62
+  - test_id: 63
     desc: match "rmt" with quote evasion
     stages:
       - input:
@@ -1168,7 +1185,7 @@ tests:
         output:
           log:
             expect_ids: [932230]
-  - test_id: 63
+  - test_id: 64
     desc: Don't match on non-command word quotes
     stages:
       - input:
@@ -1184,7 +1201,7 @@ tests:
         output:
           log:
             no_expect_ids: [932230]
-  - test_id: 64
+  - test_id: 65
     desc: Don't match on non-command word quotes
     stages:
       - input:
@@ -1200,7 +1217,7 @@ tests:
         output:
           log:
             no_expect_ids: [932230]
-  - test_id: 65
+  - test_id: 66
     desc: |
       Don't match on natural english sentences in quotes
       ;"The quick brown fox jumped over the lazy dog"
@@ -1218,7 +1235,7 @@ tests:
         output:
           log:
             no_expect_ids: [932230]
-  - test_id: 66
+  - test_id: 67
     desc: |
       Don't match on natural english sentences in quotes
       ;"The quick brown fox jumped over the lazy dog"

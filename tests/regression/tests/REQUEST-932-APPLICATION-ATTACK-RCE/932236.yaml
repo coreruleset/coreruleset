@@ -1910,6 +1910,23 @@ tests:
           log:
             no_expect_ids: [932236]
   - test_id: 106
+    desc: 'GHSA: 932236 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe=";cp /var/log/apache2/error.log evil.php"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 107
     desc: "True Postitive: ll alias of ls `'ll' /var/www/` using quote evasion"
     stages:
       - input:
@@ -1925,7 +1942,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 107
+  - test_id: 108
     desc: 'True Postitive: ll alias of ls `"ll" /var/www/` using quote evasion'
     stages:
       - input:
@@ -1941,7 +1958,7 @@ tests:
         output:
           log:
             expect_ids: [932236]
-  - test_id: 108
+  - test_id: 109
     desc: Don't match on non-command word quotes
     stages:
       - input:
@@ -1957,7 +1974,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 109
+  - test_id: 110
     desc: Don't match on non-command word quotes
     stages:
       - input:
@@ -1973,7 +1990,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 110
+  - test_id: 111
     desc: |
       Don't match on natural english sentences in quotes
       ;"The quick brown fox jumped over the lazy dog"
@@ -1991,7 +2008,7 @@ tests:
         output:
           log:
             no_expect_ids: [932236]
-  - test_id: 111
+  - test_id: 112
     desc: |
       Don't match on natural english sentences in quotes
       ;"The quick brown fox jumped over the lazy dog"

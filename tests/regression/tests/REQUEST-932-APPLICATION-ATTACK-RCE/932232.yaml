@@ -93,6 +93,23 @@ tests:
           log:
             expect_ids: [932232]
   - test_id: 6
+    desc: 'GHSA: 932232 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="|vi (x"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932232]
+  - test_id: 7
     desc: Remote Command Execution bypass with time quoted
     stages:
       - input:
@@ -110,7 +127,7 @@ tests:
         output:
           log:
             expect_ids: [932232]
-  - test_id: 7
+  - test_id: 8
     desc: Remote Command Execution bypass with time quoted
     stages:
       - input:
@@ -128,7 +145,7 @@ tests:
         output:
           log:
             expect_ids: [932232]
-  - test_id: 8
+  - test_id: 9
     desc: Don't match on non-command word quotes
     stages:
       - input:
@@ -144,7 +161,7 @@ tests:
         output:
           log:
             no_expect_ids: [932232]
-  - test_id: 9
+  - test_id: 10
     desc: Don't match on non-command word quotes
     stages:
       - input:
@@ -160,7 +177,7 @@ tests:
         output:
           log:
             no_expect_ids: [932232]
-  - test_id: 10
+  - test_id: 11
     desc: |
       Don't match on natural english sentences in quotes
       ;"The quick brown fox jumped over the lazy dog"
@@ -178,7 +195,7 @@ tests:
         output:
           log:
             no_expect_ids: [932232]
-  - test_id: 11
+  - test_id: 12
     desc: |
       Don't match on natural english sentences in quotes
       ;"The quick brown fox jumped over the lazy dog"
