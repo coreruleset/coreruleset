@@ -346,7 +346,10 @@ tests:
           log:
             expect_ids: [942190]
   - test_id: 21
-    desc: "MSSQL Code Execution and Information gathering attempts"
+    desc: |
+      Quote followed by '!' and a bare letter is not a reliable SQLi signal
+      on its own (formerly a known FP, see #4289); only '!=', '!<', '!>' or
+      a closing quote after '!' are matched now.
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -361,7 +364,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [942190]
+            no_expect_ids: [942190]
   - test_id: 22
     desc: "MSSQL Code Execution and Information gathering attempts"
     stages:
@@ -567,7 +570,10 @@ tests:
           log:
             expect_ids: [942190]
   - test_id: 34
-    desc: "MSSQL Code Execution and Information gathering attempts"
+    desc: |
+      Quote followed by '!' and a bare digit is not a reliable SQLi signal
+      on its own (formerly a known FP, see #4289); only '!=', '!<', '!>' or
+      a closing quote after '!' are matched now.
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -582,7 +588,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [942190]
+            no_expect_ids: [942190]
   - test_id: 35
     desc: "MSSQL Code Execution and Information gathering attempts"
     stages:
@@ -801,6 +807,45 @@ tests:
           uri: '/post'
           data: '<?xml version="1.0"?><root><a probe=" exec xp_cmdshell"></a></root>'
           version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [942190]
+  - test_id: 48
+    desc: |
+      False positive: quoted German text ending in '!' followed by a new
+      capitalized sentence must not match.
+      decoded payload: "Quote"! Next sentence
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "searchValue=%22Quote%22%21%20Next%20sentence"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942190]
+  - test_id: 49
+    desc: |
+      Quote followed directly by the '!=' operator must still match.
+      decoded payload: 'x'!='y
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "q=%27x%27%21%3D%27y"
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942190]
