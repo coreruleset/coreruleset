@@ -986,7 +986,9 @@ tests:
           log:
             expect_ids: [932235]
   - test_id: 56
-    desc: "False Positive: `base64` without arguments should not match"
+    desc: |
+      False Positive: GitLab using `base64` in parameter
+      `base64` is harmless without an argument or being piped
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -994,9 +996,11 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Host: localhost
             User-Agent: "OWASP CRS test agent"
-          method: GET
+            Content-Type: application/json
+          method: POST
           port: 80
-          uri: "/api/base64"
+          uri: "/post"
+          data: '{"commit_message":"test","branch":"main","actions":[{"action":"create","file_path":"example.txt","last_commit_id":"example","content":"example","encoding":"base64"}]}'
           version: HTTP/1.1
         output:
           log:
