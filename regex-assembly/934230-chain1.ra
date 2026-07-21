@@ -1,0 +1,19 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##!+ i
+
+##! Matches the alg:none pattern in a base64url-decoded JWT header.
+##! This chain rule targets TX:1 (the JWT header segment captured by the
+##! parent rule 934230) after applying the t:base64DecodeExt transformation.
+##!
+##! Literal double quotes are intentionally omitted from the pattern because
+##! the toolchain escapes them as \" which causes ModSecurity3/nginx parse
+##! errors outside character classes. \W (non-word chars) is used instead
+##! to match the surrounding JSON quotes (e.g. "alg":"none") and any
+##! optional whitespace, without requiring literal " in the pattern.
+##!
+##! Case-insensitive to cover "none", "NONE", "None", etc.
+##! Optional whitespace and JSON quotes around the colon are allowed.
+
+alg\W*:\W*none
