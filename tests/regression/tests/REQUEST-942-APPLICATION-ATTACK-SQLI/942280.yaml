@@ -69,3 +69,20 @@ tests:
         output:
           log:
             expect_ids: [942280]
+  - test_id: 5
+    desc: 'GHSA: 942280 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="select pg_sleep"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [942280]

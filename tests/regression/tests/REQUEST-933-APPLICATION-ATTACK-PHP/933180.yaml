@@ -598,3 +598,132 @@ tests:
         output:
           log:
             expect_ids: [933180]
+  - test_id: 37
+    desc: $a/*c*/() block comment (unrolled form)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "GET"
+          port: 80
+          uri: "/get?x=%24a%2F%2Ac%2A%2F%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933180]
+  - test_id: 38
+    desc: $a //x\n() line comment terminated by newline
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "GET"
+          port: 80
+          uri: "/get?x=%24a%20%2F%2Fx%0A%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933180]
+  - test_id: 39
+    desc: "$a#foo() line comment without newline is not a call (no match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "GET"
+          port: 80
+          uri: "/get?x=%24a%23foo%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933180]
+  - test_id: 40
+    desc: "$a//foo() line comment without newline is not a call (no match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "GET"
+          port: 80
+          uri: "/get?x=%24a%2F%2Ffoo%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933180]
+  - test_id: 41
+    desc: "$a[]() empty array access body is not a call (no match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "GET"
+          port: 80
+          uri: "/get?x=%24a%5B%5D%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933180]
+  - test_id: 42
+    desc: "${}() empty curly brace expression is not a call (no match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "GET"
+          port: 80
+          uri: "/get?x=%24%7B%7D%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933180]
+  - test_id: 43
+    desc: "$a{}() empty curly brace body in noise is not a call (no match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: "GET"
+          port: 80
+          uri: "/get?x=%24a%7B%7D%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933180]
+  - test_id: 44
+    desc: 'GHSA: 933180 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="$a(1)"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [933180]

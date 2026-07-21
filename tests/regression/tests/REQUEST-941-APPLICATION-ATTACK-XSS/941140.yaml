@@ -70,3 +70,180 @@ tests:
         output:
           log:
             expect_ids: [941140]
+  - test_id: 5
+    desc: "multi-declaration list before payload, e.g. style=color:red;background:url(javascript"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get/bar?test=style%3Dcolor%3Ared%3Bbackground%3Aurl%28javascript%3Aalert%281%29%29"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941140]
+  - test_id: 6
+    desc: "two declarations before payload"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get/bar?test=style%3Da%3Ab%3Bc%3Ad%3Bbackground%3Aurl%28javascript%3Aalert%281%29%29"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941140]
+  - test_id: 7
+    desc: "declaration value containing colons"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get/bar?test=a%3Dk%3Av%3Aw%3Bm%3Aurl%28javascript%3Aalert%281%29%29"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941140]
+  - test_id: 8
+    desc: "case-insensitive URL(JAVASCRIPT"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get/bar?test=STYLE%3DX%3AURL%28JAVASCRIPT"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941140]
+  - test_id: 9
+    desc: "whitespace removed by t:removeWhitespace"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get/bar?test=style%20%3D%20background%20%3A%20url%20%28%20javascript%20%3A%20alert%281%29%20%29"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941140]
+  - test_id: 10
+    desc: "many declarations then payload via User-Agent"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get/bar"
+          headers:
+            User-Agent: "x=k:v;k:v;k:v;k:v;k:v;k:v;k:v;k:v;z:url(javascript"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941140]
+  - test_id: 11
+    desc: "benign declarations, no payload"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get/bar?test=style%3Dcolor%3Ared%3Bbackground%3Awhite"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [941140]
+  - test_id: 12
+    desc: "url scheme is not javascript"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get/bar?test=style%3Dbackground%3Aurl%28http%3A%2F%2Fexample.com%2Fx%29"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [941140]
+  - test_id: 13
+    desc: "regression sample for the bounded declaration value: a long key:value; list with no url(javascript payload must not match (no false positive). On PCRE2 (the engine under test) both the old and new patterns complete quickly, so this is a no-match canary for the unbounded-value shape, not a latency assertion"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get/bar?test=style%3Da%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3Ba%3Ab%3B"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [941140]
+  - test_id: 14
+    desc: "url(javascript without a name= assignment"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get/bar?test=url%28javascript%3Aalert%281%29%29"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [941140]
+  - test_id: 15
+    desc: 'GHSA: 941140 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="&lt;p style=&quot;background:url(javascript:alert(1))&quot;&gt;"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [941140]

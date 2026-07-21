@@ -117,7 +117,7 @@ tests:
           log:
             expect_ids: [941120]
   - test_id: 8
-    desc: "Negative test: word longer than 50 chars - onthisisaverylongwordthathasmorethanfiftycharacters (51 chars)"
+    desc: "Negative test: word longer than 50 chars (excluding leading 'on') - onthisisaverylongwordthathasmorethanfiftycharactersss (51 chars)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -127,7 +127,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: GET
           port: 80
-          uri: "/get?%20%20onthisisaverylongwordthathasmorethanfiftycharacters%20=vardata"
+          uri: "/get?%20%20onthisisaverylongwordthathasmorethanfiftycharactersss%3d%20=vardata"
           version: HTTP/1.1
         output:
           log:
@@ -851,6 +851,23 @@ tests:
           port: 80
           uri: "/get"
           version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941120]
+  - test_id: 52
+    desc: 'GHSA: 941120 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="  onload= "></a></root>'
+          version: 'HTTP/1.1'
         output:
           log:
             expect_ids: [941120]
