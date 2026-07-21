@@ -299,3 +299,22 @@ tests:
         output:
           log:
             expect_ids: [932340]
+  - test_id: 17
+    desc: |
+      False Positive with `=w` in search parameter.
+      Based on false positive report in CRS slack chat
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Referer: https://example.com/?keyword=w
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932340]
