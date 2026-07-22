@@ -544,3 +544,37 @@ tests:
         output:
           log:
             no_expect_ids: [932237]
+  - test_id: 34
+    desc: "URL-encoded Unix RCE in Referer is detected after urlDecodeUni (#3504)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Referer: "http://example.com/%3Bcat%20%2Fetc%2Fpasswd"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932237]
+  - test_id: 35
+    desc: "Benign URL-encoded Referer must not false-positive after urlDecodeUni (#3504)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "Mozilla/5.0"
+            Referer: "https://example.com/my%20documents/report%202024.pdf"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932237]
