@@ -162,7 +162,7 @@ tests:
           log:
             no_expect_ids: [932232]
   - test_id: 10
-    desc: Don't match on non-command word quotes
+    desc: Don't match on non-command word in single quotes
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -198,7 +198,7 @@ tests:
   - test_id: 12
     desc: |
       Don't match on natural english sentences in quotes
-      ;"The quick brown fox jumped over the lazy dog"
+      ;'The quick brown fox jumped over the lazy dog'
     stages:
       - input:
           dest_addr: "127.0.0.1"
