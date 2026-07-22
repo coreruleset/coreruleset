@@ -977,7 +977,7 @@ tests:
           log:
             expect_ids: [932230]
   - test_id: 52
-    desc: "Block evasion using here string with single quotes"
+    desc: "Block evasion using here string with single quote"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1154,7 +1154,7 @@ tests:
           log:
             expect_ids: [932230]
   - test_id: 62
-    desc: match "rmt" with quote evasion
+    desc: match "rmt" with single quote evasion
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -1170,7 +1170,7 @@ tests:
           log:
             expect_ids: [932230]
   - test_id: 63
-    desc: match "rmt" with quote evasion
+    desc: match 'rmt' with quote evasion
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -1202,7 +1202,7 @@ tests:
           log:
             no_expect_ids: [932230]
   - test_id: 65
-    desc: Don't match on non-command word in single quotes
+    desc: Don't match on non-command word in single quote
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -1237,7 +1237,7 @@ tests:
             no_expect_ids: [932230]
   - test_id: 67
     desc: |
-      Don't match on natural english sentences in single quotes
+      Don't match on natural english sentences in single quote
       ;'The quick brown fox jumped over the lazy dog'
     stages:
       - input:

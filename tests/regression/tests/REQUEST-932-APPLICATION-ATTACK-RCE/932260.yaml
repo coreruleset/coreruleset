@@ -843,7 +843,7 @@ tests:
           log:
             expect_ids: [932260]
   - test_id: 50
-    desc: "Block execution of CrowdSec cscli with quotes evasion"
+    desc: "Block execution of CrowdSec cscli with single quote evasion"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -895,7 +895,7 @@ tests:
           log:
             no_expect_ids: [932260]
   - test_id: 53
-    desc: Don't match on non-command word quotes
+    desc: Don't match on non-command word in single quote
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -930,7 +930,7 @@ tests:
             no_expect_ids: [932260]
   - test_id: 55
     desc: |
-      Don't match on natural english sentences in quotes
+      Don't match on natural english sentences in single quote
       ;'The quick brown fox jumped over the lazy dog'
     stages:
       - input:

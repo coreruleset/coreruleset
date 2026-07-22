@@ -120,7 +120,7 @@ tests:
             expect_ids: [932350]
   - test_id: 7
     desc: |
-      Block execution of `id` command
+      Block execution of `id` command in single quote
       `id` is a very common parameter name so we only block at PL-3
     stages:
       - input:
@@ -139,7 +139,7 @@ tests:
             expect_ids: [932350]
   - test_id: 8
     desc: |
-      Block execution of `id` command
+      Block execution of `id` command in quotes
       `id` is a very common parameter name so we only block at PL-3
     stages:
       - input:
@@ -173,7 +173,7 @@ tests:
           log:
             no_expect_ids: [932350]
   - test_id: 10
-    desc: Don't match on non-command word quotes
+    desc: Don't match on non-command word in single quote
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -208,7 +208,7 @@ tests:
             no_expect_ids: [932350]
   - test_id: 12
     desc: |
-      Don't match on natural english sentences in quotes
+      Don't match on natural english sentences in single quote
       ;'The quick brown fox jumped over the lazy dog'
     stages:
       - input:

@@ -551,7 +551,7 @@ tests:
           log:
             expect_ids: [932239]
   - test_id: 32
-    desc: "Block evasion using here string with single quotes"
+    desc: "Block evasion using here string with single quote"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -974,7 +974,7 @@ tests:
           log:
             no_expect_ids: [932239]
   - test_id: 58
-    desc: "Block execution of CrowdSec cscli with quotes evasion"
+    desc: "Block execution of CrowdSec cscli with single quote evasion"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1016,13 +1016,13 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
-          data: 'arg=;"aaaaaaaaaaaaaaaa"'
+            Referer: '"aaaaaaaaaaaaaaaa"'
           version: "HTTP/1.1"
         output:
           log:
             no_expect_ids: [932239]
   - test_id: 61
-    desc: Don't match on non-command word quotes
+    desc: Don't match on non-command word in single quote
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -1032,7 +1032,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
-          data: "arg=;'aaaaaaaaaaaaaaaa'"
+            Referer: "'aaaaaaaaaaaaaaaa'"
           version: "HTTP/1.1"
         output:
           log:
@@ -1050,14 +1050,14 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
-          data: "arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22"
+            Referer: "%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22"
           version: "HTTP/1.1"
         output:
           log:
             no_expect_ids: [932239]
   - test_id: 63
     desc: |
-      Don't match on natural english sentences in quotes
+      Don't match on natural english sentences in single quote
       ;'The quick brown fox jumped over the lazy dog'
     stages:
       - input:
@@ -1068,7 +1068,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
-          data: "arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'"
+            Referer: "'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'"
           version: "HTTP/1.1"
         output:
           log:

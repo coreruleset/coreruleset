@@ -958,7 +958,7 @@ tests:
           log:
             expect_ids: [932236]
   - test_id: 53
-    desc: "Block evasion using here string with single quotes"
+    desc: "Block evasion using here string with single quote"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1927,7 +1927,7 @@ tests:
           log:
             expect_ids: [932236]
   - test_id: 107
-    desc: "True Postitive: ll alias of ls `'ll' /var/www/` using quote evasion"
+    desc: "True Postitive: ll alias of ls `'ll' /var/www/` using single quote evasion"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1975,7 +1975,7 @@ tests:
           log:
             no_expect_ids: [932236]
   - test_id: 110
-    desc: Don't match on non-command word quotes
+    desc: Don't match on non-command word single quote
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -2010,7 +2010,7 @@ tests:
             no_expect_ids: [932236]
   - test_id: 112
     desc: |
-      Don't match on natural english sentences in quotes
+      Don't match on natural english sentences in single quote
       ;'The quick brown fox jumped over the lazy dog'
     stages:
       - input:
