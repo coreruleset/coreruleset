@@ -1926,3 +1926,35 @@ tests:
         output:
           log:
             expect_ids: [932236]
+  - test_id: 107
+    desc: "False Positive: Avoid substring false positive matches with `sandbox` matching `sandboxing`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?r=sandboxing%20space"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 108
+    desc: "True Positive: Block execution of SELinux `runcon` bypassing confinement"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?r=;runcon+-u+unconfined_u+mv+uploads/index.txt+uploads/index.php"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932236]
