@@ -842,3 +842,19 @@ tests:
         output:
           log:
             expect_ids: [932260]
+  - test_id: 50
+    desc: "False Positive: Don't block 'stat' at PL-1, common english word"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+          uri: '/post'
+          data: ';stat%20space'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            no_expect_ids: [932260]

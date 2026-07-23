@@ -1926,3 +1926,35 @@ tests:
         output:
           log:
             expect_ids: [932236]
+  - test_id: 107
+    desc: 'False Positive: substring false positive matching `stat` in word `statistics`'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+          uri: '/post'
+          data: 'post=statistics%20space'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 108
+    desc: 'True Positive: Block execution of stat command'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+          uri: '/post'
+          data: 'post=stat%20space'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932236]
