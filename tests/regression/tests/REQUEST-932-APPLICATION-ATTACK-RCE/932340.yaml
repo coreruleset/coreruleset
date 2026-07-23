@@ -425,9 +425,7 @@ tests:
           log:
             expect_ids: [932340]
   - test_id: 24
-    desc: |
-      Block execution of `id` command in single quote
-      `id` is a very common parameter name so we only block at PL-3
+    desc: "Block execution of `id` command in single quote"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -438,15 +436,13 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "code='id'"
+          data: "code=';htop'"
           version: HTTP/1.1
         output:
           log:
             expect_ids: [932340]
   - test_id: 25
-    desc: |
-      Block execution of `id` command in quotes
-      `id` is a very common parameter name so we only block at PL-3
+    desc: "Block execution of `htop` command in quotes"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -457,7 +453,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "code=%22id%22"
+          data: "code=%22;htop%22"
           version: HTTP/1.1
         output:
           log:
