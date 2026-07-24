@@ -283,7 +283,7 @@ tests:
           log:
             expect_ids: [932270]
   - test_id: 18
-    desc: "Tilde after tab boundary"
+    desc: "Tilde after tab boundary - (foo	~+1)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -299,7 +299,7 @@ tests:
           log:
             expect_ids: [932270]
   - test_id: 19
-    desc: "Tilde after newline boundary"
+    desc: "Tilde after newline boundary - (foo	~+1)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -315,7 +315,7 @@ tests:
           log:
             expect_ids: [932270]
   - test_id: 20
-    desc: "Tilde after semicolon boundary (command chaining)"
+    desc: "Tilde after semicolon boundary (command chaining) - (;~+1)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -331,7 +331,7 @@ tests:
           log:
             expect_ids: [932270]
   - test_id: 21
-    desc: "Tilde after pipe boundary (command chaining)"
+    desc: "Tilde after pipe boundary (command chaining) - (cmd|~-)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -347,7 +347,7 @@ tests:
           log:
             expect_ids: [932270]
   - test_id: 22
-    desc: "Tilde after ampersand boundary (background command)"
+    desc: "Tilde after ampersand boundary (background command) - (cmd&~+1)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -363,7 +363,7 @@ tests:
           log:
             expect_ids: [932270]
   - test_id: 23
-    desc: "Tilde after backtick boundary (command substitution)"
+    desc: "Tilde after backtick boundary (command substitution) - (`~+1`)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -379,7 +379,7 @@ tests:
           log:
             expect_ids: [932270]
   - test_id: 24
-    desc: "Tilde after dollar-paren boundary (subshell)"
+    desc: "Tilde after dollar-paren boundary (subshell) - ($(~+1))"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -395,7 +395,7 @@ tests:
           log:
             expect_ids: [932270]
   - test_id: 25
-    desc: "Tilde ~- after semicolon boundary"
+    desc: "Tilde ~- after semicolon boundary - (;~-)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -411,7 +411,7 @@ tests:
           log:
             expect_ids: [932270]
   - test_id: 26
-    desc: "Tilde ~-3 after pipe boundary"
+    desc: "Tilde ~-3 after pipe boundary - (cmd|~-3)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -459,7 +459,7 @@ tests:
           log:
             no_expect_ids: [932270]
   - test_id: 29
-    desc: "Tilde after '<' boundary"
+    desc: "Tilde after '<' boundary - (cmd<~+1)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -475,7 +475,7 @@ tests:
           log:
             expect_ids: [932270]
   - test_id: 30
-    desc: "Tilde after '>' boundary"
+    desc: "Tilde after '>' boundary - (cmd>~-1)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
