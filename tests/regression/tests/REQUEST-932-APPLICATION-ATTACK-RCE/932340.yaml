@@ -282,3 +282,145 @@ tests:
         output:
           log:
             expect_ids: [932340]
+  - test_id: 16
+    desc: "Positive test: backslash-prefix evasion at start of value (\\ls)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "payload=\\ls"
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932340]
+  - test_id: 17
+    desc: "No FP: backslash mid-string (Windows path) should not trigger"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "payload=C:\\Windows\\System32\\ls"
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932340]
+  - test_id: 18
+    desc: "No FP: value starting with backslash but no command"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "payload=\\"
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932340]
+  - test_id: 19
+    desc: |
+      False Positive with `w` as query parameter value.
+      Common in web applications (e.g., width, weight, or single-letter params).
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/search?w=hello+world"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932340]
+  - test_id: 20
+    desc: |
+      False Positive with `w` as form parameter name.
+      Used by search engines, CMS, and analytics platforms.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "w=640&h=480"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932340]
+  - test_id: 21
+    desc: |
+      Positive test: `who` command should still be detected at PL1.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=;who"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932340]
+  - test_id: 22
+    desc: |
+      False Positive with `=w` in search parameter.
+      Based on false positive report in CRS slack chat
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Referer: https://example.com/?keyword=w
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932340]
+  - test_id: 23
+    desc: "True Positive: block execution of `lastlog`, viewing last logged in users"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "payload=;lastlog"
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932340]
