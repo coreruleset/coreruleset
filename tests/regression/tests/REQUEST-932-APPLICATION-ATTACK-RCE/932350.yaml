@@ -118,3 +118,109 @@ tests:
         output:
           log:
             expect_ids: [932350]
+  - test_id: 7
+    desc: |
+      Block execution of `id` command in single quote
+      `id` is a very common parameter name so we only block at PL-3
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "code='id'"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932350]
+  - test_id: 8
+    desc: |
+      Block execution of `id` command in quotes
+      `id` is a very common parameter name so we only block at PL-3
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "code=%22id%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932350]
+  - test_id: 9
+    desc: Don't match on non-command word quotes
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+          data: 'arg=;"aaaaaaaaaaaaaaaa"'
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932350]
+  - test_id: 10
+    desc: Don't match on non-command word in single quote
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+          data: "arg=;'aaaaaaaaaaaaaaaa'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932350]
+  - test_id: 11
+    desc: |
+      Don't match on natural english sentences in quotes
+      ;"The quick brown fox jumped over the lazy dog"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+          data: "arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932350]
+  - test_id: 12
+    desc: |
+      Don't match on natural english sentences in single quote
+      ;'The quick brown fox jumped over the lazy dog'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+          data: "arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932350]
