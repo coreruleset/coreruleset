@@ -125,7 +125,7 @@ tests:
             no_expect_ids: [953100]
 
   - test_id: 7
-    desc: "Detect '> in all <b>' true php error"
+    desc: "Detect '> in all <b>' in error response"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -140,7 +140,7 @@ tests:
           method: "POST"
           version: "HTTP/1.1"
           uri: "/reflect"
-          data: "<b>Fatal error</b>: ... > in all <b>/var/www/index.php</b>"
+          data: "Error: Parser error > in all <b>myElement</b> at line 100"
         output:
           log:
             expect_ids: [953100]
