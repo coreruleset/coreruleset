@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "M4tteoP, Esad Cetiner, azurit"
+  author: "M4tteoP, Esad Cetiner, azurit, RelunSec"
 rule_id: 953100
 tests:
   - test_id: 1
@@ -123,3 +123,25 @@ tests:
         output:
           log:
             no_expect_ids: [953100]
+
+
+  - test_id: 7
+    desc: "Detect '> in all <b>' true php error"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "text/plain"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/sample-php-error"
+          data: "<b>Fatal error</b>: ... > in all'indirizzo <b>/var/www/index.php</b>"
+        output:
+          log:
+            expect_ids: [935100]
