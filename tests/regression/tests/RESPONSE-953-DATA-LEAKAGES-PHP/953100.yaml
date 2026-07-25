@@ -124,7 +124,6 @@ tests:
           log:
             no_expect_ids: [953100]
 
-
   - test_id: 7
     desc: "Detect '> in all <b>' true php error"
     stages:
@@ -141,7 +140,7 @@ tests:
           method: "POST"
           version: "HTTP/1.1"
           uri: "/sample-php-error"
-          data: "<b>Fatal error</b>: ... > in all'indirizzo <b>/var/www/index.php</b>"
+          data: "<b>Fatal error</b>: ... > in all <b>/var/www/index.php</b>"
         output:
           log:
             expect_ids: [953100]
