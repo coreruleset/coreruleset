@@ -3,11 +3,48 @@
 
 ##!+ i
 
-\bhaving\s*\(?\s*(?:['"]?\s*\d+\s*['"]?|['"]\s*[^\d]*\s*['"]|true|false)\s*(?:[=<>+\-*/%^&!|]+|div|mod)
-\bexecute\s*\(
-\bexecute\b\s*`?\s*[\w\.$]+\s*`?
-\bcreate\b\s+\btable\b[^(]+\(
-\bcreate\b\s+\btable\b\s*`\s*[^\s`]+\s*`\s*\(
+##!> assemble
+  \bhaving\s*\(?\s*
+  ##!=>
+  ##! value: a quoted/unquoted number, a quoted non-digit string, or a boolean literal
+  ##!> assemble
+    ['"]?\s*\d+\s*['"]?
+    ['"]\s*[^\d]*\s*['"]
+    true
+    false
+  ##!<
+  ##!=>
+  \s*
+  ##!=>
+  ##! operator: comparison/arithmetic symbols, or a word operator
+  ##!> assemble
+    [=<>+\-*/%^&!|]+
+    div
+    mod
+  ##!<
+##!<
+
+##!> assemble
+  \bexecute\b\s*
+  ##!=>
+  ##! target: a function-call paren, or an (optionally backtick-quoted) identifier
+  ##!> assemble
+    \(
+    \s*[\w\.$]+\s*
+    `\s*[\w\.$]+\s*`
+  ##!<
+##!<
+
+##!> assemble
+  \bcreate\b\s+\btable\b
+  ##!=>
+  ##! target: any non-paren content, or a backtick-quoted table name
+  ##!> assemble
+    [^(]+\(
+    \s*`\s*[^\s`]+\s*`\s*\(
+  ##!<
+##!<
+
 \blike\W*?char\W*?\(
 \bselect\b.+?\bcase\b
 \bfrom\b.*?\blimit\b
