@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, azurit"
+  author: "csanders-git, azurit, touchweb_vincent"
 rule_id: 920180
 tests:
   - test_id: 1
@@ -60,7 +60,7 @@ tests:
           log:
             expect_ids: [920180]
   - test_id: 4
-    desc: Ignore check of CT header if protocol is HTTP/2
+    desc: Ignore check of CT header if protocol is HTTP/2 - Without content-length header.
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -76,6 +76,7 @@ tests:
           port: 80
           uri: /
           version: HTTP/2.0
+          autocomplete_headers: false
         output:
           log:
             no_expect_ids: [920180]

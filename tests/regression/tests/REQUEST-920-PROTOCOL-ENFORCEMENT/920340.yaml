@@ -1,43 +1,60 @@
 ---
 meta:
-  author: "csanders-git, azurit"
-  description: 920340 should detect requests that have a `Content-Length` header but no `Content-Type` header
+  author: "csanders-git, jptosso, azurit"
+  description: "920340 must detect requests that have a `Content-Length` header but no `Content-Type` header"
 rule_id: 920340
 tests:
   - test_id: 1
+    desc: Standard POST request with "Content-Length" header and no "Content-Type" header
     stages:
       - input:
           dest_addr: "127.0.0.1"
+          method: "POST"
           port: 80
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Content-Length: "2"
+            Content-Length: 4
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/"
-          data: "xy"
-          method: "POST"
-          autocomplete_headers: false
+          uri: "/pineapple"
           version: "HTTP/1.1"
+          data: test
+          autocomplete_headers: false
         output:
           log:
             expect_ids: [920340]
   - test_id: 2
-    desc: "Status Page Test - POST request with body content, a non-zero Content-Length header, but no Content-Type header"
+    desc: Standard POST request with both "Content-Length" and "Content-Type" headers
     stages:
       - input:
           dest_addr: "127.0.0.1"
+          method: "POST"
           port: 80
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Content-Length: "3"
+            Content-Length: 2
+            Content-Type: application/json
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: "POST"
           uri: "/"
-          data: "abc"
-          autocomplete_headers: false
+          version: "HTTP/1.1"
+          data: "{}"
+        output:
+          log:
+            no_expect_ids: [920340]
+  - test_id: 3
+    desc: Standard GET request (negative test)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [920340]
+            no_expect_ids: [920340]

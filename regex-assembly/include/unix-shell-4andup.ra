@@ -8,10 +8,10 @@
 ##! To regenerate this list from unix-shell.data, run the following:
 ##! NL=$'\n'
 ##! original="$(grep -vE '^[#$]' regex-assembly/include/unix-shell-4andup.ra)"
-##! source="$(awk '/^[^#$]/ {split($0,x,"/"); y=x[length(x)]} length(y) > 3 {print y}' \
-##!   rules/unix-{shell,shell-builtins}.data | \
+##! # Exclude entries starting with `(dev/|etc/|proc/|#)` and empty lines, they are not commands
+##! source="$(grep -vEh '^(dev/|etc/|proc/|#|$)' rules/unix-{shell-aliases,shell,shell-builtins}.data | \
+##!   awk '/^[^#$]/ {split($0,x,"/"); y=x[length(x)]} length(y) > 3 {print y}' | \
 ##!   sort | uniq)"
-##! result=""
 ##! # retain all unmodified entries in this list and skip removed ones; ignore the manually added suffixes
 ##! while read -r oword; do
 ##!   # strip suffixes from end of words
@@ -52,7 +52,10 @@
 
 ##! # Suffix all English words or words shorter than 5 characters with `@`
 ##! original="${result}"
-##! english="$(util/fp-finder/spell.sh -m -e - <<<"${result}")"
+##! tmpfile="$(mktemp)"
+##! wget https://raw.githubusercontent.com/coreruleset/coreruleset/refs/tags/v4.0.0/util/fp-finder/english-extended.txt
+##! english="$(crs-toolchain util fp-finder "$tmpfile" -e english-extended.txt <<<"${result}")"
+##! rm -f "$tmpfile" english-extended.txt
 ##! result=""
 ##! while read -r oword; do
 ##!   found=0
@@ -90,6 +93,7 @@ agetty
 alias@
 alpine@
 ansible
+apparmor_~
 apt-get
 aptitude@
 arch@
@@ -100,9 +104,12 @@ ascii-xfr
 ascii85
 aspell
 atobm@
+auditctl
+aurepot
+ausearch
 axel@
 base32
-base64
+base64@
 basename@
 basenc
 bash@
@@ -111,6 +118,7 @@ blkid@
 bpftrace
 breaksw
 bridge@
+brwap@
 bsdcat
 bsdiff
 bsdtar
@@ -136,6 +144,10 @@ c89-gcc
 c99-gcc
 cancel@
 capsh@
+cargo@
+cargo-audit
+cargo-miri
+cargo-watch
 certbot
 chattr@
 chdir@
@@ -157,8 +169,9 @@ chown@
 chpass
 chroot@
 chsh@
-clang@
 clang\+\+
+clang@
+clippy-driver
 cobc@
 cobcrun
 column@
@@ -189,8 +202,8 @@ dmesg@
 dmidecode
 dmsetup
 doas@
-docker@
 docker-
+docker@
 done@
 dosbox
 dpkg-
@@ -237,6 +250,7 @@ gawk@
 gcore@
 genie@
 genisoimage
+getcap
 getfacl@
 ghc-@
 ghci-
@@ -245,7 +259,6 @@ gimp@
 ginsh@
 grcat@
 grep@
-group@
 groupmod
 gtester
 gunzip
@@ -287,8 +300,8 @@ knife@
 ksshell
 last@
 lastcomm@
-lastlog
-lastlogin
+lastlog@
+lastlogin@
 latex@
 ldconfig
 less@
@@ -338,7 +351,6 @@ mail@
 mailq@
 mailx@
 make@
-master\.passwd
 mawk@
 mkdir@
 mkfifo
@@ -381,7 +393,6 @@ nroff@
 nsenter
 nslookup
 nstat@
-null@
 octave@
 onintr
 openssl
@@ -394,8 +405,8 @@ passwd
 paste@
 patch@
 pdb2mb
-pdb3@
 pdb3\.
+pdb3@
 pdflatex
 pdftex
 pdksh@
@@ -404,6 +415,7 @@ perl5@
 perl@
 perlsh
 perms@
+piconv
 pftp@
 pgrep@
 php-cgi
@@ -412,6 +424,7 @@ php7@
 pico@
 pidstat
 pigz@
+ping6@
 ping@
 pkexec
 pkg_info
@@ -428,7 +441,6 @@ ptardiff
 ptargrep
 puppet@
 pushd@
-pwd\.db
 py3versions
 python2
 python3
@@ -438,8 +450,8 @@ rake@
 raku@
 rbash@
 readelf
-reboot@
 realpath
+reboot@
 redcarpet@
 rename@
 repeat@
@@ -448,6 +460,8 @@ restic
 rlogin
 rlwrap
 rmdir@
+rmt-dump
+rmt-tar
 rmuser
 rnano@
 route@
@@ -459,6 +473,14 @@ rsync@
 ruby~
 run-mailcap
 run-parts
+runc@
+rust-analyzer
+rust-gdb
+rust-lldb
+rustc@
+rustdoc
+rustfmt
+rustup
 rview@
 rvim@
 sash@
@@ -469,13 +491,13 @@ sdiff@
 sendmail@
 service@
 setarch
+setcap
 setenv
 setfacl@
 setsid
 sftp@
 sh\.distrib
-shadow@
-shells@
+shred@
 shuf@
 shutdown@
 sleep@
@@ -487,16 +509,15 @@ soelim
 sort@
 source@
 split@
-spwd\.db
 sqlite3
+ssh-add
+ssh-agent
+ssh-copy-id
 ssh-keygen
 ssh-keyscan
 sshpass
 start-stop-daemon
 stdbuf
-stderr
-stdin@
-stdout
 strace
 strings@
 sudo-rs
@@ -536,11 +557,13 @@ tmux@
 touch@
 traceroute
 traceroute6
+trap@
 troff@
 tshark
 ulimit@
 uname@
 uncompress@
+uconv
 unexpand
 uniq@
 unlink@
@@ -600,7 +623,6 @@ zcat@
 zcmp@
 zdiff@
 zegrep
-zero@
 zfgrep
 zgrep@
 zipcloak

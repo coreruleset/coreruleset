@@ -83,3 +83,36 @@ tests:
         output:
           log:
             expect_ids: [932280]
+  - test_id: 6
+    desc: "Bash Brace expansion - {id,}"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?932280-6=%7Bid%2C%7D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932280]
+  - test_id: 7
+    desc: 'GHSA: 932280 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="&#x7B;l,-lh&#x7D;s"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932280]

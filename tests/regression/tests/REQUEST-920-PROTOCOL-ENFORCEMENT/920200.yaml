@@ -18,23 +18,7 @@ tests:
         output:
           log:
             expect_ids: [920200]
-  - # Sample taken from https://github.com/alienwithin/php-utilities/blob/master/apache-byte-range-server-dos/apache_byte_range_server_dos.php
-    test_id: 2
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Request-Range: "bytes=5-0,1-1,2-2,3-3,4-4,5-5,6-6,7-7,8-8,9-9,10-10,11-11"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: "/"
-          version: "HTTP/1.1"
-        output:
-          log:
-            expect_ids: [920200]
-  - test_id: 3
+  - test_id: 2
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -49,7 +33,7 @@ tests:
         output:
           log:
             no_expect_ids: [920200]
-  - test_id: 4
+  - test_id: 3
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -64,7 +48,7 @@ tests:
         output:
           log:
             expect_ids: [920200]
-  - test_id: 5
+  - test_id: 4
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -79,7 +63,7 @@ tests:
         output:
           log:
             expect_ids: [920200]
-  - test_id: 6
+  - test_id: 5
     desc: 'Range: Too many fields (920200) from old modsec regressions'
     stages:
       - input:
@@ -100,7 +84,7 @@ tests:
         output:
           log:
             expect_ids: [920200]
-  - test_id: 7
+  - test_id: 6
     desc: This should PASS (PL2)
     stages:
       - input:
@@ -117,7 +101,7 @@ tests:
         output:
           log:
             no_expect_ids: [920200]
-  - test_id: 8
+  - test_id: 7
     desc: "This should FAIL with rule 920200 (PL2)"
     stages:
       - input:
@@ -134,7 +118,7 @@ tests:
         output:
           log:
             expect_ids: [920200]
-  - test_id: 9
+  - test_id: 8
     desc: This should PASS (PL2)
     stages:
       - input:
@@ -151,7 +135,7 @@ tests:
         output:
           log:
             no_expect_ids: [920200]
-  - test_id: 10
+  - test_id: 9
     desc: This should PASS (PL2)
     stages:
       - input:

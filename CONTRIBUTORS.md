@@ -30,6 +30,16 @@
 
 ## Contributors:
 
+- [Prateeksaini12](https://github.com/Prateeksaini12)
+- [zoutjebot](https://github.com/zoutjebot)
+- [etiennemunnich](https://github.com/etiennemunnich)
+- [securestep9](https://github.com/securestep9)
+- [HackingRepo](https://github.com/HackingRepo)
+- [disisto](https://github.com/disisto)
+- [touchweb-vincent](https://github.com/touchweb-vincent)
+- [Elnadrion](https://github.com/Elnadrion)
+- [pha6d](https://github.com/pha6d)
+- [KIC-8462852](https://github.com/KIC-8462852)
 - [Muhammad Ayman](https://github.com/TheRubick)
 - [Thibault Soubiran](https://github.com/S0obi)
 - [OhMyVolk](https://github.com/OhMyVolk)
