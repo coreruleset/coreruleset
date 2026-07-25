@@ -551,7 +551,7 @@ tests:
           log:
             expect_ids: [932239]
   - test_id: 32
-    desc: "Block evasion using here string with single quotes"
+    desc: "Block evasion using here string with single quote"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -970,6 +970,106 @@ tests:
           port: 80
           uri: "/post"
           version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932239]
+  - test_id: 58
+    desc: "Block execution of CrowdSec cscli with single quote evasion"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "'cscli' alerts list"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932239]
+  - test_id: 59
+    desc: "Block execution of CrowdSec cscli with quotes evasion"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: '"cscli alerts list"'
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932239]
+  - test_id: 60
+    desc: Don't match on non-command word quotes
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Referer: '"aaaaaaaaaaaaaaaa"'
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932239]
+  - test_id: 61
+    desc: Don't match on non-command word in single quote
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Referer: "'aaaaaaaaaaaaaaaa'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932239]
+  - test_id: 62
+    desc: |
+      Don't match on natural english sentences in quotes
+      ;"The quick brown fox jumped over the lazy dog"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Referer: "%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932239]
+  - test_id: 63
+    desc: |
+      Don't match on natural english sentences in single quote
+      ;'The quick brown fox jumped over the lazy dog'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Referer: "'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'"
+          version: "HTTP/1.1"
         output:
           log:
             no_expect_ids: [932239]
