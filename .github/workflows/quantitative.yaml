@@ -94,6 +94,18 @@ jobs:
           path: ~/.ftw/*.txt
           key: ${{ matrix.language }}_news_${{ matrix.year }}_${{ matrix.size }}-sentences.txt
 
+      # Metrics glossary (see go-ftw's internal/quantitative/stats.go for the
+      # authoritative definitions):
+      # - count / "Payloads run": corpus payloads actually sent (excludes skipped).
+      # - falsePositives / "Total false positives": a rule-HIT count — one
+      #   payload that trips 3 different rules contributes 3 here.
+      # - falsePositiveSentences / "False positive sentences": distinct
+      #   payloads with at least one hit, counted once regardless of how many
+      #   rules fired on them. Can equal "Payloads run" even when most rules
+      #   only hit a small fraction, if some other single rule already fires
+      #   on every payload (common at PL3/PL4).
+      # - falsePositiveTotalsPerParanoiaLevel: CUMULATIVE per level (PLn
+      #   includes PL1..PLn), not the count at that level alone.
       - name: "Run quantitative tests for language: ${{ matrix.language }}, year: ${{ matrix.year}}, size: ${{ matrix.size }}, all paranoia levels"
         id: quantitative
         if: steps.detect-behavior-change.outputs.behavior_changed == 'true'
@@ -129,15 +141,26 @@ jobs:
             echo
             echo "| Metric | main | this PR |"
             echo "|--------|------|---------|"
-            echo "| Payloads run | $(jq -r '.baseline.corpusSize' results.json) | $(jq -r '.current.corpusSize' results.json) |"
+            echo "| Payloads run | $(jq -r '.baseline.count' results.json) | $(jq -r '.current.count' results.json) |"
+            echo "| Skipped payloads | $(jq -r '.baseline.skipped' results.json) | $(jq -r '.current.skipped' results.json) |"
             echo "| Total false positives | $(jq -r '.baseline.falsePositives' results.json) | $(jq -r '.current.falsePositives' results.json) |"
             echo "| False positive sentences | $(jq -r '.baseline.falsePositiveSentences' results.json) | $(jq -r '.current.falsePositiveSentences' results.json) |"
+            echo
+            echo "<sub>"
+            echo "\"Payloads run\" is the corpus sample tested (denominator for the ratios below)."
+            echo "\"Total false positives\" is a rule-hit count — one payload can trip more than one rule."
+            echo "\"False positive sentences\" counts each payload once, no matter how many rules it tripped;"
+            echo "it can equal \"payloads run\" even when most individual rules only hit a small fraction of them,"
+            echo "if some other single rule already fires on every payload (common at PL3/PL4)."
+            echo "</sub>"
             echo
             echo "| Paranoia level | main | this PR |"
             echo "|----------------|------|---------|"
             for pl in 1 2 3 4; do
               echo "| PL$pl | $(jq -r ".baseline.falsePositiveTotalsPerParanoiaLevel[\"$pl\"]" results.json) | $(jq -r ".current.falsePositiveTotalsPerParanoiaLevel[\"$pl\"]" results.json) |"
             done
+            echo
+            echo "<sub>cumulative totals: PL\$n includes false positives from PL1..PL\$n.</sub>"
 
             NEWLY_FIRING=$(jq -r '.regressions.newlyFiringRules | to_entries | length' results.json)
             if [ "$NEWLY_FIRING" -gt 0 ]; then
