@@ -3,15 +3,23 @@
 
 ##!+ i
 
+##! not_equal ([^=]{1,10} -> [^=]+) and the dot-run before a unary operator
+##! (.{1,20} -> .+) are intentionally unbounded: both are followed by a
+##! required terminator (a closing quote, or a unary operator), so a length
+##! cap there let an attacker bypass detection just by padding the literal
+##! past the cap. The bare \d{1,10} lines are left bounded: they have no
+##! required trailing anchor, so they already match on any 1-10-digit prefix
+##! regardless of what follows, and the cap was never a bypass vector there.
+
 \bor\b\s?\d{1,10}\s?[=<>]+
-\bor\b\s?[\'\"][^=]{1,10}[\'\"]\s?[=<>]+
-'\s+or\s+.{1,20}[+\-!<>=]
-'\s+xor\s+.{1,20}[+\-!<>=]
+\bor\b\s?[\'\"][^=]+[\'\"]\s?[=<>]+
+'\s+or\s+.+[+\-!<>=]
+'\s+xor\s+.+[+\-!<>=]
 \bor\b\s+\d{1,10}
-\bor\b\s+'[^=]{1,10}'
+\bor\b\s+'[^=]+'
 \bxor\b\s+\d{1,10}
-\bxor\b\s+'[^=]{1,10}'
+\bxor\b\s+'[^=]+'
 \bor\b\s+\d{1,10}\s*?[=<>]
 \bxor\b\s+\d{1,10}\s*?[=<>]
-\bor\b\s+'[^=]{1,10}'\s*?[=<>]
-\bxor\b\s+'[^=]{1,10}'\s*?[=<>]
+\bor\b\s+'[^=]+'\s*?[=<>]
+\bxor\b\s+'[^=]+'\s*?[=<>]
