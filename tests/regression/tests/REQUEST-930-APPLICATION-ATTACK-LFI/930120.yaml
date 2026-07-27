@@ -306,3 +306,19 @@ tests:
         output:
           log:
             expect_ids: [930120]
+  - test_id: 18
+    desc: "True positive: detect access to files inside node_modules directory"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?file=node_modules/some-package/package.json"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [930120]
