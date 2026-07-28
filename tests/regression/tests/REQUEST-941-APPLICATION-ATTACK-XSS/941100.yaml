@@ -119,3 +119,35 @@ tests:
         output:
           log:
             expect_ids: [941100]
+  - test_id: 8
+    desc: 'Unicode best-fit %uXXXX XSS: U+00AB/U+00BB guillemets fold to angle brackets'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: '/?id=%u00abscript%u00bballert(1)%u00ab/script%u00bb'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941100]
+  - test_id: 9
+    desc: 'Unicode best-fit %uXXXX XSS: U+2039/U+203A single guillemets fold to angle brackets'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: '/?id=%u2039script%u203aalert(1)%u2039/script%u203a'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941100]
