@@ -19,7 +19,7 @@
 ##!
 ##! # Split restricted-files.data into substring matches and non substring matches,
 ##! # [a-z0-9] and dot files without trailing slash tend to cause false positives based
-##! on historial false positive reports.
+##! #on historical false positive reports.
 ##! non_substring_matches="$(echo "${restricted_files}" | grep -E '^\.?\w+[^/_]{1}$' )"
 ##! substring_matches="$(echo "${restricted_files}"| grep -vE '^\.?\w+[^/_]{1}$' )"
 ##!
