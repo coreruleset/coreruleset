@@ -1,40 +1,88 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
-  description: None
-  enabled: true
-  name: 942280.yaml
+  author: "Christian S.J. Peron, azurit"
+rule_id: 942280
 tests:
-  - test_title: 942280-1
+  - test_id: 1
     desc: "Postgres pg_sleep injection, waitfor delay attacks and database shutdown attempts"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/?var=select%20pg_sleep"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942280"
-  - test_title: 942280-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=select%20pg_sleep"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942280]
+  - test_id: 2
     desc: "SQL Server waitfor delay attack"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/"
-            data: "var=\"tester@coreruleset.org\"' waitfor delay'0:0:20'--"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942280
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=\"tester@coreruleset.org\"' waitfor delay'0:0:20'--"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942280]
+  - test_id: 3
+    desc: "SQL Server waitfor delay attack - Referer"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://www.example.com/search?hl=en&q=testing-1 waitfor delay '0:0:15' --"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942280]
+  - test_id: 4
+    desc: "SQL Server waitfor delay attack - User-Agent"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36-1 waitfor delay '0:0:15' --"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942280]
+  - test_id: 5
+    desc: 'GHSA: 942280 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="select pg_sleep"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [942280]

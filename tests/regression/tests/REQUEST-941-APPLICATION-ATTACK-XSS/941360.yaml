@@ -1,58 +1,76 @@
 ---
 meta:
-  author: "Christian Folini"
-  description: None
-  enabled: true
-  name: 941360.yaml
+  author: "Christian Folini, azurit"
+rule_id: 941360
 tests:
-  - test_title: 941360-1
+  - test_id: 1
     desc: "JSFuck / Hieroglyphy payload obfuscation attack"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            data: "a=[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]][([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]+(!![]+[])[+[]]+(![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]]+[+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]])()"
-            # Payload represents "alert(1)" in JSFuck encoding
-            version: HTTP/1.1
-          output:
-            log_contains: id "941360"
-  - test_title: 941360-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "a=[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]][([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]+(!![]+[])[+[]]+(![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]]+[+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]])()"
+          # Payload represents "alert(1)" in JSFuck encoding
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941360]
+  - test_id: 2
     desc: "JSFuck / Hieroglyphy payload obfuscation attack"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            data: "a=(![]+[])[+!+[]]"
-            # Payload represents "a" in JSFuck / Hieroglyphy encoding
-            version: HTTP/1.1
-          output:
-            log_contains: id "941360"
-  - test_title: 941360-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "a=(![]+[])[+!+[]]"
+          # Payload represents "a" in JSFuck / Hieroglyphy encoding
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941360]
+  - test_id: 3
     desc: "JSFuck / Hieroglyphy payload obfuscation attack"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            data: "a=+!![]"
-            # Payload represents "1" in JSFuck / Hieroglyphy encoding
-            version: HTTP/1.1
-          output:
-            log_contains: id "941360"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "a=+!![]"
+          # Payload represents "1" in JSFuck / Hieroglyphy encoding
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941360]
+  - test_id: 4
+    desc: 'GHSA: 941360 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="[][(![] [])[ []] ([![]] [][[]])[ ! [] [ []]] (![] [])[! [] ! []] (!![] [])[ []] (!![] [])[! [] ! [] ! []] (!![] [])[ ! []]][([][(![] [])[ []] ([![]] [][[]])[ ! [] [ []]] (![] [])[! [] ! []] (!![] [])[ []] (!![] [])[! [] ! [] ! []] (!![] [])[ ! []]] [])[! [] ! [] ! []] (!![] [][(![] [])[ []] ([![]] [][[]])[ ! [] [ []]] (![] [])[! [] ! []] (!![] [])[ []] (!![] [])[! [] ! [] ! []] (!![] [])[ ! []]])[ ! [] [ []]] ([][[]] [])[ ! []] (![] [])[! [] ! [] ! []] (!![] [])[ []] (!![] [])[ ! []] ([][[]] [])[ []] ([][(![] [])[ []] ([![]] [][[]])[ ! [] [ []]] (![] [])[! [] ! []] (!![] [])[ []] (!![] [])[! [] ! [] ! []] (!![] [])[ ! []]] [])[! [] ! [] ! []] (!![] [])[ []] (!![] [][(![] [])[ []] ([![]] [][[]])[ ! [] [ []]] (![] [])[! [] ! []] (!![] [])[ []] (!![] [])[! [] ! [] ! []] (!![] [])[ ! []]])[ ! [] [ []]] (!![] [])[ ! []]]((![] [])[ ! []] (![] [])[! [] ! []] (!![] [])[! [] ! [] ! []] (!![] [])[ ! []] (!![] [])[ []] (![] [][(![] [])[ []] ([![]] [][[]])[ ! [] [ []]] (![] [])[! [] ! []] (!![] [])[ []] (!![] [])[! [] ! [] ! []] (!![] [])[ ! []]])[! [] ! [] [ []]] [ ! []] (!![] [][(![] [])[ []] ([![]] [][[]])[ ! [] [ []]] (![] [])[! [] ! []] (!![] [])[ []] (!![] [])[! [] ! [] ! []] (!![] [])[ ! []]])[! [] ! [] [ []]])()"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [941360]

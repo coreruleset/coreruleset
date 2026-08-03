@@ -7,7 +7,7 @@ import base64
 
 parser = argparse.ArgumentParser()
 
-UserAgent="ModSecurity CRS 3 Tests"
+UserAgent="OWASP CRS test agent"
 Accept="text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
 AcceptCharset="ISO-8859-1,utf-8;q=0.7,*;q=0.7"
 AcceptEncoding="gzip,deflate"
@@ -18,8 +18,6 @@ skeletontest=0
 Meta='''---
   meta:
     author: "spartantri"
-    enabled: true
-    name: "skeletonid.yaml"
     description: "Positive tests for rule skeletonid"
   tests:
 '''

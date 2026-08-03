@@ -1,23 +1,39 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
-  description: None
-  enabled: true
-  name: 941320.yaml
+  author: "Christian S.J. Peron, azurit"
+rule_id: 941320
 tests:
-  - test_title: 941320-1
+  - test_id: 1
     desc: "XSS Attack - HTML Tag Handler"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            data: "var=<noscript#"
-            version: HTTP/1.0
-          output:
-            log_contains: id "941320"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=<noscript#"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941320]
+  - test_id: 2
+    desc: 'GHSA: 941320 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="&lt;noscript#"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [941320]

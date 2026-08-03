@@ -1,74 +1,171 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Franziska Bühler"
-  description: None
-  enabled: true
-  name: 942350.yaml
+  author: "Christian S.J. Peron, Franziska Bühler, azurit, touchweb_vincent"
+rule_id: 942350
 tests:
-  - test_title: 942350-1
+  - test_id: 1
     desc: "MySQL UDF injection and other data/structure manipulation"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            # ; insert INTO table (word) VALUES('dfsd')
-            uri: "/?var=%3bINSERT%20INTO%20table%20%28col%29%20VALUES"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942350"
-  - test_title: 942350-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # ; insert INTO table (word) VALUES('dfsd')
+          uri: "/get?var=%3bINSERT%20INTO%20table%20%28col%29%20VALUES"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942350]
+  - test_id: 2
     desc: "Fix for FP reported in GitHub issue 1587"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            # ;insertion_424242
-            uri: "/?var=%3Binsertion_424242"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "942350"
-  - test_title: 942350-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # ;insertion_424242
+          uri: "/get?var=%3Binsertion_424242"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942350]
+  - test_id: 3
     desc: "MySQL create function injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            # CREATE FUNCTION hello (s CHAR(20)) RETURNS CHAR(50) DETERMINISTIC RETURN CONCAT('Hello, ',s,'!');
-            uri: "/?var=CREATE+FUNCTION+hello+%28s+CHAR%2820%29%29+RETURNS+CHAR%2850%29+DETERMINISTIC+RETURN+CONCAT%28%27Hello%2C+%27%2Cs%2C%27%21%27%29%3B"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942350"
-  - test_title: 942350-4
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # CREATE FUNCTION hello (s CHAR(20)) RETURNS CHAR(50) DETERMINISTIC RETURN CONCAT('Hello, ',s,'!');
+          uri: "/get?var=CREATE+FUNCTION+hello+%28s+CHAR%2820%29%29+RETURNS+CHAR%2850%29+DETERMINISTIC+RETURN+CONCAT%28%27Hello%2C+%27%2Cs%2C%27%21%27%29%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942350]
+  - test_id: 4
     desc: "Status Page Test - MySQL injection with ;truncate[xx"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/?test=;truncate[xx"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942350"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?test=;truncate[xx"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942350]
+  - test_id: 5
+    desc: "Status Page Test - MySQL injection with REPLACE"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # REPLACE/*test*/test/*test*/(id, name) VALUES (1, 'test');
+          uri: "/get?test=;RePLAcE%2F%2Atest%2A%2Ftest%2F%2Atest%2A%2F%28id%2C%20name%29%20VALUES%20%281%2C%20%27test%27%29%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942350]
+  - test_id: 6
+    desc: "Status Page Test - MySQL injection with DROP TABLE"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          # DROP TABLE/*test*/test;
+          uri: "/get?test=;DROP%2F%2Atest%2A%2FTABLE+test%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942350]
+  - test_id: 7
+    desc: "MySQL insert function injection with comment"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?test=1%3BINSERT%20%2F%2Atest%2A%2FINTO%20category%28id%29%20VALUES%20%283%29--%20-"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942350]
+  - test_id: 8
+    desc: "MySQL insert function injection with comment"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?test=mod(1,2)%3BINSERT%20%2F%2Atest%2A%2FINTO%20category%28id%29%20VALUES%20%283%29--%20-"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942350]
+  - test_id: 9
+    desc: "MySQL insert function injection with comment evasion - cannot be catched by this rule - see 942500"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?test=%2F%2A%27%3BINSERT%20INTO%20category%28id%29%20VALUES%20%283%29--%20-%2A%2F"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942350]
+  - test_id: 10
+    desc: 'GHSA: 942350 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe=";INSERT INTO table (col) VALUES"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [942350]

@@ -1,41 +1,74 @@
 ---
 meta:
-  author: "Xhoenix"
+  author: "Xhoenix, azurit"
   description: MySQL Scientific Notation bypass payloads Detection
-  enabled: true
-  name: 942560.yaml
+rule_id: 942560
 tests:
-  - test_title: 942560-1
+  - test_id: 1
     desc: "Positive test for Scientific Notation in MySQL, e.g 1.e("
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/"
-            data: "email=1.e(ascii+1.e(substring(1.e(select+password+from+users+limit+1+1.e,1+1.e)+1.e,1+1.e,1+1.e)1.e)1.e)+=+70+or'1'='2"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942560"
-  - test_title: 942560-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          data: "email=1.e(ascii+1.e(substring(1.e(select+password+from+users+limit+1+1.e,1+1.e)+1.e,1+1.e,1+1.e)1.e)1.e)+=+70+or'1'='2"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942560]
+  - test_id: 2
     desc: "Status Page Test - simplified positive test for Scientific Notation in MySQL, e.g 1.e("
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            uri: "/post"
-            data: "foo=1.e(ascii)"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942560"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=1.e(ascii)"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942560]
+  - test_id: 3
+    desc: "Status Page Test - simplified positive test for Scientific Notation in MySQL, e.g 1.e.tables"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=1.e.tables"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942560]
+  - test_id: 4
+    desc: 'GHSA: 942560 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="1.e(ascii 1.e(substring(1.e(select password from users limit 1 1.e,1 1.e) 1.e,1 1.e,1 1.e)1.e)1.e) = 70 or''1''=''2"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [942560]

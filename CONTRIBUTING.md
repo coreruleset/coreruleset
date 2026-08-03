@@ -234,6 +234,53 @@ Lazy and greedy matching change the order in which a regular expression engine p
 
 Possessive quantifiers (e.g., `x++`) and atomic groups (e.g., `(?>x)`) are tools that can be used to prevent a backtracking engine from backtracking. They _can_ be used for performance optimization but are only supported by backtracking engines and, therefore, are not permitted in CRS rules.
 
+### Avoiding Catastrophic Backtracking (Ambiguity)
+
+CRS cannot use possessive quantifiers (e.g., `++`, `?+`) or atomic groups (also known as possessive groups, e.g., `(?>ab|cd)`) to bound backtracking, because neither are supported by RE2. Therefore, the only defense against catastrophic backtracking is to write expressions that are not ambiguous in the first place. The root cause of catastrophic backtracking is **ambiguity, not greediness**: it happens when a quantified group (i.e., a group with a quantifier, e.g., `(?:...)+`) can match the same input in more than one way, and a later part of the expression fails to match. The engine is then forced to try every possible split before giving up. Switching greedy quantifiers to lazy ones (e.g., `+?` instead of `+`) does _not_ fix this — it only changes the order in which the splits are tried.
+
+The principle to follow is: **inside a quantified group, every input character should be consumable by exactly one branch (and one position), and any given run of whitespace should be consumable in exactly one place.** Two shapes commonly violate this:
+
+* A bare whitespace branch (`\s`) placed next to a branch whose body also matches whitespace, for example line comments (`#.*`, `//.*`) or block comments (`/\*.*\*/`). The same space or tab can be matched either by the `\s` branch or by the comment body, so every whitespace character doubles the number of paths to explore.
+* A token wrapped in `\s*` on _both_ sides inside a repeated group, for example `(?:\s*\(\s*)*`, especially when the group is itself surrounded by `\s*` separators. The trailing `\s*` of one iteration and the leading `\s*` of the next overlap on the same whitespace.
+
+For example, this suffix (matching optional whitespace and PHP comments before a `(`) is ambiguous, because the `\s` branch overlaps the comment bodies:
+
+```python
+(?:\s|/\*.*\*/|(?:#|//).*)*\(.*\)
+```
+
+The de-ambiguated version uses the "unrolling-the-loop" form for block comments, so that whitespace inside a comment can only be consumed by the comment branch, and requires line comments to terminate at a line break (a `#` or `//` comment before `(` is only reachable across a newline):
+
+```python
+(?:\s|/\*[^*]*\*+(?:[^/*][^*]*\*+)*/|(?:#|//)[^\n\r]*[\n\r])*\(.*\)
+```
+
+The block-comment branch `/\*[^*]*\*+(?:[^/*][^*]*\*+)*/` is the "unrolling-the-loop" technique described by Jeffrey Friedl in [_Mastering Regular Expressions_](https://www.oreilly.com/library/view/mastering-regular-expressions/0596528124/) (O'Reilly). It replaces the ambiguous `/\*.*\*/` with an equivalent that matches the comment body in exactly one way. Read part by part:
+
+* `/\*` — the literal `/*` opener.
+* `[^*]*` — a run of characters that are not `*` (the bulk of the comment body).
+* `\*+` — one or more `*` (a candidate closer).
+* `(?:[^/*][^*]*\*+)*` — zero or more repeats of: a character that is _neither_ `/` nor `*` (so the preceding `*`s were not the closer), then more non-`*` characters, then one or more `*` again.
+* `/` — the literal `/` that finally closes the comment.
+
+Because every position is consumable by exactly one part, the engine never has two ways to match the same comment, so there is nothing to backtrack over. The general pattern — `START [^Q]* Q+ (?:[^EQ] [^Q]* Q+)* END` — applies to any "delimited block" construct, not just C-style comments, where:
+
+* `Q` is the inner terminator character — the character that signals a *candidate* end of the block (`*` here).
+* `E` is the closing-delimiter character that, following a run of `Q`, actually ends the block (`/` here; it is the same character as `END`).
+
+So `[^EQ]` matches a character that neither closes the block (`E`) nor extends the run of `Q`, which is what makes the preceding `Q+` unambiguously "not the closer".
+
+When checking an expression for catastrophic backtracking, two points specific to CRS are worth keeping in mind:
+
+* **Test with `.` matching newlines (DOTALL).** ModSecurity runs `@rx` patterns in DOTALL mode, so `.` matches newline characters. A `.+` or `.*` therefore consumes newlines and whitespace, which feeds backtracking. A quick test in an engine or checker that does _not_ enable DOTALL (the default in many tools, including [devina.io](https://devina.io/redos-checker)) can under-report the problem.
+* **The meaningful signal is whether PCRE/PCRE2 actually exceeds its backtracking limit, not whether a checker reports theoretical "exponential" complexity.** RE2 is immune to ReDoS, and PCRE2's optimizer (for example, scanning for a required literal that is absent) tames many theoretically-ambiguous expressions. However, when PCRE2 _does_ exceed its backtracking limit, it returns an error rather than a result — which makes the rule fail to match (a potential bypass) while still consuming CPU. That outcome is more serious than a merely slow match and should be treated accordingly.
+
+### Curly braces
+
+Curly braces are used for repetition quantifiers (`{m}`, `{m,}`, `{m,n}`). When a brace is intended as a literal character, especially an opening brace, it must be escaped (`\{`) so it is not parsed as the start of a quantifier. Some regex engines treat an unescaped `{` that does not form a valid quantifier as a syntax error rather than a literal.
+
+Inside character classes (`[...]`), braces are literal characters and must not be escaped, as escaping is unnecessary and may reduce readability or portability.
+
 ### Writing Regular Expressions for Non-Backtracking Compatibility
 
 Traditional regular expression engines use backtracking to solve some additional problems, such as finding a string that is preceded or followed by another string. While this functionality can certainly come in handy and has its place in certain applications, it can also lead to performance issues and, in uncontrolled environments, open up possibilities for attacks (the term "[ReDoS](https://en.wikipedia.org/wiki/ReDoS)" is often used to describe an attack that exhausts process or system resources due to excessive backtracking).
@@ -268,7 +315,7 @@ Optimizing regular expressions is hard. Often, a change intended to improve the 
 mailto|mms|mumble|maven
 ```
 
-An optimized version (produced by the [crs-toolchain]({{< ref "crs_toolchain" >}})) could look like this:
+An optimized version (produced by the [crs-toolchain](https://github.com/coreruleset/crs-toolchain)) could look like this:
 
 ```python
 m(?:a(?:ilto|ven)|umble|ms)
@@ -276,7 +323,7 @@ m(?:a(?:ilto|ven)|umble|ms)
 
 The above expression is an optimization because it reduces the number of backtracking steps when a branch fails. The regular expressions in the CRS are often comprised of lists of tens or even hundreds of words. Reading such an expression in an optimized form is difficult: even the _simple_ optimized example above is difficult to read.
 
-In general, contributors should not try to optimize contributed regular expressions and should instead strive for clarity. New regular expressions will usually be required to be submitted as a `.ra` file for the [crs-toolchain]({{< ref "crs_toolchain" >}}) to process. In such a file, the regular expression is decomposed into individual parts, making manual optimizations much harder or even impossible (and unnecessary with the `crs-toolchain`). The `crs-toolchain` performs some common optimizations automatically, such as the one shown above.
+In general, contributors should not try to optimize contributed regular expressions and should instead strive for clarity. New regular expressions will usually be required to be submitted as a `.ra` file for the [crs-toolchain](https://github.com/coreruleset/crs-toolchain) to process. In such a file, the regular expression is decomposed into individual parts, making manual optimizations much harder or even impossible (and unnecessary with the `crs-toolchain`). The `crs-toolchain` performs some common optimizations automatically, such as the one shown above.
 
 Whether optimizations make sense in a contribution is assessed for each case individually.
 
@@ -363,7 +410,7 @@ Rule tests also provide an excellent way to test WAF engines and implementations
 
 The rule tests are located under `tests/regression/tests`. Each CRS rule *file* has a corresponding *directory* and each individual *rule* has a corresponding *YAML file* containing all the tests for that rule. For example, the tests for rule 911100 *(Method is not allowed by policy)* are in the file `REQUEST-911-METHOD-ENFORCEMENT/911100.yaml`.
 
-Full documentation of the required formatting and available options of the YAML tests can be found at https://github.com/coreruleset/ftw/blob/main/docs/YAMLFormat.md.
+Full documentation of the required formatting and available options of the YAML tests can be found in the SPECs at https://github.com/coreruleset/ftw-tests-schema/tree/main/spec. Be aware that the spec is evolving and the latest versions will be supported by the latest versions of the test engine.
 
 Documentation on how to run the CRS test suite can be found in the [online documentation](https://coreruleset.org/docs/development/testing/).
 
@@ -372,23 +419,23 @@ Documentation on how to run the CRS test suite can be found in the [online docum
 Example of a simple *positive test*:
 
 ```yaml
-- test_title: 932230-26
+- test_id: 26
   desc: "Unix command injection"
   stages:
-    - stage:
-        input:
-          dest_addr: 127.0.0.1
-          headers:
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "var=` /bin/cat /etc/passwd`"
-          version: HTTP/1.1
-        output:
-          log_contains: id "932230"
+    - input:
+        dest_addr: 127.0.0.1
+        headers:
+          Host: localhost
+          User-Agent: "OWASP CRS test agent"
+          Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+        method: POST
+        port: 80
+        uri: "/post"
+        data: "var=` /bin/cat /etc/passwd`"
+        version: HTTP/1.1
+      output:
+        log:
+          expect_ids: [932230]
 ```
 
 This test will succeed if the log output contains `id "932230"`, which would indicate that the rule in question matched and generated an alert.
@@ -402,21 +449,21 @@ The rule's description field, `desc`, is important. It should describe what is b
 Example of a simple *negative test*:
 
 ```yaml
-- test_title: 932260-4
+- test_id: 4
   stages:
-    - stage:
-        input:
-          dest_addr: "127.0.0.1"
-          method: "POST"
-          port: 80
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          data: 'foo=ping pong tables'
-          uri: '/post'
-        output:
-          no_log_contains: id "932260"
+    - input:
+        dest_addr: "127.0.0.1"
+        method: "POST"
+        port: 80
+        headers:
+          User-Agent: "OWASP CRS test agent"
+          Host: "localhost"
+          Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+        data: 'foo=ping pong tables'
+        uri: '/post'
+      output:
+        log:
+          no_expect_ids: [932260]
 ```
 
 This test will succeed if the log output does **not** contain `id "932260"`, which would indicate that the rule in question did **not** match and so did **not** generate an alert.
@@ -442,19 +489,23 @@ The older method of using `raw_request` is deprecated as it's difficult to maint
 
 ### Using The Correct HTTP Endpoint
 
-The CRS project uses [kennthreitz/httpbin](https://hub.docker.com/r/kennethreitz/httpbin) as the backend server for tests. This backend provides one dedicated endpoint for each HTTP method. Tests should target these endpoints to:
+The CRS project uses [albedo](https://github.com/coreruleset/albedo) as the backend server for tests. Albedo is a simple HTTP server used as a reverse-proxy backend in testing web application firewalls (WAFs).
 
 - improve test throughput (prevent HTML from being returned by the backend)
 - add automatic HTTP method verification (the backend will respond with status code `405` (method not allowed) to requests whose method does not match the endpoint)
+
+These are the supported endpoints by albedo: https://github.com/coreruleset/albedo/?tab=readme-ov-file#endpoints
 
 Test URIs should be structured as follows, where `<method>` must be replaced by the name of the HTTP method the test uses:
 
 ```yaml
 #...
           method: <method>
-          uri: /<method>/some/arbitrary/url
+          uri: /<your url>
 #...
 ```
+
+If you are writing a test for a response rule, take a look at the `/reflect` endpoint on how to use it.
 
 ## Further Guidance on Rule Writing
 
@@ -467,4 +518,4 @@ Former versions of CRS dynamically included the HTTP response body in the audit 
 * Remove trailing spaces from files (if they're not needed). This will make linters happy.
 * EOF should have an EOL.
 
-The `pre-commit` framework can be used to check for and fix these issues automatically. First, go to the [pre-commit](https://pre-commit.com/) website and download the framework. Then, after installing, use the command `pre-commit install` so that the tools are installed and run each time a commit is made. CRS provides a config file that will keep the repository clean.
+The `pre-commit` framework can be used to check for and fix these issues automatically. First, go to the [pre-commit](https://pre-commit.com/) website and download the framework. Then, after installing, use the command `pre-commit install` so that the tools are installed and run each time a commit is made. CRS provides a config file that will keep the repository clean. We are also running `pre-commit` in our pipeline, so it will catch common errors.

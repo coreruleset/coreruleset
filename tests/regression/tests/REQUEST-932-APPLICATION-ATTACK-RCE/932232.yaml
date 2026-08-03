@@ -1,129 +1,215 @@
 ---
 meta:
-  author: "Franziska Bühler"
+  author: "Franziska Bühler, azurit, Esad Cetiner"
   description: "Remote Command Execution: Unix Command Injection"
-  enabled: true
-  name: 932232.yaml
+rule_id: 932232
 tests:
-  - test_title: 932232-1
-    desc: "/?arg=;ps"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Host: localhost
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: /?arg=%3Bps
-            version: HTTP/1.0
-          output:
-            log_contains: id "932232"
-  - test_title: 932232-2
+  - test_id: 1
     desc: "/?arg=|vi (x"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Host: localhost
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: /?arg=%7Cvi%20%28x
-            version: HTTP/1.0
-          output:
-            log_contains: id "932232"
-  - test_title: 932232-3
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?arg=%7Cvi%20%28x"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932232]
+  - test_id: 2
     desc: "/?arg=&w (x"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Host: localhost
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: /?arg=%26w%20%28x
-            version: HTTP/1.0
-          output:
-            log_contains: id "932232"
-  - test_title: 932232-4
-    desc: "/?arg=&aptitude"
-    stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Host: localhost
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-            method: GET
-            port: 80
-            uri: /?arg=%26aptitude
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "932232"
-  - test_title: 932232-5
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?arg=%26w%20%28x"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932232]
+  - test_id: 3
     desc: Remote Command Execution bypass with time
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip, deflate, br
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            port: 80
-            uri: "/?foo=time+who"
-            version: HTTP/1.1
-          output:
-            log_contains: "id \"932232\""
-  - test_title: 932232-6
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=time+who"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932232]
+  - test_id: 4
     desc: Remote Command Execution bypass with time negative test
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip, deflate, br
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            port: 80
-            uri: "/?foo=time+warner"
-            version: HTTP/1.1
-          output:
-            no_log_contains: "id \"932232\""
-  - test_title: 932232-7
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=time+warner"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932232]
+  - test_id: 5
     desc: Remote Command Injection test for BB finding 935E1D91 - time evasion attempt
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Accept-Encoding: gzip, deflate, br
-              Accept-Language: en-us,en;q=0.5
-            method: GET
-            port: 80
-            uri: "/get?foo=ti''me+who"
-            version: HTTP/1.1
-          output:
-            log_contains: "id \"932232\""
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=ti''me+who"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932232]
+  - test_id: 6
+    desc: 'GHSA: 932232 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="|vi (x"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932232]
+  - test_id: 7
+    desc: Remote Command Execution bypass with time single quoted
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo='time'%20who"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932232]
+  - test_id: 8
+    desc: Remote Command Execution bypass with time quoted
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          port: 80
+          uri: '/get?foo=%22time%22%20who'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932232]
+  - test_id: 9
+    desc: Don't match on non-command word quotes
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+          data: 'arg=;"aaaaaaaaaaaaaaaa"'
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932232]
+  - test_id: 10
+    desc: Don't match on non-command word in single quotes
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+          data: "arg=;'aaaaaaaaaaaaaaaa'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932232]
+  - test_id: 11
+    desc: |
+      Don't match on natural english sentences in quotes
+      ;"The quick brown fox jumped over the lazy dog"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+          data: "arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932232]
+  - test_id: 12
+    desc: |
+      Don't match on natural english sentences in single quotes
+      ;'The quick brown fox jumped over the lazy dog'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+          data: "arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932232]

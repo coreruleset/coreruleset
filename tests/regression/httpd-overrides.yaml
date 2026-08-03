@@ -1,0 +1,21 @@
+version: "v0.0.0"
+meta:
+  engine: "ModSecurity v2"
+  platform: "httpd"
+  annotations:
+    - purpose: "CRS test suite"
+test_overrides:
+  - rule_id: 920360
+    test_ids: [1]
+    reason: Requires ARG_NAME_LENGTH to be set to an appropriately low value
+    output:
+      status: 200
+      log:
+        no_expect_ids: [920360]
+  - rule_id: 920380
+    test_ids: [1]
+    reason: Requires MAX_NUM_ARGS to be set to a sufficiently low value
+    output:
+      status: 200
+      log:
+        no_expect_ids: [920380]

@@ -2,31 +2,50 @@
 
 ## Project Co-Leads:
 
-- [Christian Folini](https://github.com/dune73)
-- [Walter Hop](https://github.com/lifeforms)
 - [Felipe Zipitría](https://github.com/fzipi)
+- [Max Leske](https://github.com/theseion)
 
 ## Developers:
 
-- [Paul Beckett](https://github.com/53cur3M3)
 - [Franziska Bühler](https://github.com/franbuehler)
 - [Esad Cetiner](https://github.com/esadcetiner)
-- [Christoph Hansen](https://github.com/emphazer)
+- [Christian Folini](https://github.com/dune73)
 - [Ervin Hegedus](https://github.com/airween)
 - [Andrew Howe](https://github.com/RedXanadu)
-- [Karel Knibbe](https://github.com/karelorigin)
-- [Max Leske](https://github.com/theseion)
-- [Andrea Menin](https://github.com/theMiddleBlue)
 - [Matteo Pace](https://github.com/M4tteoP)
 - [Jitendra Patro](https://github.com/Xhoenix)
+- [Jozef Sudolský](https://github.com/azurit)
+
+## Former and Inactive Developers:
+
+- [Paul Beckett](https://github.com/53cur3M3)
+- [Christoph Hansen](https://github.com/emphazer)
+- [Walter Hop](https://github.com/lifeforms) †
+- [Manuel Leos Rivas](https://github.com/spartantri)
+- [Andrea Menin](https://github.com/theMiddleBlue)
 - [Chaim Sanders](https://github.com/csanders-git)
 - [Federico G. Schwindt](https://github.com/fgsch)
-- [Manuel Leos Rivas](https://github.com/spartantri)
 - [Simon Studer](https://github.com/studersi)
-- [Jozef Sudolský](https://github.com/azurit)
+- [Karel Knibbe](https://github.com/karelorigin)
 
 ## Contributors:
 
+- [Prateeksaini12](https://github.com/Prateeksaini12)
+- [zoutjebot](https://github.com/zoutjebot)
+- [etiennemunnich](https://github.com/etiennemunnich)
+- [securestep9](https://github.com/securestep9)
+- [HackingRepo](https://github.com/HackingRepo)
+- [disisto](https://github.com/disisto)
+- [touchweb-vincent](https://github.com/touchweb-vincent)
+- [Elnadrion](https://github.com/Elnadrion)
+- [pha6d](https://github.com/pha6d)
+- [KIC-8462852](https://github.com/KIC-8462852)
+- [Muhammad Ayman](https://github.com/TheRubick)
+- [Thibault Soubiran](https://github.com/S0obi)
+- [OhMyVolk](https://github.com/OhMyVolk)
+- [evidencebp](https://github.com/evidencebp)
+- [mtaket](https://github.com/mtaket)
+- [luelueking](https://github.com/luelueking)
 - [agusmu](https://github.com/agusmu)
 - [Amir Hosein Aliakbarian](https://github.com/AmirHoseinAliakbarian)
 - [Zack Allen](https://github.com/zmallen)
@@ -76,6 +95,7 @@
 - [na1ex](https://github.com/na1ex)
 - [Jose Nazario](https://github.com/paralax)
 - [Scott O'Neil](https://github.com/cPanelScott)
+- [Lucas Ostmann](https://github.com/lostmann-owl-it)
 - [NiceYouKnow](https://github.com/NiceYouKnow)
 - [nobletrout](https://github.com/nobletrout)
 - [Fernando Outeda](https://github.com/fog94)
@@ -101,6 +121,7 @@
 - [Timo](https://github.com/ntimo)
 - [Juan-Pablo Tosso](https://github.com/jptosso)
 - [vijayasija99](https://github.com/vijayasija99)
+- [Dany Volk](https://github.com/OhMyVolk)
 - [Ben Williams](https://github.com/benwilliams)
 - [Anna Winkler](https://github.com/annawinkler)
 - [Avery Wong](https://github.com/4v3r9)
@@ -141,3 +162,7 @@
 - [ThanhPT](https://github.com/thanhpt1708)
 - [Vandan Rohatgi](https://github.com/vandanrohatgi)
 - [NiceYouKnow](https://github.com/NiceYouKnow)
+- [floyd](https://github.com/floyd)
+- [superlgn](https://github.com/superlgn)
+- [TimDiam0nd](https://github.com/TimDiam0nd)
+- [brentclark](https://github.com/brentclark)

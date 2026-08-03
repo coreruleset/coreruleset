@@ -1,4 +1,12 @@
 name: Check PR title
+
+# default token permissions: none
+permissions: {}
+
+# Safe pull_request_target usage: this workflow does NOT check out PR code.
+# It only validates the PR title via a pinned action and uses the default
+# GITHUB_TOKEN with `pull-requests: read`. No untrusted code executes in this job.
+# See .github/zizmor.yml for the corresponding zizmor ignore.
 on:
   pull_request_target:
     types:
@@ -8,9 +16,12 @@ on:
       - synchronize
 
 jobs:
-  check-pr-title:
+  main:
+    name: Validate PR title
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
     steps:
-      - uses: aslafy-z/conventional-pr-title-action@v3
+      - uses: amannn/action-semantic-pull-request@0723387faaf9b38adef4775cd42cfd5155ed6017 # v5.5.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

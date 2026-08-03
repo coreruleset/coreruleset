@@ -4,77 +4,9 @@
 ##! This list was generated from the original lists with the following command:
 ##! awk '/^([a-z0-9_-]+)/ { x = $0; gsub(/[@~]/, "", x); if (length(x) > 3) print }' 93210{0,5}.data
 
+##! This list is auto-generated, to update this list run:
+##! `./regex-assembly/generators/REQUEST-932-APPLICATION-ATTACK-RCE/unix-shell-4andup.sh` in the CRS root directory
 ##! Note that the suffixes must be added manually to new entries.
-##! To regenerate this list from unix-shell.data, run the following:
-##! NL=$'\n'
-##! original="$(grep -vE '^[#$]' regex-assembly/include/unix-shell-4andup.ra)"
-##! source="$(awk '/^[^#$]/ {split($0,x,"/"); y=x[length(x)]} length(y) > 3 {print y}' \
-##!   rules/unix-shell.data | \
-##!   sort | uniq)"
-##! result=""
-##! # retain all unmodified entries in this list and skip removed ones; ignore the manually added suffixes
-##! while read -r oword; do
-##!   # strip suffixes from end of words
-##!   oword_raw="${oword/%@/}"
-##!   oword_raw="${oword_raw/%~/}"
-##!   while read -r sword; do
-##!     # handle "clang++"
-##!     sword="${sword//++/\+\+}"
-##!     # handle "." in commands
-##!     sword="${sword//./\.}"
-##!     if [ "${oword_raw}" = "${sword}" ]; then
-##!       result="${result}${oword}${NL}"
-##!       break
-##!     fi
-##!   done <<<"${source}"
-##! done <<<"${original}"
-
-##! # add new entries to this list
-##! while read -r sword; do
-##!   # handle "clang++"
-##!   sword="${sword/%++/\+\+}"
-##!   # handle "." in commands
-##!   sword="${sword//./\.}"
-##!   found=0
-##!   while read -r oword; do
-##!     # strip suffixes from end of words
-##!     oword_raw="${oword/%@/}"
-##!     oword_raw="${oword_raw/%~/}"
-##!     if [ "${oword_raw}" = "${sword}" ]; then
-##!       found=1
-##!       break
-##!     fi
-##!   done <<<"${original}"
-##!   if [ ${found} -eq 0 ]; then
-##!     result="${result}${sword}${NL}"
-##!   fi
-##! done <<<"${source}"
-
-##! # check entries for English words and suffix those
-##! original="${result}"
-##! english="$(util/fp-finder/spell.sh -m -e - <<<"${result}")"
-##! result=""
-##! while read -r oword; do
-##!   found=0
-##!   while read -r eword; do
-##!     if [ "${oword}" = "${eword}" ] && [ -n "${oword}" ]; then
-##!       result="${result}${oword}@${NL}"
-##!       found=1
-##!       break
-##!     fi
-##!   done <<<"${english}"
-##!   if [ ${found} -eq 0 ]; then
-##!     result="${result}${oword}${NL}"
-##!   fi
-##! done <<<"${original}"
-
-##! body_start=$(grep -n -E -m 1 '^[^#$]' regex-assembly/include/unix-shell-4andup.ra | cut -d: -f1)
-##! ed -s regex-assembly/include/unix-shell-4andup.ra <<EOF
-##! $((body_start - 1)),\$d
-##! w
-##! q
-##! EOF
-##! echo "${result}" | sort | uniq >> regex-assembly/include/unix-shell-4andup.ra
 
 HEAD@
 POST@
@@ -83,26 +15,33 @@ adduser
 agetty
 alias@
 alpine@
-ansible-playbook
+ansible
+apparmor_~
 apt-get
 aptitude@
 arch@
 aria2c
+arj-register
+arjdisp
 ascii-xfr
 ascii85
 aspell
-atobm
+atobm@
+auditctl
+aurepot
+ausearch
 axel@
 base32
-base64
+base64@
 basename@
 basenc
 bash@
 batch@
-blkid
+blkid@
 bpftrace
 breaksw
 bridge@
+brwap@
 bsdcat
 bsdiff
 bsdtar
@@ -112,22 +51,28 @@ bunzip2
 busctl
 busybox
 byebug
-byobu
-bzcat
-bzcmp
+byobu@
+bzcat@
+bzcmp@
 bzdiff
 bzegrep
-bzexe
+bzexe@
 bzfgrep
 bzgrep
-bzip2
+bzip2@
 bzip2recover
 bzless
 bzmore
+c89-gcc
+c99-gcc
 cancel@
 capsh@
+cargo-audit
+cargo-miri
+cargo-watch
+cargo@
 certbot
-chattr
+chattr@
 chdir@
 check_by_ssh
 check_cups
@@ -136,18 +81,22 @@ check_memory
 check_raid
 check_ssl_cert
 check_statusfile
+chef-
+chef@
 chflags
 chgpasswd
-chgrp
-chmod
-choom
-chown
+chgrp@
+chmod@
+choom@
+chown@
 chpass
 chroot@
-chsh
-clang@
+chsh@
 clang\+\+
-cobc
+clang@
+clippy-driver
+cobc@
+cobcrun
 column@
 comm@
 command@
@@ -156,12 +105,13 @@ compress@
 coproc
 cowsay
 cowthink
-cpan
-cpio
+cpan@
+cpio@
 cpulimit
 crash@
 cron@
 crontab
+cscli@
 csplit
 csvtool
 cupsfilter
@@ -171,35 +121,41 @@ date@
 dhclient
 dialog@
 diff@
-dmesg
+dmesg@
 dmidecode
 dmsetup
-doas
+doas@
+docker-
 docker@
 done@
 dosbox
-dpkg
-dvips
+dpkg-
+dpkg@
+dvips@
 e2fsck
 easy_install
 echo@
-efax
-egrep
-emacs
-endif
-endsw
+efax@
+egrep@
+emacs@
+endif@
+endsw@
 env-update
-esac
-eval
+esac@
+eval@
 exec@
 exiftool
 expand@
 expect@
 export@
-expr
+expr@
 facter
+fdfind@
+fdisk@
+fdmount
+fdumount
 fetch@
-fgrep
+fgrep@
 file@
 filetest
 find@
@@ -208,26 +164,30 @@ fish@
 flock@
 fold@
 foreach
-fping
+fping6
+fping@
 ftpstats
 ftpwho
 function@
 gawk@
-gcore
+gcore@
 genie@
 genisoimage
+getcap
 getfacl@
-ghci
+ghc-@
+ghci-
+ghci@
 gimp@
-ginsh
+ginsh@
+grcat@
 grep@
-group@
 groupmod
 gtester
 gunzip
-gzcat
-gzexe
-gzip
+gzcat@
+gzexe@
+gzip@
 hash@
 head@
 hexdump
@@ -237,19 +197,22 @@ hostid
 hostname
 hping3
 htdigest
-htop
+htop@
 htpasswd
-iconv
+iconv@
 ifconfig
-iftop
+iftop@
 install@
 ionice
 ip6tables
 ipconfig
+ippeveprinter
+ippfind
+ipptool
 iptables
 ispell
 java@
-jexec
+jexec@
 jobs@
 join@
 journalctl
@@ -259,16 +222,16 @@ killall
 knife@
 ksshell
 last@
-lastcomm
-lastlog
-lastlogin
+lastcomm@
+lastlog@
+lastlogin@
 latex@
 ldconfig
 less@
 lessecho
 lessfile
 lesspipe
-lftp
+lftp@
 lftpget
 links@
 local@
@@ -278,14 +241,14 @@ logname
 logsave
 look@
 losetup
-ls-F
+ls-F@
 lsb_release
-lscpu
-lshw
-lsmod
-lsof
-lspci
-lsusb
+lscpu@
+lshw@
+lsmod@
+lsof@
+lspci@
+lsusb@
 ltrace
 lualatex
 luatex
@@ -294,28 +257,27 @@ lwp-dump
 lwp-mirror
 lwp-request
 lynx@
-lz4c
+lz4c@
 lz4cat
-lzcat
-lzcmp
+lzcat@
+lzcmp@
 lzdiff
 lzegrep
 lzfgrep
 lzgrep
 lzless
-lzma
+lzma@
 lzmadec
 lzmainfo
 lzmore
 mail@
-mailq
+mailq@
 mailx@
 make@
-master\.passwd
-mawk
+mawk@
 mkdir@
 mkfifo
-mknod
+mknod@
 mktemp
 mlocate
 more@
@@ -328,87 +290,91 @@ msgfilter
 msgmerge
 msguniq
 mutt@
-mysql
+mysql@
 mysqladmin
 mysqldump
 mysqldumpslow
 mysqlhotcopy
 mysqlshow
 nano@
-nasm
-nawk
+nasm@
+nawk@
 nc\.openbsd
 nc\.traditional
-ncat
+ncat@
 neofetch
 netcat
 netkit-ftp
 netplan
 netstat
 nice@
-nmap
+nmap@
 node@
-nohup
-nping
-nroff
+nohup@
+nping@
+nroff@
 nsenter
 nslookup
-nstat
-null@
+nstat@
 octave@
 onintr
 openssl
 openvpn
 openvt
-opkg
+opkg@
 pacman@
 parted@
 passwd
 paste@
 patch@
+pdb2mb
+pdb3\.
+pdb3@
 pdflatex
 pdftex
-pdksh
+pdksh@
 perf@
+perl5@
 perl@
-perl5
 perlsh
 perms@
-pftp
-pgrep
+pftp@
+pgrep@
 php-cgi
-php5
-php7
+php5@
+php7@
 pico@
+piconv
 pidstat
-pigz
+pigz@
+ping6@
 ping@
 pkexec
 pkg_info
 pkginfo
-pkill
-popd
+pkill@
+popd@
 printenv
 printf@
-psed
+psed@
 psftp
-psql
-ptar
+psql@
+ptar@
 ptardiff
 ptargrep
 puppet@
-pushd
-pwd\.db
+pushd@
+py3versions
 python2
 python3
 python~
 pyversions
-py3versions
 rake@
-raku
-rbash
+raku@
+rbash@
 readelf
 realpath
+reboot@
 redcarpet@
 rename@
 repeat@
@@ -417,94 +383,121 @@ restic
 rlogin
 rlwrap
 rmdir@
+rmt-dump
+rmt-tar
 rmuser
-rnano
+rnano@
 route@
-rpmdb
+rpmdb@
 rpmquery
 rpmverify
-rsync
+rsync-ssl
+rsync@
 ruby~
 run-mailcap
 run-parts
-rview
-rvim
+runc@
+rust-analyzer
+rust-gdb
+rust-lldb
+rustc@
+rustdoc
+rustfmt
+rustup
+rview@
+rvim@
 sash@
-sched
+sched@
 screen@
 script@
-sdiff
-self@
-sendmail
+sdiff@
+sendmail@
 service@
 setarch
+setcap
 setenv
 setfacl@
 setsid
-sftp
+sftp@
 sh\.distrib
-shadow@
-shells@
-shuf
+shred@
+shuf@
 shutdown@
 sleep@
-slsh
+slsh@
 smbclient
 snap@
-socat
+socat@
 soelim
 sort@
 source@
 split@
-spwd\.db
 sqlite3
+ssh-add
+ssh-agent
+ssh-copy-id
 ssh-keygen
 ssh-keyscan
 sshpass
 start-stop-daemon
+stat@
 stdbuf
-stderr
-stdin
-stdout
 strace
 strings@
-sudo
+sudo-rs
+sudo@
+sudo_
+sudoedit
+sudoreplay
+svnadmin
+svnauthz
+svnbench
+svndumpfilter
+svnfsfs
+svnlook
+svnmucc
+svnrdump
+svnserve
+svnsync
+svnversion
 sysctl
 systemctl
 systemd-resolve
 tail@
-tailf
+tailf@
 task@
 taskset
-tclsh
+tclsh@
 tcpdump
 tcping
 tcptraceroute
-tcsh
+tcsh@
 telnet
-tftp
+tftp@
 time@
 timedatectl
 timeout@
-tmux
+tmux@
 touch@
 traceroute
 traceroute6
-troff
+trap@
+troff@
 tshark
+uconv@
 ulimit@
-uname
+uname@
 uncompress@
 unexpand
-uniq
+uniq@
 unlink@
-unlz4
+unlz4@
 unlzma
 unpigz
-unrar
+unrar@
 unset@
 unshare@
-unxz
+unxz@
 unzip@
 unzstd
 up2date@
@@ -516,29 +509,31 @@ uudecode
 uuencode
 valgrind
 view@
-vigr
+vigr@
 vimdiff
-vipw
-virsh
+vipw@
+virsh@
+visudo
+visudo-rs
 volatility@
 wall@
 watch@
-wget
+wget@
 whiptail@
 whoami
-whois
+whois@
 wireshark
 wish@
-xargs
+xargs@
 xelatex
-xetex
+xetex@
 xmodmap
-xmore
-xpad
-xterm
-xzcat
-xzcmp
-xzdec
+xmore@
+xpad@
+xterm@
+xzcat@
+xzcmp@
+xzdec@
 xzdiff
 xzegrep
 xzfgrep
@@ -548,13 +543,12 @@ xzmore
 yarn@
 yelp@
 zathura
-zcat
-zcmp
-zdiff
+zcat@
+zcmp@
+zdiff@
 zegrep
-zero@
 zfgrep
-zgrep
+zgrep@
 zipcloak
 zipcmp
 zipdetails
@@ -564,11 +558,12 @@ zipmerge
 zipnote
 zipsplit
 ziptool
-zless
-zmore
-zrun
+zless@
+zmodload
+zmore@
+zrun@
 zsoelim
-zstd
+zstd@
 zstdcat
 zstdgrep
 zstdless
