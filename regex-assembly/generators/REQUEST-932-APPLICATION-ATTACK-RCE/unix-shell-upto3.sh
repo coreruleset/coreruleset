@@ -1,4 +1,5 @@
 #!/bin/bash
+
 NL=$'\n'
 # select words of length <= 3
 original="$(grep -vE '^[#$]' regex-assembly/include/unix-shell-upto3.ra)"

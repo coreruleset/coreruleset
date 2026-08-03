@@ -1,4 +1,5 @@
 #!/bin/bash
+
 NL=$'\n'
 original="$(grep -vE '^[#$]' regex-assembly/include/unix-shell-4andup.ra)"
 # Exclude entries starting with `(dev/|etc/|proc/|#)` and empty lines, they are not commands

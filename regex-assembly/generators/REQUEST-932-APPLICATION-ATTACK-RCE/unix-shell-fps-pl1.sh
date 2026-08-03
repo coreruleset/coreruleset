@@ -1,16 +1,30 @@
 #!/bin/bash
+
+# WARNING: This script is too overzealous in disabling commands and disables commands that are highly unlike to cause false positives.
+# TODO: This script takes a very long time to run.
+
 NL=$'\n'
 original="$(grep -vE '^[#$]' regex-assembly/exclude/unix-shell-fps-pl1.ra)"
-rest="$(grep -vE '^[#$]' regex-assembly/include/unix-shell-4andup.ra)"
-english_upto3="$(crs-toolchain util fp-finder -m -e regex-assembly/include/unix-shell-upto3.ra)"
-strip suffixes from words for fp-finder
-english_rest="$(crs-toolchain util fp-finder -m -e -s '[@~]' regex-assembly/include/unix-shell-4andup.ra)"
+# strip suffixes from words for fp-finder
+english_upto3=$(sed -E 's/[@~]$//' regex-assembly/include/unix-shell-upto3.ra | uniq)
+english_upto3="$(crs-toolchain util fp-finder - <<<"${english_upto3}")"
+# strip suffixes from words for fp-finder
+rest=$(sed -E 's/[@~]$//' regex-assembly/include/unix-shell-4andup.ra | uniq)
+english_rest="$(crs-toolchain util fp-finder - <<<"${rest}")"
 result=""
+
 function update_existing {
   if [ -z "${1}" ]; then
     return
   fi
+  first_letter=""
   while read -r oword; do
+    next_first_letter="$(cut -c 1 <<<"${oword}")"
+    if [ "${next_first_letter}" != "${first_letter}" ]; then
+      first_letter="${next_first_letter}"
+      echo "Processing updates of ${first_letter}..."
+    fi
+
     found=0
     while read -r eword; do
       if grep -qE "^${eword}[@~]?$" <<<"${oword}"; then
@@ -30,7 +44,14 @@ function add_new {
   if [ -z "${1}" ]; then
     return
   fi
+  first_letter=""
   while read -r eword; do
+    next_first_letter="$(cut -c 1 <<<"${eword}")"
+    if [ "${next_first_letter}" != "${first_letter}" ]; then
+      first_letter="${next_first_letter}"
+      echo "Processing additions of ${first_letter}..."
+    fi
+
     if ! grep -qE "^${eword}[@~]?" <<<"${original}"; then
       result="${result}${eword}${NL}"
       result="${result}${eword}@${NL}"
