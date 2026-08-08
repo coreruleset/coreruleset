@@ -179,3 +179,19 @@ tests:
         output:
           log:
             expect_ids: [932120]
+  - test_id: 12
+    desc: "True Positive: different commands in different fields - 44J-250329"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+          uri: '/post?a=Invoke-Expression'
+          data: 'test=aRemove-Itema'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932120]
