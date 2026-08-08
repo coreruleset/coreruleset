@@ -507,3 +507,20 @@ tests:
         output:
           log:
             no_expect_ids: [932270]
+  - test_id: 32
+    desc: "Negative: tilde mid-value in key=value form from original FP report (session=key=~+1)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Cookie: "session=key%3D~%2B1"
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932270]
