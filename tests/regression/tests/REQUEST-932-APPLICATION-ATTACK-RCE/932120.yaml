@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Paul Beckett, azurit"
+  author: "Paul Beckett, azurit, Esad Cetiner"
 rule_id: 932120
 tests:
   - test_id: 1
@@ -96,6 +96,85 @@ tests:
             Content-Type: 'application/xml'
           uri: '/post'
           data: '<?xml version="1.0"?><root><a probe="Invoke-WebRequest http://example.com/path/file.ps1"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932120]
+  - test_id: 7
+    desc: "False Positive: substring false positive matching `Set-Date`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+          uri: '/post'
+          data: 'fp=asset-date-2020'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            no_expect_ids: [932120]
+  - test_id: 8
+    desc: "False Positive: substring false positive matching `powershell`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+          uri: '/post'
+          data: 'fp=https://mastodon.social/users/securityinanutpowershell#main-key'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            no_expect_ids: [932120]
+  - test_id: 9
+    desc: "False Positive: substring false positive matching `remove-item`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+          uri: '/post'
+          data: 'fp=edit-field-links-fr-1-field-remove-item'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            no_expect_ids: [932120]
+  - test_id: 10
+    desc: "False Positive: Avoid substring false positives, matching `remove-item`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+          data: 'test=aRemove-Itema'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            no_expect_ids: [932120]
+  - test_id: 11
+    desc: "True Positive: Make sure phase 2 payload doesn't evade chain rule - 44J-250329"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+          uri: '/post?a=Remove-Item'
+          data: 'test=aRemove-Itema'
           version: 'HTTP/1.1'
         output:
           log:

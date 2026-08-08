@@ -3,6 +3,7 @@
 # - curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/MicrosoftDocs/PowerShell-Docs/git/trees/main\?recursive\=1 | jq -r '.tree[] .path | capture("reference/\\d.\\d/(.*)/(?<fn>[A-Z]\\w+-\\w+).md") | .fn' | sort | uniq
 
 powershell
+powershell.exe
 Add-Computer
 Add-Content
 Add-History
