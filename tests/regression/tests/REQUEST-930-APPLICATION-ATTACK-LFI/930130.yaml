@@ -213,3 +213,35 @@ tests:
         output:
           log:
             expect_ids: [930130]
+  - test_id: 14
+    desc: "Wazuh: False positive loading light css module matching `/node_modules/`"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/node_modules/@osd/ui-framework/dist/kui_light.css"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930130]
+  - test_id: 15
+    desc: "GitLab: loading VSCode Web editor config matching `/perl/`"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/assets/webpack/gitlab-web-ide-vscode-workbench-0.0.1-dev-20260106142046/vscode/extensions/perl/syntaxes/perl6.tmLanguage.json"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930130]

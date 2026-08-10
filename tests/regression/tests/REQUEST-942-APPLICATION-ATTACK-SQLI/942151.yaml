@@ -1224,3 +1224,20 @@ tests:
         output:
           log:
             expect_ids: [942151]
+  - test_id: 73
+    desc: 'GHSA: 942151 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="foo''||(select extractvalue(xmltype(''&lt;?xml version=&quot;1.1&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;!DOCTYPE root [ &lt;!ENTITY % tocob SYSTEM &quot;https://unit''||''tests.coreruleset.org/&quot;&gt;%tocob;"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [942151]

@@ -652,6 +652,23 @@ tests:
           log:
             no_expect_ids: [932130]
   - test_id: 41
+    desc: 'GHSA: 932130 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="$(cmd)"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 42
     desc: "Positive test: ANSI-C hex quoting to encode command - $'\\x63\\x61\\x74' (cat)"
     stages:
       - input:
@@ -668,7 +685,7 @@ tests:
         output:
           log:
             expect_ids: [932130]
-  - test_id: 42
+  - test_id: 43
     desc: "Negative test: short hex-like string below ANSI-C detection threshold - $x63x61"
     stages:
       - input:
