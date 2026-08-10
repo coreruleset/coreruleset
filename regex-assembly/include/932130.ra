@@ -25,5 +25,11 @@
 ##! Require a / in front to prevent false positives like [text in brackets]
 /\w*\[[^\]]+\]
 
-##! ANSI-C quoting hex-encoded commands ($'\x69\x64')
-\$(?:x[0-9a-f]{2}){3,}
+##! ANSI-C quoting hex-encoded commands: $'\x69\x64'
+\$'(?:\\x[0-9a-f]{2})+'
+
+##! ANSI-C quoting \u and \U encoded commands: $'\u0069\u0064'
+\$'(?:\\u[0-9a-f]+)+'
+
+##! ANSI-C octal encoding: $'\151\144'
+\$'(?:\\[0-9]+?)+'
