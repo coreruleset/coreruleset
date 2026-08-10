@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, azurit"
+  author: "csanders-git, azurit, Esad Cetiner"
 rule_id: 941170
 tests:
   - test_id: 1
@@ -97,6 +97,44 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: localhost
           version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941170]
+  - test_id: 7
+    desc: |
+      Note: This is not a real attack, this test is to just test for 4RI-250413
+      4RI-250413
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          uri: "/"
+          data: |
+            { "javascript:a=:,":"foo" }
+          headers:
+            Accept: "*/*"
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Content-Type: application/json
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941170]
+  - test_id: 8
+    desc: 'GHSA: 941170 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="&lt;x:script xmlns:x=&quot;http://www.w3.org/1999/xhtml&quot; src=&quot;data:,alert(1)&quot; /&gt;"></a></root>'
+          version: 'HTTP/1.1'
         output:
           log:
             expect_ids: [941170]
