@@ -85,6 +85,23 @@ tests:
           log:
             expect_ids: [942500]
   - test_id: 6
+    desc: 'GHSA: 942500 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="9999 or &#x7B;if length((/*!5000select username/*!50000from*/user where id=1))&gt;0&#x7D;"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [942500]
+  - test_id: 7
     desc: "Status Page Test - Inline comment detected"
     stages:
       - input:
@@ -100,7 +117,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 7
+  - test_id: 8
     desc: "Status Page Test - Inline comment detected - HTTP header vector"
     stages:
       - input:
@@ -117,7 +134,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 8
+  - test_id: 9
     desc: "Status Page Test - Inline comment detected - False positive on header Accept"
     stages:
       - input:
@@ -133,7 +150,7 @@ tests:
         output:
           log:
             no_expect_ids: [942500]
-  - test_id: 9
+  - test_id: 10
     desc: "Simple inline comment"
     stages:
       - input:
@@ -149,7 +166,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 10
+  - test_id: 11
     desc: "Empty inline comment"
     stages:
       - input:
@@ -165,7 +182,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 11
+  - test_id: 12
     desc: "Inline comment with only whitespace"
     stages:
       - input:
@@ -181,7 +198,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 12
+  - test_id: 13
     desc: "Multiline inline comment with newline characters"
     stages:
       - input:
@@ -197,7 +214,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 13
+  - test_id: 14
     desc: "Multiple inline comments in single request"
     stages:
       - input:
@@ -213,7 +230,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 14
+  - test_id: 15
     desc: "MySQL version-specific comment"
     stages:
       - input:
@@ -229,7 +246,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 15
+  - test_id: 16
     desc: "Inline comment in POST body"
     stages:
       - input:
@@ -247,7 +264,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 16
+  - test_id: 17
     desc: "Inline comment in Cookie"
     stages:
       - input:
@@ -264,7 +281,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 17
+  - test_id: 18
     desc: "Inline comment in ARGS_NAMES"
     stages:
       - input:
@@ -280,7 +297,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 18
+  - test_id: 19
     desc: "Double URL encoded inline comment"
     stages:
       - input:
@@ -296,7 +313,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 19
+  - test_id: 20
     desc: "Inline comment with SQL keywords"
     stages:
       - input:
@@ -312,7 +329,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 20
+  - test_id: 21
     desc: "Inline comment with tabs and special characters"
     stages:
       - input:
@@ -328,7 +345,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 21
+  - test_id: 22
     desc: "Negative test - incomplete comment start only"
     stages:
       - input:
@@ -344,7 +361,7 @@ tests:
         output:
           log:
             no_expect_ids: [942500]
-  - test_id: 22
+  - test_id: 23
     desc: "Negative test - incomplete comment end only"
     stages:
       - input:
@@ -360,7 +377,7 @@ tests:
         output:
           log:
             no_expect_ids: [942500]
-  - test_id: 23
+  - test_id: 24
     desc: "Negative test - wildcard in file path"
     stages:
       - input:
@@ -376,7 +393,7 @@ tests:
         output:
           log:
             no_expect_ids: [942500]
-  - test_id: 24
+  - test_id: 25
     desc: "Negative test - multiplication and division operators"
     stages:
       - input:
@@ -392,7 +409,7 @@ tests:
         output:
           log:
             no_expect_ids: [942500]
-  - test_id: 25
+  - test_id: 26
     desc: "Negative test - Cookie header should not trigger"
     stages:
       - input:
@@ -409,7 +426,7 @@ tests:
         output:
           log:
             no_expect_ids: [942500]
-  - test_id: 26
+  - test_id: 27
     desc: "Inline comment breaking up UNION keyword"
     stages:
       - input:
@@ -425,7 +442,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 27
+  - test_id: 28
     desc: "Comment with carriage return and line feed"
     stages:
       - input:
@@ -441,7 +458,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 28
+  - test_id: 29
     desc: "MySQL conditional comment with version number"
     stages:
       - input:
@@ -457,7 +474,7 @@ tests:
         output:
           log:
             expect_ids: [942500]
-  - test_id: 29
+  - test_id: 30
     desc: "Inline comment with null byte"
     stages:
       - input:

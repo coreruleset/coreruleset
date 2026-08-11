@@ -1,10 +1,11 @@
 ---
 meta:
-  author: "Christian S.J. Peron, azurit"
+  author: "Christian S.J. Peron, azurit, fzipitria"
+  description: "Tests for rule 942421 - SQL Character Anomaly Detection in cookies (3+ special chars) - PL4"
 rule_id: 942421
 tests:
   - test_id: 1
-    desc: "Restricted SQL Character Anomaly Detection (cookies): # of special characters exceeded (3)"
+    desc: "Basic SQL injection in cookie with 3+ special characters"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -16,7 +17,115 @@ tests:
           method: GET
           port: 80
           uri: "/get"
-          version: HTTP/1.1
+          version: "HTTP/1.1"
         output:
           log:
             expect_ids: [942421]
+
+  - test_id: 2
+    desc: "SQL injection in cookie with UTF-8 right single quotation mark (U+2019)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Cookie: "id=\u2019 #-"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942421]
+
+  - test_id: 3
+    desc: "Exactly 3 special characters in cookie (edge case - should match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Cookie: "test=!@#"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [942421]
+
+  - test_id: 4
+    desc: "NEGATIVE: Only 2 special characters in cookie (just below threshold)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Cookie: "test=!@"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942421]
+
+  - test_id: 5
+    desc: "NEGATIVE: Chinese text in cookie (should not match - no false positives)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Cookie: "pref=你好"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942421]
+
+  - test_id: 6
+    desc: "NEGATIVE: Japanese text in cookie (should not match - no false positives)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Cookie: "pref=こんにちは"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942421]
+
+  - test_id: 7
+    desc: "NEGATIVE: Normal alphanumeric cookie"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            Cookie: "session=abc123def456"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [942421]

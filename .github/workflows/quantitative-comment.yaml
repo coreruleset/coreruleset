@@ -1,0 +1,62 @@
+name: Quantitative tests - Post PR comment
+
+# This workflow runs in the base-repo context (with secrets) AFTER the
+# unprivileged `Quantitative tests` workflow finishes. It downloads the
+# `pr_comment.md` and `pr_number.txt` artifacts that workflow produced and
+# posts the comment on the originating PR. No PR-controlled code is executed
+# here — only the artifact contents (markdown + numeric PR id) are consumed.
+#
+# This pattern replaces a `pull_request_target` + PR-head checkout, which is
+# the classic "pwn request" antipattern.
+on:
+  workflow_run:
+    workflows: ["Quantitative tests"]
+    types:
+      - completed
+
+permissions: {}
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion != 'skipped'
+    permissions:
+      pull-requests: write
+      actions: read
+    steps:
+      - name: "Download comment artifact"
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: quantitative-comment
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Read and validate PR number"
+        id: pr
+        run: |
+          PR_NUMBER=$(cat pr_number.txt)
+          # Strictly validate: must be only digits. The file came from an
+          # untrusted-context workflow run, so we treat its contents as input.
+          if ! [[ "$PR_NUMBER" =~ ^[0-9]+$ ]]; then
+            echo "Invalid PR number in artifact: $PR_NUMBER"
+            exit 1
+          fi
+          echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+
+      - name: "Comment PR (upsert by marker)"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ steps.pr.outputs.pr_number }}
+          MARKER: "<!-- quantitative-tests-comment -->"
+        run: |
+          BODY=$(printf '%s\n\n%s\n' "$MARKER" "$(cat pr_comment.md)")
+          EXISTING=$(gh api "repos/${REPO}/issues/${PR_NUMBER}/comments" --paginate \
+            --jq ".[] | select(.body | startswith(\"${MARKER}\")) | .id" | head -n1)
+          if [ -n "$EXISTING" ]; then
+            gh api -X PATCH "repos/${REPO}/issues/comments/${EXISTING}" -f body="$BODY"
+          else
+            gh api -X POST "repos/${REPO}/issues/${PR_NUMBER}/comments" -f body="$BODY"
+          fi

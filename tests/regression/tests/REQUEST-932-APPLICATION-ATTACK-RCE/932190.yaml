@@ -5,7 +5,7 @@ meta:
 rule_id: 932190
 tests:
   - test_id: 1
-    desc: "Match wild card evasion in 'cat+/et*/*wd'"
+    desc: "Match wild card evasion in 'cat+/et*/*wd' (cat /etc/passwd)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -22,7 +22,7 @@ tests:
           log:
             expect_ids: [932190]
   - test_id: 2
-    desc: "Match wild card evasion in 'cat+/ET*/*WD'"
+    desc: "Match wild card evasion in 'cat+/ET*/*WD' (cat /etc/passwd)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -39,7 +39,7 @@ tests:
           log:
             expect_ids: [932190]
   - test_id: 3
-    desc: "Match wild card evasion in '/???/?s'"
+    desc: "Match wild card evasion in '/???/?s' (/bin/ls)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -73,7 +73,7 @@ tests:
           log:
             no_expect_ids: [932190]
   - test_id: 5
-    desc: "Handle single quote evasion mixed with wild card evasion"
+    desc: "Handle single quote evasion mixed with wild card evasion (cat /etc/passwd)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -92,7 +92,7 @@ tests:
           log:
             expect_ids: [932190]
   - test_id: 6
-    desc: "Handle backslash evasion mixed with wild card evasion"
+    desc: "Handle backslash evasion mixed with wild card evasion (cat /etc/passwd)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -107,6 +107,38 @@ tests:
           uri: "/get"
           version: HTTP/1.1
           data: "{\"foo\" : \";+cat+/e\\\\t\\\\*/pa\\\\?s\\\\wd\"}"
+        output:
+          log:
+            expect_ids: [932190]
+  - test_id: 7
+    desc: "Detect /???/??t (/bin/cat)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?vuln=%2F%3F%3F%3F%2F%3F%3Ft"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932190]
+  - test_id: 8
+    desc: "Detect /???/b??h (/bin/bash)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?vuln=%2F%3F%3F%3F%2Fb%3F%3Fh"
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932190]
