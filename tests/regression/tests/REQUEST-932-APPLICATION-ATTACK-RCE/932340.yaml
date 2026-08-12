@@ -526,3 +526,75 @@ tests:
         output:
           log:
             no_expect_ids: [932340]
+  - test_id: 30
+    desc: Remote Command Execution bypass with time single quoted
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo='time'%20who"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932340]
+  - test_id: 31
+    desc: Remote Command Execution bypass with time quoted
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          port: 80
+          uri: '/get?foo=%22time%22%20who'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932340]
+  - test_id: 32
+    desc: Remote Command Injection test for BB finding 935E1D91 - time evasion attempt
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=ti''me+who"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932340]
+  - test_id: 33
+    desc: Remote Command Execution bypass with time
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-us,en;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?foo=time+who"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932340]
