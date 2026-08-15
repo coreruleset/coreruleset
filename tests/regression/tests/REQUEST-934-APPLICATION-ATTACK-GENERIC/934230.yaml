@@ -1,0 +1,101 @@
+---
+meta:
+  author: "S0obi"
+  description: "Tests for rule 934230 - JWT alg:none attack detection"
+rule_id: 934230
+
+tests:
+  # Positive tests: should trigger rule 934230
+  # eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0 decodes to {"alg":"none","typ":"JWT"}
+  - test_id: 1
+    desc: "JWT with alg:none in Authorization Bearer header - should trigger"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Authorization: "Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJ0ZXN0In0."
+          method: GET
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934230]
+
+  # eyJhbGciOiJOT05FIiwidHlwIjoiSldUIn0 decodes to {"alg":"NONE","typ":"JWT"}
+  - test_id: 2
+    desc: "JWT with alg:NONE (uppercase) - should trigger"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Authorization: "Bearer eyJhbGciOiJOT05FIiwidHlwIjoiSldUIn0.eyJzdWIiOiJ0ZXN0In0."
+          method: GET
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934230]
+
+  # Negative tests: should NOT trigger rule 934230
+  # eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 decodes to {"alg":"HS256","typ":"JWT"}
+  - test_id: 3
+    desc: "JWT with alg:HS256 - should not trigger"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0In0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+          method: GET
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934230]
+
+  - test_id: 4
+    desc: "Basic auth - should not trigger"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Authorization: "Basic dXNlcjpwYXNzd29yZA=="
+          method: GET
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934230]
+
+  - test_id: 5
+    desc: "Opaque Bearer token without JWT structure - should not trigger"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Authorization: "Bearer some-opaque-api-token-12345"
+          method: GET
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934230]
