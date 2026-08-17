@@ -100,7 +100,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            Authorization: Bearer 1234|5678|90abcde|f
+            Authorization: Bearer abc~def~ghi
           version: "HTTP/1.1"
         output:
           log:
@@ -130,7 +130,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            signature-input: sig=("@authority" "signature-agent");created=1782278695;keyid="e3vpiy0B6M1Wdxnizw3dqRSgpqS6SXM2qiQ6HtUwZ5g";alg="ed25519";expires=1782278755;nonce="KCQnrmVEiipeVrgmvSFmw_UVHvYH_XgKfxXC1viT98j0AHhe38WWJtYRjBFoMRD3wrSngsLIDxSKPKgkubHLiQ";tag="web-bot-auth"
+            signature-input: 'sig=("@authority" "signature-agent");created=1782278695;keyid="e3vpiy0B6M1Wdxnizw3dqRSgpqS6SXM2qiQ6HtUwZ5g";alg="ed25519";expires=1782278755;nonce="KCQnrmVEiipeVrgmvSFmw_UVHvYH_XgKfxXC1viT98j0AHhe38WWJtYRjBFoMRD3wrSngsLIDxSKPKgkubHLiQ";tag="web-bot-auth"'
           version: "HTTP/1.1"
         output:
           log:
@@ -145,8 +145,53 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            sec-ch-ua-full-version-list: |
-              "Google Chrome";v="149.0.0.0", "Chromium";v="149.0.0.0", "Not)A;Brand";v="24.0.0.0"
+            sec-ch-ua-full-version-list: |-
+              Google Chrome";v="149.0.0.0", "Chromium";v="149.0.0.0", "Not)A;Brand";v="24.0.0.0
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920274]
+  - test_id: 11
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Via: 1.1 proxy.example.com (squid/3.5.27)
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920274]
+  - test_id: 12
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Forwarded: for="[2001:db8:cafe::17]:4711";proto=http
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920274]
+  - test_id: 13
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Sec-CH-UA-Model: "Pixel 9 Pro (XL)"
           version: "HTTP/1.1"
         output:
           log:
