@@ -158,13 +158,14 @@ tests:
           headers:
             User-Agent: 'OWASP CRS test agent'
             Host: 'localhost'
+          uri: '/post'
           data: 'test=aRemove-Itema'
           version: 'HTTP/1.1'
         output:
           log:
             no_expect_ids: [932120]
   - test_id: 11
-    desc: "True Positive: Make sure phase 2 payload doesn't evade chain rule - 44J-250329"
+    desc: "True Positive: - 44J-250329"
     stages:
       - input:
           dest_addr: 127.0.0.1
