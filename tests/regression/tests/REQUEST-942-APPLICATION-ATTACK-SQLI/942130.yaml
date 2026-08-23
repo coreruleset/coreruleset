@@ -173,3 +173,53 @@ tests:
         output:
           log:
             expect_ids: [942130]
+  - test_id: 12
+    desc: "SQL tautology using SQLite's '==' equality operator: 1' or 1==1"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=1%27%20or%201%3D%3D1"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942130]
+  - test_id: 13
+    desc: "SQL tautology using '==' with quoted operands: 1' or 'a'=='a"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=1%27%20or%20%27a%27%3D%3D%27a"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942130]
+  - test_id: 14
+    desc: |
+      Negative - '==' with different operands is not a tautology, so the
+      chained operand comparison must not match: 1' or 1==2
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=1%27%20or%201%3D%3D2"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942130]

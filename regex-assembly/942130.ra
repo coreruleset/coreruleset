@@ -30,6 +30,10 @@
 ##! This one will also match the "equal" part of '<=' and '>='
 =
 
+##! SQLite, and MySQL in some modes, accept '==' as an equality operator.
+##! libinjection does not tokenize it, so '1==1' evades 942100 at PL1.
+==
+
 ##! <=> NULL-safe equal to operator in MySQL
 <=>
 
