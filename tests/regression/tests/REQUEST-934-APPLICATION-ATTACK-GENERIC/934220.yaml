@@ -1,0 +1,132 @@
+---
+meta:
+  author: "fzipi"
+  description: ORM lookup operator injection via nested relationship traversal (PL2)
+rule_id: 934220
+tests:
+  - test_id: 1
+    desc: |
+      True positive Y4H-260326
+      Nested ORM traversal + operator in a JSON body key
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"created_by__departments__employees__user__username__startswith":"p"}'
+        output:
+          log:
+            expect_ids: [934220]
+  - test_id: 2
+    desc: "True positive - two-level traversal in query string (a__b__icontains)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?user__profile__icontains=x"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934220]
+  - test_id: 3
+    desc: |
+      True positive - nested traversal JSON key sent with a non-JSON
+      Content-Type (caught via REQUEST_BODY)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"user__profile__city__startswith":"p"}'
+        output:
+          log:
+            expect_ids: [934220]
+  - test_id: 4
+    desc: |
+      Negative test - single field + operator (normal django-filter usage)
+      must NOT match the PL2 traversal rule (left to 934210 at PL3)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?username__startswith=p"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [934220]
+  - test_id: 5
+    desc: |
+      Negative test - two separate single-field operator keys in a raw
+      JSON body must not be spanned into one traversal match
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"name__exact":"a","city__in":"b"}'
+        output:
+          log:
+            no_expect_ids: [934220]
+  - test_id: 6
+    desc: "True positive - nested traversal + case-insensitive lookup __istartswith"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?user__profile__nickname__istartswith=adm"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934220]
+  - test_id: 7
+    desc: "True positive - nested traversal + JSONField __has_keys lookup"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?user__metadata__has_keys=is_staff"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934220]

@@ -8,40 +8,21 @@
 ##!> assemble
   {{quotes}}
   ##!=>
-  \s*!\s*[\"'`\w]
+  \s*!\s*(?:[<=>]|{{quotes}})
   ##!> assemble
     ;?\s*
     ##!=>
     having
     select
     ##!> assemble
-      ##! Allow newlines within UNION keyword to catch evasion like U%0aNION
-      u[\x0a\x0d]*n[\x0a\x0d]*i[\x0a\x0d]*o[\x0a\x0d]*n\b\s*
+      union\b\s*
       ##!=>
       all
-      ##!> assemble
-        ##! Allow newlines within SELECT keyword
-        s[\x0a\x0d]*e[\x0a\x0d]*l[\x0a\x0d]*e
-        ##!=>
-        distinct
-      ##!<
-      ##!> assemble
-        [\x0a\x0d]*c[\x0a\x0d]*t
-      ##!<
+      distinct
+      select
     ##!<
     ##!=>
     \b\s*[^\s]
-  ##!<
-  ##! SQLite == operator and GLOB via tautology pattern
-  ##!> assemble
-    \s*(?:and|x?or)\b\s+\w+
-    ##!=>
-    ##! PostgreSQL array containment operator
-    \[[^\]]*\]\s*@>
-    ##! SQLite double-equals
-    \s*==[^\s]
-    ##! SQLite GLOB operator
-    \s+glob\b
   ##!<
 ##!<
 
@@ -78,5 +59,3 @@
 \s*?exec.*?\Wxp_cmdshell
 \s*?execute.*?\Wxp_cmdshell
 \Wiif\s*?\(
-##! Detect double/triple URL-encoded single quote in SQLi tautologies
-%(?:25)*27\s+(?:and|x?or)\b\s+\w+\s*[<=>]

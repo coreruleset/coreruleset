@@ -102,3 +102,52 @@ tests:
         output:
           log:
             expect_ids: [941100]
+  - test_id: 7
+    desc: 'GHSA: 941100 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="&lt;script xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;setTimeout(&quot;top.frame2.location=&quot;javascript:(function () &#x7B;var x = document.createElement(\\&quot;script\\&quot;);x.src = \\&quot;//sdl.me/popup.js?//\\&quot;;document.childNodes\\[0\\].appendChild(x);&#x7D;());&quot;&quot;,1000)&lt;/script&gt;"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [941100]
+  - test_id: 8
+    desc: 'Unicode best-fit %uXXXX XSS: U+00AB/U+00BB guillemets fold to angle brackets'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: '/?id=%u00abscript%u00bballert(1)%u00ab/script%u00bb'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941100]
+  - test_id: 9
+    desc: 'Unicode best-fit %uXXXX XSS: U+2039/U+203A single guillemets fold to angle brackets'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: '/?id=%u2039script%u203aalert(1)%u2039/script%u203a'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941100]
