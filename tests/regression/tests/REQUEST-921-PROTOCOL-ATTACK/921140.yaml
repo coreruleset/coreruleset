@@ -39,3 +39,20 @@ tests:
         output:
           log:
             expect_ids: [921140]
+  - test_id: 3
+    desc: "HTTP Header Injection Attack via base64 encoded Authorization header"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            Authorization: "SGVhZGVyZGF0YQ0KSW5qZWN0ZWRIZWFkZXI6IHJlc3BvbnNlX3NwbGl0dGluZ19jb2Rl"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921140]
