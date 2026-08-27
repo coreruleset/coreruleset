@@ -8,9 +8,9 @@ meta:
 test_overrides:
   - rule_id: 920100
     test_ids: [4]
-    reason: "Nginx returns a 400 bad request"
+    reason: "Nginx rejects the CONNECT method with a 405"
     output:
-      status: 400
+      status: 405
   - rule_id: 920100
     test_ids: [8]
     reason: |
