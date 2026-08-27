@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "karelorigin, azurit"
+  author: "karelorigin, azurit, zoutjebot"
   description: "Remote Command Execution: Unix shell history invocation"
 rule_id: 932330
 tests:
@@ -38,22 +38,6 @@ tests:
           log:
             expect_ids: [932330]
   - test_id: 3
-    desc: "Negation pattern preceded by alphanumeric character should not trigger (FP test)"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-          method: GET
-          port: 80
-          uri: "/get?param=abc!-1"
-          version: HTTP/1.1
-        output:
-          log:
-            no_expect_ids: [932330]
-  - test_id: 4
     desc: "Negation pattern preceded by non-alphanumeric character should trigger"
     stages:
       - input:
@@ -69,7 +53,7 @@ tests:
         output:
           log:
             expect_ids: [932330]
-  - test_id: 5
+  - test_id: 4
     desc: "Negation pattern at start of value should trigger (start-of-value boundary)"
     stages:
       - input:
@@ -85,7 +69,7 @@ tests:
         output:
           log:
             expect_ids: [932330]
-  - test_id: 6
+  - test_id: 5
     desc: "Negation pattern preceded by space should trigger"
     stages:
       - input:
@@ -101,23 +85,7 @@ tests:
         output:
           log:
             expect_ids: [932330]
-  - test_id: 7
-    desc: "Product code with underscore prefix should not trigger (FP test)"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-          method: GET
-          port: 80
-          uri: "/get?sku=SKU_!-1"
-          version: HTTP/1.1
-        output:
-          log:
-            no_expect_ids: [932330]
-  - test_id: 8
+  - test_id: 6
     desc: "Negation pattern preceded by special character should trigger"
     stages:
       - input:
@@ -133,3 +101,54 @@ tests:
         output:
           log:
             expect_ids: [932330]
+  - test_id: 7
+    desc: "False Positive: High entropy cookie - Taken from openappsec-waf-comparasion-project"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Cookie: JSESSIONID=-OibuFwZwVpyZFJaPLK4fbbosOLHV9mNGU2kAba-NPkYyC-qy16f!-381678712
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932330]
+  - test_id: 8
+    desc: "False Positive: High entropy cookie - Taken from openappsec-waf-comparasion-project"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Cookie: FNL_RISKIFIED_ID=HVFgO7DLNGlLs7VVVrR2T5ut4X4NKBivxzZhTS95gGDHjBpIvTBe!-1136753849!1728191377611_1728191377615
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932330]
+  - test_id: 9
+    desc: "False Positive: High entropy cookie - Taken from openappsec-waf-comparasion-project"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Cookie: BASessionA=c9xr9J216iln0ApH6IF-T0tUjtic1Aug9Ilb0cBFGkwAPLOg8k3G!863625594!bal2237prd040.baplc.com!7001!7002!-513655573!bal2237prd042.baplc.com!7001!7002
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932330]
