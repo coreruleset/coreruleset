@@ -6,6 +6,7 @@
 
 ##!+ i
 
-##! Require non-word boundary prefix (start of value or after non-word char)
-##! This prevents false positives on strings like "abc!-1" or SKU codes
-(?:^|\W)!-\d
+##! Anchor to end of string or require command suffix
+##!$ (?:$|[\s<>&|),])
+
+!-\d

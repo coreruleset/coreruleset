@@ -152,3 +152,34 @@ tests:
         output:
           log:
             no_expect_ids: [932330]
+  - test_id: 10
+    desc: |
+      True Positive: Obfuscating command names using shell history:
+      t /et?/pa?swd
+      ca!-1
+    stages:
+
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?attack=t%20/et?/pa?swd"
+          version: HTTP/1.1
+
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?attack=ca!%2D1"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932330]
