@@ -491,7 +491,7 @@ tests:
           log:
             expect_ids: [932270]
   - test_id: 31
-    desc: "Negative: tilde mid-value in key=value form in session cookie from original FP report (session=key=~+1)"
+    desc: "Bash Tilde expansion - tilde after '=' boundary in a cookie value (session=key=~+1); bash expands tilde-prefixes in assignment-like words"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -506,9 +506,9 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [932270]
+            expect_ids: [932270]
   - test_id: 32
-    desc: "Negative: tilde mid-value in key=value form from original FP report (session=key=~+1)"
+    desc: "Bash Tilde expansion - tilde after '=' boundary in a query value (session=key=~+1)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -522,4 +522,20 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [932270]
+            expect_ids: [932270]
+  - test_id: 33
+    desc: "Bash Tilde expansion - tilde after ':' boundary in an assignment-like word (PATH=/tmp:~+1)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/get?x=PATH%3D%2Ftmp%3A~%2B1"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932270]
