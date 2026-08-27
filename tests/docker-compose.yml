@@ -30,6 +30,11 @@ x-nginx-env: &nginx-env
   ERRORLOG: "/var/log/nginx/error.log"
   LOGLEVEL: "info"
   MODSEC_AUDIT_LOG: "/var/log/nginx/modsec_audit.log"
+  # go-ftw delimits the log lines of a request with markers. Several nginx
+  # workers flush their buffers independently, so lines interleave and tests
+  # fail at random; see https://github.com/coreruleset/go-ftw/issues/473.
+  # Scoped to the test containers - the image still defaults to `auto`.
+  NGINX_WORKER_PROCESSES: "1"
   SERVERNAME: modsec3-nginx
 
 # Coraza uses its own CORAZA_-prefixed env vars instead of MODSEC_-prefixed
@@ -89,7 +94,7 @@ services:
 
   modsec3-nginx: &nginx
     container_name: modsec3-nginx
-    image: owasp/modsecurity-crs:nginx@sha256:d5075e29201de332751b1a691186944ae0af1f4d9dda37275daa342d18117902
+    image: owasp/modsecurity-crs:nginx@sha256:ccec5e3ecd1dcf6b48903268f4fe415fd17914e8bf30fc21263fd05cc7045f29
     # NOTE: The user used to run the container process is explicitly set to
     # 'root'. This fixes issues with permissions on the logging directories used
     # as bind mounts. This is done as *a convenience for running the CRS testing

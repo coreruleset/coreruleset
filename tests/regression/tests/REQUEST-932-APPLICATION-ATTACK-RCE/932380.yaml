@@ -270,3 +270,225 @@ tests:
         output:
           log:
             expect_ids: [932380]
+  - test_id: 15
+    desc: |
+      Windows shell command injection with 'dsquery': view=image.jpg%26dsquery user
+      Match dsquery (AD DS directory-service command-line tool)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?view%3Dimage.jpg%26dsquery%20user"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932380]
+  - test_id: 16
+    desc: |
+      Windows shell command injection with 'dsadd': view=image.jpg%26dsadd user
+      Match dsadd (AD DS object creation)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?view%3Dimage.jpg%26dsadd%20user"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932380]
+  - test_id: 17
+    desc: |
+      Windows shell command injection with 'ntdsutil': view=image.jpg%26ntdsutil
+      Match ntdsutil (AD DS database management, ntds.dit extraction)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?view%3Dimage.jpg%26ntdsutil%20snapshot"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932380]
+  - test_id: 18
+    desc: |
+      Windows shell command injection with 'csvde': view=image.jpg%26csvde -f out.csv
+      Match csvde (directory export)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?view%3Dimage.jpg%26csvde%20-f%20out.csv"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932380]
+  - test_id: 19
+    desc: |
+      No false positive on benign word containing the 'ds' command substrings: broadsword
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: "payload=the broadsword and windshield were goldsmith made"
+        output:
+          log:
+            no_expect_ids: [932380]
+  - test_id: 20
+    desc: |
+      Windows shell command injection with 'dsget': view=image.jpg|dsget user
+      Match dsget (AD DS object properties, pipe separator)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?view%3Dimage.jpg%7Cdsget%20user"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932380]
+  - test_id: 21
+    desc: |
+      Windows shell command injection with 'dsmod': view=image.jpg;dsmod user
+      Match dsmod (AD DS object modification, semicolon separator)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?view%3Dimage.jpg%3Bdsmod%20user"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932380]
+  - test_id: 22
+    desc: |
+      Windows shell command injection with 'dsmove': view=image.jpg&&dsmove
+      Match dsmove (AD DS object relocation, && separator)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?view%3Dimage.jpg%26%26dsmove%20%22CN%3Dtest%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932380]
+  - test_id: 23
+    desc: |
+      Windows shell command injection with 'dsrm': view=image.jpg\ndsrm
+      Match dsrm (AD DS object deletion, newline separator)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?view%3Dimage.jpg%0Adsrm%20-subtree"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932380]
+  - test_id: 24
+    desc: |
+      Windows shell command injection with 'dsacls' obfuscated by quotes: view=image.jpg%26d"s"acls
+      Match dsacls (AD DS ACL manipulation) despite quote insertion
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?view%3Dimage.jpg%26d%22s%22acls"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932380]
+  - test_id: 25
+    desc: |
+      Windows shell command injection with 'dsmgmt' called by path:
+      view=image.jpg%26\Windows\System32\dsmgmt
+      Match dsmgmt (AD DS database management) with a path prefix
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?view%3Dimage.jpg%26%5CWindows%5CSystem32%5Cdsmgmt"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932380]
+  - test_id: 26
+    desc: |
+      Windows shell command injection with 'ldifde.exe': view=image.jpg%26ldifde.exe -f out.ldf
+      Match ldifde (directory import/export) with an explicit .exe extension
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?view%3Dimage.jpg%26ldifde.exe%20-f%20out.ldf"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932380]
+  - test_id: 27
+    desc: |
+      No false positive for the new commands without a command injection separator
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: "payload=dsquery+ldifde+ntdsutil+csvde+dsacls+are+windows+tools"
+        output:
+          log:
+            no_expect_ids: [932380]
