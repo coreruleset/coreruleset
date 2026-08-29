@@ -183,3 +183,19 @@ tests:
         output:
           log:
             expect_ids: [932330]
+  - test_id: 11
+    desc: "True Positive: Make sure long numbers are matched"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?rce=[!-29999"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932330]

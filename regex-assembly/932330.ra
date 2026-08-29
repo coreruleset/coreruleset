@@ -2,11 +2,10 @@
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
 ##! Detect Unix shell history invocation / bash negation pattern (!-f, !-d, etc.)
-##! Require boundary prefix to avoid FP on product codes containing !-digits
 
 ##!+ i
 
 ##! Anchor to end of string or require command suffix
 ##!$ (?:$|[\s<>&|),])
 
-!-\d
+!-\d+
