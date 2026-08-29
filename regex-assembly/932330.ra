@@ -1,11 +1,13 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
-##! Detect Unix shell history invocation / bash negation pattern (!-f, !-d, etc.)
+##! Detect Unix shell history invocation / bash negation pattern (!-d)
 
 ##!+ i
 
 ##! Anchor to end of string or require command suffix
-##!$ (?:$|[\s<>&|),])
+##!$ (?:$|[\s<>&|),]|!-)
+
+##!^ (?:^\w*|\W)
 
 !-\d+
