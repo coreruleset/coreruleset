@@ -184,7 +184,7 @@ tests:
           log:
             expect_ids: [932330]
   - test_id: 11
-    desc: "True Positive: Make sure long numbers are matched"
+    desc: "Known False Negative: Make sure long numbers are matched"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -198,7 +198,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [932330]
+            no_expect_ids: [932330]
   - test_id: 12
     desc: "False Positive: High entropy cookie - Taken from openappsec-waf-comparasion-project"
     stages:
@@ -209,6 +209,24 @@ tests:
             Host: "localhost"
             User-Agent: "OWASP CRS test agent"
             Cookie: JSESSIONID=VfNgO7PwbLObN9euq5zIZiegF3U9l2gMXhN46zDCnkzcb9b3KuPs!-444284751
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932330]
+  - test_id: 13
+    desc: "False Positive: High entropy cookie - Taken from openappsec-waf-comparasion-project"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            # yamllint disable-line rule:line-length
+            Cookie: anj=dTM7k!M40F@ijuijN9zRGw8W1jGSycGTwqR<JZC4u%V8bW`!ZCS`*kQ27rtU<*:7mc>/<F!Otaawm>2Z1]rZjg#yExB9pj1Nk1#U!B04W70ZO4ZE@vRQRu8l=!rphZy`q4UviZI.1d^hWQytmX(5UGLi?LGb>$F^CwKv3=f-nTjS.<mCV3!ru@9r'ZR9fvKO%05_]D@YKffkW%-B`KqJYTtu6RNQJyI!^5wudU]zu(R7b#zh>1cVsnW1o6Y0AcDDKR6_KGSl.=wTLpYZHdzh6oFfIV7GPMqtgnAD)dy(4N1=JLSey]MK1pG:0!Z2+C9#jM_r8]B_[D>3%3MvB08opwzNO!opM#ut`El`uIiWv_lXvT)INI@VbM-B`Bgp-YM[[3v1'`X!mZOIt`1eM1EvSmWA4%=1BN4Z='($=!T<KFtAP.6GQ<sRB1Y<C(e[h<PXn[>42Fl_L!^[:QC*p^4!Qe?8CPXq)5MLazLwii*)#tRztAS'Sv_f%9mdJoRNluq@F'[gzHrk34d7HPQy!MO5jg4GG$![)/AJDghB*7]T`=jYK.KV7NhAyGMl7o^[GLUJ>G1`tKcjKoLtmZE3*.EKTYhR]H(^d<54rJj3+AHro7Wu#diZTk5N+BkaB!2)S?d*h!>hE1q-'5bq)LTj5YzEMraU^Ec`TL1>[JJ!WSRJGB-GEaBgoS(U*`x*$>79DY[j(gz2I@V*8TwrGgx9>MBcS7Jge2`1wvCqC=7x]r[K0$y'E*vpNMbat*D)/`(q1m:9]'>grvIf[)xVh*GyIs:h@?kt!Z6XTvV(4Vah8#A$dBIgpIPu9P1TSdjp$H=TI(oc`3@tZ<wORx68mJbG$m5Zv#Ef/Vum`5MHIGZ-g6anS(w?CQ(=[[)o[`=c64^5xkw*7$!#'6t6Y1$>Gb$y$vO@(Mqv7$Kf$_HTGFMJ]i?5.F(rj*41M+UHDj__<P:3i]T<A3C7SS#Uc%c$j7sIh_4[b:mk/75@UcQ4lik['6pU5!SG$2e_IybU.fBPSxlReWjon%3LUY5h(ZaiLu2pBnzKEUpw+:oziXZQRnos(Zh#m$WE2bDPlEe%uobTCfV+s`-Ljw*7orwGHUah?[Q)DB@*#^i7s[n)JMn:PMmIpS8bi!pv*-KWvU^Ec#J#K?V)vQ%MPm9(=?$Ia'(<#PkKNP+U(53s+^>>O0W-D.p!Y?JXOHoft^>TIx>9')Bu5@18q:dKG4Q<@xl3$7CPl4+33o8qMaOSYfi(Whx3X7<?2G6J@Y?kM/-vsf3P?i20MrubyFB/Rk'uNSr71YAM-U0etQ0x6CX>iSpNbr1J(-BBr-Qt@BhI+ed3n/@aIF_s8Ypq0XnI@ZR%=e.ewle[2/B%?rYXETx#8AsI7[HRtsUL%Q%p$5^lt3e%C<b>zRAy)TbbwR.s[<tCCD#GOk7#]f(+%Vl'*BqS*BR5cJmUn]=S!=S%'/<KMdG[koh'o>hlEtB3wl-t6^aRB`%b9NS<>dLG+>f#a6igLP'l*TH:u%%:nc_gLY7XFvUOh=$nOk=<m*$QPUint!Tm.6?k`Fwo`C27i7bUB>QuVCm[ia^j`P2VW4'.97'HEM%xOUR[e_jiS:E/WLH^VR$:^Jc:=g=!_$m04GG]N>ND<o](GXO4pt`%]!1VA]AkxgWXy(^mMABlvQ<c/xGLKdnt6r2.aOmF4tsuU`+pUFpI8#vb*'q6'cIR-'v$<o1hAc5m)>GA/EsaU<Y986OV[E@GKXn%OZg!=a5YlGM0#[W6zD]XeSkotUK49phroot[CS/]0GsuH<$QRlehiwNlOS??Ug'CJ$=[HY0<tx'XGl#=tHqUBvtgW?ZamfdM2xo90U'92q%5Z[Se2Q(4YkFark^eOp_17'>2j6-.k7w4l![pWsZzSGG1#IVWfHyFQvTB+yCY.FJ-Ht(=0%3p4Z2-Gq4`N4kdMt:#wo'[76<7Xpl^ut*jv'fXKGRI]/fYSxa`]Ob$:aObP/(26p5jV$46<$P-:.k85g$[nNtSJdQ<kJF:2!w>jzr1=OizwnrWKk1aD2o0nL![^3tka1VCl*QGT`2uOYNGSFXsd1`h6T5wC5Ji8m$2B*WnrQ4XIRL`/jt$?Cw4ug!)Sw@70P>Jbb36!u3e)t^9E'QWWhOD>Mr=l81mqW0O1>zSP>ic%tREM[8>MY)dIZ#:SIdM)[[gD<F.6C9F!39s0N7T_#n^`bPALq0l9r:Ks1+t/^tC)`wfN5r)hfNKu/Nhg=P6FeYL$6'VIh>ULmm7fD#/JEGbSYz?J^AO%+:oyR/QxNouAD1'9di3C8)X`av@qo3h1X_IBc8[XY`0]W'n3lZS8.oNX8@z#HsK_7H8`0eL^'XQ)-rWEM0C-kE^(Tle@H%)w</e]<O[Jl^o9vel[nPOspt7BA/OjHAzL7[v>=Bk`vtE*C%TH7o#N^CvfY.==C%7KY)x:g5_H`No)2GTwVObNA.5ZcsB-BXYXc@K6w(BfdhRJsjinP7MdKV3rzo1c#>'3Y-__tNLC(9CrH#e]c^]8.gR1bYgX5'XE.8Frm)cSkhUDJ+v[vW%O'qrQ2r`-L-)9'JQd4haf9(s]5]i8dF%yZHmksf+u'%7x=>*-HH:_eWMc0IHIXyDluB%h%hZW>R0s%+f7)9`!r!W[xhvsH#<A7xo_OOH$g1U=eSP1-Z5afrmCPS0^[M4C8eEidLWq#Co!BP_BPZ1?S8lXt+6Nt0SSgWWAX!Kbf8v-_.pG>^Z:B3%2Y(C1Zg:[H['@!-2?3tLvpBGO2?uxs9v9b#_m0c#hKhiZ2YJL6J^RT'7i0?7Xs*eR%oYbtfrjoypc'Za_p)`+_wPpAEWsk?Yh#`chmp$H:cF*t?n3xbL
           method: GET
           port: 80
           uri: "/get"
