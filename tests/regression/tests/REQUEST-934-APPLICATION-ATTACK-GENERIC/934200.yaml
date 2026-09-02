@@ -166,3 +166,164 @@ tests:
         output:
           log:
             expect_ids: [934200]
+
+  - test_id: 11
+    desc: "Velocity SSTI - #set directive with reflective call"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%23set%28%24x%3D%27%27%29%23set%28%24c%3D%24x.class.forName%28%27java.lang.Runt%27%2B%27ime%27%29%29%23set%28%24z%3D%24c.getMethod%28%27ex%27%2B%27ec%27%29%29"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934200]
+  - test_id: 12
+    desc: "Velocity SSTI - #foreach directive with method call"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%23foreach%28%24i%20in%20%5B%24m.invoke%28%24r%2C%27id%27%29%5D%29%23end"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934200]
+  - test_id: 13
+    desc: "Velocity SSTI - #if directive with method call"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%23if%28%24m.invoke%28%24r%2C%27id%27%29%29%23end"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934200]
+  - test_id: 14
+    desc: "FreeMarker SSTI - <#assign> instantiating a class"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3C%23assign%20ex%3D%28%22freemarker.temp%22%2B%22late.utility.Execute%22%29%3Fnew%28%29%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934200]
+  - test_id: 15
+    desc: "FreeMarker SSTI - <#list> directive with method call"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3C%23list%20%5Bex%28%22id%22%29%5D%20as%20i%3E%3C%2F%23list%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934200]
+  - test_id: 16
+    desc: "FreeMarker SSTI - <@macro> call"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3C%40ex%28%22id%22%29%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934200]
+  - test_id: 17
+    desc: "C preprocessor directive must not match (no $ reference)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%23if%28defined%28FOO%29%29"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [934200]
+  - test_id: 18
+    desc: "Markdown heading with parentheses must not match"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%23%20Title%20%28version%202%29"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [934200]
+  - test_id: 19
+    desc: "HTML markup must not match"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3Ca%20href%3D%22%2Fx%3Fy%3D1%2A2%22%3Elink%3C%2Fa%3E"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [934200]
+  - test_id: 20
+    desc: "Chat-style mention must not match"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3C%40U012345%3E%20please%20take%20a%20look"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [934200]
