@@ -581,6 +581,32 @@ SecDefaultAction "phase:5,log,auditlog,pass"
 #    ver:'OWASP_CRS/4.30.0-dev',\
 #    setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |text/xml| |application/xml| |application/soap+xml| |application/json|'"
 
+#
+# -- [[ Allow AWS JSON Content Type ]] -----------------------------------
+#
+# AWS services (e.g. Cognito, DynamoDB, SQS) use the proprietary
+# application/x-amz-json-1.0 / application/x-amz-json-1.1 content types for
+# their JSON-RPC-style APIs. The request bodies are plain JSON, but these
+# content types are not in the default allowed_request_content_type list
+# above, so rule 920420 blocks them by default.
+#
+# The variable tx.enable_aws_json_content_type lets you allow these content
+# types. Setting it also activates the JSON body processor for them (see
+# rule 901360 in REQUEST-901-INITIALIZATION.conf), avoiding a request body
+# bypass (see the Bypass Warning above).
+#
+# Uncomment this rule to change the default:
+#
+#SecAction \
+#    "id:900225,\
+#    phase:1,\
+#    pass,\
+#    t:none,\
+#    nolog,\
+#    tag:'OWASP_CRS',\
+#    ver:'OWASP_CRS/4.30.0-dev',\
+#    setvar:tx.enable_aws_json_content_type=1"
+
 # Allowed HTTP versions.
 # Default: HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0 HTTP/3 HTTP/3.0
 # Note that some web server versions use 'HTTP/2', some 'HTTP/2.0', so
