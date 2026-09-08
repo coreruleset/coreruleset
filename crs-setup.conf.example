@@ -584,23 +584,30 @@ SecDefaultAction "phase:5,log,auditlog,pass"
 #
 # -- [[ AWS JSON and "+json" Content Types ]] -----------------------------
 #
-# In addition to the content types listed above, two further categories are
-# allowed and JSON-parsed by default, unconditionally (no toggle needed,
-# since the JSON body processor is forced in the same rule that allows
-# them, so there is no request body bypass risk from enabling them):
+# IMPORTANT: in addition to the fixed list above, CRS allows and JSON-parses
+# ANY content type of the form application/*+json by default, unconditionally
+# -- this is a wildcard match (rule 901370 below), not a fixed list. Every
+# content type ending in "+json" is included, whether or not it is named
+# below. Examples: application/ld+json, application/problem+json,
+# application/vnd.api+json, application/geo+json, application/scim+json,
+# application/csp-report+json, application/cloudevents+json, and any other
+# "+json"-suffixed type your application, a library, or a third party
+# defines. This is safe because the "+json" structured syntax suffix
+# (RFC 6839) guarantees the body is JSON syntax regardless of the semantic
+# subtype, and because CRS forces the JSON body processor in the exact same
+# rule that allows the content type, so there is no request body bypass risk
+# from this being on by default.
 #
-# - AWS's proprietary JSON-RPC-style content types application/x-amz-json-1.0
-#   and application/x-amz-json-1.1 (Cognito, DynamoDB, SQS, ...): rule 901360
-#   in REQUEST-901-INITIALIZATION.conf.
-# - Any content type using the "+json" structured syntax suffix (RFC 6839),
-#   e.g. application/ld+json, application/problem+json,
-#   application/vnd.api+json, application/geo+json, application/scim+json,
-#   application/csp-report+json, ...: rule 901370 in the same file. The
-#   suffix guarantees the body is JSON syntax, so this is handled generically
-#   rather than as an enumerated list.
+# Separately, and not covered by the wildcard above (it doesn't use the
+# "+json" suffix), AWS's proprietary JSON-RPC-style content types
+# application/x-amz-json-1.0 and application/x-amz-json-1.1 (Cognito,
+# DynamoDB, SQS, ...) are also allowed and JSON-parsed by default,
+# unconditionally: rule 901360 in REQUEST-901-INITIALIZATION.conf.
 #
-# If you need to disable either, remove the corresponding rule ID (901360 /
-# 901370) via ctl:ruleRemoveById, the same way as any other CRS rule.
+# Neither requires a toggle to enable, since the JSON body processor is
+# forced in the same rule that allows the content type. If you need to
+# disable either, remove the corresponding rule ID (901360 / 901370) via
+# ctl:ruleRemoveById, the same way as any other CRS rule.
 
 # Allowed HTTP versions.
 # Default: HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0 HTTP/3 HTTP/3.0
