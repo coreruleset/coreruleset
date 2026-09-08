@@ -2,7 +2,7 @@
 meta:
   author: "fzipi"
   description: "\"+json\" structured syntax suffix content types: allowed by default and JSON-parsed"
-rule_id: 901361
+rule_id: 901370
 tests:
   - test_id: 1
     desc: "Positive test: application/ld+json is allowed by the default configuration"
@@ -130,3 +130,21 @@ tests:
         output:
           log:
             expect_ids: [942100]
+  - test_id: 8
+    desc: "Positive test: a mixed-case content type (Application/Vnd.API+JSON) is still allowed, t:lowercase applies before capture (ref.: coreruleset/coreruleset#4775)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: Application/Vnd.API+JSON
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
