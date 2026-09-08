@@ -76,3 +76,21 @@ tests:
         output:
           log:
             expect_ids: [942100]
+  - test_id: 5
+    desc: "Positive test: application/x-amz-json-1.1 with a trailing parameter (charset) is still allowed, consistent with rule 901370"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-amz-json-1.1; charset=utf-8
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
