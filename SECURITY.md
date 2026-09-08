@@ -101,4 +101,36 @@ We are happy to work with the community to provide CVE identifiers for any disco
 
 If in doubt, feel free to reach out to us!
 
+## EU Cyber Resilience Act (CRA) — Steward Policy
+
+OWASP CRS is developed under the [OWASP Foundation](https://owasp.org), which is expected
+to act as the CRA "Open Source Software Steward" for this project. The relationship between
+the Foundation and CRS as a formally designated Steward/Project pair has not yet been
+ratified; this section will be updated once that is finalized. This is not legal guidance.
+
+This policy, together with the rest of this document, is put in place and documented to
+foster the development of a secure product and the effective handling of vulnerabilities,
+as follows:
+
+- **Fostering secure development**: every rule change goes through mandatory PR review
+  (architecture, regex correctness, ReDoS risk), an automated regression test suite, a
+  linter (`crs-linter`) enforcing metadata and tagging conventions, and a quantitative
+  false-positive corpus check before merging. See [CONTRIBUTING.md](CONTRIBUTING.md).
+- **Documenting, addressing, and remediating vulnerabilities**: see "Reporting a
+  Vulnerability" above. Fixed vulnerabilities are documented via GitHub Security Advisories
+  (GHSAs) and, where warranted, a CVE. Triage and remediation is coordinated by the CRS
+  security response role described in the project's governance documentation.
+- **Sharing information within the open source community**: where a reported vulnerability
+  originates in or also affects an upstream engine (ModSecurity, Coraza) or a sibling
+  WAF rule set, we notify the relevant upstream/sibling maintainers.
+- **Voluntary reporting to a CSIRT/ENISA**: CRS supports voluntary reporting of
+  vulnerabilities, incidents, and near-misses to a national CSIRT designated as
+  coordinator, or to ENISA, as provided for under CRA Article 15. **The specific CSIRT
+  has not yet been designated** — this depends on OWASP Foundation's establishment
+  status, which has not yet been determined for this purpose. This section will name
+  the designated CSIRT once that determination is made.
+- **Market Surveillance Authority**: not yet designated, for the same reason as above.
+  Market surveillance authorities may request a copy of this policy and evidence of its
+  application.
+
 The OWASP CRS Team.
