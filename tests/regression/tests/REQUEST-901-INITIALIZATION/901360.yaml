@@ -1,0 +1,78 @@
+---
+meta:
+  author: "fzipi"
+  description: "AWS JSON content types: allowed by default and JSON-parsed"
+rule_id: 901360
+tests:
+  - test_id: 1
+    desc: "Positive test: application/x-amz-json-1.0 is allowed by the default configuration"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-amz-json-1.0
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 2
+    desc: "Positive test: application/x-amz-json-1.1 is allowed by the default configuration"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-amz-json-1.1
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 3
+    desc: "Positive test: a lookalike content type (application/x-amz-json-1.12) is NOT allowed"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-amz-json-1.12
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 4
+    desc: "Positive test: JSON body processor is actually forced, a SQLi payload nested in the JSON body is detected (ref.: coreruleset/coreruleset#4775)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-amz-json-1.1
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"var":"1234 OR 1=1"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942100]

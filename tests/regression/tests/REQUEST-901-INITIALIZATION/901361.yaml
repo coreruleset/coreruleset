@@ -1,0 +1,132 @@
+---
+meta:
+  author: "fzipi"
+  description: "\"+json\" structured syntax suffix content types: allowed by default and JSON-parsed"
+rule_id: 901361
+tests:
+  - test_id: 1
+    desc: "Positive test: application/ld+json is allowed by the default configuration"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/ld+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 2
+    desc: "Positive test: application/vnd.api+json is allowed by the default configuration"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/vnd.api+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 3
+    desc: "Positive test: application/csp-report+json is allowed by the default configuration (distinct from the bare application/csp-report type removed in #4365)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/csp-report+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 4
+    desc: "Positive test: application/cloudevents+json is allowed by the default configuration, now that the JSON body processor is forced for it (ref.: 9EA-241022, coreruleset/coreruleset#3905)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/cloudevents+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 5
+    desc: "Positive test: the bare application/csp-report type (no +json suffix) must stay blocked (ref.: #4362, #4365)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/csp-report
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 6
+    desc: "Positive test: a lookalike content type that doesn't actually end in +json is NOT allowed"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/vnd.api+jsonx
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 7
+    desc: "Positive test: JSON body processor is actually forced, a SQLi payload nested in the JSON body is detected (ref.: coreruleset/coreruleset#4775)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/vnd.api+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"var":"1234 OR 1=1"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942100]
