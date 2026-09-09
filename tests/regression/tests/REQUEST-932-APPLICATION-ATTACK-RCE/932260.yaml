@@ -1010,3 +1010,37 @@ tests:
         output:
           log:
             expect_ids: [932260]
+  - test_id: 60
+    desc: "True Positive: using `builtin` to execute shell builtin"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?r=builtin+cd+foo"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932260]
+  - test_id: 61
+    desc: "False Positive: substring false positive matching `builtin` in `builtin-dark-template`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: 'application/json'
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{ "active_theme": "neon-sunset","extends": "builtin-dark-template","custom_css": ".body { background: #000; }"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932260]
