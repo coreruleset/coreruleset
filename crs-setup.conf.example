@@ -589,14 +589,13 @@ SecDefaultAction "phase:5,log,auditlog,pass"
 # -- this is a wildcard match (rule 901370 below), not a fixed list. Every
 # content type ending in "+json" is included, whether or not it is named
 # below. Examples: application/ld+json, application/problem+json,
-# application/vnd.api+json, application/geo+json, application/scim+json,
-# application/csp-report+json, application/cloudevents+json, and any other
-# "+json"-suffixed type your application, a library, or a third party
-# defines. This is safe because the "+json" structured syntax suffix
-# (RFC 6839) guarantees the body is JSON syntax regardless of the semantic
-# subtype, and because CRS forces the JSON body processor in the exact same
-# rule that allows the content type, so there is no request body bypass risk
-# from this being on by default.
+# application/vnd.api+json, and any other "+json"-suffixed type your
+# application, a library, or a third party defines. This is safe because
+# the "+json" structured syntax suffix (RFC 6839) guarantees the body is
+# JSON syntax regardless of the semantic subtype, and because CRS forces
+# the JSON body processor in the exact same rule that allows the content
+# type, so there is no request body bypass risk from this being on by
+# default.
 #
 # Separately, and not covered by the wildcard above (it doesn't use the
 # "+json" suffix), AWS's proprietary JSON-RPC-style content types
