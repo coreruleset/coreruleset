@@ -54,7 +54,9 @@ reviews:
       instructions: >
         Apply when the PR deletes one or more rule IDs from `rules/*.conf` or
         `plugins/*.conf`. Operators may have exclusions naming those IDs, so
-        removals get their own changelog section.
+        removals get their own changelog section. This label is authoritative
+        for a plain rule-ID deletion — use it instead of `release:breaking`
+        even though a removed ID is also a breaking change for operators.
     - label: "release:refactor"
       instructions: >
         Apply when the PR restructures without changing behaviour: a
@@ -65,22 +67,23 @@ reviews:
     - label: "release:breaking"
       instructions: >
         Apply when the change breaks something a deployment or a downstream
-        tool depends on: a removed or renumbered rule ID that operators may
-        name in an exclusion, a removed or renamed `tag:` that log pipelines
-        filter on, a `crs-setup.conf.example` key removed or renamed, or a
-        removed/renamed exported symbol, CLI flag, or config key in the Go and
-        Python tooling. `.github/release.yml` gives these their own section, so
-        prefer this over `release:important` when callers must change
-        something, not merely be aware of it. Pair it with a "Breaking changes"
-        section in the PR description.
+        tool depends on: a renumbered rule ID that operators may name in an
+        exclusion, a removed or renamed `tag:` that log pipelines filter on, a
+        `crs-setup.conf.example` key removed or renamed, or a removed/renamed
+        exported symbol, CLI flag, or config key in the Go and Python tooling.
+        A plain rule-ID deletion is `release:remove-rules`, not this label,
+        even though it is also breaking. `.github/release.yml` gives these
+        their own section, so prefer this over `release:important` when
+        callers must change something, not merely be aware of it. Pair it
+        with a "Breaking changes" section in the PR description.
     - label: "release:important"
       instructions: >
         Apply when operators must act or be aware on upgrade: a changed
         default in `crs-setup.conf.example`, a rule moved between paranoia
         levels, or a change to the anomaly-scoring mechanism — but nothing
         an operator must actively fix. If existing configuration stops working
-        (a removed rule ID, tag, or config key), use `release:breaking`
-        instead.
+        (a renumbered rule ID, or a removed/renamed tag or config key), use
+        `release:breaking` instead; a removed rule ID is `release:remove-rules`.
     - label: "release:ignore"
       instructions: >
         The default when nothing above applies. Apply for chores, CI and
