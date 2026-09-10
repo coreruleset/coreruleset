@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Paul Beckett, Max Leske, azurit"
+  author: "Paul Beckett, Max Leske, azurit, zoutjebot, Esad Cetiner"
 rule_id: 932130
 tests:
   - test_id: 1
@@ -668,3 +668,218 @@ tests:
         output:
           log:
             expect_ids: [932130]
+  - test_id: 42
+    desc: |
+      Positive test: ANSI-C hex quoting to encode short command - $'\x77' (w)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5Cx77'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 43
+    desc: |
+      Positive test: ANSI-C hex quoting, long command - $'\x64\x6f\x63\x6b\x65\x72\x2d\x63\x6f\x6d\x70\x6f\x73\x65' (docker-compose)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5Cx64%5Cx6f%5Cx63%5Cx6b%5Cx65%5Cx72%5Cx2d%5Cx63%5Cx6f%5Cx6d%5Cx70%5Cx6f%5Cx73%5Cx65'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 44
+    desc: "Negative test: short hex-like string below ANSI-C detection threshold - $x63x61"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "932130-44=%24x63x61"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932130]
+  - test_id: 45
+    desc: |
+      Positive test: ANSI-C \u quoting, short command - $'\u0077' (w)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5Cu0077'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 46
+    desc: |
+      Positive test: ANSI-C \u quoting, long command - $'\u0064\u006f\u0063\u006b\u0065\u0072\u002d\u0063\u006f\u006d\u0070\u006f\u0073\u0065' (docker-compose)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5Cu0064%5Cu006f%5Cu0063%5Cu006b%5Cu0065%5Cu0072%5Cu002d%5Cu0063%5Cu006f%5Cu006d%5Cu0070%5Cu006f%5Cu0073%5Cu0065'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 47
+    desc: |
+      Negative test: invalid \u syntax - $'\uzz
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5Cuzz"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932130]
+  - test_id: 48
+    desc: |
+      Positive test: ANSI-C \U quoting, short command - $'\U00000077' (w)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5CU00000077'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 49
+    desc: |
+      Positive test: ANSI-C \U quoting, long command - $'\U00000064\U0000006f\U00000063\U0000006b\U00000065\U00000072\U0000002d\U00000063\U0000006f\U0000006d\U00000070\U0000006f\U00000073\U00000065' (docker-compose)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5CU00000064%5CU0000006f%5CU00000063%5CU0000006b%5CU00000065%5CU00000072%5CU0000002d%5CU00000063%5CU0000006f%5CU0000006d%5CU00000070%5CU0000006f%5CU00000073%5CU00000065'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 50
+    desc: |
+      Negative test: invalid \U syntax - $'\Uzz
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5CUzz"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932130]
+  - test_id: 51
+    desc: |
+      Positive test: ANSI-C octal quoting, short command - $'\167' (w)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5C167'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 52
+    desc: |
+      Positive test: ANSI-C octal quoting, long command - $'\144\157\143\153\145\162\055\143\157\155\160\157\163\145' (docker-compose)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5C144%5C157%5C143%5C153%5C145%5C162%5C055%5C143%5C157%5C155%5C160%5C157%5C163%5C145'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 53
+    desc: |
+      Negative test: invalid ANSI-C octal syntax - $'\\8
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5C%5C8"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932130]

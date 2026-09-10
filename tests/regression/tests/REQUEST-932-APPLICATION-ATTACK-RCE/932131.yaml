@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "dune73, Max Leske, azurit"
+  author: "dune73, Max Leske, azurit, zoutjebot, Esad Cetiner"
 rule_id: 932131
 tests:
   - test_id: 1
@@ -30,6 +30,232 @@ tests:
             Host: "localhost"
           method: "GET"
           port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932131]
+  - test_id: 3
+    desc: |
+      Positive test: ANSI-C hex quoting to encode short command - $'\x77' (w)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Referer: |-
+              $'\x77'
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932131]
+  - test_id: 4
+    desc: |
+      Positive test: ANSI-C hex quoting, long command - $'\x64\x6f\x63\x6b\x65\x72\x2d\x63\x6f\x6d\x70\x6f\x73\x65' (docker-compose)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Referer: |-
+              $'\x64\x6f\x63\x6b\x65\x72\x2d\x63\x6f\x6d\x70\x6f\x73\x65'
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932131]
+  - test_id: 5
+    desc: "Negative test: short hex-like string below ANSI-C detection threshold - $x63x61"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Referer: |-
+              $x63x61
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932131]
+  - test_id: 6
+    desc: |
+      Positive test: ANSI-C \u quoting, short command - $'\u0077' (w)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Referer: |-
+              $'\u0077'
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932131]
+  - test_id: 7
+    desc: |
+      Positive test: ANSI-C \u quoting, long command - $'\u0064\u006f\u0063\u006b\u0065\u0072\u002d\u0063\u006f\u006d\u0070\u006f\u0073\u0065' (docker-compose)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Referer: |-
+              $'\u0064\u006f\u0063\u006b\u0065\u0072\u002d\u0063\u006f\u006d\u0070\u006f\u0073\u0065'
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932131]
+  - test_id: 8
+    desc: |
+      Negative test: invalid \u syntax - $'\uzz
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Referer: |-
+              $'\uzz
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932131]
+  - test_id: 9
+    desc: |
+      Positive test: ANSI-C \U quoting, short command - $'\U00000077' (w)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Referer: |-
+              $'\U00000077'
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932131]
+  - test_id: 10
+    desc: |
+      Positive test: ANSI-C \U quoting, long command - $'\U00000064\U0000006f\U00000063\U0000006b\U00000065\U00000072\U0000002d\U00000063\U0000006f\U0000006d\U00000070\U0000006f\U00000073\U00000065' (docker-compose)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Referer: |-
+              $'\U00000064\U0000006f\U00000063\U0000006b\U00000065\U00000072\U0000002d\U00000063\U0000006f\U0000006d\U00000070\U0000006f\U00000073\U00000065'
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932131]
+  - test_id: 11
+    desc: |
+      Negative test: invalid \U syntax - $'\Uzz
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Referer: |-
+              $'\Uzz
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932131]
+  - test_id: 12
+    desc: |
+      Positive test: ANSI-C octal quoting, short command - $'\167' (w)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Referer: |-
+              $'\167'
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932131]
+  - test_id: 13
+    desc: |
+      Positive test: ANSI-C octal quoting, long command - $'\144\157\143\153\145\162\055\143\157\155\160\157\163\145' (docker-compose)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Referer: |-
+              $'\144\157\143\153\145\162\055\143\157\155\160\157\163\145'
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932131]
+  - test_id: 14
+    desc: |
+      Negative test: invalid ANSI-C octal syntax - $'\\8
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Referer: $'\\8
           uri: "/get"
           version: "HTTP/1.1"
         output:
