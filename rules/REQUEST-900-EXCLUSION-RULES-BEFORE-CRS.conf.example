@@ -73,20 +73,21 @@
 # SecRuleUpdateTargetByTag  -> place in RESPONSE-999-EXCLUSION-RULES-AFTER-CRS
 #
 # Rule ID ranges (e.g. 942100-942999) are only expanded by directives/actions
-# that remove a whole rule; they are NOT expanded by directives/actions that
-# modify or remove a rule's target:
+# that remove a whole rule on ModSecurity v2 and v3; they are NOT expanded by
+# directives/actions that modify or remove a rule's target on those engines.
+# Coraza is the exception: it expands ranges correctly everywhere.
 #
-#                            | v2 + Apache | v3 + libModSecurity
-# SecRuleRemoveById          | range OK    | range OK
-# ctl:ruleRemoveById         | range OK    | range OK
-# SecRuleUpdateTargetById    | range OK    | single ID only
-# ctl:ruleRemoveTargetById   | range OK    | single ID only
+#                            | v2 + Apache | v3 + libModSecurity | Coraza
+# SecRuleRemoveById          | range OK    | range OK            | range OK
+# ctl:ruleRemoveById         | range OK    | range OK            | range OK
+# SecRuleUpdateTargetById    | range OK    | single ID only      | range OK
+# ctl:ruleRemoveTargetById   | range OK    | single ID only      | range OK
 #
-# On v3, giving SecRuleUpdateTargetById or ctl:ruleRemoveTargetById a range
-# silently affects only the first rule ID in the range; the rest of the
+# On v2 and v3, giving SecRuleUpdateTargetById or ctl:ruleRemoveTargetById a
+# range silently affects only the first rule ID in the range; the rest of the
 # range's rules are still fully inspected. Use ruleRemoveTargetByTag/ByMsg or
 # SecRuleUpdateTargetByTag/ByMsg instead if you need to affect several rules
-# at once on v3.
+# at once on those engines.
 #
 #
 # What follows are a group of examples that show you how to perform rule
