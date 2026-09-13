@@ -1,0 +1,57 @@
+name: Attest release artifacts
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  attestations: write
+  id-token: write
+
+jobs:
+  attest:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Set version
+        id: version
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Download full source archives
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          gh release download "$TAG" -R "${{ github.repository }}" -A zip
+          gh release download "$TAG" -R "${{ github.repository }}" -A tar.gz
+
+      - name: Build minimal archives
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          tar zxf "coreruleset-${VERSION}.tar.gz"
+          rm -rf "coreruleset-${VERSION}"/{util,regex-assembly,tests} \
+            "coreruleset-${VERSION}/renovate.json" "coreruleset-${VERSION}"/.[a-z]*
+          mv "coreruleset-${VERSION}"/*.md "coreruleset-${VERSION}/docs"
+          tar czf "coreruleset-${VERSION}-minimal.tar.gz" "coreruleset-${VERSION}"
+          zip -r "coreruleset-${VERSION}-minimal.zip" "coreruleset-${VERSION}"
+
+      - name: Upload minimal archives to release
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          gh release upload "$TAG" -R "${{ github.repository }}" \
+            "coreruleset-${VERSION}-minimal.tar.gz" "coreruleset-${VERSION}-minimal.zip"
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373 # v4.1.1
+        with:
+          subject-path: |
+            coreruleset-${{ steps.version.outputs.version }}.zip
+            coreruleset-${{ steps.version.outputs.version }}.tar.gz
+            coreruleset-${{ steps.version.outputs.version }}-minimal.zip
+            coreruleset-${{ steps.version.outputs.version }}-minimal.tar.gz
