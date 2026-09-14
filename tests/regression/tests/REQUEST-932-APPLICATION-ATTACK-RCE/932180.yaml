@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Franziska Bühler, azurit, Esad Cetiner"
+  author: "Franziska Bühler, azurit, Esad Cetiner, touchweb_vincent"
   description: "Restricted File Upload Attempt"
 rule_id: 932180
 tests:
@@ -297,6 +297,330 @@ tests:
 
             ... Some content ...
             ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 16
+    desc: "False Positive: Matching substring `asound`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: pharmasound.jpg
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 17
+    desc: "True Positive: Matching substring `asound`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: /proc/asound
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 18
+    desc: "True Positive: Matching asound.conf config file"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: asound.conf
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 19
+    desc: "False Positive: Matching substring `.boto`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: miss.boto@gmail.com
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 20
+    desc: "True Positive: wp-config.php directory traversal"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "../../wp-config.php"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 21
+    desc: "True Positive: Dockerfile"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "DockerFile"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 22
+    desc: "True Positive: Dockerfile backup"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "DockerFile.bak"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 23
+    desc: "True Positive: Dockerfile directory traversal"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "../../DockerFile"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 24
+    desc: "True Positive: Dockerfile backup directory traversal"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "../../DockerFile.bak"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 25
+    desc: "True Positive: Block env files"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "prod.env"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 26
+    desc: "True Positive: Block env files"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: ".env"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 27
+    desc: "False Positive: `asound` substring false positive"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "aSoundMind.jpg"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 28
+    desc: "True Positive: Block uploading `.boto`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: .boto.bak
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 29
+    desc: "True Positive: Replacing config files for Java apps"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "/WEB-INF/web.xml"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 30
+    desc: "True Positive: Blocking GitLab config backups"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "gitlab_config_1768144038_2026_01_12.tar"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 31
+    desc: "True Positive: Blocking upload of fish variables file"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "fish_variables"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 32
+    desc: "True Positive: Blocking upload of fish variables file"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "fish_variables.bak"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 33
+    desc: "True Positive: Blocking upload of fish variables file"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "fish_variables.fish"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [932180]
