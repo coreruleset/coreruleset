@@ -54,25 +54,27 @@ tests:
         output:
           log:
             expect_ids: [933161]
-  # See https://github.com/coreruleset/coreruleset/issues/3693
-  # See https://github.com/coreruleset/coreruleset/pull/3273#issuecomment-1675490075
-  # - test_id: 4
-  #   desc: dl/*foo*/()
-  #   stages:
-  #     - input:
-  #         data: gethostbynamE(
-  #         dest_addr: 127.0.0.1
-  #         headers:
-  #           Host: localhost
-  #           User-Agent: "OWASP CRS test agent"
-  #           Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-  #         method: POST
-  #         port: 80
-  #         uri: "/post?foo=dl%2F%2Afoo%2A%2F%09%28%29"
-  #         version: "HTTP/1.1"
-  #       output:
-  #         log:
-  #           expect_ids: [933161]
+  - test_id: 4
+    desc: |
+      Negative - 'dl' is deliberately absent from the function list: it is only
+      registered by the CLI, embed and non-serving CGI SAPIs, so it is an
+      undefined function under any HTTP-serving SAPI, while the two-character
+      name matches ordinary prose such as "5 dl (500 ml) water".
+      See https://github.com/coreruleset/coreruleset/issues/3693
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?foo=dl%2f%2afoo%2a%2f%09%28%29"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933161]
   - test_id: 5
     desc: ucfirst()
     stages:
