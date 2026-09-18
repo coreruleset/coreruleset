@@ -62,7 +62,7 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "[match sql-errors.data]the used select statements have different number of columns[/match]: Warning: mysql_fetch_assoc(): supplied argument is not a valid MySQL result resource in /path/index.php on line 1"}
+            {"body": "Warning: mysql_fetch_assoc(): supplied argument is not a valid MySQL result resource in /path/index.php on line 1"}
         output:
           log:
             expect_ids: [951230]
