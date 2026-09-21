@@ -45,6 +45,7 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           gh release upload "$TAG" -R "${{ github.repository }}" \
+            --clobber \
             "coreruleset-${VERSION}-minimal.tar.gz" "coreruleset-${VERSION}-minimal.zip"
 
       - name: Attest build provenance
