@@ -618,3 +618,21 @@ tests:
         output:
           log:
             no_match_regex: \[id "\d+"\]
+  - test_id: 38
+    desc: "substring false positive matching `.profile`"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            User-Agent: OWASP CRS test agent
+            Host: "localhost"
+            Content-Type: application/json
+          method: "POST"
+          port: 80
+          uri: "/"
+          data: '{"profiledata.1786050841138-4":"test"}'
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_match_regex: \[id "\d+"\]
