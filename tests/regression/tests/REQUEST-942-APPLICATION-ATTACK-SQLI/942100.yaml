@@ -259,3 +259,35 @@ tests:
         output:
           log:
             expect_ids: [942100]
+  - test_id: 16
+    desc: 'Unicode best-fit %uXXXX SQLi: curly apostrophe U+2019 folds to single quote'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: '/?id=%u2019%20OR%201%3D1--%20-'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942100]
+  - test_id: 17
+    desc: "Unicode best-fit %uXXXX SQLi: ' or 'a'='a with every quote as U+2019"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: '/?id=%u2019%20or%20%u2019a%u2019%3d%u2019a'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942100]

@@ -16,20 +16,27 @@ on:
 
 # Pin tool versions to prevent problems
 env:
-  GO_FTW_VERSION: '1.3.0'
+  GO_FTW_VERSION: '2.5.0'
 
 permissions: {}
 jobs:
   regression:
     runs-on: ubuntu-latest
+    # release/vX.Y.Z branches are, by this repo's convention, exclusively a
+    # version/copyright/CHANGES.md bump for the release cut — never a
+    # behavioral change — so there's nothing for quantitative testing to
+    # catch. This is scoped to the PR's *source* branch, not its target: an
+    # individual security/bug backport PR (branch lts-backport/<PR#>) can
+    # share the same lts/vX.Y.x target branch as a release cut, but carries
+    # a real fix and must still run the full quantitative suite.
+    if: ${{ !startsWith(github.head_ref, 'release/') }}
     outputs:
-      test_status: ${{ steps.quantitative.outcome }}
+      regressions_detected: ${{ steps.quantitative.outputs.regressions_detected }}
     strategy:
       matrix:
         language: ["eng"]
         year: ["2023"]
         size: ["10K"]
-        paranoia_level: ["1"]
     permissions:
       contents: read
     steps:
@@ -46,7 +53,34 @@ jobs:
           path: 'mainBranchFolder'
           persist-credentials: false
 
+      # Rule changes that only touch non-behavioral actions (tag/ver/msg/
+      # logdata/capec) can't change which payloads match, so there's no point
+      # spending CI minutes re-running the full corpus for them. Redact those
+      # actions' values in both trees and diff what's left: if nothing
+      # differs, the only edits were to those actions. This also correctly
+      # handles single-line rules (e.g. the per-file PL0 skipAfter guards,
+      # where id/phase/tag/ver/skipAfter all sit on one line) that a simple
+      # "does the changed line start with a safe action" check would miss.
+      - name: "Detect whether rule changes can affect matching"
+        id: detect-behavior-change
+        run: |
+          rm -rf /tmp/redacted-main /tmp/redacted-pr
+          cp -r mainBranchFolder/rules /tmp/redacted-main
+          cp -r rules /tmp/redacted-pr
+          find /tmp/redacted-main /tmp/redacted-pr -type f \
+            -exec sed -i -E "s/(tag|ver|msg|logdata|capec):'[^']*'/\1:'REDACTED'/g" {} +
+
+          if diff -rq /tmp/redacted-main /tmp/redacted-pr > /dev/null; then
+            echo "Rule changes are metadata-only (tag/ver/msg/logdata/capec) — skipping quantitative tests"
+            echo "behavior_changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Rule changes affect matching behavior — running full quantitative tests"
+            diff -rq /tmp/redacted-main /tmp/redacted-pr || true
+            echo "behavior_changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: "Install dependencies"
+        if: steps.detect-behavior-change.outputs.behavior_changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -54,54 +88,127 @@ jobs:
             -p "ftw_${{ env.GO_FTW_VERSION }}_linux_amd64.tar.gz" -O - | tar -xzvf - ftw
 
       - name: "Restore Cache"
+        if: steps.detect-behavior-change.outputs.behavior_changed == 'true'
         uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.ftw/*.txt
           key: ${{ matrix.language }}_news_${{ matrix.year }}_${{ matrix.size }}-sentences.txt
 
-      - name: "Run tests for language: ${{ matrix.language }}, year: ${{ matrix.year}}, size: ${{ matrix.size }}, paranoia level: ${{ matrix.paranoia_level }}"
+      # Metrics glossary (see go-ftw's internal/quantitative/stats.go for the
+      # authoritative definitions):
+      # - count / "Payloads run": corpus payloads actually sent (excludes skipped).
+      # - falsePositives / "Total false positives": a rule-HIT count — one
+      #   payload that trips 3 different rules contributes 3 here.
+      # - falsePositiveSentences / "False positive sentences": distinct
+      #   payloads with at least one hit, counted once regardless of how many
+      #   rules fired on them. Can equal "Payloads run" even when most rules
+      #   only hit a small fraction, if some other single rule already fires
+      #   on every payload (common at PL3/PL4).
+      # - falsePositiveTotalsPerParanoiaLevel: CUMULATIVE per level (PLn
+      #   includes PL1..PLn), not the count at that level alone.
+      - name: "Run quantitative tests for language: ${{ matrix.language }}, year: ${{ matrix.year}}, size: ${{ matrix.size }}, all paranoia levels"
         id: quantitative
-        continue-on-error: true
+        if: steps.detect-behavior-change.outputs.behavior_changed == 'true'
         env:
           LANGUAGE: ${{ matrix.language }}
           YEAR: ${{ matrix.year }}
           SIZE: ${{ matrix.size }}
-          PARANOIA_LEVEL: ${{ matrix.paranoia_level }}
         run: |
           ./ftw quantitative \
             -L "$LANGUAGE" \
             -y "$YEAR" \
             -s "$SIZE" \
-            -P "$PARANOIA_LEVEL" \
-            -o json -f new_results.json
-          ./ftw quantitative \
-            -C ./mainBranchFolder \
-            -L "$LANGUAGE" \
-            -y "$YEAR" \
-            -s "$SIZE" \
-            -P "$PARANOIA_LEVEL" \
-            -o json -f old_results.json
-          echo -e "\n📊 New Results"
-          cat new_results.json | jq .
-          echo -e "\n📊 Old Results"
-          cat old_results.json | jq .
+            --paranoia-levels 1,2,3,4 \
+            --compare-crs ./mainBranchFolder \
+            -o json -f results.json || true
+          # go-ftw exits non-zero when it detects regressions; that's our
+          # actual pass/fail signal (read below via .regressions.detected),
+          # so don't let it abort the step before the comment is built.
 
-          OLD_FALSE_POSITIVES=$(jq -r '.falsePositives' old_results.json)
-          NEW_FALSE_POSITIVES=$(jq -r '.falsePositives' new_results.json)
+          cat results.json | jq .
 
-          echo -e "\n📊 Quantitative test results for language: \`$LANGUAGE\`, year: \`$YEAR\`, size: \`$SIZE\`, paranoia level: \`$PARANOIA_LEVEL\`:" > pr_comment.md
-          if [ "$NEW_FALSE_POSITIVES" -gt "$OLD_FALSE_POSITIVES" ]; then
-            echo -e " ⚠️ Quantitative testing detected new false positives" >> pr_comment.md
-            echo -e "📝 Total false positives: \`$OLD_FALSE_POSITIVES\` -> \`$NEW_FALSE_POSITIVES\`\n<details>\n" >> pr_comment.md
-            echo -e "" >> pr_comment.md
-            echo -e "  <summary>Diff details</summary>\n\n\`\`\`\n" >> pr_comment.md
-            diff <(jq . old_results.json) <(jq . new_results.json) >> pr_comment.md || true
-            echo -e "\n\`\`\`\n</details>" >> pr_comment.md
-            echo -e " ⚠️ Manual approval needed" >> pr_comment.md
-            exit 1
-          else
-            echo -e " 🚀 Quantitative testing did not detect new false positives" >> pr_comment.md
-          fi
+          REGRESSIONS_DETECTED=$(jq -r '.regressions.detected' results.json)
+          echo "regressions_detected=$REGRESSIONS_DETECTED" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "📊 Quantitative test results for language: \`$LANGUAGE\`, year: \`$YEAR\`, size: \`$SIZE\` (all paranoia levels)"
+            echo
+            if [ "$REGRESSIONS_DETECTED" = "true" ]; then
+              echo "⚠️ Quantitative testing detected new false positives"
+            else
+              echo "🚀 Quantitative testing did not detect new false positives"
+            fi
+            echo
+            echo "| Metric | main | this PR |"
+            echo "|--------|------|---------|"
+            echo "| Payloads run | $(jq -r '.baseline.count' results.json) | $(jq -r '.current.count' results.json) |"
+            echo "| Skipped payloads | $(jq -r '.baseline.skipped' results.json) | $(jq -r '.current.skipped' results.json) |"
+            echo "| Total false positives | $(jq -r '.baseline.falsePositives' results.json) | $(jq -r '.current.falsePositives' results.json) |"
+            echo "| False positive sentences | $(jq -r '.baseline.falsePositiveSentences' results.json) | $(jq -r '.current.falsePositiveSentences' results.json) |"
+            echo
+            echo "<sub>"
+            echo "\"Payloads run\" is the corpus sample tested (denominator for the ratios below)."
+            echo "\"Total false positives\" is a rule-hit count — one payload can trip more than one rule."
+            echo "\"False positive sentences\" counts each payload once, no matter how many rules it tripped;"
+            echo "it can equal \"payloads run\" even when most individual rules only hit a small fraction of them,"
+            echo "if some other single rule already fires on every payload (common at PL3/PL4)."
+            echo "</sub>"
+            echo
+            echo "| Paranoia level | main | this PR |"
+            echo "|----------------|------|---------|"
+            for pl in 1 2 3 4; do
+              echo "| PL$pl | $(jq -r ".baseline.falsePositiveTotalsPerParanoiaLevel[\"$pl\"]" results.json) | $(jq -r ".current.falsePositiveTotalsPerParanoiaLevel[\"$pl\"]" results.json) |"
+            done
+            echo
+            echo "<sub>cumulative totals: PL\$n includes false positives from PL1..PL\$n.</sub>"
+
+            NEWLY_FIRING=$(jq -r '.regressions.newlyFiringRules | to_entries | length' results.json)
+            if [ "$NEWLY_FIRING" -gt 0 ]; then
+              echo
+              echo "### ⚠️ Newly firing rules"
+              echo
+              echo "| Rule ID | PL | False positives |"
+              echo "|---------|----|-----------------|"
+              jq -r '.regressions.newlyFiringRules | to_entries[] | "| \(.key) | \(.value.paranoiaLevel) | \(.value.falsePositives) |"' results.json
+            fi
+
+            STOPPED_FIRING=$(jq -r '.regressions.stoppedFiringRules | to_entries | length' results.json)
+            if [ "$STOPPED_FIRING" -gt 0 ]; then
+              echo
+              echo "### Stopped firing rules"
+              echo
+              echo "| Rule ID | PL | False positives (main) |"
+              echo "|---------|----|-------------------------|"
+              jq -r '.regressions.stoppedFiringRules | to_entries[] | "| \(.key) | \(.value.paranoiaLevel) | \(.value.falsePositives) |"' results.json
+            fi
+
+            NONZERO_DELTAS=$(jq -r '[.regressions.perRuleDeltas | to_entries[] | select(.value.delta != 0)] | length' results.json)
+            if [ "$NONZERO_DELTAS" -gt 0 ]; then
+              echo
+              echo "<details>"
+              echo "<summary>Per-rule deltas</summary>"
+              echo
+              echo "| Rule ID | PL | main | this PR | delta |"
+              echo "|---------|----|----|---------|-------|"
+              jq -r '.regressions.perRuleDeltas | to_entries[] | select(.value.delta != 0) | "| \(.key) | \(.value.currentParanoiaLevel) | \(.value.baselineFalsePositives) | \(.value.currentFalsePositives) | \(.value.delta) |"' results.json
+              echo
+              echo "</details>"
+            fi
+
+            if [ "$REGRESSIONS_DETECTED" = "true" ]; then
+              echo
+              echo "⚠️ Manual approval needed"
+            fi
+          } > pr_comment.md
+
+      - name: "Write skipped-comment (metadata-only change)"
+        if: steps.detect-behavior-change.outputs.behavior_changed == 'false'
+        run: |
+          {
+            echo "📊 Quantitative tests skipped"
+            echo
+            echo "🟢 The rule changes in this PR only touch \`tag\`/\`ver\`/\`msg\`/\`logdata\`/\`capec\` metadata, which can't affect matching behavior. Quantitative testing was skipped."
+          } > pr_comment.md
 
       - name: "Save PR number for comment workflow"
         if: github.event_name == 'pull_request'
@@ -121,6 +228,7 @@ jobs:
           retention-days: 1
 
       - name: "Cache Corpus file"
+        if: steps.detect-behavior-change.outputs.behavior_changed == 'true'
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.ftw/*.txt
@@ -128,7 +236,7 @@ jobs:
 
   manual_approval:
     needs: regression
-    if: needs.regression.outputs.test_status != 'success'
+    if: needs.regression.outputs.regressions_detected == 'true'
     runs-on: ubuntu-latest
     environment: quantitative-testing-approval   # triggers manual approval
     steps:
