@@ -1,0 +1,27 @@
+---
+meta:
+  author: "azurit"
+rule_id: 950020
+tests:
+  - test_id: 1
+    desc: "Compression should disable response body rules"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+            Accept-Encoding: gzip
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "ViewStateException: Invalid viewstate detected."}
+        output:
+          log:
+            no_expect_ids: [950150]
