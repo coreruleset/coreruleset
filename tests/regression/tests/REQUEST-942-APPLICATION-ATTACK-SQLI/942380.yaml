@@ -905,7 +905,9 @@ tests:
           log:
             expect_ids: [942380]
   - test_id: 54
-    desc: "SQL Injection Attack: HAVING"
+    desc: |
+      SQL Injection Attack: HAVING
+      Payload: HAVING 1%1
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -916,14 +918,15 @@ tests:
           method: "POST"
           port: 80
           uri: "/post"
-          # HAVING 1%1
           data: "payload=HAVING%201%251"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [942380]
   - test_id: 55
-    desc: "SQL Injection Attack: HAVING"
+    desc: |
+      SQL Injection Attack: HAVING
+      Payload: HAVING 1&1
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -934,7 +937,6 @@ tests:
           method: "POST"
           port: 80
           uri: "/post"
-          # HAVING 1&1
           data: "payload=HAVING%201%261"
           version: "HTTP/1.1"
         output:
@@ -1026,7 +1028,9 @@ tests:
           log:
             expect_ids: [942380]
   - test_id: 61
-    desc: "SQL Injection Attack: HAVING"
+    desc: |
+      SQL Injection Attack: HAVING
+      Payload: HAVING '1'=1
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1037,14 +1041,15 @@ tests:
           method: "POST"
           port: 80
           uri: "/post"
-          # HAVING '1'=1
           data: "payload=HAVING%20'1'%3D1"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [942380]
   - test_id: 62
-    desc: "SQL Injection Attack: HAVING"
+    desc: |
+      SQL Injection Attack: HAVING
+      Payload: HAVING ''=''
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1055,14 +1060,15 @@ tests:
           method: "POST"
           port: 80
           uri: "/post"
-          # HAVING ''=''
           data: "payload=HAVING%20%27%27%3D%27%27"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [942380]
   - test_id: 63
-    desc: "SQL Injection Attack: HAVING"
+    desc: |
+      SQL Injection Attack: HAVING
+      Payload: HAVING '1'mod'2'
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1073,14 +1079,15 @@ tests:
           method: "POST"
           port: 80
           uri: "/post"
-          # HAVING '1'mod'2'
           data: "payload=HAVING%20%271%27mod%272%27"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [942380]
   - test_id: 64
-    desc: "SQL Injection Attack: HAVING"
+    desc: |
+      SQL Injection Attack: HAVING
+      Payload: HAVING true=1
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1091,14 +1098,15 @@ tests:
           method: "POST"
           port: 80
           uri: "/post"
-          # HAVING true=1
           data: "payload=HAVING%20true%3D1"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [942380]
   - test_id: 65
-    desc: "SQL Injection Attack: HAVING"
+    desc: |
+      SQL Injection Attack: HAVING
+      Payload: HAVING false=0
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1109,14 +1117,15 @@ tests:
           method: "POST"
           port: 80
           uri: "/post"
-          # HAVING false=0
           data: "payload=HAVING%20false%3D0"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [942380]
   - test_id: 66
-    desc: "SQL Injection Attack: HAVING"
+    desc: |
+      SQL Injection Attack: HAVING
+      Payload: HAVING 12345678901=12345678901
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1127,14 +1136,15 @@ tests:
           method: "POST"
           port: 80
           uri: "/post"
-          # HAVING 12345678901=12345678901
           data: "payload=HAVING%2012345678901%3D12345678901"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [942380]
   - test_id: 67
-    desc: "SQL Injection Attack: HAVING"
+    desc: |
+      SQL Injection Attack: HAVING
+      Payload: HAVING 'a'='a'
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1145,7 +1155,6 @@ tests:
           method: "POST"
           port: 80
           uri: "/post"
-          # HAVING 'a'='a'
           data: "payload=HAVING%20%27a%27%3D%27a%27"
           version: "HTTP/1.1"
         output:
