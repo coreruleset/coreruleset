@@ -373,7 +373,7 @@ tests:
           log:
             expect_ids: [920420]
   - test_id: 19
-    desc: "Positive test: Ensure that the content type application/cloudevents+json is not allowed by the default configuration (ref.: 9EA-241022)"
+    desc: "Positive test: application/cloudevents+json is now allowed, the JSON body processor is forced for it by rule 901370 (ref.: 9EA-241022, #3905, #4775)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -389,9 +389,9 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [920420]
+            no_expect_ids: [920420]
   - test_id: 20
-    desc: "Positive test: Ensure that the content type application/cloudevents-batch+json is not allowed by the default configuration (ref.: 9EA-241022)"
+    desc: "Positive test: application/cloudevents-batch+json is now allowed, the JSON body processor is forced for it by rule 901370 (ref.: 9EA-241022, #3905, #4775)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -407,7 +407,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [920420]
+            no_expect_ids: [920420]
   - test_id: 21
     desc: "Positive test: Ensure that the content type application/csp-report is not allowed by the default configuration"
     stages:
@@ -427,7 +427,7 @@ tests:
           log:
             expect_ids: [920420]
   - test_id: 22
-    desc: "Positive test: Ensure that the content type application/reports+json is not allowed by the default configuration"
+    desc: "Positive test: application/reports+json is now allowed, the JSON body processor is forced for it by rule 901370 (ref.: #4362, #4365, #4775)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -443,4 +443,4 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [920420]
+            no_expect_ids: [920420]
