@@ -21,7 +21,7 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "ViewStateException: Invalid viewstate detected."}
+            {"headers": {"Content-Encoding": "gzip"}, "body": "ViewStateException: Invalid viewstate detected."}
         output:
           log:
             no_expect_ids: [950150]
