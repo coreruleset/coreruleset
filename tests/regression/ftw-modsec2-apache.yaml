@@ -1,0 +1,17 @@
+---
+version: "v0.0.0"
+meta:
+  engine: "ModSecurity v2"
+  platform: "httpd"
+  annotations:
+    - purpose: "CRS test suite"
+logfile: /logs/modsec2-apache/error.log
+mode: default
+maxmarkerloglines: 2000
+testoverride:
+  input:
+    dest_addr: modsec2-apache
+    port: 8080
+  ignore:
+    920360-1: "Requires ARG_NAME_LENGTH to be set to an appropriately low value"
+    920380-1: "Requires MAX_NUM_ARGS to be set to a sufficiently low value"
