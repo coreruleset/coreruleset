@@ -617,3 +617,59 @@ tests:
         output:
           log:
             expect_ids: [933110]
+  - test_id: 37
+    desc: "PHP .php upload with trailing slash bypass (V29-260924)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "a.php/"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933110]
+  - test_id: 38
+    desc: "PHP .php upload with trailing dot-slash bypass (V29-260924)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "a.php./"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933110]
+  - test_id: 39
+    desc: "PHP upload via multipart with trailing slash bypass (V29-260924)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "multipart/form-data; boundary=--------397236876"
+          uri: "/post"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="fileRap"; filename="something/dangerous.php/"
+            Content-Type: text/plain
+
+            please block me
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933110]
