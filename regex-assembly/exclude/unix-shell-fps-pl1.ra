@@ -10,63 +10,8 @@
 ##! variants of a word, so when a word would be changed from, e.g.,
 ##! `awk@` to `awk~`, this list would not have to be updated.
 
-##! To automatically add exclusions for English words from the sources, run the following:
-##! NL=$'\n'
-##! original="$(grep -vE '^[#$]' regex-assembly/exclude/unix-shell-fps-pl1.ra)"
-##! upto3="$(grep -vE '^[#$]' regex-assembly/include/unix-shell-upto3.ra)"
-##! rest="$(grep -vE '^[#$]' regex-assembly/include/unix-shell-4andup.ra)"
-##! english_upto3="$(util/fp-finder/spell.sh -m -e regex-assembly/include/unix-shell-upto3.ra)"
-##! # strip suffixes from words so that spell.sh works
-##! english_rest="$(util/fp-finder/spell.sh -m -e -s '[@~]' regex-assembly/include/unix-shell-4andup.ra)"
-##! result=""
-##! function update_existing {
-##!   if [ -z "${1}" ]; then
-##!     return
-##!   fi
-##!   while read -r oword; do
-##!     found=0
-##!     while read -r eword; do
-##!       if grep -qE "^${eword}[@~]?$" <<<"${oword}"; then
-##!         result="${result}${eword}${NL}"
-##!         result="${result}${eword}@${NL}"
-##!         result="${result}${eword}~${NL}"
-##!         found=1
-##!         break
-##!       fi
-##!     done <<<"${1}"
-##!     if [ ${found} -eq 0 ]; then
-##!       result="${result}${oword}${NL}"
-##!     fi
-##!   done <<<"${original}"
-##! }
-##! function add_new {
-##!   if [ -z "${1}" ]; then
-##!     return
-##!   fi
-##!   while read -r eword; do
-##!     if ! grep -qE "^${eword}[@~]?" <<<"${original}"; then
-##!       result="${result}${eword}${NL}"
-##!       result="${result}${eword}@${NL}"
-##!       result="${result}${eword}~${NL}"
-##!     fi
-##!   done <<<"${1}"
-##! }
-##! update_existing "${english_upto3}"
-##! update_existing "${english_rest}"
-##! add_new "${english_upto3}"
-##! add_new "${english_rest}"
-
-##! body_start=$(grep -n -E -m 1 '^[^#$]' regex-assembly/exclude/unix-shell-fps-pl1.ra | cut -d: -f1)
-##! ed -s regex-assembly/exclude/unix-shell-fps-pl1.ra <<EOF
-##! $((body_start - 1)),\$d
-##! w
-##! q
-##! EOF
-##! echo "${result}" | sort | uniq >> regex-assembly/exclude/unix-shell-fps-pl1.ra
-
-##! Note: As part of the effort to reduce FPs mid-term (https://github.com/coreruleset/coreruleset/pull/3735)
-##!       we've decided to exclude some commands for which only the exact match is an issue
-##!       (mostly for 933236).
+##! This list is auto-generated, to update this list run:
+##! `./regex-assembly/generators/REQUEST-932-APPLICATION-ATTACK-RCE/unix-shell-fps-pl1.sh` in the CRS root directory
 
 GET
 GET@
@@ -149,6 +94,7 @@ c99
 cancel
 cancel@
 cancel~
+cargo@
 capsh@
 cat
 cat@
@@ -352,9 +298,6 @@ go
 go@
 go~
 grc
-group
-group@
-group~
 gtester
 hash
 hash@
@@ -415,6 +358,8 @@ knife
 knife@
 knife~
 ksshell
+l@
+la@
 last
 last@
 last~
@@ -432,6 +377,7 @@ less~
 links
 links@
 links~
+ll@
 ln
 ln@
 local
@@ -521,9 +467,6 @@ npm@
 nroff
 nsenter
 nslookup
-null
-null@
-null~
 octave
 octave@
 octave~
@@ -558,9 +501,7 @@ perms@
 perms~
 pf
 pf@
-pg
 pg@
-pg~
 php
 php@
 php~
@@ -594,10 +535,6 @@ puppet
 puppet@
 puppet~
 pushd
-##! excluded as part of PR #3735
-pwd
-pwd@
-pwd~
 python
 python@
 python~
@@ -644,8 +581,12 @@ ruby@
 ruby~
 run-mailcap
 run-parts
+rust@
 rview
 rvim
+sandbox
+sandbox@
+sandbox~
 sash
 sash@
 sash~
@@ -669,12 +610,7 @@ set~
 sg
 sg@
 sg~
-shadow
-shadow@
-shadow~
-shells
-shells@
-shells~
+shred@
 shuf
 shutdown
 shutdown@
@@ -705,6 +641,9 @@ ssh-keyscan
 sshpass
 ss~
 start-stop-daemon
+stat
+stat@
+stat~
 stdbuf
 strace
 strings
@@ -727,10 +666,7 @@ taskset
 task~
 tbl
 tclsh
-tcp
-tcp@
 tcpdump
-tcp~
 tee
 tee@
 tee~
@@ -745,10 +681,6 @@ time
 time@
 time~
 timedatectl
-##! excluded as part of PR #3735
-timeout
-timeout@
-timeout~
 tmux
 top
 top@
@@ -761,10 +693,6 @@ tshark
 ul
 ul@
 ulimit@
-##! excluded as part of PR #3735
-uname
-uname@
-uname~
 uncompress
 uncompress@
 uncompress~
@@ -813,9 +741,6 @@ whiptail@
 whiptail~
 who
 who@
-whois
-whois@
-whois~
 who~
 wireshark
 wish
@@ -840,9 +765,6 @@ yes@
 yes~
 yum
 zathura
-zero
-zero@
-zero~
 zip
 zip@
 zip~
