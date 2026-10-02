@@ -1,10 +1,10 @@
 ---
 meta:
-  author: "azurit, Xhoenix"
-rule_id: 951230
+  author: "azurit"
+rule_id: 950100
 tests:
   - test_id: 1
-    desc: "Matching MySQL SQL Information Leakage"
+    desc: "Response status 500 should trigger the rule"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -20,12 +20,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "[match sql-errors.data]the used select statements have different number of columns[/match]: ERROR 1772 (HY000): Malformed GTID set specification 'secret_password'."}
+            {"status": 500}
         output:
           log:
-            expect_ids: [951230]
+            expect_ids: [950100]
   - test_id: 2
-    desc: "Matching MySQL SQL Information Leakage"
+    desc: "Response status 404 should NOT trigger the rule"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -41,12 +41,12 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "[match sql-errors.data]the used select statements have different number of columns[/match]: ERROR 1105 (HY000): XPATH syntax error: '\\secret'"}
+            {"status": 404}
         output:
           log:
-            expect_ids: [951230]
+            no_expect_ids: [950100]
   - test_id: 3
-    desc: "Matching MySQL SQL Information Leakage"
+    desc: "Response status 200 should NOT trigger the rule"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -62,28 +62,7 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "Warning: mysql_fetch_assoc(): supplied argument is not a valid MySQL result resource in /path/index.php on line 1"}
+            {"status": 200}
         output:
           log:
-            expect_ids: [951230]
-  - test_id: 4
-    desc: "Do not match common text"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          headers:
-            Host: "localhost"
-            User-Agent: "OWASP CRS test agent"
-            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            Accept-Encoding: "gzip,deflate"
-            Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "application/json"
-          method: "POST"
-          version: "HTTP/1.1"
-          uri: "/reflect"
-          data: |-
-            {"body": "[match sql-errors.data]the used select statements have different number of columns[/match]: The error message indicates SQL syntax problems that are specific to MySQL."}
-        output:
-          log:
-            no_expect_ids: [951230]
+            no_expect_ids: [950100]
