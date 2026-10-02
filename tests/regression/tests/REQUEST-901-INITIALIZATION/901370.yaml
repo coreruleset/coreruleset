@@ -202,3 +202,39 @@ tests:
         output:
           log:
             expect_ids: [920420]
+  - test_id: 12
+    desc: "Positive test: application/vc+ld+json is allowed, \"+\" is a legal RFC 6838 restricted-name-chars character inside the subtype"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/vc+ld+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 13
+    desc: "Positive test: JSON body processor is forced for application/vc+ld+json, a SQLi payload nested in the JSON body is detected"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/vc+ld+json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"var":"1234 OR 1=1"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942100]
