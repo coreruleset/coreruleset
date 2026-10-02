@@ -5,7 +5,7 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
-### v4.25.2 - YYYY-MM-DD
+### v4.25.2 - 2026-10-02
 
 #### Security Fixes
 - Backport fix for [GHSA-575j-qr6p-9763] via adding `REQUEST_FILENAME` to the targets of the RCE rules, so command injection payloads placed in the URL path are inspected like those in `ARGS` (rules 932125-932390, except 932200, where every URL path contains the `/` it requires) (Max Leske)
