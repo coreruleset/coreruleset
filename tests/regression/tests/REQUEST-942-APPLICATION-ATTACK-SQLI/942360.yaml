@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Christian S.J. Peron, Christoph Hansen, Franziska Buehler, azurit, Esad Cetiner"
+  author: "Christian S.J. Peron, Christoph Hansen, Franziska Buehler, azurit, Esad Cetiner, Xhoenix"
 rule_id: 942360
 tests:
   - test_id: 1
@@ -701,6 +701,54 @@ tests:
           uri: '/post'
           data: '<?xml version="1.0"?><root><a probe="1234 AS &quot;foobar&quot; FROM tablevar2=whatever"></a></root>'
           version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [942360]
+  - test_id: 42
+    desc: "Negative Test: Fix for Issue #3914"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/get?var=1.%20update%20your%20apps"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942360]
+  - test_id: 43
+    desc: "Positive Test: Issue #3914 - truncate table payload"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=99%20select%20username%2C%20password%20from%20employees%20%27%3B%20TRUNCATE%20TABLE%20sessions%3B"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942360]
+  - test_id: 44
+    desc: "Positive Test: Issue #3914 - update users password payload"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=1%3B%20UPDATE%20users%20SET%20password%20%3D%20%27new%27%20WHERE%20id%3D1%3B"
+          version: HTTP/1.1
         output:
           log:
             expect_ids: [942360]
