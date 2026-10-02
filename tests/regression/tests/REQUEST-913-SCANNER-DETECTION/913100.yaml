@@ -159,3 +159,35 @@ tests:
         output:
           log:
             no_expect_ids: [913100]
+  - test_id: 10
+    desc: "Block User-Agent header containing literal `UserAgent`"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "UserAgent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [913100]
+  - test_id: 11
+    desc: "Block User-Agent header containing literal `User-Agent`"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "User-Agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [913100]
