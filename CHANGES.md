@@ -15,6 +15,7 @@
 
 #### Bug Fixes
 - Backport false positive fix for the `vega` scanner user agent substring matching `veganism.social` (rule 913100) (Esad Cetiner, cherry-pick of #4777)
+- Backport fix so `tx.crs_skip_response_analysis` also skips the phase 4 response body rules; previously only the phase 3 header rules were skipped (new rule 950022) (Jozef Sudolský, cherry-pick of #4807)
 
 #### Other Changes
 - Formalize rule 932171 (Shellshock, CVE-2014-6271) into a `regex-assembly` file and apply the standard `[\s\x0b]` whitespace-class normalization; the `json.` ARGS_NAMES prefix detection itself was already present on this branch via an untracked fix, so this is a maintainability/consistency change, not a functional fix (partial cherry-pick of #4703)
