@@ -2558,7 +2558,7 @@ tests:
   - test_id: 160
     desc: |
       Detect RCE in last path segment
-      Payload: if /i exist StorageServer.port echo yay
+      Payload: if exist StorageServer.port echo yay
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -2568,7 +2568,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: /path/with/if%20%2Fi%20exist%20StorageServer.port%20echo%20yay
+          uri: /path/with/if%20exist%20StorageServer.port%20echo%20yay
           version: "HTTP/1.1"
         output:
           log:
