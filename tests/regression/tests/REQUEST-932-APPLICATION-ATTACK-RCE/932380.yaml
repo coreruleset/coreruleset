@@ -273,7 +273,7 @@ tests:
   - test_id: 15
     desc: |
       Detect RCE in last path segment
-      Payload: view=image.jpg%26bcdboot  /r file.txt
+      Payload: view=image.jpg&bcdboot c:\windows
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -283,7 +283,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: /path/with/view%3Dimage.jpg%26bcdboot%20%2Fr%20file.txt
+          uri: /path/with/view%3Dimage.jpg%26bcdboot%20c%3A%5Cwindows
           version: "HTTP/1.1"
         output:
           log:
