@@ -19,7 +19,7 @@
 - Backport fix so `tx.crs_skip_response_analysis` also skips the phase 4 response body rules; previously only the phase 3 header rules were skipped (new rule 950022) (Jozef Sudolský, cherry-pick of #4807)
 
 #### Other Changes
-- Backport allowing and JSON-parsing `application/*+json` content types and the AWS `application/x-amz-json-1.0`/`1.1` content types by default, so these JSON request bodies are no longer blocked by the content-type allow-list or left uninspected (new rules 901360, 901370) (Felipe Zipitría, cherry-pick of #4775)
+- Backport allowing and JSON-parsing `application/*+json` content types (including subtypes that contain a `+`, such as `application/vc+ld+json`) and the AWS `application/x-amz-json-1.0`/`1.1` content types by default, so these JSON request bodies are no longer blocked by the content-type allow-list or left uninspected (new rules 901360, 901370) (Felipe Zipitría, cherry-pick of #4775 and #4828)
 - Formalize rule 932171 (Shellshock, CVE-2014-6271) into a `regex-assembly` file and apply the standard `[\s\x0b]` whitespace-class normalization; the `json.` ARGS_NAMES prefix detection itself was already present on this branch via an untracked fix, so this is a maintainability/consistency change, not a functional fix (partial cherry-pick of #4703)
 
 ### v4.25.1 - 2026-07-01
