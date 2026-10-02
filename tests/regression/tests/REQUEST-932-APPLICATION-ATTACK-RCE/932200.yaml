@@ -285,7 +285,7 @@ tests:
   - test_id: 18
     desc: |
       Detect RCE in last path segment
-      Payload: ;/bin/ca?+/et*/passwd
+      Payload: ;ca?+te?t.txt
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -295,7 +295,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: /path/with/%3B%2Fbin%2Fca%3F%2B%2Fet*%2Fpasswd
+          uri: /path/with/%3Bca%3F%2Bte%3Ft.txt
           version: "HTTP/1.1"
         output:
           log:
