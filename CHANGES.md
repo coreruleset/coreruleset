@@ -8,6 +8,7 @@
 ### v4.25.2 - YYYY-MM-DD
 
 #### Security Fixes
+- Backport fix for [GHSA-qmx4-jfcv-fgww] via collecting every `_charset_` value so a second multipart part or a query-string `_charset_` can no longer shadow a disallowed charset (rule 922100) (Ervin Hegedüs)
 - Backport fix removing a bypassable length bound in the SQL `(X)OR` injection detection (rule 942390) (Felipe Zipitría, cherry-pick of #4713)
 
 #### Bug Fixes
