@@ -8,7 +8,7 @@
 ### v4.25.2 - YYYY-MM-DD
 
 #### Security Fixes
-- Backport fix for [GHSA-575j-qr6p-9763] via adding `REQUEST_FILENAME` to the targets of the RCE rules, so command injection payloads placed in the URL path are inspected like those in `ARGS` (rules 932125-932390) (Max Leske)
+- Backport fix for [GHSA-575j-qr6p-9763] via adding `REQUEST_FILENAME` to the targets of the RCE rules, so command injection payloads placed in the URL path are inspected like those in `ARGS` (rules 932125-932390, except 932200, where every URL path contains the `/` it requires) (Max Leske)
 - Backport fix for [GHSA-89h9-2j8h-9gp2] via lowercasing the `charset` parameter name before matching, so an uppercase or mixed-case `CHARSET=` in `Content-Type` can no longer skip the charset allow-list check (rule 920480) (Felipe Zipitría)
 - Backport fix for [GHSA-qmx4-jfcv-fgww] via collecting every `_charset_` value so a second multipart part or a query-string `_charset_` can no longer shadow a disallowed charset (rule 922100) (Ervin Hegedüs)
 - Backport fix removing a bypassable length bound in the SQL `(X)OR` injection detection (rule 942390) (Felipe Zipitría, cherry-pick of #4713)
