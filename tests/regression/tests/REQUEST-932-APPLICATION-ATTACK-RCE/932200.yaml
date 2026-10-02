@@ -284,8 +284,9 @@ tests:
             expect_ids: [932200]
   - test_id: 18
     desc: |
-      Detect RCE in last path segment
-      Payload: ;ca?+te?t.txt
+      This rule should not target REQUEST_FILENAME. It's designed to look for something
+      that looks like a file system path and would cause false positives in many cases.
+      Payload: John's report.pdf
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -295,8 +296,8 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: /path/with/%3Bca%3F%2Bte%3Ft.txt
+          uri: /path/with/files/John's%20report.pdf
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [932200]
+            no_expect_ids: [932200]
