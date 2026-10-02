@@ -166,7 +166,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: 'arg=;"aaaaaaaaaaaaaaaa"'
           version: "HTTP/1.1"
         output:
@@ -182,7 +182,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "arg=;'aaaaaaaaaaaaaaaa'"
           version: "HTTP/1.1"
         output:
@@ -200,7 +200,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22"
           version: "HTTP/1.1"
         output:
@@ -218,9 +218,27 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'"
           version: "HTTP/1.1"
         output:
           log:
             no_expect_ids: [932350]
+  - test_id: 13
+    desc: |
+      Detect RCE in last path segment
+      Payload: ;id
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/%3Bid
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932350]
