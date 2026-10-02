@@ -12,6 +12,7 @@
 - Backport fix for [GHSA-89h9-2j8h-9gp2] via lowercasing the `charset` parameter name before matching, so an uppercase or mixed-case `CHARSET=` in `Content-Type` can no longer skip the charset allow-list check (rule 920480) (Felipe Zipitría)
 - Backport fix for [GHSA-qmx4-jfcv-fgww] via collecting every `_charset_` value so a second multipart part or a query-string `_charset_` can no longer shadow a disallowed charset (rule 922100) (Ervin Hegedüs)
 - Backport fix removing a bypassable length bound in the SQL `(X)OR` injection detection (rule 942390) (Felipe Zipitría, cherry-pick of #4713)
+- Backport fix for [V29-260924] via tolerating trailing slashes as well as dots after the extension, so a PHP or JSP upload filename ending in `/` can no longer bypass the upload extension checks (rules 933110, 944140) (Felipe Zipitría, cherry-pick of #4815)
 
 #### Bug Fixes
 - Backport false positive fix for the `vega` scanner user agent substring matching `veganism.social` (rule 913100) (Esad Cetiner, cherry-pick of #4777)
