@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Paul Beckett, Franziska Bühler, karelorigin, Esad Cetiner, azurit"
+  author: "Paul Beckett, Franziska Bühler, karelorigin, Esad Cetiner, azurit, Max Leske"
 rule_id: 932260
 tests:
   - test_id: 1
@@ -888,7 +888,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: 'arg=;"aaaaaaaaaaaaaaaa"'
           version: "HTTP/1.1"
         output:
@@ -904,7 +904,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "arg=;'aaaaaaaaaaaaaaaa'"
           version: "HTTP/1.1"
         output:
@@ -922,7 +922,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22"
           version: "HTTP/1.1"
         output:
@@ -940,7 +940,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'"
           version: "HTTP/1.1"
         output:
@@ -1011,6 +1011,24 @@ tests:
           log:
             expect_ids: [932260]
   - test_id: 60
+    desc: |
+      Detect RCE in last path segment
+      Payload: ;addgroup pawnd
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/%3Baddgroup%20pawnd
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932260]
+  - test_id: 61
     desc: "True Positive: using `builtin` to execute shell builtin"
     stages:
       - input:
@@ -1026,7 +1044,7 @@ tests:
         output:
           log:
             expect_ids: [932260]
-  - test_id: 61
+  - test_id: 62
     desc: "False Positive: substring false positive matching `builtin` in `builtin-dark-template`"
     stages:
       - input:
