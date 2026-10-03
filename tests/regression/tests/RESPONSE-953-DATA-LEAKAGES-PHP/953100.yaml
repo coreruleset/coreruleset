@@ -123,3 +123,24 @@ tests:
         output:
           log:
             no_expect_ids: [953100]
+  - test_id: 7
+    desc: "'stack overflow (' is causing FPs"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "text/plain"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"title":"Stack Overflow (brands)","slug":"stack-overflow","style":"brands","base_class":"fab fa-stack-overflow","searchTerms":"stack-overflow"}
+        output:
+          log:
+            no_expect_ids: [953100]
