@@ -359,3 +359,111 @@ tests:
         output:
           log:
             expect_ids: [932250]
+  - test_id: 22
+    desc: |
+      Detect RCE with options between prefix and command (#4356)
+      Payload: time -p sh -i
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=time%20-p%20sh%20-i"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 23
+    desc: |
+      Detect RCE with option and argument between prefix and command (#4356)
+      Payload: watch -n 1 sh -i
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=watch%20-n%201%20sh%20-i"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 24
+    desc: |
+      Detect RCE with options between prefix and command (#4356)
+      Payload: env -i sh -c id
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=env%20-i%20sh%20-c%20id"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 25
+    desc: |
+      False positive: natural language after the time prefix (#4356, #4836)
+      Payload: There isn't time to finish the test.
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=There%20isn%27t%20time%20to%20finish%20the%20test."
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
+  - test_id: 26
+    desc: |
+      False positive: natural language after the time prefix (#4356)
+      Payload: time to wash the car.
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=time%20to%20wash%20the%20car."
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
+  - test_id: 27
+    desc: |
+      False positive: natural language after the watch prefix (#4356)
+      Payload: watch my english class
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=watch%20my%20english%20class"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]

@@ -9,15 +9,27 @@
 ##! <some command> ifconfig
 ##!> cmdline unix
   busybox
-  command@
-  env@
-  eval@
   ltrace
   nohup
   strace
-  time@
   timeout
-  watch@
+##!<
+##! <prefix> [-option [argument]]... <command>
+##! The options are matched explicitly instead of with `.*`, which also
+##! matched natural language such as `time to wash` (see #4356).
+##!> assemble
+  ##!> assemble
+    ##!> cmdline unix
+      command
+      env
+      eval
+      time
+      watch
+    ##!<
+  ##!<
+  ##!=>
+  ['"]?(?:\s+-[^\s]+(?:\s+[^\s\-][^\s]*)?)*[\s<>&|),$]
+  ##!=>
 ##!<
 ##! ;ifconfig
 ;
