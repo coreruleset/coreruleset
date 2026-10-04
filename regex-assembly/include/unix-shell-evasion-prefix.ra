@@ -17,6 +17,10 @@
 ##! <prefix> [-option [argument]]... <command>
 ##! The options are matched explicitly instead of with `.*`, which also
 ##! matched natural language such as `time to wash` (see #4356).
+##! -option
+##!> define option \s+-[^\s]+
+##! the option's argument, which can't start with a dash
+##!> define option-argument \s+[^\s\-][^\s]*
 ##!> assemble
   ##!> assemble
     ##!> cmdline unix
@@ -28,7 +32,14 @@
     ##!<
   ##!<
   ##!=>
-  ['"]?(?:\s+-[^\s]+(?:\s+[^\s\-][^\s]*)?)*[\s<>&|),$]
+  ##! "time" sh (closing quote)
+  ['"]?
+  ##!=>
+  ##! time -p sh, watch -n 1 sh, env -i sh (zero or more options)
+  (?:{{option}}(?:{{option-argument}})?)*
+  ##!=>
+  ##! separator before the command
+  [\s<>&|),$]
   ##!=>
 ##!<
 ##! ;ifconfig
