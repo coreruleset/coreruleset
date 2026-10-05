@@ -5,6 +5,11 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
+### v4.25.3 - YYYY-MM-DD
+
+#### Bug Fixes
+- Backport false positive fix removing `REQUEST_FILENAME` from the targets of rule 932260, which since v4.25.2 blocked ordinary URL paths whose segments start with a command name, such as `/recipes/chef-salad`; commands that follow a shell metacharacter in the path are still detected at PL1 by rule 932235 (Felipe Zipitría, cherry-pick of #4842)
+
 ### v4.25.2 - 2026-10-02
 
 #### Security Fixes
