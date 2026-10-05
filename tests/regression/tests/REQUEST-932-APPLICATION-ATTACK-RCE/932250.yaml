@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Paul Beckett, Franziska Bühler, karelorigin, azurit, Esad Cetiner"
+  author: "Paul Beckett, Franziska Bühler, karelorigin, azurit, Esad Cetiner, Max Leske"
   description: |
     Tests to trigger or not trigger rule 932250.
     - commands used must be less than 4 chars
@@ -270,3 +270,92 @@ tests:
         output:
           log:
             no_expect_ids: [932250]
+  - test_id: 17
+    desc: |
+      True Positive: Block aa-disable
+      4RI-250413
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          uri: "/"
+          data: '{ "aa-disable php-fpm":"foo" }'
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 18
+    desc: 'GHSA: 932250 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="c99 -wrapper sh,-c,curl google.com ."></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 19
+    desc: "No FP: backslash mid-string (Windows path) should not trigger"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "payload=C:\\Windows\\System32\\ls"
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
+  - test_id: 20
+    desc: "No FP: value starting with backslash but no command"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "payload=\\"
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932250]
+  - test_id: 21
+    desc: |
+      Detect RCE in last path segment
+      Payload: ;7zx filename.ext
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/%3B7zx%20filename.ext
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]

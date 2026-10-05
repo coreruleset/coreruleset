@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "fzipi, azurit"
+  author: "fzipi, azurit, Max Leske"
   description: "Remote Command Execution: POP3 Command Injection test cases"
 rule_id: 932320
 tests:
@@ -190,3 +190,38 @@ tests:
         output:
           log:
             no_expect_ids: [932320]
+  - test_id: 12
+    desc: 'GHSA: 932320 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="&#13;&#10;RETR 123"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932320]
+  - test_id: 13
+    desc: |
+      Detect RCE in last path segment
+      Payload: \r\nTOP 1 2
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/%0d%0aTOP%201%202
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932320]

@@ -320,7 +320,7 @@ tests:
             no_expect_ids: [942200]
   - test_id: 20
     desc: |
-      Known FP
+      Company name with comma must not match (formerly a known FP)
       decoded payload: ABANCA CORPORACION BANCARIA, S.A
     stages:
       - input:
@@ -336,4 +336,129 @@ tests:
           version: HTTP/1.1
         output:
           log:
+            no_expect_ids: [942200]
+  - test_id: 21
+    desc: 'GHSA: 942200 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe=",varname&quot;"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
             expect_ids: [942200]
+  - test_id: 22
+    desc: |
+      Referer faceted navigation (PrestaShop/WooCommerce): comma-separated list values
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Referer: "https://www.test.fr/327-peintures-interieur?categories=peintures-de-decorations,peintures-de-finitions&page=2"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942200]
+  - test_id: 23
+    desc: |
+      Referer faceted navigation: numeric brand filter list
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Referer: "https://www.test.fr/?filter_product_brand=5432,5646,5380"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942200]
+  - test_id: 24
+    desc: "Do not match comma in user agent strings: Facebook on iOS"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/22H352 Safari/604.1 [FBAN/FBIOS;FBAV/564.0.0.57.71;FBBV/985438427;FBDV/iPhone11,2;FBMD/iPhone;FBSN/iOS;FBSV/18.7.8;FBSS/3;FBID/phone;FBLC/fr_FR;FBOP/5;FBRV/990999493;IABMV/1];FBNV/1"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942200]
+  - test_id: 25
+    desc: "Do not match comma in user agent strings: Microsoft Office Outlook on Mac"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "Microsoft Office Outlook/16.100.824 (Mac OS/15.6.1; Desktop; fr-FR; NonAppStore; Apple/Mac16,7)"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942200]
+  - test_id: 26
+    desc: |
+      Natural-language prose ending with a quote must not match even when a comma precedes it.
+      Sentences like "And, of course, I was kidding." or quoted speech ending in ,' are
+      common in search/comment args; the space after the comma is the distinguishing signal.
+      decoded payload: And, of course, I was kidding."
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "text=And%2C+of+course%2C+I+was+kidding.%22"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942200]
+  - test_id: 27
+    desc: |
+      Natural-language prose with single quote at end must not match.
+      decoded payload: Alta Arsenault says she knits 'morning to night, every day.'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "text=Alta+Arsenault+says+she+knits+%27morning+to+night%2C+every+day.%27"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942200]
