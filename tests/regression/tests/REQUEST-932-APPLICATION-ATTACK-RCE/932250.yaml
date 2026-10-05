@@ -467,3 +467,57 @@ tests:
         output:
           log:
             no_expect_ids: [932250]
+  - test_id: 28
+    desc: |
+      Detect RCE when the word after an option is the command (backtracking out of the option argument)
+      Payload: time -example sh -i
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=time%20-example%20sh%20-i"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 29
+    desc: |
+      Detect RCE with a long option and an attached argument
+      Payload: watch --interval=1 sh -i
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=watch%20--interval%3D1%20sh%20-i"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]
+  - test_id: 30
+    desc: |
+      Detect RCE with a long option without an argument
+      Payload: watch --differences sh -i
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=watch%20--differences%20sh%20-i"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932250]
