@@ -8,6 +8,7 @@
 ### v4.25.3 - YYYY-MM-DD
 
 #### Bug Fixes
+- Backport false positive fix for the Unix command prefixes `command`, `env`, `eval`, `time` and `watch`, which matched the word anywhere earlier in the value (`There isn't time to finish the test.` matched as `time … sh`); the prefixes now match an explicit list of options instead, which keeps `time -p sh -i` and `watch -n 1 sh` detected (rules 932220-932260, 932340, 932350) (Felipe Zipitría, cherry-pick of #4837)
 - Backport false positive fix removing `REQUEST_FILENAME` from the targets of rule 932260, which since v4.25.2 blocked ordinary URL paths whose segments start with a command name, such as `/recipes/chef-salad`; commands that follow a shell metacharacter in the path are still detected at PL1 by rule 932235 (Felipe Zipitría, cherry-pick of #4842)
 
 ### v4.25.2 - 2026-10-02
