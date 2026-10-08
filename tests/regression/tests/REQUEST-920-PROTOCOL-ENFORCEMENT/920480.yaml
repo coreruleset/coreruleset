@@ -385,3 +385,75 @@ tests:
         output:
           log:
             expect_ids: [920480]
+  - test_id: 24
+    desc: Uppercase CHARSET parameter name with allowed value
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded; CHARSET=utf-8"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          data: "test=value"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920480]
+  - test_id: 25
+    desc: Uppercase CHARSET parameter name with disallowed value
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded; CHARSET=garbage"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          data: "test=value"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920480]
+  - test_id: 26
+    desc: Mixed-case cHarSet parameter name with allowed value
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded; cHarSet=utf-8"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          data: "test=value"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [920480]
+  - test_id: 27
+    desc: Mixed-case cHarSet parameter name with disallowed value
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded; cHarSet=utf-7"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/"
+          data: "test=value"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920480]
