@@ -30,6 +30,8 @@
 
 ## Contributors:
 
+- [Prateeksaini12](https://github.com/Prateeksaini12)
+- [zoutjebot](https://github.com/zoutjebot)
 - [etiennemunnich](https://github.com/etiennemunnich)
 - [securestep9](https://github.com/securestep9)
 - [HackingRepo](https://github.com/HackingRepo)
@@ -76,6 +78,7 @@
 - [Tim Herren](https://github.com/nerrehmit)
 - [Victor Hora](https://github.com/victorhora)
 - [itsTheFae](https://github.com/itsTheFae)
+- [Hitarth Jain](https://github.com/Yeagerist0)
 - [jamuse](https://github.com/jamuse)
 - [jeremyjpj0916](https://github.com/jeremyjpj0916)
 - [jschleus](https://github.com/jschleus)

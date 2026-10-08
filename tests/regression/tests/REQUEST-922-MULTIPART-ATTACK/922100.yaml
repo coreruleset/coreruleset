@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Felipe Zipitria, Max Leske"
+  author: "Felipe Zipitria, Max Leske, Ervin Hegedüs"
   description: Test Multipart/form-data
 rule_id: 922100
 tests:
@@ -84,6 +84,127 @@ tests:
             Content-Type: text/plain
 
             utf-8 is valid but utf- should not be.
+            --boundary--
+        output:
+          log:
+            expect_ids: [922100]
+  - test_id: 4
+    desc: "Negative test: no multipart part with name '_charset_' at all"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=boundary
+            Accept: "*/*"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: |
+            --boundary
+            Content-disposition: form-data; name="negative"
+            Content-Type: text/plain
+
+            utf-8 is valid but utf- should not be.
+            --boundary--
+        output:
+          log:
+            no_expect_ids: [922100]
+  - test_id: 5
+    desc: "Positive test: utf-7 is not in allowed charsets, even there is an argument"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=boundary
+            Accept: "*/*"
+          method: POST
+          port: 80
+          uri: "/post?_charset_=utf-8"
+          version: "HTTP/1.1"
+          data: |
+            --boundary
+            Content-disposition: form-data; name="_charset_"
+
+            utf-7
+            --boundary
+            Content-disposition: form-data; name="positive"
+            Content-Type: text/plain
+
+            Let me see if I can use utf-7.
+            --boundary--
+        output:
+          log:
+            expect_ids: [922100]
+  - test_id: 6
+    desc: "Positive test: utf-7 is not in allowed charsets, even there is another MP"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=boundary
+            Accept: "*/*"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: |
+            --boundary
+            Content-disposition: form-data; name="_charset_"
+
+            utf-8
+            --boundary
+            Content-disposition: form-data; name="positive"
+            Content-Type: text/plain
+
+            Try to hide the multipart with invalid charset.
+            --boundary
+            Content-disposition: form-data; name="_charset_"
+
+            utf-7
+            --boundary
+            Content-disposition: form-data; name="positive"
+            Content-Type: text/plain
+
+            Let me see if I can use utf-7.
+            --boundary--
+        output:
+          log:
+            expect_ids: [922100]
+  - test_id: 7
+    desc: "Positive test: utf-7 is not in allowed charsets, even if a later part sets an allowed charset"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=boundary
+            Accept: "*/*"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: |
+            --boundary
+            Content-disposition: form-data; name="_charset_"
+
+            utf-7
+            --boundary
+            Content-disposition: form-data; name="positive"
+            Content-Type: text/plain
+
+            Let me see if I can use utf-7.
+            --boundary
+            Content-disposition: form-data; name="_charset_"
+
+            utf-8
             --boundary--
         output:
           log:

@@ -1,4 +1,8 @@
 name: Check PR dependencies
+# Safe pull_request_target usage: this workflow does NOT check out PR code.
+# It only reads PR metadata via a pinned action and uses the default GITHUB_TOKEN
+# with `pull-requests: read`. No untrusted code executes in this job.
+# See .github/zizmor.yml for the corresponding zizmor ignore.
 on:
   pull_request_target:
     types:
@@ -16,6 +20,6 @@ jobs:
     permissions:
       pull-requests: read # Reason: To check PRs for dependencies.
     steps:
-      - uses: gregsdennis/dependencies-action@ae6e0529ef70f1366a21972f40b1ad0e1b5e3218 # v1.4.1
+      - uses: gregsdennis/dependencies-action@a8cccab69814b9b985496cf97cbfe154c96c03c7 # v1.4.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

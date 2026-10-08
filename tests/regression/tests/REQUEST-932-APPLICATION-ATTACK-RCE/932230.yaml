@@ -977,7 +977,7 @@ tests:
           log:
             expect_ids: [932230]
   - test_id: 52
-    desc: "Block evasion using here string with single quotes"
+    desc: "Block evasion using here string with single quote"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1096,7 +1096,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           uri: "/get?932230-58=$%24%5B%24(sh%20-c%20'echo%201')%2B2%5D"
           version: "HTTP/1.1"
         output:
@@ -1112,9 +1112,198 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "arg=;rmt%20--version"
           version: "HTTP/1.1"
         output:
           log:
             expect_ids: [932230]
+  - test_id: 60
+    desc: "False Positive"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=|PG|XXX XXX Flash Sale Mxc3xa4rz
+        output:
+          log:
+            no_expect_ids: [932230]
+  - test_id: 61
+    desc: 'GHSA: 932230 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="() &#x7B; :;&#x7D;; /bin/sh -c &quot;sleep 6 "></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932230]
+  - test_id: 62
+    desc: match "rmt" with single quote evasion
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "arg=;'rmt'%20--version"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932230]
+  - test_id: 63
+    desc: match 'rmt' with quote evasion
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: 'arg=;"rmt"%20--version'
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932230]
+  - test_id: 64
+    desc: Don't match on non-command word quotes
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: 'arg=;"aaaaaaaaaaaaaaaa"'
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932230]
+  - test_id: 65
+    desc: Don't match on non-command word in single quote
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "arg=;'aaaaaaaaaaaaaaaa'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932230]
+  - test_id: 66
+    desc: |
+      Don't match on natural english sentences in quotes
+      ;"The quick brown fox jumped over the lazy dog"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932230]
+  - test_id: 67
+    desc: |
+      Don't match on natural english sentences in single quote
+      ;'The quick brown fox jumped over the lazy dog'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: "arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932230]
+  - test_id: 68
+    desc: |
+      Detect RCE in last path segment
+      Payload: ;7zx filename.ext
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/%3B7zx%20filename.ext
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932230]
+  - test_id: 69
+    desc: |
+      Detect RCE with options between prefix and command (#4356)
+      Payload: ;time -p sh -i
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=%3Btime%20-p%20sh%20-i"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932230]
+  - test_id: 70
+    desc: |
+      False positive: natural language after the time prefix (#4356)
+      Payload: There isn't time to finish the test.
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=There%20isn%27t%20time%20to%20finish%20the%20test."
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932230]

@@ -265,3 +265,39 @@ tests:
         output:
           log:
             expect_ids: [932200]
+  - test_id: 17
+    desc: 'GHSA: 932200 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="www.google.com;/bin/ca? /et*/passwd"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932200]
+  - test_id: 18
+    desc: |
+      This rule should not target REQUEST_FILENAME. It's designed to look for something
+      that looks like a file system path and would cause false positives in many cases.
+      Payload: John's report.pdf
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/files/John's%20report.pdf
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932200]
