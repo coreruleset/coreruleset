@@ -670,6 +670,24 @@ tests:
             expect_ids: [932130]
   - test_id: 42
     desc: |
+      Detect RCE in last path segment
+      Payload: $(echo $(cat$(id)))
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/%24%28echo%20%24%28cat%24%28id%29%29%29
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 43
+    desc: |
       Positive test: ANSI-C hex quoting to encode short command - $'\x77' (w)"
     stages:
       - input:
@@ -686,7 +704,7 @@ tests:
         output:
           log:
             expect_ids: [932130]
-  - test_id: 43
+  - test_id: 44
     desc: |
       Positive test: ANSI-C hex quoting, long command - $'\x64\x6f\x63\x6b\x65\x72\x2d\x63\x6f\x6d\x70\x6f\x73\x65' (docker-compose)
     stages:
@@ -704,7 +722,7 @@ tests:
         output:
           log:
             expect_ids: [932130]
-  - test_id: 44
+  - test_id: 45
     desc: "Negative test: short hex-like string below ANSI-C detection threshold - $x63x61"
     stages:
       - input:
@@ -721,7 +739,7 @@ tests:
         output:
           log:
             no_expect_ids: [932130]
-  - test_id: 45
+  - test_id: 46
     desc: |
       Positive test: ANSI-C \u quoting, short command - $'\u0077' (w)
     stages:
@@ -739,7 +757,7 @@ tests:
         output:
           log:
             expect_ids: [932130]
-  - test_id: 46
+  - test_id: 47
     desc: |
       Positive test: ANSI-C \u quoting, long command - $'\u0064\u006f\u0063\u006b\u0065\u0072\u002d\u0063\u006f\u006d\u0070\u006f\u0073\u0065' (docker-compose)
     stages:
@@ -757,7 +775,7 @@ tests:
         output:
           log:
             expect_ids: [932130]
-  - test_id: 47
+  - test_id: 48
     desc: |
       Negative test: invalid \u syntax - $'\uzz
     stages:
@@ -775,7 +793,7 @@ tests:
         output:
           log:
             no_expect_ids: [932130]
-  - test_id: 48
+  - test_id: 49
     desc: |
       Positive test: ANSI-C \U quoting, short command - $'\U00000077' (w)
     stages:
@@ -793,7 +811,7 @@ tests:
         output:
           log:
             expect_ids: [932130]
-  - test_id: 49
+  - test_id: 50
     desc: |
       Positive test: ANSI-C \U quoting, long command - $'\U00000064\U0000006f\U00000063\U0000006b\U00000065\U00000072\U0000002d\U00000063\U0000006f\U0000006d\U00000070\U0000006f\U00000073\U00000065' (docker-compose)
     stages:
@@ -811,7 +829,7 @@ tests:
         output:
           log:
             expect_ids: [932130]
-  - test_id: 50
+  - test_id: 51
     desc: |
       Negative test: invalid \U syntax - $'\Uzz
     stages:
@@ -829,7 +847,7 @@ tests:
         output:
           log:
             no_expect_ids: [932130]
-  - test_id: 51
+  - test_id: 52
     desc: |
       Positive test: ANSI-C octal quoting, short command - $'\167' (w)
     stages:
@@ -847,7 +865,7 @@ tests:
         output:
           log:
             expect_ids: [932130]
-  - test_id: 52
+  - test_id: 53
     desc: |
       Positive test: ANSI-C octal quoting, long command - $'\144\157\143\153\145\162\055\143\157\155\160\157\163\145' (docker-compose)
     stages:
@@ -865,7 +883,7 @@ tests:
         output:
           log:
             expect_ids: [932130]
-  - test_id: 53
+  - test_id: 54
     desc: |
       Negative test: invalid ANSI-C octal syntax - $'\\8
     stages:
