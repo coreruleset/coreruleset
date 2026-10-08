@@ -1171,3 +1171,39 @@ tests:
         output:
           log:
             expect_ids: [932230]
+  - test_id: 63
+    desc: |
+      Detect RCE with options between prefix and command (#4356)
+      Payload: ;time -p sh -i
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=%3Btime%20-p%20sh%20-i"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932230]
+  - test_id: 64
+    desc: |
+      False positive: natural language after the time prefix (#4356)
+      Payload: There isn't time to finish the test.
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=There%20isn%27t%20time%20to%20finish%20the%20test."
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932230]
