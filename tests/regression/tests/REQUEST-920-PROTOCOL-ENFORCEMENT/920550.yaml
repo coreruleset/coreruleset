@@ -1,82 +1,10 @@
 ---
 meta:
-  author: "csanders-git, azurit, Esad Cetiner"
-rule_id: 920274
+  author: "Esad Cetiner"
+  description: relaxed version of 920274
+rule_id: 920550
 tests:
   - test_id: 1
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          uri: "/get?test=test1"
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost%1F"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          version: "HTTP/1.1"
-        output:
-          status: 400
-  - test_id: 2
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          uri: "/index.html?test=test1"
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          version: "HTTP/1.1"
-        output:
-          log:
-            no_expect_ids: [920274]
-  - test_id: 3
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          uri: "/get?test=test1HI"
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Test: "ThisISATEST%5F"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          version: "HTTP/1.1"
-        output:
-          log:
-            no_expect_ids: [920274]
-  - test_id: 4
-    desc: attack in http header
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          uri: "/get?test=test1HI"
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Test: "ThisIsATest%60"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          version: "HTTP/1.1"
-        output:
-          log:
-            expect_ids: [920274]
-  - test_id: 5
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          port: 80
-          uri: "/get?test=test1HI"
-          headers:
-            User-Agent: "OWASP CRS test agent"
-            Host: "localhost"
-            Cookie: "ThisIsATest%60"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          version: "HTTP/1.1"
-        output:
-          log:
-            no_expect_ids: [920274]
-  - test_id: 6
     desc: standard http header
     stages:
       - input:
@@ -91,8 +19,8 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [920274]
-  - test_id: 7
+            no_expect_ids: [920550]
+  - test_id: 2
     desc: standard http header
     stages:
       - input:
@@ -107,8 +35,8 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [920274]
-  - test_id: 8
+            no_expect_ids: [920550]
+  - test_id: 3
     desc: standard http header
     stages:
       - input:
@@ -123,8 +51,8 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [920274]
-  - test_id: 9
+            no_expect_ids: [920550]
+  - test_id: 4
     desc: standard http header
     stages:
       - input:
@@ -139,8 +67,8 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [920274]
-  - test_id: 10
+            no_expect_ids: [920550]
+  - test_id: 5
     desc: standard http header
     stages:
       - input:
@@ -155,8 +83,8 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [920274]
-  - test_id: 11
+            no_expect_ids: [920550]
+  - test_id: 6
     desc: standard http header
     stages:
       - input:
@@ -171,8 +99,8 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [920274]
-  - test_id: 12
+            no_expect_ids: [920550]
+  - test_id: 7
     desc: standard http header
     stages:
       - input:
@@ -187,8 +115,8 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [920274]
-  - test_id: 13
+            no_expect_ids: [920550]
+  - test_id: 8
     desc: standard http header
     stages:
       - input:
@@ -203,4 +131,52 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [920274]
+            no_expect_ids: [920550]
+  - test_id: 9
+    desc: attack in http header
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Sec-CH-UA-Model: "<attack>"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920550]
+  - test_id: 10
+    desc: attack in http header
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Sec-CH-UA-Model: "%attack%"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920550]
+  - test_id: 11
+    desc: attack in http header
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          uri: "/"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Sec-CH-UA-Model: "{attack}"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920550]
