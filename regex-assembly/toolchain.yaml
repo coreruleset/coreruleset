@@ -19,14 +19,15 @@ patterns:
     # - ,: brace expansion, e.g., `""{nc,-p,777}`
     # - &|: logical operators in headers, e.g., `a=nc&&$a -nlvp 555`
     # - ): subshell, e.g, `(ifconfig)`
-# - ['"]? matches against quote evasion, e.g., "apt" foo
-# - \s$: end of line / string
-# - <>: redirection, e.g., `cat<foo`
-# - ,: brace expansion, e.g., `""{nc,-p,777}`
-# - &|: logical operators in headers, e.g., `a=nc&&$a -nlvp 555`
-# - ): subshell, e.g, `(ifconfig)`
+    # - ['"]? matches against quote evasion, e.g., "apt" foo
+    # - \s$: end of line / string
+    # - <>: redirection, e.g., `cat<foo`
+    # - ,: brace expansion, e.g., `""{nc,-p,777}`
+    # - &|: logical operators in headers, e.g., `a=nc&&$a -nlvp 555`
+    # - ): subshell, e.g, `(ifconfig)`
+    # - $: Detects unitialized variable, e.g, `cat$u /etc/passwd`
     unix: |
-      ['"]?[\s<>&|),].*
+      ['"]?[\s<>&|),$].*
     # "more foo", "more,foo", "more;foo", "more.com", "more/e",
     # "more<foo", "more>foo"
     windows: |
