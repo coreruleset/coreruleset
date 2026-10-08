@@ -1,0 +1,239 @@
+---
+meta:
+  author: "fzipi"
+  description: ORM lookup operator injection in request parameter names
+rule_id: 934210
+tests:
+  - test_id: 1
+    desc: |
+      True positive Y4H-260326
+      Nested ORM traversal + operator in a JSON body key
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"created_by__departments__employees__user__username__startswith":"p","created_by__departments__employees__user__id":1}'
+        output:
+          log:
+            expect_ids: [934210]
+  - test_id: 2
+    desc: "True positive - query string filter username__startswith"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?username__startswith=p"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934210]
+  - test_id: 3
+    desc: "True positive - auth bypass via __isnull operator in JSON key"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"password__isnull":true}'
+        output:
+          log:
+            expect_ids: [934210]
+  - test_id: 4
+    desc: "True positive - numeric comparison operator __gte in query string"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?balance__gte=1000"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934210]
+  - test_id: 5
+    desc: |
+      Negative test - plain JSON keys without ORM operators
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"username":"p","id":1}'
+        output:
+          log:
+            no_expect_ids: [934210]
+  - test_id: 6
+    desc: |
+      Negative test - operator string appears in a VALUE, not a key
+      (the rule targets ARGS_NAMES only, so this must not match)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"comment":"use field__startswith for filtering"}'
+        output:
+          log:
+            no_expect_ids: [934210]
+  - test_id: 7
+    desc: |
+      Negative test - single-underscore field name that merely ends in
+      an operator-like token (no `__` separator)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?opt_in=1&domain=example.com"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [934210]
+  - test_id: 8
+    desc: |
+      True positive - JSON body sent with a non-JSON Content-Type
+      (ModSecurity does not parse it into ARGS, caught via REQUEST_BODY)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"username__startswith":"p"}'
+        output:
+          log:
+            expect_ids: [934210]
+  - test_id: 9
+    desc: |
+      Negative test - operator string at the end of a VALUE (followed by
+      a closing quote, not a colon) must not match in REQUEST_BODY
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"note":"please filter by name__startswith"}'
+        output:
+          log:
+            no_expect_ids: [934210]
+  - test_id: 10
+    desc: "True positive - case-insensitive lookup __istartswith"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?username__istartswith=p"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934210]
+  - test_id: 11
+    desc: "True positive - case-insensitive lookup __iendswith"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?email__iendswith=example.com"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934210]
+  - test_id: 12
+    desc: "True positive - JSONField __has_key lookup in query string"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?data__has_key=is_admin"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934210]
+  - test_id: 13
+    desc: "True positive - JSONField __contained_by lookup in JSON body key"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"roles__contained_by":["admin","user"]}'
+        output:
+          log:
+            expect_ids: [934210]

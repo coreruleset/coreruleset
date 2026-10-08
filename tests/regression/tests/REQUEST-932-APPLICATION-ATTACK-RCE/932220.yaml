@@ -5,7 +5,7 @@ meta:
 rule_id: 932220
 tests:
   - test_id: 1
-    desc: "TEST=echo | ${gcc7.4}gcc7.4"
+    desc: "TEST=echo | ${gcc7.4}"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -16,7 +16,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "TEST=echo | ${gcc7.4}gcc7.4"
+          data: "TEST=echo | ${gcc7.4}"
           version: HTTP/1.1
         output:
           log:
@@ -52,7 +52,7 @@ tests:
           method: POST
           uri: "/post"
           port: 80
-          data: |
+          data: |-
             echo "foo;whxam"i | tr x o | sh #"
           version: HTTP/1.1
         output:
@@ -71,8 +71,8 @@ tests:
           port: 80
           uri: "/post"
           version: HTTP/1.1
-          data: |
-            code=cat<<<ifconfig | sh
+          data: |-
+            code=cat<<<ifconfig | sh #
         output:
           log:
             expect_ids: [932220]
@@ -89,8 +89,8 @@ tests:
           port: 80
           uri: "/post"
           version: HTTP/1.1
-          data: |
-            code=cat<<< ifconfig | sh
+          data: |-
+            code=cat<<< ifconfig | sh #
         output:
           log:
             expect_ids: [932220]
@@ -107,8 +107,8 @@ tests:
           port: 80
           uri: "/post"
           version: HTTP/1.1
-          data: |
-            code=cat<<<'ifconfig' | sh
+          data: |-
+            code=cat<<<'ifconfig' | sh #
         output:
           log:
             expect_ids: [932220]
@@ -125,8 +125,8 @@ tests:
           port: 80
           uri: "/post"
           version: HTTP/1.1
-          data: |
-            code=cat<<<"ifconfig" | sh
+          data: |-
+            code=cat<<<"ifconfig" | sh #
         output:
           log:
             expect_ids: [932220]
@@ -143,7 +143,7 @@ tests:
           port: 80
           uri: "/post"
           version: HTTP/1.1
-          data: |
+          data: |-
             code=cat<<<$(whoami | sh)
         output:
           log:
@@ -161,8 +161,8 @@ tests:
           port: 80
           uri: "/post"
           version: HTTP/1.1
-          data: |
-            code=time whoami | sh
+          data: |-
+            code=time whoami | sh #
         output:
           log:
             expect_ids: [932220]
@@ -179,8 +179,8 @@ tests:
           port: 80
           uri: "/post"
           version: HTTP/1.1
-          data: |
-            code=strace whoami | sh
+          data: |-
+            code=strace whoami | sh #
         output:
           log:
             expect_ids: [932220]
@@ -197,8 +197,43 @@ tests:
           port: 80
           uri: "/post"
           version: HTTP/1.1
-          data: |
-            code=nohup whoami | sh
+          data: |-
+            code=nohup whoami | sh #
+        output:
+          log:
+            expect_ids: [932220]
+  - test_id: 12
+    desc: 'GHSA: 932220 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="echo | $&#x7B;gcc7.4&#x7D;gcc7.4"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932220]
+  - test_id: 13
+    desc: |
+      Detect RCE in last path segment
+      Payload: var=cat<<<ifconfig | sh #
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/cat%3C%3C%3Cifconfig%20%7C%20sh%20%23
+          version: "HTTP/1.1"
         output:
           log:
             expect_ids: [932220]

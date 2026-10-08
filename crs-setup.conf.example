@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------
-# OWASP CRS ver.4.28.0-dev
+# OWASP CRS ver.4.31.0-dev
 # Copyright (c) 2006-2020 Trustwave and contributors. All rights reserved.
 # Copyright (c) 2021-2026 CRS project. All rights reserved.
 #
@@ -27,24 +27,23 @@
 #
 # -- [[ System Requirements ]] -------------------------------------------------
 #
-# CRS requires ModSecurity version 2.9.6 or above.
-# The recommended minimum version of libmodsecurity3 is 3.0.10.
-# We recommend to always use the newest ModSecurity version.
+# We recommend to always use the newest ModSecurity/Coraza version.
 #
 # The configuration directives/settings in this file are used to control
-# the OWASP ModSecurity CRS. These settings do **NOT** configure the main
-# ModSecurity settings (modsecurity.conf) such as SecRuleEngine,
+# CRS. These settings do **NOT** configure the main
+# ModSecurity/Coraza settings, such as SecRuleEngine,
 # SecRequestBodyAccess, SecAuditEngine, SecDebugLog, and XML processing.
 #
-# The CRS assumes that modsecurity.conf has been loaded. It is bundled with
-# ModSecurity. If you don't have it, you can get it from:
+# CRS assumes that the basic ModSecurity/Coraza configuration has already been loaded.
+# If you don't have it, you can get it, and tweak it, starting from:
 # 2.x: https://raw.githubusercontent.com/owasp-modsecurity/ModSecurity/v2/master/modsecurity.conf-recommended
 # 3.x: https://raw.githubusercontent.com/owasp-modsecurity/ModSecurity/v3/master/modsecurity.conf-recommended
+# Coraza: https://github.com/corazawaf/coraza/blob/main/coraza.conf-recommended
 #
 # The order of file inclusion in your webserver configuration should always be:
-# 1. modsecurity.conf
+# 1. modsecurity.conf or coraza.conf
 # 2. crs-setup.conf (this file)
-# 3. rules/*.conf (the CRS rule files)
+# 3. rules/*.conf (the CRS rules files)
 #
 # Please refer to the INSTALL file for detailed installation instructions.
 #
@@ -97,6 +96,9 @@
 #
 SecDefaultAction "phase:1,log,auditlog,pass"
 SecDefaultAction "phase:2,log,auditlog,pass"
+SecDefaultAction "phase:3,log,auditlog,pass"
+SecDefaultAction "phase:4,log,auditlog,pass"
+SecDefaultAction "phase:5,log,auditlog,pass"
 
 # Example: Anomaly Scoring mode, log only to ModSecurity audit log
 # - By default, offending requests are blocked with an error 403 response.
@@ -107,6 +109,9 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #
 # SecDefaultAction "phase:1,nolog,auditlog,pass"
 # SecDefaultAction "phase:2,nolog,auditlog,pass"
+# SecDefaultAction "phase:3,nolog,auditlog,pass"
+# SecDefaultAction "phase:4,nolog,auditlog,pass"
+# SecDefaultAction "phase:5,nolog,auditlog,pass"
 
 # Example: Self-contained mode, return error 403 on blocking
 # - In this configuration the default disruptive action becomes 'deny'. After a
@@ -182,7 +187,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.blocking_paranoia_level=1"
 
 
@@ -210,7 +215,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.detection_paranoia_level=1"
 
 
@@ -236,7 +241,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.enforce_bodyproc_urlencoded=1"
 
 
@@ -271,7 +276,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.critical_anomaly_score=5,\
 #    setvar:tx.error_anomaly_score=4,\
 #    setvar:tx.warning_anomaly_score=3,\
@@ -332,7 +337,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.inbound_anomaly_score_threshold=5,\
 #    setvar:tx.outbound_anomaly_score_threshold=4"
 
@@ -393,7 +398,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.reporting_level=4"
 
 
@@ -425,7 +430,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.early_blocking=1"
 
 
@@ -446,7 +451,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.enable_default_collections=1"
 
 
@@ -484,7 +489,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:'tx.allowed_methods=GET HEAD POST OPTIONS'"
 
 #
@@ -514,7 +519,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    pass,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:'tx.allow_method_override_parameter=1'"
 
 # Content-Types that a client is allowed to send in a request.
@@ -554,7 +559,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    chain"
 #    SecRule REQUEST_URI "@rx ^/foo/bar" \
 #        "t:none,\
@@ -573,8 +578,35 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:'tx.allowed_request_content_type=|application/x-www-form-urlencoded| |multipart/form-data| |text/xml| |application/xml| |application/soap+xml| |application/json|'"
+
+#
+# -- [[ AWS JSON and "+json" Content Types ]] -----------------------------
+#
+# IMPORTANT: in addition to the fixed list above, CRS allows and JSON-parses
+# ANY content type of the form application/*+json by default, unconditionally
+# -- this is a wildcard match (rule 901370 below), not a fixed list. Every
+# content type ending in "+json" is included, whether or not it is named
+# below. Examples: application/ld+json, application/problem+json,
+# application/vnd.api+json, and any other "+json"-suffixed type your
+# application, a library, or a third party defines. This is safe because
+# the "+json" structured syntax suffix (RFC 6839) guarantees the body is
+# JSON syntax regardless of the semantic subtype, and because CRS forces
+# the JSON body processor in the exact same rule that allows the content
+# type, so there is no request body bypass risk from this being on by
+# default.
+#
+# Separately, and not covered by the wildcard above (it doesn't use the
+# "+json" suffix), AWS's proprietary JSON-RPC-style content types
+# application/x-amz-json-1.0 and application/x-amz-json-1.1 (Cognito,
+# DynamoDB, SQS, ...) are also allowed and JSON-parsed by default,
+# unconditionally: rule 901360 in REQUEST-901-INITIALIZATION.conf.
+#
+# Neither requires a toggle to enable, since the JSON body processor is
+# forced in the same rule that allows the content type. If you need to
+# disable either, remove the corresponding rule ID (901360 / 901370) via
+# ctl:ruleRemoveById, the same way as any other CRS rule.
 
 # Allowed HTTP versions.
 # Default: HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0 HTTP/3 HTTP/3.0
@@ -591,7 +623,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:'tx.allowed_http_versions=HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0 HTTP/3 HTTP/3.0'"
 
 # Forbidden file extensions.
@@ -615,7 +647,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:'tx.restricted_extensions=.ani/ .asa/ .asax/ .ascx/ .back/ .backup/ .bak/ .bck/ .bk/ .bkp/ .bat/ .cdx/ .cer/ .cfg/ .cmd/ .cnf/ .com/ .compositefont/ .config/ .conf/ .copy/ .crt/ .cs/ .csproj/ .csr/ .dat/ .db/ .dbf/ .dist/ .dll/ .dos/ .dpkg-dist/ .drv/ .gadget/ .hta/ .htr/ .htw/ .ida/ .idc/ .idq/ .inc/ .inf/ .ini/ .jks/ .jse/ .key/ .licx/ .lnk/ .log/ .mdb/ .msc/ .ocx/ .old/ .pass/ .pdb/ .pfx/ .pif/ .pem/ .pol/ .prf/ .printer/ .pwd/ .rdb/ .rdp/ .reg/ .resources/ .resx/ .sav/ .save/ .scr/ .sct/ .sh/ .shs/ .sql/ .sqlite/ .sqlite3/ .swap/ .swo/ .swp/ .sys/ .temp/ .tfstate/ .tlb/ .tmp/ .vb/ .vbe/ .vbs/ .vbproj/ .vsdisco/ .vxd/ .webinfo/ .ws/ .wsc/ .wsf/ .wsh/ .xsd/ .xsx/'"
 
 # Restricted request headers.
@@ -671,7 +703,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:'tx.restricted_headers_basic=/content-encoding/ /proxy/ /lock-token/ /content-range/ /if/ /x-http-method-override/ /x-http-method/ /x-method-override/ /x-middleware-subrequest/ /expect/'"
 #
 # [ Extended ]
@@ -697,7 +729,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:'tx.restricted_headers_extended=/accept-charset/'"
 
 # Maximum allowed number of HTTP request headers
@@ -726,7 +758,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:'tx.allowed_request_content_type_charset=|utf-8| |iso-8859-1| |iso-8859-15| |windows-1252|'"
 
 #
@@ -752,7 +784,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.max_num_args=255"
 
 # Block request if the length of any argument name is too high
@@ -766,7 +798,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.arg_name_length=100"
 
 # Block request if the length of any argument value is too high
@@ -780,7 +812,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.arg_length=400"
 
 # Block request if the total length of all combined arguments is too high
@@ -794,7 +826,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.total_arg_length=64000"
 
 # Block request if the file size of any individual uploaded file is too high
@@ -808,7 +840,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.max_file_size=1048576"
 
 # Block request if the total size of all combined uploaded files is too high
@@ -822,7 +854,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.combined_file_sizes=1048576"
 
 
@@ -862,7 +894,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    pass,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.sampling_percentage=100"
 
 
@@ -886,7 +918,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.crs_validate_utf8_encoding=0"
 
 # -- [[ Skip Checking Responses ]] ------------------------------------------------
@@ -908,7 +940,7 @@ SecDefaultAction "phase:2,log,auditlog,pass"
 #    t:none,\
 #    nolog,\
 #    tag:'OWASP_CRS',\
-#    ver:'OWASP_CRS/4.28.0-dev',\
+#    ver:'OWASP_CRS/4.31.0-dev',\
 #    setvar:tx.crs_skip_response_analysis=1"
 
 #
@@ -929,5 +961,5 @@ SecAction \
     t:none,\
     nolog,\
     tag:'OWASP_CRS',\
-    ver:'OWASP_CRS/4.28.0-dev',\
-    setvar:tx.crs_setup_version=4280"
+    ver:'OWASP_CRS/4.31.0-dev',\
+    setvar:tx.crs_setup_version=4310"
