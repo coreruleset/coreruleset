@@ -544,3 +544,20 @@ tests:
         output:
           log:
             expect_ids: [932340]
+  - test_id: 31
+    desc: "Detect command evasions using uninitialized variables `$u`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "code=;htop$u"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932340]
