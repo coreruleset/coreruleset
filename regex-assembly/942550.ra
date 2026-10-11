@@ -30,6 +30,18 @@
 ##! MySQL reference: https://dev.mysql.com/doc/refman/8.4/en/json-function-reference.html
 ##! MySQL: JSON_EXTRACT('{"id": 14, "name": "Aztalan"}', '$.name') = 'Aztalan'
 ##! MySQL: SELECT id FROM users WHERE id=JsoN_EXTraCT/**/(/**/'  {"a":1}  '/**/,/**/' $.a '/**/);
+##! MySQL: SELECT * FROM users WHERE name = ''OR NOT JSON_EXTRACT('"a"', '$')=1
+##! MySQL: SELECT * FROM users WHERE name = ''MEMBER OF('"id"')
+##! MySQL: SELECT * FROM users WHERE name = ''MEMBER/**/OF(NULL) OR NOT 0
+##!
+##! `removeWhitespace` joins a keyword to the one before it (`OR NOT JSON_EXTRACT` becomes
+##! `ORNOTJSON_EXTRACT`), so `json_extract` cannot start with a word boundary.
+##! `MEMBER OF` takes any JSON value, a scalar, `NULL` or a string, so it is matched on the
+##! quote that closes the injected string rather than on its operand. Without the quote,
+##! `memberOf(` is a common function name and "member of (" plain text.
+##! A comment right after `member` is enough to flag it, so the comment body is never
+##! scanned there. The one before `member` may not contain `*`: allowing any comment
+##! body makes the pattern quadratic on backtracking engines (`'member/*` repeated).
 
 ##! This regex relies on the `removeWhitespace` transformation.
 
@@ -51,5 +63,6 @@
   {{operators}}{{quotes}}{{sqlite_path}}
 
   ##! MySQL
-  \bjson_extract\b[^\(]*\([^)]*\)
+  json_extract\b[^\(]*\([^)]*\)
+  {{quotes}}(?:/\*[^*]*\*+/)?member(?:of\(|/\*|#|--)
 ##!<
