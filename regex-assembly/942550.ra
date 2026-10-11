@@ -35,10 +35,13 @@
 ##! MySQL: SELECT * FROM users WHERE name = ''MEMBER/**/OF(NULL) OR NOT 0
 ##!
 ##! `removeWhitespace` joins a keyword to the one before it (`OR NOT JSON_EXTRACT` becomes
-##! `ORNOTJSON_EXTRACT`), so `json_extract` cannot start with a word boundary.
+##! `ORNOTJSON_EXTRACT`), so `json_extract` cannot start with a word boundary. It still may not
+##! follow a digit or `_`, which keeps identifiers like `my_json_extract(` out.
 ##! `MEMBER OF` takes any JSON value, a scalar, `NULL` or a string, so it is matched on the
-##! quote that closes the injected string rather than on its operand. Without the quote,
-##! `memberOf(` is a common function name and "member of (" plain text.
+##! quote that closes the injected string. Without the quote, `memberOf(` is a common
+##! function name and "member of (" plain text. The operand has to start like a JSON value
+##! (quote, number, bracket, `null`, `true`, `false`, a variable or a comment), so a quoted
+##! `"memberOf(customerGroups)"` does not match.
 ##! A comment right after `member` is enough to flag it, so the comment body is never
 ##! scanned there. The one before `member` may not contain `*`: allowing any comment
 ##! body makes the pattern quadratic on backtracking engines (`'member/*` repeated).
@@ -63,6 +66,6 @@
   {{operators}}{{quotes}}{{sqlite_path}}
 
   ##! MySQL
-  json_extract\b[^\(]*\([^)]*\)
-  {{quotes}}(?:/\*[^*]*\*+/)?member(?:of\(|/\*|#|--)
+  (?:^|[^0-9_])json_extract\b[^\(]*\([^)]*\)
+  {{quotes}}(?:/\*[^*]*\*+/)?member(?:of\((?:[\"'`\[{(@+\-.0-9]|/\*|null|true|false)|/\*|#|--)
 ##!<
