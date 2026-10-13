@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Felipe Zipitria, azurit"
+  author: "Felipe Zipitria, azurit, Max Leske"
   description: "Remote Command Execution: shell aliasing detection"
 rule_id: 932175
 tests:
@@ -284,6 +284,24 @@ tests:
           uri: '/post'
           data: '<?xml version="1.0"?><root><a probe="alias eennvv=env&amp;eennvv whoami"></a></root>'
           version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932175]
+  - test_id: 17
+    desc: |
+      Detect RCE in last path segment
+      Payload: alias ls-al='ls -al'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/alias%20ls-al%3D'ls%20-al'
+          version: "HTTP/1.1"
         output:
           log:
             expect_ids: [932175]
