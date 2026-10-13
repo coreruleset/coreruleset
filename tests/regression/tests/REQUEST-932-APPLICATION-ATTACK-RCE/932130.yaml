@@ -688,7 +688,7 @@ tests:
             expect_ids: [932130]
   - test_id: 43
     desc: |
-      Positive test: ANSI-C hex quoting to encode short command - $'\x77' (w)"
+      Positive test: quoted ANSI-C hex encoded short command - $'\x77' (w)"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -706,7 +706,7 @@ tests:
             expect_ids: [932130]
   - test_id: 44
     desc: |
-      Positive test: ANSI-C hex quoting, long command - $'\x64\x6f\x63\x6b\x65\x72\x2d\x63\x6f\x6d\x70\x6f\x73\x65' (docker-compose)
+      Positive test: quoted ANSI-C hex encoded command - $'\x64\x6f\x63\x6b\x65\x72\x2d\x63\x6f\x6d\x70\x6f\x73\x65' (docker-compose)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -741,7 +741,7 @@ tests:
             no_expect_ids: [932130]
   - test_id: 46
     desc: |
-      Positive test: ANSI-C \u quoting, short command - $'\u0077' (w)
+      Positive test: quoted ANSI-C u encoded short command - $'\u0077' (w)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -759,7 +759,7 @@ tests:
             expect_ids: [932130]
   - test_id: 47
     desc: |
-      Positive test: ANSI-C \u quoting, long command - $'\u0064\u006f\u0063\u006b\u0065\u0072\u002d\u0063\u006f\u006d\u0070\u006f\u0073\u0065' (docker-compose)
+      Positive test: quoted ANSI-C \u encoded long command - $'\u0064\u006f\u0063\u006b\u0065\u0072\u002d\u0063\u006f\u006d\u0070\u006f\u0073\u0065' (docker-compose)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -795,7 +795,7 @@ tests:
             no_expect_ids: [932130]
   - test_id: 49
     desc: |
-      Positive test: ANSI-C \U quoting, short command - $'\U00000077' (w)
+      Positive test: quoted ANSI-C \U encoded short command - $'\U00000077' (w)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -813,7 +813,7 @@ tests:
             expect_ids: [932130]
   - test_id: 50
     desc: |
-      Positive test: ANSI-C \U quoting, long command - $'\U00000064\U0000006f\U00000063\U0000006b\U00000065\U00000072\U0000002d\U00000063\U0000006f\U0000006d\U00000070\U0000006f\U00000073\U00000065' (docker-compose)
+      Positive test: quoted ANSI-C \U encoded long command - $'\U00000064\U0000006f\U00000063\U0000006b\U00000065\U00000072\U0000002d\U00000063\U0000006f\U0000006d\U00000070\U0000006f\U00000073\U00000065' (docker-compose)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -849,7 +849,7 @@ tests:
             no_expect_ids: [932130]
   - test_id: 52
     desc: |
-      Positive test: ANSI-C octal quoting, short command - $'\167' (w)
+      Positive test: quoted ANSI-C octal encoded short command - $'\167' (w)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -867,7 +867,7 @@ tests:
             expect_ids: [932130]
   - test_id: 53
     desc: |
-      Positive test: ANSI-C octal quoting, long command - $'\144\157\143\153\145\162\055\143\157\155\160\157\163\145' (docker-compose)
+      Positive test: quoted ANSI-C octal encoded long command - $'\144\157\143\153\145\162\055\143\157\155\160\157\163\145' (docker-compose)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -901,3 +901,155 @@ tests:
         output:
           log:
             no_expect_ids: [932130]
+  - test_id: 55
+    desc: |
+      Positive test: quoted ANSI-C octal encoded first command character obfuscated (id)
+      Payload: $'\151d'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5C151d'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 56
+    desc: |
+      Positive test: quoted ANSI-C octal encoded mix of encoded and non-encoded characters (c89)
+      Payload: $'\14389'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5C14389'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 57
+    desc: |
+      Positive test: quoted ANSI-C octal encoded mix of encoded and non-encoded characters (/bin/c89)
+      Payload: $'\057\142in/\14389'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5C057%5C142in/%5C14389'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 58
+    desc: |
+      Positive test: quoted ANSI-C octal encoded mix of encoded and non-encoded characters (/bin/c89)
+      Payload: $'/bin\057\14389'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'/bin%5C057%5C14389'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 59
+    desc: |
+      Positive test: quoted ANSI-C hex encoded, mix of encoded and non-encoded characters (/bin/c89)
+      Payload: $'\x2F\x62in\x2F\x6389'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5Cx2F%5Cx62in%5Cx2F%5Cx6389'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 60
+    desc: |
+      Positive test: quoted ANSI-C octal quoting, mix of encoded and non-encoded characters (/bin/c89)
+      Payload: $'/\142in/\14389'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'/%5C142in/%5C14389'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 61
+    desc: |
+      Positive test: quoted ANSI-C \u encoding, mix of encoded and non-encoded characters (/bin/c89)
+      Payload: $'\u002F\u0062in\u002F\u006389'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'%5Cu002F%5Cu0062in%5Cu002F%5Cu006389'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
+  - test_id: 62
+    desc: |
+      Positive test: quoted ANSI-C \u encoding, mix of encoded and non-encoded characters (/bin/c89)
+      Payload: $'/bin\U0000002F\U0000006389'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: "cmd=$'/bin%5CU0000002F%5CU0000006389'"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932130]
