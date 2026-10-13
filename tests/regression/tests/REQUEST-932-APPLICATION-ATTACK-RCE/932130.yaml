@@ -688,7 +688,7 @@ tests:
             expect_ids: [932130]
   - test_id: 43
     desc: |
-      Positive test: quoted ANSI-C hex encoded short command - $'\x77' (w)"
+      Positive test: quoted ANSI-C hex encoded short command - $'\x77' (w)
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -723,7 +723,7 @@ tests:
           log:
             expect_ids: [932130]
   - test_id: 45
-    desc: "Negative test: short hex-like string below ANSI-C detection threshold - $x63x61"
+    desc: "Negative test: invalid ANSI-C hex syntax - $x63x61"
     stages:
       - input:
           dest_addr: "127.0.0.1"
