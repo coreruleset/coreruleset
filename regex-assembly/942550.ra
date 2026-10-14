@@ -35,8 +35,8 @@
 ##! MySQL: SELECT * FROM users WHERE name = ''MEMBER/**/OF(NULL) OR NOT 0
 ##!
 ##! `removeWhitespace` joins a keyword to the one before it (`OR NOT JSON_EXTRACT` becomes
-##! `ORNOTJSON_EXTRACT`), so `json_extract` cannot start with a word boundary. It still may not
-##! follow a digit or `_`, which keeps identifiers like `my_json_extract(` out.
+##! `ORNOTJSON_EXTRACT`), so preserve those SQL prefixes explicitly before applying an ASCII
+##! identifier boundary. This keeps identifiers like `myjson_extract(` and `my_json_extract(` out.
 ##! `MEMBER OF` takes any JSON value, a scalar, `NULL` or a string, so it is matched on the
 ##! quote that closes the injected string. Without the quote, `memberOf(` is a common
 ##! function name and "member of (" plain text. The operand has to start like a JSON value
@@ -66,6 +66,6 @@
   {{operators}}{{quotes}}{{sqlite_path}}
 
   ##! MySQL
-  (?:^|[^0-9_])json_extract\b[^\(]*\([^)]*\)
+  (?:^|[^a-z0-9_])(?:(?:and|or)(?:not)?)?json_extract\b[^\(]*\([^)]*\)
   {{quotes}}(?:/\*[^*]*\*+/)?member(?:of\((?:[\"'`\[{(@+\-.0-9]|/\*|null|true|false)|/\*|#|--)
 ##!<
