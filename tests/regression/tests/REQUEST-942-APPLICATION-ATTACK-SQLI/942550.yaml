@@ -1118,3 +1118,111 @@ tests:
         output:
           log:
             no_expect_ids: [942550]
+  - test_id: 62
+    desc: |
+      False Positive: quoted membership number
+      decoded payload: "Member #12" of the club
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%22Member%20%2312%22%20of%20the%20club"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 63
+    desc: |
+      False Positive: quoted membership tier
+      decoded payload: 'member -- gold
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27member%20--%20gold"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 64
+    desc: |
+      False Positive: identifier starting with and
+      decoded payload: andjson_extract(value)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=andjson_extract%28value%29"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 65
+    desc: |
+      MySQL XOR JSON_EXTRACT joined by removeWhitespace
+      decoded payload: 'XOR JSON_EXTRACT('"a"','$')=1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27XOR%20JSON_EXTRACT%28%27%22a%22%27%2C%27%24%27%29%3D1"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 66
+    desc: |
+      MySQL OR NOT JSON_EXTRACT after a numeric expression
+      decoded payload: 1 OR NOT JSON_EXTRACT('"a"','$')=1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=1%20OR%20NOT%20JSON_EXTRACT%28%27%22a%22%27%2C%27%24%27%29%3D1"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 67
+    desc: |
+      False Positive: identifier containing a numeric SQL-like suffix
+      decoded payload: foo1orjson_extract(value)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=foo1orjson_extract%28value%29"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]

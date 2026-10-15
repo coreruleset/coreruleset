@@ -34,17 +34,19 @@
 ##! MySQL: SELECT * FROM users WHERE name = ''MEMBER OF('"id"')
 ##! MySQL: SELECT * FROM users WHERE name = ''MEMBER/**/OF(NULL) OR NOT 0
 ##!
-##! `removeWhitespace` joins a keyword to the one before it (`OR NOT JSON_EXTRACT` becomes
-##! `ORNOTJSON_EXTRACT`), so preserve those SQL prefixes explicitly before applying an ASCII
-##! identifier boundary. This keeps identifiers like `myjson_extract(` and `my_json_extract(` out.
+##! `removeWhitespace` joins SQL keywords (`OR NOT JSON_EXTRACT` becomes
+##! `ORNOTJSON_EXTRACT`), so preserve the prefixes explicitly. A leading
+##! `andjson_extract` is treated as an identifier because it is indistinguishable from a
+##! whitespace-transformed expression at that point. Numeric expressions are accepted only
+##! after an identifier boundary, so identifier suffixes remain excluded.
 ##! `MEMBER OF` takes any JSON value, a scalar, `NULL` or a string, so it is matched on the
 ##! quote that closes the injected string. Without the quote, `memberOf(` is a common
 ##! function name and "member of (" plain text. The operand has to start like a JSON value
 ##! (quote, number, bracket, `null`, `true`, `false`, a variable or a comment), so a quoted
 ##! `"memberOf(customerGroups)"` does not match.
-##! A comment right after `member` is enough to flag it, so the comment body is never
-##! scanned there. The one before `member` may not contain `*`: allowing any comment
-##! body makes the pattern quadratic on backtracking engines (`'member/*` repeated).
+##! The comment before `member` may not contain `*`, and the one between `member` and `of`
+##! may not contain `/`: allowing unrestricted comment bodies makes the pattern quadratic
+##! on backtracking engines (`'member/*` repeated).
 
 ##! This regex relies on the `removeWhitespace` transformation.
 
@@ -66,6 +68,6 @@
   {{operators}}{{quotes}}{{sqlite_path}}
 
   ##! MySQL
-  (?:^|[^a-z0-9_])(?:(?:and|or)(?:not)?)?json_extract\b[^\(]*\([^)]*\)
-  {{quotes}}(?:/\*[^*]*\*+/)?member(?:of\((?:[\"'`\[{(@+\-.0-9]|/\*|null|true|false)|/\*|#|--)
+  (?:^(?:(?:or|xor)(?:not)?|andnot|[0-9]+(?:and|or|xor)(?:not)?)?|[^a-z0-9_](?:(?:[0-9]+)?(?:and|or|xor)(?:not)?)?)json_extract\b[^\(]*\([^)]*\)
+  {{quotes}}(?:/\*[^*]*\*+/)?member(?:/\*[^/]*\*/)?of(?:\((?:[\"'`\[{(@+\-.0-9]|/\*|null|true|false)|/\*|#|--)
 ##!<
