@@ -183,7 +183,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [920420]
+            expect_ids: [920420, 920470]
   - test_id: 11
     desc: "Positive test: application/a@b+json is NOT allowed, \"@\" is not a legal RFC 6838 restricted-name-chars character"
     stages:
@@ -255,7 +255,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [920420]
+            expect_ids: [920420, 920470]
   - test_id: 15
     desc: "Positive test: application/foo$bar+json is NOT allowed, \"$\" is outside the characters 920470 accepts (ref.: coreruleset/coreruleset#4849)"
     stages:
@@ -273,7 +273,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [920420]
+            expect_ids: [920420, 920470]
   - test_id: 16
     desc: "Positive test: application/foo&bar+json is NOT allowed, \"&\" is outside the characters 920470 accepts (ref.: coreruleset/coreruleset#4849)"
     stages:
@@ -291,7 +291,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [920420]
+            expect_ids: [920420, 920470]
   - test_id: 17
     desc: "Positive test: application/foo^bar+json is NOT allowed, \"^\" is outside the characters 920470 accepts (ref.: coreruleset/coreruleset#4849)"
     stages:
@@ -309,4 +309,4 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [920420]
+            expect_ids: [920420, 920470]
