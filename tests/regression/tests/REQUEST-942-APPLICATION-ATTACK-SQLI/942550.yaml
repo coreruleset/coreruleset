@@ -1240,3 +1240,21 @@ tests:
         output:
           log:
             no_expect_ids: [942550]
+  - test_id: 68
+    desc: |
+      MySQL MEMBER OF with a slash inside the inter-keyword comment
+      decoded payload: 'MEMBER/*a/b*/OF(NULL)ORNOT0#
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27MEMBER%2F%2Aa%2Fb%2A%2FOF%28NULL%29ORNOT0%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]

@@ -44,11 +44,10 @@
 ##! function name and "member of (" plain text. The operand has to start like a JSON value
 ##! (quote, number, bracket, `null`, `true`, `false`, a variable or a comment), so a quoted
 ##! `"memberOf(customerGroups)"` does not match.
-##! The comment between `member` and `of` may not contain `/`, and the comment before
-##! `member` may contain at most eight further `*`-terminated runs (`/*x*y*/` matches).
-##! Each run starts with a character other than `*` or `/`, so the alternatives are
-##! disjoint. Do not make that repetition unbounded: on backtracking engines an unbounded
-##! comment body turns repeated `'/*x*` into a quadratic scan (minutes at 80k repetitions).
+##! The comments around `member` may contain at most eight further `*`-terminated runs
+##! (`/*x*y*/` and `/*a/b*/` match). Each run starts with a character other than `*` or
+##! `/`; do not make that repetition unbounded because repeated comment starts then cause
+##! a quadratic scan on backtracking engines.
 
 ##! This regex relies on the `removeWhitespace` transformation.
 
@@ -71,5 +70,5 @@
 
   ##! MySQL
   (?:^(?:(?:or|xor)(?:not)?|andnot|[0-9]+(?:and|or|xor)(?:not)?)?|[^a-z0-9_](?:(?:[0-9]+)?(?:and|or|xor)(?:not)?)?)json_extract\b[^\(]*\([^)]*\)
-  {{quotes}}(?:/\*[^*]*\*+(?:[^*/][^*]*\*+){0,8}/)?member(?:/\*[^/]*\*/)?of(?:\((?:[\"'`\[{(@+\-.0-9]|/\*|null|true|false)|/\*|#|--)
+  {{quotes}}(?:/\*[^*]*\*+(?:[^*/][^*]*\*+){0,8}/)?member(?:/\*[^*]*\*+(?:[^*/][^*]*\*+){0,8}/)?of(?:\((?:[\"'`\[{(@+\-.0-9]|/\*|null|true|false)|/\*|#|--)
 ##!<
