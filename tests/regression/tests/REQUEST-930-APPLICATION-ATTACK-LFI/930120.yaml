@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, azurit, Esad Cetiner"
+  author: "csanders-git, azurit, Esad Cetiner, touchweb_vincent"
 rule_id: 930120
 tests:
   - test_id: 1
@@ -322,3 +322,20 @@ tests:
         output:
           log:
             expect_ids: [930120]
+  - test_id: 19
+    desc: |
+      False Positive: matching `.claude` in parameter value
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?payload=sophie.claude@hotmail.com"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [930120]
