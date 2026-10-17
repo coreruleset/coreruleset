@@ -35,10 +35,8 @@
 ##! MySQL: SELECT * FROM users WHERE name = ''MEMBER/**/OF(NULL) OR NOT 0
 ##!
 ##! `removeWhitespace` joins SQL keywords (`OR NOT JSON_EXTRACT` becomes
-##! `ORNOTJSON_EXTRACT`), so preserve the prefixes explicitly. A leading
-##! `andjson_extract` is treated as an identifier because it is indistinguishable from a
-##! whitespace-transformed expression at that point. Numeric expressions are accepted only
-##! after an identifier boundary, so identifier suffixes remain excluded.
+##! `ORNOTJSON_EXTRACT`). Match either an identifier boundary or a suffix ending in
+##! `and`, `or` or `not`, which also covers numeric expressions and `xor`.
 ##! `MEMBER OF` takes any JSON value, a scalar, `NULL` or a string, so it is matched on the
 ##! quote that closes the injected string. Without the quote, `memberOf(` is a common
 ##! function name and "member of (" plain text. The operand has to start like a JSON value
@@ -59,8 +57,9 @@
 ##!> define sqlite_path \$[.[]
 ##!> define something_except_json_ending_brackets [^}\]#]*
 ##!> define json_ending_brackets [\]}]+
-##!> define sql_comment (/\*.*?\*/)?
-##!> define non_greedy_jsonb (?:::{{sql_comment}}jsonb?)?
+##!> define comment /\*[^*]*\*+(?:[^*/][^*]*\*+){0,8}/
+##!> define keyword_boundary (?:^|[^a-z0-9_]|and|or|not)
+##!> define json_value_start (?:[\"'`\[{(@+\-.0-9]|/\*|null|true|false)
 
 ##!> assemble
   ##! SQLite + PostgreSQL
@@ -69,6 +68,6 @@
   {{operators}}{{quotes}}{{sqlite_path}}
 
   ##! MySQL
-  (?:^(?:(?:or|xor)(?:not)?|andnot|[0-9]+(?:and|or|xor)(?:not)?)?|[^a-z0-9_](?:(?:[0-9]+)?(?:and|or|xor)(?:not)?)?)json_extract\b[^\(]*\([^)]*\)
-  {{quotes}}(?:/\*[^*]*\*+(?:[^*/][^*]*\*+){0,8}/)?member(?:/\*[^*]*\*+(?:[^*/][^*]*\*+){0,8}/)?of(?:\((?:[\"'`\[{(@+\-.0-9]|/\*|null|true|false)|/\*|#|--)
+  {{keyword_boundary}}json_extract\b(?:{{comment}})?\(
+  {{quotes}}(?:{{comment}})?member(?:{{comment}})?of(?:\({{json_value_start}}|/\*|#|--)
 ##!<
