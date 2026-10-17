@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "studersi, azurit"
+  author: "studersi, azurit, touchweb_vincent"
   description: Try to send mime types in different part of Content-Type header
 rule_id: 921422
 tests:
@@ -269,6 +269,22 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Content-Type: multipart/form-data; boundary=----webkitformboundary12w4lszoxn26vnd
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [921422]
+  - test_id: 18
+    desc: Negative test - false positive on boundary value
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=3cmYTdyNT2jZxYyV7T_pL4irNeChj-CSS
           method: POST
           port: 80
           uri: "/post"
