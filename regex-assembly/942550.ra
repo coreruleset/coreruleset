@@ -30,6 +30,22 @@
 ##! MySQL reference: https://dev.mysql.com/doc/refman/8.4/en/json-function-reference.html
 ##! MySQL: JSON_EXTRACT('{"id": 14, "name": "Aztalan"}', '$.name') = 'Aztalan'
 ##! MySQL: SELECT id FROM users WHERE id=JsoN_EXTraCT/**/(/**/'  {"a":1}  '/**/,/**/' $.a '/**/);
+##! MySQL: SELECT * FROM users WHERE name = ''OR NOT JSON_EXTRACT('"a"', '$')=1
+##! MySQL: SELECT * FROM users WHERE name = ''MEMBER OF('"id"')
+##! MySQL: SELECT * FROM users WHERE name = ''MEMBER/**/OF(NULL) OR NOT 0
+##!
+##! `removeWhitespace` joins SQL keywords (`OR NOT JSON_EXTRACT` becomes
+##! `ORNOTJSON_EXTRACT`). Match either an identifier boundary or a suffix ending in
+##! `and`, `or` or `not`, which also covers numeric expressions and `xor`.
+##! `MEMBER OF` takes any JSON value, a scalar, `NULL` or a string, so it is matched on the
+##! quote that closes the injected string. Without the quote, `memberOf(` is a common
+##! function name and "member of (" plain text. The operand has to start like a JSON value
+##! (quote, number, bracket, `null`, `true`, `false`, a variable or a comment), so a quoted
+##! `"memberOf(customerGroups)"` does not match.
+##! The comments around `member` may contain at most eight further `*`-terminated runs
+##! (`/*x*y*/` and `/*a/b*/` match). Each run starts with a character other than `*` or
+##! `/`; do not make that repetition unbounded because repeated comment starts then cause
+##! a quadratic scan on backtracking engines.
 
 ##! This regex relies on the `removeWhitespace` transformation.
 
@@ -41,8 +57,9 @@
 ##!> define sqlite_path \$[.[]
 ##!> define something_except_json_ending_brackets [^}\]#]*
 ##!> define json_ending_brackets [\]}]+
-##!> define sql_comment (/\*.*?\*/)?
-##!> define non_greedy_jsonb (?:::{{sql_comment}}jsonb?)?
+##!> define comment /\*[^*]*\*+(?:[^*/][^*]*\*+){0,8}/
+##!> define keyword_boundary (?:^|[^a-z0-9_]|and|or|not)
+##!> define json_value_start (?:[\"'`\[{(@+\-.0-9]|/\*|null|true|false)
 
 ##!> assemble
   ##! SQLite + PostgreSQL
@@ -51,5 +68,6 @@
   {{operators}}{{quotes}}{{sqlite_path}}
 
   ##! MySQL
-  \bjson_extract\b[^\(]*\([^)]*\)
+  {{keyword_boundary}}json_extract\b(?:{{comment}})?\(
+  {{quotes}}(?:{{comment}})?member(?:{{comment}})?of(?:\({{json_value_start}}|/\*|#|--)
 ##!<
