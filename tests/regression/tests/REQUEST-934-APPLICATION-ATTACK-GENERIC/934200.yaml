@@ -344,25 +344,6 @@ tests:
           log:
             expect_ids: [934200]
   - test_id: 22
-    desc: "Magento SSTI - PHP namespace separator in JSON block directive (CVE-2026-103849)"
-    stages:
-      - input:
-          dest_addr: 127.0.0.1
-          headers:
-            Accept: "*/*"
-            Content-Type: "application/json"
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-          method: POST
-          port: 80
-          uri: "/graphql"
-          version: HTTP/1.1
-          data: |
-            {"probe":"{{block class='Magento\\Framework\\View\\Element\\Text'}}"}
-        output:
-          log:
-            expect_ids: [934200]
-  - test_id: 23
     desc: "Magento SSTI - PHP namespace separator in block directive (CVE-2026-103849)"
     stages:
       - input:
@@ -375,6 +356,25 @@ tests:
           port: 80
           uri: "/get?probe=%7B%7Bblock%20class%3D%22Magento%5CFramework%5CView%5CElement%5CText%22%7D%7D"
           version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934200]
+  - test_id: 23
+    desc: "Magento SSTI - PHP namespace separator in JSON block directive (CVE-2026-103849)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Content-Type: application/json
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/graphql"
+          version: HTTP/1.1
+          data: |
+            {"probe":"{{block class='Magento\\Framework\\View\\Element\\Text'}}"}
         output:
           log:
             expect_ids: [934200]
