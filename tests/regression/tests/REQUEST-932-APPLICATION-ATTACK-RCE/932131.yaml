@@ -231,7 +231,8 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: "*/*"
-            Referer: $'\144\157\143\153\145\162\055\143\157\155\160\157\163\145'"
+            Referer: |-
+              $'\144\157\143\153\145\162\055\143\157\155\160\157\163\145'
           uri: "/post"
           version: "HTTP/1.1"
         output:
@@ -427,7 +428,8 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: "*/*"
-            Referer: "$'/bin\U0000002F\ U0000006389'"
+            Referer: |-
+              $'/bin\U0000002F\ U0000006389'
           uri: "/post"
           version: "HTTP/1.1"
         output:
