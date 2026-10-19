@@ -1053,3 +1053,24 @@ tests:
         output:
           log:
             expect_ids: [932130]
+  - test_id: 63
+    desc: |
+      Negative test: quoted ANSI-C \u encoding with whitespace (/bin/ c89)
+      Whitespace characters are interpreted as part of a literal command/path
+      Payload: $'/bin\U0000002F\ U0000006389'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+          uri: "/post"
+          data: |-
+            cmd=$'/bin%5CU0000002F%5C%20U0000006389'
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932130]
