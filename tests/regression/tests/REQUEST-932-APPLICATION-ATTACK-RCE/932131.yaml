@@ -47,7 +47,8 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: "*/*"
-            Referer: "$'\x77'"
+            Referer: |-
+              $'\x77'
           uri: "/post"
           version: "HTTP/1.1"
         output:
@@ -156,7 +157,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: "*/*"
-            Referer: $'\U00000077'"
+            Referer: "$'\U00000077'"
           uri: "/post"
           version: "HTTP/1.1"
         output:
