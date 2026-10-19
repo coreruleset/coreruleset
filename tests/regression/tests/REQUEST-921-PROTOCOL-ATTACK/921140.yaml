@@ -9,13 +9,9 @@ tests:
     stages:
       - input:
           dest_addr: "127.0.0.1"
-          method: "GET"
           port: 80
-          headers:
-            Host: "localhost"
-            SomeHeader: "Headerdata\rInjectedHeader: response_splitting_code"
-            User-Agent: "OWASP CRS test agent"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          # Raw CR inside the SomeHeader value; go-ftw rejects control characters in `headers`
+          encoded_request: "R0VUIC8gSFRUUC8xLjENCkhvc3Q6IGxvY2FsaG9zdA0KU29tZUhlYWRlcjogSGVhZGVyZGF0YQ1JbmplY3RlZEhlYWRlcjogcmVzcG9uc2Vfc3BsaXR0aW5nX2NvZGUNClVzZXItQWdlbnQ6IE9XQVNQIENSUyB0ZXN0IGFnZW50DQpBY2NlcHQ6IHRleHQveG1sLGFwcGxpY2F0aW9uL3htbCxhcHBsaWNhdGlvbi94aHRtbCt4bWwsdGV4dC9odG1sO3E9MC45LHRleHQvcGxhaW47cT0wLjgsaW1hZ2UvcG5nLCovKjtxPTAuNQ0KDQo="
           uri: "/"
           version: "HTTP/1.1"
         output:
