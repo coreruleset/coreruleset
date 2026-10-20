@@ -373,8 +373,8 @@ tests:
           port: 80
           uri: "/graphql"
           version: HTTP/1.1
-          data: |-
-            {"probe":"{{block class='Magento\\\Framework\\\View\\\Element\\\Text'}}"}
+          # {"probe":"{{block class='Magento\\Framework\\View\\Element\\Text'}}"}
+          encoded_data: "eyJwcm9iZSI6Int7YmxvY2sgY2xhc3M9J01hZ2VudG9cXEZyYW1ld29ya1xcVmlld1xcRWxlbWVudFxcVGV4dCd9fSJ9"
         output:
           log:
             expect_ids: [934200]
