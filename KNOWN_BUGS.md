@@ -16,15 +16,6 @@ or the CRS Google Group at
   combination. Changing the user agent will thus allow to bypass
   this new filter. The plan is to allow for a purely IP based
   filter in the future.
-* Apache 2.4 prior to 2.4.11 is affected by a bug in parsing multi-line
-  configuration directives, which causes Apache to fail during startup
-  with an error such as:
-    Error parsing actions: Unknown action: \\
-    Action 'configtest' failed.
-  This bug is known to plague RHEL/Centos 7 below v7.4 or
-  httpd v2.4.6 release 67 and Ubuntu 14.04 LTS users.
-  https://bz.apache.org/bugzilla/show_bug.cgi?id=55910
-  We advise to upgrade your Apache version.
 * Debian up to and including Jessie lacks YAJL/JSON support in ModSecurity,
   which causes the following error in the Apache ErrorLog or SecAuditLog:
     'ModSecurity: JSON support was not enabled.'
