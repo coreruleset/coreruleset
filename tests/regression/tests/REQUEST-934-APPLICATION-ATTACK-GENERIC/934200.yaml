@@ -360,7 +360,7 @@ tests:
           log:
             expect_ids: [934200]
   - test_id: 23
-    desc: "Magento SSTI - PHP namespace separator in JSON block directive (CVE-2026-103849)"
+    desc: "Magento SSTI - PHP namespace separator in JSON block directive (CVE-2026-103849) : {"probe":"{{block class='Magento\\Framework\\View\\Element\\Text'}}"}"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -373,7 +373,6 @@ tests:
           port: 80
           uri: "/graphql"
           version: HTTP/1.1
-          # {"probe":"{{block class='Magento\\Framework\\View\\Element\\Text'}}"}
           encoded_data: "eyJwcm9iZSI6Int7YmxvY2sgY2xhc3M9J01hZ2VudG9cXEZyYW1ld29ya1xcVmlld1xcRWxlbWVudFxcVGV4dCd9fSJ9"
         output:
           log:
