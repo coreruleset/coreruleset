@@ -94,3 +94,57 @@ tests:
         output:
           log:
             no_expect_ids: [934232]
+  - test_id: 6
+    desc: 'Negative: external doctype text inside an XML comment'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<r><!-- <!DOCTYPE r SYSTEM "https://example.com/e.dtd"> --></r>'
+        output:
+          log:
+            no_expect_ids: [934232]
+  - test_id: 7
+    desc: 'Negative: external doctype text inside CDATA'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<r><![CDATA[<!DOCTYPE r SYSTEM "https://example.com/e.dtd">]]></r>'
+        output:
+          log:
+            no_expect_ids: [934232]
+  - test_id: 8
+    desc: 'External doctype text inside a JSON string'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"payload":"<!DOCTYPE r SYSTEM ''https://example.com/e.dtd''>"}'
+        output:
+          log:
+            expect_ids: [934232]

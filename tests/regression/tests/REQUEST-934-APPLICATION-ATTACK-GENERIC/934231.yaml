@@ -112,3 +112,57 @@ tests:
         output:
           log:
             no_expect_ids: [934231]
+  - test_id: 7
+    desc: 'Negative: external entity text inside an XML comment'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<r><!-- <!ENTITY x SYSTEM "https://example.com/e.dtd"> --></r>'
+        output:
+          log:
+            no_expect_ids: [934231]
+  - test_id: 8
+    desc: 'Negative: external entity text inside CDATA'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<r><![CDATA[<!ENTITY x SYSTEM "https://example.com/e.dtd">]]></r>'
+        output:
+          log:
+            no_expect_ids: [934231]
+  - test_id: 9
+    desc: 'External entity text inside a JSON string'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"payload":"<!ENTITY x SYSTEM ''https://example.com/e.dtd''>"}'
+        output:
+          log:
+            expect_ids: [934231]

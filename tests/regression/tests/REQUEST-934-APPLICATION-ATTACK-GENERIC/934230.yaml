@@ -238,3 +238,57 @@ tests:
         output:
           log:
             no_expect_ids: [934230]
+  - test_id: 14
+    desc: 'Negative: local-resource entity text inside an XML comment'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<r><!-- <!ENTITY x SYSTEM "file:///tmp/example"> --></r>'
+        output:
+          log:
+            no_expect_ids: [934230]
+  - test_id: 15
+    desc: 'Negative: local-resource entity text inside CDATA'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<r><![CDATA[<!ENTITY x SYSTEM "file:///tmp/example">]]></r>'
+        output:
+          log:
+            no_expect_ids: [934230]
+  - test_id: 16
+    desc: 'Local-resource entity text inside a JSON string'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"payload":"<!ENTITY x SYSTEM ''file:///tmp/example''>"}'
+        output:
+          log:
+            expect_ids: [934230]
