@@ -166,3 +166,21 @@ tests:
         output:
           log:
             expect_ids: [934231]
+  - test_id: 10
+    desc: 'Negative: external entity text inside a processing instruction'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<?note <!ENTITY x SYSTEM "https://example.com/e.dtd">?>'
+        output:
+          log:
+            no_expect_ids: [934231]

@@ -292,3 +292,21 @@ tests:
         output:
           log:
             expect_ids: [934230]
+  - test_id: 17
+    desc: 'Negative: local-resource entity text inside a processing instruction'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<?note <!ENTITY x SYSTEM "file:///tmp/example">?>'
+        output:
+          log:
+            no_expect_ids: [934230]
