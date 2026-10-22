@@ -148,3 +148,39 @@ tests:
         output:
           log:
             no_expect_ids: [953130]
+  - test_id: 9
+    desc: "Positive: leaked 0x3B byte, URL-encoded as %3B, before other leaked bytes"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"PHPSESSID=abc%3B%00%7F; path=/\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            expect_ids: [953130]
+  - test_id: 10
+    desc: "Positive: leaked bytes start with an encoded semicolon"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"PHPSESSID=%3B%60%EB%E2%7F%00%00; path=/\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            expect_ids: [953130]
