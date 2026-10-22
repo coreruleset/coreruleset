@@ -7,8 +7,9 @@
 ##! This is stricter than 934180 (PL2) which matches broad template syntax.
 
 ##! Execution indicators: patterns that suggest code execution
-##! rather than simple variable interpolation.
-##!> define exec-indicators (?:\*|__|\()
+##! rather than simple variable interpolation, including PHP
+##! namespace separators used in class references.
+##!> define exec-indicators (?:\*|__|\(|\\)
 
 ##! Jinja2/Twig: {{7*7}}, {{''.__class__}}, {{config.items()}}
 ##!> assemble
