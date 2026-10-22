@@ -5,6 +5,6 @@
 
 ##!> define whitespace \s\x0b
 ##!> define quoted-order-by [\"'`][{{whitespace}}]*?order[{{whitespace}}]+by[{{whitespace}}]+[0-9]+(?:[{{whitespace}}]+(?:asc|desc))?
-##!> define sql-comment (?:#|--)
+##!> define sql-comment (?:#|--[\x00-\x20])
 
 {{quoted-order-by}}[{{whitespace}}]*{{sql-comment}}
