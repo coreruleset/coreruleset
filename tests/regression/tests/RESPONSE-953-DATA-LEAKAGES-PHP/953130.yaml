@@ -1,0 +1,150 @@
+---
+meta:
+  author: "Felipe Zipitria"
+  description: "Tests for PHP session ID memory disclosure in Set-Cookie (CVE-2026-109618, CVE-2026-109619)"
+rule_id: 953130
+tests:
+  - test_id: 1
+    desc: "Positive: session ID decodes to heap pointer bytes"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"PHPSESSID=%60%EB%65%E2%7F%00%00%00%10%20%A0%E2%7F%00%00%00; path=/\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            expect_ids: [953130]
+  - test_id: 2
+    desc: "Positive: valid prefix followed by leaked bytes"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"PHPSESSID=8q1r2nc1qpv0mtg0q3%01%7F%00%00; path=/; HttpOnly\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            expect_ids: [953130]
+  - test_id: 3
+    desc: "Positive: session ID decodes to a space"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"PHPSESSID=abc+def; path=/\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            expect_ids: [953130]
+  - test_id: 4
+    desc: "Negative: regular session ID"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"PHPSESSID=d8ew88tqmabdcokhumchy8htqm; path=/; HttpOnly\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            no_expect_ids: [953130]
+  - test_id: 5
+    desc: "Negative: session ID with 6 bits per character, comma URL-encoded"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"PHPSESSID=Ab9-xY%2CzQ4-Kp%2C7mN; path=/\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            no_expect_ids: [953130]
+  - test_id: 6
+    desc: "Negative: session cookie removal"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"PHPSESSID=deleted; expires=Thu, 01 Jan 1970 00:00:01 GMT; Max-Age=0; path=/\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            no_expect_ids: [953130]
+  - test_id: 7
+    desc: "Negative: other cookie with encoded bytes"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"prefs=%00%7F%E2; path=/\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            no_expect_ids: [953130]
+  - test_id: 8
+    desc: "Negative: empty session ID"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"PHPSESSID=; path=/\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            no_expect_ids: [953130]
