@@ -1,0 +1,51 @@
+---
+meta:
+  author: "Yeagerist0"
+  description: "Detect SQL injection using ORDER BY followed by a comment"
+rule_id: 942155
+tests:
+  - test_id: 1
+    desc: "ORDER BY ASC with a MySQL comment"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/?q=admin%27ORDER%20BY%201%20ASC%20%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942155]
+  - test_id: 2
+    desc: "ORDER BY DESC with a MySQL comment"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/?q=admin%27%20ORDER%20BY%201%20DESC%20%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942155]
+  - test_id: 3
+    desc: "ORDER BY without a SQL comment is not enough to match"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/?q=admin%27%20ORDER%20BY%201%20ASC"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942155]
