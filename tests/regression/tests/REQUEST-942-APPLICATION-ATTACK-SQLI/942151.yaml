@@ -1241,3 +1241,37 @@ tests:
         output:
           log:
             expect_ids: [942151]
+  - test_id: 74
+    desc: "Function call separated from its parenthesis by a block comment with text (#4848)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var='MAKE_SET/*x*/(2490 = 2164, 2164) <> ''"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942151]
+  - test_id: 75
+    desc: "Function call separated from its parenthesis by several block comments"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=make_set /* a */ /*b*/ (2490 = 2164, 2164)"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942151]
