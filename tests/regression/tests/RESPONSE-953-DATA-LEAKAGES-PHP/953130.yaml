@@ -20,7 +20,7 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-             <title>PHP 7.3.33-35+0~20261021.144+debian11~1.gbpecf76f - phpinfo()</title><meta name="ROBOTS" content="NOINDEX,NOFOLLOW,NOARCHIVE" /></head>
+             {"body": "<title>PHP 7.3.33-35+0~20261021.144+debian11~1.gbpecf76f - phpinfo()</title><meta name=\"ROBOTS\" content=\"NOINDEX,NOFOLLOW,NOARCHIVE\" /></head>"}
         output:
           log:
             expect_ids: [953130]
@@ -41,7 +41,7 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-             <title>phpinfo()</title><meta name="ROBOTS" content="NOINDEX,NOFOLLOW,NOARCHIVE" /></head>
+             {"body": "<title>phpinfo()</title><meta name=\"ROBOTS\" content=\"NOINDEX,NOFOLLOW,NOARCHIVE\" /></head>"}
         output:
           log:
             expect_ids: [953130]
