@@ -4,7 +4,7 @@ meta:
 rule_id: 953130
 tests:
   - test_id: 1
-    desc: "phpinfo()'s title string"
+    desc: "phpinfo()'s title string from PHP 7.3"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -21,6 +21,27 @@ tests:
           uri: "/reflect"
           data: |-
              <title>PHP 7.3.33-35+0~20261021.144+debian11~1.gbpecf76f - phpinfo()</title><meta name="ROBOTS" content="NOINDEX,NOFOLLOW,NOARCHIVE" /></head>
+        output:
+          log:
+            expect_ids: [953130]
+  - test_id: 2
+    desc: "phpinfo()'s title string from PHP 7.2"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+             <title>phpinfo()</title><meta name="ROBOTS" content="NOINDEX,NOFOLLOW,NOARCHIVE" /></head>
         output:
           log:
             expect_ids: [953130]
