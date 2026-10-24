@@ -59,7 +59,7 @@
 ##!> define json_ending_brackets [\]}]+
 ##!> define comment /\*[^*]*\*+(?:[^*/][^*]*\*+){0,8}/
 ##!> define keyword_boundary (?:^|[^a-z0-9_]|and|or|not)
-##!> define json_value_start (?:[\"'`\[{(@+\-.0-9]|/\*|null|true|false)
+##!> define json_value_start (?:[\"'`\[{(@+\-.0-9]|null|true|false)
 
 ##!> assemble
   ##! SQLite + PostgreSQL
@@ -69,5 +69,5 @@
 
   ##! MySQL
   {{keyword_boundary}}json_extract\b(?:{{comment}})?\(
-  {{quotes}}(?:{{comment}})?member(?:{{comment}})?of(?:\({{json_value_start}}|{{comment}}\({{json_value_start}})
+  {{quotes}}(?:{{comment}})?member(?:{{comment}})?of(?:{{comment}})?\((?:{{comment}})?{{json_value_start}}
 ##!<
