@@ -1308,3 +1308,67 @@ tests:
         output:
           log:
             expect_ids: [942550]
+  - test_id: 72
+    desc: "False positive: membership number after member of"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27member%20of%20%2312"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 73
+    desc: "False positive: membership tier after member of"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27member%20of%20%2D%2D%20gold"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 74
+    desc: "MySQL MEMBER OF with a hash comment before the operand"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27MEMBER%20OF%20%23comment%0A%28NULL%29"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 75
+    desc: "MySQL MEMBER OF with a double-dash comment before the operand"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27MEMBER%20OF%20%2D%2D%20comment%0A%28NULL%29"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
