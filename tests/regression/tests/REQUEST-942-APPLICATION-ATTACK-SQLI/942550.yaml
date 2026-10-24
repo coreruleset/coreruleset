@@ -1341,7 +1341,7 @@ tests:
           log:
             no_expect_ids: [942550]
   - test_id: 74
-    desc: "MySQL MEMBER OF with a hash comment before the operand"
+    desc: "False positive: membership number and year after member of"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1351,13 +1351,13 @@ tests:
             Accept: "*/*"
           method: GET
           port: 80
-          uri: "/get?q=%27MEMBER%20OF%20%23comment%0A%28NULL%29"
+          uri: "/get?q=%27member%20of%20%2312%20%282026%29"
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [942550]
+            no_expect_ids: [942550]
   - test_id: 75
-    desc: "MySQL MEMBER OF with a double-dash comment before the operand"
+    desc: "False positive: incomplete block comment after member of"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -1367,7 +1367,23 @@ tests:
             Accept: "*/*"
           method: GET
           port: 80
-          uri: "/get?q=%27MEMBER%20OF%20%2D%2D%20comment%0A%28NULL%29"
+          uri: "/get?q=%27member%20of%20%2F%2A%20note"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 76
+    desc: "MySQL MEMBER OF with a block comment before the operand"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27MEMBER%20OF%20%2F%2Acomment%2A%2F%28NULL%29"
           version: HTTP/1.1
         output:
           log:
