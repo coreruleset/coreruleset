@@ -1276,3 +1276,35 @@ tests:
         output:
           log:
             expect_ids: [942550]
+  - test_id: 70
+    desc: "PostgreSQL ?| operator followed by a JSON path"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=x%27%20%3F%7C%20%27%24.a%27"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 71
+    desc: "PostgreSQL #> operator followed by a JSON path"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=x%27%20%23%3E%20%27%24.a%27"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
