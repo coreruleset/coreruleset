@@ -1,0 +1,25 @@
+---
+meta:
+  author: "azurit"
+rule_id: 955260
+tests:
+  - test_id: 1
+    desc: "Matching web shell Ru24PostWebShell. Our test infrastructure, currently, cannot run this test properly because of multiline output, so it's disabled."
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "text/plain"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"body\": \"<html>\\n<head>\\n<title>Ru24PostWebShell -\"}"
+        output:
+          log:
+            expect_ids: [955260]
