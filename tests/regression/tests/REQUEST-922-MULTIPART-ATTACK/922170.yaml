@@ -103,3 +103,23 @@ tests:
         output:
           log:
             no_expect_ids: [922170]
+  - test_id: 6
+    desc: "Extra parameter ending in boundary= with repeated char does not match"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "multipart/form-data; xboundary=AAAAAAAA; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\n1\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--\r\n"
+        output:
+          log:
+            no_expect_ids: [922170]
