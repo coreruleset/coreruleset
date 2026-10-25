@@ -1,0 +1,114 @@
+---
+meta:
+  author: "kosoyyagent"
+  description: "Tests for rule 933230 (PHP session upload-progress object injection, CVE-2026-115560)"
+rule_id: 933230
+tests:
+  - test_id: 1
+    desc: "Should block: PHP_SESSION_UPLOAD_PROGRESS value carries a serialized object after a pipe"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: multipart/form-data; boundary=----TESTBOUNDARY933230
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "------TESTBOUNDARY933230\r\nContent-Disposition: form-data; name=\"PHPSESSID\"\r\n\r\nabc123defghijklmnopqrstuvw\r\n------TESTBOUNDARY933230\r\nContent-Disposition: form-data; name=\"PHP_SESSION_UPLOAD_PROGRESS\"\r\n\r\n|O:9:\"LabGadget\":1:{s:3:\"cmd\";s:6:\"whoami\";}\r\n------TESTBOUNDARY933230--\r\n"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933230]
+  - test_id: 2
+    desc: "Should block: pipe + serialized scalar payload (|i:)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: multipart/form-data; boundary=----TESTBOUNDARY933230
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "------TESTBOUNDARY933230\r\nContent-Disposition: form-data; name=\"PHP_SESSION_UPLOAD_PROGRESS\"\r\n\r\n12345|s:7:\"injected\";\r\n------TESTBOUNDARY933230--\r\n"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933230]
+  - test_id: 3
+    desc: "Should block: urlencoded field with pipe + object marker"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "PHP_SESSION_UPLOAD_PROGRESS=%7CO%3A8%3A%22stdClass%22%3A0%3A%7B%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [933230]
+  - test_id: 4
+    desc: "Should not block: plain upload-progress identifier value"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "PHP_SESSION_UPLOAD_PROGRESS=12345&other=value"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933230]
+  - test_id: 5
+    desc: "Should not block: unrelated field carrying a pipe"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "search=alpha%7Cbeta&PHP_PROGRESS=12345"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933230]
+  - test_id: 6
+    desc: "Should not block: PHP_SESSION_UPLOAD_PROGRESS named differently (substring must not match)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "MY_PHP_SESSION_UPLOAD_PROGRESS_X=%7CO%3A4%3A%22Evil%22%3A0%3A%7B%7D"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933230]
