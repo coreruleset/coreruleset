@@ -1241,3 +1241,37 @@ tests:
         output:
           log:
             expect_ids: [942151]
+  - test_id: 74
+    desc: "MySQL builtin validate_password_strength bypass (issue 4882)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay=' or not validate_password_strength(1)--"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942151]
+  - test_id: 75
+    desc: "MySQL builtin any_value bypass (issue 4851)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "pay=' or any_value(null)--"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942151]
