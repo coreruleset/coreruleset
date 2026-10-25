@@ -1241,3 +1241,51 @@ tests:
         output:
           log:
             expect_ids: [942151]
+  - test_id: 74
+    desc: 'MySQL 8 builtin function VALIDATE_PASSWORD_STRENGTH evades detection (issue #4882)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: 'OWASP CRS test agent'
+          method: POST
+          port: 80
+          uri: '/post'
+          data: "var=foo' OR NOT VALIDATE_PASSWORD_STRENGTH(1) AND '1'='1"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942151]
+  - test_id: 75
+    desc: 'MySQL 8 access-check function CAN_ACCESS_VIEW detected (issue #4882)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: 'OWASP CRS test agent'
+          method: POST
+          port: 80
+          uri: '/post'
+          data: "var=foo' OR CAN_ACCESS_VIEW('db','tbl','user','host') AND '1'='1"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942151]
+  - test_id: 76
+    desc: 'MySQL 8 function STATEMENT_DIGEST_TEXT detected (issue #4882)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: 'OWASP CRS test agent'
+          method: POST
+          port: 80
+          uri: '/post'
+          data: "var=foo' OR STATEMENT_DIGEST_TEXT('SELECT 1') IS NOT NULL AND '1'='1"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942151]
