@@ -212,3 +212,51 @@ tests:
         output:
           log:
             expect_ids: [942230]
+  - test_id: 14
+    desc: "OR + COLLATE boolean bypass at PL1 (issue 4891)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/?q='+or+1+collate+utf8mb4_bin+%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942230]
+  - test_id: 15
+    desc: "ORDER BY ASC bypass at PL1 (issue 4884)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/?q=admin'order+by+1+asc+%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942230]
+  - test_id: 16
+    desc: "ORDER BY DESC bypass at PL1 (issue 4883)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/?q=admin'order+by+1+desc+%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942230]
