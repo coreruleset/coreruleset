@@ -1249,6 +1249,7 @@ tests:
           headers:
             Host: localhost
             User-Agent: 'OWASP CRS test agent'
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: POST
           port: 80
           uri: '/post'
@@ -1265,6 +1266,7 @@ tests:
           headers:
             Host: localhost
             User-Agent: 'OWASP CRS test agent'
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: POST
           port: 80
           uri: '/post'
@@ -1281,6 +1283,7 @@ tests:
           headers:
             Host: localhost
             User-Agent: 'OWASP CRS test agent'
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           method: POST
           port: 80
           uri: '/post'
@@ -1289,3 +1292,20 @@ tests:
         output:
           log:
             expect_ids: [942151]
+  - test_id: 77
+    desc: 'MySQL 8 function name without a call is not detected (issue #4882)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: 'OWASP CRS test agent'
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: '/post'
+          data: 'var=statement_digest_text'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942151]
