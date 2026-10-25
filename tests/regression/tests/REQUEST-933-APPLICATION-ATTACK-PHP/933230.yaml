@@ -1,0 +1,134 @@
+---
+meta:
+  author: "kosoyyagent"
+  description: "Tests for PHP session.upload_progress Injection Parameter Detection (CVE-2026-109618, CVE-2026-109619)"
+rule_id: 933230
+tests:
+  - test_id: 1
+    desc: "Should block: PHP_SESSION_UPLOAD_PROGRESS field in urlencoded POST body"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          uri: /upload
+          data: "PHP_SESSION_UPLOAD_PROGRESS=x&file=test"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933230]
+  - test_id: 2
+    desc: "Should block: PHP_SESSION_UPLOAD_PROGRESS field in multipart POST (php2shell chain)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "multipart/form-data; boundary=--------397236876"
+          uri: "/index.php"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="PHPSESSID"
+
+            abcdef1234567890abcdef
+            ----------397236876
+            Content-Disposition: form-data; name="PHP_SESSION_UPLOAD_PROGRESS"
+
+            x
+            ----------397236876
+            Content-Disposition: form-data; name="f"; filename="innocent.txt"
+            Content-Type: application/octet-stream
+
+            Z
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933230]
+  - test_id: 3
+    desc: "Should block: PHP_SESSION_UPLOAD_PROGRESS in query string"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /?PHP_SESSION_UPLOAD_PROGRESS=1
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933230]
+  - test_id: 4
+    desc: "Should pass: lowercase variant is not the PHP parameter name"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          port: 80
+          uri: /upload
+          data: "php_session_upload_progress=x"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933230]
+  - test_id: 5
+    desc: "Should pass: name as value only, not as argument name"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /?comment=PHP_SESSION_UPLOAD_PROGRESS
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933230]
+  - test_id: 6
+    desc: "Should pass: prefixed argument name"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /?MY_PHP_SESSION_UPLOAD_PROGRESS=1
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933230]
+  - test_id: 7
+    desc: "Should pass: suffixed argument name"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /?PHP_SESSION_UPLOAD_PROGRESS_EXTRA=1
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933230]
