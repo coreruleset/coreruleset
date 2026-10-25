@@ -1,0 +1,117 @@
+---
+meta:
+  author: "kosoyyagent"
+  description: "Tests for rule 942590 (COLLATE with charset detection)"
+rule_id: 942590
+tests:
+  - test_id: 1
+    desc: "COLLATE utf8mb4_bin evades PL1 detection (issue #4891)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?var=admin'+oR+1+collate+utf8mb4_bin+%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942590]
+  - test_id: 2
+    desc: "COLLATE latin1_swedish_ci in argument"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=x' OR 1 COLLATE latin1_swedish_ci -- "
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942590]
+  - test_id: 3
+    desc: "COLLATE utf8mb4_0900_ai_ci (MySQL 8 default collation)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=a' COLLATE utf8mb4_0900_ai_ci -- "
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942590]
+  - test_id: 4
+    desc: "COLLATE uca1400_ai_ci (MariaDB 11 collation)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=a' COLLATE uca1400_ai_ci -- "
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942590]
+  - test_id: 5
+    desc: "English 'please collate the reports' must not match"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=please collate the reports by friday"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942590]
+  - test_id: 6
+    desc: "'collate user_data' without charset name must not match"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=collate user_data and send"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942590]
+  - test_id: 7
+    desc: "'decollate utf8_bin' must not match (word boundary)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=decollate utf8_bin"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942590]
