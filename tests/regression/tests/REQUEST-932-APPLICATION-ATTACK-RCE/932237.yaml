@@ -626,3 +626,96 @@ tests:
         output:
           log:
             expect_ids: [932237]
+  - test_id: 39
+    desc: |
+      Issue #4895: common English words containing command names must not match.
+      Payload: "who" in User-Agent
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "who we are"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932237]
+  - test_id: 40
+    desc: |
+      Issue #4895: benign path segments like /view/items must not match.
+      Payload: /app/view/items in REQUEST_FILENAME
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/app/view/items"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932237]
+  - test_id: 41
+    desc: |
+      Issue #4895: hyphenated words splitting into commands must not match.
+      Payload: es-es referer path and ip-addr in REQUEST_FILENAME
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://example.com/es-es"
+          uri: "/net/ip-addr"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932237]
+  - test_id: 42
+    desc: |
+      Issue #4895: 'touch' and 'local' in benign referer must not match.
+      Payload: /help/touch-base-local referer
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://example.com/help/touch-base-local"
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932237]
+  - test_id: 43
+    desc: |
+      Real command injection still detected after FP exclusions.
+      Payload: Referer with 'cat /etc/passwd'
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://example.com/x;cat /etc/passwd"
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932237]
