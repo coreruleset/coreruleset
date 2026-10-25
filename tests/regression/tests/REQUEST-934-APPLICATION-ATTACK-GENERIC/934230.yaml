@@ -1,0 +1,105 @@
+---
+meta:
+  author: "devin-ai"
+rule_id: 934230
+tests:
+  - test_id: 1
+    desc: "Argument contains base64-encoded Python pickle (protocol 4) magic bytes"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "test=gASVCgAAAAAAAAB9lIwBeJRLAXMu"
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 2
+    desc: "Argument name contains base64-encoded Python pickle magic bytes"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "gASV=test"
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 3
+    desc: "Cookie contains base64-encoded Python pickle (protocol 4) magic bytes"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/x-www-form-urlencoded"
+            Cookie: session=gASVCgAAAAAAAAB9lIwBeJRLAXMu
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 4
+    desc: "Cookie contains base64-encoded Python pickle (protocol 5) magic bytes"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/x-www-form-urlencoded"
+            Cookie: session=gAWVCAAAAAAAAACMBHRlc3SULg==
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 5
+    desc: "Benign base64 cookie without pickle magic bytes does not match"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/x-www-form-urlencoded"
+            Cookie: session=aGVsbG8gd29ybGQ=
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934230]
