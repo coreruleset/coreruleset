@@ -124,3 +124,54 @@ tests:
         output:
           log:
             no_expect_ids: [942570]
+  - test_id: 8
+    desc: "Charset introducer with space before the quote (_utf8mb4 '')"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=foo' OR NOT _utf8mb4 '' -- "
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942570]
+  - test_id: 9
+    desc: "Charset introducer with double-quoted empty literal (_utf8mb4\"\")"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=foo' OR NOT _utf8mb4\"\" -- "
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942570]
+  - test_id: 10
+    desc: "Charset introducer with space before double quote (_utf8mb4 \"\")"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=foo' OR NOT _utf8mb4 \"\" -- "
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942570]
