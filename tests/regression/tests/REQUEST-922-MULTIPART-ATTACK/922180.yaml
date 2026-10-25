@@ -1,0 +1,122 @@
+---
+meta:
+  author: "devin-ai"
+rule_id: 922180
+tests:
+  - test_id: 1
+    desc: "php2shell PoC boundary ----0x4148php2shell is blocked"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "multipart/form-data; boundary=----0x4148php2shell"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "------0x4148php2shell\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\n1\r\n------0x4148php2shell--\r\n"
+        output:
+          log:
+            expect_ids: [922180]
+  - test_id: 2
+    desc: "php2shell-trigger boundary is blocked"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "multipart/form-data; boundary=php2shell-trigger"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "--php2shell-trigger\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\n1\r\n--php2shell-trigger--\r\n"
+        output:
+          log:
+            expect_ids: [922180]
+  - test_id: 3
+    desc: "BNDRY12345 PoC boundary is blocked"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "multipart/form-data; boundary=BNDRY12345"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "--BNDRY12345\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\n1\r\n--BNDRY12345--\r\n"
+        output:
+          log:
+            expect_ids: [922180]
+  - test_id: 4
+    desc: "shellflow-inject and lk1bound PoC boundaries are blocked"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "multipart/form-data; boundary=----shellflow-inject"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "------shellflow-inject\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\n1\r\n------shellflow-inject--\r\n"
+        output:
+          log:
+            expect_ids: [922180]
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "multipart/form-data; boundary=lk1bound"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "--lk1bound\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\n1\r\n--lk1bound--\r\n"
+        output:
+          log:
+            expect_ids: [922180]
+  - test_id: 5
+    desc: "Normal browser-style boundary does not match"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\n1\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--\r\n"
+        output:
+          log:
+            no_expect_ids: [922180]
