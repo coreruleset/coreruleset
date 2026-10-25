@@ -1,0 +1,119 @@
+---
+meta:
+  author: "kosoyyagent"
+  description: "Tests for rule 942570 (MySQL charset introducer detection)"
+rule_id: 942570
+tests:
+  - test_id: 1
+    desc: "MySQL charset introducer _utf8mb4 used to evade PL1 detection (issue #4890)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=foo' OR NOT _utf8mb4'' -- "
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942570]
+  - test_id: 2
+    desc: "Charset introducer _utf8 with non-empty literal"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=foo' OR _utf8'abc' -- "
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942570]
+  - test_id: 3
+    desc: "Charset introducer _latin1 detected in argument"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=1 AND _latin1'x'=_latin1'x'"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942570]
+  - test_id: 4
+    desc: "Charset introducer _gb18030 in argument name"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "_gb18030'x'=1"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942570]
+  - test_id: 5
+    desc: "snake_case identifier ending in a charset name must not match (charset_utf8's)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=the charset_utf8's value differs"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942570]
+  - test_id: 6
+    desc: "underscore word that is not a charset name must not match"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=open the _config' section now"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942570]
+  - test_id: 7
+    desc: "JSON key with a charset-like name and double quotes must not match"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          data: '{"_binary": "abc", "_utf8mb4": 1}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942570]
