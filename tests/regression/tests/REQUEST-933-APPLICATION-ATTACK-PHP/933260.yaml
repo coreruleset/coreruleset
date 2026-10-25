@@ -1,8 +1,8 @@
 ---
 meta:
   author: "kosoyyagent"
-  description: "Tests for rule 933230 (PHP session upload-progress object injection, CVE-2026-115560)"
-rule_id: 933230
+  description: "Tests for rule 933260 (PHP session upload-progress object injection, CVE-2026-115560)"
+rule_id: 933260
 tests:
   - test_id: 1
     desc: "Should block: PHP_SESSION_UPLOAD_PROGRESS value carries a serialized object after a pipe"
@@ -13,15 +13,15 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            Content-Type: multipart/form-data; boundary=----TESTBOUNDARY933230
+            Content-Type: multipart/form-data; boundary=----TESTBOUNDARY933260
           method: POST
           port: 80
           uri: "/post"
-          data: "------TESTBOUNDARY933230\r\nContent-Disposition: form-data; name=\"PHPSESSID\"\r\n\r\nabc123defghijklmnopqrstuvw\r\n------TESTBOUNDARY933230\r\nContent-Disposition: form-data; name=\"PHP_SESSION_UPLOAD_PROGRESS\"\r\n\r\n|O:9:\"LabGadget\":1:{s:3:\"cmd\";s:6:\"whoami\";}\r\n------TESTBOUNDARY933230--\r\n"
+          data: "------TESTBOUNDARY933260\r\nContent-Disposition: form-data; name=\"PHPSESSID\"\r\n\r\nabc123defghijklmnopqrstuvw\r\n------TESTBOUNDARY933260\r\nContent-Disposition: form-data; name=\"PHP_SESSION_UPLOAD_PROGRESS\"\r\n\r\n|O:9:\"LabGadget\":1:{s:3:\"cmd\";s:6:\"whoami\";}\r\n------TESTBOUNDARY933260--\r\n"
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [933230]
+            expect_ids: [933260]
   - test_id: 2
     desc: "Should block: pipe + serialized scalar payload (|i:)"
     stages:
@@ -31,15 +31,15 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            Content-Type: multipart/form-data; boundary=----TESTBOUNDARY933230
+            Content-Type: multipart/form-data; boundary=----TESTBOUNDARY933260
           method: POST
           port: 80
           uri: "/post"
-          data: "------TESTBOUNDARY933230\r\nContent-Disposition: form-data; name=\"PHP_SESSION_UPLOAD_PROGRESS\"\r\n\r\n12345|s:7:\"injected\";\r\n------TESTBOUNDARY933230--\r\n"
+          data: "------TESTBOUNDARY933260\r\nContent-Disposition: form-data; name=\"PHP_SESSION_UPLOAD_PROGRESS\"\r\n\r\n12345|s:7:\"injected\";\r\n------TESTBOUNDARY933260--\r\n"
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [933230]
+            expect_ids: [933260]
   - test_id: 3
     desc: "Should block: urlencoded field with pipe + object marker"
     stages:
@@ -57,7 +57,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [933230]
+            expect_ids: [933260]
   - test_id: 4
     desc: "Should not block: plain upload-progress identifier value"
     stages:
@@ -75,7 +75,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [933230]
+            no_expect_ids: [933260]
   - test_id: 5
     desc: "Should not block: unrelated field carrying a pipe"
     stages:
@@ -93,7 +93,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [933230]
+            no_expect_ids: [933260]
   - test_id: 6
     desc: "Should not block: PHP_SESSION_UPLOAD_PROGRESS named differently (substring must not match)"
     stages:
@@ -111,4 +111,4 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [933230]
+            no_expect_ids: [933260]
