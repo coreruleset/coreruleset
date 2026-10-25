@@ -1,0 +1,105 @@
+---
+meta:
+  author: "devin-ai"
+rule_id: 922170
+tests:
+  - test_id: 1
+    desc: "Content-Type boundary is a single repeated character (php2shell PoC fingerprint)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "multipart/form-data; boundary=CCCCCCCCCC"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "--CCCCCCCCCC\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\n1\r\n--CCCCCCCCCC--\r\n"
+        output:
+          log:
+            expect_ids: [922170]
+  - test_id: 2
+    desc: "Degenerate numeric-only boundary matches"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "multipart/form-data; boundary=000000000"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "--000000000\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\n1\r\n--000000000--\r\n"
+        output:
+          log:
+            expect_ids: [922170]
+  - test_id: 3
+    desc: "Degenerate boundary before a further Content-Type parameter matches"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "multipart/form-data; boundary=AAAAAAAA; charset=utf-8"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "--AAAAAAAA\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\n1\r\n--AAAAAAAA--\r\n"
+        output:
+          log:
+            expect_ids: [922170]
+  - test_id: 4
+    desc: "Normal browser-style boundary does not match"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\n1\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--\r\n"
+        output:
+          log:
+            no_expect_ids: [922170]
+  - test_id: 5
+    desc: "Boundary with repeated prefix but random tail does not match"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "multipart/form-data; boundary=---------------------------735323031399963166993862150"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "-----------------------------735323031399963166993862150\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\n1\r\n-----------------------------735323031399963166993862150--\r\n"
+        output:
+          log:
+            no_expect_ids: [922170]
