@@ -156,3 +156,68 @@ tests:
         output:
           log:
             no_expect_ids: [942590]
+  - test_id: 10
+    desc: "Backtick-quoted collation name (collate `utf8mb4_bin`)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?var='+OR+1+collate+`utf8mb4_bin`%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942590]
+  - test_id: 11
+    desc: "Single-quoted collation name (collate 'utf8mb4_bin')"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?var='+OR+1+collate+'utf8mb4_bin'%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942590]
+  - test_id: 12
+    desc: "Comment evasion between keyword and name (collate/**/utf8mb4_bin)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?var='+OR+1+collate%2F%2A%2A%2Futf8mb4_bin%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942590]
+  - test_id: 13
+    desc: "'collate latin1 files into one folder' prose must not match"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=collate latin1 files into one folder"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942590]
