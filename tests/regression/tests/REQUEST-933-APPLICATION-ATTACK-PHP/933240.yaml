@@ -1,0 +1,159 @@
+---
+meta:
+  author: "kosoyyagent"
+  description: "Tests for PHP Code Tag in Upload Filename Detection (CVE-2026-109618)"
+rule_id: 933240
+tests:
+  - test_id: 1
+    desc: "Should block: php2shell payload filename in multipart upload"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "multipart/form-data; boundary=--------397236876"
+          uri: "/index.php"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="f"; filename="<?php system($_GET[0]); ?>"
+            Content-Type: application/octet-stream
+
+            Z
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933240]
+  - test_id: 2
+    desc: "Should block: short echo tag in filename"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "multipart/form-data; boundary=--------397236876"
+          uri: "/index.php"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="f"; filename="x<?=`id`?>"
+            Content-Type: application/octet-stream
+
+            Z
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933240]
+  - test_id: 3
+    desc: "Should block: PHP tag via X-Filename header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "<?php echo 'x'; ?>"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933240]
+  - test_id: 4
+    desc: "Should pass: normal filename"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: document.pdf
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          port: 80
+          uri: /upload
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933240]
+  - test_id: 5
+    desc: "Should pass: less-than and question mark not adjacent in filename"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "multipart/form-data; boundary=--------397236876"
+          uri: "/index.php"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="f"; filename="a<b?c.txt"
+            Content-Type: application/octet-stream
+
+            Z
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933240]
+  - test_id: 6
+    desc: "Should pass: question mark before less-than"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "multipart/form-data; boundary=--------397236876"
+          uri: "/index.php"
+          data: |
+            ----------397236876
+            Content-Disposition: form-data; name="f"; filename="a?<b.txt"
+            Content-Type: application/octet-stream
+
+            Z
+            ----------397236876--
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933240]
+  - test_id: 7
+    desc: "Should pass: xml declaration in filename must not match"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: multipart/form-data; boundary=boundary
+          method: POST
+          port: 80
+          uri: "/post"
+          data: |
+            --boundary
+            Content-Disposition: form-data; name="f"; filename="a<?xml-report.txt"
+
+            data
+            --boundary--
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [933240]
