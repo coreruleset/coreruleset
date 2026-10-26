@@ -1,0 +1,101 @@
+---
+meta:
+  author: "kosoyyagent"
+rule_id: 934230
+tests:
+  - test_id: 1
+    desc: "Cookie contains a base64-encoded pickle stream (protocol 4, 'gASV')"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Cookie: "username=gASVKAAAAAAAAACMBHBvc2l4lIwGc3lzdGVtlJOUjAZ3aG9hbWmUhZRSlC4="
+          method: "GET"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 2
+    desc: "Argument contains a base64-encoded pickle stream (protocol 5, 'gAWV')"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "payload=gAWVKAAAAAAAAACMBHBvc2l4lIwGc3lzdGVtlJOUjAZ3aG9hbWmUhZRSlC4="
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 3
+    desc: "URL-encoded base64 pickle prefix is decoded and matched"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+          method: "GET"
+          uri: "/get?data=%67ASVKAAAAAAAAAA%3D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 4
+    desc: "Negative test: ordinary base64 value without pickle magic"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Cookie: "session=aGVsbG8gd29ybGQ"
+          method: "GET"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934230]
+  - test_id: 5
+    desc: "Negative test: pickle magic not at the start of the value"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: "POST"
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: "data=QUJDZEFTVA=="
+        output:
+          log:
+            no_expect_ids: [934230]
