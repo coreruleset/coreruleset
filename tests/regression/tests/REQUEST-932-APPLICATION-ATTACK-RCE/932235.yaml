@@ -1227,3 +1227,39 @@ tests:
         output:
           log:
             expect_ids: [932235]
+  - test_id: 70
+    desc: "FP regression #4437: '& Mount Davis' / '& Mount Everest' in JSON must not match at PL1"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "application/json"
+            Content-Type: "application/json; charset=utf-8"
+          uri: "/post"
+          data: '[{"JobDescription": "Take aerial photo for potential landslides at Queen Mary Hospital & Mount Everest"}]'
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 71
+    desc: "'& mount' still detected at PL2 via sibling rule coverage (932236 unchanged)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "application/json"
+            Content-Type: "application/x-www-form-urlencoded"
+          uri: "/post"
+          data: "arg=foo & mount /dev/sda1 /mnt"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932235]
