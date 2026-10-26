@@ -115,11 +115,10 @@ tests:
             Host: localhost
             User-Agent: "OWASP CRS test agent"
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-            Content-Type: application/json
           method: POST
           port: 80
           uri: "/post"
-          data: '{"_binary": "abc", "_utf8mb4": 1}'
+          data: 'var={"_binary": "abc", "_utf8mb4": 1}'
           version: HTTP/1.1
         output:
           log:
@@ -142,7 +141,7 @@ tests:
           log:
             expect_ids: [942570]
   - test_id: 9
-    desc: "Charset introducer with double-quoted empty literal (_utf8mb4\"\")"
+    desc: "Charset introducer with double-quoted empty literal must not match at PL1 (JSON FP, see review)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -157,9 +156,9 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [942570]
+            no_expect_ids: [942570]
   - test_id: 10
-    desc: "Charset introducer with space before double quote (_utf8mb4 \"\")"
+    desc: "Charset introducer with space before double quote must not match at PL1"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -174,7 +173,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            expect_ids: [942570]
+            no_expect_ids: [942570]
   - test_id: 11
     desc: "Charset introducer _euckr (EUC-KR) detected"
     stages:
@@ -188,6 +187,57 @@ tests:
           port: 80
           uri: "/post"
           data: "var=foo' OR NOT _euckr'' -- "
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942570]
+  - test_id: 12
+    desc: "Charset introducer before hex literal (_utf8mb4 X'' and _utf8mb4 0x00)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=foo' OR NOT _utf8mb4 0x00 -- "
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942570]
+  - test_id: 13
+    desc: "Charset introducer before hex-quoted literal (_utf8mb4 X'ff')"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=foo' OR NOT _utf8mb4 X'ff' -- "
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942570]
+  - test_id: 14
+    desc: "Comment-split charset introducer (_utf8mb4/**/'')"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "var=foo' OR NOT _utf8mb4/**/'' -- "
           version: HTTP/1.1
         output:
           log:
