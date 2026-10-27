@@ -39,7 +39,7 @@
 ##!> define operators (?:@|@>|<@|@\?|@@|\?|\?&|\?\||#>|#>>|#-|->>|<|>|->|-)
 ##!> define json_starting_brackets [[{]
 ##!> define sqlite_path \$[.[]
-##!> define something_except_json_ending_brackets [^}\]#]*
+##!> define something_except_json_ending_brackets [^}\]#]{0,255}
 ##!> define json_ending_brackets [\]}]+
 ##!> define sql_comment (/\*.*?\*/)?
 ##!> define non_greedy_jsonb (?:::{{sql_comment}}jsonb?)?
@@ -51,5 +51,5 @@
   {{operators}}{{quotes}}{{sqlite_path}}
 
   ##! MySQL
-  \bjson_extract\b[^\(]*\([^)]*\)
+  \bjson_extract\b[^\(]{0,128}\([^)]{0,255}\)
 ##!<
