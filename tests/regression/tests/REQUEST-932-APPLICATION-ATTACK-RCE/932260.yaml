@@ -1012,8 +1012,10 @@ tests:
             expect_ids: [932260]
   - test_id: 60
     desc: |
-      Detect RCE in last path segment
-      Payload: ;addgroup pawnd
+      This rule should not target REQUEST_FILENAME. It matches command words at the start
+      of a value, which in a path matches ordinary URL slugs (see #4840). Commands that
+      follow a shell metacharacter in the path are detected by 932235.
+      Payload: chef-des-hauses
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -1023,8 +1025,8 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: /path/with/%3Baddgroup%20pawnd
+          uri: /testing/chef-des-hauses
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [932260]
+            no_expect_ids: [932260]

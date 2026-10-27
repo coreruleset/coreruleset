@@ -169,7 +169,7 @@ jobs:
               echo
               echo "| Rule ID | PL | False positives |"
               echo "|---------|----|-----------------|"
-              jq -r '.regressions.newlyFiringRules | to_entries[] | "| \(.key) | \(.value.paranoiaLevel) | \(.value.falsePositives) |"' results.json
+              jq -r '.regressions.newlyFiringRules | to_entries[] | "| \(.key) | \(.value.currentParanoiaLevel) | \(.value.currentFalsePositives) |"' results.json
             fi
 
             STOPPED_FIRING=$(jq -r '.regressions.stoppedFiringRules | to_entries | length' results.json)
@@ -179,7 +179,7 @@ jobs:
               echo
               echo "| Rule ID | PL | False positives (main) |"
               echo "|---------|----|-------------------------|"
-              jq -r '.regressions.stoppedFiringRules | to_entries[] | "| \(.key) | \(.value.paranoiaLevel) | \(.value.falsePositives) |"' results.json
+              jq -r '.regressions.stoppedFiringRules | to_entries[] | "| \(.key) | \(.value.baselineParanoiaLevel) | \(.value.baselineFalsePositives) |"' results.json
             fi
 
             NONZERO_DELTAS=$(jq -r '[.regressions.perRuleDeltas | to_entries[] | select(.value.delta != 0)] | length' results.json)
@@ -190,7 +190,7 @@ jobs:
               echo
               echo "| Rule ID | PL | main | this PR | delta |"
               echo "|---------|----|----|---------|-------|"
-              jq -r '.regressions.perRuleDeltas | to_entries[] | select(.value.delta != 0) | "| \(.key) | \(.value.currentParanoiaLevel) | \(.value.baselineFalsePositives) | \(.value.currentFalsePositives) | \(.value.delta) |"' results.json
+              jq -r '.regressions.perRuleDeltas | to_entries[] | select(.value.delta != 0) | "| \(.key) | \(if .value.currentParanoiaLevel != 0 then .value.currentParanoiaLevel else .value.baselineParanoiaLevel end) | \(.value.baselineFalsePositives) | \(.value.currentFalsePositives) | \(.value.delta) |"' results.json
               echo
               echo "</details>"
             fi
