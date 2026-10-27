@@ -176,7 +176,7 @@ Please note that we added a large number of new detections, and any new detectio
 
 In general, you can update by unzipping our new release over your older one, and updating the `crs-setup.conf` file with any new settings.  However, CRS 3.0 is a major rewrite, incompatible with CRS 2.x. Key setup variables have changed their name, and new features have been introduced. Your former modsecurity_crs_10_setup.conf file is thus no longer usable. We recommend you to start with a fresh crs-setup.conf file from scratch.
 
-Most rule IDs have been changed to reorganize them into logical sections. This means that if you have written custom configuration with exclusion rules (e.g. `SecRuleRemoveById`, `SecRuleRemoveTargetById`, `ctl:ruleRemoveById` or `ctl:ruleRemoveTargetById`) you must renumber the rule numbers in that configuration. You can do this using the supplied utility util/id_renumbering/update.py or find the changes in util/id_renumbering/IdNumbering.csv.
+Most rule IDs have been changed to reorganize them into logical sections. This means that if you have written custom configuration with exclusion rules (e.g. `SecRuleRemoveById`, `SecRuleRemoveTargetById`, `ctl:ruleRemoveById` or `ctl:ruleRemoveTargetById`) you must renumber the rule numbers in that configuration. You can do this using the supplied utility `id_renumbering/update.py` or find the changes in `id_renumbering/IdNumbering.csv` (both in [v3.0.0](https://github.com/coreruleset/coreruleset/tree/v3.0.0/id_renumbering)).
 
 However, a key feature of the CRS 3 is the reduction of false positives in the default installation, and many of your old exclusion rules may no longer be necessary. Therefore, it is a good option to start fresh without your old exclusion rules.
 
