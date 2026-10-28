@@ -224,3 +224,51 @@ tests:
         output:
           log:
             expect_ids: [941110]
+  - test_id: 14
+    desc: 'XSS in multipart/form-data filename. Match script tag in FILES_NAMES (941110).'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: multipart/form-data; boundary=---------------------------161803398874989
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: POST
+          port: 80
+          uri: /
+          data: |
+            -----------------------------161803398874989
+            Content-Disposition: form-data; name="file"; filename="<script>alert(1)</script>"
+            Content-Type: application/octet-stream
+
+            helloworld
+            -----------------------------161803398874989--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941110]
+  - test_id: 15
+    desc: 'Dummy upload of harmless filename'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: multipart/form-data; boundary=---------------------------161803398874989
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: POST
+          port: 80
+          uri: /
+          data: |
+            -----------------------------161803398874989
+            Content-Disposition: form-data; name="file"; filename="report.pdf"
+            Content-Type: application/octet-stream
+
+            helloworld
+            -----------------------------161803398874989--
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [941110]
