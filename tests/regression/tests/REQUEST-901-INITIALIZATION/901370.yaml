@@ -21,7 +21,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [920420]
+            no_expect_ids: [920420, 920470]
   - test_id: 2
     desc: "Positive test: application/vnd.api+json is allowed by the default configuration"
     stages:
@@ -39,7 +39,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [920420]
+            no_expect_ids: [920420, 920470]
   - test_id: 3
     desc: "Positive test: application/csp-report+json is allowed by the default configuration (distinct from the bare application/csp-report type removed in #4365)"
     stages:
@@ -57,7 +57,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [920420]
+            no_expect_ids: [920420, 920470]
   - test_id: 4
     desc: "Positive test: application/cloudevents+json is allowed by the default configuration, now that the JSON body processor is forced for it (ref.: 9EA-241022, coreruleset/coreruleset#3905)"
     stages:
@@ -75,7 +75,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [920420]
+            no_expect_ids: [920420, 920470]
   - test_id: 5
     desc: "Positive test: the bare application/csp-report type (no +json suffix) must stay blocked (ref.: #4362, #4365)"
     stages:
@@ -147,9 +147,9 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [920420]
+            no_expect_ids: [920420, 920470]
   - test_id: 9
-    desc: "Positive test: application/foo_bar+json is allowed, underscore is a legal RFC 6838 restricted-name-chars character"
+    desc: "Positive test: application/foo_bar+json is allowed, underscore is accepted by both 901370 and 920470"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -165,9 +165,9 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [920420]
+            no_expect_ids: [920420, 920470]
   - test_id: 10
-    desc: "Positive test: application/foo!bar+json is allowed, \"!\" is a legal RFC 6838 restricted-name-chars character"
+    desc: "Positive test: application/foo!bar+json is NOT allowed, \"!\" is outside the characters 920470 accepts (ref.: coreruleset/coreruleset#4849)"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -183,7 +183,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [920420]
+            expect_ids: [920420, 920470]
   - test_id: 11
     desc: "Positive test: application/a@b+json is NOT allowed, \"@\" is not a legal RFC 6838 restricted-name-chars character"
     stages:
@@ -203,7 +203,7 @@ tests:
           log:
             expect_ids: [920420]
   - test_id: 12
-    desc: "Positive test: application/vc+ld+json is allowed, \"+\" is a legal RFC 6838 restricted-name-chars character inside the subtype"
+    desc: "Positive test: application/vc+ld+json is allowed, \"+\" inside the subtype is accepted by both 901370 and 920470"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -219,7 +219,7 @@ tests:
           version: HTTP/1.1
         output:
           log:
-            no_expect_ids: [920420]
+            no_expect_ids: [920420, 920470]
   - test_id: 13
     desc: "Positive test: JSON body processor is forced for application/vc+ld+json, a SQLi payload nested in the JSON body is detected"
     stages:
@@ -238,3 +238,75 @@ tests:
         output:
           log:
             expect_ids: [942100]
+  - test_id: 14
+    desc: "Positive test: application/foo#bar+json is NOT allowed, \"#\" is outside the characters 920470 accepts (ref.: coreruleset/coreruleset#4849)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "application/foo#bar+json"
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420, 920470]
+  - test_id: 15
+    desc: "Positive test: application/foo$bar+json is NOT allowed, \"$\" is outside the characters 920470 accepts (ref.: coreruleset/coreruleset#4849)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "application/foo$bar+json"
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420, 920470]
+  - test_id: 16
+    desc: "Positive test: application/foo&bar+json is NOT allowed, \"&\" is outside the characters 920470 accepts (ref.: coreruleset/coreruleset#4849)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "application/foo&bar+json"
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420, 920470]
+  - test_id: 17
+    desc: "Positive test: application/foo^bar+json is NOT allowed, \"^\" is outside the characters 920470 accepts (ref.: coreruleset/coreruleset#4849)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "application/foo^bar+json"
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420, 920470]
