@@ -19,7 +19,8 @@ tests:
           method: "POST"
           version: "HTTP/1.1"
           uri: "/reflect"
-          data: "{\"body\": \"<?php echo \\\"Hello World!\\n\\\" ?>\"}"
+          data: |-
+            {"body": "<?php echo \"Hello World!\\n\" ?>"}
         output:
           log:
             expect_ids: [953120]
@@ -102,7 +103,8 @@ tests:
           method: "POST"
           version: "HTTP/1.1"
           uri: "/reflect"
-          data: "{\"body\": \"<?= \\\"Hello World!\\n\\\" =?>\"}"
+          data: |-
+            {"body": "<?= \"Hello World!\\n\" ?>"}
         output:
           log:
             expect_ids: [953120]
@@ -143,7 +145,8 @@ tests:
           method: "POST"
           version: "HTTP/1.1"
           uri: "/reflect"
-          data: "{\"body\": \"<?PhP echo \\\"Hello World!\\n\\\" ?>\"}"
+          data: |-
+            {"body": "<?PhP echo \"Hello World!\\n\" ?>"}
         output:
           log:
             expect_ids: [953120]
