@@ -15,11 +15,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/reflect"
-          data: "Maximum allowed file size is 10 MB"
+          data: |-
+            {"body": "Maximum allowed file size is 10 MB"}
         output:
           log:
             no_expect_ids: [953100]
@@ -35,11 +36,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/reflect"
-          data: "Invalid date selected"
+          data: |-
+            {"body": "Invalid date selected"}
         output:
           log:
             no_expect_ids: [953100]
@@ -55,11 +57,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/reflect"
-          data: "please review the function"
+          data: |-
+            {"body": "please review the function"}
         output:
           log:
             no_expect_ids: [953100]
@@ -75,11 +78,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/reflect"
-          data: "This is a static function"
+          data: |-
+            {"body": "This is a static function"}
         output:
           log:
             no_expect_ids: [953100]
@@ -95,11 +99,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/reflect"
-          data: "Field cannot be empty."
+          data: |-
+            {"body": "Field cannot be empty."}
         output:
           log:
             no_expect_ids: [953100]
@@ -115,11 +120,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/reflect"
-          data: "This will delete and unassign the <strong>%1$s</strong> preset across your entire site, and assign the <strong>Default %2$s Preset</strong> in all instances."
+          data: |-
+            {"body": "This will delete and unassign the <strong>%1$s</strong> preset across your entire site, and assign the <strong>Default %2$s Preset</strong> in all instances."}
         output:
           log:
             no_expect_ids: [953100]
