@@ -99,6 +99,12 @@ We are happy to work with the community to provide CVE identifiers for any disco
 
 > **LTS-specific note:** Security vulnerabilities that affect v4.25.x LTS will be patched in a point release on the `lts/v4.25.x` branch. If you are running the LTS and discover a vulnerability, please specify "LTS v4.25.x" in your report so we can prioritize the backport accordingly.
 
+### Vulnerabilities Found Using AI Tools
+
+If you found a vulnerability with the help of AI tooling (e.g. Claude, GPT, Copilot or similar), please say so in your report and name the tool and model used.
+In security advisories and release notes, we credit the _finding_ to the AI tool, and credit the human who submitted it as the _reporter_.
+See our [AI contributions policy](AI-CONTRIBUTIONS.md) for how we handle AI-assisted work in general.
+
 If in doubt, feel free to reach out to us!
 
 The OWASP CRS Team.
