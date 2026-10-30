@@ -1,0 +1,13 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##! MySQL/MariaDB character set introducer: `_charset'literal'`,
+##! `_charset X'ff'`, `_charset 0x00`, `_charset b'1'`.
+##! See https://github.com/coreruleset/coreruleset/pull/4906.
+
+##!+ i
+
+##!^ (?:^|[^0-9A-Z_a-z])_
+##!$ [\s\x0b]*(?:'|[xb]'|0x[0-9a-f]|0b[01])
+
+##!> include mysql-charset-names
