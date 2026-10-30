@@ -1,7 +1,7 @@
 ---
 meta:
   author: "devin-ai"
-rule_id: 934233
+rule_id: 934240
 tests:
   - test_id: 1
     desc: "Argument contains base64-encoded Python pickle (protocol 4) magic bytes"
@@ -22,7 +22,7 @@ tests:
           data: "test=gASVCgAAAAAAAAB9lIwBeJRLAXMu"
         output:
           log:
-            expect_ids: [934233]
+            expect_ids: [934240]
   - test_id: 2
     desc: "Argument name contains base64-encoded Python pickle magic bytes"
     stages:
@@ -42,7 +42,7 @@ tests:
           data: "gASV=test"
         output:
           log:
-            expect_ids: [934233]
+            expect_ids: [934240]
   - test_id: 3
     desc: "Cookie contains base64-encoded Python pickle (protocol 4) magic bytes"
     stages:
@@ -62,7 +62,7 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [934233]
+            expect_ids: [934240]
   - test_id: 4
     desc: "Cookie contains base64-encoded Python pickle (protocol 5) magic bytes"
     stages:
@@ -82,7 +82,7 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [934233]
+            expect_ids: [934240]
   - test_id: 5
     desc: "Benign base64 cookie without pickle magic bytes does not match"
     stages:
@@ -102,7 +102,7 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [934233]
+            no_expect_ids: [934240]
   - test_id: 6
     desc: "Magic byte sequence embedded in benign base64 data does not match"
     stages:
@@ -122,7 +122,7 @@ tests:
           data: "note=xxgASVyygAWVzz"
         output:
           log:
-            no_expect_ids: [934233]
+            no_expect_ids: [934240]
 
   - test_id: 7
     desc: "Cookie with a stripped non-base64 char before the magic still matches ('g.ASV')"
@@ -140,4 +140,22 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [934233]
+            expect_ids: [934240]
+
+  - test_id: 8
+    desc: "Base64 alphabet char after 'g' is not a stripped separator ('g/ASV' does not match)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Cookie: "session=g/ASVAAA"
+          method: GET
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [934240]
