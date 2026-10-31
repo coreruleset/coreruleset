@@ -140,3 +140,21 @@ tests:
         output:
           log:
             expect_ids: [911100]
+  - test_id: 9
+    desc: QUERY (RFC 10008) is allowed by default
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "QUERY"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/query"
+          version: "HTTP/1.1"
+          data: "q=foo&limit=10&sort=-published"
+        output:
+          log:
+            no_expect_ids: [911100]
