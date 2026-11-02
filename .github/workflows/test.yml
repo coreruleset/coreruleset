@@ -40,7 +40,7 @@ jobs:
         modsec_version: [modsec2-apache, modsec3-nginx]
     steps:
       - name: "Checkout repo"
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -78,7 +78,7 @@ jobs:
           # Files created from the container will belong to root
           sudo chmod -R a+r tests/logs
 
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: failure()
         with:
           name: waf-logs-${{ matrix.modsec_version }}
