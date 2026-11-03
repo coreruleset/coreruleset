@@ -39,16 +39,16 @@
   ##!> assemble
     {{keyword_prefix}}
     ##!=>
-    create\s+\w+
-    delete\s+\w+
+    create\s+(?:table|view|index|database|function|procedure|trigger|schema)\s+\w+
+    delete\s*\w+\s+from\s+
     desc\s+\w+
-    drop\s+\w+
-    insert\s+\w+
-    load\s+\w+
-    rename\s+\w+
-    select\s+\w+
-    truncate\s+\w+
-    update\s+\w+
+    drop\s+(?:table|view|index|database|trigger)\s+\w+
+    insert\s+into\s+\w+
+    load\s+data\s+\w+
+    rename\s+table\s+\w+
+    select\s+\w+\s+from
+    truncate\s+table\s+\w+
+    update\s+\w+\s+set\s+\w+
     ##!> assemble
       alter\s*
       ##!=>
