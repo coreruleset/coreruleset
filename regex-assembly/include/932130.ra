@@ -24,3 +24,28 @@
 ##! Catches also subdirectory globbing, example: cat /etc/[p//]asswd
 ##! Require a / in front to prevent false positives like [text in brackets]
 /\w*\[[^\]]+\]
+
+##! Matches multiple forms of ANSI-c encoding such as octal, \u and hex encoded.
+##! Both encoded and non-encoded characters can be used together to execute commands.
+##!
+##! ANSI-C octal encoding:
+##! $'\151\144' (id)
+##! $'\151d' (id)
+##! $'\14389' (c89)
+##! $'\057\142in/\14389' (/bin/c89)
+##! $'/bin\057\14389' (/bin/c89)
+##!
+##! ANSI-C \u and \U encoded commands:
+##! $'\u0069\u0064' (id)
+##! $'\u0069d' (id)
+##! $'\u006389' (c89)
+##! $'\u002F\u0062in\u002F\u006389' (/bin/c89)
+##! $'/bin\U0000002F\U0000006389' (/bin/c89)
+##!
+##! ANSI-C hex-encoded commands:
+##! $'\x69\x64' (id)
+##! $'\x69d' (id)
+##! $'\x6389' (c89)
+##! $'\x2F\x62in\x2F\x6389' (/bin/c89)
+##! $'/\142in/\14389' (/bin/c89)
+\$'[^'\s]+'
