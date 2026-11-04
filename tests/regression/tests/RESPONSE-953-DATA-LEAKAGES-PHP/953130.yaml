@@ -184,3 +184,75 @@ tests:
         output:
           log:
             expect_ids: [953130]
+  - test_id: 11
+    desc: "Positive: encoded percent sign (%25)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"PHPSESSID=abc%25def; path=/\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            expect_ids: [953130]
+  - test_id: 12
+    desc: "Positive: percent sign cut short by the attribute separator"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"PHPSESSID=abc%; path=/\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            expect_ids: [953130]
+  - test_id: 13
+    desc: "Positive: percent and 2 cut short by the attribute separator"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"PHPSESSID=abc%2; path=/\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            expect_ids: [953130]
+  - test_id: 14
+    desc: "Negative: lowercase encoded comma"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: "{\"headers\": {\"Set-Cookie\": \"PHPSESSID=Ab9%2cxY4; path=/\", \"Content-Type\": \"text/html\"}, \"body\": \"ok\"}"
+        output:
+          log:
+            no_expect_ids: [953130]
