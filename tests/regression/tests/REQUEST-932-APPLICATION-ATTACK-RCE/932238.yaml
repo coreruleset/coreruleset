@@ -203,7 +203,7 @@ tests:
   - test_id: 12
     desc: |
       Detect RCE in last path segment
-      Payload: ;nohup who
+      Payload: ;nohup who -v
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -213,7 +213,7 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: /path/with/%3Bnohup%20who
+          uri: /path/with/%3Bnohup%20who%20-v
           version: "HTTP/1.1"
         output:
           log:
