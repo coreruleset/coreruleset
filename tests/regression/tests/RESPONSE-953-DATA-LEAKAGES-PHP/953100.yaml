@@ -143,7 +143,7 @@ tests:
           log:
             expect_ids: [953100]
   - test_id: 8
-    desc: "session_destroy() 'Session object destruction failed' warning is detected"
+    desc: "session_destroy() 'Session object destruction failed' common exploitation indicator of php2shell"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -154,11 +154,12 @@ tests:
             Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
             Accept-Encoding: "gzip,deflate"
             Accept-Language: "en-us,en;q=0.5"
-            Content-Type: "text/plain"
+            Content-Type: "application/json"
           method: "POST"
           version: "HTTP/1.1"
           uri: "/reflect"
-          data: "Warning: session_destroy(): Session object destruction failed in /var/www/app.php on line 12"
+          data: |-
+            { "body": "Warning: session_destroy(): Session object destruction failed in /var/www/app.php on line 12" }
         output:
           log:
             expect_ids: [953100]
