@@ -22,7 +22,7 @@ permissions:
 env:
   CRS_TOOLCHAIN_VERSION: '2.6.0'
   SECRULES_PARSING_VERSION: '0.4.0'
-  CRS_LINTER_VERSION: '1.0.0'
+  CRS_LINTER_VERSION: '1.3.0'
 
 jobs:
   check-syntax:
@@ -78,10 +78,8 @@ jobs:
             --output=github \
             -r crs-setup.conf.example \
             -r 'rules/*.conf' \
-            -t util/APPROVED_TAGS \
-            -f util/FILENAME_EXCLUSIONS \
+            -c crs-linter.toml \
             -T 'tests/regression/tests/' \
-            -E 'tests/TESTS_EXCLUSIONS' \
             -d "$(pwd)" \
             --head-ref "$HEAD_REF" \
             --commit-message "$COMMIT_MESSAGE"
