@@ -1,63 +1,34 @@
-# crs-toolchain
+[![OWASP Flagship](https://img.shields.io/badge/owasp-flagship%20project-38a047.svg)](https://owasp.org/projects/)
+[![CII Best Practices](https://www.bestpractices.dev/projects/1390/badge)](https://www.bestpractices.dev/projects/1390)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-[![Regression Tests](https://github.com/coreruleset/crs-toolchain/actions/workflows/regression.yml/badge.svg)](https://github.com/coreruleset/crs-toolchain/actions/workflows/regression.yml)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/coreruleset/crs-toolchain/badge)](https://securityscorecards.dev/viewer/?uri=github.com/coreruleset/crs-toolchain)
+| Branch | Status |
+|--------|--------|
+| main   | ![Regression Tests](https://github.com/coreruleset/coreruleset/actions/workflows/test.yml/badge.svg?branch=main) |
 
-The CRS developer's utility belt. The documentation lives at [coreruleset.org](https://coreruleset.org/docs/development/crs_toolchain/).
+# 🛡️ OWASP CRS
 
-## Installation
+The OWASP CRS is a set of generic attack detection rules for use with [OWASP ModSecurity](https://www.modsecurity.org/), [OWASP Coraza](https://coraza.io/), or other compatible web application firewalls. The CRS aims to protect web applications from a wide range of attacks, including the OWASP Top Ten, with a minimum of false alerts.
 
-### Homebrew (macOS and Linux)
+## 📚 CRS Resources, Related Projects and Tools
 
-`crs-toolchain` can be installed on macOS and Linux via [Homebrew](https://brew.sh) using the [CRS tap](https://github.com/coreruleset/homebrew-tap):
+Please see the [OWASP CRS page](https://coreruleset.org/) to get introduced to CRS and view resources on installation, configuration, and working with CRS. There you can also find a [list of projects related to CRS](https://coreruleset.org/) and a [list of tools](https://coreruleset.org/docs/6-development/6-6-useful_tools/) for both developers and users.
 
-```shell
-brew tap coreruleset/tap
-brew install crs-toolchain
-```
+## 🤝 Contributing to CRS
 
-To upgrade to the latest version:
+We strive to make the OWASP CRS accessible to a wide audience of beginner and experienced users. We are interested in hearing any bug reports, false-positive alert reports, evasions, usability issues, and suggestions for new detections.
 
-```shell
-brew upgrade crs-toolchain
-```
+- 🐛 [Create an issue on GitHub](https://github.com/coreruleset/coreruleset/issues) to report a false positive or false negative (evasion). Please include your installed version and the relevant portions of your audit log. We will try and address your issue and potentially ask for additional information to reproduce your problem. Please also note that stale issues will be flagged and closed after 120 days. You can search for stale issues with the following [search query](https://github.com/coreruleset/coreruleset/issues?q=label%3A%22Stale+issue%22).
 
-### Linux
+- 💬 [Sign up for our Google Group](https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project) to ask general usage questions and participate in discussions on the CRS.
 
-Download the latest release archive for your architecture from the [releases page](https://github.com/coreruleset/crs-toolchain/releases), then extract and install the binary:
+- 💬 [Join the #coreruleset channel on OWASP Slack](https://owasp.slack.com/) to chat about the CRS. ([Click here](https://owasp.org/slack/invite) to get an invitation if you are not yet registered on the OWASP Slack. It's open to non-members too.)
 
-```shell
-# Replace <version> and <arch> with the appropriate values (e.g. 1.0.0 and amd64)
-curl -sSL https://github.com/coreruleset/crs-toolchain/releases/download/v<version>/crs-toolchain_<version>_linux_<arch>.tar.gz | tar -xz crs-toolchain
-sudo mv crs-toolchain /usr/local/bin/
-```
+- 📖 Read also our documentation on [how to contribute](./CONTRIBUTING.md).
 
-Alternatively, `.deb` and `.rpm` packages are available on the [releases page](https://github.com/coreruleset/crs-toolchain/releases):
+## 📄 License
 
-```shell
-# Debian/Ubuntu (.deb)
-sudo dpkg -i crs-toolchain_<version>_linux_<arch>.deb
+Copyright (c) 2006-2020 Trustwave and contributors. All rights reserved.<br>
+Copyright (c) 2021-2026 CRS project. All rights reserved.
 
-# RHEL/Fedora (.rpm)
-sudo rpm -i crs-toolchain_<version>_linux_<arch>.rpm
-```
-
-### Install with Go
-
-If you have Go 1.19+ installed, you can install `crs-toolchain` directly:
-
-```shell
-go install github.com/coreruleset/crs-toolchain/v2@latest
-```
-
-Make sure your Go bin directory (typically `~/go/bin`) is on your `PATH`.
-
-### Self-Update
-
-Once `crs-toolchain` is installed (via any method), you can update to the latest version using the built-in self-update command:
-
-```shell
-crs-toolchain util self-update
-```
-
-This will automatically download and replace the current binary with the latest release for your platform.
+The OWASP CRS is distributed under Apache Software License (ASL) version 2. Please see the enclosed LICENSE file for full details.
