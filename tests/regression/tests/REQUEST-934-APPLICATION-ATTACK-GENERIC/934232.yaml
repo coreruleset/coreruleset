@@ -1,0 +1,168 @@
+---
+meta:
+  author: "adilalperenciftci"
+  description: XML document type declaration with an external DTD (PL2)
+rule_id: 934232
+tests:
+  - test_id: 1
+    desc: 'External DTD over http'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<?xml version="1.0"?><!DOCTYPE r SYSTEM "http://example.com/evil.dtd"><r>&x;</r>'
+        output:
+          log:
+            expect_ids: [934232]
+  - test_id: 2
+    desc: 'External DTD from a local file, internal subset following'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE r SYSTEM ''file:///etc/xml/catalog'' [<!ENTITY a "b">]><r/>'
+        output:
+          log:
+            expect_ids: [934232]
+  - test_id: 3
+    desc: 'Negative: XHTML PUBLIC doctype'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html/>'
+        output:
+          log:
+            no_expect_ids: [934232]
+  - test_id: 4
+    desc: 'Negative: internal subset only'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE r [<!ENTITY a "b">]><r>&a;</r>'
+        output:
+          log:
+            no_expect_ids: [934232]
+  - test_id: 5
+    desc: 'Negative: HTML5 doctype'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE html><html><body>SYSTEM "x"</body></html>'
+        output:
+          log:
+            no_expect_ids: [934232]
+  - test_id: 6
+    desc: 'Negative: external doctype text inside an XML comment'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<r><!-- <!DOCTYPE r SYSTEM "https://example.com/e.dtd"> --></r>'
+        output:
+          log:
+            no_expect_ids: [934232]
+  - test_id: 7
+    desc: 'Negative: external doctype text inside CDATA'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<r><![CDATA[<!DOCTYPE r SYSTEM "https://example.com/e.dtd">]]></r>'
+        output:
+          log:
+            no_expect_ids: [934232]
+  - test_id: 8
+    desc: 'External doctype text inside a JSON string'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"payload":"<!DOCTYPE r SYSTEM ''https://example.com/e.dtd''>"}'
+        output:
+          log:
+            expect_ids: [934232]
+  - test_id: 9
+    desc: 'Negative: external doctype text inside a processing instruction'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<?note <!DOCTYPE r SYSTEM "https://example.com/e.dtd">?>'
+        output:
+          log:
+            no_expect_ids: [934232]
