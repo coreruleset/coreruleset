@@ -467,7 +467,7 @@ SecDefaultAction "phase:5,log,auditlog,pass"
 # - REQUEST-920-PROTOCOL-ENFORCEMENT.conf
 
 # HTTP methods that a client is allowed to use.
-# Default: GET HEAD POST OPTIONS
+# Default: GET HEAD POST OPTIONS QUERY
 # Example: for RESTful APIs, add the following methods: PUT PATCH DELETE
 # Example: for WebDAV, add the following methods: CHECKOUT COPY DELETE LOCK
 #          MERGE MKACTIVITY MKCOL MOVE PROPFIND PROPPATCH PUT UNLOCK
@@ -478,8 +478,10 @@ SecDefaultAction "phase:5,log,auditlog,pass"
 # Depending on the server's configuration, this may lead to compromise of other users (by uploading
 # client-executable scripts), compromise of the server (by uploading server-executable code), or other attacks.
 # For this reason, the PUT method is disabled by default.
-# GET, HEAD, POST and OPTIONS are seen as the minimal set of HTTP methods
-# from a security perspective. For static sites, removing the POST is
+# GET, HEAD, POST, OPTIONS and QUERY are seen as the minimal set of HTTP methods
+# from a security perspective. QUERY (RFC 10008) is safe and idempotent like
+# GET, but carries the query in the request body, so the request body rules and
+# the allowed_request_content_type policy apply to it. For static sites, removing the POST is
 # recommended. Add other HTTP methods as seen fit (see above).
 #
 #SecAction \
@@ -490,7 +492,7 @@ SecDefaultAction "phase:5,log,auditlog,pass"
 #    nolog,\
 #    tag:'OWASP_CRS',\
 #    ver:'OWASP_CRS/4.31.0-dev',\
-#    setvar:'tx.allowed_methods=GET HEAD POST OPTIONS'"
+#    setvar:'tx.allowed_methods=GET HEAD POST OPTIONS QUERY'"
 
 #
 # -- [[ HTTP Method Override Parameter ]] -------------------------------------
