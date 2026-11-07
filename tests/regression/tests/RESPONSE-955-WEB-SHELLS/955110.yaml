@@ -1,0 +1,23 @@
+---
+meta:
+  author: "TimDiam0nd"
+rule_id: 955110
+tests:
+  - test_id: 1
+    desc: "R57 Webshell Test as per https://github.com/r57shell/r57-shell/blob/e85aeeea421b76777e95ae00ae57bba79d5d9389/r57.php#L38"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\"><title>r57 Shell Version 1.50</title></head><body></body></html>"}
+        output:
+          log:
+            expect_ids: [955110]

@@ -1,101 +1,153 @@
 ---
 meta:
-  author: "csanders-git, Walter Hop"
-  enabled: true
-  name: "941100.yaml"
-  description: "Tests to trigger, or not trigger 941100"
+  author: "csanders-git, Walter Hop, azurit"
+rule_id: 941100
 tests:
-  - test_title: 941100-1
+  - test_id: 1
     desc: Test as described in http://www.client9.com/article/five-interesting-injection-attacks/
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            method: GET
-            port: 80
-            uri: '/demo/xss/xml/vuln.xml.php?input=<script+xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location="javascript:(function+()+{var+x+=+document.createElement(\\"script\\");x.src+=+\\"//sdl.me/popup.js?//\\";document.childNodes\\[0\\].appendChild(x);}());"",1000)</script>&//'
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          output:
-            log_contains: id "941100"
-  - test_title: 941100-2
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: '/get/demo/xss/xml/vuln.xml.php?input=<script+xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location="javascript:(function+()+{var+x+=+document.createElement(\\"script\\");x.src+=+\\"//sdl.me/popup.js?//\\";document.childNodes\\[0\\].appendChild(x);}());"",1000)</script>&//'
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941100]
+  - test_id: 2
     desc: XSS in XML Test as described in http://www.client9.com/article/five-interesting-injection-attacks/
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            method: GET
-            port: 80
-            uri: '/char_test?mime=text/xml&body=%3Cx:script%20xmlns:x=%22http://www.w3.org/1999/xhtml%22%20src=%22data:,alert(1)%22%20/%3E'
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          output:
-            log_contains: id "941100"
-  - test_title: 941100-3
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get/char_test?mime=text/xml&body=%3Cx:script%20xmlns:x=%22http://www.w3.org/1999/xhtml%22%20src=%22data:,alert(1)%22%20/%3E"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941100]
+  - test_id: 3
     desc: XSS testing of libinjection in User-Agent
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            method: GET
-            port: 80
-            uri: /
-            headers:
-              User-Agent: '/char_test?mime=text/xml&body=%3Cx:script%20xmlns:x=%22http://www.w3.org/1999/xhtml%22%20src=%22data:,alert(1)%22%20/%3E'
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          output:
-            log_contains: id "941100"
-  - test_title: 941100-4
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get"
+          headers:
+            User-Agent: '/char_test?mime=text/xml&body=%3Cx:script%20xmlns:x=%22http://www.w3.org/1999/xhtml%22%20src=%22data:,alert(1)%22%20/%3E'
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941100]
+  - test_id: 4
     desc: XSS testing of libinjection in User-Agent
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            method: GET
-            port: 80
-            uri: /
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Referer: http://www.cnn.com
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          output:
-            no_log_contains: id "941100"
-  - test_title: 941100-5
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Referer: http://www.coreruleset.org
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [941100]
+  - test_id: 5
     desc: XSS testing of libinjection in User-Agent
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            method: GET
-            port: 80
-            uri: /
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Referer: '/demo/xss/xml/vuln.xml.php?input=<script+xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location="javascript:(function+()+{var+x+=+document.createElement(\\"script\\");x.src+=+\\"//sdl.me/popup.js?//\\";document.childNodes\\[0\\].appendChild(x);}());"",1000)</script>&//'
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          output:
-            no_log_contains: id "941100"
-  - test_title: 941100-6
+      - input:
+          dest_addr: 127.0.0.1
+          method: GET
+          port: 80
+          uri: "/get"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Referer: '/demo/xss/xml/vuln.xml.php?input=<script+xmlns="http://www.w3.org/1999/xhtml">setTimeout("top.frame2.location="javascript:(function+()+{var+x+=+document.createElement(\\"script\\");x.src+=+\\"//sdl.me/popup.js?//\\";document.childNodes\\[0\\].appendChild(x);}());"",1000)</script>&//'
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [941100]
+  - test_id: 6
     desc: Status Page Test - simplified XSS testing of libinjection in ARGS
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            method: POST
-            port: 80
-            uri: /post
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            data:
-                foo=<xss onbeforehellfreezes%3Daler%77(1)>
-          output:
-            log_contains: id "941100"
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          uri: "/post"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          data: foo=<xss onbeforehellfreezes%3Daler%77(1)>
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [941100]
+  - test_id: 7
+    desc: 'GHSA: 941100 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="&lt;script xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;setTimeout(&quot;top.frame2.location=&quot;javascript:(function () &#x7B;var x = document.createElement(\\&quot;script\\&quot;);x.src = \\&quot;//sdl.me/popup.js?//\\&quot;;document.childNodes\\[0\\].appendChild(x);&#x7D;());&quot;&quot;,1000)&lt;/script&gt;"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [941100]
+  - test_id: 8
+    desc: 'Unicode best-fit %uXXXX XSS: U+00AB/U+00BB guillemets fold to angle brackets'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: '/?id=%u00abscript%u00bballert(1)%u00ab/script%u00bb'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941100]
+  - test_id: 9
+    desc: 'Unicode best-fit %uXXXX XSS: U+2039/U+203A single guillemets fold to angle brackets'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: '/?id=%u2039script%u203aalert(1)%u2039/script%u203a'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941100]

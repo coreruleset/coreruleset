@@ -1,39 +1,54 @@
 ---
 meta:
-  author: "Franziska Buehler"
-  description: None
-  enabled: true
-  name: 942510.yaml
+  author: "Franziska Buehler, azurit"
+rule_id: 942510
 tests:
-  - test_title: 942510-1
+  - test_id: 1
     desc: "SQLi bypass detected: backticks"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/?`bla`"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942510"
-  - test_title: 942510-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?`bla`"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942510]
+  - test_id: 2
     desc: "SQLi bypass detected: backticks"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              User-Agent: "OWASP CRS test agent"
-              Host: localhost
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/?'bla'"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "942510"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?'bla'"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942510]
+  - test_id: 3
+    desc: 'GHSA: 942510 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="`bla`"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [942510]

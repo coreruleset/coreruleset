@@ -1,0 +1,47 @@
+---
+meta:
+  author: "azurit"
+rule_id: 955120
+tests:
+  - test_id: 1
+    desc: "Matching web shell NCC Shell"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "<html><head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8'><title>example.com - WSO 4.2.6</title>"}
+        output:
+          log:
+            expect_ids: [955120]
+  - test_id: 2
+    desc: "Matching web shell Simple PHP backdoor"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "<html><head><meta http-equiv='Content-Type' content='text/html; charset='><title>example.com Wso 2024</title>"}
+        output:
+          log:
+            expect_ids: [955120]

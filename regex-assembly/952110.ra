@@ -1,0 +1,14 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##!+ i
+
+##! Word boundaries are used to reduce false positives.
+
+\bjava[a-z\.]+Exception\b
+\bjava[a-z\.]+Error\b
+\borg\.[a-z\.]+Exception\b
+\bcom\.[a-z\.]+Exception\b
+##! Java stack strace errors
+\bException in thread "[^"]*"\b
+\bat\s+(?:java|javax|jakarta|org|com)\b

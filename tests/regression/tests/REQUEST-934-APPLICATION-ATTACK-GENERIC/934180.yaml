@@ -1,0 +1,70 @@
+---
+meta:
+  author: "Ayman, Muhammad"
+rule_id: 934180
+tests:
+  - test_id: 1
+    desc: SSTI attack - Using Curly Braces Plus Percentage Sign
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%7b%25%20%69%66%20%54%72%75%65%20%25%7d%34%39%7b%25%20%65%6e%64%69%66%20%25%7d"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934180]
+  - test_id: 2
+    desc: SSTI attack - Using Angle Brackets and Percentage Sign
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3c%25%20%69%66%20%54%72%75%65%20%25%3e%34%39%3c%25%20%65%6e%64%69%66%20%25%3e"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934180]
+  - test_id: 3
+    desc: SSTI attack - Using Angle Brackets, Percentage Sign, and Equal Sign
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?x=%3c%25%3d%20%69%66%20%54%72%75%65%20%25%3e%34%39%3c%25%20%65%6e%64%69%66%20%25%3e"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [934180]
+  - test_id: 4
+    desc: 'GHSA: 934180 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="&#x7B;% if True %&#x7D;49&#x7B;% endif %&#x7D;"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [934180]

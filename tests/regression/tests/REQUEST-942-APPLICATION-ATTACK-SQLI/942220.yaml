@@ -1,40 +1,74 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
-  description: None
-  enabled: true
-  name: 942220.yaml
+  author: "Christian S.J. Peron, azurit, Esad Cetiner"
+rule_id: 942220
 tests:
-  - test_title: 942220-1
+  - test_id: 1
     desc: "Integer overflow taken from skipfish"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            # NB: not sure about rule 942220
-            uri: "/?string_to_convert=4294967296"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942220"
-  - test_title: 942220-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?string_to_convert=4294967296"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942220]
+  - test_id: 2
     desc: "PHP strtod infinite loop"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/?i=2.2250738585072011e-308"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942220"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?i=2.2250738585072011e-308"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942220]
+  - test_id: 3
+    desc: |
+      PHP strtod infinite loop
+      4RI-250413
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{ "2.2250738585072011e-308":"foo" }'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942220]
+  - test_id: 4
+    desc: 'GHSA: 942220 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="4294967296"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [942220]

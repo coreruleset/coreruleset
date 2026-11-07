@@ -1,83 +1,788 @@
 ---
 meta:
-  author: "Franziska Bühler"
+  author: "Franziska Bühler, azurit, Esad Cetiner, touchweb_vincent"
   description: "Restricted File Upload Attempt"
-  enabled: true
-  name: 932180.yaml
+rule_id: 932180
 tests:
-  - test_title: 932180-1
+  - test_id: 1
     desc: "Test file upload with request header X-Filename and filename settings.php"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Host: localhost
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-              X-Filename: settings.php
-            method: GET
-            port: 80
-            uri: /
-            version: HTTP/1.0
-          output:
-            log_contains: id "932180"
-  - test_title: 932180-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: settings.php
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 2
     desc: "Test file upload with multipart/form-data and filename config.yml"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Host: localhost
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-              Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ
-            method: POST
-            port: 80
-            uri: /
-            version: HTTP/1.0
-            data: |
-              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
-              Content-Disposition: form-data; name="config"; filename="config.yml"
-              Content-Type: text/yaml
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
+            Content-Disposition: form-data; name="config"; filename="config.yml"
+            Content-Type: text/yaml
 
-              ... Some content ...
-              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
-              Content-Disposition: form-data; name="image"; filename="test.png"
-              Content-Type: image/png
+            ... Some content ...
+            ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
+            Content-Disposition: form-data; name="image"; filename="test.png"
+            Content-Type: image/png
 
-              BINARYDATA
-              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
-          output:
-            log_contains: id "932180"
-  - test_title: 932180-3
+            BINARYDATA
+            ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 3
     desc: "File upload - negative test"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-              Host: localhost
-              Proxy-Connection: keep-alive
-              User-Agent: "OWASP CRS test agent"
-              Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ
-            method: POST
-            port: 80
-            uri: /
-            version: HTTP/1.0
-            data: |
-              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
-              Content-Disposition: form-data; name="image"; filename="test.jpg"
-              Content-Type: image/jpeg
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
+            Content-Disposition: form-data; name="image"; filename="test.jpg"
+            Content-Type: image/jpeg
 
-              ... Some content ...
-              ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
+            ... Some content ...
+            ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
 
-              BINARYDATA
-              --0000--
-          output:
-            no_log_contains: id "932180"
+            BINARYDATA
+            --0000--
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 4
+    desc: "False Positive: Matching substring `.boto`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: abc.botox.jpg
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 5
+    desc: "False Positive: Matching substring `mtrr`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: amtrra.jpg
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 6
+    desc: "False Positive: Matching substring `acpi`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: JACpic.jpg
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 7
+    desc: "True Positive: Block uploading `.boto`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: .boto
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 8
+    desc: "True Positive: Block uploading `mtrr`(/proc/mtrr)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: mtrr
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 9
+    desc: "True Positive: Block uploading `acpi`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: acpi
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 10
+    desc: "True Positive: Match permutations of config files"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: wp-config.php
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 11
+    desc: "True Positive: Match permutations of config files"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: wp-config-php.bak
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 12
+    desc: "True Positive: Match permutations of config files"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: wp-config_php.txt
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 13
+    desc: "restricted upload with whitespace before extension via header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "settings. php"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 14
+    desc: "restricted upload with trailing whitespace via header"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "config.yml "
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 15
+    desc: "restricted upload with whitespace padding via multipart"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryABCDEFGIJKLMNOPQ
+          method: POST
+          port: 80
+          uri: "/post"
+          version: "HTTP/1.1"
+          data: |
+            ------WebKitFormBoundaryABCDEFGIJKLMNOPQ
+            Content-Disposition: form-data; name="config"; filename="wp-config. php"
+            Content-Type: text/plain
+
+            ... Some content ...
+            ------WebKitFormBoundaryABCDEFGIJKLMNOPQ--
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 16
+    desc: "False Positive: Matching substring `asound`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: pharmasound.jpg
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 17
+    desc: "True Positive: Matching substring `asound`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: /proc/asound
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 18
+    desc: "True Positive: Matching asound.conf config file"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: asound.conf
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 19
+    desc: "False Positive: Matching substring `.boto`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: miss.boto@gmail.com
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 20
+    desc: "True Positive: wp-config.php directory traversal"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "../../wp-config.php"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 21
+    desc: "True Positive: Dockerfile"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "DockerFile"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 22
+    desc: "True Positive: Dockerfile backup"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "DockerFile.bak"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 23
+    desc: "True Positive: Dockerfile directory traversal"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "../../DockerFile"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 24
+    desc: "True Positive: Dockerfile backup directory traversal"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "../../DockerFile.bak"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 25
+    desc: "True Positive: Block env files"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "prod.env"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 26
+    desc: "True Positive: Block env files"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: ".env"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 27
+    desc: "False Positive: `asound` substring false positive"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "aSoundMind.jpg"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 28
+    desc: "True Positive: Block uploading `.boto`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: .boto.bak
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 29
+    desc: "True Positive: Replacing config files for Java apps"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "/WEB-INF/web.xml"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 30
+    desc: "True Positive: Blocking GitLab config backups"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "gitlab_config_1768144038_2026_01_12.tar"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 31
+    desc: "True Positive: Blocking upload of fish variables file"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "fish_variables"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 32
+    desc: "True Positive: Blocking upload of fish variables file"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "fish_variables.bak"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 33
+    desc: "True Positive: Blocking upload of fish variables file"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "fish_variables.fish"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932180]
+  - test_id: 34
+    desc: "False Positive: jpg file upload with hyphen"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "florida-keys.jpg"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 35
+    desc: "False Positive: jpg file upload with hyphen"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "flyer-version-2.jpg"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 36
+    desc: "False Positive: jpg file upload with hyphen"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "block-party.jpg"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 37
+    desc: "False Positive: jpg file upload with hyphen"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "gym-class.jpg"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 38
+    desc: "False Positive: jpg file upload with hyphen"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "golf-driver.jpg"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 39
+    desc: "False Positive: jpg file upload with hyphen"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "misc-picture.jpg"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 40
+    desc: "False Positive: jpg file upload with hyphen"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "power-adapter.jpg"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 41
+    desc: "False Positive: jpg file upload with hyphen"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "sinus-pressure.jpg"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]
+  - test_id: 42
+    desc: "False Positive: jpg file upload with hyphen"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Host: localhost
+            Proxy-Connection: keep-alive
+            User-Agent: "OWASP CRS test agent"
+            X-Filename: "self-cleaning.jpg"
+          method: GET
+          port: 80
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932180]

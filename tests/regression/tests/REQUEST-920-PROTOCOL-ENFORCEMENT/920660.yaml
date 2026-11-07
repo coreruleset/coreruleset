@@ -1,0 +1,541 @@
+---
+meta:
+  author: "fzipi"
+  description: "Tests for obsolete Request-Range header detection (920660)"
+
+rule_id: 920660
+
+tests:
+  #
+  # Positive tests - should trigger
+  #
+
+  # Basic Request-Range header presence
+  - test_id: 1
+    desc: "Request-Range header with simple byte range"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/document.pdf"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: "bytes=0-1023"
+        output:
+          log:
+            expect_ids: [920660]
+
+  - test_id: 2
+    desc: "Request-Range header with open-ended range"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/video.mp4"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: "bytes=1024-"
+        output:
+          log:
+            expect_ids: [920660]
+
+  - test_id: 3
+    desc: "Request-Range header with suffix range"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/audio.mp3"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: "bytes=-500"
+        output:
+          log:
+            expect_ids: [920660]
+
+  - test_id: 4
+    desc: "Request-Range header with multiple ranges"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/file.bin"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: "bytes=0-100,200-300,400-500"
+        output:
+          log:
+            expect_ids: [920660]
+
+  # Case variations (HTTP headers are case-insensitive)
+  - test_id: 5
+    desc: "Request-Range header with mixed case"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/download.zip"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            request-range: "bytes=0-1023"
+        output:
+          log:
+            expect_ids: [920660]
+
+  - test_id: 6
+    desc: "REQUEST-RANGE header in uppercase"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/large-file.iso"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            REQUEST-RANGE: "bytes=1000-2000"
+        output:
+          log:
+            expect_ids: [920660]
+
+  # Different HTTP methods
+  - test_id: 7
+    desc: "Request-Range in POST request"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          uri: "/api/upload"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: "bytes=0-512"
+            Content-Type: "application/x-www-form-urlencoded"
+          data: "action=resume"
+        output:
+          log:
+            expect_ids: [920660]
+
+  - test_id: 8
+    desc: "Request-Range in HEAD request"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "HEAD"
+          uri: "/document.pdf"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: "bytes=0-0"
+        output:
+          log:
+            expect_ids: [920660]
+
+  - test_id: 9
+    desc: "Request-Range in PUT request"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "PUT"
+          uri: "/upload/file.dat"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: "bytes=1024-2047"
+            Content-Type: "application/octet-stream"
+          data: "binary-data-here"
+        output:
+          log:
+            expect_ids: [920660]
+
+  # Edge cases for header values
+  - test_id: 10
+    desc: "Request-Range with whitespace in value"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/data.bin"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: " bytes=0-1023 "
+        output:
+          log:
+            expect_ids: [920660]
+
+  - test_id: 11
+    desc: "Request-Range with large range values"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/bigfile.iso"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: "bytes=1073741824-2147483647"
+        output:
+          log:
+            expect_ids: [920660]
+
+  - test_id: 12
+    desc: "Request-Range with zero range"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/tiny.txt"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: "bytes=0-0"
+        output:
+          log:
+            expect_ids: [920660]
+
+  # Simulating old browser behavior (Netscape 2-3, MSIE 3)
+  - test_id: 13
+    desc: "Request-Range with old Netscape user agent"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/download.exe"
+          headers:
+            User-Agent: "Mozilla/3.0 (Win95; I)"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: "bytes=0-8191"
+        output:
+          log:
+            expect_ids: [920660]
+
+  - test_id: 14
+    desc: "Request-Range with old MSIE user agent"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/update.cab"
+          headers:
+            User-Agent: "Mozilla/2.0 (compatible; MSIE 3.0; Windows 95)"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: "bytes=16384-32767"
+        output:
+          log:
+            expect_ids: [920660]
+
+  # Malformed but present header
+  - test_id: 15
+    desc: "Request-Range with invalid syntax (still triggers as header exists)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/resource"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: "invalid-range-spec"
+        output:
+          log:
+            expect_ids: [920660]
+
+  - test_id: 16
+    desc: "Request-Range with empty value (header still present)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/test.html"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Request-Range: ""
+        output:
+          log:
+            expect_ids: [920660]
+
+  # Request-Range alongside standard Range header
+  - test_id: 17
+    desc: "Both Request-Range and Range headers present"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/media.mp4"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Range: "bytes=0-1023"
+            Request-Range: "bytes=0-1023"
+        output:
+          log:
+            expect_ids: [920660]
+
+  #
+  # Negative tests - should NOT trigger
+  #
+
+  # Normal requests with standard Range header (RFC 9110 compliant)
+  - test_id: 18
+    desc: "Negative - Standard Range header (RFC 9110)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/video.mp4"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Range: "bytes=0-1023"
+        output:
+          log:
+            no_expect_ids: [920660]
+
+  - test_id: 19
+    desc: "Negative - Range header with multiple ranges"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/document.pdf"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Range: "bytes=0-100,200-300"
+        output:
+          log:
+            no_expect_ids: [920660]
+
+  - test_id: 20
+    desc: "Negative - Normal GET request without Range headers"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/index.html"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+        output:
+          log:
+            no_expect_ids: [920660]
+
+  - test_id: 21
+    desc: "Negative - POST request without Range headers"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          uri: "/api/data"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Content-Type: "application/x-www-form-urlencoded"
+          data: "name=test&value=123"
+        output:
+          log:
+            no_expect_ids: [920660]
+
+  # Other headers with similar names
+  - test_id: 22
+    desc: "Negative - If-Range header (conditional range request)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/large.bin"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Range: "bytes=1024-2047"
+            If-Range: "Wed, 21 Oct 2015 07:28:00 GMT"
+        output:
+          log:
+            no_expect_ids: [920660]
+
+  - test_id: 23
+    desc: "Negative - Content-Range header in response (should not trigger)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/data.zip"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Content-Range: "bytes 0-1023/4096"
+        output:
+          log:
+            no_expect_ids: [920660]
+
+  - test_id: 24
+    desc: "Negative - Accept-Ranges in request (unusual but not Request-Range)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "OPTIONS"
+          uri: "/resource"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Accept-Ranges: "bytes"
+        output:
+          log:
+            no_expect_ids: [920660]
+
+  # Modern browsers and clients
+  - test_id: 25
+    desc: "Negative - Modern Chrome with standard Range header"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/stream.webm"
+          headers:
+            User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            Host: "localhost"
+            Accept: "*/*"
+            Range: "bytes=0-"
+        output:
+          log:
+            no_expect_ids: [920660]
+
+  - test_id: 26
+    desc: "Negative - Modern Firefox with standard Range header"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/music.ogg"
+          headers:
+            User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0"
+            Host: "localhost"
+            Accept: "*/*"
+            Range: "bytes=8192-16383"
+        output:
+          log:
+            no_expect_ids: [920660]
+
+  # Edge cases
+  - test_id: 27
+    desc: "Negative - Query parameter named request_range"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/api/download?request_range=0-1023"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+        output:
+          log:
+            no_expect_ids: [920660]
+
+  - test_id: 28
+    desc: "Negative - POST body containing 'Request-Range' text"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "POST"
+          uri: "/api/logs"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            Content-Type: "application/x-www-form-urlencoded"
+          data: "log=Request-Range%3A+bytes%3D0-1023"
+        output:
+          log:
+            no_expect_ids: [920660]
+
+  - test_id: 29
+    desc: "Negative - Custom header X-Request-Range"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "GET"
+          uri: "/download"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+            X-Request-Range: "bytes=0-1023"
+        output:
+          log:
+            no_expect_ids: [920660]
+
+  - test_id: 30
+    desc: "Negative - HEAD request without any range headers"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          method: "HEAD"
+          uri: "/file.bin"
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "*/*"
+        output:
+          log:
+            no_expect_ids: [920660]

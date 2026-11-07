@@ -1,0 +1,58 @@
+---
+meta:
+  author: "fzipi"
+  description: "Rule for preventing usage of deprecated V1 cookies from rfc 2109"
+rule_id: 921250
+tests:
+  - test_id: 1
+    desc: "Positive test: Detect if the cookie V1 is present in the request headers"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Origin: https://www.example.com
+            Referer: https://www.example.com/
+            Cookie: $Version=1; session=\"deadbeef; PHPSESSID=secret; dummy=qaz\"
+          port: 80
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921250]
+  - test_id: 2
+    desc: "Positive test: Detect if cookie V1 and also quoting is trying to be abused in the request headers"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Origin: https://www.example.com
+            Referer: https://www.example.com/
+            Cookie: "$Version=1; session=\"deadbeef; PHPSESSID=secret; dummy=qaz\""
+          port: 80
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921250]
+  - test_id: 3
+    desc: "Negative test: do not match if Version is used as part of a cookie name"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Cookie: MyVersion=1; PHPSESSID=secret
+          port: 80
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [921250]

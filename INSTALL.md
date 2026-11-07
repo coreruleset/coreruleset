@@ -8,8 +8,6 @@ The first step is to download the CRS itself. The CRS project strongly recommend
 
 Official CRS releases can be found at the following URL: https://github.com/coreruleset/coreruleset/releases.
 
-For *production* environments, it is recommended to use the latest release, which is v4.0.0. For *testing* the bleeding edge CRS version, nightly releases are also provided.
-
 ### Verifying Releases
 
 {{% notice note %}}
@@ -108,7 +106,7 @@ echo 'IncludeOptional /etc/crs4/rules/*.conf' >> /etc/httpd/conf/httpd.conf
 echo 'IncludeOptional /etc/crs4/plugins/*-after.conf' >> /etc/httpd/conf/httpd.conf
 ```
 
-Now that everything has been configured, it should be possible to restart and being using the OWASP CRS. The CRS rules typically require a bit of tuning with rule exclusions, depending on the site and web applications in question. For more information on tuning, see [false positives and tuning](https://coreruleset.org/docs/concepts/false_positives_tuning/).
+Now that everything has been configured, it should be possible to restart and begin using the OWASP CRS. The CRS rules typically require a bit of tuning with rule exclusions, depending on the site and web applications in question. For more information on tuning, see [false positives and tuning](https://coreruleset.org/docs/concepts/false_positives_tuning/).
 
 ```bash
 systemctl restart httpd.service
@@ -160,13 +158,13 @@ Always verify that CRS is installed correctly by sending a 'malicious' request t
 curl 'https://www.example.com/?foo=/etc/passwd&bar=/bin/sh'
 ```
 
-Depending on your configurated thresholds, this should be detected as a malicious request. If you use blocking mode, you should receive an Error 403. The request should also be logged to the audit log, which is usually in `/var/log/modsec_audit.log`.
+Depending on your configured thresholds, this should be detected as a malicious request. If you use blocking mode, you should receive an Error 403. The request should also be logged to the audit log, which is usually in `/var/log/modsec_audit.log`.
 
 ## Upgrading
 
 ### Upgrading from CRS 3.x to CRS 4
 
-The most impactful change is the removal of application exclusion packages in favor of a plugin system. If you had activated the exclusion packages in CRS 3, you should download the plugins for them and place them in the plugins subdirectory. We maintain the list of plugins in our [Plugin Registry](https://github.com/coreruleset/plugin-registry). You can find detailed information on working with plugins in our [plugins documentation]()https://coreruleset.org/docs/concepts/plugins/.
+The most impactful change is the removal of application exclusion packages in favor of a plugin system. If you had activated the exclusion packages in CRS 3, you should download the plugins for them and place them in the plugins subdirectory. We maintain the list of plugins in our [Plugin Registry](https://github.com/coreruleset/plugin-registry). You can find detailed information on working with plugins in our [plugins documentation](https://coreruleset.org/docs/concepts/plugins/).
 
 In terms of changes to the detection rules, the amount of changes is smaller than in the CRS 2—3 changeover. Most rules have only evolved slightly, so it is recommended that you keep any existing custom exclusions that you have made under CRS 3.
 
@@ -178,7 +176,7 @@ Please note that we added a large number of new detections, and any new detectio
 
 In general, you can update by unzipping our new release over your older one, and updating the `crs-setup.conf` file with any new settings.  However, CRS 3.0 is a major rewrite, incompatible with CRS 2.x. Key setup variables have changed their name, and new features have been introduced. Your former modsecurity_crs_10_setup.conf file is thus no longer usable. We recommend you to start with a fresh crs-setup.conf file from scratch.
 
-Most rule IDs have been changed to reorganize them into logical sections. This means that if you have written custom configuration with exclusion rules (e.g. `SecRuleRemoveById`, `SecRuleRemoveTargetById`, `ctl:ruleRemoveById` or `ctl:ruleRemoveTargetById`) you must renumber the rule numbers in that configuration. You can do this using the supplied utility util/id_renumbering/update.py or find the changes in util/id_renumbering/IdNumbering.csv.
+Most rule IDs have been changed to reorganize them into logical sections. This means that if you have written custom configuration with exclusion rules (e.g. `SecRuleRemoveById`, `SecRuleRemoveTargetById`, `ctl:ruleRemoveById` or `ctl:ruleRemoveTargetById`) you must renumber the rule numbers in that configuration. You can do this using the supplied utility `id_renumbering/update.py` or find the changes in `id_renumbering/IdNumbering.csv` (both in [v3.0.0](https://github.com/coreruleset/coreruleset/tree/v3.0.0/id_renumbering)).
 
 However, a key feature of the CRS 3 is the reduction of false positives in the default installation, and many of your old exclusion rules may no longer be necessary. Therefore, it is a good option to start fresh without your old exclusion rules.
 

@@ -1,0 +1,68 @@
+---
+meta:
+  author: "Xhoenix"
+rule_id: 955400
+tests:
+  - test_id: 1
+    desc: "Matching web shell Akmal archtte id ASPX shell"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "<title>Webshell Akmal archtte id</title>"}
+        output:
+          log:
+            expect_ids: [955400]
+  - test_id: 2
+    desc: "Matching web shell ASPYDrv shell"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "<html><title>ASPYDrvsInfo</title>"}
+        output:
+          log:
+            expect_ids: [955400]
+  - test_id: 3
+    desc: "Matching web shell RHTOOLS shell"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "<html><head><title>RHTOOLS"}
+        output:
+          log:
+            expect_ids: [955400]

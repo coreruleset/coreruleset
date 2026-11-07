@@ -1,23 +1,38 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
-  description: None
-  enabled: true
-  name: 942250.yaml
+  author: "Christian S.J. Peron, azurit"
+rule_id: 942250
 tests:
-  - test_title: 942250-1
-    desc: "MATCH AGAINST, MERGE and EXECUTE IMMEDIATE injection"
+  - test_id: 1
+    desc: "Find EXECUTE IMMEDIATE injection"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: GET
-            port: 80
-            uri: "/?var=EXECUTE%20IMMEDIATE%20%22"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942250"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get?var=EXECUTE%20IMMEDIATE%20%22"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942250]
+  - test_id: 2
+    desc: 'GHSA: 942250 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="EXECUTE IMMEDIATE &quot;"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [942250]

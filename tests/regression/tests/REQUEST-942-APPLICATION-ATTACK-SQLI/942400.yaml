@@ -1,41 +1,58 @@
 ---
 meta:
-  author: "Christian S.J. Peron"
-  description: None
-  enabled: true
-  name: 942400.yaml
+  author: "Christian S.J. Peron, azurit"
+rule_id: 942400
 tests:
-  - test_title: 942400-1
+  - test_id: 1
     desc: "SQL Injection Attack"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            # variable name boundary attacks
-            data: "and '5'orig_var_datavarname=whatever"
-            version: HTTP/1.0
-          output:
-            log_contains: id "942400"
-  - test_title: 942400-2
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          # variable name boundary attacks
+          data: "and '5'orig_var_datavarname=whatever"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942400]
+  - test_id: 2
     desc: "SQL Injection Attack - false positive"
     stages:
-      - stage:
-          input:
-            dest_addr: 127.0.0.1
-            headers:
-              Host: localhost
-              User-Agent: "OWASP CRS test agent"
-              Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-            method: POST
-            port: 80
-            # variable name boundary attacks
-            data: "and 7 oranges"
-            version: HTTP/1.0
-          output:
-            no_log_contains: id "942400"
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          port: 80
+          uri: "/post"
+          # variable name boundary attacks
+          data: "and 7 oranges"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942400]
+  - test_id: 3
+    desc: 'GHSA: 942400 payload via XML attribute injection (verifies XML://@* coverage)'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          method: POST
+          port: 80
+          headers:
+            User-Agent: 'OWASP CRS test agent'
+            Host: 'localhost'
+            Content-Type: 'application/xml'
+          uri: '/post'
+          data: '<?xml version="1.0"?><root><a probe="and ''5''orig_var_datavarname"></a></root>'
+          version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [942400]
