@@ -626,3 +626,93 @@ tests:
         output:
           log:
             expect_ids: [932237]
+  - test_id: 39
+    desc: |
+      Issue #4895: common English words containing command names must not match.
+      Payload: "who" in User-Agent
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "who we are"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932237]
+  - test_id: 40
+    desc: |
+      Issue #4895: path segments splitting into the 'who' command must not match.
+      Payload: /who-we-serve/financial-services in REQUEST_FILENAME (fires on main)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/who-we-serve/financial-services"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932237]
+  - test_id: 41
+    desc: |
+      Issue #4895: locale tag in parentheses splitting into the 'es' command must not match.
+      Payload: (es-es) in User-Agent (fires on main)
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; es-es) AppleWebKit/533.4"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932237]
+  - test_id: 42
+    desc: |
+      Retained coverage: real 'nl' command probe must still match (nl is a cat substitute).
+      Payload: ;nl flag.txt in User-Agent
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "agent;nl flag.txt"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932237]
+  - test_id: 43
+    desc: |
+      Retained coverage: real 'ip' command probe must still match.
+      Payload: ;ip a in User-Agent
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "agent;ip a"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932237]
