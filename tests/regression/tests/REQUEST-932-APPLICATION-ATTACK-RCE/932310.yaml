@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "fzipi, azurit"
+  author: "fzipi, azurit, Max Leske"
   description: "Remote Command Execution: IMAP Command Injection test cases"
 rule_id: 932310
 tests:
@@ -156,6 +156,24 @@ tests:
           uri: '/post'
           data: '<?xml version="1.0"?><root><a probe="&#13;&#10;A1 APPEND saved-messages (&#x5C;Seen) &#x7B;310&#x7D;"></a></root>'
           version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932310]
+  - test_id: 10
+    desc: |
+      Detect RCE in last path segment
+      Payload: \r\ra001 authenticate PLAIN\r\n
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/%0D%0Aa001%20authenticate%20PLAIN%0D%0A
+          version: "HTTP/1.1"
         output:
           log:
             expect_ids: [932310]

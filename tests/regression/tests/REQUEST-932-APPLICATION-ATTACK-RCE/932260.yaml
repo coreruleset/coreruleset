@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Paul Beckett, Franziska Bühler, karelorigin, Esad Cetiner, azurit"
+  author: "Paul Beckett, Franziska Bühler, karelorigin, Esad Cetiner, azurit, Max Leske"
 rule_id: 932260
 tests:
   - test_id: 1
@@ -888,7 +888,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: 'arg=;"aaaaaaaaaaaaaaaa"'
           version: "HTTP/1.1"
         output:
@@ -904,7 +904,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "arg=;'aaaaaaaaaaaaaaaa'"
           version: "HTTP/1.1"
         output:
@@ -922,7 +922,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "arg=;%22The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog%22"
           version: "HTTP/1.1"
         output:
@@ -940,7 +940,7 @@ tests:
           headers:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
-            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,ima>
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
           data: "arg=;'The%20quick%20brown%20fox%20jumped%20over%20the%20lazy%20dog'"
           version: "HTTP/1.1"
         output:
@@ -959,6 +959,74 @@ tests:
           uri: '/post'
           data: ';stat%20space'
           version: 'HTTP/1.1'
+        output:
+          log:
+            no_expect_ids: [932260]
+  - test_id: 57
+    desc: "False Positive: Avoid substring false positive matches with `sandbox` matching `sandboxing`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?r=sandboxing%20space"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932260]
+  - test_id: 58
+    desc: "False Positive: Don't block 'sandbox' at PL-1 due to being common english word"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?r=sandbox%20space"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [932260]
+  - test_id: 59
+    desc: "True Positive: Block execution of SELinux `runcon` bypassing confinement"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: localhost
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+          method: GET
+          port: 80
+          uri: "/get?r=;runcon+-u+unconfined_u+mv+uploads/index.txt+uploads/index.php"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932260]
+  - test_id: 60
+    desc: |
+      This rule should not target REQUEST_FILENAME. It matches command words at the start
+      of a value, which in a path matches ordinary URL slugs (see #4840). Commands that
+      follow a shell metacharacter in the path are detected by 932235.
+      Payload: chef-des-hauses
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /testing/chef-des-hauses
+          version: "HTTP/1.1"
         output:
           log:
             no_expect_ids: [932260]

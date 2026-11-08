@@ -1,32 +1,87 @@
 name: Quantitative tests - Post PR comment
 
-# This workflow runs in the base-repo context (with secrets) AFTER the
-# unprivileged `Quantitative tests` workflow finishes. It downloads the
-# `pr_comment.md` and `pr_number.txt` artifacts that workflow produced and
+# This workflow runs in the base-repo context (with secrets) while the
+# unprivileged `Quantitative tests` workflow is still running. It waits for
+# the `pr_comment.md` and `pr_number.txt` artifacts that workflow produces and
 # posts the comment on the originating PR. No PR-controlled code is executed
 # here — only the artifact contents (markdown + numeric PR id) are consumed.
 #
 # This pattern replaces a `pull_request_target` + PR-head checkout, which is
 # the classic "pwn request" antipattern.
+#
+# It is triggered on `in_progress` and not `completed` because `quantitative.yaml`
+# ends with a `manual_approval` job behind an environment gate, which parks the
+# WHOLE run in `waiting`. `workflow_run: completed` only fires on run completion, so
+# waiting for it suppressed the report for exactly the PRs that regressed.
+# Firing on `in_progress` and polling for the regression job decouples the
+# report from the gate, leaving the gate itself untouched as a PR check.
 on:
   workflow_run:
     workflows: ["Quantitative tests"]
     types:
-      - completed
+      - in_progress
 
 permissions: {}
+
+# A run that resumes after approval can emit a second `in_progress`. Serialise
+# per triggering run so the duplicate re-upserts rather than racing; never
+# cancel, so an in-flight comment post is not interrupted half way.
+concurrency:
+  group: quantitative-comment-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
 
 jobs:
   comment:
     runs-on: ubuntu-latest
-    if: >
-      github.event.workflow_run.event == 'pull_request' &&
-      github.event.workflow_run.conclusion != 'skipped'
+    if: github.event.workflow_run.event == 'pull_request'
     permissions:
       pull-requests: write
       actions: read
     steps:
+      - name: "Wait for the regression job (not the run) to finish"
+        id: wait
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          POLL_SECONDS: 10
+          MAX_POLLS: 120      # 20 minutes; the job normally takes 32-51s
+        run: |
+          # Poll the regression job, never the run. `manual_approval` holds
+          # the run in `waiting` indefinitely, so we pull the regression job
+          # not the whole run.
+          CONCLUSION=running
+          for _ in $(seq 1 "$MAX_POLLS"); do
+            CONCLUSION=$(gh api "repos/${REPO}/actions/runs/${RUN_ID}/jobs" \
+              --jq '[.jobs[] | select(.name | startswith("regression")) | .conclusion // "running"] | first // "running"' \
+              2>/dev/null || echo running)
+            if [ "$CONCLUSION" != "running" ]; then
+              break
+            fi
+            sleep "$POLL_SECONDS"
+          done
+
+          case "$CONCLUSION" in
+            success)
+              echo "found=true" >> "$GITHUB_OUTPUT"
+              echo "Regression job succeeded; artifact is ready"
+              ;;
+            running)
+              echo "found=false" >> "$GITHUB_OUTPUT"
+              echo "::error::Timed out after $((MAX_POLLS * POLL_SECONDS))s waiting for the regression job"
+              exit 1
+              ;;
+            *)
+              # Not an error: the job legitimately produced nothing to report
+              # (skipped on a release/ branch, or failed), and its own check on
+              # the PR already says so.
+              echo "found=false" >> "$GITHUB_OUTPUT"
+              echo "Regression job ended as '${CONCLUSION}' — nothing to post"
+              ;;
+          esac
+
       - name: "Download comment artifact"
+        if: steps.wait.outputs.found == 'true'
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: quantitative-comment
@@ -35,6 +90,7 @@ jobs:
 
       - name: "Read and validate PR number"
         id: pr
+        if: steps.wait.outputs.found == 'true'
         run: |
           PR_NUMBER=$(cat pr_number.txt)
           # Strictly validate: must be only digits. The file came from an
@@ -46,6 +102,7 @@ jobs:
           echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
 
       - name: "Comment PR (upsert by marker)"
+        if: steps.wait.outputs.found == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}

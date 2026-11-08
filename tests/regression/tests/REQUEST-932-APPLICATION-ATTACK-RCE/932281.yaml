@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Xhoenix, Esad Cetiner"
+  author: "Xhoenix, Esad Cetiner, Max Leske"
 rule_id: 932281
 tests:
   - test_id: 1
@@ -149,6 +149,24 @@ tests:
           uri: '/post'
           data: '<?xml version="1.0"?><root><a probe="&#x7B;,echo,#test&#x7D;"></a></root>'
           version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932281]
+  - test_id: 10
+    desc: |
+      Detect RCE in last path segment
+      Payload: {c?t,test.txt}
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/%7Bc%3Ft%2Ctest.txt%7D
+          version: "HTTP/1.1"
         output:
           log:
             expect_ids: [932281]
