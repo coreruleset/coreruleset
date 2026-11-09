@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "Max Leske, Xhoenix, azurit"
+  author: "Max Leske, Xhoenix, azurit, Esad Cetiner"
 rule_id: 932238
 tests:
   - test_id: 1
@@ -203,7 +203,7 @@ tests:
   - test_id: 12
     desc: |
       Detect RCE in last path segment
-      Payload: ;nohup who
+      Payload: ;nohup who -v
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -213,8 +213,44 @@ tests:
             User-Agent: "OWASP CRS test agent"
             Host: "localhost"
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-          uri: /path/with/%3Bnohup%20who
+          uri: /path/with/%3Bnohup%20who%20-v
           version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932238]
+  - test_id: 13
+    desc: "False Positive: substring false positive with `dnf`"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=dnfaaaaaaaaa
+        output:
+          log:
+            no_expect_ids: [932238]
+  - test_id: 14
+    desc: "True Positive: Block `dnf` command execution"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: |
+            code=dnf%20list
         output:
           log:
             expect_ids: [932238]
