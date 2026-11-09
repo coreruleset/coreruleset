@@ -87,3 +87,45 @@ tests:
         output:
           log:
             no_expect_ids: [951230]
+  - test_id: 5
+    desc: "PHP PDO MySQL general error with a 4-digit MySQL error code"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "SQLSTATE[HY000]: General error: 1366 Incorrect integer value: 'x' for column 'id' at row 1"}
+        output:
+          log:
+            expect_ids: [951230]
+  - test_id: 6
+    desc: "Negative test: PHP PDO SQLite general error with a 1-digit code is not a MySQL error"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "SQLSTATE[HY000]: General error: 1 near \"x\": syntax error"}
+        output:
+          log:
+            no_expect_ids: [951230]
