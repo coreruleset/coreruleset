@@ -157,3 +157,35 @@ tests:
         output:
           log:
             expect_ids: [932301]
+  - test_id: 10
+    desc: "SMTP DATA Command injection in lower case"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?test=%0d%0adata"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932301]
+  - test_id: 11
+    desc: "SMTP HELP Command injection in mixed case"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?test=%0d%0aHelp%20Postmaster"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932301]

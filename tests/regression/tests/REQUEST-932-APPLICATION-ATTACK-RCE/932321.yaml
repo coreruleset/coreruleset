@@ -123,3 +123,35 @@ tests:
         output:
           log:
             expect_ids: [932321]
+  - test_id: 8
+    desc: "POP3 NOOP Command injection in lower case"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?test=%0d%0anoop"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932321]
+  - test_id: 9
+    desc: "POP3 QUIT Command injection in mixed case"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?test=%0d%0aQuit"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932321]
