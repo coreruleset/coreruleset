@@ -21,6 +21,20 @@
 ##! the option's argument, which can't start with a dash
 ##!> define option-argument \s+[^\s\-][^\s]*
 ##!> assemble
+  ##! A wrapper word needs the same context as a command word: the start of
+  ##! the value or a separator before it. Without it, `first-time head` and
+  ##! `the time he came` matched as `time <command>`.
+  ##! Same characters as the command prefix below: separators, `!`, `$`, `(`, `{`
+  (?:^|[;=|&`{(\[<!$\n\r])
+  ##!=>
+  \s*
+  ##!=>
+  ##! VAR=x time sh, $x time sh (empty variable used as a spacer)
+  (?:\w+=\S+\s+|\$\w+\s+)?
+  ##!=>
+  ##! "time" sh (opening quote)
+  ['"]?
+  ##!=>
   ##!> assemble
     ##!> cmdline unix
       command
