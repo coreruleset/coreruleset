@@ -155,3 +155,23 @@ tests:
         output:
           log:
             expect_ids: [932321]
+  - test_id: 10
+    desc: |
+      Command name as the start of a longer word after a line break; matched before the trailing boundary
+      Payload: x\r\nSTATUS: pending
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=x%0D%0ASTATUS%3A%20pending"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932321]
