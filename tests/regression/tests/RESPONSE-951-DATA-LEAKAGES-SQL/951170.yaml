@@ -20,7 +20,7 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "[match sql-errors.data]the used select statements have different number of columns[/match]: at org.hsqldb.jdbc.JDBCDriver.connect(Unknown Source)"}
+            {"body": "at org.hsqldb.jdbc.JDBCDriver.connect(Unknown Source)"}
         output:
           log:
             expect_ids: [951170]
