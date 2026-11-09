@@ -1,9 +1,13 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
+##! The command must fill its own line: it follows the line break, optionally after
+##! a short tag (`A1 QUIT`), and nothing but spaces may follow it before the next
+##! line break or the end of the value. Matching the word anywhere on the line made
+##! ordinary multi-line text such as "...\r\nCan you help with the data?" match.
 ##!+ i
-##!^ \r\n.*?\b
-##!$ \b
+##!^ \r\n(?:\w{1,20} )?
+##!$ [ \t]*(?:[\r\n]|$)
 
 ##! POP3 Commands - PL3
 
