@@ -1227,3 +1227,123 @@ tests:
         output:
           log:
             expect_ids: [932235]
+  - test_id: 70
+    desc: |
+      Wrapper word inside a hyphenated word is not a command prefix
+      Payload: first-time wget users
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=first-time%20wget%20users"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 71
+    desc: |
+      Wrapper word in prose without a separator before it
+      Payload: the time curl took
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=the%20time%20curl%20took"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932235]
+  - test_id: 72
+    desc: |
+      Wrapper word after a separator and a variable assignment
+      Payload: ;x=1 time wget /x
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=%3Bx%3D1%20time%20wget%20%2Fx"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932235]
+  - test_id: 73
+    desc: |
+      Quoted wrapper word after a pipe
+      Payload: x|"time" wget /x
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=x%7C%22time%22%20wget%20%2Fx"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932235]
+  - test_id: 74
+    desc: |
+      Wrapper word after a history-expansion bang
+      Payload: !time wget /x
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=%21time%20wget%20%2Fx"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932235]
+  - test_id: 75
+    desc: |
+      Wrapper word after a separator and an empty-variable spacer
+      Payload: a;$x time wget /x
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=a%3B%24x%20time%20wget%20%2Fx"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932235]

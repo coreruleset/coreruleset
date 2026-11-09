@@ -1307,3 +1307,43 @@ tests:
         output:
           log:
             no_expect_ids: [932230]
+  - test_id: 71
+    desc: |
+      Wrapper word as the tail of a longer word is not a command prefix
+      Payload: runtime env PATH
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=runtime%20env%20PATH"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932230]
+  - test_id: 72
+    desc: |
+      Wrapper word after a separator
+      Payload: ;time sh -c whoami
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=%3Btime%20sh%20-c%20whoami"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932230]
