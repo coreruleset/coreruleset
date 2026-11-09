@@ -55,3 +55,19 @@ tests:
         output:
           log:
             expect_ids: [932330]
+  - test_id: 4
+    desc: "True negative - Exclamation followed by letter"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?arg=Wow%21%20I%20got%20ten%20points"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932330]

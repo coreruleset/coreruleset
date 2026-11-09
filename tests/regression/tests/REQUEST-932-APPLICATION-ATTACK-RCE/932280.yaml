@@ -134,3 +134,19 @@ tests:
         output:
           log:
             expect_ids: [932280]
+  - test_id: 9
+    desc: "True negative - Braces with a space-separated sentence"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?arg=Use%20%7Bcurly%20braces%7D%20to%20group%20items%2C%20then%20continue"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932280]
