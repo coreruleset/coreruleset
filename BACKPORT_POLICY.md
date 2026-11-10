@@ -61,7 +61,7 @@ The following require a team decision (at least two core developers must approve
 
 ### Labeling
 
-When a PR is merged to `main` that qualifies for backport under this policy, a core developer **must** add the GitHub label for the next LTS point release, `backport:lts-4.25.N` (e.g. `backport:lts-4.25.3`), to the PR before or immediately after merge. The label marks the to-do item; it is removed only when the point release ships.
+When a PR is merged to `main` that qualifies for backport under this policy, a core developer **must** add the GitHub label for the next LTS point release, `backport:lts-4.25.N` (e.g. `backport:lts-4.25.3`), to the PR before or immediately after merge. The label marks the to-do item; it is removed only when the point release ships. If a release goes out without some of its labeled PRs (for example a security-only out-of-band release), move the remaining labels to the next point release.
 
 The backport PR itself, the one that merges into `lts/v4.25.x`, carries two different labels: `backport:release-lts-4.25.x` and `release:ignore`. The latter keeps the backport out of `main`'s generated release notes, since it is merged into the LTS branch but never into `main`.
 
