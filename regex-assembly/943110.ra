@@ -1,14 +1,16 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
+##!+ i
+
 ##! Rule 943110: Session Fixation - SessionID Parameter Names
 ##!
 ##! Description: Detects common session ID parameter names used in
 ##! session fixation attacks. These are parameter names that appear in
 ##! URLs or POST data that could be used to set session identifiers.
 ##!
-##! Note: This rule uses t:lowercase transformation, so all patterns
-##! are in lowercase.
+##! Note: This rule matches case-insensitively (`##!+ i`), so all patterns
+##! are written in lowercase.
 ##!
 ##! Documentation: For each pattern, a comment documents the source / framework
 ##! the pattern originates from, and any additional useful information.
