@@ -46,7 +46,7 @@ tests:
           log:
             expect_ids: [953101]
   - test_id: 3
-    desc: "'The function' might lead to FPs at PL1, it should match at PL2"
+    desc: "'The function' alone is English prose (ref.: #4267, #4856); the real PHP message 'The function requested (' is caught at PL1 by 953100, so it must not match at PL2"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -65,7 +65,7 @@ tests:
             {"body": "Please review the function"}
         output:
           log:
-            expect_ids: [953101]
+            no_expect_ids: [953101]
   - test_id: 4
     desc: "'Static function' might lead to FPs at PL1, it should match at PL2"
     stages:

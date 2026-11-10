@@ -1,0 +1,77 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##! Contains entries from `restricted-files.data` and enforces boundaries
+##! for entries that aren't intended to match substrings to avoid
+##! false positive such as `asound` matching `asoundmind.jpg`.
+
+##!^ (?:[^a-zA-Z0-9_\-]|^)
+##!$ (?:[^a-zA-Z0-9_\-@]|$)
+
+Dockerfile
+acpi
+asound
+block
+bootconfig
+buddyinfo
+cgroups
+class
+cmdline
+consoles
+cpuinfo
+crypto
+devices
+diskstats
+docker
+driver
+dynamic_debug
+execdomains
+filesystems
+firmware
+fish_variables
+hypervisor
+initial_root_password
+interrupts
+iomem
+ioports
+ipmi
+kallsyms
+kcore
+kernel
+keys
+kmsg
+kpagecgroup
+kpagecount
+kpageflags
+latency_stats
+loadavg
+locks
+mdstat
+meminfo
+misc
+module
+modules
+mounts
+mtrr
+pagetypeinfo
+partitions
+power
+pressure
+sched_debug
+schedstat
+scsi
+self
+slabinfo
+softirqs
+sslvpn_websession
+stat
+swaps
+sysvipc
+timer_list
+timer_stats
+uptime
+version
+version_signature
+vmallocinfo
+vmstat
+zoneinfo
