@@ -69,7 +69,10 @@ land here as normal-looking commits; do not speculate about them publicly.
   derives the expected string from git tags.
 - `lts/v4.25.x` is the long-term-support line. Only security, regression,
   critical false-positive and engine-compatibility fixes are backported
-  (`BACKPORT_POLICY.md`). New rules, PL changes and refactors never are.
+  (`BACKPORT_POLICY.md`). Other false-positive fixes, comment corrections and
+  `.data` additions need approval from two core developers. New rules, PL
+  changes and refactors never go there, unless a security fix requires the
+  refactor.
 - `v3.3/master` and older are end of life. Do not target them.
 - Releases are tagged `vX.Y.Z` from a `chore: release vX.Y.Z` commit that bumps
   versions with `crs-toolchain chore update-copyright` and updates `CHANGES.md`.
@@ -89,10 +92,13 @@ land here as normal-looking commits; do not speculate about them publicly.
   atomic groups or possessive quantifiers. Use `(?i)` rather than `t:lowercase`
   on `@rx` rules. Follow CONTRIBUTING.md on anchoring, capture groups and
   catastrophic backtracking.
-- Before adding a pattern for a claimed false negative, prove the payload is
-  not already caught by another rule at some PL. Rules overlap heavily; the
-  test container runs at `BLOCKING_PARANOIA: 4`, so one request shows every
-  rule that fires. If it is already detected, say so and stop.
+- Before adding a pattern for a claimed false negative, check what already
+  catches the payload. Rules overlap heavily; the test container runs at
+  `BLOCKING_PARANOIA: 4`, so one request shows every rule that fires. Map each
+  firing rule to its `paranoia-level` tag. If the payload is caught at the PL
+  the report is about, say so and stop. If it is caught only at a higher PL,
+  that is a paranoia-level policy question for the maintainers, not a bug to
+  fix with a new PL1 pattern.
 - Do not pick rule IDs, paranoia levels or anomaly severities on your own.
   Propose them and let a maintainer confirm.
 - Comments precede a chain, never sit between chained rules. Keep example
@@ -104,8 +110,8 @@ Never hand-edit a compiled regex in `rules/*.conf` when a `.ra` source exists;
 `pre-commit.ci` regenerates from the source and silently reverts the edit.
 
 ```bash
-crs-toolchain regex compare 942100   # generated vs. rule file
-crs-toolchain regex update 942100    # write generated regex into the rule file
+crs-toolchain regex compare 942140   # generated vs. rule file
+crs-toolchain regex update 942140    # write generated regex into the rule file
 crs-toolchain regex format --all     # format .ra files
 ```
 
@@ -120,23 +126,25 @@ characters inside `[...]`; write `\s`, not `\s\x0b` (the toolchain expands it).
   tests (legitimate input not detected). Fill the `comment` field with the
   expected behaviour.
 - Format is go-ftw v2. `POST` defaults to
-  `application/x-www-form-urlencoded`, so `data` must be URL-encoded. `data`
+  `application/x-www-form-urlencoded`; with that content type `data` must be
+  URL-encoded (set `Content-Type` for XML or JSON bodies). `data`
   is a Go template: a literal `{{` breaks the test; use `encoded_data`.
   Quote string fields such as `version: "HTTP/1.1"`. Raw CR/LF in headers
   need `encoded_request`.
 - A test ID is `<ruleid>-<n>`. After deleting tests run
   `crs-toolchain util renumber-tests <ruleid>`.
 - `expect_ids` is satisfied by a PCRE limit-exceeded error line that carries
-  the rule ID. Regression tests for ReDoS fixes must assert a real match with
-  `match_regex` instead.
-- Prove a new test fails without the fix by running it against unmodified
-  `main`.
+  the rule ID. Regression tests for ReDoS fixes must assert a real match of
+  that rule, e.g. `match_regex: 'Warning\. (Pattern match|Matched).*\[id "942140"\]'`.
+- Prove each test that demonstrates the fix or the new detection fails on
+  unmodified `main`. Negative tests pass on both and need no such proof.
 
 Run the stack and the tests the way CI does:
 
 ```bash
 docker compose -f tests/docker-compose.yml up -d modsec2-apache   # or modsec3-nginx
-go-ftw run -d tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI -i "^942100-" \
+# CI downloads the go-ftw release binary as `ftw`; use that name if you install it the same way.
+go-ftw run -d tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI -i "^942140-" \
   --log-file tests/logs/modsec2-apache/error.log \
   --overrides tests/regression/httpd-overrides.yaml   # nginx-overrides.yaml for nginx
 ```
@@ -179,7 +187,8 @@ Lint the whole rule set, not one file; single-file runs report false
   `release:new-detection`, `release:new-feature`, `release:important`,
   `release:breaking`, `release:remove-rules`, `release:fix`,
   `release:refactor`, `release:ignore`. A merged PR that must reach the LTS
-  line gets the label of the next point release, e.g. `backport:lts-4.25.3`.
+  line gets the label of the next point release, e.g. `backport:lts-4.25.3`;
+  a core developer adds it, agents only propose it.
 - Linking another PR as a dependency (`depends on #N` in the body) blocks
   merge until it lands (`check-pr-dependencies.yaml`).
 - CodeRabbit reviews every PR automatically (`.coderabbit.yaml`). Address or
@@ -220,7 +229,8 @@ test files; keep the LTS-side tests first and renumber.
 - "Fixing" a ReDoS by adding a repeated group that keeps the old match set.
   PCRE2 backtrack points per group pass can exceed the match limit, which is a
   bypass.
-- Adding a second rule for a payload that a higher-PL rule already catches.
+- Adding a pattern for a payload without first checking which rules already
+  catch it and at which paranoia level.
 - Touching `rules/*.conf` regexes without the `.ra` source.
 - Submitting tests whose payloads do not actually trigger the rule, or
   negative tests that are too simple to prove anything.
