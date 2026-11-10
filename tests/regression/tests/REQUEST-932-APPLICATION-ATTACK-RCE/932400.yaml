@@ -1,12 +1,12 @@
 ---
 meta:
   author: "fzipi"
-  description: "RCE bypass via positional parameters, PL3 sibling of 932200"
+  description: "RCE bypass via positional shell parameters, PL3 sibling of 932200"
 rule_id: 932400
 tests:
   - test_id: 1
     desc: |
-      Positional parameter used as an empty-variable evasion
+      Positional shell parameter used as an empty-variable evasion
       Payload: www.google.com;c$1at /etc$2/passwd
     stages:
       - input:
