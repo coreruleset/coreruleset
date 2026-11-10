@@ -3,8 +3,9 @@
 
 ##!+ i
 ##! The suffix class below approximates the cmdline processor's `@` suffix
-##! without `,`: at the start of a value a comma is prose (`Yes, we`), not brace
-##! expansion, which needs a `{` before the word.
+##! without `,`. The prefix allows `{`, so the comma matched brace expansion
+##! such as `{ls,-la}`, but it also matched prose such as `Yes, we can`. Brace
+##! expansion is left to 932280 (PL1) and 932281 (PL2).
 
 ##!> assemble
   ##!> include unix-shell-evasion-prefix-start-of-string.ra
