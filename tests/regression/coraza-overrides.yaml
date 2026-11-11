@@ -50,3 +50,11 @@ test_overrides:
   - rule_id: 934131
     test_ids: [5, 7]
     reason: 'TODO: check why we are failing to deobfuscate these payloads'
+  - rule_id: 934230
+    test_ids: [1]
+    reason: >-
+      Coraza does not populate REQUEST_BODY when the XML body processor ran
+      (corazawaf/coraza#1685)
+    output:
+      log:
+        no_expect_ids: [934230]

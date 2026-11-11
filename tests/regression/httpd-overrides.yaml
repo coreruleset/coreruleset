@@ -19,3 +19,11 @@ test_overrides:
       status: 200
       log:
         no_expect_ids: [920380]
+  - rule_id: 934230
+    test_ids: [1]
+    reason: >-
+      With the XML body processor engaged, ModSecurity v2 does not keep the raw body in
+      REQUEST_BODY, so the entity declaration is not visible to the rule (see issue 4767)
+    output:
+      log:
+        no_expect_ids: [934230]

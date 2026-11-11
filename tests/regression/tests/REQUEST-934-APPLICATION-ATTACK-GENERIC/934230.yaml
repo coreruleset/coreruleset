@@ -1,0 +1,312 @@
+---
+meta:
+  author: "adilalperenciftci"
+  description: XML external entity referencing a local resource (PL1)
+rule_id: 934230
+tests:
+  - test_id: 1
+    desc: 'Classic XXE, file scheme, XML body processor'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: application/xml
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<?xml version="1.0"?><!DOCTYPE r [<!ENTITY x SYSTEM "file:///etc/passwd">]><r>hello&x;</r>'
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 2
+    desc: 'Classic XXE, file scheme, no body processor'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<?xml version="1.0"?><!DOCTYPE r [<!ENTITY x SYSTEM "file:///etc/passwd">]><r>hello&x;</r>'
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 3
+    desc: 'PHP filter wrapper'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<?xml version="1.0"?><!DOCTYPE r [<!ENTITY x SYSTEM "php://filter/convert.base64-encode/resource=index.php">]><r>&x;</r>'
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 4
+    desc: 'Parameter entity, uppercase scheme, single quotes'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE r [<!ENTITY % p SYSTEM ''FILE:///etc/hostname''> %p;]><r/>'
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 5
+    desc: 'PUBLIC identifier with a file system literal'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE r [<!ENTITY x PUBLIC "-//A//B//EN" "file:///etc/passwd">]><r>&x;</r>'
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 6
+    desc: 'Entity name padded to 300 characters'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE r [<!ENTITY aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa SYSTEM "file:///etc/passwd">]><r/>'
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 7
+    desc: 'Expect wrapper without whitespace before the literal'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE r [<!ENTITY x SYSTEM"expect://id">]><r>&x;</r>'
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 8
+    desc: 'Negative: internal entity only'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<?xml version="1.0"?><!DOCTYPE r [<!ENTITY greet "hello">]><r>&greet;</r>'
+        output:
+          log:
+            no_expect_ids: [934230]
+  - test_id: 9
+    desc: 'Negative: external entity over http is left to PL2'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE r [<!ENTITY % p SYSTEM "http://example.com/e.dtd"> %p;]><r/>'
+        output:
+          log:
+            no_expect_ids: [934230]
+  - test_id: 10
+    desc: 'Negative: DocBook chapter entity, relative system identifier'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE book [<!ENTITY ch01 SYSTEM "ch01.xml">]><book>&ch01;</book>'
+        output:
+          log:
+            no_expect_ids: [934230]
+  - test_id: 11
+    desc: 'Negative: file URL in text, no entity declaration'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<r><link>file:///home/user/report.pdf</link></r>'
+        output:
+          log:
+            no_expect_ids: [934230]
+  - test_id: 12
+    desc: 'PUBLIC identifier containing an apostrophe, file system literal'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE r [<!ENTITY x PUBLIC "-//A''B//EN" "file:///etc/passwd">]><r>&x;</r>'
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 13
+    desc: 'Negative: internal entity and unrelated SYSTEM local-resource text'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<!DOCTYPE r [<!ENTITY greet "hello">]><r>SYSTEM "file:///etc/passwd"</r>'
+        output:
+          log:
+            no_expect_ids: [934230]
+  - test_id: 14
+    desc: 'Negative: local-resource entity text inside an XML comment'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<r><!-- <!ENTITY x SYSTEM "file:///tmp/example"> --></r>'
+        output:
+          log:
+            no_expect_ids: [934230]
+  - test_id: 15
+    desc: 'Negative: local-resource entity text inside CDATA'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<r><![CDATA[<!ENTITY x SYSTEM "file:///tmp/example">]]></r>'
+        output:
+          log:
+            no_expect_ids: [934230]
+  - test_id: 16
+    desc: 'Local-resource entity text inside a JSON string'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '{"payload":"<!ENTITY x SYSTEM ''file:///tmp/example''>"}'
+        output:
+          log:
+            expect_ids: [934230]
+  - test_id: 17
+    desc: 'Negative: local-resource entity text inside a processing instruction'
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Content-Type: text/plain
+          method: POST
+          port: 80
+          uri: "/post"
+          version: HTTP/1.1
+          data: '<?note <!ENTITY x SYSTEM "file:///tmp/example">?>'
+        output:
+          log:
+            no_expect_ids: [934230]
