@@ -1,0 +1,131 @@
+---
+meta:
+  author: "fzipi"
+rule_id: 953130
+tests:
+  - test_id: 1
+    desc: "zend_argument_value_error 'must be' tail not in the list is detected via its framing"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "Argument #2 ($length) must be frobnicated"}
+        output:
+          log:
+            expect_ids: [953130]
+  - test_id: 2
+    desc: "zend_argument_value_error with a constant tail (sodium) is detected"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "Fatal error: Uncaught SodiumException: sodium_crypto_secretbox(): Argument #2 ($nonce) must be SODIUM_CRYPTO_SECRETBOX_NONCEBYTES bytes long"}
+        output:
+          log:
+            expect_ids: [953130]
+  - test_id: 3
+    desc: "Prose with parenthesis and must be, without PHP argument framing, is not matched"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "Phone number (optional) must be filled out only if you want a call back."}
+        output:
+          log:
+            no_expect_ids: [953130]
+  - test_id: 4
+    desc: "Argument framing without the ($name) part (pg_field_name) is detected"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "Fatal error: Uncaught ValueError: pg_field_name(): Argument #2 must be greater than or equal to 0"}
+        output:
+          log:
+            expect_ids: [953130]
+  - test_id: 5
+    desc: "Lowercase argument framing inside a message (implode) is detected"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "Fatal error: Uncaught TypeError: implode(): If argument #1 ($separator) is of type string, argument #2 ($array) must be of type array, null given"}
+        output:
+          log:
+            expect_ids: [953130]
+  - test_id: 6
+    desc: "Prose mentioning an argument number apart from 'must be' is not matched"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "As argued in argument #2 of the essay, the plan must be reviewed."}
+        output:
+          log:
+            no_expect_ids: [953130]

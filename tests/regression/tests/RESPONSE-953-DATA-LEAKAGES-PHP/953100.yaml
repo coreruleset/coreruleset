@@ -190,3 +190,108 @@ tests:
         output:
           log:
             no_expect_ids: [953100]
+  - test_id: 10
+    desc: "Prose with 'must be' and no argument framing is not matched"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "Your password must be at least 8 characters and the form must be filled out before it can be submitted."}
+        output:
+          log:
+            no_expect_ids: [953100]
+  - test_id: 11
+    desc: "zend_value_error message without argument framing (sprintf width) is detected"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "Width must be between 0 and 2147483647"}
+        output:
+          log:
+            expect_ids: [953100]
+  - test_id: 12
+    desc: "zend_value_error message without argument framing (unserialize max_depth option) is detected"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "unserialize(): Option \"max_depth\" must be greater than or equal to 0"}
+        output:
+          log:
+            expect_ids: [953100]
+  - test_id: 13
+    desc: "zend_type_error message without argument framing (mail header) is detected"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "Header \"X-Foo\" must be of type string, array given"}
+        output:
+          log:
+            expect_ids: [953100]
+  - test_id: 14
+    desc: "zend_type_error message without argument framing (pdo_sqlite collation callback) is detected"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: "text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+            Accept-Encoding: "gzip,deflate"
+            Accept-Language: "en-us,en;q=0.5"
+            Content-Type: "application/json"
+          method: "POST"
+          version: "HTTP/1.1"
+          uri: "/reflect"
+          data: |-
+            {"body": "Pdo\\Sqlite::createCollation(): Return value of the collation callback must be of type int, string returned"}
+        output:
+          log:
+            expect_ids: [953100]
