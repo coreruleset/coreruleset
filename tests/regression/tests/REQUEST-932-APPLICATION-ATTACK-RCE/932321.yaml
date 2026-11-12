@@ -118,8 +118,140 @@ tests:
             Host: 'localhost'
             Content-Type: 'application/xml'
           uri: '/post'
-          data: '<?xml version="1.0"?><root><a probe="&#13;&#10;A1 QUIT"></a></root>'
+          data: '<?xml version="1.0"?><root><a probe="&#13;&#10;QUIT"></a></root>'
           version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932321]
+  - test_id: 8
+    desc: "POP3 NOOP Command injection in lower case"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?test=%0d%0anoop"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932321]
+  - test_id: 9
+    desc: "POP3 QUIT Command injection in mixed case"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Accept: "*/*"
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?test=%0d%0aQuit"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [932321]
+  - test_id: 10
+    desc: |
+      Command name as the start of a longer word after a line break; matched before the trailing boundary
+      Payload: x\r\nSTATUS: pending
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=x%0D%0ASTATUS%3A%20pending"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932321]
+  - test_id: 11
+    desc: |
+      Multi-line text with the command words inside a line, as a textarea sends it
+      Payload: La primera capa.\r\nQuit status: stat pending, then rset.
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "comment=La%20primera%20capa.%0D%0AQuit%20status%3A%20stat%20pending%2C%20then%20rset."
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932321]
+  - test_id: 12
+    desc: |
+      Command on its own line, followed by more lines
+      Payload: x\r\nSTAT\r\nQUIT
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=x%0D%0ASTAT%0D%0AQUIT"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932321]
+  - test_id: 13
+    desc: |
+      A word before the command is prose, not a tag: POP3 has no command tags
+      Payload: x\r\nplease quit
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=x%0D%0Aplease%20quit"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932321]
+  - test_id: 14
+    desc: |
+      Spaces between the command and the next line break
+      Payload: x\r\nSTAT  \r\nfoo
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=x%0D%0ASTAT%20%20%0D%0Afoo"
+          version: "HTTP/1.1"
         output:
           log:
             expect_ids: [932321]
