@@ -97,10 +97,10 @@ land here as normal-looking commits; do not speculate about them publicly.
   `BLOCKING_PARANOIA: 4`, so one request shows every rule that fires. Map each
   firing rule to its `paranoia-level` tag. If the payload is caught at the PL
   the report is about, say so and stop (for a blocking report, also check
-  that the anomaly score at that PL reaches the blocking threshold). If it is
-  caught only at a higher PL,
-  that is a paranoia-level policy question for the maintainers, not a bug to
-  fix with a new PL1 pattern.
+  that the anomaly scores of PL1 through that PL, summed, reach the blocking
+  threshold). If it is caught only at a higher PL, that is a paranoia-level
+  policy question for the maintainers, not a bug to fix with a new PL1
+  pattern.
 - Do not pick rule IDs, paranoia levels or anomaly severities on your own.
   Propose them and let a maintainer confirm.
 - Comments precede a chain, never sit between chained rules. Keep example
@@ -138,9 +138,10 @@ characters inside `[...]`; write `\s`, not `\s\x0b` (the toolchain expands it).
 - `expect_ids` is satisfied by a PCRE limit-exceeded error line that carries
   the rule ID. Regression tests for ReDoS fixes must assert a real match of
   that rule, e.g. `match_regex: 'Warning\. (Pattern match|Matched).*\[id "942140"\]'`.
-- Prove each test that demonstrates the change fails on unmodified `main`:
-  a positive test for a new detection, or the negative test for a
-  false-positive fix. Other negative tests pass on both and need no proof.
+- Prove each test that demonstrates the change fails on the target branch
+  without the change (`main`, or the LTS branch for a backport): a positive
+  test for a new detection, or the negative test for a false-positive fix.
+  Other negative tests pass on both and need no proof.
 
 Run the stack and the tests the way CI does:
 
