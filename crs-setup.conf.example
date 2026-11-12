@@ -123,16 +123,6 @@ SecDefaultAction "phase:5,log,auditlog,pass"
 # SecDefaultAction "phase:1,log,auditlog,deny,status:403"
 # SecDefaultAction "phase:2,log,auditlog,deny,status:403"
 
-# Example: Self-contained mode, redirect back to homepage on blocking
-# - In this configuration the 'tag' action includes the Host header data in the
-#   log. This helps to identify which virtual host triggered the rule (if any).
-# - Note that this might cause redirect loops in some situations; for example
-#   if a Cookie or User-Agent header is blocked, it will also be blocked when
-#   the client subsequently tries to access the homepage. You can also redirect
-#   to another custom URL.
-# SecDefaultAction "phase:1,log,auditlog,redirect:'http://%{request_headers.host}/',tag:'Host: %{request_headers.host}'"
-# SecDefaultAction "phase:2,log,auditlog,redirect:'http://%{request_headers.host}/',tag:'Host: %{request_headers.host}'"
-
 
 #
 # -- [[ Paranoia Level Initialization ]] ---------------------------------------
