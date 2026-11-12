@@ -123,17 +123,6 @@ SecDefaultAction "phase:5,log,auditlog,pass"
 # SecDefaultAction "phase:1,log,auditlog,deny,status:403"
 # SecDefaultAction "phase:2,log,auditlog,deny,status:403"
 
-# Example: Self-contained mode, redirect back to homepage on blocking
-# - Note that this might cause redirect loops in some situations; for example
-#   if a Cookie or User-Agent header is blocked, it will also be blocked when
-#   the client subsequently tries to access the homepage. You can also redirect
-#   to another custom URL.
-# - Do not add a 'tag' action to SecDefaultAction: every rule would inherit it,
-#   so a tag-based exclusion (ctl:ruleRemoveByTag) for that tag would remove
-#   every rule. The audit log already records the Host header.
-# SecDefaultAction "phase:1,log,auditlog,redirect:'http://%{request_headers.host}/'"
-# SecDefaultAction "phase:2,log,auditlog,redirect:'http://%{request_headers.host}/'"
-
 
 #
 # -- [[ Paranoia Level Initialization ]] ---------------------------------------
