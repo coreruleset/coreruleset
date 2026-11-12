@@ -17,82 +17,100 @@
 ##! <prefix> [-option [argument]]... <command>
 ##! The options are matched explicitly instead of with `.*`, which also
 ##! matched natural language such as `time to wash` (see #4356).
+##!> define assignment \w+=\S+\s+
+##!> define empty-variable \$\w+\s+
 ##!> define option \s+-[^\s]+
 ##! the option's argument, which can't start with a dash
 ##!> define option-argument \s+[^\s\-][^\s]*
+##! Command separators. Also the boundary a wrapper word needs before it.
 ##!> assemble
-  ##! A wrapper word needs the same context as a command word: the start of
-  ##! the value or a separator before it. Without it, `first-time head` and
-  ##! `the time he came` matched as `time <command>`.
-  ##! Same characters as the command prefix below: separators, `!`, `$`, `(`, `{`
-  (?:^|[;=|&`{(\[<!$\n\r])
-  ##!=>
-  \s*
-  ##!=>
-  ##! VAR=x time sh, $x time sh (empty variable used as a spacer)
-  (?:\w+=\S+\s+|\$\w+\s+)?
-  ##!=>
-  ##! "time" sh (opening quote)
-  ['"]?
-  ##!=>
-  ##!> assemble
-    ##!> cmdline unix
-      command
-      env
-      eval
-      time
-      watch
-    ##!<
-  ##!<
-  ##!=>
-  ##! "time" sh (closing quote)
-  ['"]?
-  ##!=>
-  ##! time -p sh, watch -n 1 sh, env -i sh (zero or more options)
-  (?:{{option}}(?:{{option-argument}})?)*
-  ##!=>
-  ##! separator before the command
-  [\s<>&|),$]
-  ##!=>
+  ##! ;ifconfig
+  ;
+  ##! =ifconfig
+  =
+  ##! {ifconfig}
+  \{
+  ##! |ifconfig
+  \|
+  ##! ||ifconfig
+  \|\|
+  ##! &ifconfig
+  &
+  ##! & &ifconfig
+  &&
+  ##! ;\nifconfig
+  \n
+  ##! ;\rifconfig
+  \r
+  ##! \ifconfig (backslash-prefix evasion at start of value)
+  ^\x5c
+  ##! $(ifconfig)
+  \$\(
+  ##! $((1+2)) arithmetic expansion
+  \$\(\(
+  ##! $[1+2] arithmetic expansion (deprecated in bash, but exists in other shells, like zsh)
+  \$\[
+  ##! `ifconfig`
+  `
+  ##! ${ifconfig}
+  \${
+  ##! <( ifconfig )
+  <\(
+  ##! >( ifconfig )
+  >\(
+  ##! a() ( ifconfig; ); a
+  \(\s*\)
+  ##! `cat<<<ifconfig` or `cat<<< ifconfig`
+  <<<
+  ##!=< separator
 ##!<
-##! ;ifconfig
-;
-##! =ifconfig
-=
-##! {ifconfig}
-\{
-##! |ifconfig
-\|
-##! ||ifconfig
-\|\|
-##! &ifconfig
-&
-##! & &ifconfig
-&&
-##! ;\nifconfig
-\n
-##! ;\rifconfig
-\r
-##! \ifconfig (backslash-prefix evasion at start of value)
-^\x5c
-##! $(ifconfig)
-\$\(
-##! $((1+2)) arithmetic expansion
-\$\(\(
-##! $[1+2] arithmetic expansion (deprecated in bash, but exists in other shells, like zsh)
-\$\[
-##! `ifconfig`
-`
-##! ${ifconfig}
-\${
-##! <( ifconfig )
-<\(
-##! >( ifconfig )
->\(
-##! a() ( ifconfig; ); a
-\(\s*\)
-##! `cat<<<ifconfig` or `cat<<< ifconfig`
-<<<
+
+##!> assemble
+  ##!> assemble
+    ##! A wrapper word needs the same context as a command word: the start of
+    ##! the value or a separator before it. Without it, `first-time head` and
+    ##! `the time he came` matched as `time <command>`.
+    ##!> assemble
+      ^
+      ##! the command prefix characters (`!`, `$`, `(`, `{`) and `[`, `<`
+      [{(\[<!$]
+      ##!> assemble
+        ##!=> separator
+      ##!<
+    ##!<
+    ##!=>
+    \s*
+    ##!=>
+    ##! VAR=x time sh, $x time sh (empty variable used as a spacer)
+    (?:{{assignment}}|{{empty-variable}})?
+    ##!=>
+    ##! "time" sh (opening quote)
+    ['"]?
+    ##!=>
+    ##!> assemble
+      ##!> cmdline unix
+        command
+        env
+        eval
+        time
+        watch
+      ##!<
+    ##!<
+    ##!=>
+    ##! "time" sh (closing quote)
+    ['"]?
+    ##!=>
+    ##! time -p sh, watch -n 1 sh, env -i sh (zero or more options)
+    (?:{{option}}(?:{{option-argument}})?)*
+    ##!=>
+    ##! separator before the command
+    [\s<>&|),$]
+    ##!=>
+  ##!<
+  ##!> assemble
+    ##!=> separator
+  ##!<
+##!<
 ##!=>
 
 ##! match possible white space between prefix expressions
@@ -117,9 +135,9 @@
   ##! $ifconfig
   [{(!$]\s*
   ##! VARNAME=xyz ifconfig
-  \w+=\S+\s+
+  {{assignment}}
   ##! $a ifconfig (uninitialized variable used as a spacer; expands to the empty string)
-  \$\w+\s+
+  {{empty-variable}}
 ##!<
 ##!=>
 

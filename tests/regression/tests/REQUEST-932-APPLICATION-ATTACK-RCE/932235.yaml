@@ -1229,7 +1229,7 @@ tests:
             expect_ids: [932235]
   - test_id: 70
     desc: |
-      Wrapper word inside a hyphenated word is not a command prefix
+      Wrapper word (`time`) inside a hyphenated word (`first-time`) is not a command prefix
       Payload: first-time wget users
     stages:
       - input:
@@ -1249,7 +1249,7 @@ tests:
             no_expect_ids: [932235]
   - test_id: 71
     desc: |
-      Wrapper word in prose without a separator before it
+      Wrapper word (`time`) in prose without a separator before it
       Payload: the time curl took
     stages:
       - input:
@@ -1269,7 +1269,7 @@ tests:
             no_expect_ids: [932235]
   - test_id: 72
     desc: |
-      Wrapper word after a separator and a variable assignment
+      Wrapper word (`time`) after a separator (`;`) and a variable assignment
       Payload: ;x=1 time wget /x
     stages:
       - input:
@@ -1289,7 +1289,7 @@ tests:
             expect_ids: [932235]
   - test_id: 73
     desc: |
-      Quoted wrapper word after a pipe
+      Quoted wrapper word (`time`) after a pipe
       Payload: x|"time" wget /x
     stages:
       - input:
@@ -1309,7 +1309,7 @@ tests:
             expect_ids: [932235]
   - test_id: 74
     desc: |
-      Wrapper word after a history-expansion bang
+      Wrapper word (`time`) after a history-expansion bang
       Payload: !time wget /x
     stages:
       - input:
@@ -1329,7 +1329,7 @@ tests:
             expect_ids: [932235]
   - test_id: 75
     desc: |
-      Wrapper word after a separator and an empty-variable spacer
+      Wrapper word (`time`) after a separator (`;`) and an empty-variable spacer (`$x`)
       Payload: a;$x time wget /x
     stages:
       - input:
