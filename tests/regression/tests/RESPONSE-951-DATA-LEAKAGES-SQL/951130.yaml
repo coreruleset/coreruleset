@@ -20,7 +20,7 @@ tests:
           version: "HTTP/1.1"
           uri: "/reflect"
           data: |-
-            {"body": "[match sql-errors.data]the used select statements have different number of columns[/match]: DB2 SQL Error: SQLCODE=-104, SQLSTATE=42601, SQLERRMC=DECLARE"}
+            {"body": "DB2 SQL Error: SQLCODE=-104, SQLSTATE=42601, SQLERRMC=DECLARE"}
         output:
           log:
             expect_ids: [951130]
