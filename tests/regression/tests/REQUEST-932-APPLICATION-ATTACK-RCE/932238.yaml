@@ -221,7 +221,7 @@ tests:
   - test_id: 13
     desc: |
       Command word followed by an absolute path argument.
-      Payload: ;vi /etc/passwd
+      Payload: vi /etc/passwd
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -233,7 +233,7 @@ tests:
             Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
             Content-Type: application/x-www-form-urlencoded
           uri: "/post"
-          data: "var=%3Bvi%20%2Fetc%2Fpasswd"
+          data: "var=vi%20%2Fetc%2Fpasswd"
           version: "HTTP/1.1"
         output:
           log:
