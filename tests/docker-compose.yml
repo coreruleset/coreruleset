@@ -59,6 +59,9 @@ x-coraza-env: &coraza-env
   CORAZA_RESP_BODY_MIMETYPE: "text/plain text/html text/xml application/json"
   CORAZA_RULE_ENGINE: DetectionOnly
   CORAZA_TMP_DIR: "/tmp/coraza"
+  ERRORLOG: "/var/log/coraza/error.log"
+  ERRORLOG_FORMAT: console
+  LOGLEVEL: info
   PORT: "8080"
 
 services:
@@ -125,6 +128,12 @@ services:
   coraza-caddy: &coraza
     container_name: coraza-caddy
     image: ghcr.io/coreruleset/coraza-crs:caddy-alpine@sha256:3403c5ae09265fb0cf24ac33d5f5f5abfee8ad19c55e3f7b6c14664929509761
+    # NOTE: The user used to run the container process is explicitly set to
+    # 'root', as for the ModSecurity targets above. The image runs as 'caddy'
+    # (uid 1000), which cannot write to the bind-mounted log directory created
+    # by the CI runner user. This is done as *a convenience for running the CRS
+    # testing setup only* and *should not be done in general!*
+    user: root
     environment:
       <<: *coraza-env
       CORAZA_AUDIT_LOG: "/var/log/coraza/audit.log"

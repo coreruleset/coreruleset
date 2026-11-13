@@ -1,52 +1,139 @@
 version: "v0.0.0"
 meta:
   engine: "coraza"
-  platform: "go"
+  platform: "caddy"
   annotations:
     - purpose: "CRS test suite"
+    - image: "ghcr.io/coreruleset/coraza-crs:caddy-alpine (see tests/docker-compose.yml)"
 test_overrides:
   - rule_id: 920100
     test_ids: [4]
-    reason: 'Invalid uri, Coraza not reached - 404 page not found'
+    reason: |
+      Caddy answers the CONNECT request with 301 instead of 200. Coraza sees
+      the request and 920100 does not match, as the test expects.
     output:
-      status: 404
+      status: 301
+      log:
+        no_expect_ids: [920100]
   - rule_id: 920100
     test_ids: [5]
-    reason: 'Invalid uri, Coraza not reached - 404 page not found'
+    reason: |
+      Apache rejects a CONNECT to a domain without a port with 400 before CRS runs.
+      Go parses the target as an authority, so Coraza sees the URI as
+      //www.coreruleset.org, 920100 does not match, and Caddy answers 301.
     output:
-      status: 404
+      status: 301
   - rule_id: 920100
     test_ids: [8]
-    reason: 'Go/http allows a colon in the path. Test expects status 400 or 403 (Apache behaviour)'
+    reason: |
+      Apache rejects a colon in the path with 400. Go accepts it, as the RFC allows
+      in a path segment, so the request reaches the backend and 920100 does not match.
     output:
       status: 200
       log:
-        expect_ids: [920100]
+        no_expect_ids: [920100]
   - rule_id: 920270
     test_ids: [4]
-    reason: 'Rule works, log contains 920270. Test expects status 400 (Apache behaviour)'
+    reason: "Apache rejects the null byte in the Host header with 400. Go accepts it and Coraza matches the rule"
     output:
       status: 200
-  - rule_id: 920272
-    test_ids: [5]
-    reason: 'Rule works, log contains 920272. Test expects status 400 (Apache behaviour)'
-    output:
-      status: 200
-  - rule_id: 920290
+      log:
+        expect_ids: [920270]
+  - rule_id: 920274
     test_ids: [1]
-    reason: 'Rule works, log contains 920290. Test expects status 400 (Apache behaviour)'
+    reason: "Apache rejects the Host header value with 400. Go accepts it and Coraza matches the rule"
     output:
       status: 200
+      log:
+        expect_ids: [920274]
+  - rule_id: 920280
+    test_ids: [3]
+    reason: "Go answers HTTP/0.9 with 505 HTTP Version Not Supported before Coraza runs; Apache answers 400"
+    output:
+      status: 505
+  - rule_id: 920290
+    test_ids: [4]
+    reason: |
+      Go moves the Host header into the request's Host field, so an empty Host
+      reaches Coraza as no Host header at all: 920280 (missing Host) matches
+      instead of 920290 (empty Host).
+    output:
+      log:
+        expect_ids: [920280]
+        no_expect_ids: [920290]
+  - rule_id: 920360
+    test_ids: [1]
+    reason: Requires ARG_NAME_LENGTH to be set to an appropriately low value
+    output:
+      status: 200
+      log:
+        no_expect_ids: [920360]
+  - rule_id: 920380
+    test_ids: [1]
+    reason: Requires MAX_NUM_ARGS to be set to a sufficiently low value
+    output:
+      status: 200
+      log:
+        no_expect_ids: [920380]
+  - rule_id: 920430
+    test_ids: [3, 9]
+    reason: "Go answers HTTP/0.9 and HTTP/0.8 with 505 HTTP Version Not Supported before Coraza runs; Apache answers 400"
+    output:
+      status: 505
+  - rule_id: 920430
+    test_ids: [5]
+    reason: |
+      Apache reads a request line without a version as HTTP/0.9. Go rejects it
+      with 400 Bad Request before Coraza runs, so go-ftw gets a normal response.
+    output:
+      status: 400
   - rule_id: 920430
     test_ids: [8]
-    reason: 'Go/http does not allow HTTP/3.0 - 505 HTTP Version Not Supported'
+    reason: "Go answers HTTP/4.0 with 505 HTTP Version Not Supported before Coraza runs"
     output:
       status: 505
       log:
         no_expect_ids: [920430]
-  - rule_id: 932200
-    test_ids: [13]
-    reason: 'wip'
-  - rule_id: 934131
-    test_ids: [5, 7]
-    reason: 'TODO: check why we are failing to deobfuscate these payloads'
+  - rule_id: 920610
+    test_ids: [2]
+    reason: |
+      Apache rejects a raw fragment in the URI with 400. Go reads the request
+      target as a path and escapes '#', so Coraza sees /%23fragment and 920610
+      does not match.
+    output:
+      status: 200
+      log:
+        no_expect_ids: [920610]
+  - rule_id: 920620
+    test_ids: [1]
+    reason: "Go keeps multiple separate Content-Type headers, which is what this rule is looking for"
+    output:
+      log:
+        expect_ids: [920620]
+  - rule_id: 922130
+    test_ids: [1, 2, 7]
+    reason: |
+      Coraza's multipart parser rejects the invalid part header first and
+      matches 200003 (MULTIPART_STRICT_ERROR), so 922130 is not reached.
+      Coraza's own CRS tests expect the same.
+    output:
+      log:
+        expect_ids: [200003]
+  - rule_id: 933110
+    test_ids: [3, 13, 14, 20, 21, 22, 24, 25, 26, 27]
+    reason: "X_Filename and X.Filename request headers never reach Coraza on Caddy (absent from the audit log), as on nginx"
+    output:
+      log:
+        no_expect_ids: [933110]
+  - rule_id: 933220
+    test_ids: [2, 4]
+    reason: "X_Filename and X.Filename request headers never reach Coraza on Caddy (absent from the audit log), as on nginx"
+    output:
+      log:
+        no_expect_ids: [933220]
+  - rule_id: 944140
+    test_ids: [3, 8]
+    reason: "X_Filename request headers never reach Coraza on Caddy (absent from the audit log), as on nginx"
+    output:
+      log:
+        no_expect_ids: [944140]
