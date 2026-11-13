@@ -35,21 +35,17 @@ jobs:
   regression:
     name: regression (${{ matrix.target }})
     runs-on: ubuntu-latest
-    # Experimental targets should not fail the run immediately
-    continue-on-error: ${{ matrix.experimental }}
     strategy:
+      # Keep testing the other targets when one fails
       fail-fast: false
       matrix:
         include:
           - target: modsec2-apache
             overrides: httpd-overrides.yaml
-            experimental: false
           - target: modsec3-nginx
             overrides: nginx-overrides.yaml
-            experimental: false
           - target: coraza-caddy
             overrides: coraza-overrides.yaml
-            experimental: true
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
