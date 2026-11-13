@@ -43,3 +43,21 @@ tests:
         output:
           log:
             expect_ids: [932231]
+  - test_id: 3
+    desc: |
+      True negative - Plain sentence with a full stop
+      Payload: Apples, pears. Then plums and figs
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?arg=Apples%2C%20pears.%20Then%20plums%20and%20figs"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932231]
