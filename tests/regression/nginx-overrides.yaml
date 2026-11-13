@@ -97,16 +97,6 @@ test_overrides:
   - rule_id: 933220
     test_ids: [2, 4]
     reason: "Nginx ignore by default request header with invalid characters (like X_Filename or X.Filename)"
-  - rule_id: 934131
-    test_ids: [5]
-    reason: "The problem here is how the rules tfunc works on nginx. Waiting for a decision here: https://github.com/coreruleset/coreruleset/issues/3376"
-    output:
-      expect_error: true
-  - rule_id: 934131
-    test_ids: [7]
-    reason: "The problem here is how the rules tfunc works on nginx. Waiting for a decision here: https://github.com/coreruleset/coreruleset/issues/3376"
-    output:
-      expect_error: true
   - rule_id: 942131
     test_ids: [3, 5, 7]
     reason: "v3 log bug, the first part of the chain always produces a log"
