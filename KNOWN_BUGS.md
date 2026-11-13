@@ -25,7 +25,7 @@ or the CRS Google Group at
   httpd v2.4.6 release 67 and Ubuntu 14.04 LTS users.
   https://bz.apache.org/bugzilla/show_bug.cgi?id=55910
   We advise to upgrade your Apache version. If upgrading is not possible,
-  we have provided a script in the util/join-multiline-rules directory
+  we have a legacy script at https://github.com/coreruleset/coreruleset/blob/v3.3.10/util/join-multiline-rules/join.py
   which converts the rules into a format that works around the bug.
   You have to re-run this script whenever you modify or update
   the CRS rules.

@@ -282,3 +282,62 @@ tests:
         output:
           log:
             expect_ids: [932200]
+  - test_id: 18
+    desc: |
+      This rule should not target REQUEST_FILENAME. It's designed to look for something
+      that looks like a file system path and would cause false positives in many cases.
+      Payload: John's report.pdf
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/files/John's%20report.pdf
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932200]
+  - test_id: 19
+    desc: |
+      Currency followed by a slash and whitespace is no longer a PL2 match
+      Payload: Price: $5 for 2/3 of the cake
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=Price%3A%20%245%20for%202%2F3%20of%20the%20cake"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932200]
+  - test_id: 20
+    desc: |
+      Named empty variable with path and whitespace still matches at PL2
+      Payload: www.google.com;c$uat /etc$u/passwd
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=www.google.com%3Bc%24uat%20%2Fetc%24u%2Fpasswd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932200]

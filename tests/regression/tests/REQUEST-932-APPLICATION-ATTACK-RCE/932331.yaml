@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "karelorigin, azurit"
+  author: "karelorigin, azurit, Max Leske"
   description: "Remote Command Execution: Unix shell history invocation"
 rule_id: 932331
 tests:
@@ -50,6 +50,24 @@ tests:
           uri: '/post'
           data: '<?xml version="1.0"?><root><a probe="!1"></a></root>'
           version: 'HTTP/1.1'
+        output:
+          log:
+            expect_ids: [932331]
+  - test_id: 4
+    desc: |
+      Detect RCE in last path segment
+      Payload: !1
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: /path/with/!1
+          version: "HTTP/1.1"
         output:
           log:
             expect_ids: [932331]
