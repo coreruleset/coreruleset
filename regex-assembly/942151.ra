@@ -4,11 +4,6 @@
 ##!+ i
 
 ##!^ \b
-##! Between the function name and the opening parenthesis, allow non-word
-##! characters and block comments with a body (MySQL treats `/*x*/` as a
-##! token separator). The branches cannot match the same character, which
-##! avoids exponential backtracking: a `/` is only consumed by the comment
-##! branch, written with the unrolling-the-loop technique.
-##!$ (?:[^\w/]|/\*[^*]*\*+(?:[^/*][^*]*\*+)*/)*\(
+##!$ \W*\(
 
 ##!> include-except sql-injection-function-names sql-injection-function-names-fps-pl1
