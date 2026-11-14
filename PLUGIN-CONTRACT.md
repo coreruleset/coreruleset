@@ -228,4 +228,3 @@ Plugins that only change other lists (content types, charsets, extensions, heade
 ## 10. Open points
 
 - **[OPEN]** Minimum CRS version: the release that ships the collect rules and the new method and HTTP version formats. It is filled in when that release is tagged (section 9.2).
-
