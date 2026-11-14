@@ -903,6 +903,380 @@ tests:
           log:
             expect_ids: [942550]
   - test_id: 50
+    desc: |
+      MySQL MEMBER OF with a JSON string operand (ARGS)
+      decoded payload: ;'MEMBER OF('"id"')/*
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%3B%27MEMBER%20OF%28%27%22id%22%27%29%2F%2A"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 51
+    desc: |
+      MySQL MEMBER OF with a JSON null literal (ARGS)
+      decoded payload: ;'MEMBER OF('null')/*
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%3B%27MEMBER%20OF%28%27null%27%29%2F%2A"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 52
+    desc: |
+      MySQL MEMBER OF with a NULL operand, no comment (ARGS)
+      decoded payload: 'MEMBER OF(NULL) OR NOT 0#
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27MEMBER%20OF%28NULL%29%20OR%20NOT%200%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 53
+    desc: |
+      MySQL MEMBER OF split by an inline comment, scientific notation operand (ARGS)
+      decoded payload: 'MeMbEr/**/Of(1.1e+3)#
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27MeMbEr%2F%2A%2A%2FOf%281.1e%2B3%29%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 54
+    desc: |
+      MySQL MEMBER OF after a backtick (ARGS)
+      decoded payload: `MEMBER OF(false)#
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%60MEMBER%20OF%28false%29%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 55
+    desc: |
+      MySQL JSON_EXTRACT joined to the previous keyword by removeWhitespace (ARGS)
+      decoded payload: ;'OR NOT JSON_EXTRACT('"username"','$')=1/*
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%3B%27OR%20NOT%20JSON_EXTRACT%28%27%22username%22%27%2C%27%24%27%29%3D1%2F%2A"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 56
+    desc: |
+      False Positive: memberOf function call without a quote
+      decoded payload: memberOf(customerGroups)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=memberOf%28customerGroups%29"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 57
+    desc: |
+      False Positive: "member of" in natural english
+      decoded payload: she is a member of (the) security team
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=she%20is%20a%20member%20of%20%28the%29%20security%20team"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 58
+    desc: |
+      MySQL MEMBER OF with comments containing text on both sides (ARGS)
+      decoded payload: '/*x*/MEMBER/**V**/OF(NULL)/**V**/UNION/**D**/ seleCt 1,2,@@version #
+      decoded payload: '/*x*y*/MEMBER/**V**/OF(NULL) (internal `*` in the comment before MEMBER)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27%2F%2Ax%2A%2FMEMBER%2F%2A%2AV%2A%2A%2FOF%28NULL%29%2F%2A%2AV%2A%2A%2FUNION%2F%2A%2AD%2A%2A%2F%20seleCt%201%2C2%2C%40%40version%20%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27%2F%2Ax%2Ay%2A%2FMEMBER%2F%2A%2AV%2A%2A%2FOF%28NULL%29"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 59
+    desc: |
+      False Positive: quoted memberOf function call
+      decoded payload: "memberOf(customerGroups)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%22memberOf%28customerGroups%29%22"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 60
+    desc: |
+      False Positive: identifier ending in json_extract
+      decoded payload: my_json_extract(value)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=my_json_extract%28value%29"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 61
+    desc: |
+      False Positive: identifier directly prefixed to json_extract
+      decoded payload: myjson_extract(value)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=myjson_extract%28value%29"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 62
+    desc: |
+      False Positive: quoted membership number
+      decoded payload: "Member #12" of the club
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%22Member%20%2312%22%20of%20the%20club"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 63
+    desc: |
+      False Positive: quoted membership tier
+      decoded payload: 'member -- gold
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27member%20--%20gold"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 64
+    desc: |
+      MySQL XOR JSON_EXTRACT joined by removeWhitespace
+      decoded payload: 'XOR JSON_EXTRACT('"a"','$')=1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27XOR%20JSON_EXTRACT%28%27%22a%22%27%2C%27%24%27%29%3D1"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 65
+    desc: |
+      MySQL OR NOT JSON_EXTRACT after a numeric expression
+      decoded payload: 1 OR NOT JSON_EXTRACT('"a"','$')=1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=1%20OR%20NOT%20JSON_EXTRACT%28%27%22a%22%27%2C%27%24%27%29%3D1"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 66
+    desc: |
+      MySQL MEMBER OF with a slash inside the inter-keyword comment
+      decoded payload: 'MEMBER/*a/b*/OF(NULL)ORNOT0#
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27MEMBER%2F%2Aa%2Fb%2A%2FOF%28NULL%29ORNOT0%23"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 67
+    desc: |
+      MySQL JSON_EXTRACT after a scientific-notation expression
+      decoded payload: 1e0 OR JSON_EXTRACT('"a"','$')=1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=1e0%20OR%20JSON_EXTRACT%28%27%22a%22%27%2C%27%24%27%29%3D1"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 68
+    desc: |
+      MySQL JSON_EXTRACT after a hexadecimal expression
+      decoded payload: 0x1 OR JSON_EXTRACT('"a"','$')=1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=0x1%20OR%20JSON_EXTRACT%28%27%22a%22%27%2C%27%24%27%29%3D1"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 69
+    desc: |
+      MySQL JSON_EXTRACT after concatenation and NOT
+      decoded payload: '||NOT JSON_EXTRACT('"a"','$')=1
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27%7C%7CNOT%20JSON_EXTRACT%28%27%22a%22%27%2C%27%24%27%29%3D1"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 70
     desc: "PostgreSQL ?| operator followed by a JSON path"
     stages:
       - input:
@@ -918,7 +1292,7 @@ tests:
         output:
           log:
             expect_ids: [942550]
-  - test_id: 51
+  - test_id: 71
     desc: "PostgreSQL #> operator followed by a JSON path"
     stages:
       - input:
@@ -934,3 +1308,131 @@ tests:
         output:
           log:
             expect_ids: [942550]
+  - test_id: 72
+    desc: "False positive: membership number after member of"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27member%20of%20%2312"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 73
+    desc: "False positive: membership tier after member of"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27member%20of%20%2D%2D%20gold"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 74
+    desc: "False positive: membership number and year after member of"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27member%20of%20%2312%20%282026%29"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 75
+    desc: "False positive: incomplete block comment after member of"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27member%20of%20%2F%2A%20note"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 76
+    desc: "MySQL MEMBER OF with a block comment before the operand"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27MEMBER%20OF%20%2F%2Acomment%2A%2F%28NULL%29"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 77
+    desc: "False positive: complete block comment without an operand"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27member%20of%20%28%2F%2Anote%2A%2F"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
+  - test_id: 78
+    desc: "MySQL MEMBER OF with a block comment inside the operand"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=%27MEMBER%20OF%20%28%2F%2Acomment%2A%2FNULL%29"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [942550]
+  - test_id: 79
+    desc: "False positive: explanatory text between JSON_EXTRACT and parenthesis"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: GET
+          port: 80
+          uri: "/get?q=json_extract%2F%2A%2A%2Fexplanatory%20text%20%28value%29"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [942550]
