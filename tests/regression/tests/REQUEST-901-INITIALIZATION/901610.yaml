@@ -1,0 +1,96 @@
+---
+meta:
+  author: "franbuehler"
+  description: "Plugin additions to tx.allowed_request_content_type are collected (test plugin in tests/regression/plugins)"
+rule_id: 901610
+tests:
+  - test_id: 1
+    desc: "Positive test: application/x-crs-test added by the test plugin (rule 9999003) is allowed on its path"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "application/x-crs-test"
+          method: POST
+          port: 80
+          uri: "/crs-plugin-contract-test/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 2
+    desc: "Positive test: the plugin matches the media type case-insensitively and with parameters"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "Application/X-CRS-Test; charset=utf-8"
+          method: POST
+          port: 80
+          uri: "/crs-plugin-contract-test/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920420]
+  - test_id: 3
+    desc: "Negative test: the plugin addition is limited to its path"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "application/x-crs-test"
+          method: POST
+          port: 80
+          uri: "/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 4
+    desc: "Negative test: the charset added by the test plugin does not end up in the content type list (anchor _[0-9]+$)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "utf-7"
+          method: POST
+          port: 80
+          uri: "/crs-plugin-contract-test/"
+          data: '{"foo":"bar"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920420]
+  - test_id: 5
+    desc: "Positive test: the test plugin selects the JSON body processor, so an attack in the body is still detected"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: "application/x-crs-test"
+          method: POST
+          port: 80
+          uri: "/crs-plugin-contract-test/"
+          data: '{"q":"<script>alert(1)</script>"}'
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [941100]
