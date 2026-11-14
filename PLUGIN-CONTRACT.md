@@ -60,10 +60,11 @@ A plugin that adds entries to a CRS list:
 3. MUST use the name format from section 3.1, with the ID of the rule that sets it.
 4. MUST use the value format of the list (section 4). Several entries in one value are separated by a space.
 5. MUST NOT set an empty value. Some engines refuse to load an empty `setvar` (section 6).
-6. MUST NOT set or change the CRS list variables (`tx.allowed_methods`, …) directly.
-7. MUST NOT set or change internal CRS variables, for example `tx.request_method` (section 7).
-8. SHOULD limit additions to where they are needed (for example, WebDAV methods only under `/remote.php/dav/`) instead of adding them for every request.
-9. SHOULD include go-ftw tests that show the addition works where it is needed and does not apply elsewhere.
+6. When adding a content type that a body processor can parse (JSON, XML, URL-encoded, multipart), MUST also select that processor for the same requests with `ctl:requestBodyProcessor`, as rules 901360 and 901370 do. Otherwise the body is not parsed into `ARGS`, and rules that only inspect `ARGS` miss attacks in it. For content types without a matching processor, the body can only be inspected as `REQUEST_BODY`; the plugin SHOULD document that.
+7. MUST NOT set or change the CRS list variables (`tx.allowed_methods`, …) directly.
+8. MUST NOT set or change internal CRS variables, for example `tx.request_method` (section 7).
+9. SHOULD limit additions to where they are needed (for example, WebDAV methods only under `/remote.php/dav/`) instead of adding them for every request.
+10. SHOULD include go-ftw tests that show the addition works where it is needed and does not apply elsewhere. For added content types, the tests SHOULD also show that an attack in the body is still detected.
 
 ### 3.3 Example
 
@@ -97,6 +98,8 @@ The CRS checks use `@within`, which looks for a **substring**. The delimiters ma
 | `restricted_headers_extended` | `/header-name/` | **lowercase** | `/x-debug/` |
 
 An entry in the wrong case never matches, and no error is reported.
+
+An entry MUST NOT contain its own delimiter (`|` or `/`) or a space. For example, `|FOO|BAR|` would allow both `FOO` and `BAR`. A request cannot exploit this on its own: entries are separated by spaces, and a method or content type cannot contain a space, so a request value never matches more than one entry.
 
 **Methods** are wrapped in pipes, like content types. Rule 911100 wraps the request method as `|%{REQUEST_METHOD}|` and checks it against `tx.allowed_methods`. A plain space-separated list (`GET POST`) does not work any more: no method would match, and every request would be flagged. This format comes with [#4960](https://github.com/coreruleset/coreruleset/pull/4960) (not merged yet). See section 9.
 
@@ -176,6 +179,8 @@ Variables that CRS derives from the list variables are **internal**. They can ch
 
 The new method format (section 4) is a **breaking change**. It MUST be announced in `CHANGES.md` and in a blog post.
 
+The method format change and the collect rules (section 5) MUST ship in the **same release**. If the method format shipped first, plugins that set `tx.allowed_methods` directly would break, and the `tx.plugin_*` variables that replace them would still be ignored.
+
 ### 9.1 Users
 
 Users who set `tx.allowed_methods` in `crs-setup.conf` (rule 900200) MUST switch to the pipe format when they update CRS:
@@ -204,4 +209,5 @@ Plugins that only change other lists (content types, charsets, extensions, heade
 - **[OPEN]** Rule IDs 9016xx for the collect rules.
 - **[OPEN]** Format of HTTP versions (section 4).
 - **[OPEN]** Minimum CRS version that supports this contract and the pipe format for methods.
-- **[OPEN]** Whether #4960 (method format) and the collect rules ship in the same release, so users and plugin authors only have to migrate once.
+- **[OPEN]** Confirm that #4960 (method format) and the collect rules ship in the same release (section 9).
+
