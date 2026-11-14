@@ -140,3 +140,71 @@ tests:
         output:
           log:
             expect_ids: [911100]
+
+  - test_id: 9
+    desc: Block POS because it is a substring of POST
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POS"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/html"
+          uri: "/pos"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [911100]
+
+  - test_id: 10
+    desc: Block POSTS because it contains the allowed method POST
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POSTS"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/html"
+          uri: "/posts"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [911100]
+
+  - test_id: 11
+    desc: Block OST because it is a suffix of POST
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "OST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/html"
+          uri: "/ost"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [911100]
+
+  - test_id: 12
+    desc: Block T because it is a suffix of POST
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "T"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/html"
+          uri: "/t"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [911100]
