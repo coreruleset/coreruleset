@@ -1,0 +1,57 @@
+# owasp-crs .deb and .rpm, built from the minimal release tree by packaging/build.sh,
+# which runs it from inside that tree and sets VERSION.
+name: owasp-crs
+arch: all
+platform: linux
+section: httpd
+version: ${VERSION}
+maintainer: OWASP CRS project <packaging@coreruleset.org>
+description: |-
+  OWASP CRS, generic attack detection rules for ModSecurity-compatible WAFs.
+  Rules are not loaded on install: include /usr/share/owasp-crs/owasp-crs.conf
+  from the engine configuration.
+vendor: OWASP CRS project
+homepage: https://coreruleset.org
+license: Apache-2.0
+
+contents:
+  - src: rules/*.conf
+    dst: /usr/share/owasp-crs/rules/
+  - src: rules/*.data
+    dst: /usr/share/owasp-crs/rules/
+  - src: owasp-crs.conf
+    dst: /usr/share/owasp-crs/owasp-crs.conf
+
+  - src: crs-setup.conf.example
+    dst: /etc/owasp-crs/crs-setup.conf
+    type: config|noreplace
+  - src: rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf.example
+    dst: /etc/owasp-crs/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
+    type: config|noreplace
+  - src: rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf.example
+    dst: /etc/owasp-crs/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
+    type: config|noreplace
+  - src: plugins/*.conf
+    dst: /etc/owasp-crs/plugins/
+    type: config|noreplace
+
+  - src: docs/*.md
+    dst: /usr/share/doc/owasp-crs/
+  - src: LICENSE
+    dst: /usr/share/doc/owasp-crs/LICENSE
+    type: license
+
+deb:
+  fields:
+    Bugs: https://github.com/coreruleset/coreruleset/issues
+
+# Conflicts, not Replaces/Obsoletes: the distro packages load CRS from their own
+# paths, and silently swapping them would leave those includes loading nothing.
+overrides:
+  deb:
+    conflicts:
+      - modsecurity-crs
+  rpm:
+    conflicts:
+      - mod_security_crs
+      - owasp-modsecurity-crs
