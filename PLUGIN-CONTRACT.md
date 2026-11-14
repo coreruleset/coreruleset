@@ -60,18 +60,20 @@ A plugin that adds entries to a CRS list:
 3. MUST use the name format from section 3.1, with the ID of the rule that sets it.
 4. MUST use the value format of the list (section 4). Several entries in one value are separated by a space.
 5. MUST NOT set an empty value. Some engines refuse to load an empty `setvar` (section 6).
-6. When adding a content type that a body processor can parse (JSON, XML, URL-encoded, multipart), MUST also select that processor for the same requests with `ctl:requestBodyProcessor`, as rules 901360 and 901370 do. Otherwise the body is not parsed into `ARGS`, and rules that only inspect `ARGS` miss attacks in it. For content types without a matching processor, the body can only be inspected as `REQUEST_BODY`; the plugin SHOULD document that.
+6. When adding a content type, MUST also select the body processor that matches the actual format of the body (`JSON`, `XML`, `URLENCODED` or `MULTIPART`) with `ctl:requestBodyProcessor`, for exactly the requests that use this content type (for example in a chain on `REQUEST_HEADERS:Content-Type`, see section 3.3). This follows the [CRS documentation](https://github.com/coreruleset/documentation/blob/main/content/2-how-crs-works/2-5-configuration-settings.md) and rules 901360 and 901370. Otherwise the body is not parsed into `ARGS`, and rules that only inspect `ARGS` miss attacks in it.
+
+   The only exception is a body that has no structured format at all, for example a binary file upload (`application/octet-stream`). Forcing a processor there makes parsing fail (`REQBODY_ERROR`). In that case the plugin MUST limit the addition as narrowly as possible (path, method and content type), and MUST explain in a comment why no processor is used.
 7. MUST NOT set or change the CRS list variables (`tx.allowed_methods`, …) directly.
 8. MUST NOT set or change internal CRS variables, for example `tx.request_method` (section 7).
 9. SHOULD limit additions to where they are needed (for example, WebDAV methods only under `/remote.php/dav/`) instead of adding them for every request.
 10. SHOULD include go-ftw tests that show the addition works where it is needed and does not apply elsewhere. For added content types, the tests SHOULD also show that an attack in the body is still detected.
 
-### 3.3 Example
+### 3.3 Examples
+
+Methods, only for the WebDAV endpoints:
 
 ```apache
 # nextcloud-rule-exclusions-before.conf
-
-# Allow WebDAV methods and content types, but only for the WebDAV endpoints
 SecRule REQUEST_FILENAME "@rx /(?:remote|public)\.php/dav/" \
     "id:9508190,\
     phase:1,\
@@ -79,8 +81,25 @@ SecRule REQUEST_FILENAME "@rx /(?:remote|public)\.php/dav/" \
     t:none,\
     nolog,\
     ver:'nextcloud-rule-exclusions-plugin/x.y.z',\
-    setvar:'tx.plugin_allowed_methods_9508190=|PROPFIND| |PROPPATCH| |MKCOL| |MOVE| |COPY| |LOCK| |UNLOCK| |REPORT|',\
-    setvar:'tx.plugin_allowed_request_content_type_9508190=|text/vcard| |text/calendar|'"
+    setvar:'tx.plugin_allowed_methods_9508190=|PROPFIND| |PROPPATCH| |MKCOL| |MOVE| |COPY| |LOCK| |UNLOCK| |REPORT|'"
+```
+
+A content type together with the matching body processor. The chain makes sure the processor is only selected for requests that really use `text/plain`:
+
+```apache
+# nextcloud-rule-exclusions-before.conf
+SecRule REQUEST_FILENAME "@rx /(?:remote|public)\.php" \
+    "id:9508193,\
+    phase:1,\
+    pass,\
+    t:none,\
+    nolog,\
+    ver:'nextcloud-rule-exclusions-plugin/x.y.z',\
+    chain"
+    SecRule REQUEST_HEADERS:Content-Type "@beginsWith text/plain" \
+        "t:none,\
+        ctl:requestBodyProcessor=XML,\
+        setvar:'tx.plugin_allowed_request_content_type_9508193=|text/plain|'"
 ```
 
 ## 4. Value format per list
@@ -91,7 +110,7 @@ The CRS checks use `@within`, which looks for a **substring**. The delimiters ma
 |---|---|---|---|
 | `allowed_methods` | `\|METHOD\|` | exactly as sent, usually uppercase (methods are case-sensitive) | `\|PROPFIND\| \|MKCOL\|` |
 | `allowed_http_versions` | `HTTP/x.y` **[OPEN]** | exactly as sent | `HTTP/2.0` |
-| `allowed_request_content_type` | `\|type/subtype\|` (no parameters) | **lowercase** | `\|text/vcard\| \|text/calendar\|` |
+| `allowed_request_content_type` | `\|type/subtype\|` (no parameters) | **lowercase** | `\|text/plain\|` |
 | `allowed_request_content_type_charset` | `\|charset\|` | **lowercase** | `\|utf-16\|` |
 | `restricted_extensions` | `.ext/` | **lowercase** | `.bak/ .old/` |
 | `restricted_headers_basic` | `/header-name/` | **lowercase** | `/x-debug/` |
