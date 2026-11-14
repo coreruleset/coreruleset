@@ -1,7 +1,7 @@
 # CRS Plugin Contract: Extending CRS List Variables
 
 > **Status:** Draft for discussion in [#4286](https://github.com/coreruleset/coreruleset/issues/4286).
-> Decided so far: one variable per plugin rule (design B), and the pipe format for methods ([#4960](https://github.com/coreruleset/coreruleset/pull/4960)).
+> Decided so far: one variable per plugin rule (design B), the pipe format for methods ([#4960](https://github.com/coreruleset/coreruleset/pull/4960)) and HTTP versions, collect rule IDs 901600–901660, and one release for all of these changes.
 > Open points are marked with **[OPEN]**.
 >
 > This file is the reference for the plugin contract. The [Writing plugins](https://coreruleset.org/docs/4-about-plugins/4-2-writing-plugins/) page on coreruleset.org explains how to use it and links here.
@@ -109,7 +109,7 @@ The CRS checks use `@within`, which looks for a **substring**. The delimiters ma
 | List | Format of one entry | Case | Example value |
 |---|---|---|---|
 | `allowed_methods` | `\|METHOD\|` | exactly as sent, usually uppercase (methods are case-sensitive) | `\|PROPFIND\| \|MKCOL\|` |
-| `allowed_http_versions` | `HTTP/x.y` **[OPEN]** | exactly as sent | `HTTP/2.0` |
+| `allowed_http_versions` | `HTTP/x.y` (pipe format follows, see below) | exactly as sent | `HTTP/2.0` |
 | `allowed_request_content_type` | `\|type/subtype\|` (no parameters) | **lowercase** | `\|text/plain\|` |
 | `allowed_request_content_type_charset` | `\|charset\|` | **lowercase** | `\|utf-16\|` |
 | `restricted_extensions` | `.ext/` | **lowercase** | `.bak/ .old/` |
@@ -124,7 +124,7 @@ An entry MUST NOT contain its own delimiter (`|` or `/`) or a space. For example
 
 Why pipes and not spaces: padding the values with spaces is not reliable, because ModSecurity v2 removes leading spaces from `setvar` values (section 6). Then `OST` would match `POST`.
 
-**[OPEN]** **HTTP versions** are still separated by spaces only and have the same substring problem (920430). They are expected to move to the pipe format in a separate PR. Until then, plugins use the space-separated format for `allowed_http_versions`.
+**HTTP versions** are still separated by spaces only and have the same substring problem (920430). They move to the pipe format in a separate PR that ships in the same release as the method format. This contract will be updated in that PR. Until then, plugins use the space-separated format for `allowed_http_versions`.
 
 ## 5. What CRS guarantees
 
@@ -138,7 +138,7 @@ SecRule TX:/^plugin_allowed_methods_[0-9]+$/ "@rx \S" \
     t:none,\
     nolog,\
     tag:'OWASP_CRS',\
-    ver:'OWASP_CRS/4.x.0',\
+    ver:'OWASP_CRS/4.31.0-dev',\
     setvar:'tx.allowed_methods=%{tx.allowed_methods} %{MATCHED_VAR}'"
 ```
 
@@ -152,7 +152,7 @@ CRS guarantees that:
 6. This works the same on ModSecurity v2, libModSecurity v3 and Coraza.
 7. The collect rules themselves need no change in `crs-setup.conf`. (The new method format does, see section 9.)
 
-**Proposed rule IDs [OPEN]:**
+**Rule IDs:**
 
 | ID | Collects into |
 |---|---|
@@ -191,6 +191,8 @@ Variables that CRS derives from the list variables are **internal**. They can ch
 ## 8. What this contract does not cover
 
 - **Removing entries.** SecLang cannot remove part of a string. To allow something that a `restricted_*` list blocks, or to skip a check, plugins keep using rule exclusions such as `ctl:ruleRemoveById` or `ctl:ruleRemoveTargetById`, scoped as narrowly as possible.
+
+  Example: WebDAV clients send the `If` and `Lock-Token` headers (for example with `LOCK`, `UNLOCK` and `PUT`), and both are in `restricted_headers_basic` (920450). Adding the WebDAV methods with `tx.plugin_allowed_methods_*` is therefore not enough. The plugin still needs a rule exclusion for 920450, limited to the WebDAV path and to requests that carry these headers, as the Nextcloud plugin does today (rules 9508117 and 9508121).
 - **Scalar settings** such as paranoia level, anomaly thresholds or sampling. These are decisions for the operator, not for plugins.
 - **Other variables.** Only the seven lists in section 2 are extension points.
 
@@ -198,7 +200,7 @@ Variables that CRS derives from the list variables are **internal**. They can ch
 
 The new method format (section 4) is a **breaking change**. It MUST be announced in `CHANGES.md` and in a blog post.
 
-The method format change and the collect rules (section 5) MUST ship in the **same release**. If the method format shipped first, plugins that set `tx.allowed_methods` directly would break, and the `tx.plugin_*` variables that replace them would still be ignored.
+The method format change, the HTTP version format change and the collect rules (section 5) MUST ship in the **same release**, so that users change `crs-setup.conf` only once. If the method format shipped first, plugins that set `tx.allowed_methods` directly would break, and the `tx.plugin_*` variables that replace them would still be ignored.
 
 ### 9.1 Users
 
@@ -225,7 +227,5 @@ Plugins that only change other lists (content types, charsets, extensions, heade
 
 ## 10. Open points
 
-- **[OPEN]** Rule IDs 9016xx for the collect rules.
-- **[OPEN]** Format of HTTP versions (section 4).
-- **[OPEN]** Minimum CRS version that supports this contract and the pipe format for methods.
-- **[OPEN]** Confirm that #4960 (method format) and the collect rules ship in the same release (section 9).
+- **[OPEN]** Minimum CRS version: the release that ships the collect rules and the new method and HTTP version formats. It is filled in when that release is tagged (section 9.2).
+
