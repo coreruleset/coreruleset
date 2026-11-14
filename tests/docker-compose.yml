@@ -79,7 +79,7 @@ services:
     volumes:
       - ./logs/modsec2-apache:/var/log/apache2:rw
       - ../rules:/opt/owasp-crs/rules:ro
-      - ../plugins:/opt/owasp-crs/plugins:ro
+      - ./regression/plugins:/opt/owasp-crs/plugins:ro
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
     entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh httpd-foreground"]
     ports:
@@ -108,7 +108,7 @@ services:
     volumes:
       - ./logs/modsec3-nginx:/var/log/nginx:rw
       - ../rules:/opt/owasp-crs/rules:ro
-      - ../plugins:/opt/owasp-crs/plugins:ro
+      - ./regression/plugins:/opt/owasp-crs/plugins:ro
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
     entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh nginx -g 'daemon off;'"]
     ports:
@@ -140,7 +140,7 @@ services:
     volumes:
       - ./logs/coraza-caddy:/var/log/coraza:rw
       - ../rules:/opt/coraza/owasp-crs/rules:ro
-      - ../plugins:/opt/coraza/owasp-crs/plugins:ro
+      - ./regression/plugins:/opt/coraza/owasp-crs/plugins:ro
       - ../crs-setup.conf.example:/opt/coraza/config/crs-setup.conf.example:ro
     entrypoint: ["/bin/sh", "-c", "cp /opt/coraza/config/crs-setup.conf.example /opt/coraza/config/crs-setup.conf && exec /entrypoint.sh caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
     ports:
