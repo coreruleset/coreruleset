@@ -146,15 +146,17 @@ characters inside `[...]`; write `\s`, not `\s\x0b` (the toolchain expands it).
 Run the stack and the tests the way CI does:
 
 ```bash
-docker compose -f tests/docker-compose.yml up -d modsec2-apache   # or modsec3-nginx
+docker compose -f tests/docker-compose.yml up -d modsec2-apache   # or modsec3-nginx, coraza-caddy
 # CI downloads the go-ftw release binary as `ftw`; use that name if you install it the same way.
 go-ftw run -d tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI -i "^942140-" \
   --log-file tests/logs/modsec2-apache/error.log \
-  --overrides tests/regression/httpd-overrides.yaml   # nginx-overrides.yaml for nginx
+  --overrides tests/regression/httpd-overrides.yaml   # nginx-overrides.yaml, coraza-overrides.yaml
 ```
 
 Restart the container after switching branches; it keeps the rules it started
-with. Coraza is not run in CI but can be tested with `coraza-caddy`.
+with. CI runs the full suite on all three engines and a failure on any of them
+fails the run, so check engine-specific behavior on `coraza-caddy` too, with
+`--log-file tests/logs/coraza-caddy/error.log`.
 
 ### Lint
 
@@ -203,7 +205,8 @@ Lint the whole rule set, not one file; single-file runs report false
 
 CI on every PR:
 
-- `regression (modsec2-apache)` and `regression (modsec3-nginx)`: the go-ftw suite.
+- `regression (modsec2-apache)`, `regression (modsec3-nginx)` and
+  `regression (coraza-caddy)`: the go-ftw suite, one job per engine.
 - `lint`: yamllint, SecLang parse, crs-linter, `.ra` formatting, every `.ra`
   compiling to the regex currently in `rules/`, and gap-free test numbering.
 - `regression (eng, 2023, 10K, 1)`: the quantitative false-positive run
