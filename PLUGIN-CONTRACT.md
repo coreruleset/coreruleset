@@ -229,4 +229,3 @@ Plugins that only change other lists (content types, charsets, extensions, heade
 - **[OPEN]** Format of HTTP versions (section 4).
 - **[OPEN]** Minimum CRS version that supports this contract and the pipe format for methods.
 - **[OPEN]** Confirm that #4960 (method format) and the collect rules ship in the same release (section 9).
-
