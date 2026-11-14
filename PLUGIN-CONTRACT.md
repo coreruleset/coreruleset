@@ -109,7 +109,7 @@ The CRS checks use `@within`, which looks for a **substring**. The delimiters ma
 | List | Format of one entry | Case | Example value |
 |---|---|---|---|
 | `allowed_methods` | `\|METHOD\|` | exactly as sent, usually uppercase (methods are case-sensitive) | `\|PROPFIND\| \|MKCOL\|` |
-| `allowed_http_versions` | `HTTP/x.y` (pipe format follows, see below) | exactly as sent | `HTTP/2.0` |
+| `allowed_http_versions` | `\|HTTP/x.y\|` | exactly as sent | `\|HTTP/1.2\|` |
 | `allowed_request_content_type` | `\|type/subtype\|` (no parameters) | **lowercase** | `\|text/plain\|` |
 | `allowed_request_content_type_charset` | `\|charset\|` | **lowercase** | `\|utf-16\|` |
 | `restricted_extensions` | `.ext/` | **lowercase** | `.bak/ .old/` |
@@ -120,11 +120,9 @@ An entry in the wrong case never matches, and no error is reported.
 
 An entry MUST NOT contain its own delimiter (`|` or `/`) or a space. For example, `|FOO|BAR|` would allow both `FOO` and `BAR`. A request cannot exploit this on its own: entries are separated by spaces, and a method or content type cannot contain a space, so a request value never matches more than one entry.
 
-**Methods** are wrapped in pipes, like content types. Rule 911100 wraps the request method as `|%{REQUEST_METHOD}|` and checks it against `tx.allowed_methods`. A plain space-separated list (`GET POST`) does not work any more: no method would match, and every request would be flagged. This format comes with [#4960](https://github.com/coreruleset/coreruleset/pull/4960) (not merged yet). See section 9.
+**Methods and HTTP versions** are wrapped in pipes, like content types. Rule 911100 wraps the request method as `|%{REQUEST_METHOD}|`, and rule 920430 wraps the protocol as `|%{REQUEST_PROTOCOL}|`, before checking them against the list. A plain space-separated list (`GET POST`, `HTTP/1.1 HTTP/2`) does not work any more: nothing would match, and every request would be flagged. These formats come with [#4960](https://github.com/coreruleset/coreruleset/pull/4960) and #4970 (not merged yet). See section 9.
 
 Why pipes and not spaces: padding the values with spaces is not reliable, because ModSecurity v2 removes leading spaces from `setvar` values (section 6). Then `OST` would match `POST`.
-
-**HTTP versions** are still separated by spaces only and have the same substring problem (920430). They move to the pipe format in a separate PR that ships in the same release as the method format. This contract will be updated in that PR. Until then, plugins use the space-separated format for `allowed_http_versions`.
 
 ## 5. What CRS guarantees
 
@@ -185,7 +183,7 @@ The removed leading space on v2 is also the reason why CRS uses delimiters like 
 
 Variables that CRS derives from the list variables are **internal**. They can change in any release. Plugins MUST NOT read or write them. Examples:
 
-- `tx.request_method` (rule 911100)
+- `tx.request_method` (rule 911100), `tx.request_protocol` (rule 920430)
 - `tx.content_type`, `tx.content_type_charset`, `tx.extension`, `tx.header_name_*`
 
 ## 8. What this contract does not cover
@@ -204,23 +202,25 @@ The method format change, the HTTP version format change and the collect rules (
 
 ### 9.1 Users
 
-Users who set `tx.allowed_methods` in `crs-setup.conf` (rule 900200) MUST switch to the pipe format when they update CRS:
+Users who set `tx.allowed_methods` (rule 900200) or `tx.allowed_http_versions` (rule 900230) in `crs-setup.conf` MUST switch to the pipe format when they update CRS:
 
 ```apache
 # before
 setvar:'tx.allowed_methods=GET HEAD POST OPTIONS'
+setvar:'tx.allowed_http_versions=HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0 HTTP/3 HTTP/3.0'
 # after
 setvar:'tx.allowed_methods=|GET| |HEAD| |POST| |OPTIONS|'
+setvar:'tx.allowed_http_versions=|HTTP/1.0| |HTTP/1.1| |HTTP/2| |HTTP/2.0| |HTTP/3| |HTTP/3.0|'
 ```
 
-If they don't, **every request** is flagged by 911100, because no method matches the old list. This was confirmed on ModSecurity v2, libModSecurity v3 and Coraza.
+If they don't, **every request** is flagged by 911100 or 920430, because nothing matches the old list. This was confirmed on ModSecurity v2, libModSecurity v3 and Coraza.
 
 ### 9.2 Plugins
 
 Plugins that set `tx.allowed_methods` directly (for example the Nextcloud plugin, which copies the defaults in rules 9508100 and appends methods later) break in the same way: their old-format list blocks every request. These plugins MUST:
 
 1. Remove the rules that copy the CRS default lists (for example Nextcloud rules 9508100 and 9508101).
-2. Replace every direct change of a CRS list variable with a `tx.plugin_<list>_<rule id>` variable (section 3), using the pipe format for methods.
+2. Replace every direct change of a CRS list variable with a `tx.plugin_<list>_<rule id>` variable (section 3), using the pipe format for methods and HTTP versions.
 3. State the minimum CRS version in `plugin.yaml` **[OPEN: version]**. Older CRS versions have no collect rules and would ignore the `tx.plugin_*` variables.
 
 Plugins that only change other lists (content types, charsets, extensions, headers) are not broken by the method change, but they SHOULD migrate too, so they no longer copy the CRS defaults.
