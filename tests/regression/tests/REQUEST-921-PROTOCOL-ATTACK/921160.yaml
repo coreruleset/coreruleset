@@ -100,3 +100,35 @@ tests:
         output:
           log:
             expect_ids: [921160]
+  - test_id: 7
+    desc: "HTTP header injection of X-Originating-IP via payload in value; the entry has upper-case letters, so it only matches since the rule uses (?i) instead of t:lowercase"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=%0d%0aX-Originating-IP:%201.2.3.4"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [921160]
+  - test_id: 8
+    desc: "Negative test: header-like text without a line break, X-Originating-IP: 1.2.3.4"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get?foo=X-Originating-IP:%201.2.3.4"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [921160]
