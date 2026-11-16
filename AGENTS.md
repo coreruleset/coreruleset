@@ -209,7 +209,7 @@ CI on every PR:
   `regression (coraza-caddy)`: the go-ftw suite, one job per engine.
 - `lint`: yamllint, SecLang parse, crs-linter, `.ra` formatting, every `.ra`
   compiling to the regex currently in `rules/`, and gap-free test numbering.
-- `regression (eng, 2023, 100K, 1)`: the quantitative false-positive run
+- `regression (eng, 2023, 100K)`: the quantitative false-positive run
   against a natural-language corpus; results are posted as a PR comment. This
   is the FP gate for any widened pattern.
 - `pre-commit.ci` may push an autofix commit to the branch.
