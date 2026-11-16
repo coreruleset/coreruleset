@@ -1,14 +1,20 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
-##! This chained rule is used to match on JWT base64-urlencoded tokens.
-##! See https://www.rfc-editor.org/rfc/rfc4648#section-5 for details.
+##! This chained rule is used to match on values that are known to cause false
+##! positives: JWT base64-urlencoded tokens, common tokens and IDNA
+##! (Punycode) domain names and email addresses. The IDNA part is explained
+##! further down.
+##!
+##! JWT: See https://www.rfc-editor.org/rfc/rfc4648#section-5 for details.
 
 ##! JWTs consist of base64-urlencoded encoded JSON, and a JSON structure 
 ##! just starts with '{"', which becomes 'ey' when encoded with a base64-urlencoded encoder.
 
 ##!> define base64-urlencoded-charset [a-zA-Z0-9_-]+
 ##!> define dot [.]
+
+##!+ i
 
 ##!^ ^
 
@@ -18,6 +24,24 @@
 
 ##!> assemble
   [\w-]+
+##!<
+
+##! Internationalized domain names (IDNA/Punycode, RFC 5891/3492) and email
+##! addresses using them, e.g. `xn--bcher-kva.example`. IDNA A-labels start
+##! with the mandatory ACE prefix `xn--`, which triggers the `--` comment
+##! detection of 942440.
+##!
+##! The match is deliberately strict to prevent evasion. The _entire_ value
+##! must be an (optional local part and) dot-separated list of labels where
+##! `--` is allowed _only_ as the `xn--` prefix at the very start of a label.
+##! Anything else, e.g. `1--xn--bcher-kva.example` (a comment marker followed
+##! by something that merely looks like IDNA), whitespace, quotes or other
+##! SQL syntax characters, fails to match and is still detected.
+##!> define idna-label (?:xn--)?[0-9a-z]+(?:-[0-9a-z]+)*
+##!> define email-local-part [0-9a-z._+]+(?:-[0-9a-z._+]+)*
+
+##!> assemble
+  (?:{{email-local-part}}@)?{{idna-label}}(?:\.{{idna-label}})*
 ##!<
 
 ##!$ $

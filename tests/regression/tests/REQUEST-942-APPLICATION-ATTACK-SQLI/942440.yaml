@@ -446,3 +446,146 @@ tests:
         output:
           log:
             expect_ids: [942440]
+  - test_id: 28
+    desc: "False positive against IDNA/Punycode domain name (#3335)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?domain=xn--bcher-kva.example"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 29
+    desc: |
+      False positive against email address with IDNA/Punycode domain (#3335)
+      Payload: user@xn--bcher-kva.example
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?email=user%40xn--bcher-kva.example"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 30
+    desc: "False positive against multi-label IDNA/Punycode host name (#3335)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?host=mail.xn--mller-kva.xn--bcher-kva.de"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 31
+    desc: |
+      IDNA lookalike must not bypass: comment marker followed by IDNA label (#3335)
+      Payload: or 1=1--xn--bcher-kva.example
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?domain=or%201%3D1--xn--bcher-kva.example"
+        output:
+          log:
+            expect_ids: [942440]
+  - test_id: 32
+    desc: "IDNA lookalike must not bypass: no space, '--' not at label start (#3335)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?id=1--xn--bcher-kva.example"
+        output:
+          log:
+            expect_ids: [942440]
+  - test_id: 33
+    desc: "IDNA lookalike must not bypass: non-IDNA '--' before a valid IDNA label (#3335)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?domain=1--a.xn--bcher-kva.example"
+        output:
+          log:
+            expect_ids: [942440]
+  - test_id: 34
+    desc: |
+      IDNA lookalike must not bypass: '--' in email local part (#3335)
+      Payload: a--b@xn--bcher-kva.example
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?email=a--b%40xn--bcher-kva.example"
+        output:
+          log:
+            expect_ids: [942440]
+  - test_id: 35
+    desc: |
+      IDNA lookalike must not bypass: comment after valid IDNA host (#3335)
+      Payload: xn--bcher-kva.example'--
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?domain=xn--bcher-kva.example%27--"
+        output:
+          log:
+            expect_ids: [942440]
+  - test_id: 36
+    desc: "IDNA lookalike must not bypass: trailing comment marker after valid IDNA host (#3335)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?domain=xn--bcher-kva.example--"
+        output:
+          log:
+            expect_ids: [942440]
