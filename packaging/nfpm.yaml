@@ -37,9 +37,14 @@ contents:
 
   - src: docs/*.md
     dst: /usr/share/doc/owasp-crs/
+  # nfpm drops "type: license" from debs, so the deb gets LICENSE as a plain file
   - src: LICENSE
     dst: /usr/share/doc/owasp-crs/LICENSE
     type: license
+    packager: rpm
+  - src: LICENSE
+    dst: /usr/share/doc/owasp-crs/LICENSE
+    packager: deb
 
 deb:
   fields:

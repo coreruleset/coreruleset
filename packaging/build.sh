@@ -5,6 +5,7 @@
 set -euo pipefail
 
 version=${1:?usage: $0 VERSION [OUTDIR]}
+[[ ${version} =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "invalid version: ${version}" >&2; exit 1; }
 repo=$(git rev-parse --show-toplevel)
 mkdir -p "${2:-build}"
 out=$(cd "${2:-build}" && pwd)
@@ -16,6 +17,8 @@ mtime=$(git -C "${repo}" log -1 --format=%ct "v${version}")
 
 rm -rf "${out:?}/${name}"
 git -C "${repo}" archive --prefix="${name}/" "v${version}" | "${tar}" -x -C "${out}"
+# Extraction applies the caller's umask; fix the modes so every builder gets the same archives
+chmod -R u=rwX,go=rX "${out}/${name}"
 cd "${out}"
 rm -rf "${name}"/{util,regex-assembly,tests,packaging} "${name}/renovate.json" "${name}"/.[!.]*
 mv -f "${name}"/*.md "${name}/docs/"
@@ -28,7 +31,9 @@ find "${name}" -type f | LC_ALL=C sort | TZ=UTC zip -qXD -@ "${name}-minimal.zip
 
 # nfpm paths are relative to the minimal tree; the loader file only goes in the packages
 cp "${repo}/packaging/owasp-crs.conf" "${name}/"
+chmod 644 "${name}/owasp-crs.conf"
+touch -r "${name}/LICENSE" "${name}/owasp-crs.conf"
 cd "${name}"
 for packager in deb rpm; do
-    VERSION="${version}" nfpm package -f "${repo}/packaging/nfpm.yaml" -p "${packager}" -t "${out}"
+    SOURCE_DATE_EPOCH="${mtime}" VERSION="${version}" nfpm package -f "${repo}/packaging/nfpm.yaml" -p "${packager}" -t "${out}"
 done
