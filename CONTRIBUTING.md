@@ -127,6 +127,20 @@ Regular expression engines and libraries based on PCRE use the forward slash `/`
 
 If testing a CRS regular expression using a third party tool, it may be useful to change the delimiter to something other than `/` if a testing tool raises errors because a CRS pattern features unescaped forward slashes.
 
+### Case-Insensitive Matching
+
+Make `@rx` rules case-insensitive with the `(?i)` flag, not with the `t:lowercase` transformation. In a regex-assembly file, set the flag with `##!+ i` and write the patterns in lowercase. A pattern that contains no letters, or only character ranges that already cover both cases, needs neither.
+
+`(?i)` keeps the original casing in `MATCHED_VAR` and in the logged data, and it keeps working when an integrator adds transformations or `multiMatch` to a rule.
+
+Keep `t:lowercase` in these cases:
+
+* The operator is not `@rx` (`@within`, `@streq`, `@contains`, `@beginsWith`, `@pm`, and so on). These operators have no case-insensitive flag.
+* The rule stores the transformed value (via `capture` and `setvar`) and another rule or chain link compares it with a non-regex operator. For example, 920450 stores the header name and its chain link compares it against a lowercase list with `@within`. With `(?i)` the stored value would keep its original casing.
+* `t:lowercase` runs before a transformation whose result depends on case. `t:jsDecode` only decodes the lowercase escapes `\x` and `\u`, so in 941310, which lowercases first, `\X3C` and `\U003C` are decoded as well. Removing `t:lowercase` there would change what the rule sees.
+
+When moving a rule from `t:lowercase` to `(?i)`, also check every chain link that reads `MATCHED_VAR`, `MATCHED_VARS`, `TX:0` or `TX:1`. These links used to receive the lowercased value and now receive the original one, so they need `(?i)` themselves, or `t:lowercase` if their operator has no flag.
+
 ### When and Why to Anchor Regular Expressions
 
 Engines running the OWASP CRS will use regular expressions to _search_ the input string, i.e., the regular expression engine is asked to find the first match in the input string. If an expression needs to match the entire input then the expression must be anchored appropriately.
