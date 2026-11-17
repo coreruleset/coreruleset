@@ -36,7 +36,7 @@ jobs:
       matrix:
         language: ["eng"]
         year: ["2023"]
-        size: ["10K"]
+        size: ["100K"]
     permissions:
       contents: read
     steps:
@@ -119,6 +119,7 @@ jobs:
             -y "$YEAR" \
             -s "$SIZE" \
             --paranoia-levels 1,2,3,4 \
+            --max-concurrency "$(nproc)" \
             --compare-crs ./mainBranchFolder \
             -o json -f results.json || true
           # go-ftw exits non-zero when it detects regressions; that's our
