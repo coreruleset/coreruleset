@@ -1075,7 +1075,7 @@ tests:
             no_expect_ids: [932239]
   - test_id: 64
     desc: |
-      Detect RCE in last path segment
+      Path is not a target of this header-only rule; 932236 covers REQUEST_FILENAME
       Payload: visudo
     stages:
       - input:
@@ -1090,4 +1090,4 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [932239]
+            no_expect_ids: [932239]
