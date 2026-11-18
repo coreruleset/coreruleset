@@ -157,3 +157,20 @@ tests:
         output:
           log:
             no_expect_ids: [920520]
+  - test_id: 10
+    desc: "Accept-Encoding of 40 KELVIN SIGN characters (U+212A, 120 bytes) must count as 120, not as 40 after lowercasing"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+            Host: "localhost"
+            Accept-Encoding: "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
+          uri: "/"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [920520]
