@@ -16,7 +16,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "foo=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+          data: "foo=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%3D"
           version: "HTTP/1.1"
         output:
           log:
@@ -73,7 +73,7 @@ tests:
           log:
             expect_ids: [944160]
   - test_id: 5
-    desc: "Java4Shell PoC with Base64url alphabet and invalid padding"
+    desc: "Java4Shell PoC with Base64url alphabet and invalid padding (66 x [-_] + '=') in POST argument"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -85,7 +85,7 @@ tests:
           method: POST
           port: 80
           uri: "/post"
-          data: "foo=-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_="
+          data: "foo=-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_%3D"
           version: "HTTP/1.1"
         output:
           log:
@@ -140,6 +140,23 @@ tests:
           port: 80
           uri: "/post"
           data: "foo=AAAAAAAAAAAAAAAAAAAA%3D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [944160]
+  - test_id: 9
+    desc: "False positive check: valid, padded Authorization Basic credentials must not match (the scheme and the credentials stay separate tokens)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Authorization: "Basic c2VydmljZS1hY2NvdW50QGV4YW1wbGUuY29tOlMzY3IzdC14eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHg="
+          method: GET
+          port: 80
+          uri: "/get"
           version: "HTTP/1.1"
         output:
           log:
