@@ -4,7 +4,7 @@ meta:
 rule_id: 944160
 tests:
   - test_id: 1
-    desc: "Java4Shell PoC (64 x A + '=') in POST argument"
+    desc: "Java4Shell PoC (64 x A + '=') as a POST argument value"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -12,7 +12,7 @@ tests:
             Accept: "*/*"
             Host: localhost
             User-Agent: "OWASP CRS test agent"
-            Content-Type: application/x-www-form-urlencoded
+            Content-Type: "application/x-www-form-urlencoded"
           method: POST
           port: 80
           uri: "/post"
@@ -22,7 +22,7 @@ tests:
           log:
             expect_ids: [944160]
   - test_id: 2
-    desc: "Java4Shell PoC for OpenJDK 17 (128 x A + '=') in query string"
+    desc: "Java4Shell PoC for OpenJDK 17 (128 x A + '=') as a query string value"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -38,7 +38,7 @@ tests:
           log:
             expect_ids: [944160]
   - test_id: 3
-    desc: "Java4Shell PoC in Authorization Basic header"
+    desc: "Java4Shell PoC (64 x A + '=') as a JSON field value"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -46,24 +46,7 @@ tests:
             Accept: "*/*"
             Host: localhost
             User-Agent: "OWASP CRS test agent"
-            Authorization: "Basic AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
-          method: GET
-          port: 80
-          uri: "/get"
-          version: "HTTP/1.1"
-        output:
-          log:
-            expect_ids: [944160]
-  - test_id: 4
-    desc: "Java4Shell PoC in JSON body"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Content-Type: application/json
+            Content-Type: "application/json"
           method: POST
           port: 80
           uri: "/post"
@@ -72,8 +55,8 @@ tests:
         output:
           log:
             expect_ids: [944160]
-  - test_id: 5
-    desc: "Java4Shell PoC with Base64url alphabet and invalid padding (66 x [-_] + '=') in POST argument"
+  - test_id: 4
+    desc: "Java4Shell PoC with Base64url alphabet (66 x [-_] + '=') as a POST argument value"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -81,7 +64,7 @@ tests:
             Accept: "*/*"
             Host: localhost
             User-Agent: "OWASP CRS test agent"
-            Content-Type: application/x-www-form-urlencoded
+            Content-Type: "application/x-www-form-urlencoded"
           method: POST
           port: 80
           uri: "/post"
@@ -90,79 +73,8 @@ tests:
         output:
           log:
             expect_ids: [944160]
-  - test_id: 6
-    desc: "False positive check: valid, correctly padded Base64 of zero bytes"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Content-Type: application/x-www-form-urlencoded
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "foo=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%3D%3D"
-          version: "HTTP/1.1"
-        output:
-          log:
-            no_expect_ids: [944160]
-  - test_id: 7
-    desc: "False positive check: valid Base64 with '=' padding (xxx=)"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Content-Type: application/x-www-form-urlencoded
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "foo=eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHg%3D"
-          version: "HTTP/1.1"
-        output:
-          log:
-            no_expect_ids: [944160]
-  - test_id: 8
-    desc: "False positive check: short Base64-like token with invalid padding"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Content-Type: application/x-www-form-urlencoded
-          method: POST
-          port: 80
-          uri: "/post"
-          data: "foo=AAAAAAAAAAAAAAAAAAAA%3D"
-          version: "HTTP/1.1"
-        output:
-          log:
-            no_expect_ids: [944160]
-  - test_id: 9
-    desc: "False positive check: valid, padded Authorization Basic credentials must not match (the scheme and the credentials stay separate tokens)"
-    stages:
-      - input:
-          dest_addr: "127.0.0.1"
-          headers:
-            Accept: "*/*"
-            Host: localhost
-            User-Agent: "OWASP CRS test agent"
-            Authorization: "Basic c2VydmljZS1hY2NvdW50QGV4YW1wbGUuY29tOlMzY3IzdC14eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHg="
-          method: GET
-          port: 80
-          uri: "/get"
-          version: "HTTP/1.1"
-        output:
-          log:
-            no_expect_ids: [944160]
-  - test_id: 10
-    desc: "Java4Shell PoC with literal '+' in a header (3 x 42 x A joined by '+', then '='); '+' must not be decoded to a space"
+  - test_id: 5
+    desc: "Java4Shell PoC with literal '+' as a header value (3 x 42 x A joined by '+', then '='); '+' must not be decoded to a space"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -178,8 +90,8 @@ tests:
         output:
           log:
             expect_ids: [944160]
-  - test_id: 11
-    desc: "Java4Shell PoC with URL-encoded '+' (%2B) in POST argument; decoded value is 3 x 42 x A joined by '+', then '='"
+  - test_id: 6
+    desc: "Java4Shell PoC with URL-encoded '+' (%2B) in a POST argument; decoded value is 3 x 42 x A joined by '+', then '='"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -196,8 +108,8 @@ tests:
         output:
           log:
             expect_ids: [944160]
-  - test_id: 12
-    desc: "False positive check: valid, padded Authorization Basic credentials containing '+' must not match (UTF-8 username:password 'some.user@example.com:Amount-of-13<EURO SIGN>-...'; the euro sign in the password produces the '+')"
+  - test_id: 7
+    desc: "Long Java4Shell PoC (4096 x A + '=') as a POST argument value; the rule must not depend on the PCRE match limit"
     stages:
       - input:
           dest_addr: "127.0.0.1"
@@ -205,10 +117,171 @@ tests:
             Accept: "*/*"
             Host: localhost
             User-Agent: "OWASP CRS test agent"
-            Authorization: "Basic c29tZS51c2VyQGV4YW1wbGUuY29tOkFtb3VudC1vZi0xM+KCrC1zdW1tZXItaG9saWRheS1hZHZhbmNlLTIwMjY="
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%3D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [944160]
+  - test_id: 8
+    desc: "Java4Shell PoC (64 x A + '=') as a cookie value"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Cookie: "token=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
           method: GET
           port: 80
           uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [944160]
+  - test_id: 9
+    desc: "False positive check: valid, correctly padded Base64 of zero bytes"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%3D%3D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [944160]
+  - test_id: 10
+    desc: "False positive check: valid Base64 with '=' padding (xxx=)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHg%3D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [944160]
+  - test_id: 11
+    desc: "False positive check: short Base64-like value with invalid padding (20 x A + '=')"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=AAAAAAAAAAAAAAAAAAAA%3D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [944160]
+  - test_id: 12
+    desc: "False positive check: long valid Base64 (4094 x A + '==') as a POST argument value"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%3D%3D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [944160]
+  - test_id: 13
+    desc: "False positive check: SRI hash in HTML (integrity='sha512-...=='); '-' joins the prefix to the hash"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "html=%3Cscript%20src%3D%27https%3A%2F%2Fcdn.example.com%2Flib.min.js%27%20integrity%3D%27sha512-DXSYBXM%2ByQjnlKBqiMc5A%2BBcEN4bCX8ZnTZhmjV%2FE%2B3EHWt6NQp%2F3%2BYNocMDTYL92Y4RyOEX%2Fi4L%2FqA2OzcKag%3D%3D%27%3E%3C%2Fscript%3E"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [944160]
+  - test_id: 14
+    desc: "False positive check: SRI hash without + and / as a JSON field value (npm metadata); it would otherwise look like a Base64url token with invalid alignment"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/json"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "{\"integrity\":\"sha512-ZvdLNYiXfXSjsMm99q1RX84gLGotGf16uWjei8ZT7icTBDy4iw1UfsdPQxftABk7rP8maCrY8qyVndcqZEj4aw==\"}"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [944160]
+  - test_id: 15
+    desc: "False positive check: Referer with valid padded Base64 in the URL path"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Referer: "https://example.com/files/vTa7KWlZ26bzvSHDo39ua6BHAYWXk4RHBaXJeHh1acNy/wvQIU7VdvmmZZJNQokwn09JI/RqhJZw6Z+vsOdsgQ=="
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [944160]
+  - test_id: 16
+    desc: "False positive check: token mixing the standard (+/) and URL-safe (-_) alphabets, which no JDK decoder accepts"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: "application/x-www-form-urlencoded"
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=upzjse66om-fjiN%2FOx0h9SkEzGn29%2BmdVVd2SPfMvq0jDDFVypCquARXX7Il6lvKq4wJR2Fjya9Sw%2B7HwNRnNLA%3D%3D"
           version: "HTTP/1.1"
         output:
           log:

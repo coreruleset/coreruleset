@@ -1,0 +1,24 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##! Rule 944161: Malformed Base64 padding in Authorization credentials (Java4Shell)
+##!
+##! Sibling of 944160 for `Authorization: <scheme> <credentials>`. The
+##! credentials (Base64 or Base64url token of at least 64 characters
+##! followed by `=` padding) are captured in TX:1, and the chained rule
+##! checks their alignment with `t:length`.
+##!
+##! The scheme is an RFC 9110 token, followed by one or more spaces.
+##!
+##! Only single-character repeats are used, no repeated groups. The
+##! expression is RE2 compatible.
+##!
+##! Ref: https://calif.io/java4shell
+
+##!^ ^[A-Za-z][!#$%&'*+.^_`|~0-9A-Za-z\-]* +(
+##!$ =+)$
+
+##! Standard alphabet
+(?:[A-Za-z0-9+/]{64,})
+##! URL-safe alphabet
+(?:[A-Za-z0-9_\-]{64,})
