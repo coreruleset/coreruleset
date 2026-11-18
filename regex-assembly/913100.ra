@@ -11,6 +11,12 @@
 
 ##!+ i
 
+##! User-agent header containing exactly `UserAgent`.
+##! This behavior was observed in Subgraph's Vega scanner, but
+##! it's possible this occurs in other security scanners.
+^UserAgent$
+^user-agent$
+
 ##! http://www.arachni-scanner.com/
 arachni
 
@@ -74,7 +80,7 @@ morfeus
 Mozlila
 
 ##! Typo of Mozilla/5.0 user-agent
-Mozilla/5.g
+Mozilla/5\.g
 
 ##! Malformed User-Agents header escaping special characters.
 ##! Common behavior when spoofing legit user-agents.
@@ -103,7 +109,7 @@ nuclei
 ##! http://www.openvas.org/
 openvas
 
-# php2shell PoC + various scripts
+##! php2shell PoC + various scripts
 php2shell
 
 ##! https://aws.amazon.com/fr/security-agent/
@@ -121,7 +127,7 @@ sysscan
 ##! https://github.com/google/tsunami-security-scanner
 TsunamiSecurityScanner
 
-w3af.org
+w3af\.org
 
 ##! http://www.robotstxt.org/db/webbandit.html
 webbandit
@@ -208,7 +214,7 @@ WPProbe
 SSTIMap
 
 ##! Hydra
-Mozilla/4.0 \(Hydra\)
+Mozilla/4\.0 \(Hydra\)
 
 ##! (deprecated) https://github.com/epinna/tplmap
 tplmap
@@ -226,7 +232,7 @@ Kadimus
 LFISuite
 
 ##! https://github.com/lightos/Panoptic
-Mozilla/5.0 \(compatible; Panoptic
+Mozilla/5\.0 \(compatible; Panoptic
 
 ##! https://github.com/hansmach1ne/LFImap
 LFImap
@@ -253,4 +259,4 @@ YesWeHack-Hunter
 TInjA
 
 ##! IBM Security AppScan
-Mozilla/5.0 \(compatible; AppScan;
+Mozilla/5\.0 \(compatible; AppScan;
