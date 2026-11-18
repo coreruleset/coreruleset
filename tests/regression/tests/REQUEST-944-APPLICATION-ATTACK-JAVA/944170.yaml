@@ -1,7 +1,7 @@
 ---
 meta:
   author: "airween"
-rule_id: 944161
+rule_id: 944170
 tests:
   - test_id: 1
     desc: "Java4Shell PoC (64 x A + '=') in Authorization Basic header"
@@ -19,7 +19,7 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [944161]
+            expect_ids: [944170]
   - test_id: 2
     desc: "Java4Shell PoC with Base64url alphabet (66 x [-_] + '=') in Authorization Bearer header"
     stages:
@@ -36,7 +36,7 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [944161]
+            expect_ids: [944170]
   - test_id: 3
     desc: "Long Java4Shell PoC (4096 x A + '=') in Authorization Basic header"
     stages:
@@ -53,7 +53,7 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            expect_ids: [944161]
+            expect_ids: [944170]
   - test_id: 4
     desc: "False positive check: valid, padded Authorization Basic credentials (the scheme and the credentials stay separate)"
     stages:
@@ -70,7 +70,7 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [944161]
+            no_expect_ids: [944170]
   - test_id: 5
     desc: "False positive check: valid, padded Authorization Basic credentials containing '+' (UTF-8 username:password 'some.user@example.com:Amount-of-13<EURO SIGN>-...'; the euro sign in the password produces the '+')"
     stages:
@@ -87,4 +87,4 @@ tests:
           version: "HTTP/1.1"
         output:
           log:
-            no_expect_ids: [944161]
+            no_expect_ids: [944170]
