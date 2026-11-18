@@ -1,0 +1,49 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##! Rule 944160: Malformed Base64 padding (Java4Shell)
+##!
+##! Detects long Base64 / Base64url tokens whose `=` padding is invalid.
+##! Java4Shell is an out-of-bounds heap write in the HotSpot x86-64
+##! AVX-512 VBMI Base64 decoder intrinsic. A miscomputed output mask in the
+##! tail handling is triggered by padding characters. The published trigger
+##! is 64 `A` characters followed by a single `=` (128 `A` + `=` on OpenJDK 17).
+##!
+##! Valid Base64 can only end in `=` as `xx==` or `xxx=` after full 4-char
+##! groups, so the rule matches every other combination and does not match
+##! correctly padded data (e.g. Base64-encoded zero bytes).
+##!
+##! The expression is RE2 compatible: no lookarounds. The token boundaries
+##! are consumed as characters instead (start of input or a non-Base64
+##! character on the left; end of input or a non-Base64, non-`=` character
+##! on the right).
+##!
+##! Ref: https://calif.io/java4shell
+
+##! Base64 (`+/`) and Base64url (`-_`) alphabet
+##!> define b64 A-Za-z0-9+/_\-
+
+##!> assemble
+  ##! Left boundary: start of input or a non-Base64 character
+  ^
+  [^{{b64}}]
+  ##!=>
+
+  ##! At least 64 Base64 characters, in full 4-character groups
+  (?:[{{b64}}]{4}){16,}
+  ##!=>
+
+  ##! Invalid remainder / padding combinations
+  ##! remainder 0 or 1 character, followed by any number of `=`
+  [{{b64}}]?=+
+  ##! remainder 2 characters, followed by 1 or at least 3 `=`
+  [{{b64}}]{2}=
+  [{{b64}}]{2}={3,}
+  ##! remainder 3 characters, followed by at least 2 `=`
+  [{{b64}}]{3}={2,}
+  ##!=>
+
+  ##! Right boundary: end of input or a non-Base64, non-padding character
+  [^{{b64}}=]
+  $
+##!<

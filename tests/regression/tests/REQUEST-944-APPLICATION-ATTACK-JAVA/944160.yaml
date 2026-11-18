@@ -1,0 +1,146 @@
+---
+meta:
+  author: "airween"
+rule_id: 944160
+tests:
+  - test_id: 1
+    desc: "Java4Shell PoC (64 x A + '=') in POST argument"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [944160]
+  - test_id: 2
+    desc: "Java4Shell PoC for OpenJDK 17 (128 x A + '=') in query string"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+          method: GET
+          port: 80
+          uri: "/get?token=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [944160]
+  - test_id: 3
+    desc: "Java4Shell PoC in Authorization Basic header"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Authorization: "Basic AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+          method: GET
+          port: 80
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [944160]
+  - test_id: 4
+    desc: "Java4Shell PoC in JSON body"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: application/json
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "{\"img\":\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\"}"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [944160]
+  - test_id: 5
+    desc: "Java4Shell PoC with Base64url alphabet and invalid padding"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_="
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [944160]
+  - test_id: 6
+    desc: "False positive check: valid, correctly padded Base64 of zero bytes"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%3D%3D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [944160]
+  - test_id: 7
+    desc: "False positive check: valid Base64 with '=' padding (xxx=)"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHg%3D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [944160]
+  - test_id: 8
+    desc: "False positive check: short Base64-like token with invalid padding"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          headers:
+            Accept: "*/*"
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Content-Type: application/x-www-form-urlencoded
+          method: POST
+          port: 80
+          uri: "/post"
+          data: "foo=AAAAAAAAAAAAAAAAAAAA%3D"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [944160]
