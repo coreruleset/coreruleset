@@ -208,3 +208,20 @@ tests:
         output:
           log:
             expect_ids: [911100]
+
+  - test_id: 13
+    desc: Block ET because it is a substring of POST
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "ET"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: "text/html"
+          uri: "/et"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [911100]
