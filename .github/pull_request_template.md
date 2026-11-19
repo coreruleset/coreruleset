@@ -12,7 +12,7 @@ Describe the big picture of your changes here to communicate to the maintainers 
 - [ ] I have added positive tests proving my fix/feature works as intended.
 - [ ] I have added negative tests that prove my fix/feature considers common cases that might end in false positives
 - [ ] In case you changed a regular expression, you are not adding a ReDOS for pcre. You can check this using [regexploit](https://github.com/doyensec/regexploit)
-- [ ] My test use the `comment` field to write the expected behavior
+- [ ] My tests use the `desc` field to write the expected behavior
 - [ ] I have added documentation for the rule or change (when appropriate)
 
 ## Further comments
