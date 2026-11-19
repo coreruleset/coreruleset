@@ -1,0 +1,36 @@
+##! Please refer to the documentation at
+##! https://coreruleset.org/docs/development/regex_assembly/.
+
+##! Rule 944160: Malformed Base64 padding (Java4Shell)
+##!
+##! Java4Shell is an out-of-bounds heap write in the HotSpot x86-64
+##! AVX-512 VBMI Base64 decoder intrinsic. A miscomputed output mask in the
+##! tail handling is triggered by padding characters. The published trigger
+##! is 64 `A` characters followed by a single `=` (128 `A` + `=` on OpenJDK 17).
+##!
+##! This expression is the first step of a chained rule. It selects values
+##! that consist of exactly one Base64 or Base64url token of at least 64
+##! characters followed by `=` padding. The chained rule then checks the
+##! alignment with `t:length`: valid padded Base64 always has a length that
+##! is a multiple of 4.
+##!
+##! Design notes:
+##! - Only whole values are selected. Inside a longer value the start of the
+##!   token is ambiguous, because `-`, `_`, `+` and `/` are both alphabet
+##!   characters and common separators (SRI hashes, URL paths), so the
+##!   alignment cannot be determined reliably.
+##! - The two alphabets are separate alternatives: no JDK decoder accepts a
+##!   mix of `+/` and `-_`.
+##! - Only single-character repeats are used, no repeated groups. PCRE can
+##!   match these without backtracking, so long values do not exceed the
+##!   PCRE match limit. The expression is also RE2 compatible.
+##!
+##! Ref: https://calif.io/java4shell
+
+##!^ ^
+##!$ =+$
+
+##! Standard alphabet (`Base64.getDecoder()`)
+(?:[A-Za-z0-9+/]{64,})
+##! URL-safe alphabet (`Base64.getUrlDecoder()`)
+(?:[A-Za-z0-9_\-]{64,})
