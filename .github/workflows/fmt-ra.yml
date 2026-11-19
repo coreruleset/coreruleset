@@ -1,0 +1,28 @@
+name: fmt-ra
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: mysql-charset-introducers
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+      - name: install crs-toolchain
+        run: go install github.com/coreruleset/crs-toolchain/v2/cmd/crs-toolchain@latest
+      - name: format include
+        run: |
+          cd regex-assembly
+          crs-toolchain regex format mysql-charset-names
+          git diff
+      - name: commit
+        run: |
+          git config user.name "kosoyyagent"
+          git config user.email "kosoyyagent@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "chore(formatting): crs-toolchain format mysql-charset-names"
+          git push
