@@ -1,0 +1,217 @@
+---
+meta:
+  author: "Felipe Zipitria"
+  description: "Tests for PHP session upload progress field (CVE-2026-109618, CVE-2026-109619)"
+rule_id: 933230
+tests:
+  - test_id: 1
+    desc: "Positive: upload progress field without any file part"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryoRWIb3busvBrbttO"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          uri: "/post"
+          port: 80
+          data: |
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="PHP_SESSION_UPLOAD_PROGRESS"
+
+            upload1
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="comment"
+
+            hello
+            ------WebKitFormBoundaryoRWIb3busvBrbttO--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933230]
+  - test_id: 2
+    desc: "Positive: upload progress field with an empty file input"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryoRWIb3busvBrbttO"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          uri: "/post"
+          port: 80
+          data: |
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="PHP_SESSION_UPLOAD_PROGRESS"
+
+            upload1
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="upload"; filename=""
+            Content-Type: application/octet-stream
+
+
+            ------WebKitFormBoundaryoRWIb3busvBrbttO--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933230]
+  - test_id: 3
+    desc: "Positive: upload progress field with a real file upload"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryoRWIb3busvBrbttO"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          uri: "/post"
+          port: 80
+          data: |
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="PHP_SESSION_UPLOAD_PROGRESS"
+
+            upload1
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="upload"; filename="notes.txt"
+            Content-Type: text/plain
+
+            hello world
+            ------WebKitFormBoundaryoRWIb3busvBrbttO--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933230]
+  - test_id: 4
+    desc: "Positive: upload progress field, empty file input, then a regular field"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryoRWIb3busvBrbttO"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          uri: "/post"
+          port: 80
+          data: |
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="PHP_SESSION_UPLOAD_PROGRESS"
+
+            upload1
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="upload"; filename=""
+            Content-Type: application/octet-stream
+
+
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="comment"
+
+            hello
+            ------WebKitFormBoundaryoRWIb3busvBrbttO--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933230]
+  - test_id: 5
+    desc: "Negative: field name match is case-sensitive like PHP"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryoRWIb3busvBrbttO"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          uri: "/post"
+          port: 80
+          data: |
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="php_session_upload_progress"
+
+            upload1
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="comment"
+
+            hello
+            ------WebKitFormBoundaryoRWIb3busvBrbttO--
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933230]
+  - test_id: 6
+    desc: "Negative: multipart form without upload progress field"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryoRWIb3busvBrbttO"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          uri: "/post"
+          port: 80
+          data: |
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="comment"
+
+            hello
+            ------WebKitFormBoundaryoRWIb3busvBrbttO--
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933230]
+  - test_id: 7
+    desc: "Negative: upload progress name in a urlencoded body is ignored by PHP"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "application/x-www-form-urlencoded"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          uri: "/post"
+          port: 80
+          data: "PHP_SESSION_UPLOAD_PROGRESS=upload1&comment=hello"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [933230]
+  - test_id: 8
+    desc: "Positive: upload progress field after an empty file input"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Content-Type: "multipart/form-data; boundary=----WebKitFormBoundaryoRWIb3busvBrbttO"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: POST
+          uri: "/post"
+          port: 80
+          data: |
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="upload"; filename=""
+            Content-Type: application/octet-stream
+
+
+            ------WebKitFormBoundaryoRWIb3busvBrbttO
+            Content-Disposition: form-data; name="PHP_SESSION_UPLOAD_PROGRESS"
+
+            upload1
+            ------WebKitFormBoundaryoRWIb3busvBrbttO--
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [933230]
