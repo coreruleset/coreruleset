@@ -17,6 +17,7 @@
 ##!+ i
 
 ##!^ ^
+##!$ $
 
 ##!> assemble
   ey{{base64-urlencoded-charset}}{{dot}}ey{{base64-urlencoded-charset}}{{dot}}{{base64-urlencoded-charset}}
@@ -37,11 +38,16 @@
 ##! Anything else, e.g. `1--xn--bcher-kva.example` (a comment marker followed
 ##! by something that merely looks like IDNA), whitespace, quotes or other
 ##! SQL syntax characters, fails to match and is still detected.
-##!> define idna-label (?:xn--)?[0-9a-z]+(?:-[0-9a-z]+)*
-##!> define email-local-part [0-9a-z._+]+(?:-[0-9a-z._+]+)*
+##!
+##! Also accepted: a leading `_` on a label (e.g. `_dmarc.xn--bcher-kva.example`),
+##! a trailing dot (FQDN), a `:port` and a trailing `/`.
+##!
+##!> define idna-char [0-9a-z]
+##!> define local-char [0-9a-z._+]
+##!> define idna-label (?:xn--|_)?{{idna-char}}+(?:-{{idna-char}}+)*
+##!> define email-local-part {{local-char}}+(?:-{{local-char}}+)*
+##!> define port :[0-9]{1,5}
 
 ##!> assemble
-  (?:{{email-local-part}}@)?{{idna-label}}(?:\.{{idna-label}})*
+  (?:{{email-local-part}}@)?{{idna-label}}(?:{{dot}}{{idna-label}})*{{dot}}?(?:{{port}})?/?
 ##!<
-
-##!$ $
