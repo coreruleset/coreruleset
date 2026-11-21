@@ -712,3 +712,21 @@ tests:
         output:
           log:
             no_expect_ids: [942440]
+  - test_id: 43
+    desc: |
+      False positive against JWT-shaped value where one segment ends in '--' and the next starts with '-'
+      Payload: eyA.eyB--.-x
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?token=eyA.eyB--.-x"
+        output:
+          log:
+            no_expect_ids: [942440]
