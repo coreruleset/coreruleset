@@ -384,7 +384,9 @@ tests:
           log:
             no_expect_ids: [942440]
   - test_id: 24
-    desc: "FYI : Turnstile token are still matched - truncated at 1024 chars for the linter"
+    desc: |
+      False positive against Cloudflare Turnstile token which are likely to include runs of
+      more than two consecutive `-`. Truncated at 1024 chars for the linter"
     stages:
       - input:
           dest_addr: 127.0.0.1
@@ -398,7 +400,7 @@ tests:
           data: "cf-turnstile-response=0.mhOs6JFXLHyE21dFS41Px17BxIjQ-2qlB17IBR0wpgtUrnn92qN-x2t-mpmTMZeQBZlZN2G06An5OfFsslwkkYBAGO7l6t-D-HVqMNj-GNTBGwf5G81d-NYlhnPZmWymFvh1TlMVDv9b-rnYm4WJP-dPhQTRphc1hWgZkRHS6XS6ecGCyNcNzezF0zp6owHNIneLlmTc7pVSbOByN7T12E5KMqpd-ppYnlfKG81zIj8Tl9p_KBe6g0FVstsDEwWC-GvHlWIpQRK_4FVxu7_cpX9DoHSsMHz6R8VYc4L7naYmC0yRL3BWDLEvSM5kEvTjrpXHwGJ8NJkghxRJcu94yuoZXEjl-S9PsoNe-1oom-AeG2-7RnPAb6a-E0pNXxFG8Qv2nEz6GGFnyjWsCMfJVtLeHlSx77U3srcO65_unYlWYCP-GfdanjgnfM8d2bv14yankU2OaFDg9ntjgbOBWT0_PpeAXm1MQTinYO8wj8AOJzIWi5jekHwEgqAicFnGQnHVnpmEoi-kipLYTcQW0fVhKAn-w7BhIJTdaGN-LbqKu8fPLy-j0hF_j4VZPSIEMCQcJ3dB-3QuUbz6DWtuGFGXOhD-B-fIaoEZOuQKToCvycxwXVH79mjZ655pDT9WEuzl85uWYBozMxiBrBhwZHVUm8dAi19tLsfYnu8VOvXI8sHOYH-aDIjYAUR9r4NY9YB8tx-EMGZif8DT4DUXn---eZ1xosWJE2TTxLr3JyN5Bn5OagrL2BAC9a_H4JZ14fl5hPfKl_Hx8raT8t7s03aaJZ-WLUMpujHUbAQZDmtuGQ89tr3KJDqwSvaG2ENB6B5kVv4gBwLbsTx4Apam6Grz4UkgQl81FzSGuU-VTOyxpUuUWq56QhOjdzhgjBxIUm2PkVenWYEJPJSnmZgBVGCje_uqtMSUteCBfWhkPxR"
         output:
           log:
-            expect_ids: [942440]
+            no_expect_ids: [942440]
   - test_id: 25
     desc: "False positive against Facebook (2025 - brid) Token"
     stages:
@@ -446,3 +448,285 @@ tests:
         output:
           log:
             expect_ids: [942440]
+  - test_id: 28
+    desc: "False positive against IDNA/Punycode domain name (#3335)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?domain=xn--bcher-kva.example"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 29
+    desc: |
+      False positive against email address with IDNA/Punycode domain (#3335)
+      Payload: user@xn--bcher-kva.example
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?email=user%40xn--bcher-kva.example"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 30
+    desc: "False positive against multi-label IDNA/Punycode host name (#3335)"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?host=mail.xn--mller-kva.xn--bcher-kva.de"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 31
+    desc: |
+      IDNA lookalike must not bypass: comment after valid IDNA host (#3335)
+      Payload: xn--bcher-kva.example'--
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?domain=xn--bcher-kva.example%27--"
+        output:
+          log:
+            expect_ids: [942440]
+  - test_id: 32
+    desc: |
+      False positive against uppercase IDNA/Punycode domain name (#3335)
+      Payload: XN--BCHER-KVA.EXAMPLE
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?domain=XN--BCHER-KVA.EXAMPLE"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 33
+    desc: |
+      False positive against email address with '.', '_' and '-' in the local part and an IDNA/Punycode domain (#3335)
+      Payload: first.last_name-x@xn--bcher-kva.example
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?email=first.last_name-x%40xn--bcher-kva.example"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 34
+    desc: |
+      False positive against fully qualified IDNA/Punycode host name with trailing dot (#3335)
+      Payload: xn--bcher-kva.example.
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?host=xn--bcher-kva.example."
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 35
+    desc: |
+      False positive against DNS record name with underscore label and IDNA/Punycode domain (#3335)
+      Payload: _dmarc.xn--bcher-kva.example
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?name=_dmarc.xn--bcher-kva.example"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 36
+    desc: |
+      False positive against IDNA/Punycode host name with port (#3335)
+      Payload: xn--bcher-kva.example:8080
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?host=xn--bcher-kva.example%3A8080"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 37
+    desc: |
+      False positive against IDNA/Punycode host name with trailing slash (#3335)
+      Payload: xn--bcher-kva.example/
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?host=xn--bcher-kva.example%2F"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 38
+    desc: False positive against JWT with uppercase 'Ey' prefix (case-insensitive match)
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?token=EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.EyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMe--KKF2QT4fwpMeJf36POk6yJV_adQssw-5c"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 39
+    desc: |
+      False positive against email address with uppercase local part and IDNA/Punycode domain (#3335)
+      Payload: User.Name@XN--BCHER-KVA.EXAMPLE
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?email=User.Name%40XN--BCHER-KVA.EXAMPLE"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 40
+    desc: |
+      False positive against plus-addressed email address with IDNA/Punycode domain (#3335)
+      Payload: user+tag@xn--bcher-kva.example
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?email=user%2Btag%40xn--bcher-kva.example"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 41
+    desc: |
+      False positive against plus-addressed email address with uppercase local part and IDNA/Punycode domain (#3335)
+      Payload: User+Tag@XN--BCHER-KVA.EXAMPLE
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?email=User%2BTag%40XN--BCHER-KVA.EXAMPLE"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 42
+    desc: |
+      False positive against email address with '--' in the local part and IDNA/Punycode domain (#3335)
+      Payload: first--last@xn--bcher-kva.example
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?email=first--last%40xn--bcher-kva.example"
+        output:
+          log:
+            no_expect_ids: [942440]
+  - test_id: 43
+    desc: |
+      False positive against JWT-shaped value where one segment ends in '--' and the next starts with '-'
+      Payload: eyA.eyB--.-x
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: "*/*"
+          method: "GET"
+          port: 80
+          version: "HTTP/1.1"
+          uri: "/get?token=eyA.eyB--.-x"
+        output:
+          log:
+            no_expect_ids: [942440]
