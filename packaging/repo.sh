@@ -34,7 +34,10 @@ for pool in pool/*; do
     mkdir -p "${dist}/main/binary-all"
     apt-ftparchive packages "${pool}" > "${dist}/main/binary-all/Packages"
     gzip -9nkf "${dist}/main/binary-all/Packages"
+    # by-hash copies let a client holding an older InRelease still fetch matching indexes while
+    # the upload is in progress (dnf gets the same from createrepo_c's hash-named metadata)
     apt-ftparchive \
+        -o APT::FTPArchive::DoByHash=true \
         -o APT::FTPArchive::Release::Origin="OWASP CRS" \
         -o APT::FTPArchive::Release::Label="owasp-crs" \
         -o APT::FTPArchive::Release::Suite="${s}" \

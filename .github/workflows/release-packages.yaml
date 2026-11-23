@@ -78,10 +78,12 @@ jobs:
     needs: smoke-test
     runs-on: ubuntu-latest
     environment: packages
-    # One at a time, so each run's rebuild includes the packages of a release published just before it
+    # One at a time, so each run's rebuild includes the packages of a release published just before it.
+    # queue: max keeps every waiting run; by default a new run cancels the one already pending
     concurrency:
       group: publish-packages
       cancel-in-progress: false
+      queue: max
     permissions:
       contents: write # attach the packages to the release
     env:
@@ -126,6 +128,8 @@ jobs:
 
       # The repositories are rebuilt from the release assets every time, so R2 holds no state of its own
       - name: Download the packages of every release
+        # bash, not the default bash -e: pipefail stops a failed listing from publishing partial indexes
+        shell: bash
         run: |
           mkdir all
           gh api --paginate "repos/${GITHUB_REPOSITORY}/releases" \
@@ -140,7 +144,8 @@ jobs:
 
       # Packages first, then indexes, then the signed entry points, so a client never gets
       # metadata naming a file that isn't there yet. Metadata is "no-cache" so the CDN never
-      # serves a new Release with an old Packages file.
+      # serves a new Release with an old Packages file. Never --delete: clients holding an older
+      # InRelease still need the by-hash indexes it names.
       - name: Upload to R2
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
