@@ -218,3 +218,43 @@ tests:
         output:
           log:
             expect_ids: [932238]
+  - test_id: 13
+    desc: |
+      Command word followed by an absolute path argument.
+      Payload: vi /etc/passwd
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=vi%20%2Fetc%2Fpasswd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932238]
+  - test_id: 14
+    desc: |
+      Natural language containing a PL3 command word mid-sentence, no prefix.
+      Payload: Tell me who is there, and update the list
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=Tell%20me%20who%20is%20there%2C%20and%20update%20the%20list"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932238]
