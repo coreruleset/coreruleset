@@ -80,7 +80,7 @@ SecRule REQUEST_FILENAME "@rx /(?:remote|public)\.php/dav/" \
     setvar:'tx.plugin_allowed_methods_9508190=|PROPFIND| |PROPPATCH| |MKCOL| |MOVE| |COPY| |LOCK| |UNLOCK| |REPORT|'"
 ```
 
-A content type together with the matching body processor. The chain makes sure the processor is only selected for requests that really use `text/plain`. The regular expression matches the whole media type (so not `text/plainfoo`), and `t:lowercase` also catches `Text/Plain`:
+A content type together with the matching body processor. Nextcloud's WebDAV clients send XML bodies with the content type `text/plain`, so the plugin adds `text/plain` and selects the XML processor for it. The chain makes sure the processor is only selected for requests that really use `text/plain`. The regular expression matches the whole media type (so not `text/plainfoo`), and `t:lowercase` also catches `Text/Plain`:
 
 ```apache
 # nextcloud-rule-exclusions-before.conf
