@@ -1,0 +1,40 @@
+---
+meta:
+  author: "franbuehler"
+  description: "Plugin additions to tx.restricted_headers_basic are collected (test plugin in tests/regression/plugins)"
+rule_id: 901650
+tests:
+  - test_id: 1
+    desc: "Positive test: the header X-CRS-Test-Basic restricted by the test plugin (rule 9999001) is blocked on its path"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            X-CRS-Test-Basic: "1"
+          method: GET
+          port: 80
+          uri: "/crs-plugin-contract-test/"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [920450]
+  - test_id: 2
+    desc: "Negative test: the plugin addition is limited to its path"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            X-CRS-Test-Basic: "1"
+          method: GET
+          port: 80
+          uri: "/"
+          version: HTTP/1.1
+        output:
+          log:
+            no_expect_ids: [920450]

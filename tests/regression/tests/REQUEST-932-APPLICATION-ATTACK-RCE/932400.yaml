@@ -1,0 +1,46 @@
+---
+meta:
+  author: "fzipi"
+  description: "RCE bypass via positional shell parameters, PL3 sibling of 932200"
+rule_id: 932400
+tests:
+  - test_id: 1
+    desc: |
+      Positional shell parameter used as an empty-variable evasion
+      Payload: www.google.com;c$1at /etc$2/passwd
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=www.google.com%3Bc%241at%20%2Fetc%242%2Fpasswd"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932400]
+  - test_id: 2
+    desc: |
+      Dollar sign not followed by a digit
+      Payload: Total: $ 12 / 3 each
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=Total%3A%20%24%2012%20%2F%203%20each"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932400]
