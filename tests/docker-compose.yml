@@ -59,6 +59,9 @@ x-coraza-env: &coraza-env
   CORAZA_RESP_BODY_MIMETYPE: "text/plain text/html text/xml application/json"
   CORAZA_RULE_ENGINE: DetectionOnly
   CORAZA_TMP_DIR: "/tmp/coraza"
+  ERRORLOG: "/var/log/coraza/error.log"
+  ERRORLOG_FORMAT: console
+  LOGLEVEL: info
   PORT: "8080"
 
 services:
@@ -76,7 +79,7 @@ services:
     volumes:
       - ./logs/modsec2-apache:/var/log/apache2:rw
       - ../rules:/opt/owasp-crs/rules:ro
-      - ../plugins:/opt/owasp-crs/plugins:ro
+      - ./regression/plugins:/opt/owasp-crs/plugins:ro
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
     entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh httpd-foreground"]
     ports:
@@ -105,7 +108,7 @@ services:
     volumes:
       - ./logs/modsec3-nginx:/var/log/nginx:rw
       - ../rules:/opt/owasp-crs/rules:ro
-      - ../plugins:/opt/owasp-crs/plugins:ro
+      - ./regression/plugins:/opt/owasp-crs/plugins:ro
       - ../crs-setup.conf.example:/etc/modsecurity.d/owasp-crs/crs-setup.conf.example
     entrypoint: ["/bin/sh", "-c", "/bin/cp /etc/modsecurity.d/owasp-crs/crs-setup.conf.example /etc/modsecurity.d/owasp-crs/crs-setup.conf && /docker-entrypoint.sh nginx -g 'daemon off;'"]
     ports:
@@ -124,14 +127,20 @@ services:
 
   coraza-caddy: &coraza
     container_name: coraza-caddy
-    image: ghcr.io/coreruleset/coraza-crs:caddy-alpine@sha256:0793c03366a1b5e71b3b160abaf5e85712a866859657c1aa4ea128b0488f36e0
+    image: ghcr.io/coreruleset/coraza-crs:caddy-alpine@sha256:3403c5ae09265fb0cf24ac33d5f5f5abfee8ad19c55e3f7b6c14664929509761
+    # NOTE: The user used to run the container process is explicitly set to
+    # 'root', as for the ModSecurity targets above. The image runs as 'caddy'
+    # (uid 1000), which cannot write to the bind-mounted log directory created
+    # by the CI runner user. This is done as *a convenience for running the CRS
+    # testing setup only* and *should not be done in general!*
+    user: root
     environment:
       <<: *coraza-env
       CORAZA_AUDIT_LOG: "/var/log/coraza/audit.log"
     volumes:
       - ./logs/coraza-caddy:/var/log/coraza:rw
       - ../rules:/opt/coraza/owasp-crs/rules:ro
-      - ../plugins:/opt/coraza/owasp-crs/plugins:ro
+      - ./regression/plugins:/opt/coraza/owasp-crs/plugins:ro
       - ../crs-setup.conf.example:/opt/coraza/config/crs-setup.conf.example:ro
     entrypoint: ["/bin/sh", "-c", "cp /opt/coraza/config/crs-setup.conf.example /opt/coraza/config/crs-setup.conf && exec /entrypoint.sh caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
     ports:

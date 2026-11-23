@@ -47,3 +47,19 @@ tests:
         output:
           log:
             expect_ids: [943120]
+  - test_id: 3
+    desc: Session Fixation Attack (943120) with a mixed-case session parameter name
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          method: GET
+          port: 80
+          uri: "/get/login.php?JsEsSiOnId=74B0CB414BD77D17B5680A6386EF1666"
+          version: HTTP/1.1
+        output:
+          log:
+            expect_ids: [943120]
