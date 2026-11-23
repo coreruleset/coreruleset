@@ -5,7 +5,52 @@
   or the CRS Google Group at
 * https://groups.google.com/a/owasp.org/g/modsecurity-core-rule-set-project
 
-## Version 4.31.0 - 2026-MM-DD
+## Version 4.31.0 - 2026-11-23
+
+## What's Changed
+
+### ⭐ Important changes
+* fix(932271): move bare tilde-digit expansion to PL3 by @fzipi in https://github.com/coreruleset/coreruleset/pull/4947
+* fix(932200): move the positional-parameter branch to a PL3 sibling 932400 by @fzipi in https://github.com/coreruleset/coreruleset/pull/4950
+### Breaking Changes 🛠
+* fix: prevent substring matches in allowed HTTP methods by @Neha406-ui in https://github.com/coreruleset/coreruleset/pull/4960
+* feat(920430): wrap allowed HTTP versions in pipes by @franbuehler in https://github.com/coreruleset/coreruleset/pull/4970
+
+**Migration:** if you set `tx.allowed_methods` (900200) or `tx.allowed_http_versions` (900230) in `crs-setup.conf`, wrap each entry in pipes, for example `|GET| |HEAD| |POST| |OPTIONS|` and `|HTTP/1.1| |HTTP/2|`. With the old space-separated format, rules 911100 and 920430 flag every request. Plugins that copy these lists should move to the new plugin contract (`PLUGIN-CONTRACT.md`, #4966).
+### 🆕 New features and detections 🎉
+* fix(unix): detect command evasions using uninitialized variables as suffixes `$u` by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4834
+* feat: block UA of php2shell PoC and bots by @azurit in https://github.com/coreruleset/coreruleset/pull/4893
+* feat: Add WS FTP Log file by @HackingRepo in https://github.com/coreruleset/coreruleset/pull/4932
+* feat: detect session_destroy "Session object destruction failed" in 953100 by @kosoyyagent in https://github.com/coreruleset/coreruleset/pull/4922
+* feat(951230): detect more MySQL/MariaDB error messages in RESPONSE_BODY by @azurit in https://github.com/coreruleset/coreruleset/pull/4938
+* feat: block files with .lock extension by @azurit in https://github.com/coreruleset/coreruleset/pull/4962
+* feat: block output of PHP's phpinfo() function as part of php2shell prevention by @azurit in https://github.com/coreruleset/coreruleset/pull/4902
+* chore: attest release artifacts with build provenance by @fzipi in https://github.com/coreruleset/coreruleset/pull/4750
+* feat(913100): block user-agent header containing a literal `useragent` value by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4778
+* feat: add plugin contract and collect rules for CRS list variables by @franbuehler in https://github.com/coreruleset/coreruleset/pull/4966
+### 🧰 Other Changes
+* fix(932260): drop REQUEST_FILENAME to stop false positives on URL paths by @fzipi in https://github.com/coreruleset/coreruleset/pull/4842
+* fix(unix): match prefix options explicitly instead of `.*` by @fzipi in https://github.com/coreruleset/coreruleset/pull/4837
+* fix(953101): drop truncated 'The function' entry already covered at PL1 by @fzipi in https://github.com/coreruleset/coreruleset/pull/4857
+* chore(951150,951160,951170): add missing regex-assembly sources by @fzipi in https://github.com/coreruleset/coreruleset/pull/4867
+* fix(932180): false positive matches with hyphens by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4869
+* fix(930100): drop duplicate '%uff0e' entry by @fzipi in https://github.com/coreruleset/coreruleset/pull/4872
+* fix(942550): split the merged ?| and #> operators by @fzipi in https://github.com/coreruleset/coreruleset/pull/4886
+* feat: make php2shell UA protection more robust by @azurit in https://github.com/coreruleset/coreruleset/pull/4898
+* fix(953100): do not search for PHP-GD2 debug messages in RESPONSE_BODY by @azurit in https://github.com/coreruleset/coreruleset/pull/4936
+* fix(932120): enforce boundary to reduce substring false positives by @EsadCetiner in https://github.com/coreruleset/coreruleset/pull/4757
+* fix(920520): drop t:lowercase before t:length by @fzipi in https://github.com/coreruleset/coreruleset/pull/4942
+* refactor: use (?i) instead of t:lowercase in @rx rules by @fzipi in https://github.com/coreruleset/coreruleset/pull/4943
+* fix(932239): drop REQUEST_FILENAME from the header-only sibling by @fzipi in https://github.com/coreruleset/coreruleset/pull/4945
+* fix: keyword 'stack overflow (' is causing FPs in response by @azurit in https://github.com/coreruleset/coreruleset/pull/4833
+* fix(901370): only allow +json subtypes that 920470 accepts by @Anandb71 in https://github.com/coreruleset/coreruleset/pull/4862
+
+## New Contributors
+* @kosoyyagent made their first contribution in https://github.com/coreruleset/coreruleset/pull/4922
+* @avp9-nexus made their first contribution in https://github.com/coreruleset/coreruleset/pull/4939
+* @Neha406-ui made their first contribution in https://github.com/coreruleset/coreruleset/pull/4960
+
+**Full Changelog**: https://github.com/coreruleset/coreruleset/compare/v4.30.0...v4.31.0
 
 ## Version 4.30.0 - 2026-10-02
 

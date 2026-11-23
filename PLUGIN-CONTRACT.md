@@ -132,7 +132,7 @@ SecRule TX:/^plugin_allowed_methods_[0-9]+$/ "@rx \S" \
     t:none,\
     nolog,\
     tag:'OWASP_CRS',\
-    ver:'OWASP_CRS/4.31.0-dev',\
+    ver:'OWASP_CRS/4.31.0',\
     setvar:'tx.allowed_methods=%{tx.allowed_methods} %{MATCHED_VAR}'"
 ```
 
