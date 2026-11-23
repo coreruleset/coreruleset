@@ -457,10 +457,11 @@ SecDefaultAction "phase:5,log,auditlog,pass"
 # - REQUEST-920-PROTOCOL-ENFORCEMENT.conf
 
 # HTTP methods that a client is allowed to use.
-# Default: GET HEAD POST OPTIONS
-# Example: for RESTful APIs, add the following methods: PUT PATCH DELETE
-# Example: for WebDAV, add the following methods: CHECKOUT COPY DELETE LOCK
-#          MERGE MKACTIVITY MKCOL MOVE PROPFIND PROPPATCH PUT UNLOCK
+# Each method must be enclosed in pipe delimiters (|), with spaces between entries.
+# Default: |GET| |HEAD| |POST| |OPTIONS|
+# Example: for RESTful APIs, add the following methods: |PUT| |PATCH| |DELETE|
+# Example: for WebDAV, add the following methods: |CHECKOUT| |COPY| |DELETE| |LOCK|
+#          |MERGE| |MKACTIVITY| |MKCOL| |MOVE| |PROPFIND| |PROPPATCH| |PUT| |UNLOCK|
 # Uncomment this rule to change the default.
 #
 # The HTTP PUT method is normally used to upload data that is saved on the server at a user-supplied URL.
@@ -480,7 +481,7 @@ SecDefaultAction "phase:5,log,auditlog,pass"
 #    nolog,\
 #    tag:'OWASP_CRS',\
 #    ver:'OWASP_CRS/4.31.0-dev',\
-#    setvar:'tx.allowed_methods=GET HEAD POST OPTIONS'"
+#    setvar:'tx.allowed_methods=|GET| |HEAD| |POST| |OPTIONS|'"
 
 #
 # -- [[ HTTP Method Override Parameter ]] -------------------------------------
