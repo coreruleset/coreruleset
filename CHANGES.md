@@ -12,6 +12,7 @@
 - Backport false positive fix removing `REQUEST_FILENAME` from the targets of rule 932260, which since v4.25.2 blocked ordinary URL paths whose segments start with a command name, such as `/recipes/chef-salad`; commands that follow a shell metacharacter in the path are still detected at PL1 by rule 932235 (Felipe Zipitría, cherry-pick of #4842)
 - Backport false positive fix for rule 953101, which matched the bare phrase `The function` in any PL2 response body (for example a documentation page saying "The function returns a list"); the entry was a truncated duplicate of the full PHP message `The function requested (`, which rule 953100 keeps detecting at PL1 (Felipe Zipitría, cherry-pick of #4857)
 - Fix the tag list of rule 901181, the LTS gate for XML attribute inspection: `attack-php` and `attack-generic` are on no rule (the rules carry `attack-injection-php` and `attack-injection-generic`) and `attack-ssrf` and `language-ldap` (rule 921200) were missing, so on the LTS default 24 rules with an `XML://@*` target still inspected XML attributes (Shawn Leas)
+- Backport fix so rule 901370 only allows `+json` subtypes using the characters rule 920470 accepts (letters, digits, `.`, `_`, `-` and `+`); a type such as `application/foo!bar+json` is no longer added to `tx.allowed_request_content_type` and then flagged at PL1 (Anand Biju, cherry-pick of #4862)
 
 ### v4.25.2 - 2026-10-02
 
