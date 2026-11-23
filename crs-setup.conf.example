@@ -600,7 +600,8 @@ SecDefaultAction "phase:5,log,auditlog,pass"
 # ctl:ruleRemoveById, the same way as any other CRS rule.
 
 # Allowed HTTP versions.
-# Default: HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0 HTTP/3 HTTP/3.0
+# The versions are enclosed by |pipes| as delimiters to guarantee exact matches.
+# Default: |HTTP/1.0| |HTTP/1.1| |HTTP/2| |HTTP/2.0| |HTTP/3| |HTTP/3.0|
 # Note that some web server versions use 'HTTP/2', some 'HTTP/2.0', so
 # we include both version strings by default.
 # HTTP/0.9 is obsolete per RFC 9110 and no longer supported; rule 920100
@@ -615,7 +616,7 @@ SecDefaultAction "phase:5,log,auditlog,pass"
 #    nolog,\
 #    tag:'OWASP_CRS',\
 #    ver:'OWASP_CRS/4.31.0-dev',\
-#    setvar:'tx.allowed_http_versions=HTTP/1.0 HTTP/1.1 HTTP/2 HTTP/2.0 HTTP/3 HTTP/3.0'"
+#    setvar:'tx.allowed_http_versions=|HTTP/1.0| |HTTP/1.1| |HTTP/2| |HTTP/2.0| |HTTP/3| |HTTP/3.0|'"
 
 # Forbidden file extensions.
 # Guards against unintended exposure of development/configuration files.
