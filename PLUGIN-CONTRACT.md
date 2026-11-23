@@ -59,7 +59,7 @@ A plugin that adds entries to a CRS list:
 6. When adding a content type, MUST also select the body processor that matches the actual format of the body (`JSON`, `XML` or `URLENCODED`) with `ctl:requestBodyProcessor`, for exactly the requests that use this content type (for example in a chain on `REQUEST_HEADERS:Content-Type`, see section 3.3). The match on the content type MUST be exact and case-insensitive: compare the whole media type up to an optional `;` (not just its beginning), and use `t:lowercase`. This follows the [CRS documentation](https://github.com/coreruleset/documentation/blob/main/content/2-how-crs-works/2-5-configuration-settings.md) and rules 901360 and 901370. Otherwise the body is not parsed, and rules that inspect the parsed body miss attacks in it. Note that the JSON and URL-encoded processors fill `ARGS`, while the XML processor fills `XML:/*` (and `XML://@*` for attributes), not `ARGS`.
 
    The only exception is a body that has no structured format at all, for example a binary file upload (`application/octet-stream`). Forcing a processor there makes parsing fail (`REQBODY_ERROR`). In that case the plugin MUST limit the addition as narrowly as possible (path, method and content type), and MUST explain in a comment why no processor is used.
-7. MUST NOT set or change the CRS list variables (`tx.allowed_methods`, …) directly. The only exception is the transition for plugins that also support older CRS versions (section 9.3).
+7. MUST NOT set or change the CRS list variables (`tx.allowed_methods`, …) directly. The only exception is the transition for plugins that also support older CRS versions (section 9.3), which applies to all seven lists.
 8. MUST NOT set or change internal CRS variables, for example `tx.request_method` (section 7).
 9. SHOULD limit additions to where they are needed (for example, WebDAV methods only under `/remote.php/dav/`) instead of adding them for every request.
 10. SHOULD include go-ftw tests that show the addition works where it is needed and does not apply elsewhere. For added content types, the tests SHOULD also show that an attack in the body is still detected.
@@ -227,13 +227,17 @@ This section is temporary. It applies only until the oldest supported CRS releas
 
 A plugin is usually used with the current release and with older releases (for example the current LTS) at the same time, and the plugin CI tests against both. Older releases have no collect rules, so they ignore the `tx.plugin_*` variables.
 
-During the transition, such a plugin MAY keep setting `tx.allowed_methods` and `tx.allowed_http_versions` directly. If it does, it MUST use the pipe format, both for the copy of the CRS default and for the entries it appends:
+During the transition, such a plugin MAY keep setting any of the seven lists from section 2 directly. If it does, it:
 
-```apache
-setvar:'tx.allowed_methods=|GET| |HEAD| |POST| |OPTIONS|'
-setvar:'tx.allowed_methods=%{tx.allowed_methods} |PROPFIND| |MKCOL|'
-```
+1. MUST use the format from section 4, both for the copy of the CRS default and for the entries it appends. For methods and HTTP versions, this is the pipe format:
 
-This works with both versions of 911100: the new one compares whole entries, and the old one only checks for a substring, so `GET` is also found in `|GET|`. The same applies to `tx.allowed_http_versions` and 920430. A list in the old space format blocks every request on CRS releases with this contract.
+   ```apache
+   setvar:'tx.allowed_methods=|GET| |HEAD| |POST| |OPTIONS|'
+   setvar:'tx.allowed_methods=%{tx.allowed_methods} |PROPFIND| |MKCOL|'
+   ```
+
+2. MUST limit the direct change to the requests that need it, for example the plugin's paths (section 3.2, rule 9). A direct assignment replaces the whole list for that request, including the list the user set in `crs-setup.conf`: the user's settings (rules 900200–900280) run before the plugins. If the user removed an entry from the CRS default, the plugin's copy brings it back.
+
+This works with older CRS releases too. All lists except methods and HTTP versions already use the format from section 4 there. For methods and HTTP versions, the old 911100 and 920430 only check for a substring, so `GET` is also found in `|GET|`. A list in the old space format blocks every request on CRS releases with this contract.
 
 The target is section 3: as soon as the plugin no longer supports CRS releases without the collect rules, it MUST remove the copy of the CRS default and use `tx.plugin_allowed_methods_<rule id>` (and the other `tx.plugin_<list>_<rule id>` variables) instead, as described in section 9.2.
