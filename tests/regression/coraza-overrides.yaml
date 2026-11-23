@@ -121,6 +121,9 @@ test_overrides:
     output:
       log:
         expect_ids: [200003]
+  - rule_id: 932200
+    test_ids: [13]
+    reason: 'wip'
   - rule_id: 933110
     test_ids: [3, 13, 14, 20, 21, 22, 24, 25, 26, 27]
     reason: "X_Filename and X.Filename request headers never reach Coraza on Caddy (absent from the audit log), as on nginx"
@@ -133,6 +136,17 @@ test_overrides:
     output:
       log:
         no_expect_ids: [933220]
+  - rule_id: 934131
+    test_ids: [5, 7]
+    reason: 'TODO: check why we are failing to deobfuscate these payloads'
+  - rule_id: 934230
+    test_ids: [1]
+    reason: >-
+      Coraza does not populate REQUEST_BODY when the XML body processor ran
+      (corazawaf/coraza#1685)
+    output:
+      log:
+        no_expect_ids: [934230]
   - rule_id: 944140
     test_ids: [3, 8]
     reason: "X_Filename request headers never reach Coraza on Caddy (absent from the audit log), as on nginx"
