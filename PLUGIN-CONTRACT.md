@@ -1,9 +1,5 @@
 # CRS Plugin Contract: Extending CRS List Variables
 
-> **Status:** Draft for discussion in [#4286](https://github.com/coreruleset/coreruleset/issues/4286).
-> Decided so far: one variable per plugin rule (design B), the pipe format for methods ([#4960](https://github.com/coreruleset/coreruleset/pull/4960)) and HTTP versions, collect rule IDs 901600–901660, and one release for all of these changes.
-> Open points are marked with **[OPEN]**.
->
 > This file is the reference for the plugin contract. The [Writing plugins](https://coreruleset.org/docs/4-about-plugins/4-2-writing-plugins/) page on coreruleset.org explains how to use it and links here.
 
 ## 1. Purpose
@@ -120,7 +116,7 @@ An entry in the wrong case never matches, and no error is reported.
 
 An entry MUST NOT contain its own delimiter (`|` or `/`) or a space. For example, `|FOO|BAR|` would allow both `FOO` and `BAR`. A request cannot exploit this on its own: entries are separated by spaces, and a method or content type cannot contain a space, so a request value never matches more than one entry.
 
-**Methods and HTTP versions** are wrapped in pipes, like content types. Rule 911100 wraps the request method as `|%{REQUEST_METHOD}|`, and rule 920430 wraps the protocol as `|%{REQUEST_PROTOCOL}|`, before checking them against the list. A plain space-separated list (`GET POST`, `HTTP/1.1 HTTP/2`) does not work any more: nothing would match, and every request would be flagged. These formats come with [#4960](https://github.com/coreruleset/coreruleset/pull/4960) and #4970 (not merged yet). See section 9.
+**Methods and HTTP versions** are wrapped in pipes, like content types. Rule 911100 wraps the request method as `|%{REQUEST_METHOD}|`, and rule 920430 wraps the protocol as `|%{REQUEST_PROTOCOL}|`, before checking them against the list. A plain space-separated list (`GET POST`, `HTTP/1.1 HTTP/2`) does not work any more: nothing would match, and every request would be flagged. These formats were introduced together with this contract ([#4960](https://github.com/coreruleset/coreruleset/pull/4960), [#4970](https://github.com/coreruleset/coreruleset/pull/4970)). See section 9.
 
 Why pipes and not spaces: padding the values with spaces is not reliable, because ModSecurity v2 removes leading spaces from `setvar` values (section 6). Then `OST` would match `POST`.
 
@@ -221,10 +217,6 @@ Plugins that set `tx.allowed_methods` directly (for example the Nextcloud plugin
 
 1. Remove the rules that copy the CRS default lists (for example Nextcloud rules 9508100 and 9508101).
 2. Replace every direct change of a CRS list variable with a `tx.plugin_<list>_<rule id>` variable (section 3), using the pipe format for methods and HTTP versions.
-3. State the minimum CRS version in `plugin.yaml` **[OPEN: version]**. Older CRS versions have no collect rules and would ignore the `tx.plugin_*` variables.
+3. State the minimum CRS version in `plugin.yaml`: the first CRS release that contains this contract. Older CRS versions have no collect rules and would ignore the `tx.plugin_*` variables.
 
 Plugins that only change other lists (content types, charsets, extensions, headers) are not broken by the method change, but they SHOULD migrate too, so they no longer copy the CRS defaults.
-
-## 10. Open points
-
-- **[OPEN]** Minimum CRS version: the release that ships the collect rules and the new method and HTTP version formats. It is filled in when that release is tagged (section 9.2).
