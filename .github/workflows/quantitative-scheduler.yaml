@@ -1,0 +1,452 @@
+name: Quantitative Report
+
+on:
+  # Allows manual triggering of the workflow
+  workflow_dispatch:
+    inputs:
+      rebuild:
+        description: 'Skip the test runs and just regenerate the page from the stored reports'
+        required: false
+        default: false
+        type: boolean
+      test_size:
+        description: 'Corpus size override for a smoke run (e.g. 10K). When set, results are NOT published.'
+        required: false
+        default: ''
+        type: string
+  # Runs weekly on Monday at 3:30 AM UTC
+  schedule:
+    - cron: '30 3 * * 1'
+
+# Pin tool versions to prevent problems
+env:
+  GO_FTW_VERSION: '2.5.0'
+  CORPUS_LANGUAGE: "eng"
+  CORPUS_SOURCE: "news"
+  YEAR: "2023"
+  PARANOIA_LEVELS: "1,2,3,4"
+  # 920273 (PL4, restricted-character set) fires on essentially every
+  # natural-language sentence, pinning the aggregate metrics at corpus size —
+  # a constant with no signal. --ignore-rules excludes listed rules from the
+  # aggregates only: their hits are still recorded in the stored JSON, per
+  # rule (marked "ignored": true) and as ignoredFalsePositives. Add further
+  # rule IDs here (comma-separated) if another rule ever saturates the trend.
+  IGNORED_RULES: "920273"
+
+permissions: {}
+
+# `shell: bash` (as opposed to the implicit default) runs every step with
+# `-o pipefail`: a failure in any stage of a pipeline (git ls-remote, gh api,
+# gh release download | tar, ...) fails the step instead of silently yielding
+# empty output.
+defaults:
+  run:
+    shell: bash
+
+# The publish job pushes to gh-pages: never let two report runs (e.g. a
+# scheduled one and a manually dispatched one) race each other on the push.
+concurrency:
+  group: quantitative-report
+  cancel-in-progress: false
+
+jobs:
+  quantitative-test:
+    runs-on: ubuntu-latest
+    # Scheduled runs must only happen in the upstream repository. Forks can
+    # still trigger the workflow manually to test it against their own
+    # gh-pages branch. On `schedule` the `inputs` context is empty, so
+    # `!inputs.rebuild` evaluates to true and the tests always run.
+    if: ${{ !inputs.rebuild && (github.repository == 'coreruleset/coreruleset' || github.event_name == 'workflow_dispatch') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        track: [main, lts]
+    env:
+      # Corpus size: production default 1M; a workflow_dispatch smoke run can
+      # override it via test_size (empty on schedule -> default).
+      EFFECTIVE_SIZE: ${{ inputs.test_size || '1M' }}
+    permissions:
+      contents: read
+    steps:
+      - name: "Checkout previous reports (for the baseline comparison and release dedupe)"
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: 'gh-pages'
+          path: 'gh-pages-repo'
+          persist-credentials: false
+          sparse-checkout: |
+            docs/reports/${{ matrix.track }}
+
+      # Each track normally tests the tip of its branch. But if a release was
+      # cut on this track since the last weekly run, test the release tag
+      # instead and record the tag so the report page can mark the data point
+      # as a release. Release ownership is decided by version line: a tag
+      # matching the newest lts/* branch's version (e.g. v4.25.*) belongs to
+      # the lts track; a tag version-greater than that LTS base belongs to
+      # main. Anything else (e.g. a v3.3.* maintenance release) belongs to
+      # neither track and is ignored.
+      - name: "Resolve ref to test for track '${{ matrix.track }}'"
+        id: resolve
+        env:
+          TRACK: ${{ matrix.track }}
+          REPOSITORY: ${{ github.repository }}
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}.git
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LTS_BRANCH=$(git ls-remote --heads "$REPO_URL" 'lts/*' \
+            | awk -F'refs/heads/' '{print $2}' | sort -V | tail -1)
+
+          if [ "$TRACK" = "main" ]; then
+            BRANCH="main"
+          else
+            # LTS tags are only cut from lts/* branches, so the branch tip
+            # also reflects pending backports.
+            BRANCH="$LTS_BRANCH"
+            if [ -z "$BRANCH" ]; then
+              echo "::error::no lts/* branch found in $REPO_URL"
+              exit 1
+            fi
+          fi
+
+          # lts/v4.25.x -> base "v4.25", prefix "v4.25."
+          LTS_BASE=$(basename "${LTS_BRANCH:-}" | sed 's/\.x$//')
+
+          # Releases (non-draft, non-prerelease, plain vX.Y.Z tags) published
+          # since the last weekly run. The 8-day window overlaps the 7-day
+          # cadence slightly; a release can never be picked twice because next
+          # week the branch tip is at least as new as the tag.
+          # No error suppression here on purpose: a swallowed API failure
+          # during a release week would mean the release is never marked (the
+          # 8-day window never revisits it). Fail loudly and re-run instead.
+          CUTOFF=$(date -u -d '8 days ago' +%Y-%m-%dT%H:%M:%SZ)
+          RECENT_TAGS=$(gh api "repos/${REPOSITORY}/releases?per_page=30" --jq \
+            "[.[] | select((.draft or .prerelease) | not)
+                  | select(.published_at >= \"$CUTOFF\")
+                  | .tag_name | select(test(\"^v[0-9]+\\\\.[0-9]+\\\\.[0-9]+$\"))] | .[]")
+
+          CANDIDATES=()
+          while IFS= read -r tag; do
+            [ -n "$tag" ] || continue
+            case "$TRACK/$tag" in
+              lts/"${LTS_BASE:-::none::}".*)
+                CANDIDATES+=("$tag") ;;
+              main/*)
+                if [ "$tag" = "${tag#"${LTS_BASE:-::none::}".}" ]; then
+                  # Not on the LTS line; keep only tags version-greater than
+                  # the LTS base (drops old lines such as v3.3.*).
+                  if [ -z "$LTS_BASE" ] || { [ "$(printf '%s\n%s\n' "$tag" "$LTS_BASE" | sort -V | tail -1)" = "$tag" ] && [ "$tag" != "$LTS_BASE" ]; }; then
+                    CANDIDATES+=("$tag")
+                  fi
+                fi ;;
+            esac
+          done <<< "$RECENT_TAGS"
+
+          RELEASE=$(printf '%s\n' ${CANDIDATES[@]+"${CANDIDATES[@]}"} | sort -V | tail -1)
+
+          # A release found in the window may already have been scanned — by a
+          # manual dispatch earlier in the week, or because last week's
+          # branch-tip run already sat on the release commit. Don't produce a
+          # duplicate release data point: scan the branch tip instead. (Note
+          # the consequence: a release cut on a commit that was already
+          # scanned as a branch tip is never re-marked as a release.) Any
+          # duplicate scan necessarily happened within the window, so checking
+          # the newest few reports is enough.
+          if [ -n "$RELEASE" ]; then
+            # For annotated tags ls-remote lists the tag object first and the
+            # peeled commit (^{}) last; reports store commit shas.
+            TAG_SHA=$(git ls-remote "$REPO_URL" "refs/tags/${RELEASE}" "refs/tags/${RELEASE}^{}" \
+              | awk 'END {print $1}')
+            while IFS= read -r report; do
+              if jq -e --arg sha "$TAG_SHA" --arg rel "$RELEASE" \
+                  '(.sha == $sha and $sha != "") or .release == $rel' "$report" > /dev/null 2>&1; then
+                echo "Release $RELEASE (${TAG_SHA:-sha unknown}) was already scanned in $(basename "$report")"
+                RELEASE=""
+                break
+              fi
+            done < <(find "gh-pages-repo/docs/reports/$TRACK" -maxdepth 1 -name '*.json' -type f 2>/dev/null | sort | tail -5)
+          fi
+
+          if [ -n "$RELEASE" ]; then
+            REF="$RELEASE"
+            echo "Track '$TRACK': release $RELEASE was published this week; testing the tag"
+          else
+            REF="$BRANCH"
+            echo "Track '$TRACK': testing branch tip of '$BRANCH'"
+          fi
+          echo "ref=$REF" >> "$GITHUB_OUTPUT"
+          echo "release=$RELEASE" >> "$GITHUB_OUTPUT"
+
+      - name: "Checkout rules to test (${{ steps.resolve.outputs.ref }})"
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ steps.resolve.outputs.ref }}
+          path: 'rules-repo'
+          persist-credentials: false
+
+      # The baseline must have been produced under the same configuration:
+      # comparing runs with different corpus, paranoia levels, ignore list or
+      # go-ftw version would bake a wall of spurious "regressions" into the
+      # published history. On mismatch, run baselineless once and start a new
+      # comparison chain (the go-ftw version check also means a version bump
+      # skips one week of comparison — intended, since scoring may change).
+      - name: "Extract baseline from the previous report"
+        id: baseline
+        env:
+          TRACK: ${{ matrix.track }}
+        run: |
+          latest=$(find "gh-pages-repo/docs/reports/$TRACK" -maxdepth 1 -name '*.json' -type f 2>/dev/null | sort | tail -1)
+          if [ -n "$latest" ] && jq -e \
+              --arg goftw "$GO_FTW_VERSION" \
+              --arg language "$CORPUS_LANGUAGE" \
+              --arg source "$CORPUS_SOURCE" \
+              --arg year "$YEAR" \
+              --arg size "$EFFECTIVE_SIZE" \
+              --argjson pls "[$PARANOIA_LEVELS]" \
+              --argjson ignored "[$IGNORED_RULES]" \
+              '.schemaVersion == 2 and (.current | type == "object")
+               and .goFtwVersion == $goftw
+               and .corpus == {language: $language, source: $source, year: $year, size: $size}
+               and .paranoiaLevels == $pls
+               and .ignoredRules == $ignored' "$latest" > /dev/null 2>&1; then
+            jq '.current' "$latest" > baseline.json
+            echo "Using baseline from $latest"
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No comparable previous report for track '$TRACK' (none stored, pre-schema-v2, or recorded under a different configuration); running without a baseline"
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: "Install go-ftw"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download -R coreruleset/go-ftw "v${GO_FTW_VERSION}" \
+            -p "ftw_${GO_FTW_VERSION}_linux_amd64.tar.gz" -O - | tar -xzvf - ftw
+
+      - name: "Restore corpus cache"
+        id: corpus-cache
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.ftw/*.txt
+          key: ${{ env.CORPUS_LANGUAGE }}_${{ env.CORPUS_SOURCE }}_${{ env.YEAR }}_${{ env.EFFECTIVE_SIZE }}-sentences.txt
+
+      # Metrics glossary (see go-ftw's internal/quantitative/stats.go for the
+      # authoritative definitions, and quantitative.yaml for the long form):
+      # - count: corpus payloads actually sent (excludes skipped).
+      # - falsePositives: a rule-HIT count — one payload tripping 3 rules
+      #   contributes 3. This is the metric the trend page charts.
+      # - falsePositiveSentences: distinct payloads with at least one hit.
+      # - falsePositivesPerParanoiaLevel: hits attributed to the PL of the
+      #   firing rule (NOT cumulative).
+      # With --baseline, the output JSON is {baseline, current, regressions}
+      # instead of the plain stats object, and go-ftw exits non-zero when the
+      # comparison detects regressions (some rule's false positives went up).
+      # The regression info is in the output either way, so don't let the
+      # exit code abort the step; validate the output instead.
+      - name: "Run quantitative tests"
+        working-directory: rules-repo
+        env:
+          BASELINE_AVAILABLE: ${{ steps.baseline.outputs.available }}
+        run: |
+          echo "Running quantitative tests: language=${CORPUS_LANGUAGE}, source=${CORPUS_SOURCE}, year=${YEAR}, size=${EFFECTIVE_SIZE}, paranoia levels=${PARANOIA_LEVELS}"
+
+          BASELINE_ARGS=()
+          if [ "$BASELINE_AVAILABLE" = "true" ]; then
+            BASELINE_ARGS=(--baseline ../baseline.json)
+          fi
+
+          ../ftw quantitative \
+            -L "$CORPUS_LANGUAGE" \
+            -S "$CORPUS_SOURCE" \
+            -y "$YEAR" \
+            -s "$EFFECTIVE_SIZE" \
+            --paranoia-levels "$PARANOIA_LEVELS" \
+            --ignore-rules "$IGNORED_RULES" \
+            "${BASELINE_ARGS[@]}" \
+            -o json -f ../raw-results.json \
+            || echo "go-ftw exited non-zero (expected when the baseline comparison detects regressions)"
+
+          # A real failure leaves no (or truncated) output; fail on that.
+          jq -e 'has("current") or has("falsePositives")' ../raw-results.json > /dev/null
+
+      - name: "Wrap results into a schema-v2 report"
+        id: report
+        env:
+          TRACK: ${{ matrix.track }}
+          REF: ${{ steps.resolve.outputs.ref }}
+          RELEASE: ${{ steps.resolve.outputs.release }}
+        run: |
+          DATE=$(date -u +"%Y-%m-%d")
+          TIME=$(date -u +"%H%M%S")
+          SHA=$(git -C rules-repo rev-parse HEAD)
+
+          mkdir -p report-out
+          REPORT_FILE="report-out/${DATE}_${TIME}_${SHA:0:8}.json"
+          jq \
+            --arg track "$TRACK" \
+            --arg ref "$REF" \
+            --arg release "$RELEASE" \
+            --arg sha "$SHA" \
+            --arg goftw "$GO_FTW_VERSION" \
+            --arg language "$CORPUS_LANGUAGE" \
+            --arg source "$CORPUS_SOURCE" \
+            --arg year "$YEAR" \
+            --arg size "$EFFECTIVE_SIZE" \
+            --arg date "$DATE" \
+            --arg time "$TIME" \
+            --argjson pls "[$PARANOIA_LEVELS]" \
+            --argjson ignored "[$IGNORED_RULES]" \
+            '{
+              schemaVersion: 2,
+              track: $track,
+              ref: $ref,
+              release: (if $release == "" then null else $release end),
+              sha: $sha,
+              goFtwVersion: $goftw,
+              corpus: {language: $language, source: $source, year: $year, size: $size},
+              paranoiaLevels: $pls,
+              ignoredRules: $ignored,
+              date: $date,
+              time: $time,
+              current: (if has("current") then .current else . end),
+              regressions: (if has("current") then .regressions else null end)
+            }' raw-results.json > "$REPORT_FILE"
+
+          echo "Report written to $REPORT_FILE:"
+          jq 'del(.current.falsePositivesPerRule)' "$REPORT_FILE"
+
+          {
+            if [ -n "$RELEASE" ]; then
+              echo "### 📊 Quantitative test results — track \`${TRACK}\` — 🏷 release \`${RELEASE}\`"
+            else
+              echo "### 📊 Quantitative test results — track \`${TRACK}\` (\`${REF}\`)"
+            fi
+            echo
+            echo "| Metric | Value |"
+            echo "|--------|-------|"
+            echo "| Payloads run | $(jq -r '.current.count' "$REPORT_FILE") |"
+            echo "| Skipped payloads | $(jq -r '.current.skipped' "$REPORT_FILE") |"
+            echo "| Total false positives (rule hits) | $(jq -r '.current.falsePositives' "$REPORT_FILE") |"
+            echo "| Ignored false positives (excluded rules) | $(jq -r '.current.ignoredFalsePositives // 0' "$REPORT_FILE") |"
+            echo "| False positive sentences | $(jq -r '.current.falsePositiveSentences' "$REPORT_FILE") |"
+            for pl in 1 2 3 4; do
+              echo "| False positives from PL${pl} rules | $(jq -r ".current.falsePositivesPerParanoiaLevel[\"${pl}\"] // 0" "$REPORT_FILE") |"
+            done
+            echo "| Total time | $(jq -r '.current.totalTimeSeconds / 60 | round' "$REPORT_FILE") min |"
+
+            CHANGED=$(jq '[.regressions.perRuleDeltas // {} | to_entries[] | select(.value.delta != 0)] | length' "$REPORT_FILE")
+            if [ "$(jq -r '.regressions.detected' "$REPORT_FILE")" = "true" ]; then
+              echo
+              echo "#### ⚠️ Regression vs previous run (Δ total: $(jq -r '.regressions.falsePositivesDelta' "$REPORT_FILE"))"
+            elif [ "$(jq 'has("regressions") and (.regressions != null)' "$REPORT_FILE")" = "true" ] && [ "$CHANGED" -gt 0 ]; then
+              echo
+              echo "#### ✅ Improvement vs previous run (Δ total: $(jq -r '.regressions.falsePositivesDelta' "$REPORT_FILE"))"
+            else
+              CHANGED=0
+            fi
+            if [ "$CHANGED" -gt 0 ]; then
+              echo
+              echo "| Rule | PL | Previous | Current | Δ |"
+              echo "|------|----|----------|---------|---|"
+              jq -r '.regressions.perRuleDeltas | to_entries[] | select(.value.delta != 0)
+                | "| \(.key) | \(if .value.currentParanoiaLevel != 0 then .value.currentParanoiaLevel else .value.baselineParanoiaLevel end) | \(.value.baselineFalsePositives) | \(.value.currentFalsePositives) | \(.value.delta) |"' \
+                "$REPORT_FILE"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # Both matrix jobs use the same corpus; let only one of them save it to
+      # avoid a duplicate-key save collision.
+      - name: "Save corpus cache"
+        if: ${{ matrix.track == 'main' && steps.corpus-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.ftw/*.txt
+          key: ${{ env.CORPUS_LANGUAGE }}_${{ env.CORPUS_SOURCE }}_${{ env.YEAR }}_${{ env.EFFECTIVE_SIZE }}-sentences.txt
+
+      - name: "Upload report artifact"
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: report-${{ matrix.track }}
+          path: report-out/
+          retention-days: 3
+
+  publish-report:
+    runs-on: ubuntu-latest
+    needs: quantitative-test
+    # Run whenever the workflow wasn't cancelled: on full success, when the
+    # tests were skipped entirely (rebuild mode), and also when a matrix leg
+    # failed — the legs are independent (fail-fast: false), so the healthy
+    # track's report must still be published rather than discarded. Smoke
+    # runs (test_size set) are never published.
+    if: ${{ !cancelled() && needs.quantitative-test.result != 'cancelled' && (github.repository == 'coreruleset/coreruleset' || github.event_name == 'workflow_dispatch') && !inputs.test_size }}
+    permissions:
+      contents: write # Reason: to push the updated report to the gh-pages branch
+    steps:
+      - name: "Checkout gh-pages branch (sparse, only the files related to the quantitative report)"
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: 'gh-pages'
+          path: 'gh-pages-repo'
+          persist-credentials: false
+          sparse-checkout: |
+            scripts/generate-quantitative-report.sh
+            scripts/quantitative-template.html
+            docs/quantitative.html
+            docs/reports
+
+      - name: "Download new reports"
+        if: needs.quantitative-test.result != 'skipped'
+        # Tolerate zero matching artifacts (both legs failed before upload):
+        # the store step below skips gracefully and the page regeneration is
+        # an idempotent no-op.
+        continue-on-error: true
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          pattern: report-*
+          path: new-reports
+          merge-multiple: true
+
+      - name: "Store new reports"
+        if: needs.quantitative-test.result != 'skipped'
+        run: |
+          for report in new-reports/*.json; do
+            [ -e "$report" ] || continue  # unmatched glob: no artifacts
+            track=$(jq -r '.track' "$report")
+            case "$track" in
+              # The track name becomes a path component; accept only sane values.
+              (*[!a-z0-9_-]*|"")
+                echo "::error::invalid track name '$track' in $report"
+                exit 1
+                ;;
+            esac
+            mkdir -p "gh-pages-repo/docs/reports/$track"
+            cp -v "$report" "gh-pages-repo/docs/reports/$track/"
+          done
+
+      - name: "Generate quantitative report page"
+        working-directory: gh-pages-repo
+        run: ./scripts/generate-quantitative-report.sh ./docs/quantitative.html ./docs/reports
+
+      - name: "Commit and push"
+        working-directory: gh-pages-repo
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ./docs/quantitative.html ./docs/reports/
+          git diff --staged --quiet || git commit -m "Quantitative report - $(date -u +"%Y-%m-%d %H:%M:%S")"
+          # The duty report workflow pushes to gh-pages hourly; rebase and
+          # retry in case it wins a race against this push.
+          REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}.git"
+          for attempt in 1 2 3; do
+            git pull --rebase "$REMOTE" gh-pages
+            if git push "$REMOTE" HEAD:gh-pages; then
+              exit 0
+            fi
+            echo "Push attempt $attempt lost a race; retrying"
+            sleep 5
+          done
+          echo "::error::failed to push to gh-pages after 3 attempts"
+          exit 1
