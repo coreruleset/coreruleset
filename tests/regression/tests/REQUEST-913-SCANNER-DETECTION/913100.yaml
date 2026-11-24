@@ -1,6 +1,6 @@
 ---
 meta:
-  author: "csanders-git, azurit, Esad Cetiner"
+  author: "csanders-git, azurit, Esad Cetiner, etiennemunnich"
 rule_id: 913100
 tests:
   - test_id: 1
@@ -207,3 +207,51 @@ tests:
         output:
           log:
             expect_ids: [913100]
+  - test_id: 13
+    desc: "ARTEX enrichment client User-Agent artex-enrich/1.0 matches 913100"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "artex-enrich/1.0"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [913100]
+  - test_id: 14
+    desc: "ARTEX enrichment User-Agent artex-enrich/2.0 matches unversioned token in 913100"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "artex-enrich/2.0"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [913100]
+  - test_id: 15
+    desc: "UA with artex alone does not match artex-enrich token in 913100"
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "GET"
+          port: 80
+          headers:
+            Host: "localhost"
+            User-Agent: "Mozilla/5.0 (compatible; artex-research/0.1)"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+          uri: "/get"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [913100]
