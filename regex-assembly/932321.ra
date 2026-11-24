@@ -1,7 +1,16 @@
 ##! Please refer to the documentation at
 ##! https://coreruleset.org/docs/development/regex_assembly/.
 
-##!^ (?si)\r\n.*?\b
+##! The command must fill its own line: it follows the line break directly, and
+##! nothing but spaces may follow it before the next line break, or it ends the
+##! value. Spaces at the very end of the value are not allowed: a `[ \t]*$` tail
+##! backtracks over every space, so a long run hits the PCRE match limit and the
+##! whole value goes unchecked. POP3 (RFC 1939) has no command tags, so a word before
+##! the command is prose ("...\r\nplease quit"), not a tag. Tagged commands are IMAP,
+##! see 932310.
+##!+ i
+##!^ \r\n
+##!$ (?:[ \t]*[\r\n]|$)
 
 ##! POP3 Commands - PL3
 
