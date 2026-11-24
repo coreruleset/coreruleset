@@ -1,0 +1,164 @@
+name: Release packages
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to package, e.g. v4.30.0'
+        required: true
+
+permissions:
+  contents: read
+
+env:
+  NFPM_VERSION: '2.43.0'
+  NFPM_SHA256: '4a4402f8f9ea87c669d6a62b333f8e268439974754dd886a01731ecaf9fa6d66'
+  TAG: ${{ github.event.release.tag_name || inputs.tag }}
+
+jobs:
+  build:
+    # Debian sorts 4.31.0-rc1 above 4.31.0, so release candidates get no packages
+    if: ${{ !github.event.release.prerelease }}
+    runs-on: ubuntu-latest
+    steps:
+      # The scripts come from the default branch; the release content comes from the tag
+      - name: Checkout repo
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install nfpm
+        run: |
+          curl -fsSLO "https://github.com/goreleaser/nfpm/releases/download/v${NFPM_VERSION}/nfpm_${NFPM_VERSION}_amd64.deb"
+          echo "${NFPM_SHA256}  nfpm_${NFPM_VERSION}_amd64.deb" | sha256sum -c -
+          sudo dpkg -i "nfpm_${NFPM_VERSION}_amd64.deb"
+
+      - name: Build packages
+        run: packaging/build.sh "${TAG#v}" build
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: packages
+          path: |
+            build/*.deb
+            build/*.rpm
+          if-no-files-found: error
+
+  smoke-test:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - debian:stable
+          - ubuntu:26.04
+          - rockylinux:9
+    container: ${{ matrix.image }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: packages
+          path: packages
+
+      - name: Install and test
+        run: bash packaging/smoke-test.sh packages
+
+  publish:
+    needs: smoke-test
+    runs-on: ubuntu-latest
+    environment: packages
+    # One at a time, so each run's rebuild includes the packages of a release published just before it.
+    # queue: max keeps every waiting run; by default a new run cancels the one already pending
+    concurrency:
+      group: publish-packages
+      cancel-in-progress: false
+      queue: max
+    permissions:
+      contents: write # attach the packages to the release
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      # The scripts come from the default branch; the release content comes from the tag
+      - name: Checkout repo
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: packages
+          path: packages
+
+      - name: Install repository tools
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q --no-install-recommends createrepo-c rpm
+
+      - name: Import the signing key
+        env:
+          REPO_SIGNING_KEY: ${{ secrets.REPO_SIGNING_KEY }}
+        run: |
+          gpg --batch --import <<< "${REPO_SIGNING_KEY}"
+          echo "SIGNING_KEY=$(gpg --list-secret-keys --with-colons | awk -F: '/^fpr/ {print $10; exit}')" >> "${GITHUB_ENV}"
+
+      # Release assets are write-once: a re-run keeps the signed RPM that is already published
+      # instead of signing it again, so the bytes behind a published checksum never change
+      - name: Sign and attach the packages to the release
+        run: |
+          existing=$(gh release view "${TAG}" --repo "${GITHUB_REPOSITORY}" --json assets --jq '.assets[].name')
+          for f in packages/*; do
+            grep -qxF "${f##*/}" <<< "${existing}" && continue
+            if [[ "${f}" == *.rpm ]]; then
+              rpmsign --define "__gpg $(command -v gpg)" --define "_gpg_name ${SIGNING_KEY}" --addsign "${f}"
+            fi
+            gh release upload "${TAG}" "${f}" --repo "${GITHUB_REPOSITORY}"
+          done
+
+      # The repositories are rebuilt from the release assets every time, so R2 holds no state of its own
+      - name: Download the packages of every release
+        # bash, not the default bash -e: pipefail stops a failed listing from publishing partial indexes
+        shell: bash
+        run: |
+          mkdir all
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/releases" \
+            --jq '.[] | select((.draft or .prerelease) | not) | .assets[]
+                  | select(.name | test("^owasp-crs[-_].*\\.(deb|rpm)$")) | .browser_download_url' \
+            | while read -r url; do curl -fsSL --output-dir all -O "${url}"; done
+
+      - name: Build the repositories
+        env:
+          LTS_LINES: ${{ vars.LTS_LINES }}
+        run: packaging/repo.sh all site
+
+      # Packages first, then indexes, then the signed entry points, so a client never gets
+      # metadata naming a file that isn't there yet. Metadata is "no-cache" so the CDN never
+      # serves a new Release with an old Packages file. Never --delete: clients holding an older
+      # InRelease still need the by-hash indexes it names.
+      - name: Upload to R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_ENDPOINT_URL: https://${{ vars.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          AWS_DEFAULT_REGION: auto
+          AWS_REQUEST_CHECKSUM_CALCULATION: when_required
+          AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
+          BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          aws s3 sync site "s3://${BUCKET}" --size-only --exclude '*' --include '*.deb' --include '*.rpm' \
+            --cache-control 'public, max-age=31536000, immutable'
+          aws s3 sync site "s3://${BUCKET}" --exclude '*.deb' --exclude '*.rpm' --exclude '*Release*' \
+            --exclude '*/repomd.xml*' --cache-control 'no-cache'
+          aws s3 sync site "s3://${BUCKET}" --exclude '*' --include '*Release*' --include '*/repomd.xml*' \
+            --cache-control 'no-cache'
