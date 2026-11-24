@@ -2125,3 +2125,83 @@ tests:
         output:
           log:
             expect_ids: [932236]
+  - test_id: 119
+    desc: |
+      Prose starting with a two-letter or three-letter word followed by a comma or a space
+      Payload: Yes, we can
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=Yes%2C%20we%20can"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 120
+    desc: |
+      Prose starting with a two-letter or three-letter word followed by a comma or a space
+      Payload: Man, that was close
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=Man%2C%20that%20was%20close"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 121
+    desc: |
+      Prose starting with a two-letter or three-letter word followed by a comma or a space
+      Payload: La casa es grande
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=La%20casa%20es%20grande"
+          version: "HTTP/1.1"
+        output:
+          log:
+            no_expect_ids: [932236]
+  - test_id: 122
+    desc: |
+      Command at start of value followed by a redirect
+      Payload: yes >/dev/null
+    stages:
+      - input:
+          dest_addr: "127.0.0.1"
+          method: "POST"
+          port: 80
+          headers:
+            User-Agent: "OWASP CRS test agent"
+            Host: "localhost"
+            Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+            Content-Type: application/x-www-form-urlencoded
+          uri: "/post"
+          data: "var=yes%20%3E%2Fdev%2Fnull"
+          version: "HTTP/1.1"
+        output:
+          log:
+            expect_ids: [932236]
